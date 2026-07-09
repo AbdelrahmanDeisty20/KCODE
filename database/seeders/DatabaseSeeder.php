@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             SkinTypeSeeder::class,
             BrandSeeder::class,
+            CategorySeeder::class,
         ]);
 
         // User::factory(10)->create();
