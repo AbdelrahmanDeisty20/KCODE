@@ -2,18 +2,20 @@
 
 use App\Http\Controllers\API\AUHT\AuthController;
 use App\Http\Controllers\API\AUHT\ForgetPasswordController;
+use App\Http\Controllers\API\Genral\BrandController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
 // Auth Routes
-Route::middleware([SetLang::class])->group(function (){
+Route::middleware([SetLang::class])->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post('/register', 'register');
         Route::post('/verify-otp', 'verifyOtp');
         Route::post('/resend-otp', 'resendOtp');
         Route::post('/login', 'login');
+        Route::get('redirect/{provider}', 'redirectToProvider');
+        Route::get('callback/{provider}', 'handleProviderCallback');
         Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('/profile', 'profile');
             Route::post('/update-profile', 'updateProfile');
@@ -28,4 +30,10 @@ Route::middleware([SetLang::class])->group(function (){
         Route::post('/forget-password/resend-otp', 'resendOtp');
     });
     Route::post('/refresh-token', [AuthController::class, 'refresh']);
+
+    // Brands Routes
+    Route::controller(BrandController::class)->group(function () {
+        Route::get('/brands', 'index');
+        Route::get('/brands/{id}', 'show');
+    });
 });

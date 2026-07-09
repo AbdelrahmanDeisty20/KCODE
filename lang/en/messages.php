@@ -31,4 +31,8 @@ return [
     'passwordResetSuccessfully' => 'Password reset successfully',
     'no_otp_request_found' => 'No previous password reset request found for this email. Please make a request first.',
     'TokenRefreshedSuccessfully' => 'Token refreshed successfully',
+    'brandsGetSuccessfully' => 'Brands fetched successfully',
+    'brandsNotFound' => 'Brands not found',
+    'brandGetSuccessfully' => 'Brand fetched successfully',
+    'brandNotFound' => 'Brand not found',
 ];

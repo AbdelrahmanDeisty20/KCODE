@@ -31,4 +31,8 @@ return [
     'passwordResetSuccessfully' => 'تم إعادة تعيين كلمة المرور بنجاح',
     'no_otp_request_found' => 'لم يتم إرسال طلب إعادة تعيين كلمة مرور مسبقاً لهذا البريد، يرجى تقديم طلب أولاً',
     'TokenRefreshedSuccessfully' => 'تم تحديث الرمز بنجاح',
+    'brandsGetSuccessfully' => 'تم جلب الماركات بنجاح',
+    'brandsNotFound' => 'لم يتم العثور على ماركات',
+    'brandGetSuccessfully' => 'تم جلب الماركة بنجاح',
+    'brandNotFound' => 'لم يتم العثور على الماركة',
 ];

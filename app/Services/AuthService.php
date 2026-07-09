@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Laravel\Socialite\Socialite;
 class AuthService
 {
     public function login(array $data) {
@@ -270,5 +271,65 @@ class AuthService
                 'token' => $user->createToken('auth_token')->plainTextToken,
             ],
         ]);
+    }
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->stateless()->redirect();
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        $frontendUrl = rtrim(env('FRONTEND_URL', 'http://localhost:5173'), '/');
+        $callbackPath = '/auth/google-callback';
+
+        try {
+            $socialUser = Socialite::driver($provider)->stateless()->user();
+        } catch (\Exception $e) {
+            return [
+                'status' => false,
+                'message' => __('messages.social_login_failed'),
+                'data' => [
+                    'redirect_url' => $frontendUrl . $callbackPath . '?error=' . urlencode(__('messages.social_login_failed')),
+                ],
+            ];
+        }
+
+        $existingUser = User::where('email', $socialUser->email)->first();
+
+        if ($existingUser) {
+            $existingUser->status = 'active';
+            $existingUser->email_verified_at = $existingUser->email_verified_at ?? now();
+            $existingUser->save();
+            
+            $token = $existingUser->createToken('auth_token')->plainTextToken;
+            $userResource = new UserResource($existingUser);
+        } else {
+            $newUser = User::create([
+                'name'              => $socialUser->name,
+                'email'             => $socialUser->email,
+                'password'          => $socialUser->id,
+                'image'             => $socialUser->avatar,
+                'status'            => 'active',
+                'email_verified_at' => now(),
+            ]);
+            $token = $newUser->createToken('auth_token')->plainTextToken;
+            $userResource = new UserResource($newUser);
+        }
+
+        $query = http_build_query([
+            'token'       => $token,
+            'id'          => $userResource->id,
+            'full_name'   => $userResource->name,
+            'email'       => $userResource->email,
+            'avatar_path' => $userResource->image_path ?? '',
+        ]);
+
+        return [
+            'status'  => true,
+            'message' => __('messages.user_logged_in_successfully'),
+            'data'    => [
+                'redirect_url' => $frontendUrl . $callbackPath . '?' . $query,
+            ],
+        ];
     }
 }

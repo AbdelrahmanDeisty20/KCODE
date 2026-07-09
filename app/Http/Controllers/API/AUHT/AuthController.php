@@ -60,4 +60,15 @@ class AuthController extends Controller
         $data = $request->validated();
         return $this->authService->refresh($data['refresh_token']);
     }
+    public function redirectToProvider($provider)
+    {
+        return $this->authService->redirectToProvider($provider);
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        $result = $this->authService->handleProviderCallback($provider);
+
+        return redirect($result['data']['redirect_url']);
+    }
 }
