@@ -22,7 +22,7 @@ class ProductResource extends JsonResource
             'price' => $this->price,
             'image' => $this->image,
             'brand' => BrandResource::make($this->whenLoaded('brand')),
-            
+                        
         ];
     }
 }

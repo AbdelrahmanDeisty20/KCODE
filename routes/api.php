@@ -3,6 +3,8 @@
 use App\Http\Controllers\API\AUHT\AuthController;
 use App\Http\Controllers\API\AUHT\ForgetPasswordController;
 use App\Http\Controllers\API\Genral\BrandController;
+use App\Http\Controllers\API\Genral\CategoryController;
+use App\Http\Controllers\API\Genral\SkinController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,5 +37,16 @@ Route::middleware([SetLang::class])->group(function () {
     Route::controller(BrandController::class)->group(function () {
         Route::get('/brands', 'index');
         Route::get('/brands/{id}', 'show');
+    });
+
+    // Categories Routes
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('/categories', 'index');
+        Route::get('/category/{id}', 'show');
+    });
+    // Skins Routes
+    Route::controller(SkinController::class)->group(function () {
+        Route::get('/skin-types', 'SkinTypes');
+        Route::get('/skin-type/{id}', 'show');
     });
 });

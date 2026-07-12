@@ -77,5 +77,13 @@ class Product extends Model
     public function alternatives()
     {
         return $this->hasMany(ProductAlternative::class);
-    }   
+    }
+    public function getAverageRatingAttribute()
+    {
+        return round($this->reviews()->avg('rating'), 1) ?? 0.0;
+    }
+    public function getNumReviewsAttribute()
+    {
+        return $this->reviews()->count();
+    }
 }

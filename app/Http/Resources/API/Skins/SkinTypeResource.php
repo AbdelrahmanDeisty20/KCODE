@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Resources\API\AUHT;
+namespace App\Http\Resources\API\Skins;
 
+use App\Http\Resources\API\PRODUCT\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,6 +18,9 @@ class SkinTypeResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'description' => $this->description,
+            'image' => $this->image_path,
+            'products' => ProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }

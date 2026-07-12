@@ -35,4 +35,12 @@ return [
     'brandsNotFound' => 'Brands not found',
     'brandGetSuccessfully' => 'Brand fetched successfully',
     'brandNotFound' => 'Brand not found',
+    'no_categories_found' => 'No categories found',
+    'categories_retrieved_successfully' => 'Categories retrieved successfully',
+    'category_not_found' => 'Category not found',
+    'category_retrieved_successfully' => 'Category retrieved successfully',
+    'skinTypes_retrieved_successfully' => 'Skin types retrieved successfully',
+    'skinType_retrieved_successfully' => 'Skin type retrieved successfully',
+    'no_skinTypes_found' => 'No skin types found',
+    'skinType_not_found' => 'Skin type not found',
 ];

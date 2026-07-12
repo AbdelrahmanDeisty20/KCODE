@@ -16,9 +16,13 @@ class Concern extends Model
     {
         return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
     }
-    public function getImagePathAttribute($value)
+    public function getImageAttribute($value)
     {
         if($value){
+            // If it's already a full URL, return it as is
+            if (filter_var($value, FILTER_VALIDATE_URL)) {
+                return $value;
+            }
             return asset('uploads/concerns/' . $value);
         }
         return asset('uploads/concerns/default.jpg');

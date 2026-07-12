@@ -19,13 +19,18 @@ class DatabaseSeeder extends Seeder
             SkinTypeSeeder::class,
             BrandSeeder::class,
             CategorySeeder::class,
+            ConcernSeeder::class,
         ]);
 
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        User::updateOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => bcrypt('password'),
+                'image' => 'default.png',
+            ]
+        );
     }
 }
