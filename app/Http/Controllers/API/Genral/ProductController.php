@@ -3,9 +3,17 @@
 namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
+use App\Services\ProductService;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    //
+    use ApiResponse;
+    public function __construct(private ProductService $productService) {}
+
+    public function index() {
+        $products = $this->productService->index();
+        return $this->success($products['data'], $products['message']);
+    }
 }

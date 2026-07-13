@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AUHT\AuthController;
 use App\Http\Controllers\API\AUHT\ForgetPasswordController;
 use App\Http\Controllers\API\Genral\BrandController;
 use App\Http\Controllers\API\Genral\CategoryController;
+use App\Http\Controllers\API\Genral\ProductController;
 use App\Http\Controllers\API\Genral\SkinController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
@@ -52,5 +53,9 @@ Route::middleware([SetLang::class])->group(function () {
     // Sub Categories Routes
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/sub-categories', 'sub_categories');
+    });
+    // Products Routes
+    Route::controller(ProductController::class)->group(function () {
+        Route::get('/products', 'index');
     });
 });
