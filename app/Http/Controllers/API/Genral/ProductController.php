@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\API\PRODUCT\ProductListResource;
 use App\Services\ProductService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,6 @@ class ProductController extends Controller
 
     public function index() {
         $products = $this->productService->index();
-        return $this->success($products['data'], $products['message']);
+        return $this->paginated(ProductListResource::class,$products['data'], $products['message']);
     }
 }
