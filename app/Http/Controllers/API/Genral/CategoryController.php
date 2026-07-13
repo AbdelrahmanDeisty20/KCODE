@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\API\CATEGORY\CategoryResource;
+use App\Http\Resources\API\CATEGORY\SubCategoryResource;
 use App\Services\CategoryService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -28,5 +29,12 @@ class CategoryController extends Controller
             return $this->error($category['message'], 404);
         }
         return $this->success(new CategoryResource($category['data']), __('messages.category_retrieved_successfully'));
+    }
+    public function sub_categories() {
+        $sub_categories = $this->categoryService->sub_categories();
+        if (!$sub_categories['status']) {
+            return $this->error($sub_categories['message'], 404);
+        }
+        return $this->paginated(SubCategoryResource::class, $sub_categories['data'], __('messages.sub_categories_retrieved_successfully'));
     }
 }
