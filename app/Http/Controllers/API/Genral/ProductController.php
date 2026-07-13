@@ -15,6 +15,9 @@ class ProductController extends Controller
 
     public function index() {
         $products = $this->productService->index();
+        if (!$products['status']) {
+            return $this->error($products['message']);
+        }
         return $this->paginated(ProductListResource::class,$products['data'], $products['message']);
     }
 }
