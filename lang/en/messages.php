@@ -45,4 +45,5 @@ return [
     'skinType_not_found' => 'Skin type not found',
     'sub_categories_retrieved_successfully' => 'Sub categories retrieved successfully',
     'sub_categories_not_found' => 'Sub categories not found',
+    ''
 ];
