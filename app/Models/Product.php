@@ -13,6 +13,8 @@ class Product extends Model
         'description_en',
         'category_id',
         'brand_id',
+        'price',
+        'stock',
         'short_name_ar',
         'short_name_en',
         'image',
@@ -48,10 +50,6 @@ class Product extends Model
         return app()->getLocale() == 'ar' ? $this->description_ar : $this->description_en;
     }
 
-    public function sizes()
-    {
-        return $this->hasMany(ProductSize::class);
-    }
 
     public function images()
     {
@@ -77,6 +75,10 @@ class Product extends Model
     public function alternatives()
     {
         return $this->hasMany(ProductAlternative::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
     public function getAverageRatingAttribute()
     {

@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'string', 'min:6', 'confirmed', 'regex:/[A-Z]/'],
             'password_confirmation' => 'required|string|min:6',
-            'phone' => ['required', 'string', 'max:255', 'unique:users', 'regex:/^(?:\+?968|00968)?\d{8}$/'],
+            'phone' => ['required', 'string', 'max:255', 'unique:users'],
             'image' => 'nullable|image',
             'skin_type_id' => 'nullable|exists:skin_types,id',
         ];
@@ -51,7 +51,6 @@ class RegisterRequest extends FormRequest
             'phone.required' => __('validation.required'),
             'phone.max' => __('validation.max'),
             'phone.unique' => __('validation.unique'),
-            'phone.regex' => __('validation.phone'),
             'image.required' => __('validation.required'),
             'image.image' => __('validation.image'),
             'skin_type.exists' => __('validation.exists'),
