@@ -4,8 +4,9 @@ namespace App\Http\Resources\API\PRODUCT;
 
 use App\Http\Resources\API\BRAND\BrandResource;
 use App\Http\Resources\API\CATEGORY\CategoryResource;
-use Illuminate\Http\Request;
+use App\Http\Resources\API\CATEGORY\SubCategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
 
 class ProductListResource extends JsonResource
 {
@@ -20,11 +21,12 @@ class ProductListResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'sku' => $this->sku,
-            'short_name' => app()->getLocale() == 'ar' ? $this->short_name_ar : $this->short_name_en,
+            'short_name' => $this->short_name,
             'price' => $this->price,
             'image' => $this->image,
             'brand' => BrandResource::make($this->whenLoaded('brand')),
-            'category' => CategoryResource::make($this->whenLoaded('category')),
+            'sub_category' => SubCategoryResource::make($this->whenLoaded('subCategory')),
+            'is_favorite' => auth('sanctum')->check() ? $this->favorites()->where('user_id', auth('sanctum')->id())->where('is_active', true)->exists() : false,
             'review_rating' => $this->average_rating,
             'num_reviews' => $this->num_reviews,
         ];

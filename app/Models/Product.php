@@ -92,6 +92,71 @@ class Product extends Model
         return app()->getLocale() == 'ar' ? $this->description_ar : $this->description_en;
     }
 
+    public function getShortNameAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->short_name_ar : $this->short_name_en;
+    }
+
+    public function getIngredientsAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->ingredients_ar : $this->ingredients_en;
+    }
+
+    public function getHowToUseAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->how_to_use_ar : $this->how_to_use_en;
+    }
+
+    public function getTextureAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->texture_ar : $this->texture_en;
+    }
+
+    public function getWhyKcodeAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->why_kcode_ar : $this->why_kcode_en;
+    }
+
+    public function getSafetyNotesAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->safety_notes_ar : $this->safety_notes_en;
+    }
+
+    public function getKeyBenefitsAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->ar_key_benefits : $this->en_key_benefits;
+    }
+
+    public function getProductTitleSeoAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->ar_product_title_seo : $this->en_product_title_seo;
+    }
+
+    public function getMetaDescriptionAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->meta_description_ar : $this->meta_description_en;
+    }
+
+    public function getPrimaryKeywordAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->primary_keyword_ar : $this->primary_keyword_en;
+    }
+
+    public function getSecondaryKeywordsAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->secondary_keywords_ar : $this->secondary_keywords_en;
+    }
+
+    public function getImageAltAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->image_alt_ar : $this->image_alt_en;
+    }
+
+    public function getOgDescriptionAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->og_description_ar : $this->og_description_en;
+    }
+
     public function sizes()
     {
         return $this->hasMany(ProductSize::class);
