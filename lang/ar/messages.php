@@ -47,4 +47,6 @@ return [
     'concern_retrieved_successfully' => 'تم جلب الاهتمام بنجاح',
     'no_concerns_found' => 'لم يتم العثور على الاهتمامات',
     'concern_not_found' => 'لم يتم العثور على الاهتمام',
+    'sub_categories_retrieved_successfully' => 'تم جلب التصنيفات الفرعية بنجاح',
+    'sub_categories_not_found' => 'لم يتم العثور على تصنيفات فرعية',
 ];

@@ -49,4 +49,8 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/skin-types', 'SkinTypes');
         Route::get('/skin-type/{id}', 'show');
     });
+    // Sub Categories Routes
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('/sub-categories', 'sub_categories');
+    });
 });
