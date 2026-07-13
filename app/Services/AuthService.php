@@ -7,15 +7,17 @@ use App\Mail\OtpMail;
 use App\Models\Otp;
 use App\Models\RefreshToken;
 use App\Models\User;
-use Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Socialite;
+use Auth;
+
 class AuthService
 {
-    public function login(array $data) {
+    public function login(array $data)
+    {
         $user = User::where('email', $data['email'])->first();
         if ($user->status != 'active') {
             return response()->json([
@@ -50,13 +52,9 @@ class AuthService
     {
         $image = null;
         if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
-            $path = public_path('storage/users/');
-            if (!file_exists($path)) {
-                mkdir($path, 0755, true);
-            }
             $image = time() . '.' . $data['image']->getClientOriginalExtension();
-            $data['image']->move($path, $image);
-        };
+            $data['image']->storeAs('users', $image, 'public');
+        }
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -84,9 +82,9 @@ class AuthService
         return response()->json([
             'status' => true,
             'message' => __('messages.accountCreatedSuccessfully'),
-            
         ]);
     }
+
     public function verifyOtp(array $data)
     {
         // 1. البحث عن أحدث كود تم طلبه لهذا البريد الإلكتروني
@@ -127,14 +125,13 @@ class AuthService
             $user->save();
         }
 
-        
-
         return response()->json([
             'status' => true,
             'message' => __('messages.otpVerifiedSuccessfully'),
             'data' => [new UserResource($user->load('skin_type'))],
         ]);
     }
+
     public function resendOtp(array $data)
     {
         // 1. البحث عن أحدث كود تم إرساله لهذا البريد الإلكتروني ومن نوع register
@@ -190,7 +187,9 @@ class AuthService
             'message' => __('messages.otpResentSuccessfully'),
         ]);
     }
-    public function profile() {
+
+    public function profile()
+    {
         $user = Auth::user();
         return response()->json([
             'status' => true,
@@ -198,7 +197,9 @@ class AuthService
             'data' => [new UserResource($user->load('skin_type'))],
         ]);
     }
-    public function logout() {
+
+    public function logout()
+    {
         $user = Auth::user();
         $user->currentAccessToken()->delete();
         return response()->json([
@@ -206,7 +207,9 @@ class AuthService
             'message' => __('messages.logoutSuccessFully'),
         ]);
     }
-    public function logoutAllDevice() {
+
+    public function logoutAllDevice()
+    {
         $user = Auth::user();
         $user->tokens()->delete();
         return response()->json([
@@ -214,15 +217,13 @@ class AuthService
             'message' => __('messages.logoutSuccessFully'),
         ]);
     }
-    public function updateProfile(array $data) {
+
+    public function updateProfile(array $data)
+    {
         $user = Auth::user();
-        if(isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
-            $path = public_path('storage/users/');
-            if (!file_exists($path)) {
-                mkdir($path, 0755, true);
-            }
+        if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
             $image = time() . '.' . $data['image']->getClientOriginalExtension();
-            $data['image']->move($path, $image);
+            $data['image']->storeAs('users', $image, 'public');
             $data['image'] = $image;
         }
         // Handle Password Update
@@ -240,7 +241,9 @@ class AuthService
             'data' => [new UserResource($user->load('skin_type'))],
         ]);
     }
-    public function refresh($refresh_token) {
+
+    public function refresh($refresh_token)
+    {
         $refreshToken = RefreshToken::where('token', hash('sha256', $refresh_token))->first();
         if (!$refreshToken) {
             return response()->json([
@@ -272,6 +275,7 @@ class AuthService
             ],
         ]);
     }
+
     public function redirectToProvider($provider)
     {
         return Socialite::driver($provider)->stateless()->redirect();
@@ -300,16 +304,16 @@ class AuthService
             $existingUser->status = 'active';
             $existingUser->email_verified_at = $existingUser->email_verified_at ?? now();
             $existingUser->save();
-            
+
             $token = $existingUser->createToken('auth_token')->plainTextToken;
             $userResource = new UserResource($existingUser);
         } else {
             $newUser = User::create([
-                'name'              => $socialUser->name,
-                'email'             => $socialUser->email,
-                'password'          => $socialUser->id,
-                'image'             => $socialUser->avatar,
-                'status'            => 'active',
+                'name' => $socialUser->name,
+                'email' => $socialUser->email,
+                'password' => $socialUser->id,
+                'image' => $socialUser->avatar,
+                'status' => 'active',
                 'email_verified_at' => now(),
             ]);
             $token = $newUser->createToken('auth_token')->plainTextToken;
@@ -317,17 +321,17 @@ class AuthService
         }
 
         $query = http_build_query([
-            'token'       => $token,
-            'id'          => $userResource->id,
-            'full_name'   => $userResource->name,
-            'email'       => $userResource->email,
+            'token' => $token,
+            'id' => $userResource->id,
+            'full_name' => $userResource->name,
+            'email' => $userResource->email,
             'avatar_path' => $userResource->image_path ?? '',
         ]);
 
         return [
-            'status'  => true,
+            'status' => true,
             'message' => __('messages.user_logged_in_successfully'),
-            'data'    => [
+            'data' => [
                 'redirect_url' => $frontendUrl . $callbackPath . '?' . $query,
             ],
         ];

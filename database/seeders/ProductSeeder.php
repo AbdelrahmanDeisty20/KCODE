@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
-use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -42,8 +42,6 @@ class ProductSeeder extends Seeder
                 'category_id' => $categoryId1,
                 'brand_id' => $brandId2,
                 'sku' => 'CERAVE-CLEANSER-001',
-                'price' => 15.99,
-                'stock' => 50,
                 'ingredients_en' => 'Purified Water, Glycerin, Cetearyl Alcohol, Ceramide 3, Ceramide 6-II, Ceramide 1, Hyaluronic Acid, Cholesterol.',
                 'ingredients_ar' => 'مياه نقية، جليسرين، كحول السيتياريل، سيراميد 3، سيراميد 6-II، سيراميد 1، حمض الهيالورونيك، كوليسترول.',
                 'how_to_use_en' => 'Wet skin with lukewarm water. Massage cleanser into skin in a gentle, circular motion. Rinse.',
@@ -61,8 +59,6 @@ class ProductSeeder extends Seeder
                 'category_id' => $categoryId2,
                 'brand_id' => $brandId1,
                 'sku' => 'LAROCHE-EFFACLAR-002',
-                'price' => 22.50,
-                'stock' => 30,
                 'ingredients_en' => 'Aqua/Water, Glycerin, Dimethicone, Isocetyl Stearate, Niacinamide, Isopropyl Lauroyl Sarcosinate, Silica, Ammonium Polyacryloyldimethyl Taurate.',
                 'ingredients_ar' => 'مياه، جليسرين، ثنائي الميثيكون، إيزوسيتيل ستيرات، نياسيناميد، إيزوبروبيل لوريل ساركوسينات، سيليكا.',
                 'how_to_use_en' => 'Apply to entire face morning and/or evening after cleansing skin.',
@@ -80,8 +76,6 @@ class ProductSeeder extends Seeder
                 'category_id' => $categoryId2,
                 'brand_id' => $brandId3,
                 'sku' => 'ORDINARY-NIACINAMIDE-003',
-                'price' => 9.99,
-                'stock' => 100,
                 'ingredients_en' => 'Aqua (Water), Niacinamide, Pentylene Glycol, Zinc PCA, Dimethyl Isosorbide, Tamarindus Indica Seed Gum, Xanthan Gum.',
                 'ingredients_ar' => 'مياه، نياسيناميد، بنتيلين جليكول، زنك PCA، ثنائي ميثيل إيزوسوربيد، صمغ بذور التمر الهندي.',
                 'how_to_use_en' => 'Apply to entire face morning and evening before heavier creams.',
