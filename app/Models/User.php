@@ -57,7 +57,13 @@ class User extends Authenticatable
         if (!str_starts_with(strtolower($path), 'users/')) {
             $path = 'users/' . $path;
         }
-        return asset('storage/' . $path);
+
+        $base = 'storage/';
+        if (!is_link(public_path('storage')) && request() && request()->getHost() !== '127.0.0.1' && request()->getHost() !== 'localhost') {
+            $base = 'storage/app/public/';
+        }
+
+        return asset($base . $path);
     }
     public function refresh_tokens()
     {
