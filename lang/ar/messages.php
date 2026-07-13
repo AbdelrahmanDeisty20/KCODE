@@ -49,4 +49,6 @@ return [
     'concern_not_found' => 'لم يتم العثور على الاهتمام',
     'sub_categories_retrieved_successfully' => 'تم جلب التصنيفات الفرعية بنجاح',
     'sub_categories_not_found' => 'لم يتم العثور على تصنيفات فرعية',
+    'products_retrieved_successfully' => 'تم جلب المنتجات بنجاح',
+    'products_not_found' => 'لم يتم العثور على منتجات',
 ];
