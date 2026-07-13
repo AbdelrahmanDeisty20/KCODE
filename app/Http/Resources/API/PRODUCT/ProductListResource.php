@@ -31,4 +31,4 @@ class ProductListResource extends JsonResource
             'num_reviews' => $this->num_reviews,
         ];
     }
-}
+}P

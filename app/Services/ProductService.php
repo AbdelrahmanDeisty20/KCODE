@@ -7,7 +7,7 @@ use App\Models\Product;
 class ProductService
 {
     public function index() {
-        $products = Product::paginate(10);
+        $products = Product::with('brand', 'subCategory')->paginate(10);
         if ($products->isEmpty()) {
             return [
                 'status' => false,
