@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +16,29 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Clear all image folders so fresh images are downloaded
+        $this->command->info('🗑️  Clearing old image folders...');
+        $imageDirs = [
+            'categories',
+            'sub_categories',
+            'products',
+            'skin_types',
+            'concerns',
+            'routine-goals',
+            'pages',
+            'product_images',
+        ];
+
+        foreach ($imageDirs as $dir) {
+            $path = storage_path('app/public/' . $dir);
+            if (File::exists($path)) {
+                File::deleteDirectory($path);
+                File::makeDirectory($path, 0755, true, true);
+                $this->command->line("  Cleared: storage/app/public/{$dir}/");
+            }
+        }
+        $this->command->info('✅ Image folders cleared.' . PHP_EOL);
+
         $this->call([
             SkinTypeSeeder::class,
             BrandSeeder::class,
