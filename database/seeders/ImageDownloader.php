@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Http;
 
 class ImageDownloader
 {
+    protected static array $downloadedUrlsCache = [];
+
     /**
      * Download an image from a URL and save it to the target public directory.
      */
@@ -25,11 +27,22 @@ class ImageDownloader
             return $filename;
         }
 
+        // Memory cache optimization: if we already downloaded this URL in this run, copy the file
+        if (isset(self::$downloadedUrlsCache[$url])) {
+            $cachedSourcePath = self::$downloadedUrlsCache[$url];
+            if (File::exists($cachedSourcePath) && File::size($cachedSourcePath) > 0) {
+                File::copy($cachedSourcePath, $targetPath);
+                return $filename;
+            }
+        }
+
         try {
             // Attempt to download the image with a timeout
             $response = Http::timeout(6)->get($url);
             if ($response->successful()) {
                 File::put($targetPath, $response->body());
+                // Save to cache for subsequent copy operations
+                self::$downloadedUrlsCache[$url] = $targetPath;
                 return $filename;
             }
         } catch (\Exception $e) {
