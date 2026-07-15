@@ -6,7 +6,19 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\Product;
+use App\Models\Concern;
+use App\Models\SkinType;
+use App\Models\ProductConcern;
+use App\Models\ProductSkinType;
+use App\Models\ProductMarketingDetail;
+use App\Models\ProductRecommendationRule;
+use App\Models\ProductAudit;
+use App\Models\ProductRoutine;
+use App\Models\RoutineStep;
+use App\Models\RoutineGoal;
+use App\Models\ProductGoal;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Schema;
 
 class ProductSeeder extends Seeder
 {
@@ -15,648 +27,602 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Get Categories
-        $catCleanser = Category::where('name_en', 'Cleanser')->first() ?? Category::create(['name_en' => 'Cleanser', 'name_ar' => 'غسول', 'image' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03']);
-        $catToner = Category::where('name_en', 'Toner')->first() ?? Category::create(['name_en' => 'Toner', 'name_ar' => 'تونر', 'image' => 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc']);
-        $catSerum = Category::where('name_en', 'Serum')->first() ?? Category::create(['name_en' => 'Serum', 'name_ar' => 'سيروم', 'image' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be']);
-        $catMoisturizer = Category::where('name_en', 'Moisturizer')->first() ?? Category::create(['name_en' => 'Moisturizer', 'name_ar' => 'مرطب', 'image' => 'https://images.unsplash.com/photo-1601049676099-e7ed07d825b0']);
-        $catSunscreen = Category::where('name_en', 'Sunscreen')->first() ?? Category::create(['name_en' => 'Sunscreen', 'name_ar' => 'واقي شمس', 'image' => 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908']);
-        $catMicellar = Category::where('name_en', 'Micellar Water')->first() ?? Category::create(['name_en' => 'Micellar Water', 'name_ar' => 'ماء ميسيلار', 'image' => 'https://images.unsplash.com/photo-1617897903246-719242758050']);
-        $catEssence = Category::where('name_en', 'Essence')->first() ?? Category::create(['name_en' => 'Essence', 'name_ar' => 'إيسنس للبشرة', 'image' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be']);
-        $catLipBalm = Category::where('name_en', 'Lip Balm')->first() ?? Category::create(['name_en' => 'Lip Balm', 'name_ar' => 'مرطب شفاه', 'image' => 'https://images.unsplash.com/photo-1617897903246-719242758050']);
+        // 1. Clear existing relations & products
+        Schema::disableForeignKeyConstraints();
+        ProductConcern::truncate();
+        ProductSkinType::truncate();
+        ProductGoal::truncate();
+        ProductMarketingDetail::truncate();
+        ProductRecommendationRule::truncate();
+        ProductAudit::truncate();
+        ProductRoutine::truncate();
+        Product::truncate();
+        Schema::enableForeignKeyConstraints();
 
-        // 2. Get Brands
-        $brandLaRoche = Brand::where('name_en', 'La Roche-Posay')->first() ?? Brand::create(['name_en' => 'La Roche-Posay', 'name_ar' => 'لاروش بوزيه']);
-        $brandCeraVe = Brand::where('name_en', 'CeraVe')->first() ?? Brand::create(['name_en' => 'CeraVe', 'name_ar' => 'سيرافي']);
-        $brandOrdinary = Brand::where('name_en', 'The Ordinary')->first() ?? Brand::create(['name_en' => 'The Ordinary', 'name_ar' => 'ذا أورديناري']);
-        $brandNeutrogena = Brand::where('name_en', 'Neutrogena')->first() ?? Brand::create(['name_en' => 'Neutrogena', 'name_ar' => 'نيتروجينا']);
-        $brandBioderma = Brand::where('name_en', 'Bioderma')->first() ?? Brand::create(['name_en' => 'Bioderma', 'name_ar' => 'بيوديرما']);
-        $brandEucerin = Brand::where('name_en', 'Eucerin')->first() ?? Brand::create(['name_en' => 'Eucerin', 'name_ar' => 'يوسيرين']);
-        $brandCetaphil = Brand::where('name_en', 'Cetaphil')->first() ?? Brand::create(['name_en' => 'Cetaphil', 'name_ar' => 'سيتافيل']);
-        $brandCosrx = Brand::where('name_en', 'COSRX')->first() ?? Brand::create(['name_en' => 'COSRX', 'name_ar' => 'كوزريكس']);
-        $brandVichy = Brand::where('name_en', 'Vichy')->first() ?? Brand::create(['name_en' => 'Vichy', 'name_ar' => 'فيشي']);
-        $brandLaneige = Brand::where('name_en', 'Laneige')->first() ?? Brand::create(['name_en' => 'Laneige', 'name_ar' => 'لانيج']);
+        $allGoals = RoutineGoal::all();
 
-        // 3. Seed Subcategories
-        $subHydratingCleanse = SubCategory::updateOrCreate(['name_en' => 'Hydrating Cleanse', 'category_id' => $catCleanser->id], ['name_ar' => 'منظف مرطب']);
-        $subAcneTreatment = SubCategory::updateOrCreate(['name_en' => 'Acne Treatment', 'category_id' => $catSerum->id], ['name_ar' => 'علاج حب الشباب']);
-        $subGelMoisturizer = SubCategory::updateOrCreate(['name_en' => 'Gel Moisturizer', 'category_id' => $catMoisturizer->id], ['name_ar' => 'مرطب جل']);
-        $subFluidSunscreen = SubCategory::updateOrCreate(['name_en' => 'Fluid Sunscreen', 'category_id' => $catSunscreen->id], ['name_ar' => 'واقي شمس سائل']);
-        $subExfoliatingToner = SubCategory::updateOrCreate(['name_en' => 'Exfoliating Toner', 'category_id' => $catToner->id], ['name_ar' => 'تونر مقشر']);
-        $subMicellarMakeupRemover = SubCategory::updateOrCreate(['name_en' => 'Micellar Makeup Remover', 'category_id' => $catMicellar->id], ['name_ar' => 'مزيل مكياج ميسيلار']);
-        $subBrighteningSerum = SubCategory::updateOrCreate(['name_en' => 'Brightening Serum', 'category_id' => $catSerum->id], ['name_ar' => 'سيروم تفتيح']);
-        $subSnailEssence = SubCategory::updateOrCreate(['name_en' => 'Snail Mucin Essence', 'category_id' => $catEssence->id], ['name_ar' => 'خلاصة هلام الحلزون']);
-        $subMineralBooster = SubCategory::updateOrCreate(['name_en' => 'Mineral Booster', 'category_id' => $catSerum->id], ['name_ar' => 'معزز المعادن']);
-        $subNightLipMask = SubCategory::updateOrCreate(['name_en' => 'Night Lip Mask', 'category_id' => $catLipBalm->id], ['name_ar' => 'ماسك شفاه ليلي']);
-
-        $products = [
-            // 1. CeraVe Hydrating Facial Cleanser
-            [
-                'sku' => 'CERAVE-CLEANSER-001',
-                'name_en' => 'CeraVe Hydrating Facial Cleanser',
-                'name_ar' => 'سيرافي غسول الوجه المرطب',
-                'short_name_en' => 'CeraVe Cleanser',
-                'short_name_ar' => 'غسول سيرافي',
-                'description_en' => 'A unique formula with three essential ceramides that cleanses, hydrates and helps restore the protective skin barrier.',
-                'description_ar' => 'تركيبة فريدة تحتوي على ثلاثة سيراميدات أساسية تنظف وترطب وتساعد على استعادة الحاجز الواقي للبشرة.',
-                'category_id' => $catCleanser->id,
-                'sub_category_id' => $subHydratingCleanse->id,
-                'brand_id' => $brandCeraVe->id,
-                'price' => 15.00,
-                'stock' => 50,
-                'ingredients_en' => 'Purified Water, Glycerin, Cetearyl Alcohol, Ceramide 3, Ceramide 6-II, Ceramide 1, Hyaluronic Acid, Cholesterol.',
-                'ingredients_ar' => 'مياه نقية، جليسرين، كحول السيتياريل، سيراميد 3، سيراميد 6-II، سيراميد 1، حمض الهيالورونيك، كوليسترول.',
-                'how_to_use_en' => 'Wet skin with lukewarm water. Massage cleanser into skin in a gentle, circular motion. Rinse.',
-                'how_to_use_ar' => 'بللي البشرة بالماء الفاتر. دلكي الغسول على البشرة بحركة دائرية لطيفة. اشطفيه بالماء.',
-                'image' => 'cerave_cleanser.jpg',
-                'status' => 'active',
-                'texture_en' => 'Gentle creamy gel',
-                'texture_ar' => 'رغوي لطيف',
-                'why_kcode_en' => 'Contains essential ceramides and does not strip the skin barrier',
-                'why_kcode_ar' => 'لأنه يحتوي على السيراميد ولا يسبب جفاف البشرة',
-                'usage_frequency_ar' => 'يومياً صباحاً ومساءً',
-                'active_strength_level' => 'Low',
-                'safety_notes_en' => 'Avoid direct contact with eyes',
-                'safety_notes_ar' => 'تجنب ملامسة العينين مباشرة',
-                'en_key_benefits' => 'Gentle cleansing, restores skin barrier, long-lasting hydration',
-                'ar_key_benefits' => 'تنظيف لطيف، استعادة الحاجز الواقي، ترطيب مستمر',
-                'en_product_title_seo' => 'CeraVe Hydrating Facial Cleanser - Skin Barrier Restoration',
-                'ar_product_title_seo' => 'سيرافي غسول البشرة الجافة والمرطبة',
-                'en_short_hook' => 'Cleanses and hydrates without disrupting the skin barrier.',
-                'seo_meta_title_ar' => 'غسول سيرافي المرطب للبشرة الجافة والعادية',
-                'meta_description_en' => 'Shop CeraVe Hydrating Facial Cleanser with hyaluronic acid and ceramides. Cleanses and restores dry skin.',
-                'meta_description_ar' => 'اشتر غسول سيرافي المرطب بحمض الهيالورونيك والسيراميدات لترطيب وتنظيف البشرة الجافة.',
-                'primary_keyword_en' => 'CeraVe Hydrating Cleanser',
-                'primary_keyword_ar' => 'غسول سيرافي المرطب',
-                'secondary_keywords_en' => 'dry skin cleanser, ceramide face wash',
-                'secondary_keywords_ar' => 'غسول للبشرة الجافة، غسول السيراميد',
-                'final_url_slug' => 'cerave-hydrating-facial-cleanser',
-                'image_alt_en' => 'CeraVe Hydrating Facial Cleanser bottle',
-                'image_alt_ar' => 'عبوة غسول سيرافي المرطب للوجه',
-                'og_title_ar' => 'غسول سيرافي للوجه - الاختيار المثالي للبشرة الجافة',
-                'og_description_en' => 'Hydrate and cleanse your skin with CeraVe\'s formula.',
-                'og_description_ar' => 'رطب ونظف بشرتك بتركيبة سيرافي المختبرة من قبل أطباء الجلد.',
-                'pdp_headline_en' => 'Cleanse and Hydrate with Ceramides',
-                'above_fold_hook_en' => 'Moisturize as you cleanse',
-                'keywords' => 'cerave, cleanser, hydrating, ceramides, dry skin',
-            ],
-            // 2. La Roche-Posay Effaclar Duo+
-            [
-                'sku' => 'LAROCHE-EFFACLAR-002',
-                'name_en' => 'La Roche-Posay Effaclar Duo+',
-                'name_ar' => 'لاروش بوزيه إيفاكلار ثنائي+',
-                'short_name_en' => 'Effaclar Duo+',
-                'short_name_ar' => 'إيفاكلار ثنائي+',
-                'description_en' => 'Corrective unclogging care, anti-imperfections, anti-marks and anti-recurrence for oily and acne-prone skin.',
-                'description_ar' => 'علاج مصحح لانسداد المسام، مضاد للشوائب والآثار ومضاد لظهور حب الشباب للبشرة الدهنية والمعرضة لحب الشباب.',
-                'category_id' => $catSerum->id,
-                'sub_category_id' => $subAcneTreatment->id,
-                'brand_id' => $brandLaRoche->id,
-                'price' => 22.50,
-                'stock' => 35,
-                'ingredients_en' => 'Aqua/Water, Glycerin, Dimethicone, Niacinamide, Salicylic Acid, Zinc PCA.',
-                'ingredients_ar' => 'مياه، جليسرين، ثنائي الميثيكون، نياسيناميد، حمض الساليسيليك، زنك PCA.',
-                'how_to_use_en' => 'Apply to entire face morning and/or evening after cleansing.',
-                'how_to_use_ar' => 'يوضع على كامل الوجه صباحاً و/أو مساءً بعد تنظيف البشرة.',
-                'image' => 'laroche_effaclar.jpg',
-                'status' => 'active',
-                'texture_en' => 'Lightweight gel cream',
-                'texture_ar' => 'جل كريمي خفيف',
-                'why_kcode_en' => 'Highly effective against acne blemishes and marks with Niacinamide and LHA',
-                'why_kcode_ar' => 'فعال جداً في علاج حب الشباب وآثار الحبوب بفضل النياسيناميد والـ LHA',
-                'usage_frequency_ar' => 'مرة واحدة يومياً مساءً',
-                'active_strength_level' => 'Medium',
-                'safety_notes_en' => 'May cause mild tingling initially, apply sunscreen in the morning',
-                'safety_notes_ar' => 'قد يسبب وخزاً بسيطاً في البداية، استخدم واقي شمس صباحاً',
-                'en_key_benefits' => 'Reduces blemishes, clears marks, unclogs pores',
-                'ar_key_benefits' => 'تقليل الحبوب، إزالة الآثار، فتح المسام المسدودة',
-                'en_product_title_seo' => 'La Roche-Posay Effaclar Duo+ Anti-Acne Treatment',
-                'ar_product_title_seo' => 'لاروش بوزيه إيفاكلار ثنائي بلس لعلاج الحبوب',
-                'en_short_hook' => 'Corrective treatment for oily and acne-prone skin.',
-                'seo_meta_title_ar' => 'لاروش بوزيه ايفاكلار ديو بلس للحبوب والآثار',
-                'meta_description_en' => 'Discover La Roche-Posay Effaclar Duo+, the best corrective treatment for oily, acne-prone skin.',
-                'meta_description_ar' => 'اكتشف إيفاكلار ثنائي بلس من لاروش بوزيه، العلاج المصحح للبشرة الدهنية والمعرضة لحب الشباب.',
-                'primary_keyword_en' => 'Effaclar Duo',
-                'primary_keyword_ar' => 'إيفاكلار ديو',
-                'secondary_keywords_en' => 'acne treatment, oily skin cream',
-                'secondary_keywords_ar' => 'علاج حب الشباب، كريم البشرة الدهنية',
-                'final_url_slug' => 'laroche-posay-effaclar-duo-plus',
-                'image_alt_en' => 'La Roche-Posay Effaclar Duo+ tube',
-                'image_alt_ar' => 'أنبوب لاروش بوزيه إيفاكلار ثنائي بلس',
-                'og_title_ar' => 'علاج حب الشباب المتكامل من لاروش بوزيه',
-                'og_description_en' => 'Clear breakouts and reduce dark spots with Effaclar Duo+.',
-                'og_description_ar' => 'تخلص من الحبوب والبقع الداكنة مع إيفاكلار ديو بلس.',
-                'pdp_headline_en' => 'Say Goodbye to Acne Marks',
-                'above_fold_hook_en' => 'Visible results in just 12 hours',
-                'keywords' => 'laroche, effaclar, acne, blemishes, oily skin',
-            ],
-            // 3. The Ordinary Niacinamide 10% + Zinc 1%
-            [
-                'sku' => 'ORDINARY-NIACINAMIDE-003',
-                'name_en' => 'The Ordinary Niacinamide 10% + Zinc 1%',
-                'name_ar' => 'ذا أورديناري نياسيناميد 10% + زنك 1%',
-                'short_name_en' => 'Niacinamide 10% + Zinc 1%',
-                'short_name_ar' => 'نياسيناميد 10% + زنك 1%',
-                'description_en' => 'High-strength vitamin and mineral blemish formula to reduce the appearance of skin blemishes and congestion.',
-                'description_ar' => 'تركيبة فيتامينات ومعادن عالية القوة لتقليل ظهور شوائب البشرة واحتقانها.',
-                'category_id' => $catSerum->id,
-                'sub_category_id' => $subAcneTreatment->id,
-                'brand_id' => $brandOrdinary->id,
-                'price' => 10.00,
-                'stock' => 100,
-                'ingredients_en' => 'Aqua (Water), Niacinamide, Pentylene Glycol, Zinc PCA, Xanthan Gum.',
-                'ingredients_ar' => 'مياه، نياسيناميد، بنتيلين جليكول، زنك PCA، صمغ الزانثان.',
-                'how_to_use_en' => 'Apply to entire face morning and evening before heavier creams.',
-                'how_to_use_ar' => 'يوضع على كامل الوجه صباحاً ومساءً قبل الكريمات الأثقل.',
-                'image' => 'ordinary_niacinamide.jpg',
-                'status' => 'active',
-                'texture_en' => 'Light water-based serum',
-                'texture_ar' => 'سيروم مائي خفيف',
-                'why_kcode_en' => 'Regulates sebum production, brightens skin tone and minimizes pores',
-                'why_kcode_ar' => 'لتنظيم إفراز الدهون وتفتيح البشرة وتقليل حجم المسام',
-                'usage_frequency_ar' => 'يومياً صباحاً ومساءً قبل الكريمات',
-                'active_strength_level' => 'High',
-                'safety_notes_en' => 'Do not use in the same routine with pure Vitamin C',
-                'safety_notes_ar' => 'لا تستخدمه في نفس الروتين مع فيتامين سي النقي',
-                'en_key_benefits' => 'Regulates sebum, brightens skin tone, reduces pore appearance',
-                'ar_key_benefits' => 'تنظيم إفراز الزيوت، تفتيح البشرة، تصغير المسام',
-                'en_product_title_seo' => 'The Ordinary Niacinamide 10% + Zinc 1% Blemish Serum',
-                'ar_product_title_seo' => 'ذا أورديناري نياسيناميد 10% + زنك 1% للمسام والزيوت',
-                'en_short_hook' => 'High-strength blemish serum with niacinamide and zinc.',
-                'seo_meta_title_ar' => 'سيروم نياسيناميد ذا اورديناري لتنظيم الدهون والمسام',
-                'meta_description_en' => 'Shop The Ordinary Niacinamide 10% + Zinc 1% to balance visible sebum activity.',
-                'meta_description_ar' => 'تسوق سيروم نياسيناميد 10% + زنك 1% من ذا أورديناري لتنظيم إفراز الدهون والمسام.',
-                'primary_keyword_en' => 'The Ordinary Niacinamide',
-                'primary_keyword_ar' => 'سيروم نياسيناميد اورديناري',
-                'secondary_keywords_en' => 'niacinamide zinc serum, pore minimizer',
-                'secondary_keywords_ar' => 'سيروم المسام، سيروم تنظيم الدهون',
-                'final_url_slug' => 'the-ordinary-niacinamide-10-zinc-1',
-                'image_alt_en' => 'The Ordinary Niacinamide dropper bottle',
-                'image_alt_ar' => 'عبوة سيروم نياسيناميد ذا أورديناري',
-                'og_title_ar' => 'سيروم النياسيناميد الأشهر عالمياً من ذا أورديناري',
-                'og_description_en' => 'Target skin blemishes and congestion with 10% pure Niacinamide.',
-                'og_description_ar' => 'استهدف شوائب البشرة والدهون الزائدة بـ 10% نياسيناميد نقي.',
-                'pdp_headline_en' => 'Clear, Balanced and Radiant Skin',
-                'above_fold_hook_en' => 'Balance your skin oil and pores',
-                'keywords' => 'ordinary, niacinamide, zinc, serum, oily skin, pores',
-            ],
-            // 4. Neutrogena Hydro Boost Water Gel
-            [
-                'sku' => 'NEUTROGENA-HYDROBOOST-004',
-                'name_en' => 'Neutrogena Hydro Boost Water Gel',
-                'name_ar' => 'نيتروجينا هيدرو بوست جل مائي',
-                'short_name_en' => 'Hydro Boost Gel',
-                'short_name_ar' => 'هيدرو بوست جل',
-                'description_en' => 'A lightweight, fast-absorbing moisturizer containing hyaluronic acid to lock in intense hydration for normal to dry skin.',
-                'description_ar' => 'مرطب خفيف الوزن وسريع الامتصاص يحتوي على حمض الهيالورونيك لحبس الترطيب المكثف للبشرة العادية إلى الجافة.',
-                'category_id' => $catMoisturizer->id,
-                'sub_category_id' => $subGelMoisturizer->id,
-                'brand_id' => $brandNeutrogena->id,
-                'price' => 18.99,
-                'stock' => 60,
-                'ingredients_en' => 'Water, Dimethicone, Glycerin, Sodium Hyaluronate, Phenoxyethanol.',
-                'ingredients_ar' => 'مياه، ثنائي ميثيكون، جليسرين، هيالورونات الصوديوم، فينوكسي إيثانول.',
-                'how_to_use_en' => 'Apply evenly to face and neck after cleansing.',
-                'how_to_use_ar' => 'يوضع بالتساوي على الوجه والرقبة بعد تنظيفهما.',
-                'image' => 'neutrogena_hydroboost.jpg',
-                'status' => 'active',
-                'texture_en' => 'Water gel texture',
-                'texture_ar' => 'قوام جل مائي خفيف',
-                'why_kcode_en' => 'Provides instant, deep hydration with hyaluronic acid without a greasy feel',
-                'why_kcode_ar' => 'يوفر ترطيباً عميقاً وفورياً بفضل حمض الهيالورونيك دون ملمس دهني',
-                'usage_frequency_ar' => 'يومياً صباحاً ومساءً',
-                'active_strength_level' => 'Low',
-                'safety_notes_en' => 'For external use only. Keep out of reach of children.',
-                'safety_notes_ar' => 'للاستخدام الخارجي فقط. يحفظ بعيداً عن متناول الأطفال.',
-                'en_key_benefits' => 'Instant moisture boost, non-comedogenic, oil-free formula',
-                'ar_key_benefits' => 'دفعة ترطيب فورية، لا يسد المسام، تركيبة خالية من الزيوت',
-                'en_product_title_seo' => 'Neutrogena Hydro Boost Water Gel Moisturizer - Hyaluronic Acid',
-                'ar_product_title_seo' => 'نيتروجينا هيدرو بوست جل مائي لترطيب فائق للبشرة',
-                'en_short_hook' => 'Instantly quenches dry skin and keeps it looking smooth.',
-                'seo_meta_title_ar' => 'مرطب نيتروجينا هيدرو بوست جل مائي للوجه',
-                'meta_description_en' => 'Get the ultimate hydration with Neutrogena Hydro Boost Water Gel. Formulated with Hyaluronic Acid.',
-                'meta_description_ar' => 'احصلي على ترطيب فائق مع جل نيتروجينا هيدرو بوست المائي المكون من حمض الهيالورونيك.',
-                'primary_keyword_en' => 'Neutrogena Hydro Boost',
-                'primary_keyword_ar' => 'مرطب نيتروجينا هيدرو بوست',
-                'secondary_keywords_en' => 'water gel moisturizer, hyaluronic acid cream',
-                'secondary_keywords_ar' => 'جل مائي مرطب، مرطب خفيف للوجه',
-                'final_url_slug' => 'neutrogena-hydro-boost-water-gel',
-                'image_alt_en' => 'Neutrogena Hydro Boost Water Gel jar',
-                'image_alt_ar' => 'وعاء جل نيتروجينا هيدرو بوست المائي',
-                'og_title_ar' => 'جل نيتروجينا هيدرو بوست المائي - ترطيب يدوم 24 ساعة',
-                'og_description_en' => 'Lock in hydration with our award-winning water gel moisturizer.',
-                'og_description_ar' => 'حافظ على رطوبة بشرتك مع مرطب الجل المائي الحائز على جوائز.',
-                'pdp_headline_en' => 'Boost Your Skin Hydration',
-                'above_fold_hook_en' => 'Quenches skin instantly',
-                'keywords' => 'neutrogena, hydroboost, water gel, hyaluronic, moisturizer',
-            ],
-            // 5. La Roche-Posay Anthelios UVMune 400
-            [
-                'sku' => 'LAROCHE-ANTHELIOS-005',
-                'name_en' => 'La Roche-Posay Anthelios UVMune 400 Fluid SPF50+',
-                'name_ar' => 'لاروش بوزيه أنثيليوس يو في ميون 400 سائل +50',
-                'short_name_en' => 'Anthelios UVMune 400',
-                'short_name_ar' => 'أنثيليوس يو في ميون 400',
-                'description_en' => 'Ultra-long UVA protection, invisible fluid texture, non-greasy, and water/sweat resistant for sensitive skin.',
-                'description_ar' => 'حماية فائقة من أشعة UVA الطويلة، قوام سائل غير مرئي، غير دهني، ومقاوم للماء والتعرق للبشرة الحساسة.',
-                'category_id' => $catSunscreen->id,
-                'sub_category_id' => $subFluidSunscreen->id,
-                'brand_id' => $brandLaRoche->id,
-                'price' => 24.99,
-                'stock' => 45,
-                'ingredients_en' => 'Aqua/Water, Alcohol Denat., Diisopropyl Sebacate, Silica, Isopropyl Myristate.',
-                'ingredients_ar' => 'مياه، كحول دينات، ديإيزوبروبيل سيباكات، سيليكا، إيزوبروبيل ميريستات.',
-                'how_to_use_en' => 'Apply to face and neck 20 minutes before sun exposure. Reapply every 2 hours.',
-                'how_to_use_ar' => 'يوضع على الوجه والرقبة قبل 20 دقيقة من التعرض للشمس. يكرر كل ساعتين.',
-                'image' => 'laroche_anthelios.jpg',
-                'status' => 'active',
-                'texture_en' => 'Invisible ultra-light fluid',
-                'texture_ar' => 'سائل خفيف غير مرئي',
-                'why_kcode_en' => 'Features Mexoryl 400, the most efficient UV filter against ultra-long UVA rays',
-                'why_kcode_ar' => 'يتميز بفلتر Mexoryl 400، وهو الفلتر الأكثر كفاءة ضد أشعة UVA فائقة الطول',
-                'usage_frequency_ar' => 'يومياً صباحاً قبل الخروج للشمس بـ 20 دقيقة',
-                'active_strength_level' => 'Medium',
-                'safety_notes_en' => 'Avoid eye contact. In case of contact, rinse thoroughly.',
-                'safety_notes_ar' => 'تجنب ملامسة العينين. في حال ملامستهما، اشطفهما جيداً بالماء.',
-                'en_key_benefits' => 'High SPF50+ protection, ultra-long UVA filter, invisible finish',
-                'ar_key_benefits' => 'حماية عالية +SPF50، فلتر UVA فائق الطول، ملمس نهائي غير مرئي',
-                'en_product_title_seo' => 'La Roche-Posay Anthelios UVMune 400 Fluid SPF50+ Sunscreen',
-                'ar_product_title_seo' => 'واقي شمس لاروش بوزيه أنثيليوس يو في ميون 400 سائل',
-                'en_short_hook' => 'Ultimate UV protection with an invisible fluid finish.',
-                'seo_meta_title_ar' => 'لاروش بوزيه انثيليوس يو في ميون 400 سائل واقي شمس',
-                'meta_description_en' => 'Protects skin from cell damage with UVMune 400, our best sunscreen for sensitive skin.',
-                'meta_description_ar' => 'يحمي البشرة من تلف الخلايا مع واقي الشمس أنثيليوس يو في ميون 400 سائل للبشرة الحساسة.',
-                'primary_keyword_en' => 'Anthelios UVMune 400',
-                'primary_keyword_ar' => 'واقي شمس لاروش سائل',
-                'secondary_keywords_en' => 'SPF50 fluid sunscreen, sensitive skin sunblock',
-                'secondary_keywords_ar' => 'واقي شمس للبشرة الحساسة، لاروش انثيليوس سائل',
-                'final_url_slug' => 'la-roche-posay-anthelios-uvmune-400-fluid',
-                'image_alt_en' => 'La Roche-Posay Anthelios UVMune 400 bottle',
-                'image_alt_ar' => 'عبوة واقي شمس لاروش بوزيه أنثيليوس سائل',
-                'og_title_ar' => 'الحماية المطلقة ضد أشعة الشمس من لاروش بوزيه',
-                'og_description_en' => 'Invisible finish sunscreen offering high broad spectrum UV defense.',
-                'og_description_ar' => 'واقي شمس بمظهر غير مرئي يوفر دفاعاً عالياً ضد أشعة الشمس.',
-                'pdp_headline_en' => 'Our Most Advanced Sunscreen Ever',
-                'above_fold_hook_en' => 'Invisible protection, ultimate defense',
-                'keywords' => 'laroche, anthelios, sunscreen, uv protection, fluid',
-            ],
-            // 6. The Ordinary Glycolic Acid 7% Toning Solution
-            [
-                'sku' => 'ORDINARY-GLYCOLIC-006',
-                'name_en' => 'The Ordinary Glycolic Acid 7% Toning Solution',
-                'name_ar' => 'ذا أورديناري حمض الجليكوليك 7% تونر مقشر',
-                'short_name_en' => 'Glycolic Acid 7% Toner',
-                'short_name_ar' => 'تونر حمض الجليكوليك 7%',
-                'description_en' => 'An exfoliating toner targeting the skin surface to improve clarity, balance uneven skin tone, and smooth texture.',
-                'description_ar' => 'تونر مقشر يستهدف سطح البشرة لتحسين النقاء وتوحيد لون البشرة وتحسين ملمسها.',
-                'category_id' => $catToner->id,
-                'sub_category_id' => $subExfoliatingToner->id,
-                'brand_id' => $brandOrdinary->id,
-                'price' => 12.50,
-                'stock' => 80,
-                'ingredients_en' => 'Aqua (Water), Glycolic Acid, Rosa Damascena Flower Water, Aloe Barbadensis Leaf Water.',
-                'ingredients_ar' => 'مياه، حمض الجليكوليك، ماء ورد الجوري، ماء أوراق الصبار.',
-                'how_to_use_en' => 'Use ideally in the evening, no more than once a day. Apply with a cotton pad to face and neck.',
-                'how_to_use_ar' => 'يُفضل استخدامه مساءً، ولا يزيد عن مرة واحدة يومياً. يوضع بقطنة على الوجه والرقبة.',
-                'image' => 'ordinary_glycolic.jpg',
-                'status' => 'active',
-                'texture_en' => 'Light aqueous solution',
-                'texture_ar' => 'محلول مائي خفيف',
-                'why_kcode_en' => 'Exfoliates gently to boost skin radiance and texture clarity',
-                'why_kcode_ar' => 'يقشر بلطف لتعزيز إشراقة البشرة ونعومة ملمسها',
-                'usage_frequency_ar' => 'مرة واحدة يومياً مساءً فقط',
-                'active_strength_level' => 'High',
-                'safety_notes_en' => 'Do not use on sensitive, peeling or compromised skin. Use SPF in the morning.',
-                'safety_notes_ar' => 'لا تستخدمه على بشرة حساسة أو مقشرة أو متضررة. استخدم واقي شمس في الصباح.',
-                'en_key_benefits' => 'Gentle exfoliation, boosts radiance, smooths skin texture',
-                'ar_key_benefits' => 'تقشير لطيف، تعزيز الإشراق، تحسين ملمس البشرة',
-                'en_product_title_seo' => 'The Ordinary Glycolic Acid 7% Exfoliating Toning Solution',
-                'ar_product_title_seo' => 'ذا أورديناري حمض الجليكوليك 7% تونر لتوحيد البشرة',
-                'en_short_hook' => 'An exfoliating toner for improved skin clarity and texture.',
-                'seo_meta_title_ar' => 'تونر حمض الجليكوليك 7% من ذا اورديناري',
-                'meta_description_en' => 'Improve skin clarity and smooth texture with The Ordinary Glycolic Acid 7% Toning Solution.',
-                'meta_description_ar' => 'حسن نقاء بشرتك ووحد لونها مع تونر حمض الجليكوليك 7% من ذا أورديناري.',
-                'primary_keyword_en' => 'Ordinary Glycolic Acid',
-                'primary_keyword_ar' => 'تونر جليكوليك اسيد اورديناري',
-                'secondary_keywords_en' => 'exfoliating toner, chemical exfoliant',
-                'secondary_keywords_ar' => 'تونر مقشر، مقشر كيميائي للبشرة',
-                'final_url_slug' => 'the-ordinary-glycolic-acid-7-toning-solution',
-                'image_alt_en' => 'The Ordinary Glycolic Acid bottle and nozzle',
-                'image_alt_ar' => 'عبوة تونر حمض الجليكوليك من ذا أورديناري',
-                'og_title_ar' => 'تونر حمض الجليكوليك للتقشير اللطيف والنعومة',
-                'og_description_en' => 'Reveal radiant skin with The Ordinary\'s Glycolic Acid toner.',
-                'og_description_ar' => 'كشفي عن بشرة مشرقة مع تونر حمض الجليكوليك من ذا أورديناري.',
-                'pdp_headline_en' => 'Gently Exfoliate for Radiant Skin',
-                'above_fold_hook_en' => 'Radiant skin tone starts here',
-                'keywords' => 'ordinary, glycolic, acid, toner, exfoliating, radiance',
-            ],
-            // 7. Bioderma Sensibio H2O Micellar Water
-            [
-                'sku' => 'BIODERMA-SENSIBIO-007',
-                'name_en' => 'Bioderma Sensibio H2O Micellar Water',
-                'name_ar' => 'بيوديرما سينسيبيو ماء ميسيلار H2O',
-                'short_name_en' => 'Sensibio H2O Micellar',
-                'short_name_ar' => 'سينسيبيو ماء ميسيلار',
-                'description_en' => 'A dermatological micellar water that cleanses, removes makeup, and soothes sensitive skin without rinsing.',
-                'description_ar' => 'ماء ميسيلار طبي ينظف ويزيل المكياج ويهدئ البشرة الحساسة دون الحاجة لغسل الوجه.',
-                'category_id' => $catMicellar->id,
-                'sub_category_id' => $subMicellarMakeupRemover->id,
-                'brand_id' => $brandBioderma->id,
-                'price' => 16.50,
-                'stock' => 75,
-                'ingredients_en' => 'Aqua/Water, PEG-6 Caprylic/Capric Glycerides, Fructooligosaccharides, Mannitol, Xylitol.',
-                'ingredients_ar' => 'مياه، بي إي جي-6 كابريليك جليسريد، فركتوليغوساكاريد، مانيتول، زيليتول.',
-                'how_to_use_en' => 'Soak a cotton pad and gently cleanse face and eyes to remove makeup.',
-                'how_to_use_ar' => 'بللي قطعة قطن ونظفي الوجه والعينين بلطف لإزالة المكياج.',
-                'image' => 'bioderma_sensibio.jpg',
-                'status' => 'active',
-                'texture_en' => 'Water liquid texture',
-                'texture_ar' => 'قوام مائي سائل خفيف',
-                'why_kcode_en' => 'Perfectly compatible with the skin, respecting its natural barrier and soothing sensitivity',
-                'why_kcode_ar' => 'يتوافق تماماً مع البشرة، ويحترم حاجزها الطبيعي ويهدئ التهيج والحساسية',
-                'usage_frequency_ar' => 'يومياً صباحاً ومساءً لإزالة الشوائب والمكياج',
-                'active_strength_level' => 'Low',
-                'safety_notes_en' => 'No rinsing required. Suitable for sensitive skin.',
-                'safety_notes_ar' => 'لا يحتاج للشطف بالماء. مناسب جداً للبشرة الحساسة.',
-                'en_key_benefits' => 'Cleanses effectively, removes waterproof makeup, soothes skin redness',
-                'ar_key_benefits' => 'ينظف بفعالية، يزيل المكياج المقاوم للماء، يهدئ احمرار البشرة',
-                'en_product_title_seo' => 'Bioderma Sensibio H2O Micellar Water - Sensitive Skin Cleanser',
-                'ar_product_title_seo' => 'بيوديرما سينسيبيو ماء ميسيلار H2O للبشرة الحساسة',
-                'en_short_hook' => 'The original micellar water that cleanses and protects sensitive skin.',
-                'seo_meta_title_ar' => 'مزيل مكياج بيوديرما سينسيبيو ماء ميسيلار الوردي',
-                'meta_description_en' => 'Buy Bioderma Sensibio H2O Micellar Water. Gently removes makeup and dirt from sensitive face.',
-                'meta_description_ar' => 'اشتري ماء ميسيلار بيوديرما سينسيبيو لإزالة المكياج والأوساخ بلطف للبشرة الحساسة.',
-                'primary_keyword_en' => 'Bioderma Micellar Water',
-                'primary_keyword_ar' => 'ماء ميسيلار بيوديرما',
-                'secondary_keywords_en' => 'makeup remover, sensitive skin cleanser',
-                'secondary_keywords_ar' => 'مزيل مكياج للبشرة الحساسة، بيوديرما الوردي',
-                'final_url_slug' => 'bioderma-sensibio-h2o-micellar-water',
-                'image_alt_en' => 'Bioderma Sensibio H2O pink cap bottle',
-                'image_alt_ar' => 'عبوة ماء ميسيلار بيوديرما ذات الغطاء الوردي',
-                'og_title_ar' => 'مزيل مكياج سينسيبيو الطبي اللطيف من بيوديرما',
-                'og_description_en' => 'Dermatological micellar water that cleanses and respects skin biology.',
-                'og_description_ar' => 'ماء ميسيلار طبي ينظف ويحترم التوازن البيولوجي للبشرة.',
-                'pdp_headline_en' => 'Cleanse and Calm Sensitive Skin',
-                'above_fold_hook_en' => 'Respects skin balance, removes makeup',
-                'keywords' => 'bioderma, sensibio, micellar, makeup remover, sensitive skin',
-            ],
-            // 8. Eucerin Spotless Brightening Booster Serum
-            [
-                'sku' => 'EUCERIN-SPOTLESS-008',
-                'name_en' => 'Eucerin Spotless Brightening Booster Serum',
-                'name_ar' => 'يوسيرين سيروم بوستر لتفتيح البشرة',
-                'short_name_en' => 'Spotless Brightening Serum',
-                'short_name_ar' => 'سيروم يوسيرين للتفتيح',
-                'description_en' => 'A dual-action serum with Thiamidol and Hyaluronic Acid to effectively reduce dark spots and prevent their reappearance.',
-                'description_ar' => 'سيروم مزدوج المفعول يحتوي على الثياميدول وحمض الهيالورونيك لتقليل البقع الداكنة بفعالية ومنع ظهورها مجدداً.',
-                'category_id' => $catSerum->id,
-                'sub_category_id' => $subBrighteningSerum->id,
-                'brand_id' => $brandEucerin->id,
-                'price' => 45.00,
-                'stock' => 25,
-                'ingredients_en' => 'Aqua, Alcohol Denat., Butylene Glycol, Glycerin, Thiamidol, Sodium Hyaluronate.',
-                'ingredients_ar' => 'مياه، كحول دينات، بوتيلين جليكول، جليسرين، ثياميدول، هيالورونات الصوديوم.',
-                'how_to_use_en' => 'Apply once a day (morning or evening) to a well-cleansed face.',
-                'how_to_use_ar' => 'يوضع مرة واحدة في اليوم (صباحاً أو مساءً) على وجه نظيف تماماً.',
-                'image' => 'eucerin_spotless.jpg',
-                'status' => 'active',
-                'texture_en' => 'Emulsion-like serum',
-                'texture_ar' => 'سيروم مستحلب خفيف سريع الامتصاص',
-                'why_kcode_en' => 'Contains patented Thiamidol, clinically proven to reduce hyperpigmentation',
-                'why_kcode_ar' => 'يحتوي على الثياميدول الحاصل على براءة اختراع والمثبت سريرياً في تقليل التصبغات',
-                'usage_frequency_ar' => 'مرة واحدة يومياً صباحاً أو مساءً',
-                'active_strength_level' => 'High',
-                'safety_notes_en' => 'Use products with Thiamidol a maximum of 4 times per day on face.',
-                'safety_notes_ar' => 'استخدم المنتجات التي تحتوي على الثياميدول بحد أقصى 4 مرات في اليوم للوجه.',
-                'en_key_benefits' => 'Reduces dark spots, prevents pigment recurrence, deeply hydrates skin',
-                'ar_key_benefits' => 'يقلل البقع الداكنة، يمنع عودة التصبغات، يرطب البشرة بعمق',
-                'en_product_title_seo' => 'Eucerin Spotless Brightening Booster Serum - Anti-Pigmentation',
-                'ar_product_title_seo' => 'يوسيرين سيروم التفتيح المزدوج لعلاج التصبغات',
-                'en_short_hook' => 'Reduce dark spots effectively with patented Thiamidol.',
-                'seo_meta_title_ar' => 'سيروم يوسيرين للتصبغات وتفتيح البشرة المزدوج',
-                'meta_description_en' => 'Eucerin Booster Serum effectively reduces dark spots and prevents their re-appearance with Thiamidol.',
-                'meta_description_ar' => 'سيروم يوسيرين بوستر يقلل البقع الداكنة بفعالية ويمنع تكرار ظهورها بالثياميدول.',
-                'primary_keyword_en' => 'Eucerin Spotless Brightening',
-                'primary_keyword_ar' => 'سيروم يوسيرين للتفتيح',
-                'secondary_keywords_en' => 'pigmentation serum, thiamidol booster',
-                'secondary_keywords_ar' => 'سيروم التصبغات، علاج البقع الداكنة',
-                'final_url_slug' => 'eucerin-spotless-brightening-booster-serum',
-                'image_alt_en' => 'Eucerin Spotless Brightening double chamber bottle',
-                'image_alt_ar' => 'عبوة سيروم تفتيح البشرة من يوسيرين',
-                'og_title_ar' => 'سيروم يوسيرين المزدوج الفعالية لمحاربة التصبغات',
-                'og_description_en' => 'Reduce pigmentation and get glowing skin with Eucerin.',
-                'og_description_ar' => 'قلل التصبغات واحصل على بشرة مشرقة مع سيروم يوسيرين.',
-                'pdp_headline_en' => 'Reveal Even, Radiant Skin',
-                'above_fold_hook_en' => 'Target dark spots at the root',
-                'keywords' => 'eucerin, spotless, brightening, serum, thiamidol, dark spots',
-            ],
-            // 9. Cetaphil Gentle Skin Cleanser
-            [
-                'sku' => 'CETAPHIL-GENTLE-009',
-                'name_en' => 'Cetaphil Gentle Skin Cleanser',
-                'name_ar' => 'سيتافيل غسول البشرة اللطيف',
-                'short_name_en' => 'Cetaphil Gentle Cleanser',
-                'short_name_ar' => 'غسول سيتافيل اللطيف',
-                'description_en' => 'A dermatologist-recommended, soap-free cleanser that actively hydrates as it cleanses sensitive and dry skin.',
-                'description_ar' => 'غسول موصى به من قبل أطباء الجلد، خالي من الصابون، يرطب البشرة بنشاط أثناء تنظيف البشرة الجافة والحساسة.',
-                'category_id' => $catCleanser->id,
-                'sub_category_id' => $subHydratingCleanse->id,
-                'brand_id' => $brandCetaphil->id,
-                'price' => 14.50,
-                'stock' => 90,
-                'ingredients_en' => 'Aqua, Glycerin, Cetearyl Alcohol, Panthenol, Niacinamide.',
-                'ingredients_ar' => 'مياه، جليسرين، كحول السيتياريل، بانثينول، نياسيناميد.',
-                'how_to_use_en' => 'Apply to skin, massage gently, and rinse with water, or wipe off with a cotton pad.',
-                'how_to_use_ar' => 'يوضع على البشرة، ويدلك بلطف، ثم يشطف بالماء، أو يمسح بقطعة قطن.',
-                'image' => 'cetaphil_gentle.jpg',
-                'status' => 'active',
-                'texture_en' => 'Creamy lotion liquid',
-                'texture_ar' => 'قوام لوشن كريمي لطيف غير رغوي',
-                'why_kcode_en' => 'Hypoallergenic and defends against 5 signs of skin sensitivity',
-                'why_kcode_ar' => 'مضاد للحساسية ويحمي من 5 علامات لحساسية البشرة',
-                'usage_frequency_ar' => 'يومياً صباحاً ومساءً',
-                'active_strength_level' => 'Low',
-                'safety_notes_en' => 'Soap-free and fragrance-free. Suitable for babies.',
-                'safety_notes_ar' => 'خالي من الصابون والعطور. مناسب حتى لبشرة الأطفال.',
-                'en_key_benefits' => 'Cleanses without stripping moisture, soap-free, respects skin barrier',
-                'ar_key_benefits' => 'ينظف دون تجريد البشرة من الترطيب، خالي من الصابون، يحترم حاجز البشرة',
-                'en_product_title_seo' => 'Cetaphil Gentle Skin Cleanser - Dry & Sensitive Skin',
-                'ar_product_title_seo' => 'غسول سيتافيل اللطيف للبشرة الحساسة والجافة',
-                'en_short_hook' => 'Hydrating face wash that actively defends sensitive skin.',
-                'seo_meta_title_ar' => 'سيتافيل غسول الوجه والجسم للبشرة الجافة والحساسة',
-                'meta_description_en' => 'Dermatologist recommended Cetaphil Gentle Skin Cleanser for daily cleansing of sensitive skin.',
-                'meta_description_ar' => 'سيتافيل غسول لطيف موصى به طبيًا لتنظيف البشرة الحساسة والجافة يومياً.',
-                'primary_keyword_en' => 'Cetaphil Gentle Cleanser',
-                'primary_keyword_ar' => 'غسول سيتافيل للوجه',
-                'secondary_keywords_en' => 'soap free cleanser, sensitive skin wash',
-                'secondary_keywords_ar' => 'غسول خالي من الصابون، غسول طبي سيتافيل',
-                'final_url_slug' => 'cetaphil-gentle-skin-cleanser',
-                'image_alt_en' => 'Cetaphil Gentle Skin Cleanser blue pump bottle',
-                'image_alt_ar' => 'عبوة غسول سيتافيل الأزرق اللطيف',
-                'og_title_ar' => 'الغسول الطبي اللطيف من سيتافيل للبشرة الجافة',
-                'og_description_en' => 'Cleanse and hydrate sensitive skin with Cetaphil.',
-                'og_description_ar' => 'نظف ورطب البشرة الحساسة مع غسول سيتافيل اليومي.',
-                'pdp_headline_en' => 'Daily Care for Sensitive Skin',
-                'above_fold_hook_en' => 'Defends against skin sensitivity',
-                'keywords' => 'cetaphil, cleanser, gentle, dry skin, sensitive',
-            ],
-            // 10. COSRX Advanced Snail 96 Mucin Power Essence
-            [
-                'sku' => 'COSRX-SNAIL-010',
-                'name_en' => 'COSRX Advanced Snail 96 Mucin Power Essence',
-                'name_ar' => 'كوزريكس إيسنس هلام الحلزون المتقدم 96',
-                'short_name_en' => 'Snail Mucin 96 Essence',
-                'short_name_ar' => 'إيسنس هلام الحلزون 96',
-                'description_en' => 'A light-weight essence which absorbs into the skin fast, giving skin a natural glow from the inside.',
-                'description_ar' => 'إيسنس خفيف الوزن يمتص بسرعة في البشرة، مما يمنحها توهجاً طبيعياً رائعاً من الداخل.',
-                'category_id' => $catEssence->id,
-                'sub_category_id' => $subSnailEssence->id,
-                'brand_id' => $brandCosrx->id,
-                'price' => 21.00,
-                'stock' => 50,
-                'ingredients_en' => 'Snail Secretion Filtrate, Betaine, Butylene Glycol, Sodium Hyaluronate.',
-                'ingredients_ar' => 'مرشح إفراز الحلزون 96%، بيتاين، بوتيلين جليكول، هيالورونات الصوديوم.',
-                'how_to_use_en' => 'After cleansing and toning, apply a small amount on your entire face.',
-                'how_to_use_ar' => 'بعد تنظيف البشرة وتونر الوجه، ضعي كمية صغيرة على كامل الوجه ودلكيها بلطف.',
-                'image' => 'cosrx_snail.jpg',
-                'status' => 'active',
-                'texture_en' => 'Slimy gel-liquid essence',
-                'texture_ar' => 'قوام لزج هلامي خفيف سريع الامتصاص',
-                'why_kcode_en' => 'Contains 96.3% snail secretion filtrate to deeply soothe and repair skin barrier',
-                'why_kcode_ar' => 'يحتوي على 96.3% من هلام الحلزون النقي لتهدئة البشرة وإصلاح الحاجز الواقي',
-                'usage_frequency_ar' => 'يومياً صباحاً ومساءً قبل المرطب',
-                'active_strength_level' => 'Medium',
-                'safety_notes_en' => 'Perform patch test before use. Avoid contact with eyes.',
-                'safety_notes_ar' => 'قم بإجراء اختبار رقعة قبل الاستخدام. تجنب ملامسة العينين.',
-                'en_key_benefits' => 'Fades dark spots, improves skin elasticity, intensely hydrates',
-                'ar_key_benefits' => 'يخفف البقع الداكنة، يحسن مرونة البشرة، يرطب بعمق',
-                'en_product_title_seo' => 'COSRX Advanced Snail 96 Mucin Power Essence - Glow Serum',
-                'ar_product_title_seo' => 'كوزريكس إيسنس هلام الحلزون المتقدم 96 للتوهج',
-                'en_short_hook' => 'Get a natural, healthy glow with 96% snail mucin.',
-                'seo_meta_title_ar' => 'سيروم هلام الحلزون كوزريكس لترطيب وإصلاح البشرة',
-                'meta_description_en' => 'Shop COSRX Advanced Snail 96 Mucin Power Essence. Highly concentrated essence protects skin from moisture loss.',
-                'meta_description_ar' => 'تسوق إيسنس هلام الحلزون كوزريكس 96 المركز لحماية البشرة وترطيبها وتفتيحها.',
-                'primary_keyword_en' => 'COSRX Snail Mucin',
-                'primary_keyword_ar' => 'سيروم الحلزون كوزريكس',
-                'secondary_keywords_en' => 'snail mucin essence, korean skincare glow',
-                'secondary_keywords_ar' => 'سيروم كوري للوجه، كوزريكس إيسنس الحلزون',
-                'final_url_slug' => 'cosrx-advanced-snail-96-mucin-essence',
-                'image_alt_en' => 'COSRX Snail Mucin 96 bottle',
-                'image_alt_ar' => 'عبوة سيروم إيسنس الحلزون كوزريكس الكوري',
-                'og_title_ar' => 'إيسنس هلام الحلزون الكوري من كوزريكس للبشرة المشرقة',
-                'og_description_en' => 'Hydrate, repair, and soothe your skin with advanced snail mucin.',
-                'og_description_ar' => 'رطب وأصلح بشرتك المتعبة مع هلام الحلزون المتقدم بنسبة 96%.',
-                'pdp_headline_en' => 'Natural Skin Repair and Glow',
-                'above_fold_hook_en' => 'Intense repair with 96% Mucin',
-                'keywords' => 'cosrx, snail, mucin, essence, korean, glow',
-            ],
-            // 11. Vichy Mineral 89 Booster
-            [
-                'sku' => 'VICHY-MINERAL89-011',
-                'name_en' => 'Vichy Mineral 89 Hyaluronic Acid Booster',
-                'name_ar' => 'فيشي مينيرال 89 معزز حمض الهيالورونيك',
-                'short_name_en' => 'Mineral 89 Booster',
-                'short_name_ar' => 'فيشي مينيرال 89',
-                'description_en' => 'A daily booster with 89% Vichy Volcanic Water and Hyaluronic Acid to strengthen skin barrier and plump skin.',
-                'description_ar' => 'معزز يومي يحتوي على 89% من مياه فيشي البركانية وحمض الهيالورونيك لتقوية حاجز البشرة وامتلاء الوجه.',
-                'category_id' => $catSerum->id,
-                'sub_category_id' => $subMineralBooster->id,
-                'brand_id' => $brandVichy->id,
-                'price' => 29.00,
-                'stock' => 40,
-                'ingredients_en' => 'Vichy Volcanic Water, Sodium Hyaluronate, Phenoxyethanol, Caprylyl Glycol.',
-                'ingredients_ar' => 'مياه فيشي البركانية 89%، هيالورونات الصوديوم، فينوكسي إيثانول.',
-                'how_to_use_en' => 'Apply 2 drops on clean skin morning and evening as the first step of your routine.',
-                'how_to_use_ar' => 'ضعي قطرتين على بشرة نظيفة صباحاً ومساءً كخطوة أولى في روتين العناية.',
-                'image' => 'vichy_mineral89.jpg',
-                'status' => 'active',
-                'texture_en' => 'Ultra-lightweight watery gel',
-                'texture_ar' => 'جل مائي خفيف جداً يمتص بلحظات',
-                'why_kcode_en' => 'Formulated with 89% Mineralizing Water to protect skin against pollution and stress',
-                'why_kcode_ar' => 'يحتوي على 89% من مياه فيشي الغنية بالمعادن لحماية البشرة من التلوث والإجهاد',
-                'usage_frequency_ar' => 'يومياً صباحاً ومساءً كأول خطوة ترطيب',
-                'active_strength_level' => 'Low',
-                'safety_notes_en' => 'Hypoallergenic, fragrance-free, alcohol-free.',
-                'safety_notes_ar' => 'مضاد للحساسية، خالي من العطور، خالي من الكحول.',
-                'en_key_benefits' => 'Strengthens skin barrier, plumps skin, provides 24h hydration',
-                'ar_key_benefits' => 'يقوي حاجز البشرة، يعطي امتلاءً ونضارة، يرطب لـ 24 ساعة',
-                'en_product_title_seo' => 'Vichy Mineral 89 Daily Hyaluronic Acid Plumping Booster',
-                'ar_product_title_seo' => 'فيشي مينيرال 89 سيروم الهيالورونيك لنضارة الوجه',
-                'en_short_hook' => 'Daily dose of strength and hydration for your skin.',
-                'seo_meta_title_ar' => 'سيروم فيشي مينيرال 89 لامتلاء ونضارة البشرة',
-                'meta_description_en' => 'Vichy Mineral 89 is a daily hyaluronic acid booster that hydrates and fortifies the skin barrier.',
-                'meta_description_ar' => 'فيشي مينيرال 89 معزز حمض الهيالورونيك لتقوية حاجز البشرة وحمايتها يومياً.',
-                'primary_keyword_en' => 'Vichy Mineral 89',
-                'primary_keyword_ar' => 'سيروم فيشي 89',
-                'secondary_keywords_en' => 'hyaluronic acid booster, hydrating skin barrier',
-                'secondary_keywords_ar' => 'سيروم هيالورونيك اسيد فيشي، معزز نضارة البشرة',
-                'final_url_slug' => 'vichy-mineral-89-hyaluronic-acid-booster',
-                'image_alt_en' => 'Vichy Mineral 89 glass bottle',
-                'image_alt_ar' => 'زجاجة سيروم فيشي مينيرال 89 الفاخرة',
-                'og_title_ar' => 'سيروم النضارة اليومي فيشي مينيرال 89',
-                'og_description_en' => 'Plump and fortify your skin with Vichy\'s volcanic mineral water.',
-                'og_description_ar' => 'امنح بشرتك النضارة والقوة بمياه فيشي البركانية الغنية بـ 15 معدناً.',
-                'pdp_headline_en' => 'Stronger Skin Barrier, Healthier Glow',
-                'above_fold_hook_en' => 'Plumps, hydrates, and protects',
-                'keywords' => 'vichy, mineral 89, booster, hyaluronic, volcanic water',
-            ],
-            // 12. Laneige Lip Sleeping Mask
-            [
-                'sku' => 'LANEIGE-LIPMASK-012',
-                'name_en' => 'Laneige Lip Sleeping Mask - Berry',
-                'name_ar' => 'لانيج ماسك النوم للشفاه - التوت',
-                'short_name_en' => 'Laneige Lip Mask',
-                'short_name_ar' => 'ماسك لانيج للشفاه',
-                'description_en' => 'A softening leave-on lip mask that provides intense moisture and antioxidants while you sleep for soft lips.',
-                'description_ar' => 'ماسك منعم ومغذي للشفاه يوضع طوال الليل، يوفر ترطيباً مكثفاً ومضادات أكسدة أثناء النوم لشفتين ناعمتين.',
-                'category_id' => $catLipBalm->id,
-                'sub_category_id' => $subNightLipMask->id,
-                'brand_id' => $brandLaneige->id,
-                'price' => 22.00,
-                'stock' => 120,
-                'ingredients_en' => 'Diisostearyl Malate, Hydrogenated Polyisobutene, Phytosteryl/Isostearyl/Cetyl.',
-                'ingredients_ar' => 'مالات ثنائي إيزوستيريل، بولي إيزوبوتين مهدرج، شمع الجوجوبا.',
-                'how_to_use_en' => 'Apply a generous layer on the lips in the evening before sleeping. Wipe off next morning.',
-                'how_to_use_ar' => 'ضعي طبقة وفيرة على الشفتين في المساء قبل النوم. امسحيها بلطف في الصباح التالي.',
-                'image' => 'laneige_lipmask.jpg',
-                'status' => 'active',
-                'texture_en' => 'Rich balmy balm',
-                'texture_ar' => 'قوام مرهمي غني ناعم جداً ذو نكهة حلوة',
-                'why_kcode_en' => 'Features Moisture Wrap technology and Berry Mix Complex rich in Vitamin C',
-                'why_kcode_ar' => 'يتميز بتقنية Moisture Wrap ومركب Berry Mix الغني بفيتامين سي لمنع تشقق الشفاه',
-                'usage_frequency_ar' => 'يومياً مساءً قبل النوم مباشرة',
-                'active_strength_level' => 'Low',
-                'safety_notes_en' => 'For lips only. Do not apply on irritated skin or wounds.',
-                'safety_notes_ar' => 'للشفاه فقط. لا يوضع على جلد متهيج أو جروح.',
-                'en_key_benefits' => 'Dissolves dead skin cells, provides deep hydration, softens lips overnight',
-                'ar_key_benefits' => 'يزيل خلايا الجلد الميتة، يوفر ترطيباً عميقاً، ينعم الشفاه طوال الليل',
-                'en_product_title_seo' => 'Laneige Lip Sleeping Mask Berry - Overnight Hydration',
-                'ar_product_title_seo' => 'لانيج ماسك مرطب الشفاة الليلي نكهة التوت',
-                'en_short_hook' => 'Wake up to baby-soft lips with our favorite overnight mask.',
-                'seo_meta_title_ar' => 'ماسك لانيج الكوري لترطيب وتفتيح الشفايف',
-                'meta_description_en' => 'Shop Laneige Lip Sleeping Mask Berry. Gently melts away dead skin cells for smooth lips.',
-                'meta_description_ar' => 'تسوقي ماسك النوم للشفايف لانيج بالتوت لإزالة التشققات والخلايا الميتة طوال الليل.',
-                'primary_keyword_en' => 'Laneige Lip Mask',
-                'primary_keyword_ar' => 'ماسك لانيج للشفايف',
-                'secondary_keywords_en' => 'lip sleeping mask berry, moisturizing lip balm',
-                'secondary_keywords_ar' => 'مرطب شفايف لانيج الكوري، علاج تشقق الشفايف',
-                'final_url_slug' => 'laneige-lip-sleeping-mask-berry',
-                'image_alt_en' => 'Laneige Lip Sleeping Mask pink jar',
-                'image_alt_ar' => 'وعاء لانيج الوردي لماسك الشفايف',
-                'og_title_ar' => 'ماسك لانيج للتوت لشفاه فائقة النعومة والنضارة',
-                'og_description_en' => 'Nourish your lips overnight with Laneige\'s proprietary moisture formula.',
-                'og_description_ar' => 'غذي شفتيك طوال الليل بتركيبة لانيج المرطبة الفعالة والمحبوبة.',
-                'pdp_headline_en' => 'Baby-Soft Lips Overnight',
-                'above_fold_hook_en' => 'Intense moisture while you sleep',
-                'keywords' => 'laneige, lip mask, sleeping mask, berry, moisturizing',
-            ],
+        $stepMapping = [
+            'Cleansing Balm' => ['ar' => 'غسول بلسم زيتي', 'en' => 'Cleansing Balm', 'order' => 1],
+            'Oil Cleanser' => ['ar' => 'غسول زيتي', 'en' => 'Oil Cleanser', 'order' => 2],
+            'Cleanser' => ['ar' => 'غسول', 'en' => 'Cleanser', 'order' => 3],
+            'Toner Pads' => ['ar' => 'تونر بادز', 'en' => 'Toner Pads', 'order' => 4],
+            'Toner' => ['ar' => 'تونر', 'en' => 'Toner', 'order' => 5],
+            'Mist' => ['ar' => 'بخاخ مرطب', 'en' => 'Mist', 'order' => 6],
+            'Essence' => ['ar' => 'إيسنس', 'en' => 'Essence', 'order' => 7],
+            'Ampoule' => ['ar' => 'أمبول', 'en' => 'Ampoule', 'order' => 8],
+            'Serum' => ['ar' => 'سيروم', 'en' => 'Serum', 'order' => 9],
+            'Booster Serum' => ['ar' => 'سيروم معزز', 'en' => 'Booster Serum', 'order' => 10],
+            'Treatment' => ['ar' => 'علاج للبشرة', 'en' => 'Treatment', 'order' => 11],
+            'Eye Serum' => ['ar' => 'سيروم للعين', 'en' => 'Eye Serum', 'order' => 12],
+            'Eye Cream' => ['ar' => 'كريم للعين', 'en' => 'Eye Cream', 'order' => 13],
+            'Eye Patch' => ['ar' => 'لصقات العين', 'en' => 'Eye Patch', 'order' => 14],
+            'Moisturizer' => ['ar' => 'مرطب', 'en' => 'Moisturizer', 'order' => 15],
+            'Balm' => ['ar' => 'بلسم مرطب', 'en' => 'Balm', 'order' => 16],
+            'Spot Treatment' => ['ar' => 'علاج موضعي', 'en' => 'Spot Treatment', 'order' => 17],
+            'Mask' => ['ar' => 'ماسك', 'en' => 'Mask', 'order' => 18],
+            'Sunscreen' => ['ar' => 'واقي شمس', 'en' => 'Sunscreen', 'order' => 19],
+            'Sunscreen Serum' => ['ar' => 'سيروم واقي شمس', 'en' => 'Sunscreen Serum', 'order' => 20],
+            'Sunscreen Stick' => ['ar' => 'واقي شمس ستيك', 'en' => 'Sunscreen Stick', 'order' => 21],
+            'Routine Set' => ['ar' => 'مجموعة روتين', 'en' => 'Routine Set', 'order' => 22],
+            'Body Treatment Spray' => ['ar' => 'بخاخ علاج الجسم', 'en' => 'Body Treatment Spray', 'order' => 23],
         ];
 
-        foreach ($products as $product) {
-            Product::updateOrCreate(
-                ['sku' => $product['sku']],
-                $product
-            );
+        // 2. Open CSV file
+        $filePath = base_path('exicel/KCODE_FINAL_10_10_POLISHED - Product_Master.csv');
+        if (!file_exists($filePath)) {
+            $this->command->error("CSV file not found at: {$filePath}");
+            return;
         }
+
+        $file = fopen($filePath, 'r');
+        $headers = fgetcsv($file);
+
+        // Standard translations for Category
+        $categoryTranslations = [
+            'Cleanser' => 'غسول',
+            'Toner' => 'تونر',
+            'Serum' => 'سيروم',
+            'Moisturizer' => 'مرطب',
+            'Sunscreen' => 'واقي شمس',
+            'Micellar Water' => 'ماء ميسيلار',
+            'Essence' => 'إيسنس للبشرة',
+            'Lip Balm' => 'مرطب شفاه',
+            'Eye Care' => 'كريم للعين',
+            'Mist' => 'رذاذ للبشرة',
+            'Mask' => 'ماسك للبشرة',
+            'Set' => 'مجموعة العناية',
+            'Treatment' => 'علاج للبشرة',
+            'Body Care' => 'العناية بالجسم',
+        ];
+
+        // Concern lookup mapping to Concern DB model
+        $concernNameMapping = [
+            'Pores' => 'Enlarged Pores',
+            'Oil Control' => 'Acne',
+            'Smooth Texture' => 'Dullness',
+            'Dark Spots' => 'Pigmentation',
+            'Glow' => 'Dullness',
+            'Brightening' => 'Pigmentation',
+            'UV Protection' => 'Dryness',
+            'Daily Protection' => 'Dryness',
+            'Hydration' => 'Dryness',
+            'Cleansing' => 'Acne',
+            'Balance' => 'Sensitivity',
+            'Fresh Skin' => 'Dullness',
+            'Barrier Support' => 'Dryness',
+            'Plump Skin' => 'Fine Lines',
+            'Fine Lines' => 'Fine Lines',
+            'Firming' => 'Fine Lines',
+            'Anti-Aging' => 'Fine Lines',
+            'Healthy Skin' => 'Dullness',
+            'Redness' => 'Sensitivity',
+            'Sensitivity' => 'Sensitivity',
+            'Calm Skin' => 'Sensitivity',
+            'Acne' => 'Acne',
+            'Inflammation' => 'Acne',
+            'Clear Skin' => 'Acne',
+            'Elasticity' => 'Fine Lines',
+        ];
+
+        $rowCount = 0;
+        while (($row = fgetcsv($file)) !== false) {
+            $data = array_combine($headers, $row);
+            $productId = trim($data['product_id']);
+
+
+            $primaryBadgeEn = '';
+            $primaryBadgeAr = '';
+            $resultPromiseEn = '';
+            $resultPromiseAr = '';
+            $objectionAnswerEn = '';
+            $objectionAnswerAr = '';
+            $routineReasonEn = '';
+            $routineReasonAr = '';
+            $bundleCtaEn = '';
+            $bundleCtaAr = '';
+            $addToCartMicrocopyEn = '';
+            $addToCartMicrocopyAr = '';
+
+            $defaultPriorityScore = 0;
+            $sameStepChoiceGroup = '';
+            $amDefault = false;
+            $pmDefault = false;
+            $selectionRuleAr = '';
+            $maxDefaultProductsPerStep = 1;
+            $selectionWeightFormulaNote = '';
+            $selectionPriorityTieBreaker = '';
+            $exclusionRule = '';
+            $conflictRuleStrictness = 'Mild';
+            $pairingRule = '';
+            $alternativeButtonRule = '';
+            $addOnDisplayRule = '';
+            $routineBuilderNote = '';
+            $fallbackProductRule = '';
+            $routineRole = '';
+
+            $avoidPairingSameRoutine = '';
+            $developerOutputRule = '';
+            $showAlternativesButton = true;
+            $removeIfCustomerHasIt = false;
+            $sourceUrl = '';
+            $dataConfidence = 'High';
+            $needsManualCheck = false;
+
+            $productStep = '';
+            $layerOrder = 0;
+            $routineTime = '';
+            $isCoreRoutine = false;
+            $isAddOnRoutine = false;
+
+            // Correct shifts for KCODE-P121 and KCODE-P122
+            if ($productId === 'KCODE-P121') {
+                $brandEn = 'Aestura';
+                $brandAr = 'أستورا';
+                $nameEn = 'Aestura Atobarrier 365 Cream (80ml)';
+                $nameAr = 'كريم إصلاح حاجز البشرة Aestura Atobarrier 365 (80مل)';
+                $shortNameAr = 'كريم أستورا للحاجز';
+                $shortNameEn = 'Aestura Barrier Cream';
+                $categoryEn = 'Moisturizer';
+                $subCategoryEn = 'Barrier Cream';
+                $textureAr = 'كريمي مغذي';
+                $textureEn = 'Cream';
+                $whyKcodeAr = 'تم اختياره لأنه يعالج ضعف الحاجز ويرطب البشرة الجافة بعمق';
+                $whyKcodeEn = 'Selected for restoring skin barrier and deep hydration';
+                $howToUseAr = 'يوضع بالتساوي بعد السيروم كخطوة الترطيب';
+                $howToUseEn = 'Apply after serum as the moisturizing step';
+                $usageFrequencyAr = 'يومياً';
+                $activeStrength = 'Low';
+                $safetyNotesAr = 'لا توجد تعارضات';
+                $safetyNotesEn = 'No conflicts';
+                $arKeyBenefits = 'يرطب ويقوي الحاجز';
+                $enKeyBenefits = 'Hydrates and repairs barrier';
+                $arProductTitleSeo = 'كريم إستورا لتجديد حاجز البشرة';
+                $enProductTitleSeo = 'Aestura Atobarrier 365 Cream';
+                $enShortHook = 'Restores barrier fast';
+                $seoMetaTitleAr = 'كريم إستورا أتوبرير 365 لإصلاح حاجز البشرة';
+                $metaDescriptionEn = 'Aestura Atobarrier 365 Cream repairs damaged skin barrier and provides long-lasting hydration.';
+                $metaDescriptionAr = 'كريم أستورا أتوبرير 365 لإصلاح حاجز البشرة المتضرر وترطيب البشرة الجافة.';
+                $primaryKeywordEn = 'aestura barrier cream';
+                $primaryKeywordAr = 'كريم استورا للحاجز';
+                $secondaryKeywordsEn = 'aestura cream, barrier repair cream';
+                $secondaryKeywordsAr = 'كريم سيراميد كوري، كريم استورا';
+                $finalUrlSlug = 'aestura-atobarrier-cream';
+                $imageAltEn = 'Aestura Atobarrier 365 Cream';
+                $imageAltAr = 'كريم إستورا أتوبرير 365';
+                $ogTitleAr = 'كريم إستورا أتوبرير 365 لإصلاح حاجز البشرة';
+                $ogDescriptionEn = 'Aestura Atobarrier 365 Cream repairs damaged skin barrier.';
+                $ogDescriptionAr = 'كريم إستورا أتوبرير 365 لإصلاح حاجز البشرة وترطيبه.';
+                $pdpHeadlineEn = 'Restores Skin Barrier and Hydration';
+                $aboveFoldHookEn = 'Moisture and repair cream';
+                $keywords = 'aestura, atobarrier, barrier cream, ceramides';
+                $skinTypeFit = 'Dry, Sensitive';
+                $concernsList = ['Barrier Support', 'Hydration', 'Calm Skin'];
+            } elseif ($productId === 'KCODE-P122') {
+                $brandEn = 'Illiyoon';
+                $brandAr = 'إليون';
+                $nameEn = 'Illiyoon Ceramide Ato Concentrate Cream (200ml)';
+                $nameAr = 'كريم سيراميد Illiyoon لإصلاح الحاجز (200مل)';
+                $shortNameAr = 'كريم إليون سيراميد';
+                $shortNameEn = 'Illiyoon Ceramide Cream';
+                $categoryEn = 'Moisturizer';
+                $subCategoryEn = 'Barrier Cream';
+                $textureAr = 'كريمي غني';
+                $textureEn = 'Rich cream';
+                $whyKcodeAr = 'خيار اقتصادي ممتاز ذو فاعلية عالية لدعم حاجز البشرة';
+                $whyKcodeEn = 'Excellent affordable option for barrier support';
+                $howToUseAr = 'يوضع بعد السيروم كخطوة الترطيب';
+                $howToUseEn = 'Apply after serum as the moisturizing step';
+                $usageFrequencyAr = 'يومياً';
+                $activeStrength = 'Low';
+                $safetyNotesAr = 'لا توجد تعارضات';
+                $safetyNotesEn = 'No conflicts';
+                $arKeyBenefits = 'يرطب ويدعم الحاجز';
+                $enKeyBenefits = 'Hydrates and supports barrier';
+                $arProductTitleSeo = 'كريم إليون سيراميد لترطيب البشرة';
+                $enProductTitleSeo = 'Illiyoon Ceramide Ato Concentrate Cream';
+                $enShortHook = 'Rich cream';
+                $seoMetaTitleAr = 'كريم إليون سيراميد أتو لترطيب البشرة الجافة';
+                $metaDescriptionEn = 'Illiyoon Ceramide Ato Concentrate Cream offers deep hydration and skin barrier support.';
+                $metaDescriptionAr = 'كريم إليون سيراميد أتو بمفعول مركز لترطيب وتلطيف البشرة الجافة والحساسة.';
+                $primaryKeywordEn = 'illiyoon ceramide cream';
+                $primaryKeywordAr = 'كريم اليون سيراميد';
+                $secondaryKeywordsEn = 'ceramide cream, barrier cream';
+                $secondaryKeywordsAr = 'كريم مرطب كوري، كريم اليون';
+                $finalUrlSlug = 'illiyoon-ceramide-cream';
+                $imageAltEn = 'Illiyoon Ceramide Ato Concentrate Cream';
+                $imageAltAr = 'كريم إليون سيراميد أتو';
+                $ogTitleAr = 'كريم إليون سيراميد لترطيب البشرة ودعم حاجزها';
+                $ogDescriptionEn = 'Illiyoon Ceramide Ato Concentrate Cream offers deep hydration.';
+                $ogDescriptionAr = 'كريم إليون سيراميد لترطيب البشرة ودعم حاجزها الطبيعي.';
+                $pdpHeadlineEn = 'Deep Hydration and Barrier Support';
+                $aboveFoldHookEn = 'Affordable barrier cream';
+                $keywords = 'illiyoon, ceramide, barrier cream, dry skin';
+                $skinTypeFit = 'Dry, Sensitive';
+                $concernsList = ['Barrier Support', 'Hydration', 'Calm Skin'];
+            } else {
+                // Normal row
+                $brandEn = trim($data['brand_en']);
+                $brandAr = trim($data['brand_ar']);
+                $nameEn = trim($data['display_en_name']);
+                $nameAr = trim($data['display_ar_name']);
+                $shortNameAr = trim($data['short_ar_name']);
+                $shortNameEn = $nameEn; // Fallback
+                $categoryEn = trim($data['category']);
+                $subCategoryEn = trim($data['sub_category']);
+                
+                $textureAr = trim($data['texture_ar']);
+                $textureEn = trim($data['texture_en']);
+                $whyKcodeAr = trim($data['why_kcode_ar']);
+                $whyKcodeEn = trim($data['why_kcode_en']);
+                $howToUseAr = trim($data['how_to_use_ar']);
+                $howToUseEn = trim($data['how_to_use_en']);
+                $usageFrequencyAr = trim($data['usage_frequency_ar']);
+                
+                // Parse active strength
+                $activeStrengthRaw = trim($data['active_strength_level Low / Medium / High']);
+                if (stripos($activeStrengthRaw, 'Low') !== false) {
+                    $activeStrength = 'Low';
+                } elseif (stripos($activeStrengthRaw, 'Medium') !== false) {
+                    $activeStrength = 'Medium';
+                } elseif (stripos($activeStrengthRaw, 'High') !== false) {
+                    $activeStrength = 'High';
+                } else {
+                    $activeStrength = 'Low'; // Fallback default
+                }
+
+                $safetyNotesAr = trim($data['safety_notes_ar']);
+                $safetyNotesEn = trim($data['safety_notes_en']);
+                $arKeyBenefits = trim($data['ar_key_benefits']);
+                $enKeyBenefits = trim($data['en_key_benefits']);
+                
+                $arProductTitleSeo = trim($data['ar_product_title_seo']);
+                $enProductTitleSeo = trim($data['en_product_title_seo']);
+                $enShortHook = trim($data['en_short_hook']);
+                $seoMetaTitleAr = trim($data['seo_meta_title_ar']);
+                $metaDescriptionEn = trim($data['meta_description_en']);
+                $metaDescriptionAr = trim($data['meta_description_ar']);
+                $primaryKeywordEn = trim($data['primary_keyword_en']);
+                $primaryKeywordAr = trim($data['primary_keyword_ar']);
+                $secondaryKeywordsEn = trim($data['secondary_keywords_en']);
+                $secondaryKeywordsAr = trim($data['secondary_keywords_ar']);
+                $finalUrlSlug = trim($data['final_url_slug']);
+                $imageAltEn = trim($data['image_alt_en']);
+                $imageAltAr = trim($data['image_alt_ar']);
+                $ogTitleAr = trim($data['og_title_ar']);
+                $ogDescriptionEn = trim($data['og_description_en']);
+                $ogDescriptionAr = trim($data['og_description_ar']);
+                $pdpHeadlineEn = trim($data['pdp_headline_en']);
+                $aboveFoldHookEn = trim($data['above_fold_hook_en']);
+                $keywords = trim($data['Keywords']);
+                $skinTypeFit = trim($data['skin_type_fit']);
+
+
+                // Marketing
+                $primaryBadgeEn = trim($data['primary_badge_en'] ?? '');
+                $primaryBadgeAr = trim($data['primary_badge_ar'] ?? '');
+                $resultPromiseEn = trim($data['result_promise_en'] ?? '');
+                $resultPromiseAr = trim($data['result_promise_ar'] ?? '');
+                $objectionAnswerEn = trim($data['objection_answer_en'] ?? '');
+                $objectionAnswerAr = trim($data['objection_answer_ar'] ?? '');
+                $routineReasonEn = trim($data['routine_reason_en'] ?? '');
+                $routineReasonAr = trim($data['routine_reason_ar'] ?? '');
+                $bundleCtaEn = trim($data['bundle_cta_en'] ?? '');
+                $bundleCtaAr = trim($data['bundle_cta_ar'] ?? '');
+                $addToCartMicrocopyEn = trim($data['add_to_cart_microcopy_en'] ?? '');
+                $addToCartMicrocopyAr = trim($data['add_to_cart_microcopy_ar'] ?? '');
+
+                // Rules
+                $defaultPriorityScore = intval(trim($data['default_priority_score'] ?? '0'));
+                $sameStepChoiceGroup = trim($data['same_step_choice_group'] ?? '');
+                $amDefault = (trim($data['am_default'] ?? '') === 'Yes' || trim($data['am_default'] ?? '') === '1');
+                $pmDefault = (trim($data['pm_default'] ?? '') === 'Yes' || trim($data['pm_default'] ?? '') === '1');
+                $selectionRuleAr = trim($data['selection_rule_ar'] ?? '');
+                $maxDefaultProductsPerStep = intval(trim($data['max_default_products_per_step'] ?? '1'));
+                $selectionWeightFormulaNote = trim($data['selection_weight_formula_note'] ?? '');
+                $selectionPriorityTieBreaker = trim($data['selection_priority_tie_breaker'] ?? '');
+                $exclusionRule = trim($data['exclusion_rule'] ?? '');
+                $conflictRuleStrictness = trim($data['conflict_rule_strictness'] ?? 'Mild');
+                $pairingRule = trim($data['pairing_rule'] ?? '');
+                $alternativeButtonRule = trim($data['alternative_button_rule'] ?? '');
+                $addOnDisplayRule = trim($data['add_on_display_rule'] ?? '');
+                $routineBuilderNote = trim($data['routine_builder_note'] ?? '');
+                $fallbackProductRule = trim($data['fallback_product_rule'] ?? '');
+                $routineRole = trim($data['Routine Role'] ?? '');
+
+                // Audits
+                $avoidPairingSameRoutine = trim($data['avoid_pairing_same_routine'] ?? '');
+                $developerOutputRule = trim($data['developer_output_rule'] ?? '');
+                $showAlternativesButton = (trim($data['show_alternatives_button'] ?? '') === 'No') ? false : true;
+                $removeIfCustomerHasIt = (trim($data['remove_if_customer_has_it'] ?? '') === 'Yes' || trim($data['remove_if_customer_has_it'] ?? '') === '1');
+                $sourceUrl = trim($data['source_url'] ?? '');
+                $dataConfidence = trim($data['data_confidence'] ?? 'High');
+                $needsManualCheck = (trim($data['needs_manual_check'] ?? '') === 'Yes' || trim($data['needs_manual_check'] ?? '') === '1');
+
+                // Routine seeding values
+                $productStep = trim($data['product_step'] ?? '');
+                $layerOrder = intval(trim($data['layer_order'] ?? '0'));
+                $routineTime = trim($data['routine_time'] ?? '');
+                $isCoreRoutine = (trim($data['is_core_routine_step'] ?? '') === 'Yes' || trim($data['is_core_routine_step'] ?? '') === '1');
+                $isAddOnRoutine = (trim($data['is_add_on'] ?? '') === 'Yes' || trim($data['is_add_on'] ?? '') === '1');
+
+                $concernsList = [];
+                foreach (['primary_concern', 'secondary_concern', 'tertiary_concern'] as $f) {
+                    $c = trim($data[$f] ?? '');
+                    if ($c && $c !== '-') {
+                        $concernsList[] = $c;
+                    }
+                }
+            }
+
+            // 3. Resolve Category
+            $category = null;
+            if ($categoryEn) {
+                $categoryAr = $categoryTranslations[$categoryEn] ?? $categoryEn;
+                $category = Category::updateOrCreate(
+                    ['name_en' => $categoryEn],
+                    [
+                        'name_ar' => $categoryAr,
+                        'image' => 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400'
+                    ]
+                );
+            }
+
+            // 4. Resolve SubCategory
+            $subCategory = null;
+            if ($subCategoryEn && $category) {
+                // Determine a nice Arabic name for subcategory
+                // We default the Arabic name to English or clean lookup
+                $subCategory = SubCategory::updateOrCreate(
+                    ['name_en' => $subCategoryEn, 'category_id' => $category->id],
+                    ['name_ar' => $subCategoryEn]
+                );
+            }
+
+            // 5. Resolve Brand
+            $brand = null;
+            if ($brandEn) {
+                $brand = Brand::updateOrCreate(
+                    ['name_en' => $brandEn],
+                    ['name_ar' => $brandAr ?: $brandEn]
+                );
+            }
+
+            // 6. Create Product
+            // Create nice random prices & stock to keep PDP functional
+            $price = rand(150, 450) / 10;
+            $stock = rand(30, 100);
+            $isBestSeller = (rand(1, 100) > 80);
+            $salesCount = $isBestSeller ? rand(100, 500) : rand(0, 99);
+            
+            // Build the image filename using slug
+            $imageFilename = $data['sku_slug'] . '.jpg';
+
+            $product = Product::updateOrCreate(
+                ['sku' => $productId],
+                [
+                    'name_en' => $nameEn,
+                    'name_ar' => $nameAr,
+                    'description_en' => trim($data['en_long_description'] ?? ''),
+                    'description_ar' => trim($data['ar_long_description'] ?? ''),
+                    'category_id' => $category ? $category->id : null,
+                    'sub_category_id' => $subCategory ? $subCategory->id : null,
+                    'brand_id' => $brand ? $brand->id : null,
+                    'price' => $price,
+                    'stock' => $stock,
+                    'is_best_seller' => $isBestSeller,
+                    'sales_count' => $salesCount,
+                    'short_name_ar' => $shortNameAr,
+                    'short_name_en' => $shortNameEn,
+                    'image' => $imageFilename,
+                    'ingredients_en' => '-',
+                    'ingredients_ar' => '-',
+                    'how_to_use_en' => $howToUseEn,
+                    'how_to_use_ar' => $howToUseAr,
+                    'status' => 'active',
+                    'texture_ar' => $textureAr,
+                    'texture_en' => $textureEn,
+                    'why_kcode_ar' => $whyKcodeAr,
+                    'why_kcode_en' => $whyKcodeEn,
+                    'usage_frequency_ar' => $usageFrequencyAr,
+                    'active_strength_level' => $activeStrength,
+                    'safety_notes_ar' => $safetyNotesAr,
+                    'safety_notes_en' => $safetyNotesEn,
+                    'ar_key_benefits' => $arKeyBenefits,
+                    'en_key_benefits' => $enKeyBenefits,
+                    'ar_product_title_seo' => $arProductTitleSeo,
+                    'en_product_title_seo' => $enProductTitleSeo,
+                    'en_short_hook' => $enShortHook,
+                    'seo_meta_title_ar' => $seoMetaTitleAr,
+                    'meta_description_en' => $metaDescriptionEn,
+                    'meta_description_ar' => $metaDescriptionAr,
+                    'primary_keyword_en' => $primaryKeywordEn,
+                    'primary_keyword_ar' => $primaryKeywordAr,
+                    'secondary_keywords_en' => $secondaryKeywordsEn,
+                    'secondary_keywords_ar' => $secondaryKeywordsAr,
+                    'final_url_slug' => $finalUrlSlug,
+                    'image_alt_en' => $imageAltEn,
+                    'image_alt_ar' => $imageAltAr,
+                    'og_title_ar' => $ogTitleAr,
+                    'og_description_en' => $ogDescriptionEn,
+                    'og_description_ar' => $ogDescriptionAr,
+                    'pdp_headline_en' => $pdpHeadlineEn,
+                    'above_fold_hook_en' => $aboveFoldHookEn,
+                    'keywords' => $keywords,
+
+                ]
+            );
+
+            // 7. Seed concerns
+            $priority = 1;
+            foreach ($concernsList as $concernName) {
+                // Find standard concern name from mapping
+                $mappedName = $concernNameMapping[$concernName] ?? null;
+                if ($mappedName) {
+                    $concern = Concern::where('name_en', $mappedName)->first();
+                    if ($concern) {
+                        ProductConcern::updateOrCreate([
+                            'product_id' => $product->id,
+                            'concern_id' => $concern->id,
+                        ], [
+                            'priority' => $priority++,
+                        ]);
+                    }
+                }
+            }
+
+            // 8. Seed skin type fits
+            if ($skinTypeFit) {
+                $isAll = (stripos($skinTypeFit, 'All') !== false);
+                $typesToLink = [];
+                if ($isAll) {
+                    $typesToLink = ['Oily', 'Dry', 'Combination', 'Sensitive'];
+                } else {
+                    if (stripos($skinTypeFit, 'Oily') !== false) {
+                        $typesToLink[] = 'Oily';
+                    }
+                    if (stripos($skinTypeFit, 'Dry') !== false) {
+                        $typesToLink[] = 'Dry';
+                    }
+                    if (stripos($skinTypeFit, 'Combination') !== false) {
+                        $typesToLink[] = 'Combination';
+                    }
+                    if (stripos($skinTypeFit, 'Sensitive') !== false) {
+                        $typesToLink[] = 'Sensitive';
+                    }
+                }
+
+                foreach ($typesToLink as $typeName) {
+                    $st = SkinType::where('name_en', $typeName)->first();
+                    if ($st) {
+                        ProductSkinType::updateOrCreate([
+                            'product_id' => $product->id,
+                            'skin_type_id' => $st->id,
+                        ]);
+                    }
+                }
+            }
+
+            // 8.5 Seed random goals (1 or 2 per product)
+            if ($allGoals->isNotEmpty()) {
+                $randomGoals = $allGoals->random(rand(1, 2));
+                $goalPriority = 1;
+                foreach ($randomGoals as $goal) {
+                    ProductGoal::updateOrCreate([
+                        'product_id' => $product->id,
+                        'goal_id' => $goal->id,
+                    ], [
+                        'priority' => $goalPriority++,
+                    ]);
+                }
+            }
+
+            // 9. Seed Marketing details
+            ProductMarketingDetail::updateOrCreate(
+                ['product_id' => $product->id],
+                [
+                    'primary_badge_en' => $primaryBadgeEn,
+                    'primary_badge_ar' => $primaryBadgeAr,
+                    'result_promise_en' => $resultPromiseEn,
+                    'result_promise_ar' => $resultPromiseAr,
+                    'objection_answer_en' => $objectionAnswerEn,
+                    'objection_answer_ar' => $objectionAnswerAr,
+                    'routine_reason_en' => $routineReasonEn,
+                    'routine_reason_ar' => $routineReasonAr,
+                    'bundle_cta_en' => $bundleCtaEn,
+                    'bundle_cta_ar' => $bundleCtaAr,
+                    'add_to_cart_microcopy_en' => $addToCartMicrocopyEn,
+                    'add_to_cart_microcopy_ar' => $addToCartMicrocopyAr,
+                ]
+            );
+
+            // 10. Seed Recommendation rules
+            ProductRecommendationRule::updateOrCreate(
+                ['product_id' => $product->id],
+                [
+                    'default_priority_score' => $defaultPriorityScore,
+                    'same_step_choice_group' => $sameStepChoiceGroup,
+                    'am_default' => $amDefault,
+                    'pm_default' => $pmDefault,
+                    'selection_rule_ar' => $selectionRuleAr,
+                    'max_default_products_per_step' => $maxDefaultProductsPerStep,
+                    'selection_weight_formula_note' => $selectionWeightFormulaNote,
+                    'selection_priority_tie_breaker' => $selectionPriorityTieBreaker,
+                    'exclusion_rule' => $exclusionRule,
+                    'conflict_rule_strictness' => $conflictRuleStrictness,
+                    'pairing_rule' => $pairingRule,
+                    'alternative_button_rule' => $alternativeButtonRule,
+                    'add_on_display_rule' => $addOnDisplayRule,
+                    'routine_builder_note' => $routineBuilderNote,
+                    'fallback_product_rule' => $fallbackProductRule,
+                    'routine_role' => $routineRole,
+                ]
+            );
+
+            // 11. Seed Audit details
+            ProductAudit::updateOrCreate(
+                ['product_id' => $product->id],
+                [
+                    'avoid_pairing_same_routine' => $avoidPairingSameRoutine,
+                    'developer_output_rule' => $developerOutputRule,
+                    'show_alternatives_button' => $showAlternativesButton,
+                    'remove_if_customer_has_it' => $removeIfCustomerHasIt,
+                    'source_url' => $sourceUrl,
+                    'data_confidence' => $dataConfidence,
+                    'needs_manual_check' => $needsManualCheck,
+                ]
+            );
+
+            // 12. Seed Product Routine association
+            if ($productStep) {
+                // Find or create RoutineStep matching the CSV step name
+                $mapping = $stepMapping[$productStep] ?? ['ar' => $productStep, 'en' => $productStep, 'order' => 99];
+                $routineStep = RoutineStep::updateOrCreate(
+                    ['name_en' => $productStep],
+                    [
+                        'name_ar' => $mapping['ar'],
+                        'order'   => $mapping['order']
+                    ]
+                );
+
+                $morning = (stripos($routineTime, 'AM') !== false);
+                $night = (stripos($routineTime, 'PM') !== false);
+
+                ProductRoutine::updateOrCreate([
+                    'product_id' => $product->id,
+                    'routine_step_id' => $routineStep->id,
+                ], [
+                    'morning' => $morning,
+                    'night' => $night,
+                    'layer_order' => $layerOrder,
+                    'is_core' => $isCoreRoutine,
+                    'is_addon' => $isAddOnRoutine,
+                ]);
+            }
+
+            $rowCount++;
+        }
+        fclose($file);
+
+        $this->command->info("Successfully seeded {$rowCount} products from CSV.");
     }
 }

@@ -13,4 +13,8 @@ class Routine extends Model
     {
         return $this->belongsTo(Assessment::class);
     }
+    public function routineProducts()
+    {
+        return $this->hasMany(RoutineProduct::class);
+    }
 }

@@ -26,4 +26,9 @@ class SubCategory extends Model
     {
         return app()->getLocale() == "ar" ? $this->name_ar : $this->name_en;
     }
+
+    public function getProductsCountAttribute()
+    {
+        return $this->products()->count();
+    }
 }

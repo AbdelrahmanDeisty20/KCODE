@@ -16,6 +16,8 @@ class Product extends Model
         'brand_id',
         'price',
         'stock',
+        'is_best_seller',
+        'sales_count',
         'short_name_ar',
         'short_name_en',
         'image',
@@ -59,6 +61,21 @@ class Product extends Model
         'above_fold_hook_en',
         'keywords',
     ];
+
+    public function marketingDetail()
+    {
+        return $this->hasOne(ProductMarketingDetail::class);
+    }
+
+    public function recommendationRule()
+    {
+        return $this->hasOne(ProductRecommendationRule::class);
+    }
+
+    public function audit()
+    {
+        return $this->hasOne(ProductAudit::class);
+    }
 
     public function category()
     {
@@ -157,10 +174,6 @@ class Product extends Model
         return app()->getLocale() == 'ar' ? $this->og_description_ar : $this->og_description_en;
     }
 
-    public function sizes()
-    {
-        return $this->hasMany(ProductSize::class);
-    }
 
     public function images()
     {
@@ -205,5 +218,10 @@ class Product extends Model
     public function getNumReviewsAttribute()
     {
         return $this->reviews()->count();
+    }
+
+    public function scopeBestSeller($query)
+    {
+        return $query->where('sales_count', '>=', 100);
     }
 }

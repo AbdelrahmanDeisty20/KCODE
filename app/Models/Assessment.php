@@ -30,4 +30,8 @@ class Assessment extends Model
     {
         return $this->hasMany(Routine::class);
     }
+    public function answers()
+    {
+        return $this->hasMany(AssessmentAnswer::class);
+    }
 }

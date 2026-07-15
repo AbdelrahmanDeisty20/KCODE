@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             CategorySeeder::class,
             ConcernSeeder::class,
+            RoutineGoalSeeder::class,
             ProductSeeder::class,
+            QuizQuestionSeeder::class,
             ReviewSeeder::class,
         ]);
 

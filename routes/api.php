@@ -6,6 +6,9 @@ use App\Http\Controllers\API\Genral\BrandController;
 use App\Http\Controllers\API\Genral\CategoryController;
 use App\Http\Controllers\API\Genral\ProductController;
 use App\Http\Controllers\API\Genral\SkinController;
+use App\Http\Controllers\API\Genral\CartController;
+use App\Http\Controllers\API\Genral\QuizController;
+use App\Http\Controllers\API\Genral\RoutineController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -57,5 +60,29 @@ Route::middleware([SetLang::class])->group(function () {
     // Products Routes
     Route::controller(ProductController::class)->group(function () {
         Route::get('/products', 'index');
+        Route::get('/products/best-sellers', 'bestSellers');
+        Route::get('/products/by-skin-type/{skin_type_id}', 'bySkinType');
+        Route::get('/products/by-goal/{goal_id}', 'byGoal');
+        Route::get('/products/{id}', 'show');
+        Route::get('/products/{id}/alternatives', 'alternatives')->middleware('auth:sanctum');
+    });
+
+    // Quiz Routes
+    Route::controller(QuizController::class)->group(function () {
+        Route::get('/quiz/questions', 'getQuestions');
+        Route::post('/quiz/submit-answers', 'evaluate')->middleware('auth:sanctum');
+    });
+
+    // Routine Routes
+    Route::controller(RoutineController::class)->group(function () {
+        Route::get('/routine', 'getRoutine')->middleware('auth:sanctum');
+        Route::get('/routine/suggested', 'getSuggestedRoutine')->middleware('auth:sanctum');
+        Route::post('/routine/confirm', 'saveFinalRoutine')->middleware('auth:sanctum');
+        Route::post('/routine/select-alternative', 'selectAlternative')->middleware('auth:sanctum');
+    });
+
+    // Cart Routes
+    Route::controller(CartController::class)->group(function () {
+        Route::post('/cart/add-bulk', 'addBulk');
     });
 });
