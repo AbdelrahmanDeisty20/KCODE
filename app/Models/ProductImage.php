@@ -17,8 +17,8 @@ class ProductImage extends Model
     public function getImagePathAttribute($value)
     {
         if($value){
-            return asset('uploads/product_images/' . $value);
+            return asset('storage/product_images/' . $value);
         }
-        return asset('uploads/product_images/default.jpg');
+        return asset('storage/product_images/default.jpg');
     }
 }

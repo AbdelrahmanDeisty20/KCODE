@@ -23,9 +23,9 @@ class Concern extends Model
             if (filter_var($value, FILTER_VALIDATE_URL)) {
                 return $value;
             }
-            return asset('uploads/concerns/' . $value);
+            return asset('storage/concerns/' . $value);
         }
-        return asset('uploads/concerns/default.jpg');
+        return asset('storage/concerns/default.jpg');
     }
     public function products()
     {

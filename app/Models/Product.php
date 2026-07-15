@@ -94,9 +94,9 @@ class Product extends Model
     public function getImageAttribute($value)
     {
         if ($value) {
-            return asset('uploads/products/' . $value);
+            return asset('storage/products/' . $value);
         }
-        return asset('uploads/products/default.jpg');
+        return asset('storage/products/default.jpg');
     }
 
     public function getNameAttribute($value)

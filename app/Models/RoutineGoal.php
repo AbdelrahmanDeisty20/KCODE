@@ -18,9 +18,9 @@ class RoutineGoal extends Model
     public function getImagePathAttribute($value)
     {
         if($value){
-            return asset('uploads/routine-goals/' . $value);
+            return asset('storage/routine-goals/' . $value);
         }
-        return asset('uploads/routine-goals/default.jpg');
+        return asset('storage/routine-goals/default.jpg');
     }
     public function products()
     {

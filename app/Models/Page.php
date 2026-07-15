@@ -26,8 +26,8 @@ class Page extends Model
     public function getImagePath($value)
     {
         if($value){
-            return asset('uploads/pages/' . $value);
+            return asset('storage/pages/' . $value);
         }
-        return asset('uploads/pages/default.jpg');
+        return asset('storage/pages/default.jpg');
     }
 }

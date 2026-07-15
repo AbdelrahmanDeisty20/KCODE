@@ -34,9 +34,9 @@ class SubCategory extends Model
             if (filter_var($value, FILTER_VALIDATE_URL)) {
                 return $value;
             }
-            return asset('uploads/sub_categories/' . $value);
+            return asset('storage/sub_categories/' . $value);
         }
-        return asset('uploads/sub_categories/default.jpg');
+        return asset('storage/sub_categories/default.jpg');
     }
 
     public function getProductsCountAttribute()

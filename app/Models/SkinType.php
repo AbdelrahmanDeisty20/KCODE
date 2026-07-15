@@ -29,9 +29,9 @@ class SkinType extends Model
             if (filter_var($value, FILTER_VALIDATE_URL)) {
                 return $value;
             }
-            return asset('uploads/skin_types/' . $value);
+            return asset('storage/skin_types/' . $value);
         }
-        return asset('uploads/skin_types/default.jpg');
+        return asset('storage/skin_types/default.jpg');
     }
     public function assessments()
     {
