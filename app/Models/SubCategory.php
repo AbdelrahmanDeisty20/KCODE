@@ -28,7 +28,7 @@ class SubCategory extends Model
         return app()->getLocale() == "ar" ? $this->name_ar : $this->name_en;
     }
 
-    public function getImageAttribute($value)
+    public function getImage_pathAttribute($value)
     {
         if ($value) {
             if (filter_var($value, FILTER_VALIDATE_URL)) {

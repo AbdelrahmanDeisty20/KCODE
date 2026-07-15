@@ -18,7 +18,7 @@ class SubCategoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'image' => $this->image,
+            'image' => $this->image_path,
             'products_count' => (int)$this->products_count,
             'category' => CategoryResource::make($this->whenLoaded('category')),
             'products' => ProductListResource::collection($this->whenLoaded('products')),
