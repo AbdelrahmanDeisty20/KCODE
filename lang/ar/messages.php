@@ -77,4 +77,6 @@ return [
     'final_routine_saved_successfully' => 'تم حفظ الروتين في حسابك الشخصي بنجاح.',
     'alternative_selected_successfully' => 'تم استبدال المنتج بالمنتج البديل بنجاح.',
     'final_routine_not_found' => 'لم يتم العثور على روتين محفوظ في حسابك الشخصي.',
+    'no_offers_found' => 'لم يتم العثور على عروض حالية.',
+    'offers_retrieved_successfully' => 'تم جلب العروض بنجاح.',
 ];

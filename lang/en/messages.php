@@ -73,4 +73,6 @@ return [
     'final_routine_saved_successfully' => 'Routine saved to your personal account successfully.',
     'alternative_selected_successfully' => 'Product successfully replaced with alternative.',
     'final_routine_not_found' => 'No saved routine found in your personal account.',
+    'no_offers_found' => 'No active offers found.',
+    'offers_retrieved_successfully' => 'Offers retrieved successfully.',
 ];

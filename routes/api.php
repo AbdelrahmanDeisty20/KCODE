@@ -9,6 +9,7 @@ use App\Http\Controllers\API\Genral\SkinController;
 use App\Http\Controllers\API\Genral\CartController;
 use App\Http\Controllers\API\Genral\QuizController;
 use App\Http\Controllers\API\Genral\RoutineController;
+use App\Http\Controllers\API\Genral\OfferController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -64,7 +65,11 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/products/by-skin-type/{skin_type_id}', 'bySkinType');
         Route::get('/products/by-goal/{goal_id}', 'byGoal');
         Route::get('/products/{id}', 'show');
-        Route::get('/products/{id}/alternatives', 'alternatives')->middleware('auth:sanctum');
+    });
+
+    // Offers Routes
+    Route::controller(OfferController::class)->group(function () {
+        Route::get('/offers', 'index');
     });
 
     // Quiz Routes

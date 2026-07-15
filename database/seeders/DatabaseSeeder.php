@@ -48,6 +48,7 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             QuizQuestionSeeder::class,
             ReviewSeeder::class,
+            OfferSeeder::class,
         ]);
 
         // User::factory(10)->create();

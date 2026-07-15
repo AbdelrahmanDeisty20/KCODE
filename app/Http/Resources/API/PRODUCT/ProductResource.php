@@ -68,6 +68,7 @@ class ProductResource extends JsonResource
             'recommendation_rules' => ProductRecommendationRuleResource::make($this->whenLoaded('recommendationRule')),
             // Audit Details
             'audit' => ProductAuditResource::make($this->whenLoaded('audit')),
+            'offers' => $this->whenLoaded('offers'),
         ];
     }
 }
