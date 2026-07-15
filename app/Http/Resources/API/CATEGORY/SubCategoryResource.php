@@ -20,7 +20,7 @@ class SubCategoryResource extends JsonResource
             'name' => $this->name,
             'products_count' => (int)$this->products_count,
             'category' => CategoryResource::make($this->whenLoaded('category')),
-            'products' => ProductListResource::make($this->whenLoaded('products')),
+            'products' => ProductListResource::collection($this->whenLoaded('products')),
         ];
     }
 }
