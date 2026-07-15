@@ -390,11 +390,44 @@ class ProductSeeder extends Seeder
             // 4. Resolve SubCategory
             $subCategory = null;
             if ($subCategoryEn && $category) {
-                // Determine a nice Arabic name for subcategory
-                // We default the Arabic name to English or clean lookup
+                // Map of high quality skincare images for subcategories
+                $subCategoryImageUrls = [
+                    'Cleansing Balm' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=400',
+                    'Oil Cleanser' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=400',
+                    'Cleanser' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=400',
+                    'Toner Pads' => 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400',
+                    'Toner' => 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400',
+                    'Mist' => 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400',
+                    'Essence' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=400',
+                    'Ampoule' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=400',
+                    'Serum' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=400',
+                    'Booster Serum' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=400',
+                    'Treatment' => 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=400',
+                    'Eye Serum' => 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400',
+                    'Eye Cream' => 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400',
+                    'Eye Patch' => 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400',
+                    'Moisturizer' => 'https://images.unsplash.com/photo-1601049676099-e7ed07d825b0?auto=format&fit=crop&q=80&w=400',
+                    'Balm' => 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=400',
+                    'Spot Treatment' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=400',
+                    'Mask' => 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&q=80&w=400',
+                    'Sunscreen' => 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=400',
+                    'Sunscreen Serum' => 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=400',
+                    'Sunscreen Stick' => 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=400',
+                    'Routine Set' => 'https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=400',
+                    'Body Treatment Spray' => 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=400',
+                ];
+
+                $subCatImageUrl = $subCategoryImageUrls[$subCategoryEn] ?? 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400';
+                $subCatFilename = \Illuminate\Support\Str::slug($subCategoryEn) . '.jpg';
+                
+                ImageDownloader::downloadAndSave($subCatImageUrl, 'uploads/sub_categories', $subCatFilename);
+
                 $subCategory = SubCategory::updateOrCreate(
                     ['name_en' => $subCategoryEn, 'category_id' => $category->id],
-                    ['name_ar' => $subCategoryEn]
+                    [
+                        'name_ar' => $subCategoryEn,
+                        'image' => $subCatFilename
+                    ]
                 );
             }
 
