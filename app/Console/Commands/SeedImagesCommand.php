@@ -37,23 +37,23 @@ class SeedImagesCommand extends Command
 
         // 1. Ensure default placeholders exist in all folders
         $directories = [
-            'uploads/products',
-            'uploads/skin_types',
-            'uploads/concerns',
-            'uploads/routine-goals',
-            'uploads/pages',
-            'uploads/product_images',
-            'uploads/sub_categories',
-            'storage/categories',
+            'products',
+            'skin_types',
+            'concerns',
+            'routine-goals',
+            'pages',
+            'product_images',
+            'sub_categories',
+            'categories',
         ];
 
         foreach ($directories as $dir) {
-            $publicDir = public_path($dir);
-            if (!File::exists($publicDir)) {
-                File::makeDirectory($publicDir, 0755, true, true);
+            $storageDir = storage_path('app/public/' . $dir);
+            if (!File::exists($storageDir)) {
+                File::makeDirectory($storageDir, 0755, true, true);
             }
-            
-            $defaultPath = $publicDir . '/default.jpg';
+
+            $defaultPath = $storageDir . '/default.jpg';
             if (!File::exists($defaultPath) || File::size($defaultPath) == 0) {
                 $this->info("Creating default placeholder for {$dir}");
                 $this->createPlaceholder($defaultPath);
@@ -83,7 +83,7 @@ class SeedImagesCommand extends Command
         foreach (Category::all() as $cat) {
             $url = $categoryUrls[$cat->name_en] ?? 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400';
             $filename = \Illuminate\Support\Str::slug($cat->name_en) . '.jpg';
-            ImageDownloader::downloadAndSave($url, 'storage/categories', $filename);
+            ImageDownloader::downloadAndSave($url, 'categories', $filename);
             $cat->update(['image' => $filename]);
         }
 
@@ -117,7 +117,7 @@ class SeedImagesCommand extends Command
         foreach (SubCategory::all() as $sub) {
             $url = $subCategoryUrls[$sub->name_en] ?? 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400';
             $filename = \Illuminate\Support\Str::slug($sub->name_en) . '.jpg';
-            ImageDownloader::downloadAndSave($url, 'uploads/sub_categories', $filename);
+            ImageDownloader::downloadAndSave($url, 'sub_categories', $filename);
             $sub->update(['image' => $filename]);
         }
 
@@ -132,7 +132,7 @@ class SeedImagesCommand extends Command
         foreach (SkinType::all() as $type) {
             $url = $skinUrls[$type->name_en] ?? 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=400';
             $filename = \Illuminate\Support\Str::slug($type->name_en) . '.jpg';
-            ImageDownloader::downloadAndSave($url, 'uploads/skin_types', $filename);
+            ImageDownloader::downloadAndSave($url, 'skin_types', $filename);
             $type->update(['image' => $filename]);
         }
 
@@ -150,7 +150,7 @@ class SeedImagesCommand extends Command
         foreach (Concern::all() as $con) {
             $url = $concernUrls[$con->name_en] ?? 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=400';
             $filename = \Illuminate\Support\Str::slug($con->name_en) . '.jpg';
-            ImageDownloader::downloadAndSave($url, 'uploads/concerns', $filename);
+            ImageDownloader::downloadAndSave($url, 'concerns', $filename);
             $con->update(['image' => $filename]);
         }
 
@@ -166,7 +166,7 @@ class SeedImagesCommand extends Command
         foreach (RoutineGoal::all() as $goal) {
             $url = $goalUrls[$goal->name_en] ?? 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=400';
             $filename = \Illuminate\Support\Str::slug($goal->name_en) . '.jpg';
-            ImageDownloader::downloadAndSave($url, 'uploads/routine-goals', $filename);
+            ImageDownloader::downloadAndSave($url, 'routine-goals', $filename);
             $goal->update(['image' => $filename]);
         }
 
@@ -197,7 +197,7 @@ class SeedImagesCommand extends Command
             $url = $productCategoryUrls[$catName] ?? 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400';
             $slug = $prod->final_url_slug ?: \Illuminate\Support\Str::slug($prod->name_en);
             $filename = $slug . '.jpg';
-            ImageDownloader::downloadAndSave($url, 'uploads/products', $filename);
+            ImageDownloader::downloadAndSave($url, 'products', $filename);
             $prod->update(['image' => $filename]);
         }
 

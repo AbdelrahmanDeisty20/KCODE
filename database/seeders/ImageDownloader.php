@@ -14,12 +14,13 @@ class ImageDownloader
      */
     public static function downloadAndSave(string $url, string $targetDirectory, string $filename): string
     {
-        $publicDir = public_path($targetDirectory);
-        $targetPath = $publicDir . '/' . $filename;
+        // Save inside storage/app/public so Laravel's symlink exposes them via /storage/
+        $storageDir = storage_path('app/public/' . $targetDirectory);
+        $targetPath = $storageDir . '/' . $filename;
 
         // Ensure directory exists
-        if (!File::exists($publicDir)) {
-            File::makeDirectory($publicDir, 0755, true, true);
+        if (!File::exists($storageDir)) {
+            File::makeDirectory($storageDir, 0755, true, true);
         }
 
         // If file already exists, skip to save network time

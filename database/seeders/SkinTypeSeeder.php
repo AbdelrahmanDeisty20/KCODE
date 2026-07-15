@@ -47,7 +47,7 @@ class SkinTypeSeeder extends Seeder
 
         foreach ($skinTypes as $type) {
             $filename = \Illuminate\Support\Str::slug($type['name_en']) . '.jpg';
-            ImageDownloader::downloadAndSave($type['image'], 'uploads/skin_types', $filename);
+            ImageDownloader::downloadAndSave($type['image'], 'skin_types', $filename);
 
             $typeData = $type;
             $typeData['image'] = $filename;

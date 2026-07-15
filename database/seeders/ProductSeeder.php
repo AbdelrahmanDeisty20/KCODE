@@ -420,7 +420,7 @@ class ProductSeeder extends Seeder
                 $subCatImageUrl = $subCategoryImageUrls[$subCategoryEn] ?? 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400';
                 $subCatFilename = \Illuminate\Support\Str::slug($subCategoryEn) . '.jpg';
                 
-                ImageDownloader::downloadAndSave($subCatImageUrl, 'uploads/sub_categories', $subCatFilename);
+                ImageDownloader::downloadAndSave($subCatImageUrl, 'sub_categories', $subCatFilename);
 
                 $subCategory = SubCategory::updateOrCreate(
                     ['name_en' => $subCategoryEn, 'category_id' => $category->id],
@@ -472,7 +472,7 @@ class ProductSeeder extends Seeder
             ];
 
             $downloadUrl = $categoryImageUrls[$categoryEn] ?? 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=400';
-            ImageDownloader::downloadAndSave($downloadUrl, 'uploads/products', $imageFilename);
+            ImageDownloader::downloadAndSave($downloadUrl, 'products', $imageFilename);
 
             $product = Product::updateOrCreate(
                 ['sku' => $productId],

@@ -42,7 +42,7 @@ class RoutineGoalSeeder extends Seeder
 
         foreach ($goals as $goal) {
             $filename = \Illuminate\Support\Str::slug($goal['name_en']) . '.jpg';
-            ImageDownloader::downloadAndSave($goal['image_url'], 'uploads/routine-goals', $filename);
+            ImageDownloader::downloadAndSave($goal['image_url'], 'routine-goals', $filename);
 
             RoutineGoal::updateOrCreate(
                 ['name_en' => $goal['name_en']],
