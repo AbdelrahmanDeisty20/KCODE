@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\API\CATEGORY;
 
+use App\Http\Resources\API\PRODUCT\ProductListResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,6 +20,7 @@ class SubCategoryResource extends JsonResource
             'name' => $this->name,
             'products_count' => (int)$this->products_count,
             'category' => CategoryResource::make($this->whenLoaded('category')),
+            'products' => ProductListResource::make($this->whenLoaded('products')),
         ];
     }
 }
