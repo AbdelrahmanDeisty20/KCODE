@@ -27,9 +27,9 @@ class ProductListResource extends JsonResource
             'image' => $this->image,
             'brand' => BrandResource::make($this->whenLoaded('brand')),
             'sub_category' => SubCategoryResource::make($this->whenLoaded('subCategory')),
-            'offers' => OfferResource::make($this->whenLoaded('offers')),
-            'is_favorite' => (bool)$this->is_best_seller,
-            'sales_count' => (int)$this->sales_count,
+            'offers' => OfferResource::collection($this->whenLoaded('offers')),
+            'is_favorite' => (bool) $this->is_best_seller,
+            'sales_count' => (int) $this->sales_count,
             'review_rating' => $this->average_rating,
             'num_reviews' => $this->num_reviews,
         ];
