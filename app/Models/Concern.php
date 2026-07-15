@@ -18,14 +18,10 @@ class Concern extends Model
     }
     public function getImageAttribute($value)
     {
-        if($value){
-            // If it's already a full URL, return it as is
-            if (filter_var($value, FILTER_VALIDATE_URL)) {
-                return $value;
-            }
-            return asset('storage/concerns/' . $value);
-        }
-        return asset('storage/concerns/default.jpg');
+        if (!$value) return null;
+        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        return asset($base . 'concerns/' . $value);
     }
     public function products()
     {

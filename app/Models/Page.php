@@ -25,9 +25,9 @@ class Page extends Model
     }
     public function getImagePath($value)
     {
-        if($value){
-            return asset('storage/pages/' . $value);
-        }
-        return asset('storage/pages/default.jpg');
+        if (!$value) return null;
+        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        return asset($base . 'pages/' . $value);
     }
 }

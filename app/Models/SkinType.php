@@ -24,14 +24,10 @@ class SkinType extends Model
     }
     public function getImagePathAttribute($value)
     {
-        if($value){
-            // If it's already a full URL, return it as is
-            if (filter_var($value, FILTER_VALIDATE_URL)) {
-                return $value;
-            }
-            return asset('storage/skin_types/' . $value);
-        }
-        return asset('storage/skin_types/default.jpg');
+        if (!$value) return null;
+        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        return asset($base . 'skin_types/' . $value);
     }
     public function assessments()
     {

@@ -30,13 +30,10 @@ class SubCategory extends Model
 
     public function getImagePathAttribute($value)
     {
-        if ($value) {
-            if (filter_var($value, FILTER_VALIDATE_URL)) {
-                return $value;
-            }
-            return asset('storage/sub_categories/' . $value);
-        }
-        return asset('storage/sub_categories/default.jpg');
+        if (!$value) return null;
+        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        return asset($base . 'sub_categories/' . $value);
     }
 
     public function getProductsCountAttribute()

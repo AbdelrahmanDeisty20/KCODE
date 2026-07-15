@@ -17,10 +17,10 @@ class RoutineGoal extends Model
     }
     public function getImagePathAttribute($value)
     {
-        if($value){
-            return asset('storage/routine-goals/' . $value);
-        }
-        return asset('storage/routine-goals/default.jpg');
+        if (!$value) return null;
+        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        return asset($base . 'routine-goals/' . $value);
     }
     public function products()
     {
