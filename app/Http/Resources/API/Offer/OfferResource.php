@@ -18,9 +18,6 @@ class OfferResource extends JsonResource
         return [
             'id' => $this->id,
             'discount_percentage' => $this->discount_percentage,
-            'start_date' => $this->start_date,
-            'end_date' => $this->end_date,
-            'is_active' => $this->is_active,
             'product' => new ProductListResource($this->whenLoaded('product')),
         ];
     }

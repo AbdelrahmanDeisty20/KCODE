@@ -15,6 +15,11 @@ class Offer extends Model
         'is_active',
     ];
 
+    protected $casts = [
+        'discount_percentage' => 'integer',
+        'is_active' => 'boolean',
+    ];
+
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
