@@ -7,7 +7,7 @@ use App\Models\Product;
 class ProductService
 {
     public function index() {
-        $products = Product::with('brand', 'subCategory')
+        $products = Product::with('brand', 'subCategory','offers')
             ->paginate(10);
         if ($products->isEmpty()) {
             return [
@@ -22,8 +22,110 @@ class ProductService
             'data' => $products,
         ];
     }
+
+    public function filter(array $filters = []) {
+        $query = Product::with(['brand', 'subCategory', 'reviews','offers']);
+
+        // 1. Category Filter
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        // 2. SubCategory Filter
+        if (!empty($filters['sub_category_id'])) {
+            $query->where('sub_category_id', $filters['sub_category_id']);
+        }
+
+        // 3. Brand Filter
+        if (!empty($filters['brand_id'])) {
+            if (is_array($filters['brand_id'])) {
+                $query->whereIn('brand_id', $filters['brand_id']);
+            } else {
+                $query->where('brand_id', $filters['brand_id']);
+            }
+        }
+
+        // 4. Skin Type Filter
+        if (!empty($filters['skin_type_id'])) {
+            $skinTypeIds = is_array($filters['skin_type_id']) ? $filters['skin_type_id'] : [$filters['skin_type_id']];
+            $query->whereHas('skinTypes', function ($q) use ($skinTypeIds) {
+                $q->whereIn('skin_type_id', $skinTypeIds);
+            });
+        }
+
+        // 5. Goal Filter
+        if (!empty($filters['goal_id'])) {
+            $goalIds = is_array($filters['goal_id']) ? $filters['goal_id'] : [$filters['goal_id']];
+            $query->whereHas('goals', function ($q) use ($goalIds) {
+                $q->whereIn('goal_id', $goalIds);
+            });
+        }
+
+        // 6. Best Seller Filter
+        if (isset($filters['is_best_seller'])) {
+            $query->where('is_best_seller', (bool)$filters['is_best_seller']);
+        }
+
+        // 7. Price Range Filter
+        if (isset($filters['min_price']) || isset($filters['max_price'])) {
+            $min = $filters['min_price'] ?? 0;
+            $max = $filters['max_price'] ?? 999999;
+            $query->whereBetween('price', [$min, $max]);
+        }
+
+        // 8. Ratings Filter
+        if (!empty($filters['ratings'])) {
+            $query->withAvg('reviews', 'rating')
+                ->having('reviews_avg_rating', '>=', $filters['ratings']);
+        }
+
+        // 9. Sorting
+        $sort = $filters['sort'] ?? 'latest';
+
+        // Load average rating if sorted by ratings
+        if ($sort === 'ratings' && empty($filters['ratings'])) {
+            $query->withAvg('reviews', 'rating');
+        }
+
+        switch ($sort) {
+            case 'min_price':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'max_price':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'best_sellers':
+            case 'sales_count':
+                $query->orderBy('sales_count', 'desc');
+                break;
+            case 'ratings':
+                $query->orderByRaw('COALESCE(reviews_avg_rating, 0) desc');
+                break;
+            case 'latest':
+            default:
+                $query->orderByDesc('id');
+                break;
+        }
+
+        $perPage = $filters['per_page'] ?? 10;
+        $products = $query->paginate($perPage);
+
+        if ($products->isEmpty()) {
+            return [
+                'status' => false,
+                'message' => __('messages.products_not_found'),
+                'data' => $products,
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.products_retrieved_successfully'),
+            'data' => $products,
+        ];
+    }
     public function show($id) {
-        $product = Product::with('brand', 'subCategory','reviews')->find($id);
+        $product = Product::with('brand', 'subCategory','reviews','offers')->find($id);
         if (!$product) {
             return [
                 'status' => false,
@@ -39,7 +141,7 @@ class ProductService
     }
 
     public function alternatives($id) {
-        $product = Product::find($id);
+        $product = Product::with('offers')->find($id);
         if (!$product) {
             return [
                 'status' => false,

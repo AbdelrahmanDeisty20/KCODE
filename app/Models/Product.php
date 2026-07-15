@@ -224,4 +224,9 @@ class Product extends Model
     {
         return $query->where('sales_count', '>=', 100);
     }
+
+    public function offer()
+    {
+        return $this->hasMany(Offer::class);
+    }
 }

@@ -57,9 +57,9 @@ Route::middleware([SetLang::class])->group(function () {
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/sub-categories', 'sub_categories');
     });
-    // Products Routes
     Route::controller(ProductController::class)->group(function () {
         Route::get('/products', 'index');
+        Route::get('/products/filter', 'filter');
         Route::get('/products/best-sellers', 'bestSellers');
         Route::get('/products/by-skin-type/{skin_type_id}', 'bySkinType');
         Route::get('/products/by-goal/{goal_id}', 'byGoal');
