@@ -5,6 +5,7 @@ namespace App\Http\Resources\API\PRODUCT;
 use App\Http\Resources\API\BRAND\BrandResource;
 use App\Http\Resources\API\CATEGORY\CategoryResource;
 use App\Http\Resources\API\CATEGORY\SubCategoryResource;
+use App\Http\Resources\API\Offer\OfferResource;
 use App\Http\Resources\API\Reviews\ReviewResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
@@ -68,7 +69,7 @@ class ProductResource extends JsonResource
             'recommendation_rules' => ProductRecommendationRuleResource::make($this->whenLoaded('recommendationRule')),
             // Audit Details
             'audit' => ProductAuditResource::make($this->whenLoaded('audit')),
-            'offers' => $this->whenLoaded('offers'),
+            'offers' => OfferResource::collection($this->whenLoaded('offers')),
         ];
     }
 }
