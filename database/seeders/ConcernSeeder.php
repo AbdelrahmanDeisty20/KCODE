@@ -51,11 +51,14 @@ class ConcernSeeder extends Seeder
         ];
 
         foreach ($concerns as $concern) {
+            $filename = \Illuminate\Support\Str::slug($concern['name_en']) . '.jpg';
+            ImageDownloader::downloadAndSave($concern['image'], 'uploads/concerns', $filename);
+
             Concern::updateOrCreate(
                 ['name_en' => $concern['name_en']],
                 [
                     'name_ar' => $concern['name_ar'],
-                    'image' => $concern['image'],
+                    'image' => $filename,
                 ]
             );
         }

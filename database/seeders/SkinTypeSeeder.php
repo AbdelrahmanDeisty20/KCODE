@@ -46,7 +46,13 @@ class SkinTypeSeeder extends Seeder
         ];
 
         foreach ($skinTypes as $type) {
-            SkinType::updateOrCreate(['name_en' => $type['name_en']], $type);
+            $filename = \Illuminate\Support\Str::slug($type['name_en']) . '.jpg';
+            ImageDownloader::downloadAndSave($type['image'], 'uploads/skin_types', $filename);
+
+            $typeData = $type;
+            $typeData['image'] = $filename;
+
+            SkinType::updateOrCreate(['name_en' => $type['name_en']], $typeData);
         }
     }
 }

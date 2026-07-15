@@ -33,11 +33,14 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
+            $filename = \Illuminate\Support\Str::slug($category['name_en']) . '.jpg';
+            ImageDownloader::downloadAndSave($category['image'], 'storage/categories', $filename);
+
             Category::updateOrCreate(
                 ['name_en' => $category['name_en']],
                 [
                     'name_ar' => $category['name_ar'],
-                    'image' => $category['image']
+                    'image' => $filename
                 ]
             );
         }
