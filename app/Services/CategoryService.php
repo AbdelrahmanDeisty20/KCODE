@@ -42,7 +42,7 @@ class CategoryService
     }
     public function sub_categories()
     {
-        $sub_categories = SubCategory::with('category')->paginate(10);
+        $sub_categories = SubCategory::with('products')->paginate(10);
         if ($sub_categories->isEmpty()) {
             return [
                 'status' => false,
