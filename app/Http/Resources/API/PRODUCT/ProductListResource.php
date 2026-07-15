@@ -5,6 +5,7 @@ namespace App\Http\Resources\API\PRODUCT;
 use App\Http\Resources\API\BRAND\BrandResource;
 use App\Http\Resources\API\CATEGORY\CategoryResource;
 use App\Http\Resources\API\CATEGORY\SubCategoryResource;
+use App\Http\Resources\API\Offer\OfferResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
 
@@ -26,6 +27,7 @@ class ProductListResource extends JsonResource
             'image' => $this->image,
             'brand' => BrandResource::make($this->whenLoaded('brand')),
             'sub_category' => SubCategoryResource::make($this->whenLoaded('subCategory')),
+            'offers' => OfferResource::make($this->whenLoaded('offers')),
             'is_favorite' => (bool)$this->is_best_seller,
             'sales_count' => (int)$this->sales_count,
             'review_rating' => $this->average_rating,
