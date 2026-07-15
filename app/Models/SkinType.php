@@ -22,8 +22,9 @@ class SkinType extends Model
     {
         return app()->getLocale() == 'ar' ? $this->description_ar : $this->description_en;
     }
-    public function getImagePathAttribute($value)
+    public function getImagePathAttribute()
     {
+        $value = $this->image;
         if (!$value) return null;
         if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
         $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';

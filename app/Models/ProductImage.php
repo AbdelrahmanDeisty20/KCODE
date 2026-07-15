@@ -14,8 +14,9 @@ class ProductImage extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    public function getImagePathAttribute($value)
+    public function getImagePathAttribute()
     {
+        $value = $this->image;
         if (!$value) return null;
         if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
         $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
