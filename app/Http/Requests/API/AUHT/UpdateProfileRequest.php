@@ -26,7 +26,7 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name' => 'nullable|string|min:3|max:255',
             'email' => 'nullable|email|unique:users,email,' . Auth::id(),
-            'phone' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255|unique:users,phone,' . Auth::id(),
             'birth_date' => 'nullable|date|before:today',
             'quote' => 'nullable|string|max:1000',
             'image' => 'nullable|image|max:2048',
@@ -42,6 +42,7 @@ class UpdateProfileRequest extends FormRequest
             'name.min' => __('validation.min'),
             'name.max' => __('validation.max'),
             'email.unique' => __('validation.unique'),
+            'phone.unique' => __('validation.unique'),
             'image.max' => __('validation.max'),
             'skin_type_id.exists' => __('validation.exists'),
             'password.confirmed' => __('validation.confirmed'),
