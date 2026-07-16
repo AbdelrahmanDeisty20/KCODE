@@ -63,6 +63,7 @@ return [
     'assessment_saved_successfully' => 'تم حفظ التقييم بنجاح',
     'skin_type_required' => 'يجب اختيار نوع البشرة لإكمال التقييم.',
     'invalid_skin_type' => 'نوع البشرة المحدد غير صالح.',
+    'skin_type_mismatch' => 'لقد قمت باختيار نوع بشرة بالفعل في حسابك، يجب اختيار نفس نوع البشرة المحدد.',
     'routine_goal_required' => 'الهدف من الروتين مطلوب.',
     'invalid_routine_goal' => 'الهدف المحدد غير صالح.',
     'routine_goal_not_found' => 'لم يتم العثور على أهداف الروتين',

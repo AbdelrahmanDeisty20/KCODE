@@ -59,6 +59,7 @@ return [
     'assessment_saved_successfully' => 'Assessment saved successfully',
     'skin_type_required' => 'Skin type is required to complete the assessment.',
     'invalid_skin_type' => 'The selected skin type is invalid.',
+    'skin_type_mismatch' => 'You have already selected a skin type in your account. You must select the same skin type.',
     'routine_goal_required' => 'The routine goal is required.',
     'invalid_routine_goal' => 'The selected routine goal is invalid.',
     'routine_goal_not_found' => 'Routine goals not found',
