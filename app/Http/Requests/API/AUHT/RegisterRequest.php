@@ -28,6 +28,7 @@ class RegisterRequest extends FormRequest
             'password' => ['required', 'string', 'min:6', 'confirmed', 'regex:/[A-Z]/'],
             'password_confirmation' => 'required|string|min:6',
             'phone' => ['required', 'string', 'max:255', 'unique:users'],
+            'birth_date' => 'nullable|date|before:today',
             'image' => 'nullable|image',
             'skin_type_id' => 'nullable|exists:skin_types,id',
         ];

@@ -27,6 +27,7 @@ class UpdateProfileRequest extends FormRequest
             'name' => 'nullable|string|min:3|max:255',
             'email' => 'nullable|email|unique:users,email,' . Auth::id(),
             'phone' => 'nullable|string|max:255',
+            'birth_date' => 'nullable|date|before:today',
             'image' => 'nullable|image|max:2048',
             'skin_type_id' => 'nullable|exists:skin_types,id',
             'password' => 'nullable|string|confirmed|min:8|max:255',

@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
+            'birth_date' => $this->birth_date,
             'image' => $this->image_path,
             'skin_type' => when($this->skin_type_id, new SkinTypeResource($this->whenLoaded('skin_type'))),
             'type' => $this->type,

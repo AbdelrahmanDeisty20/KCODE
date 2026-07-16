@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-#[Fillable(['name', 'email', 'password', 'phone', 'type', 'image', 'status', 'skin_type_id', 'email_verified_at'])]
+#[Fillable(['name', 'email', 'password', 'phone', 'birth_date', 'type', 'image', 'status', 'skin_type_id', 'email_verified_at'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -72,5 +72,9 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 }

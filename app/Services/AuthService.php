@@ -60,6 +60,7 @@ class AuthService
             'email' => $data['email'],
             'password' => $data['password'],
             'phone' => $data['phone'],
+            'birth_date' => $data['birth_date'] ?? null,
             'image' => $image,
             'status' => 'inactive',
             'skin_type_id' => $data['skin_type_id'] ?? null,
