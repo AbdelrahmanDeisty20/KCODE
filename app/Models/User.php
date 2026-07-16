@@ -28,7 +28,20 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'birth_date' => 'date:Y-m-d',
         ];
+    }
+    public function setBirthDateAttribute($value)
+    {
+        if ($value) {
+            try {
+                $this->attributes['birth_date'] = \Illuminate\Support\Carbon::parse($value)->format('Y-m-d');
+            } catch (\Exception $e) {
+                $this->attributes['birth_date'] = $value;
+            }
+        } else {
+            $this->attributes['birth_date'] = null;
+        }
     }
     public function assessment()
     {
