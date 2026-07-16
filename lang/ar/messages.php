@@ -65,6 +65,8 @@ return [
     'invalid_skin_type' => 'نوع البشرة المحدد غير صالح.',
     'routine_goal_required' => 'الهدف من الروتين مطلوب.',
     'invalid_routine_goal' => 'الهدف المحدد غير صالح.',
+    'routine_goal_not_found' => 'لم يتم العثور على أهداف الروتين',
+    'routine_goal_found' => 'تم جلب أهداف الروتين بنجاح',
     'concerns_must_be_array' => 'المشاكل الإضافية يجب أن تكون مصفوفة.',
     'invalid_concern' => 'المشكلة المحددة غير صالحة.',
     'skin_type' => 'نوع البشرة',

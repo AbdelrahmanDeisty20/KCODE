@@ -61,6 +61,8 @@ return [
     'invalid_skin_type' => 'The selected skin type is invalid.',
     'routine_goal_required' => 'The routine goal is required.',
     'invalid_routine_goal' => 'The selected routine goal is invalid.',
+    'routine_goal_not_found' => 'Routine goals not found',
+    'routine_goal_found' => 'Routine goals retrieved successfully',
     'concerns_must_be_array' => 'The concern IDs field must be an array.',
     'invalid_concern' => 'The selected concern ID is invalid.',
     'skin_type' => 'Skin Type',
