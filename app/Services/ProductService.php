@@ -168,7 +168,7 @@ class ProductService
     }
 
     public function alternatives($id) {
-        $product = Product::with('offers')->find($id);
+        $product = Product::with('brand', 'subCategory','offers')->find($id);
         if (!$product) {
             return [
                 'status' => false,

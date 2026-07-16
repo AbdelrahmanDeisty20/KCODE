@@ -223,9 +223,12 @@ class RoutineService
             );
         }
 
+        $product = \App\Models\Product::with(['brand', 'subCategory', 'offers'])->find($alternativeProductId);
+
         return [
             'status' => true,
-            'message' => __('messages.alternative_selected_successfully')
+            'message' => __('messages.alternative_selected_successfully'),
+            'data' => $product
         ];
     }
 

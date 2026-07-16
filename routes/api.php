@@ -66,6 +66,7 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/products/by-skin-type/{skin_type_id}', 'bySkinType');
         Route::get('/products/by-goal/{goal_id}', 'byGoal');
         Route::get('/products/search', 'search');
+        Route::get('/products/{id}/alternatives', 'alternatives');
         Route::get('/products/{id}', 'show');
     });
     //Routine goals

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\RoutineService;
 use App\Http\Resources\API\QUIZ\FinalRoutineResource;
 use App\Http\Resources\API\QUIZ\RoutineResource;
+use App\Http\Resources\API\PRODUCT\ProductListResource;
 use App\Traits\ApiResponse;
 
 class RoutineController extends Controller
@@ -72,7 +73,7 @@ class RoutineController extends Controller
             return $this->error($result['message'], $code);
         }
 
-        return $this->success(null, $result['message']);
+        return $this->success(new ProductListResource($result['data']), $result['message']);
     }
 
     /**
