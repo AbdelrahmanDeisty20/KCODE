@@ -19,8 +19,8 @@ class RoutineGoalController extends Controller
         $routines = $this->routinegoalService->index();
         if(!$routines['status'])
         {
-            $this->error($routines['message'],400);
+            return $this->error($routines['message'],400);
         }
-        $this->success($routines['data'],$routines['messages'],200);
+        return $this->success($routines['data'],$routines['message'],200);
     }
 }
