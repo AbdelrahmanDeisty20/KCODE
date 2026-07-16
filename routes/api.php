@@ -5,6 +5,7 @@ use App\Http\Controllers\API\AUHT\ForgetPasswordController;
 use App\Http\Controllers\API\Genral\BrandController;
 use App\Http\Controllers\API\Genral\CategoryController;
 use App\Http\Controllers\API\Genral\ProductController;
+use App\Http\Controllers\API\Genral\RoutineGoalController;
 use App\Http\Controllers\API\Genral\SkinController;
 use App\Http\Controllers\API\Genral\CartController;
 use App\Http\Controllers\API\Genral\QuizController;
@@ -66,7 +67,10 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/products/by-goal/{goal_id}', 'byGoal');
         Route::get('/products/{id}', 'show');
     });
-
+    //Routine goals
+    Route::controller(RoutineGoalController::class)->group(function(){
+        Route::get('goals','index');
+    });
     // Offers Routes
     Route::controller(OfferController::class)->group(function () {
         Route::get('/offers', 'index');
