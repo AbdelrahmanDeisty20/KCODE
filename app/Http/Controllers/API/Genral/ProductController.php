@@ -9,6 +9,7 @@ use App\Services\ProductService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\API\GENERAL\ProductFilterRequest;
+use App\Http\Requests\API\GENERAL\ProductSearchRequest;
 
 class ProductController extends Controller
 {
@@ -64,6 +65,14 @@ class ProductController extends Controller
 
     public function filter(ProductFilterRequest $request) {
         $products = $this->productService->filter($request->validated());
+        if (!$products['status']) {
+            return $this->error($products['message']);
+        }
+        return $this->paginated(ProductListResource::class, $products['data'], $products['message']);
+    }
+
+    public function search(ProductSearchRequest $request) {
+        $products = $this->productService->search($request->validated());
         if (!$products['status']) {
             return $this->error($products['message']);
         }

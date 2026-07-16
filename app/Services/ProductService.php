@@ -23,6 +23,33 @@ class ProductService
         ];
     }
 
+    public function search(array $data) {
+        $query = $data['query'];
+
+        $products = Product::with(['brand', 'subCategory', 'offers'])
+            ->where(function ($q) use ($query) {
+                $q->where('name_en', 'LIKE', '%' . $query . '%')
+                  ->orWhere('name_ar', 'LIKE', '%' . $query . '%')
+                  ->orWhere('short_name_en', 'LIKE', '%' . $query . '%')
+                  ->orWhere('short_name_ar', 'LIKE', '%' . $query . '%');
+            })
+            ->paginate(10);
+
+        if ($products->isEmpty()) {
+            return [
+                'status' => false,
+                'message' => __('messages.products_not_found'),
+                'data' => $products,
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.products_retrieved_successfully'),
+            'data' => $products,
+        ];
+    }
+
     public function filter(array $filters = []) {
         $query = Product::with(['brand', 'subCategory', 'reviews','offers']);
 
