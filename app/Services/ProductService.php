@@ -31,14 +31,18 @@ class ProductService
                 $q->where('name_en', 'LIKE', '%' . $query . '%')
                   ->orWhere('name_ar', 'LIKE', '%' . $query . '%')
                   ->orWhere('sku', 'LIKE', '%' . $query . '%')
-                  ->orWhere('brand.name_en', 'LIKE', '%' . $query . '%')
-                  ->orWhere('brand.name_ar', 'LIKE', '%' . $query . '%')
-                  ->orWhere('subCategory.name_en', 'LIKE', '%' . $query . '%')
-                  ->orWhere('subCategory.name_ar', 'LIKE', '%' . $query . '%')
                   ->orWhere('description_en', 'LIKE', '%' . $query . '%')
                   ->orWhere('description_ar', 'LIKE', '%' . $query . '%')
                   ->orWhere('short_name_en', 'LIKE', '%' . $query . '%')
-                  ->orWhere('short_name_ar', 'LIKE', '%' . $query . '%');
+                  ->orWhere('short_name_ar', 'LIKE', '%' . $query . '%')
+                  ->orWhereHas('brand', function ($q) use ($query) {
+                      $q->where('name_en', 'LIKE', '%' . $query . '%')
+                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%');
+                  })
+                  ->orWhereHas('subCategory', function ($q) use ($query) {
+                      $q->where('name_en', 'LIKE', '%' . $query . '%')
+                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%');
+                  });
             })
             ->paginate(10);
 
