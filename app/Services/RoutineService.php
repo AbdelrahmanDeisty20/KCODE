@@ -154,13 +154,10 @@ class RoutineService
         }
 
         // -------------------------------------------------------
-        // تنظيف البيانات المؤقتة بعد الـ confirm:
-        // حذف routine_products → routine → assessment
-        // حتى لو المستخدم عمل quiz جديد يبدأ نظيف
+        // تنظيف المنتجات المؤقتة فقط بعد الـ confirm
+        // دون حذف الـ routine أو الـ assessment لتجنب الـ Cascade Delete
         // -------------------------------------------------------
         $routine->routineProducts()->delete();
-        $routine->delete();
-        $assessment->delete();
 
         return [
             'status'  => true,

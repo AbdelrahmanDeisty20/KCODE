@@ -12,8 +12,25 @@ class ReviewService
     /**
      * Store a new product review.
      */
+    public function genralReview(){
+        $reviews = Review::where('product_id', null)
+        ->with('user')->get();
+        if($reviews->isEmpty()){
+            return [
+                'status' => false,
+                'message' => __('messages.noReviewsFound'),
+                'data' => []
+            ];
+        }
+        return [
+            'status' => true,
+            'message' => __('messages.reviewsRetrievedSuccessfully'),
+            'data' => ReviewResource::collection($reviews)
+        ];
+    }
     public function storeReview(int $userId, array $data)
     {
+
         try {
             $productId = $data['product_id'];
 
