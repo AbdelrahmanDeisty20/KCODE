@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('name_en');
             $table->text('description_ar')->nullable();
             $table->text('description_en')->nullable();
-            $table->text('policy_ar')->nullable();
-            $table->text('policy_en')->nullable();
             $table->integer('min_points')->default(0);
             $table->integer('max_points')->nullable();
 
