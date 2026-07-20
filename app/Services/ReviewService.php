@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\API\Reviews\ReviewResource;
 use App\Models\Review;
 use App\Models\Product;
 use Illuminate\Support\Facades\Log;
@@ -41,7 +42,7 @@ class ReviewService
             return [
                 'status' => true,
                 'message' => __('messages.reviewCreatedSuccessfully'),
-                'data' => $review->load('user', 'product')
+                'data' => ReviewResource::make($review->load('user', 'product'))
             ];
         } catch (\Exception $e) {
             Log::error('Error storing review: ' . $e->getMessage());
