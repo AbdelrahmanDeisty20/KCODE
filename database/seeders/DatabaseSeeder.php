@@ -49,6 +49,7 @@ class DatabaseSeeder extends Seeder
             QuizQuestionSeeder::class,
             ReviewSeeder::class,
             OfferSeeder::class,
+            LoyaltyLevelsSeeder::class,
         ]);
 
         // User::factory(10)->create();
@@ -63,3 +64,4 @@ class DatabaseSeeder extends Seeder
         );
     }
 }
+// php artisan db:seed --class=LoyaltyLevelsSeeder
