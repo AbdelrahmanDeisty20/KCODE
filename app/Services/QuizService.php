@@ -74,19 +74,51 @@ class QuizService
         if ($user) {
             $existingAssessment = Assessment::where('user_id', $user->id)->first();
             if ($existingAssessment) {
-                return [
-                    'status' => false,
-                    'message' => __('messages.routine_already_added')
-                ];
+                // تحديث الـ Assessment الحالي
+                $existingAssessment->update([
+                    'skin_type_id' => $skinTypeId,
+                ]);
+
+                // مسح الأهداف والاهتمامات القديمة للبدء من جديد
+                AssessmentGoal::where('assessment_id', $existingAssessment->id)->delete();
+                AssessmentConcern::where('assessment_id', $existingAssessment->id)->delete();
+
+                // جلب الـ Routine الحالي ومسح منتجاته المؤقتة القديمة
+                $routine = Routine::where('assessment_id', $existingAssessment->id)->first();
+                if (!$routine) {
+                    $routine = Routine::create([
+                        'assessment_id' => $existingAssessment->id,
+                    ]);
+                } else {
+                    RoutineProduct::where('routine_id', $routine->id)->delete();
+                }
+
+                $assessment = $existingAssessment;
+            } else {
+                // 2. Create Assessment
+                $assessment = Assessment::create([
+                    'user_id' => $user->id ?? null,
+                    'skin_type_id' => $skinTypeId,
+                ]);
+
+                // 5. Create Routine Record in Database
+                $routine = Routine::create([
+                    'assessment_id' => $assessment->id,
+                ]);
             }
+        } else {
+            // 2. Create Assessment (Guest)
+            $assessment = Assessment::create([
+                'user_id' => null,
+                'skin_type_id' => $skinTypeId,
+            ]);
+
+            // 5. Create Routine Record in Database (Guest)
+            $routine = Routine::create([
+                'assessment_id' => $assessment->id,
+            ]);
         }
 
-        // 2. Create Assessment
-        $assessment = Assessment::create([
-            'user_id' => $user->id ?? null,
-            'skin_type_id' => $skinTypeId,
-        ]);
-        
         // 3. Save Goal
         if ($goalId) {
             AssessmentGoal::create([
@@ -102,11 +134,6 @@ class QuizService
                 'concern_id' => $concernId,
             ]);
         }
-
-        // 5. Create Routine Record in Database
-        $routine = Routine::create([
-            'assessment_id' => $assessment->id,
-        ]);
 
         // 6. Resolve Quiz Questions and Answers to return in response
         $questionsAndAnswers = [];
