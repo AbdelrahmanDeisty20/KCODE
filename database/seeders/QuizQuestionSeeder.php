@@ -170,13 +170,13 @@ class QuizQuestionSeeder extends Seeder
         ]);
 
         $concerns = [
-            'Acne' => 'حبوب',
-            'Enlarged Pores' => 'مسام واسعة',
-            'Pigmentation' => 'تصبغات',
-            'Sensitivity' => 'حساسية',
-            'Dullness' => 'إجهاد',
-            'Fine Lines' => 'خطوط دقيقة',
-            'Dryness' => 'جفاف',
+            'Acne & Blemishes' => 'الحبوب والشوائب',
+            'Pores & Blackheads' => 'المسام الرؤوس السوداء',
+            'Pigmentation & Dark Spots' => 'التصبغات والبقع الداكنة',
+            'Redness & Irritation' => 'الاحمرار والتهيج',
+            'Skin Barrier' => 'حاجز البشرة',
+            'Wrinkles & Fine Lines' => 'التجاعيد والخطوط التعبيرية',
+            'Dryness & Hydration' => 'الجفاف والترطيب',
         ];
 
         foreach ($concerns as $en => $ar) {

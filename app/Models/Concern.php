@@ -9,12 +9,18 @@ class Concern extends Model
     protected $fillable = [
         'name_ar',
         'name_en',
+        'description_ar',
+        'description_en',
         'image',
         'status',
     ];
     public function getNameAttribute($value)
     {
         return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
+    }
+    public function getDescriptionAttribute($value)
+    {
+        return app()->getLocale() == 'ar' ? $this->description_ar : $this->description_en;
     }
     public function getImageAttribute($value)
     {

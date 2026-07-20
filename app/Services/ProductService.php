@@ -160,7 +160,7 @@ class ProductService
         ];
     }
     public function show($id) {
-        $product = Product::with('brand', 'subCategory','reviews','offers','category')->find($id);
+        $product = Product::with('brand', 'subCategory','reviews','offers','category','images')->find($id);
         if (!$product) {
             return [
                 'status' => false,

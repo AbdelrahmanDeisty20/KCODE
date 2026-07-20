@@ -11,6 +11,7 @@ use App\Http\Controllers\API\Genral\CartController;
 use App\Http\Controllers\API\Genral\QuizController;
 use App\Http\Controllers\API\Genral\RoutineController;
 use App\Http\Controllers\API\Genral\OfferController;
+use App\Http\Controllers\API\Genral\ConcernController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,11 @@ Route::middleware([SetLang::class])->group(function () {
     //Routine goals
     Route::controller(RoutineGoalController::class)->group(function(){
         Route::get('goals','index');
+    });
+    // Concerns Routes
+    Route::controller(ConcernController::class)->group(function () {
+        Route::get('/concerns', 'index');
+        Route::get('/concerns/{id}', 'show');
     });
     // Offers Routes
     Route::controller(OfferController::class)->group(function () {

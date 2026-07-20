@@ -71,6 +71,7 @@ class ProductResource extends JsonResource
             'audit' => ProductAuditResource::make($this->whenLoaded('audit')),
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'category' => CategoryResource::make($this->whenLoaded('category')),
+            'product_images' => ProductImagesResource::collection($this->whenLoaded('images')),
         ];
     }
 }
