@@ -115,7 +115,7 @@ Route::middleware([SetLang::class])->group(function () {
 
         Route::controller(ReviewController::class)->group(function () {
             Route::get('/my-reviews', 'myReviews');
-            Route::post('/reviews/general', 'genralReview');
+            Route::get('/reviews/general', 'genralReview');
             Route::post('/reviews/add', 'store');
             Route::post('/reviews/website', 'storeWebsiteReview');
             Route::put('/reviews/{id}', 'update');
