@@ -93,4 +93,7 @@ return [
     'reviewNotFound' => 'Review not found',
     'reviewNotOwned' => 'You are not authorized to modify this review',
     'reviewAlreadyExists' => 'You have already reviewed this product',
+    'myReviewsRetrievedSuccessfully' => 'Your reviews retrieved successfully',
+    'websiteReviewCreatedSuccessfully' => 'Website review added successfully',
+    'websiteReviewAlreadyExists' => 'You have already reviewed the website',
 ];

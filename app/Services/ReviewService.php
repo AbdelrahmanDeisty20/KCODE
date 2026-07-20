@@ -35,6 +35,7 @@ class ReviewService
                 'product_id' => $productId,
                 'rating' => $data['rating'],
                 'comment' => $data['comment'] ?? null,
+                'name' => $data['name'] ?? null,
             ]);
 
             return [
@@ -80,6 +81,7 @@ class ReviewService
             $review->update([
                 'rating' => $data['rating'],
                 'comment' => $data['comment'] ?? null,
+                'name' => $data['name'] ?? null,
             ]);
 
             return [
@@ -131,6 +133,74 @@ class ReviewService
             return [
                 'status' => false,
                 'message' => $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Get all reviews created by the user.
+     */
+    public function getUserReviews(int $userId)
+    {
+        try {
+            $reviews = Review::where('user_id', $userId)
+                ->with(['product', 'user'])
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            return [
+                'status' => true,
+                'message' => __('messages.myReviewsRetrievedSuccessfully'),
+                'data' => $reviews
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error fetching user reviews: ' . $e->getMessage());
+            return [
+                'status' => false,
+                'message' => $e->getMessage(),
+                'data' => []
+            ];
+        }
+    }
+
+    /**
+     * Store a website-wide review (without product_id).
+     */
+    public function storeWebsiteReview(int $userId, array $data)
+    {
+        try {
+            // Check if user already reviewed the website
+            $existing = Review::where('user_id', $userId)
+                ->whereNull('product_id')
+                ->first();
+
+            if ($existing) {
+                return [
+                    'status' => false,
+                    'message' => __('messages.websiteReviewAlreadyExists'),
+                    'data' => []
+                ];
+            }
+
+            $review = Review::create([
+                'user_id' => $userId,
+                'product_id' => null,
+                'rating' => $data['rating'],
+                'comment' => $data['comment'] ?? null,
+                'name' => $data['name'] ?? null,
+            ]);
+
+            return [
+                'status' => true,
+                'message' => __('messages.websiteReviewCreatedSuccessfully'),
+                'data' => $review->load('user')
+            ];
+        } catch (\Exception $e) {
+            Log::error('Error storing website review: ' . $e->getMessage());
+            return [
+                'status' => false,
+                'message' => $e->getMessage(),
+                'data' => []
             ];
         }
     }

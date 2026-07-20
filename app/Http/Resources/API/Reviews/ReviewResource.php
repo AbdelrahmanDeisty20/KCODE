@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\API\Reviews;
 
-use App\Http\Resources\API\AUHT\UserResource;
 use App\Http\Resources\API\PRODUCT\ProductListResource;
 use App\Http\Resources\API\PRODUCT\ProductResource;
 use Illuminate\Http\Request;
@@ -19,7 +18,8 @@ class ReviewResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => $this->when($this->user_id, UserResource::make($this->whenLoaded('user'))),
+            'name' => $this->name,
+            'user' => $this->when($this->user_id, ReviewUserResource::make($this->whenLoaded('user'))),
             'product'=>$this->when($this->product_id, ProductListResource::make($this->whenLoaded('product'))),
             'rating'=>$this->rating,
             'comment'=>$this->comment,

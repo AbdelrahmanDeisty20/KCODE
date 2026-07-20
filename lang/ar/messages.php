@@ -93,4 +93,7 @@ return [
     'reviewNotFound' => 'التقييم غير موجود',
     'reviewNotOwned' => 'غير مصرح لك بتعديل هذا التقييم',
     'reviewAlreadyExists' => 'لقد قمت بتقييم هذا المنتج بالفعل',
+    'myReviewsRetrievedSuccessfully' => 'تم جلب تقييماتك بنجاح',
+    'websiteReviewCreatedSuccessfully' => 'تم إضافة تقييم الموقع بنجاح',
+    'websiteReviewAlreadyExists' => 'لقد قمت بتقييم الموقع بالفعل',
 ];

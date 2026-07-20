@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Reviews\StoreReviewRequest;
+use App\Http\Requests\API\Reviews\StoreWebsiteReviewRequest;
 use App\Http\Requests\API\Reviews\UpdateReviewRequest;
 use App\Http\Resources\API\Reviews\ReviewResource;
 use App\Services\ReviewService;
@@ -14,6 +15,42 @@ class ReviewController extends Controller
     use ApiResponse;
 
     public function __construct(private ReviewService $reviewService) {}
+
+    /**
+     * Get all reviews created by the authenticated user.
+     */
+    public function myReviews()
+    {
+        $userId = auth('sanctum')->id();
+        $result = $this->reviewService->getUserReviews($userId);
+
+        if (!$result['status']) {
+            return $this->error($result['message']);
+        }
+
+        return $this->success(
+            ReviewResource::collection($result['data']),
+            $result['message']
+        );
+    }
+
+    /**
+     * Store a website-wide review (without product).
+     */
+    public function storeWebsiteReview(StoreWebsiteReviewRequest $request)
+    {
+        $userId = auth('sanctum')->id();
+        $result = $this->reviewService->storeWebsiteReview($userId, $request->validated());
+
+        if (!$result['status']) {
+            return $this->error($result['message']);
+        }
+
+        return $this->created(
+            ReviewResource::make($result['data']),
+            $result['message']
+        );
+    }
 
     /**
      * Store a new product review.
