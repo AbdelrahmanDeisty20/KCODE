@@ -98,8 +98,49 @@ class User extends Authenticatable
     {
         return $this->hasMany(LoyaltyPointsLedger::class);
     }
-    public function getLoyaltyPointsBalanceAttribute()
+    public function getLoyaltyPointsBalanceAttribute(): int
     {
         return (int) $this->loyaltyLedger()->sum('points');
+    }
+
+    /**
+     * المستوى الحالي للمستخدم
+     */
+    public function getLoyaltyLevelAttribute(): ?LoyaltyLevel
+    {
+        return LoyaltyLevel::forPoints($this->loyalty_points_balance);
+    }
+
+    /**
+     * المستوى التالي (الهدف القادم)
+     */
+    public function getNextLoyaltyLevelAttribute(): ?LoyaltyLevel
+    {
+        $currentLevel = $this->loyalty_level;
+        if (!$currentLevel) {
+            return LoyaltyLevel::active()->orderBy('min_points', 'asc')->first();
+        }
+        return LoyaltyLevel::nextAfter($currentLevel->min_points);
+    }
+
+    /**
+     * نسبة التقدم نحو المستوى التالي (0-100)
+     */
+    public function getLoyaltyProgressAttribute(): float
+    {
+        $current = $this->loyalty_level;
+        $next    = $this->next_loyalty_level;
+
+        if (!$next) {
+            return 100.0; // وصل لأعلى مستوى
+        }
+
+        $start   = $current ? $current->min_points : 0;
+        $end     = $next->min_points;
+        $points  = $this->loyalty_points_balance;
+
+        if ($end <= $start) return 0.0;
+
+        return min(100, round((($points - $start) / ($end - $start)) * 100, 2));
     }
 }

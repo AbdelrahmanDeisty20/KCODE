@@ -147,14 +147,23 @@ class RoutineService
             $finalProductId = $rp->replaced_with_product_id ?: $rp->product_id;
             \App\Models\FinalRoutineProduct::create([
                 'final_routine_id' => $finalRoutine->id,
-                'product_id' => $finalProductId,
-                'step' => $rp->step,
-                'routine_step_id' => \App\Models\RoutineStep::where('order', $rp->step)->value('id'),
+                'product_id'       => $finalProductId,
+                'step'             => $rp->step,
+                'routine_step_id'  => \App\Models\RoutineStep::where('order', $rp->step)->value('id'),
             ]);
         }
 
+        // -------------------------------------------------------
+        // تنظيف البيانات المؤقتة بعد الـ confirm:
+        // حذف routine_products → routine → assessment
+        // حتى لو المستخدم عمل quiz جديد يبدأ نظيف
+        // -------------------------------------------------------
+        $routine->routineProducts()->delete();
+        $routine->delete();
+        $assessment->delete();
+
         return [
-            'status' => true,
+            'status'  => true,
             'message' => __('messages.final_routine_saved_successfully')
         ];
     }
