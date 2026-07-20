@@ -14,10 +14,13 @@ class ShippingPolicyResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $content = $this->content;
+        $decoded = json_decode($content, true);
+
         return [
             'id'      => $this->id,
             'title'   => $this->title,   // Accessor handles localization
-            'content' => $this->content, // Accessor handles localization
+            'content' => json_last_error() === JSON_ERROR_NONE ? $decoded : $content,
         ];
     }
 }
