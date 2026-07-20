@@ -56,13 +56,8 @@ class RoutineController extends Controller
     /**
      * Select/replace product in routine with an alternative.
      */
-    public function selectAlternative(\Illuminate\Http\Request $request)
+    public function selectAlternative(\App\Http\Requests\API\ROUTINES\SelectAlternativeRequest $request)
     {
-        $request->validate([
-            'routine_step_id' => 'required|exists:routine_steps,id',
-            'product_id' => 'required|exists:products,id',
-        ]);
-
         $result = $this->routineService->selectAlternativeProduct(
             $request->routine_step_id,
             $request->product_id

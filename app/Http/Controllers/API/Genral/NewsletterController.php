@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API\Genral;
 use App\Http\Controllers\Controller;
 use App\Services\NewsletterService;
 use App\Traits\ApiResponse;
-use Illuminate\Http\Request;
+use App\Http\Requests\API\GENERAL\SubscribeNewsletterRequest;
 
 class NewsletterController extends Controller
 {
@@ -16,12 +16,8 @@ class NewsletterController extends Controller
     /**
      * Subscribe an email to the newsletter.
      */
-    public function subscribe(Request $request)
+    public function subscribe(SubscribeNewsletterRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email|max:255',
-        ]);
-
         $result = $this->newsletterService->subscribe($request->email);
 
         if (!$result['status']) {
