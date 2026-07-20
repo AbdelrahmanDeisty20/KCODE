@@ -18,7 +18,6 @@ class ReviewResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
             'user' => $this->when($this->user_id, ReviewUserResource::make($this->whenLoaded('user'))),
             'product'=>$this->when($this->product_id, ProductListResource::make($this->whenLoaded('product'))),
             'rating'=>$this->rating,
