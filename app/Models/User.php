@@ -94,4 +94,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Address::class);
     }
+    public function loyaltyLedger()
+    {
+        return $this->hasMany(LoyaltyPointsLedger::class);
+    }
+    public function getLoyaltyPointsBalanceAttribute()
+    {
+        return (int) $this->loyaltyLedger()->sum('points');
+    }
 }
