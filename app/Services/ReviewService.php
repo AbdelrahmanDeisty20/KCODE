@@ -36,7 +36,6 @@ class ReviewService
                 'product_id' => $productId,
                 'rating' => $data['rating'],
                 'comment' => $data['comment'] ?? null,
-                'name' => $data['name'] ?? null,
             ]);
 
             return [
@@ -82,7 +81,6 @@ class ReviewService
             $review->update([
                 'rating' => $data['rating'],
                 'comment' => $data['comment'] ?? null,
-                'name' => $data['name'] ?? null,
             ]);
 
             return [
@@ -188,7 +186,6 @@ class ReviewService
                 'product_id' => null,
                 'rating' => $data['rating'],
                 'comment' => $data['comment'] ?? null,
-                'name' => $data['name'] ?? null,
             ]);
 
             return [
