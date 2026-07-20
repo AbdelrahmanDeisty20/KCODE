@@ -96,4 +96,5 @@ return [
     'myReviewsRetrievedSuccessfully' => 'تم جلب تقييماتك بنجاح',
     'websiteReviewCreatedSuccessfully' => 'تم إضافة تقييم الموقع بنجاح',
     'websiteReviewAlreadyExists' => 'لقد قمت بتقييم الموقع بالفعل',
+    'loyalty_retrieved_successfully' => 'تم جلب بيانات النقاط ومستويات الولاء بنجاح',
 ];

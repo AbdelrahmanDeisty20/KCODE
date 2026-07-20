@@ -96,4 +96,5 @@ return [
     'myReviewsRetrievedSuccessfully' => 'Your reviews retrieved successfully',
     'websiteReviewCreatedSuccessfully' => 'Website review added successfully',
     'websiteReviewAlreadyExists' => 'You have already reviewed the website',
+    'loyalty_retrieved_successfully' => 'Loyalty points and levels retrieved successfully',
 ];

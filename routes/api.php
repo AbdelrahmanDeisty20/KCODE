@@ -14,6 +14,7 @@ use App\Http\Controllers\API\Genral\ReviewController;
 use App\Http\Controllers\API\Genral\RoutineController;
 use App\Http\Controllers\API\Genral\RoutineGoalController;
 use App\Http\Controllers\API\Genral\SkinController;
+use App\Http\Controllers\API\Genral\LoyaltyController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -98,6 +99,12 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/routine/suggested', 'getSuggestedRoutine')->middleware('auth:sanctum');
         Route::post('/routine/confirm', 'saveFinalRoutine')->middleware('auth:sanctum');
         Route::post('/routine/select-alternative', 'selectAlternative')->middleware('auth:sanctum');
+    });
+
+    // Loyalty Routes
+    Route::controller(LoyaltyController::class)->group(function () {
+        Route::get('/loyalty/profile', 'getLoyaltyProfile')->middleware('auth:sanctum');
+        Route::get('/loyalty/levels', 'getLoyaltyLevels');
     });
 
     // Cart Routes
