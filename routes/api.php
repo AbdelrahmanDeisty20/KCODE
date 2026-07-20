@@ -3,17 +3,17 @@
 use App\Http\Controllers\API\AUHT\AuthController;
 use App\Http\Controllers\API\AUHT\ForgetPasswordController;
 use App\Http\Controllers\API\Genral\BrandController;
-use App\Http\Controllers\API\Genral\CategoryController;
-use App\Http\Controllers\API\Genral\ProductController;
-use App\Http\Controllers\API\Genral\RoutineGoalController;
-use App\Http\Controllers\API\Genral\SkinController;
 use App\Http\Controllers\API\Genral\CartController;
-use App\Http\Controllers\API\Genral\QuizController;
-use App\Http\Controllers\API\Genral\RoutineController;
-use App\Http\Controllers\API\Genral\OfferController;
+use App\Http\Controllers\API\Genral\CategoryController;
 use App\Http\Controllers\API\Genral\ConcernController;
 use App\Http\Controllers\API\Genral\FavouriteController;
+use App\Http\Controllers\API\Genral\OfferController;
+use App\Http\Controllers\API\Genral\ProductController;
+use App\Http\Controllers\API\Genral\QuizController;
 use App\Http\Controllers\API\Genral\ReviewController;
+use App\Http\Controllers\API\Genral\RoutineController;
+use App\Http\Controllers\API\Genral\RoutineGoalController;
+use App\Http\Controllers\API\Genral\SkinController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -72,9 +72,9 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/products/{id}/alternatives', 'alternatives');
         Route::get('/products/{id}', 'show');
     });
-    //Routine goals
-    Route::controller(RoutineGoalController::class)->group(function(){
-        Route::get('goals','index');
+    // Routine goals
+    Route::controller(RoutineGoalController::class)->group(function () {
+        Route::get('goals', 'index');
     });
     // Concerns Routes
     Route::controller(ConcernController::class)->group(function () {
@@ -115,11 +115,13 @@ Route::middleware([SetLang::class])->group(function () {
 
         Route::controller(ReviewController::class)->group(function () {
             Route::get('/my-reviews', 'myReviews');
-            Route::get('/reviews/general', 'genralReview');
             Route::post('/reviews/add', 'store');
             Route::post('/reviews/website', 'storeWebsiteReview');
             Route::put('/reviews/{id}', 'update');
             Route::delete('/reviews/{id}', 'destroy');
         });
+    });
+    Route::controller(ReviewController::class)->group(function () {
+        Route::get('/reviews/general', 'genralReview');
     });
 });
