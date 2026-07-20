@@ -15,4 +15,16 @@ return [
     'digits' => 'The :attribute must be a :digits digit number.',
     'same' => 'The :attribute and :other must match.',
     'string' => 'The :attribute must be a string.',
+    'between' => [
+        'numeric' => 'The :attribute field must be between :min and :max.',
+        'file' => 'The :attribute field must be between :min and :max kilobytes.',
+        'string' => 'The :attribute field must be between :min and :max characters.',
+        'array' => 'The :attribute field must have between :min and :max items.',
+    ],
+    'attributes' => [
+        'product_id' => 'product ID',
+        'rating' => 'rating',
+        'comment' => 'comment',
+        'name' => 'name',
+    ],
 ];

@@ -15,4 +15,16 @@ return [
     'digits' => 'يجب أن يكون :attribute مكون من :digits أرقام',
     'same' => 'يجب أن يكون :attribute مطابق لـ :other',
     'string' => 'يجب أن يكون :attribute نص',
+    'between' => [
+        'numeric' => 'يجب أن تكون قيمة :attribute بين :min و :max.',
+        'file' => 'يجب أن يكون حجم :attribute بين :min و :max كيلوبايت.',
+        'string' => 'يجب أن يكون عدد حروف :attribute بين :min و :max.',
+        'array' => 'يجب أن يحتوي :attribute على ما بين :min و :max عناصر.',
+    ],
+    'attributes' => [
+        'product_id' => 'رقم المنتج',
+        'rating' => 'التقييم',
+        'comment' => 'التعليق',
+        'name' => 'الاسم',
+    ],
 ];
