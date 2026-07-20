@@ -160,12 +160,22 @@ class ProductService
         ];
     }
     public function show($id) {
-        $product = Product::with('brand', 'subCategory','reviews.user','offers','category','images')->find($id);
+        $product = Product::with([
+            'brand', 
+            'subCategory', 
+            'reviews' => function ($query) {
+                $query->orderBy('id', 'desc');
+            }, 
+            'reviews.user', 
+            'offers', 
+            'category', 
+            'images'
+        ])->find($id);
         if (!$product) {
             return [
                 'status' => false,
                 'message' => __('messages.product_not_found'),
-                'data' => null,
+                'data' => [],
             ];
         }
         return [
