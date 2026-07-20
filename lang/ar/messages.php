@@ -99,4 +99,8 @@ return [
     'loyalty_retrieved_successfully' => 'تم جلب بيانات النقاط ومستويات الولاء بنجاح',
     'newsletter_subscribed_successfully' => 'تم الاشتراك في النشرة البريدية بنجاح الحصول على الأدلة والاشعارات!',
     'newsletter_already_subscribed' => 'هذا البريد الإلكتروني مشترك بالفعل في النشرة البريدية.',
+    'faqs_retrieved_successfully' => 'تم جلب الأسئلة الشائعة بنجاح.',
+    'faqs_not_found' => 'لم يتم العثور على أسئلة شائعة.',
+    'policy_retrieved_successfully' => 'تم جلب تفاصيل السياسة بنجاح.',
+    'policy_not_found' => 'هذه السياسة غير متوفرة حالياً.',
 ];

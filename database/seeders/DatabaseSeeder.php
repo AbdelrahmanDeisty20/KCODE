@@ -50,6 +50,13 @@ class DatabaseSeeder extends Seeder
             ReviewSeeder::class,
             OfferSeeder::class,
             LoyaltyLevelsSeeder::class,
+            FaqSeeder::class,
+            ShippingPolicySeeder::class,
+            ReturnPolicySeeder::class,
+            TermsOfUseSeeder::class,
+            PrivacyPolicySeeder::class,
+            CouponPolicySeeder::class,
+            PointsProgramPolicySeeder::class,
         ]);
 
         // User::factory(10)->create();

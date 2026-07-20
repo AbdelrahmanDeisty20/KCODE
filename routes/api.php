@@ -16,6 +16,8 @@ use App\Http\Controllers\API\Genral\RoutineGoalController;
 use App\Http\Controllers\API\Genral\SkinController;
 use App\Http\Controllers\API\Genral\LoyaltyController;
 use App\Http\Controllers\API\Genral\NewsletterController;
+use App\Http\Controllers\API\Genral\FaqController;
+use App\Http\Controllers\API\Genral\PolicyController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -116,6 +118,20 @@ Route::middleware([SetLang::class])->group(function () {
     // Newsletter Routes
     Route::controller(NewsletterController::class)->group(function () {
         Route::post('/newsletter/subscribe', 'subscribe');
+    });
+
+    // FAQ & Policy Routes
+    Route::controller(FaqController::class)->group(function () {
+        Route::get('/faqs', 'getFaqs');
+    });
+
+    Route::controller(PolicyController::class)->group(function () {
+        Route::get('/policies/shipping', 'getShippingPolicy');
+        Route::get('/policies/return', 'getReturnPolicy');
+        Route::get('/policies/terms', 'getTermsOfUse');
+        Route::get('/policies/privacy', 'getPrivacyPolicy');
+        Route::get('/policies/coupons', 'getCouponPolicy');
+        Route::get('/policies/points-program', 'getPointsProgramPolicy');
     });
 
     // Favorites & Reviews Routes (Protected)

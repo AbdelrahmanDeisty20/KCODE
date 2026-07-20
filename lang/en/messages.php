@@ -99,4 +99,8 @@ return [
     'loyalty_retrieved_successfully' => 'Loyalty points and levels retrieved successfully',
     'newsletter_subscribed_successfully' => 'Subscribed to newsletter successfully to receive guides and notifications!',
     'newsletter_already_subscribed' => 'This email is already subscribed to the newsletter.',
+    'faqs_retrieved_successfully' => 'FAQs retrieved successfully.',
+    'faqs_not_found' => 'No FAQs found.',
+    'policy_retrieved_successfully' => 'Policy retrieved successfully.',
+    'policy_not_found' => 'This policy is not available currently.',
 ];
