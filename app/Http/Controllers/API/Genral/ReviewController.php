@@ -19,9 +19,10 @@ class ReviewController extends Controller
     /**
      * Get all reviews created by the authenticated user.
      */
-    public function genralReview(){
+    public function genralReview()
+    {
         $result = $this->reviewService->genralReview();
-        return $this->success($result['data'], $result['message']);
+        return $this->paginated(ReviewResource::class, $result['data'], $result['message']);
     }
     public function myReviews()
     {

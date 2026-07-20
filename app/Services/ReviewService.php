@@ -12,10 +12,11 @@ class ReviewService
     /**
      * Store a new product review.
      */
-    public function genralReview(){
+    public function genralReview()
+    {
         $reviews = Review::where('product_id', null)
-        ->with('user')->get();
-        if($reviews->isEmpty()){
+            ->with('user')->paginate(10);
+        if ($reviews->isEmpty()) {
             return [
                 'status' => false,
                 'message' => __('messages.noReviewsFound'),
@@ -25,7 +26,7 @@ class ReviewService
         return [
             'status' => true,
             'message' => __('messages.reviewsRetrievedSuccessfully'),
-            'data' => ReviewResource::collection($reviews)
+            'data' => $reviews
         ];
     }
     public function storeReview(int $userId, array $data)
