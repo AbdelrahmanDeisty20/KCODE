@@ -97,4 +97,6 @@ return [
     'websiteReviewCreatedSuccessfully' => 'تم إضافة تقييم الموقع بنجاح',
     'websiteReviewAlreadyExists' => 'لقد قمت بتقييم الموقع بالفعل',
     'loyalty_retrieved_successfully' => 'تم جلب بيانات النقاط ومستويات الولاء بنجاح',
+    'newsletter_subscribed_successfully' => 'تم الاشتراك في النشرة البريدية بنجاح الحصول على الأدلة والاشعارات!',
+    'newsletter_already_subscribed' => 'هذا البريد الإلكتروني مشترك بالفعل في النشرة البريدية.',
 ];

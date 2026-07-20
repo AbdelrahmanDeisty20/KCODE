@@ -97,4 +97,6 @@ return [
     'websiteReviewCreatedSuccessfully' => 'Website review added successfully',
     'websiteReviewAlreadyExists' => 'You have already reviewed the website',
     'loyalty_retrieved_successfully' => 'Loyalty points and levels retrieved successfully',
+    'newsletter_subscribed_successfully' => 'Subscribed to newsletter successfully to receive guides and notifications!',
+    'newsletter_already_subscribed' => 'This email is already subscribed to the newsletter.',
 ];

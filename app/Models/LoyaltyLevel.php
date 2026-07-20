@@ -13,6 +13,8 @@ class LoyaltyLevel extends Model
         'name_en',
         'description_ar',
         'description_en',
+        'policy_ar',
+        'policy_en',
         'min_points',
         'max_points',
         'icon',
@@ -42,6 +44,14 @@ class LoyaltyLevel extends Model
     public function getDescriptionAttribute(): ?string
     {
         return app()->getLocale() === 'ar' ? $this->description_ar : $this->description_en;
+    }
+
+    /**
+     * سياسة المستوى حسب لغة التطبيق
+     */
+    public function getPolicyAttribute(): ?string
+    {
+        return app()->getLocale() === 'ar' ? $this->policy_ar : $this->policy_en;
     }
 
     // ---- Scopes ----

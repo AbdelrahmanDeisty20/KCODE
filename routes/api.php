@@ -15,6 +15,7 @@ use App\Http\Controllers\API\Genral\RoutineController;
 use App\Http\Controllers\API\Genral\RoutineGoalController;
 use App\Http\Controllers\API\Genral\SkinController;
 use App\Http\Controllers\API\Genral\LoyaltyController;
+use App\Http\Controllers\API\Genral\NewsletterController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -110,6 +111,11 @@ Route::middleware([SetLang::class])->group(function () {
     // Cart Routes
     Route::controller(CartController::class)->group(function () {
         Route::post('/cart/add-bulk', 'addBulk');
+    });
+
+    // Newsletter Routes
+    Route::controller(NewsletterController::class)->group(function () {
+        Route::post('/newsletter/subscribe', 'subscribe');
     });
 
     // Favorites & Reviews Routes (Protected)

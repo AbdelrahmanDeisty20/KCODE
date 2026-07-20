@@ -18,6 +18,7 @@ class LoyaltyLevelResource extends JsonResource
             'id'          => $this->id,
             'name'        => $this->name, // Accessor handles localization
             'description' => $this->description, // Accessor handles localization
+            'policy'      => $this->policy, // Accessor handles localization
             'min_points'  => $this->min_points,
             'max_points'  => $this->max_points,
             'icon'        => $this->icon,
