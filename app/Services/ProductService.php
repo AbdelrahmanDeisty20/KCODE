@@ -88,6 +88,14 @@ class ProductService
             });
         }
 
+        // 5b. Concern Filter
+        if (!empty($filters['concern_id'])) {
+            $concernIds = is_array($filters['concern_id']) ? $filters['concern_id'] : [$filters['concern_id']];
+            $query->whereHas('concerns', function ($q) use ($concernIds) {
+                $q->whereIn('concern_id', $concernIds);
+            });
+        }
+
         // 6. Best Seller Filter
         if (isset($filters['is_best_seller'])) {
             $query->where('is_best_seller', (bool)$filters['is_best_seller']);

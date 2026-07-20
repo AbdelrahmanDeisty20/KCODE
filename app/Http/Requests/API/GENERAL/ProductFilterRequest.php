@@ -28,6 +28,8 @@ class ProductFilterRequest extends FormRequest
             'skin_type_id.*' => ['exists:skin_types,id'],
             'goal_id' => ['nullable'],
             'goal_id.*' => ['exists:routine_goals,id'],
+            'concern_id' => ['nullable'],
+            'concern_id.*' => ['exists:concerns,id'],
             'is_best_seller' => ['nullable', 'boolean'],
             'min_price' => ['nullable', 'numeric', 'min:0'],
             'max_price' => ['nullable', 'numeric', 'min:0'],
