@@ -12,6 +12,8 @@ use App\Http\Controllers\API\Genral\QuizController;
 use App\Http\Controllers\API\Genral\RoutineController;
 use App\Http\Controllers\API\Genral\OfferController;
 use App\Http\Controllers\API\Genral\ConcernController;
+use App\Http\Controllers\API\Genral\FavouriteController;
+use App\Http\Controllers\API\Genral\ReviewController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -101,5 +103,20 @@ Route::middleware([SetLang::class])->group(function () {
     // Cart Routes
     Route::controller(CartController::class)->group(function () {
         Route::post('/cart/add-bulk', 'addBulk');
+    });
+
+    // Favorites & Reviews Routes (Protected)
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::controller(FavouriteController::class)->group(function () {
+            Route::get('/favorites', 'index');
+            Route::post('/favorites/{product_id}', 'add');
+            Route::delete('/favorites/{product_id}', 'remove');
+        });
+
+        Route::controller(ReviewController::class)->group(function () {
+            Route::post('/reviews', 'store');
+            Route::put('/reviews/{id}', 'update');
+            Route::delete('/reviews/{id}', 'destroy');
+        });
     });
 });

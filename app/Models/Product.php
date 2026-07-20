@@ -180,6 +180,11 @@ class Product extends Model
         return $this->hasMany(ProductImage::class);
     }
 
+    public function favorites()
+    {
+        return $this->hasMany(Favourite::class);
+    }
+
     public function concerns()
     {
         return $this->hasMany(ProductConcern::class);
