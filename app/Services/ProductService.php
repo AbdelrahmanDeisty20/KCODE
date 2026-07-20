@@ -7,7 +7,7 @@ use App\Models\Product;
 class ProductService
 {
     public function index() {
-        $products = Product::with('brand', 'subCategory','offers')
+        $products = Product::with('brand', 'subCategory','offers','category')
             ->paginate(10);
         if ($products->isEmpty()) {
             return [
@@ -51,7 +51,7 @@ class ProductService
     }
 
     public function filter(array $filters = []) {
-        $query = Product::with(['brand', 'subCategory', 'reviews','offers']);
+        $query = Product::with(['brand', 'subCategory', 'reviews','offers','category']);
 
         // 1. Category Filter
         if (!empty($filters['category_id'])) {

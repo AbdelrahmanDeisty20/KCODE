@@ -32,6 +32,7 @@ class ProductListResource extends JsonResource
             'sales_count' => (int) $this->sales_count,
             'review_rating' => $this->average_rating,
             'num_reviews' => $this->num_reviews,
+            'category' => CategoryResource::make($this->whenLoaded('category')),
         ];
     }
 }
