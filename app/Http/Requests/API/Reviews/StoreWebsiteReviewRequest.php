@@ -24,6 +24,7 @@ class StoreWebsiteReviewRequest extends FormRequest
         return [
             'rating' => 'required|integer|between:1,5',
             'comment' => 'nullable|string|max:1000',
+            'name' => 'nullable|string|max:255',
         ];
     }
 }
