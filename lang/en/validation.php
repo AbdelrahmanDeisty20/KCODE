@@ -29,4 +29,5 @@ return [
     ],
     'state_must_belong_to_country' => 'The selected state does not belong to the selected country.',
     'city_must_belong_to_state_and_country' => 'The selected city does not belong to the selected state and country.',
+    'city_already_exists_in_addresses' => 'An address for this city has already been added.',
 ];

@@ -38,6 +38,9 @@ class AddressRequest extends FormRequest
                     $query->where('state_id', $this->state_id)
                           ->where('country_id', $this->country_id);
                 }),
+                Rule::unique('addresses', 'city_id')
+                    ->where('user_id', auth()->id())
+                    ->ignore($this->route('id')),
             ],
             'address' => 'required|string',
             'is_default' => 'nullable|boolean',
@@ -52,6 +55,7 @@ class AddressRequest extends FormRequest
         return [
             'state_id.exists' => __('validation.state_must_belong_to_country'),
             'city_id.exists'  => __('validation.city_must_belong_to_state_and_country'),
+            'city_id.unique'  => __('validation.city_already_exists_in_addresses'),
             'title.required' => __('validation.required'),
             'phone.required' => __('validation.required'),
             'country_id.required' => __('validation.required'),
