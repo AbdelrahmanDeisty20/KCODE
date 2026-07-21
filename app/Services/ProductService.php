@@ -335,13 +335,38 @@ class ProductService
                 continue;
             }
 
+            // Retrieve original product concerns, skin types, and goals
+            $skinTypeIds = $product->skinTypes()->pluck('skin_type_id')->toArray();
+            $concernIds = $product->concerns()->pluck('concern_id')->toArray();
+            $goalIds = $product->goals()->pluck('goal_id')->toArray();
+
             // Find other products belonging to the same step
             $otherProducts = Product::where('id', '!=', $product->id)
                 ->whereHas('routines', function ($q) use ($stepId) {
                     $q->where('routine_step_id', $stepId);
                 })
-                ->orderByDesc('sales_count')
+                ->with(['skinTypes', 'concerns', 'goals'])
                 ->get();
+
+            // Calculate relevance score and sort
+            $otherProducts = $otherProducts->map(function ($altProd) use ($skinTypeIds, $concernIds, $goalIds) {
+                $altSkinTypes = $altProd->skinTypes->pluck('skin_type_id')->toArray();
+                $altConcerns = $altProd->concerns->pluck('concern_id')->toArray();
+                $altGoals = $altProd->goals->pluck('goal_id')->toArray();
+
+                $sharedConcerns = count(array_intersect($concernIds, $altConcerns));
+                $sharedSkinTypes = count(array_intersect($skinTypeIds, $altSkinTypes));
+                $sharedGoals = count(array_intersect($goalIds, $altGoals));
+
+                // Score calculation: prioritize concerns (problems), then goals, then skin types
+                $score = ($sharedConcerns * 10) + ($sharedGoals * 5) + ($sharedSkinTypes * 3);
+
+                // Small sales count weight to favor popular products among equal matches
+                $score += min(($altProd->sales_count ?? 0) / 1000, 0.99);
+
+                $altProd->relevance_score = $score;
+                return $altProd;
+            })->sortByDesc('relevance_score')->values();
 
             foreach ($otherProducts as $altProd) {
                 $exists = \App\Models\ProductAlternative::where('product_id', $product->id)
