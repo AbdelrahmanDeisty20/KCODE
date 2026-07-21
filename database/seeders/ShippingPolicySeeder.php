@@ -83,8 +83,8 @@ class ShippingPolicySeeder extends Seeder
         ];
 
         DB::table('shipping_policies')->insert([
-            'title_ar'   => 'معلومات المتجر - سياسة الشحن',
-            'title_en'   => 'Store Information - Shipping Policy',
+            'title_ar'   => 'سياسة الشحن',
+            'title_en'   => 'Shipping Policy',
             'content_ar' => json_encode($contentAr, JSON_UNESCAPED_UNICODE),
             'content_en' => json_encode($contentEn, JSON_UNESCAPED_UNICODE),
             'is_active'  => true,
