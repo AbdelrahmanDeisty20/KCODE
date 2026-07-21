@@ -23,8 +23,8 @@ class AddressRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:255',
+            'title' => 'required|string|max:255',
+            'phone' => 'required|string|max:255',
             'country_id' => 'required|exists:countries,id',
             'state_id' => [
                 'required',
@@ -52,6 +52,19 @@ class AddressRequest extends FormRequest
         return [
             'state_id.exists' => __('validation.state_must_belong_to_country'),
             'city_id.exists'  => __('validation.city_must_belong_to_state_and_country'),
+            'title.required' => __('validation.required'),
+            'phone.required' => __('validation.required'),
+            'country_id.required' => __('validation.required'),
+            'state_id.required' => __('validation.required'),
+            'city_id.required' => __('validation.required'),
+            'address.required' => __('validation.required'),
+            'title.max' => __('validation.max'),
+            'phone.max' => __('validation.max'),
+            'address.max' => __('validation.max'),
+            'title.string' => __('validation.string'),
+            'phone.string' => __('validation.string'),
+            'address.string' => __('validation.string'),
+            
         ];
     }
 }
