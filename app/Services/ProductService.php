@@ -206,20 +206,15 @@ class ProductService
             ];
         }
 
-        $productRoutine = \App\Models\ProductRoutine::where('product_id', $product->id)->first();
-        $stepId = $productRoutine ? $productRoutine->routine_step_id : null;
+        // Check if there are explicit alternatives in the database
+        $explicitCount = \App\Models\ProductAlternative::where('product_id', $product->id)->count();
 
-        $user = auth('sanctum')->user();
-        $skinTypeId = null;
-        $concernIds = [];
-        if ($user) {
-            $assessment = \App\Models\Assessment::where('user_id', $user->id)->with('concerns')->first();
-            if ($assessment) {
-                $skinTypeId = $assessment->skin_type_id;
-                $concernIds = $assessment->concerns->pluck('concern_id')->all();
-            }
+        if ($explicitCount === 0) {
+            // Generate them automatically in the database at this exact moment!
+            $this->generateAlternatives($product->id);
         }
 
+        // Now load them from the database
         $explicit = \App\Models\ProductAlternative::where('product_id', $product->id)
             ->with(['alternative.brand', 'alternative.skinTypes', 'alternative.routines'])
             ->orderBy('priority', 'desc')
@@ -228,69 +223,8 @@ class ProductService
         $alternatives = collect();
         foreach ($explicit as $item) {
             $altProd = $item->alternative;
-            if ($altProd && $altProd->sales_count >= 100) {
+            if ($altProd) {
                 $alternatives->push($altProd);
-            }
-        }
-
-        if ($alternatives->count() < 6 && $stepId) {
-            $existingIds = $alternatives->pluck('id')->all();
-            $existingIds[] = $product->id;
-
-            $query = Product::query()
-                ->bestSeller()
-                ->whereKeyNot($existingIds)
-                ->whereHas('routines', function ($q) use ($stepId) {
-                    $q->where('routine_step_id', $stepId);
-                });
-
-            if ($skinTypeId) {
-                $query->whereHas('skinTypes', function ($q) use ($skinTypeId) {
-                    $q->where('skin_type_id', $skinTypeId);
-                });
-            }
-
-            // Prioritize products matching user's concerns
-            if (!empty($concernIds)) {
-                $queryClone = clone $query;
-                $queryClone->whereHas('concerns', function ($q) use ($concernIds) {
-                    $q->whereIn('concern_id', $concernIds);
-                });
-
-                $fallbacks = $queryClone->with(['brand', 'skinTypes', 'routines'])
-                    ->limit(6 - $alternatives->count())
-                    ->get();
-
-                foreach ($fallbacks as $fallback) {
-                    $alternatives->push($fallback);
-                }
-            }
-
-            // If still less than 6, get fallback products for the step without concern filter
-            if ($alternatives->count() < 6) {
-                $existingIds = $alternatives->pluck('id')->all();
-                $existingIds[] = $product->id;
-
-                $query2 = Product::query()
-                    ->bestSeller()
-                    ->whereKeyNot($existingIds)
-                    ->whereHas('routines', function ($q) use ($stepId) {
-                        $q->where('routine_step_id', $stepId);
-                    });
-
-                if ($skinTypeId) {
-                    $query2->whereHas('skinTypes', function ($q) use ($skinTypeId) {
-                        $q->where('skin_type_id', $skinTypeId);
-                    });
-                }
-
-                $fallbacks2 = $query2->with(['brand', 'skinTypes', 'routines'])
-                    ->limit(6 - $alternatives->count())
-                    ->get();
-
-                foreach ($fallbacks2 as $f) {
-                    $alternatives->push($f);
-                }
             }
         }
 
@@ -382,6 +316,55 @@ class ProductService
             'status' => true,
             'message' => __('messages.products_retrieved_successfully'),
             'data' => $products,
+        ];
+    }
+
+    public function generateAlternatives($productId = null) {
+        if ($productId) {
+            $products = Product::where('id', $productId)->get();
+        } else {
+            $products = Product::all();
+        }
+
+        $count = 0;
+        foreach ($products as $product) {
+            $productRoutine = \App\Models\ProductRoutine::where('product_id', $product->id)->first();
+            $stepId = $productRoutine ? $productRoutine->routine_step_id : null;
+
+            if (!$stepId) {
+                continue;
+            }
+
+            // Find other products belonging to the same step
+            $otherProducts = Product::where('id', '!=', $product->id)
+                ->whereHas('routines', function ($q) use ($stepId) {
+                    $q->where('routine_step_id', $stepId);
+                })
+                ->orderByDesc('sales_count')
+                ->get();
+
+            foreach ($otherProducts as $altProd) {
+                $exists = \App\Models\ProductAlternative::where('product_id', $product->id)
+                    ->where('alternative_id', $altProd->id)
+                    ->exists();
+
+                if (!$exists) {
+                    \App\Models\ProductAlternative::create([
+                        'product_id' => $product->id,
+                        'alternative_id' => $altProd->id,
+                        'priority' => 0,
+                        'reason_ar' => 'بديل تلقائي',
+                        'reason_en' => 'Auto-generated alternative',
+                    ]);
+                    $count++;
+                }
+            }
+        }
+
+        return [
+            'status' => true,
+            'message' => "Successfully generated {$count} new alternatives in the database.",
+            'data' => $count
         ];
     }
 }
