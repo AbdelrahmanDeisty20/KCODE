@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\ADDRESS\AddressRequest;
+use App\Http\Requests\WEB\AddressupdateRequest;
 use App\Http\Resources\API\ADDRESS\AddressResource;
 use App\Services\AddressService;
 use App\Traits\ApiResponse;
@@ -46,7 +47,7 @@ class AddressController extends Controller
     /**
      * Update user address.
      */
-    public function update(AddressRequest $request, int $id)
+    public function update(AddressupdateRequest $request, int $id)
     {
         $userId = auth()->id();
         $result = $this->addressService->updateAddress($userId, $id, $request->validated());
