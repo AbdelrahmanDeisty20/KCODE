@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Http\Resources\API\LOCATION\CityResource;
 use App\Http\Resources\API\LOCATION\CountryResource;
+use App\Http\Resources\API\LOCATION\StateResource;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\State;
@@ -37,12 +39,12 @@ class LocationService
             ];
         }
 
-        $states = State::where('country_id', $countryId)->where('is_active', true)->paginate(15);
+        $states = State::where('country_id', $countryId)->where('is_active', true)->get();
 
         return [
             'status'  => true,
             'message' => __('messages.states_retrieved_successfully'),
-            'data'    => $states,
+            'data'    => StateResource::collection($states),
         ];
     }
 
@@ -59,12 +61,12 @@ class LocationService
             ];
         }
 
-        $cities = City::where('state_id', $stateId)->where('is_active', true)->paginate(10);
+        $cities = City::where('state_id', $stateId)->where('is_active', true)->get();
 
         return [
             'status'  => true,
             'message' => __('messages.cities_retrieved_successfully'),
-            'data'    => $cities,
+            'data'    => CityResource::collection($cities),
         ];
     }
 }
