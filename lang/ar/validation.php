@@ -30,4 +30,6 @@ return [
     'state_must_belong_to_country' => 'المحافظة المحددة لا تنتمي إلى الدولة المحددة.',
     'city_must_belong_to_state_and_country' => 'المدينة المحددة لا تنتمي إلى المحافظة والدولة المحددة.',
     'city_already_exists_in_addresses' => 'تم إضافة عنوان لهذه المدينة بالفعل.',
+    'state_required_with_country' => 'حقل المحافظة مطلوب عند تعديل الدولة.',
+    'city_required_with_country_or_state' => 'حقل المدينة مطلوب عند تعديل الدولة أو المحافظة.',
 ];

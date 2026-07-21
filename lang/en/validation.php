@@ -30,4 +30,6 @@ return [
     'state_must_belong_to_country' => 'The selected state does not belong to the selected country.',
     'city_must_belong_to_state_and_country' => 'The selected city does not belong to the selected state and country.',
     'city_already_exists_in_addresses' => 'An address for this city has already been added.',
+    'state_required_with_country' => 'The state field is required when country is present.',
+    'city_required_with_country_or_state' => 'The city field is required when country or state is present.',
 ];

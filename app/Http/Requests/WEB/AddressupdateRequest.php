@@ -65,6 +65,8 @@ class AddressupdateRequest extends FormRequest
         return [
             'state_id.exists' => __('validation.state_must_belong_to_country'),
             'city_id.exists'  => __('validation.city_must_belong_to_state_and_country'),
+            'state_id.required_with' => __('validation.state_required_with_country'),
+            'city_id.required_with' => __('validation.city_required_with_country_or_state'),
         ];
     }
 }
