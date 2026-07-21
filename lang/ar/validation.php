@@ -27,4 +27,6 @@ return [
         'comment' => 'التعليق',
         'name' => 'الاسم',
     ],
+    'state_must_belong_to_country' => 'المحافظة المحددة لا تنتمي إلى الدولة المحددة.',
+    'city_must_belong_to_state_and_country' => 'المدينة المحددة لا تنتمي إلى المحافظة والدولة المحددة.',
 ];
