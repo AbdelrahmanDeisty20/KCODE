@@ -66,13 +66,4 @@ class LocationService
             'data'    => $cities,
         ];
     }
-    public function StoreAddresses(array $data) : array
-    {
-        $address = Address::create($data);
-        return [
-            'status'  => true,
-            'message' => __('messages.address_added_successfully'),
-            'data'    => $address,
-        ];
-    }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\API\ADDRESS\AddressRequest;
 use App\Http\Resources\API\LOCATION\CountryResource;
 use App\Http\Resources\API\LOCATION\StateResource;
 use App\Http\Resources\API\LOCATION\CityResource;
@@ -63,10 +62,5 @@ class LocationController extends Controller
             $result['data'],
             $result['message']
         );
-    }
-    public function StoreAddresses(AddressRequest $request)
-    {
-        $result = $this->locationService->StoreAddresses($request->validated());
-        return $this->success($result['message'], $result['data']);
     }
 }
