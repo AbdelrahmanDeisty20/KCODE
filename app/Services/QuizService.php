@@ -72,14 +72,6 @@ class QuizService
 
         // Check if user already has a confirmed final routine
         if ($user) {
-            $existingFinalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)->first();
-            if ($existingFinalRoutine) {
-                return [
-                    'status' => false,
-                    'message' => __('messages.routine_already_added')
-                ];
-            }
-
             $existingAssessment = Assessment::where('user_id', $user->id)->first();
             if ($existingAssessment) {
                 // تحديث الـ Assessment الحالي
