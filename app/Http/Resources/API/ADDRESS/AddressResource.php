@@ -25,7 +25,6 @@ class AddressResource extends JsonResource
             'country' => $this->country ? new CountryResource($this->country) : null,
             'state' => $this->state ? new StateResource($this->state) : null,
             'city' => $this->city ? new CityResource($this->city) : null,
-            'is_default' => $this->is_default,
             'created_at' => $this->created_at,
         ];
     }

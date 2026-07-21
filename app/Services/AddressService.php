@@ -106,6 +106,7 @@ class AddressService
         return [
             'status'  => true,
             'message' => __('messages.address_deleted_successfully'),
+            'data'=>[]
         ];
     }
 
