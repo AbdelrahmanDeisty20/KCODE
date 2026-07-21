@@ -17,8 +17,8 @@ class FinalRoutineResource extends JsonResource
     {
         $lang = $request->header('lang') ?? app()->getLocale();
 
-        $step = $this->whenLoaded('routineStep');
-        $product = $this->whenLoaded('product');
+        $step = $this->relationLoaded('routineStep') ? $this->routineStep : null;
+        $product = $this->relationLoaded('product') ? $this->product : null;
 
         // Retrieve product routine details
         $routineInfo = null;

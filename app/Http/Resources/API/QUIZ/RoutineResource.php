@@ -19,8 +19,14 @@ class RoutineResource extends JsonResource
         $lang = $request->header('lang') ?? app()->getLocale();
 
         // Loaded relationships
-        $step = $this->whenLoaded('routineStep');
-        $product = $this->relationLoaded('replacedProduct') && $this->replacedProduct ? $this->replacedProduct : $this->product;
+        $step = $this->relationLoaded('routineStep') ? $this->routineStep : null;
+        
+        $product = null;
+        if ($this->relationLoaded('replacedProduct') && $this->replacedProduct) {
+            $product = $this->replacedProduct;
+        } elseif ($this->relationLoaded('product')) {
+            $product = $this->product;
+        }
 
         // Retrieve product routine details
         $routineInfo = null;
