@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\API\LOCATION\CountryResource;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\State;
@@ -14,12 +15,12 @@ class LocationService
      */
     public function getCountries(): array
     {
-        $countries = Country::where('is_active', true)->paginate(1);
+        $countries = Country::where('is_active', true)->get();
 
         return [
             'status'  => true,
             'message' => __('messages.countries_retrieved_successfully'),
-            'data'    => $countries,
+            'data'    => CountryResource::collection($countries),
         ];
     }
 

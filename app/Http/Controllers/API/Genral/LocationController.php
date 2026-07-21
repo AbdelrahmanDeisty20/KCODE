@@ -21,8 +21,7 @@ class LocationController extends Controller
     public function getCountries()
     {
         $result = $this->locationService->getCountries();
-        return $this->paginated(
-            CountryResource::class,
+        return $this->success(
             $result['data'],
             $result['message']
         );
@@ -39,8 +38,7 @@ class LocationController extends Controller
             return $this->error($result['message']);
         }
 
-        return $this->paginated(
-            StateResource::class,
+        return $this->success(
             $result['data'],
             $result['message']
         );
@@ -57,8 +55,7 @@ class LocationController extends Controller
             return $this->error($result['message']);
         }
 
-        return $this->paginated(
-            CityResource::class,
+        return $this->success(
             $result['data'],
             $result['message']
         );
