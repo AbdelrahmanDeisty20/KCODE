@@ -57,6 +57,7 @@ class DatabaseSeeder extends Seeder
             PrivacyPolicySeeder::class,
             CouponPolicySeeder::class,
             PointsProgramPolicySeeder::class,
+            LocationSeeder::class,
         ]);
 
         // User::factory(10)->create();

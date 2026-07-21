@@ -23,13 +23,11 @@ class AddressRequest extends FormRequest
     {
         return [
             'title' => 'nullable|string|max:255',
-            'address_line_1' => 'required|string|max:255',
-            'address_line_2' => 'nullable|string|max:255',
-            'city' => 'required|string|max:255',
-            'state' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:255',
-            'postal_code' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:255',
+            'country_id' => 'required|exists:countries,id',
+            'state_id' => 'required|exists:states,id',
+            'city_id' => 'required|exists:cities,id',
+            'address' => 'required|string',
             'is_default' => 'nullable|boolean',
         ];
     }

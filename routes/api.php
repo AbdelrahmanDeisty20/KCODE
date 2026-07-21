@@ -18,6 +18,8 @@ use App\Http\Controllers\API\Genral\LoyaltyController;
 use App\Http\Controllers\API\Genral\NewsletterController;
 use App\Http\Controllers\API\Genral\FaqController;
 use App\Http\Controllers\API\Genral\PolicyController;
+use App\Http\Controllers\API\Genral\LocationController;
+use App\Http\Controllers\API\Genral\AddressController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -134,6 +136,13 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/policies/points-program', 'getPointsProgramPolicy');
     });
 
+    // Location Routes
+    Route::controller(LocationController::class)->group(function () {
+        Route::get('/countries', 'getCountries');
+        Route::get('/countries/{countryId}/states', 'getStates');
+        Route::get('/states/{stateId}/cities', 'getCities');
+    });
+
     // Favorites & Reviews Routes (Protected)
     Route::middleware('auth:sanctum')->group(function () {
         Route::controller(FavouriteController::class)->group(function () {
@@ -148,6 +157,14 @@ Route::middleware([SetLang::class])->group(function () {
             Route::post('/reviews/website', 'storeWebsiteReview');
             Route::put('/reviews/{id}', 'update');
             Route::delete('/reviews/{id}', 'destroy');
+        });
+
+        Route::controller(AddressController::class)->group(function () {
+            Route::get('/addresses', 'index');
+            Route::post('/addresses', 'store');
+            Route::put('/addresses/{id}', 'update');
+            Route::delete('/addresses/{id}', 'destroy');
+            Route::patch('/addresses/{id}/default', 'setDefault');
         });
     });
     Route::controller(ReviewController::class)->group(function () {
