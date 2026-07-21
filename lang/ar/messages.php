@@ -114,4 +114,5 @@ return [
     'address_updated_successfully' => 'تم تحديث العنوان بنجاح.',
     'address_deleted_successfully' => 'تم حذف العنوان بنجاح.',
     'default_address_set_successfully' => 'تم تعيين العنوان الافتراضي بنجاح.',
+    'address_added_successfully' => 'تم إضافة العنوان بنجاح.',
 ];

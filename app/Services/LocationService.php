@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Address;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\City;
@@ -63,6 +64,15 @@ class LocationService
             'status'  => true,
             'message' => __('messages.cities_retrieved_successfully'),
             'data'    => $cities,
+        ];
+    }
+    public function StoreAddresses(array $data) : array
+    {
+        $address = Address::create($data);
+        return [
+            'status'  => true,
+            'message' => __('messages.address_added_successfully'),
+            'data'    => $address,
         ];
     }
 }

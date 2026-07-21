@@ -114,4 +114,6 @@ return [
     'address_updated_successfully' => 'Address updated successfully.',
     'address_deleted_successfully' => 'Address deleted successfully.',
     'default_address_set_successfully' => 'Default address set successfully.',
+    'address_added_successfully' => 'Address added successfully.',
+    
 ];
