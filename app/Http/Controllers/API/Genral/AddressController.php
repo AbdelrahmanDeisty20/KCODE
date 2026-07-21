@@ -75,7 +75,7 @@ class AddressController extends Controller
         }
 
         return $this->success(
-            null,
+            [],
             $result['message']
         );
     }
