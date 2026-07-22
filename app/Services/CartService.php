@@ -53,7 +53,8 @@ class CartService
                 ];
             }
 
-            $products = Product::with('offers')->whereIn('id', $productIds)->get();
+            $lang = request()->header('lang') ?? app()->getLocale();
+            $products = Product::whereIn('id', $productIds)->lockForUpdate()->with('offers')->get();
 
             if ($products->isEmpty()) {
                 return [
@@ -63,9 +64,33 @@ class CartService
                 ];
             }
 
-            // 4. Add products in bulk with discount calculations
+            // 4. Check stock & Race Condition and add products in bulk with discount calculations
             foreach ($products as $product) {
-                $quantity = 1;
+                $productName = $lang === 'ar' ? $product->name_ar : $product->name_en;
+
+                if ($product->stock <= 0) {
+                    return [
+                        'status' => false,
+                        'message' => __('messages.product_out_of_stock', ['name' => $productName]),
+                        'data' => [],
+                    ];
+                }
+
+                $existingItem = CartItem::where('cart_id', $cart->id)->where('product_id', $product->id)->first();
+                $currentCartQuantity = $existingItem ? (int)$existingItem->quantity : 0;
+                $targetQuantity = $currentCartQuantity > 0 ? $currentCartQuantity : 1;
+
+                if ($targetQuantity > $product->stock) {
+                    return [
+                        'status' => false,
+                        'message' => __('messages.product_stock_insufficient', [
+                            'name' => $productName,
+                            'stock' => $product->stock
+                        ]),
+                        'data' => [],
+                    ];
+                }
+
                 $unitPrice = (float) $product->price;
 
                 // Calculate active offer discount if exists
@@ -83,12 +108,12 @@ class CartService
                     $priceAfterDiscount = max(0, round($unitPrice - $discountAmount, 2));
                 }
 
-                $totalPrice = round($priceAfterDiscount * $quantity, 2);
+                $totalPrice = round($priceAfterDiscount * $targetQuantity, 2);
 
                 CartItem::updateOrCreate(
                     ['cart_id' => $cart->id, 'product_id' => $product->id],
                     [
-                        'quantity'             => $quantity,
+                        'quantity'             => $targetQuantity,
                         'unit_price'           => $unitPrice,
                         'discount_amount'      => $discountAmount,
                         'discount_percentage'  => $discountPercentage,

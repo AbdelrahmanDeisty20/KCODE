@@ -134,4 +134,6 @@ return [
     'newsletter_welcome_coupon_text' => 'Use your exclusive welcome discount code on your next purchase:',
     'newsletter_welcome_coupon_hint' => '10% off your purchase at KCODE',
     'product_removed_from_routine_successfully' => 'Product removed from routine successfully.',
+    'product_out_of_stock' => 'Sorry, product (:name) is currently out of stock.',
+    'product_stock_insufficient' => 'Sorry, only :stock items of product (:name) are available in stock.',
 ];

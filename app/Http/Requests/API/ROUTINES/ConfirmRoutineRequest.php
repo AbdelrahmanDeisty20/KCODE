@@ -4,7 +4,7 @@ namespace App\Http\Requests\API\ROUTINES;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RemoveProductRequest extends FormRequest
+class ConfirmRoutineRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,8 +20,7 @@ class RemoveProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'routine_id' => ['required', 'integer'],
-            'product_id' => ['required', 'exists:products,id'],
+            'routine_id' => ['required', 'integer', 'exists:routines,id'],
         ];
     }
 }

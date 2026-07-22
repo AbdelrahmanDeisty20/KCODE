@@ -39,11 +39,11 @@ class RoutineController extends Controller
     }
 
     /**
-     * Save/finalize routine to user account.
+     * Save/finalize routine to user account by routine_id.
      */
-    public function saveFinalRoutine()
+    public function saveFinalRoutine(\App\Http\Requests\API\ROUTINES\ConfirmRoutineRequest $request)
     {
-        $result = $this->routineService->saveFinalRoutine();
+        $result = $this->routineService->saveFinalRoutine((int) $request->routine_id);
 
         if (!$result['status']) {
             $code = $result['code'] ?? 400;

@@ -16,7 +16,6 @@ class QuizResource extends JsonResource
     {
         return [
             'is_routine_added' => $this['is_routine_added'] ?? true,
-            'routine_id'       => $this['routine_id'] ?? null,
             'diagnosis'        => $this['diagnosis'] ?? null,
             'questions'        => $this['questions'] ?? [],
             'routine'          => $this['routine'] ?? [],

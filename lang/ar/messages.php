@@ -134,4 +134,6 @@ return [
     'newsletter_welcome_coupon_text' => 'استخدمي كود الخصم الترحيبي الخاص بكِ عند التسوق:',
     'newsletter_welcome_coupon_hint' => 'خصم 10% عند الشراء من المتجر',
     'product_removed_from_routine_successfully' => 'تم حذف المنتج من الروتين بنجاح.',
+    'product_out_of_stock' => 'عذراً، المنتج (:name) غير متوفر في المخزون حالياً.',
+    'product_stock_insufficient' => 'عذراً، الكمية المتاحة من المنتج (:name) في المخزون هي :stock فقط.',
 ];

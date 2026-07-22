@@ -101,39 +101,29 @@ class RoutineService
     }
 
     /**
-     * Save the routine to the user's personal account (finalized routine).
+     * Save the routine to the user's personal account (finalized routine by routine_id).
      */
-    public function saveFinalRoutine()
+    public function saveFinalRoutine(int $routineId): array
     {
         $user = auth('sanctum')->user();
         if (!$user) {
             return [
-                'status' => false,
+                'status'  => false,
                 'message' => __('auth.unauthenticated'),
-                'code' => 401
+                'code'    => 401
             ];
         }
 
-        $assessment = Assessment::where('user_id', $user->id)->first();
-        if (!$assessment) {
-            return [
-                'status' => false,
-                'message' => __('messages.no_routine_found')
-            ];
-        }
-
-        $routine = Routine::where('assessment_id', $assessment->id)
-            ->with('routineProducts')
-            ->first();
+        $routine = Routine::where('id', $routineId)->with('routineProducts')->first();
 
         if (!$routine) {
             return [
-                'status' => false,
+                'status'  => false,
                 'message' => __('messages.no_routine_found')
             ];
         }
 
-        // Create or update final routine record
+        // Create or update final routine record for user
         $finalRoutine = \App\Models\FinalRoutine::updateOrCreate(
             ['user_id' => $user->id],
             ['routine_id' => $routine->id]
@@ -153,10 +143,7 @@ class RoutineService
             ]);
         }
 
-        // -------------------------------------------------------
-        // تنظيف المنتجات المؤقتة فقط بعد الـ confirm
-        // دون حذف الـ routine أو الـ assessment لتجنب الـ Cascade Delete
-        // -------------------------------------------------------
+        // Clean up temporary products after confirmation
         $routine->routineProducts()->delete();
 
         return [
