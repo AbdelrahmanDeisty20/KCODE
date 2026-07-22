@@ -203,18 +203,45 @@ class RoutineService
             ];
         }
 
-        // 1. Update in active quiz routine_products
+        // 1. Fetch current routine product for this step
         $routineProduct = \App\Models\RoutineProduct::where('routine_id', $routine->id)
             ->where('step', $step->order)
             ->first();
 
-        if ($routineProduct) {
-            $routineProduct->update([
-                'replaced_with_product_id' => $alternativeProductId
-            ]);
+        if (!$routineProduct) {
+            return [
+                'status' => false,
+                'message' => __('messages.no_routine_found')
+            ];
         }
 
-        // 2. If user already finalized, update final_routine_products too
+        $originalProductId = $routineProduct->product_id;
+
+        // 2. Validate that alternativeProductId is in the valid alternatives list
+        if ($alternativeProductId != $originalProductId) {
+            $productService = new ProductService();
+            $altResult = $productService->alternatives($originalProductId);
+
+            $validAltIds = [];
+            if ($altResult['status'] && isset($altResult['data'])) {
+                $validAltIds = $altResult['data']->pluck('id')->toArray();
+            }
+
+            if (!in_array($alternativeProductId, $validAltIds)) {
+                return [
+                    'status' => false,
+                    'message' => __('messages.invalid_alternative_product'),
+                    'code' => 422
+                ];
+            }
+        }
+
+        // 3. Update in active quiz routine_products
+        $routineProduct->update([
+            'replaced_with_product_id' => $alternativeProductId
+        ]);
+
+        // 4. If user already finalized, update final_routine_products too
         $finalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)->first();
         if ($finalRoutine) {
             \App\Models\FinalRoutineProduct::updateOrCreate(

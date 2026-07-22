@@ -118,4 +118,5 @@ return [
     'routine_deleted_successfully' => 'تم حذف الروتين والتقييم بنجاح، يمكنك الآن إعادة التقييم وبناء الروتين من جديد.',
     'page_retrieved_successfully' => 'تم جلب بيانات الصفحة بنجاح.',
     'page_not_found' => 'الصفحة غير موجودة.',
+    'invalid_alternative_product' => 'المنتج المحدد ليس ضمن قائمة البدائل المتاحة لهذا المنتج.',
 ];

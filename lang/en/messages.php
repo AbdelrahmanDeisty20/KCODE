@@ -118,4 +118,5 @@ return [
     'routine_deleted_successfully' => 'Routine and assessment deleted successfully. You can now retake the quiz and rebuild your routine.',
     'page_retrieved_successfully' => 'Page data retrieved successfully.',
     'page_not_found' => 'Page not found.',
+    'invalid_alternative_product' => 'The selected product is not among the available alternatives for this product.',
 ];
