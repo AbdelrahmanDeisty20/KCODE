@@ -14,11 +14,15 @@ class QuizResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $data = is_array($this->resource) ? $this->resource : $this->resource->toArray();
+
         return [
-            'is_routine_added' => $this['is_routine_added'] ?? true,
-            'diagnosis'        => $this['diagnosis'] ?? null,
-            'questions'        => $this['questions'] ?? [],
-            'routine'          => $this['routine'] ?? [],
+            'id'       => $data['routine_id'] ?? null,
+            'is_routine_added' => $data['is_routine_added'] ?? true,
+            
+            'diagnosis'        => $data['diagnosis'] ?? null,
+            'questions'        => $data['questions'] ?? [],
+            'routine'          => $data['routine'] ?? [],
         ];
     }
 }
