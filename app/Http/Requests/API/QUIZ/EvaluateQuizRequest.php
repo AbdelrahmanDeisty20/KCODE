@@ -53,6 +53,4 @@ class EvaluateQuizRequest extends FormRequest
             'concern_ids' => __('messages.concerns'),
         ];
     }
-
-    }
 }
