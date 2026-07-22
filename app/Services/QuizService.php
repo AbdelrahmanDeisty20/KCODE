@@ -267,8 +267,6 @@ class QuizService
             'consultation' => [
                 'title' => $lang === 'ar' ? 'هل تودين استشارة خبيرة؟' : 'Would you like expert consultation?',
                 'description' => $lang === 'ar' ? 'صيدلانيات كود متواجدات للإجابة على استفساراتك وتخصيص الروتين أكثر.' : 'KCODE pharmacists are available to answer your questions and further customize your routine.',
-                'button_text' => $lang === 'ar' ? 'تحدثي معنا الآن' : 'Chat with us now',
-                'link' => 'https://wa.me/966500000000',
             ]
         ];
 
