@@ -103,4 +103,22 @@ class RoutineController extends Controller
 
         return $this->success([], $result['message']);
     }
+
+    /**
+     * Remove a single product from the user's routine.
+     */
+    public function removeProduct(\App\Http\Requests\API\ROUTINES\RemoveProductRequest $request)
+    {
+        $result = $this->routineService->removeProduct(
+            (int) $request->product_id,
+            $request->routine_id ? (int) $request->routine_id : null
+        );
+
+        if (!$result['status']) {
+            $code = $result['code'] ?? 400;
+            return $this->error($result['message'], $code);
+        }
+
+        return $this->success([], $result['message']);
+    }
 }

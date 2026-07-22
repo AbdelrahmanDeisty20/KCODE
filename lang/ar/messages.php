@@ -133,4 +133,5 @@ return [
     'newsletter_welcome_body' => 'شكراً لاشتراككِ في النشرة البريدية! يسعدنا انضمامك إلينا لتصلكِ أحدث أسرار العناية بالبشرة الكورية وأقوى العروض الحصرية.',
     'newsletter_welcome_coupon_text' => 'استخدمي كود الخصم الترحيبي الخاص بكِ عند التسوق:',
     'newsletter_welcome_coupon_hint' => 'خصم 10% عند الشراء من المتجر',
+    'product_removed_from_routine_successfully' => 'تم حذف المنتج من الروتين بنجاح.',
 ];

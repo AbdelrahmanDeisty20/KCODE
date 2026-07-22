@@ -133,4 +133,5 @@ return [
     'newsletter_welcome_body' => 'Thank you for subscribing to our newsletter! We are thrilled to have you with us to receive the latest Korean skincare secrets and exclusive offers.',
     'newsletter_welcome_coupon_text' => 'Use your exclusive welcome discount code on your next purchase:',
     'newsletter_welcome_coupon_hint' => '10% off your purchase at KCODE',
+    'product_removed_from_routine_successfully' => 'Product removed from routine successfully.',
 ];

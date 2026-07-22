@@ -417,9 +417,10 @@ class QuizService
             'message' => __('messages.routine_recommended_successfully'),
             'data' => [
                 'is_routine_added' => true,
-                'diagnosis' => $diagnosis,
-                'questions' => $questionsAndAnswers,
-                'routine' => $recommendedProducts
+                'routine_id'       => $routine->id,
+                'diagnosis'        => $diagnosis,
+                'questions'        => $questionsAndAnswers,
+                'routine'          => $recommendedProducts
             ]
         ];
     }

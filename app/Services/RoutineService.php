@@ -348,4 +348,64 @@ class RoutineService
             'message' => __('messages.routine_deleted_successfully')
         ];
     }
+
+    /**
+     * Remove a single product from the user's active or final routine.
+     */
+    public function removeProduct(int $productId, ?int $routineId = null): array
+    {
+        $user = auth('sanctum')->user();
+        $deletedCount = 0;
+
+        // 1. If explicit routine_id provided
+        if ($routineId) {
+            $deletedFinal = \App\Models\FinalRoutineProduct::where('final_routine_id', $routineId)
+                ->where('product_id', $productId)
+                ->delete();
+
+            $deletedTemp = \App\Models\RoutineProduct::where('routine_id', $routineId)
+                ->where(function ($q) use ($productId) {
+                    $q->where('product_id', $productId)
+                      ->orWhere('replaced_with_product_id', $productId);
+                })
+                ->delete();
+
+            $deletedCount += ($deletedFinal + $deletedTemp);
+        }
+
+        // 2. If user is authenticated, delete from user's final routine and active quiz routine
+        if ($user) {
+            $finalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)->first();
+            if ($finalRoutine) {
+                $deletedCount += \App\Models\FinalRoutineProduct::where('final_routine_id', $finalRoutine->id)
+                    ->where('product_id', $productId)
+                    ->delete();
+            }
+
+            $assessment = Assessment::where('user_id', $user->id)->first();
+            if ($assessment) {
+                $routine = Routine::where('assessment_id', $assessment->id)->first();
+                if ($routine) {
+                    $deletedCount += \App\Models\RoutineProduct::where('routine_id', $routine->id)
+                        ->where(function ($q) use ($productId) {
+                            $q->where('product_id', $productId)
+                              ->orWhere('replaced_with_product_id', $productId);
+                        })
+                        ->delete();
+                }
+            }
+        }
+
+        if ($deletedCount === 0 && !$user && !$routineId) {
+            return [
+                'status' => false,
+                'message' => __('messages.no_routine_found')
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.product_removed_from_routine_successfully')
+        ];
+    }
 }
