@@ -88,4 +88,19 @@ class RoutineController extends Controller
             $result['message']
         );
     }
+
+    /**
+     * Delete/reset user's routine and assessment.
+     */
+    public function deleteRoutine()
+    {
+        $result = $this->routineService->deleteRoutine();
+
+        if (!$result['status']) {
+            $code = $result['code'] ?? 400;
+            return $this->error($result['message'], $code);
+        }
+
+        return $this->success([], $result['message']);
+    }
 }

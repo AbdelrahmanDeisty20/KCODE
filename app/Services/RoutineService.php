@@ -279,4 +279,46 @@ class RoutineService
             'data' => $sortedProducts
         ];
     }
+
+    /**
+     * Delete/reset user's routine and assessment so they can retake the quiz.
+     */
+    public function deleteRoutine()
+    {
+        $user = auth('sanctum')->user();
+        if (!$user) {
+            return [
+                'status' => false,
+                'message' => __('auth.unauthenticated'),
+                'code' => 401
+            ];
+        }
+
+        // 1. Delete FinalRoutine & FinalRoutineProducts
+        $finalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)->first();
+        if ($finalRoutine) {
+            $finalRoutine->products()->delete();
+            $finalRoutine->delete();
+        }
+
+        // 2. Delete Assessment, AssessmentGoal, AssessmentConcern, Routine, RoutineProduct
+        $assessment = Assessment::where('user_id', $user->id)->first();
+        if ($assessment) {
+            \App\Models\AssessmentGoal::where('assessment_id', $assessment->id)->delete();
+            \App\Models\AssessmentConcern::where('assessment_id', $assessment->id)->delete();
+
+            $routine = Routine::where('assessment_id', $assessment->id)->first();
+            if ($routine) {
+                \App\Models\RoutineProduct::where('routine_id', $routine->id)->delete();
+                $routine->delete();
+            }
+
+            $assessment->delete();
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.routine_deleted_successfully')
+        ];
+    }
 }

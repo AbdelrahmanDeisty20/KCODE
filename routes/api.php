@@ -104,6 +104,8 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/routine/suggested', 'getSuggestedRoutine')->middleware('auth:sanctum');
         Route::post('/routine/confirm', 'saveFinalRoutine')->middleware('auth:sanctum');
         Route::post('/routine/select-alternative', 'selectAlternative')->middleware('auth:sanctum');
+        Route::delete('/routine', 'deleteRoutine')->middleware('auth:sanctum');
+        Route::post('/routine/delete', 'deleteRoutine')->middleware('auth:sanctum');
     });
 
     // Loyalty Routes
