@@ -275,7 +275,6 @@ class QuizService
             'consultation' => [
                 'title' => $lang === 'ar' ? 'هل تودين استشارة خبيرة؟' : 'Would you like expert consultation?',
                 'description' => $lang === 'ar' ? 'صيدلانيات كود متواجدات للإجابة على استفساراتك وتخصيص الروتين أكثر.' : 'KCODE pharmacists are available to answer your questions and further customize your routine.',
-                'phone_number' => $whatsappNumber,
             ]
         ];
 

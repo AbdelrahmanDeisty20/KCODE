@@ -11,9 +11,20 @@ class CartItem extends Model
         'cart_id',
         'product_id',
         'quantity',
-        'discount_amount',
         'unit_price',
+        'discount_amount',
+        'discount_percentage',
+        'price_after_discount',
         'total_price',
+    ];
+
+    protected $casts = [
+        'quantity' => 'integer',
+        'unit_price' => 'float',
+        'discount_amount' => 'float',
+        'discount_percentage' => 'float',
+        'price_after_discount' => 'float',
+        'total_price' => 'float',
     ];
 
     /**
