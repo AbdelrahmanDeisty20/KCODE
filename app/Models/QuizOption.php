@@ -29,4 +29,9 @@ class QuizOption extends Model
     {
         return $this->{'title_' . app()->getLocale()};
     }
+
+    public function getDescriptionAttribute()
+    {
+        return $this->{'description_' . app()->getLocale()};
+    }
 }
