@@ -25,6 +25,18 @@ class SettingSeeder extends Seeder
                 'value_ar' => '966500000000',
                 'value_en' => '966500000000',
             ],
+            [
+                'key_ar' => 'الحد الأدنى للشحن المجاني',
+                'key_en' => 'free_shipping_min_amount',
+                'value_ar' => '25',
+                'value_en' => '25',
+            ],
+            [
+                'key_ar' => 'رمز العملة',
+                'key_en' => 'currency_symbol',
+                'value_ar' => 'ر.ع',
+                'value_en' => 'OMR',
+            ],
         ];
 
         foreach ($settings as $setting) {

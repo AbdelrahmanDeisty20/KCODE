@@ -60,6 +60,7 @@ class DatabaseSeeder extends Seeder
             LocationSeeder::class,
             SettingSeeder::class,
             PageSeeder::class,
+            CouponSeeder::class,
         ]);
 
         // User::factory(10)->create();

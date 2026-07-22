@@ -6,6 +6,7 @@ use App\Http\Controllers\API\Genral\BrandController;
 use App\Http\Controllers\API\Genral\CartController;
 use App\Http\Controllers\API\Genral\CategoryController;
 use App\Http\Controllers\API\Genral\ConcernController;
+use App\Http\Controllers\API\Genral\CouponController;
 use App\Http\Controllers\API\Genral\FavouriteController;
 use App\Http\Controllers\API\Genral\OfferController;
 use App\Http\Controllers\API\Genral\PageController;
@@ -129,6 +130,13 @@ Route::middleware([SetLang::class])->group(function () {
     Route::controller(PageController::class)->group(function () {
         Route::get('/pages/about', 'getAboutUs');
         Route::get('/pages/{type}', 'getPageByType');
+    });
+
+    // Coupon & Announcement Banner Routes
+    Route::controller(CouponController::class)->group(function () {
+        Route::post('/coupons/apply', 'applyCoupon');
+        Route::get('/coupons/general', 'getGeneralCoupon');
+        Route::get('/banner/announcement', 'getAnnouncementBanner');
     });
 
     // FAQ & Policy Routes
