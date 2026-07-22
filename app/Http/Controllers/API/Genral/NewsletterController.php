@@ -7,6 +7,8 @@ use App\Services\NewsletterService;
 use App\Traits\ApiResponse;
 use App\Http\Requests\API\GENERAL\SubscribeNewsletterRequest;
 
+use App\Http\Resources\API\NEWSLETTER\NewsletterSubscriptionResource;
+
 class NewsletterController extends Controller
 {
     use ApiResponse;
@@ -25,7 +27,7 @@ class NewsletterController extends Controller
         }
 
         return $this->success(
-            $result['data'],
+            new NewsletterSubscriptionResource($result['data']),
             $result['message']
         );
     }
