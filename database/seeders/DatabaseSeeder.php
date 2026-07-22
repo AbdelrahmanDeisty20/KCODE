@@ -58,6 +58,8 @@ class DatabaseSeeder extends Seeder
             CouponPolicySeeder::class,
             PointsProgramPolicySeeder::class,
             LocationSeeder::class,
+            SettingSeeder::class,
+            PageSeeder::class,
         ]);
 
         // User::factory(10)->create();

@@ -116,4 +116,6 @@ return [
     'default_address_set_successfully' => 'تم تعيين العنوان الافتراضي بنجاح.',
     'address_added_successfully' => 'تم إضافة العنوان بنجاح.',
     'routine_deleted_successfully' => 'تم حذف الروتين والتقييم بنجاح، يمكنك الآن إعادة التقييم وبناء الروتين من جديد.',
+    'page_retrieved_successfully' => 'تم جلب بيانات الصفحة بنجاح.',
+    'page_not_found' => 'الصفحة غير موجودة.',
 ];

@@ -8,6 +8,7 @@ use App\Http\Controllers\API\Genral\CategoryController;
 use App\Http\Controllers\API\Genral\ConcernController;
 use App\Http\Controllers\API\Genral\FavouriteController;
 use App\Http\Controllers\API\Genral\OfferController;
+use App\Http\Controllers\API\Genral\PageController;
 use App\Http\Controllers\API\Genral\ProductController;
 use App\Http\Controllers\API\Genral\QuizController;
 use App\Http\Controllers\API\Genral\ReviewController;
@@ -122,6 +123,12 @@ Route::middleware([SetLang::class])->group(function () {
     // Newsletter Routes
     Route::controller(NewsletterController::class)->group(function () {
         Route::post('/newsletter/subscribe', 'subscribe');
+    });
+
+    // Page Routes
+    Route::controller(PageController::class)->group(function () {
+        Route::get('/pages/about', 'getAboutUs');
+        Route::get('/pages/{type}', 'getPageByType');
     });
 
     // FAQ & Policy Routes

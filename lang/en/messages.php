@@ -116,4 +116,6 @@ return [
     'default_address_set_successfully' => 'Default address set successfully.',
     'address_added_successfully' => 'Address added successfully.',
     'routine_deleted_successfully' => 'Routine and assessment deleted successfully. You can now retake the quiz and rebuild your routine.',
+    'page_retrieved_successfully' => 'Page data retrieved successfully.',
+    'page_not_found' => 'Page not found.',
 ];
