@@ -17,7 +17,8 @@ class SetLang
     public function handle(Request $request, Closure $next): Response
     {
         $currentLocale = session('lang') ?? $request->cookie('lang');
-        $locale = $request->query('lang')
+        $locale = $request->header('lang')
+            ?? $request->query('lang')
             ?? $currentLocale
             ?? $request->header('Accept-Language')
             ?? config('app.locale');

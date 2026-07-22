@@ -34,7 +34,9 @@ class Coupon extends Model
 
     public function getTitleAttribute()
     {
-        return app()->getLocale() === 'ar' ? $this->title_ar : $this->title_en;
+        $lang = request()->header('lang') ?? request()->query('lang') ?? app()->getLocale();
+        $lang = strtolower(substr($lang, 0, 2));
+        return $lang === 'en' ? ($this->title_en ?: $this->title_ar) : ($this->title_ar ?: $this->title_en);
     }
 
     public function isValid(?float $orderAmount = 0): bool

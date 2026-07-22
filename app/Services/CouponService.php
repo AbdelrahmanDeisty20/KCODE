@@ -101,6 +101,12 @@ class CouponService
      */
     public function getAnnouncementBanner(): array
     {
+        $lang = request()->header('lang') ?? request()->query('lang') ?? app()->getLocale();
+        $lang = strtolower(substr($lang, 0, 2));
+        if (!in_array($lang, ['ar', 'en'])) {
+            $lang = 'ar';
+        }
+
         $freeShippingSetting = Setting::where('key_en', 'free_shipping_min_amount')->first();
         $currencySetting = Setting::where('key_en', 'currency_symbol')->first();
 
@@ -114,17 +120,18 @@ class CouponService
         $bannerTextAr = "شحن مجاني للطلبات فوق {$minAmount} {$currencyAr} | كود الخصم: {$couponCode}";
         $bannerTextEn = "Free shipping on orders over {$minAmount} {$currencyEn} | Discount Code: {$couponCode}";
 
-        $lang = app()->getLocale();
+        $bannerText = $lang === 'en' ? $bannerTextEn : $bannerTextAr;
+        $currency = $lang === 'en' ? $currencyEn : $currencyAr;
 
         return [
             'status'  => true,
             'message' => __('messages.banner_retrieved_successfully'),
             'data'    => [
                 'free_shipping_min_amount' => (float)$minAmount,
-                'currency'                 => $lang === 'ar' ? $currencyAr : $currencyEn,
+                'currency'                 => $currency,
                 'coupon_code'              => $couponCode,
                 'general_coupon'           => $generalCoupon,
-                'banner_text'              => $lang === 'ar' ? $bannerTextAr : $bannerTextEn,
+                'banner_text'              => $bannerText,
                 'banner_text_ar'           => $bannerTextAr,
                 'banner_text_en'           => $bannerTextEn,
             ],
