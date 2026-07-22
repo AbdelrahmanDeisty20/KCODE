@@ -143,36 +143,23 @@ class QuizService
             ]);
         }
 
-        // 6. Resolve Quiz Questions and Answers to return in response
+        // 6. Resolve Quiz Questions and Answers to return in response & Build Diagnosis
         $questionsAndAnswers = [];
+        $badges = [];
+        $goalsSummary = [];
 
-        // Goal Question (Question ID 1)
-        $goalQuestion = QuizQuestion::find(1);
-        if ($goalQuestion) {
-            $selectedGoalOption = QuizOption::where('quiz_question_id', 1)
-                ->where('option_type', 'goal')
-                ->where('mapped_id', $goalId)
-                ->first();
-            
-            $questionsAndAnswers[] = [
-                'question_id' => 1,
-                'question_title' => $lang === 'ar' ? $goalQuestion->title_ar : $goalQuestion->title_en,
-                'selected_options' => $selectedGoalOption ? [
-                    [
-                        'option_id' => $selectedGoalOption->id,
-                        'option_title' => $lang === 'ar' ? $selectedGoalOption->title_ar : $selectedGoalOption->title_en,
-                    ]
-                ] : []
-            ];
-        }
-
-        // Skin Type Question (Question ID 2)
+        // Skin Type Question (Question ID 2) - Primary Badge
         $skinQuestion = QuizQuestion::find(2);
         if ($skinQuestion) {
             $selectedSkinOption = QuizOption::where('quiz_question_id', 2)
                 ->where('option_type', 'skin_type')
                 ->where('mapped_id', $skinTypeId)
                 ->first();
+
+            if ($selectedSkinOption) {
+                $skinTitle = $lang === 'ar' ? $selectedSkinOption->title_ar : $selectedSkinOption->title_en;
+                $badges[] = ($lang === 'ar' ? 'بشرة ' : '') . $skinTitle . ($lang === 'en' ? ' Skin' : '');
+            }
 
             $questionsAndAnswers[] = [
                 'question_id' => 2,
@@ -181,6 +168,43 @@ class QuizService
                     [
                         'option_id' => $selectedSkinOption->id,
                         'option_title' => $lang === 'ar' ? $selectedSkinOption->title_ar : $selectedSkinOption->title_en,
+                        'description' => $selectedSkinOption->description,
+                        'image' => $selectedSkinOption->image,
+                        'option_type' => $selectedSkinOption->option_type,
+                        'mapped_id' => $selectedSkinOption->mapped_id,
+                    ]
+                ] : []
+            ];
+        }
+
+        // Goal Question (Question ID 1)
+        $goalQuestion = QuizQuestion::find(1);
+        if ($goalQuestion) {
+            $selectedGoalOption = QuizOption::where('quiz_question_id', 1)
+                ->where('option_type', 'goal')
+                ->where('mapped_id', $goalId)
+                ->first();
+
+            if ($selectedGoalOption) {
+                $goalTitle = $lang === 'ar' ? $selectedGoalOption->title_ar : $selectedGoalOption->title_en;
+                $badges[] = $goalTitle;
+
+                if ($selectedGoalOption->description) {
+                    $goalsSummary[] = $selectedGoalOption->description;
+                }
+            }
+
+            $questionsAndAnswers[] = [
+                'question_id' => 1,
+                'question_title' => $lang === 'ar' ? $goalQuestion->title_ar : $goalQuestion->title_en,
+                'selected_options' => $selectedGoalOption ? [
+                    [
+                        'option_id' => $selectedGoalOption->id,
+                        'option_title' => $lang === 'ar' ? $selectedGoalOption->title_ar : $selectedGoalOption->title_en,
+                        'description' => $selectedGoalOption->description,
+                        'image' => $selectedGoalOption->image,
+                        'option_type' => $selectedGoalOption->option_type,
+                        'mapped_id' => $selectedGoalOption->mapped_id,
                     ]
                 ] : []
             ];
@@ -196,9 +220,20 @@ class QuizService
                     ->whereIn('mapped_id', $concernIds)
                     ->get();
                 foreach ($opts as $opt) {
+                    $cTitle = $lang === 'ar' ? $opt->title_ar : $opt->title_en;
+                    $badges[] = $cTitle;
+
+                    if ($opt->description) {
+                        $goalsSummary[] = $opt->description;
+                    }
+
                     $selectedConcernOptions[] = [
                         'option_id' => $opt->id,
-                        'option_title' => $lang === 'ar' ? $opt->title_ar : $opt->title_en,
+                        'option_title' => $cTitle,
+                        'description' => $opt->description,
+                        'image' => $opt->image,
+                        'option_type' => $opt->option_type,
+                        'mapped_id' => $opt->mapped_id,
                     ];
                 }
             } else {
@@ -210,6 +245,10 @@ class QuizService
                     $selectedConcernOptions[] = [
                         'option_id' => $noConcernOpt->id,
                         'option_title' => $lang === 'ar' ? $noConcernOpt->title_ar : $noConcernOpt->title_en,
+                        'description' => $noConcernOpt->description,
+                        'image' => $noConcernOpt->image,
+                        'option_type' => $noConcernOpt->option_type,
+                        'mapped_id' => $noConcernOpt->mapped_id,
                     ];
                 }
             }
@@ -220,6 +259,18 @@ class QuizService
                 'selected_options' => $selectedConcernOptions
             ];
         }
+
+        $diagnosis = [
+            'title' => $lang === 'ar' ? 'تشخيص بشرتك' : 'Your Skin Diagnosis',
+            'badges' => array_values(array_unique($badges)),
+            'goals_summary' => array_values(array_filter($goalsSummary)),
+            'consultation' => [
+                'title' => $lang === 'ar' ? 'هل تودين استشارة خبيرة؟' : 'Would you like expert consultation?',
+                'description' => $lang === 'ar' ? 'صيدلانيات كود متواجدات للإجابة على استفساراتك وتخصيص الروتين أكثر.' : 'KCODE pharmacists are available to answer your questions and further customize your routine.',
+                'button_text' => $lang === 'ar' ? 'تحدثي معنا الآن' : 'Chat with us now',
+                'link' => 'https://wa.me/966500000000',
+            ]
+        ];
 
         // 7. Run Product Recommendation Logic using Database values
         $steps = RoutineStep::orderBy('order', 'asc')->get();
@@ -358,6 +409,7 @@ class QuizService
             'message' => __('messages.routine_recommended_successfully'),
             'data' => [
                 'is_routine_added' => true,
+                'diagnosis' => $diagnosis,
                 'questions' => $questionsAndAnswers,
                 'routine' => $recommendedProducts
             ]
