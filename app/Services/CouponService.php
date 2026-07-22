@@ -121,19 +121,12 @@ class CouponService
         $bannerTextEn = "Free shipping on orders over {$minAmount} {$currencyEn} | Discount Code: {$couponCode}";
 
         $bannerText = $lang === 'en' ? $bannerTextEn : $bannerTextAr;
-        $currency = $lang === 'en' ? $currencyEn : $currencyAr;
 
         return [
             'status'  => true,
             'message' => __('messages.banner_retrieved_successfully'),
             'data'    => [
-                'free_shipping_min_amount' => (float)$minAmount,
-                'currency'                 => $currency,
-                'coupon_code'              => $couponCode,
-                'general_coupon'           => $generalCoupon,
-                'banner_text'              => $bannerText,
-                'banner_text_ar'           => $bannerTextAr,
-                'banner_text_en'           => $bannerTextEn,
+                'banner_text' => $bannerText,
             ],
         ];
     }

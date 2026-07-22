@@ -8,6 +8,8 @@ use App\Http\Resources\API\COUPON\CouponResource;
 use App\Services\CouponService;
 use App\Traits\ApiResponse;
 
+use App\Http\Resources\API\BANNER\AnnouncementBannerResource;
+
 class CouponController extends Controller
 {
     use ApiResponse;
@@ -47,16 +49,16 @@ class CouponController extends Controller
     }
 
     /**
-     * Get Announcement Banner data (Free Shipping Min Amount + Active General Coupon Code).
+     * Get Announcement Banner data.
      */
     public function getAnnouncementBanner()
     {
         $result = $this->couponService->getAnnouncementBanner();
 
-        if (isset($result['data']['general_coupon']) && $result['data']['general_coupon']) {
-            $result['data']['general_coupon'] = new CouponResource($result['data']['general_coupon']);
+        if (!$result['status']) {
+            return $this->error($result['message']);
         }
 
-        return $this->success($result['data'], $result['message']);
+        return $this->success(new AnnouncementBannerResource($result['data']), $result['message']);
     }
 }
