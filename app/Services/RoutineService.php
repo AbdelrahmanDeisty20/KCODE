@@ -364,51 +364,22 @@ class RoutineService
     }
 
     /**
-     * Remove a single product from the user's active or final routine.
+     * Remove a single product from the specified routine by routine_id.
      */
-    public function removeProduct(int $productId, ?int $routineId = null): array
+    public function removeProduct(int $productId, int $routineId): array
     {
-        $user = auth('sanctum')->user();
-        $deletedCount = 0;
+        $deletedFinal = \App\Models\FinalRoutineProduct::where('final_routine_id', $routineId)
+            ->where('product_id', $productId)
+            ->delete();
 
-        // 1. If explicit routine_id provided
-        if ($routineId) {
-            $deletedFinal = \App\Models\FinalRoutineProduct::where('final_routine_id', $routineId)
-                ->where('product_id', $productId)
-                ->delete();
+        $deletedTemp = \App\Models\RoutineProduct::where('routine_id', $routineId)
+            ->where(function ($q) use ($productId) {
+                $q->where('product_id', $productId)
+                  ->orWhere('replaced_with_product_id', $productId);
+            })
+            ->delete();
 
-            $deletedTemp = \App\Models\RoutineProduct::where('routine_id', $routineId)
-                ->where(function ($q) use ($productId) {
-                    $q->where('product_id', $productId)
-                      ->orWhere('replaced_with_product_id', $productId);
-                })
-                ->delete();
-
-            $deletedCount += ($deletedFinal + $deletedTemp);
-        }
-
-        // 2. If user is authenticated, delete from user's final routine and active quiz routine
-        if ($user) {
-            $finalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)->first();
-            if ($finalRoutine) {
-                $deletedCount += \App\Models\FinalRoutineProduct::where('final_routine_id', $finalRoutine->id)
-                    ->where('product_id', $productId)
-                    ->delete();
-            }
-
-            $assessment = Assessment::where('user_id', $user->id)->first();
-            if ($assessment) {
-                $routine = Routine::where('assessment_id', $assessment->id)->first();
-                if ($routine) {
-                    $deletedCount += \App\Models\RoutineProduct::where('routine_id', $routine->id)
-                        ->where(function ($q) use ($productId) {
-                            $q->where('product_id', $productId)
-                              ->orWhere('replaced_with_product_id', $productId);
-                        })
-                        ->delete();
-                }
-            }
-        }
+        $deletedCount = $deletedFinal + $deletedTemp;
 
         if ($deletedCount === 0) {
             return [

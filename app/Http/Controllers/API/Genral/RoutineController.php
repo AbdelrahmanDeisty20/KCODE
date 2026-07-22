@@ -105,13 +105,13 @@ class RoutineController extends Controller
     }
 
     /**
-     * Remove a single product from the user's routine.
+     * Remove a single product from the specified routine by routine_id.
      */
     public function removeProduct(\App\Http\Requests\API\ROUTINES\RemoveProductRequest $request)
     {
         $result = $this->routineService->removeProduct(
             (int) $request->product_id,
-            $request->routine_id ? (int) $request->routine_id : null
+            (int) $request->routine_id
         );
 
         if (!$result['status']) {
