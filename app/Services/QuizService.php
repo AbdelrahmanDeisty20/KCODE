@@ -260,6 +260,14 @@ class QuizService
             ];
         }
 
+        // Fetch WhatsApp number dynamically from settings table
+        $whatsappSetting = \App\Models\Setting::whereIn('key_en', ['whatsapp_number', 'whatsapp', 'phone'])->first();
+        $whatsappNumber = $whatsappSetting ? ($whatsappSetting->value_en ?: $whatsappSetting->value_ar) : '966500000000';
+        $cleanPhone = preg_replace('/[^0-9]/', '', $whatsappNumber);
+        $whatsappLink = str_starts_with($whatsappNumber, 'http') 
+            ? $whatsappNumber 
+            : 'https://wa.me/' . ($cleanPhone ?: '966500000000');
+
         $diagnosis = [
             'title' => $lang === 'ar' ? 'تشخيص بشرتك' : 'Your Skin Diagnosis',
             'badges' => array_values(array_unique($badges)),
@@ -267,6 +275,8 @@ class QuizService
             'consultation' => [
                 'title' => $lang === 'ar' ? 'هل تودين استشارة خبيرة؟' : 'Would you like expert consultation?',
                 'description' => $lang === 'ar' ? 'صيدلانيات كود متواجدات للإجابة على استفساراتك وتخصيص الروتين أكثر.' : 'KCODE pharmacists are available to answer your questions and further customize your routine.',
+                'phone_number' => $whatsappNumber,
+                'link' => $whatsappLink,
             ]
         ];
 
