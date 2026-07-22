@@ -20,9 +20,10 @@ class AddBulkCartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_ids' => ['required', 'array'],
+            'routine_id'    => ['nullable', 'integer'],
+            'product_ids'   => ['nullable', 'array'],
             'product_ids.*' => ['exists:products,id'],
-            'session_id' => ['nullable', 'string'],
+            'session_id'    => ['nullable', 'string'],
         ];
     }
 }

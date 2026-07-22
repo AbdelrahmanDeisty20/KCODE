@@ -72,6 +72,8 @@ class QuizService
 
         // Check if user already has a confirmed final routine
         if ($user) {
+            $user->update(['skin_type_id' => $skinTypeId]);
+
             $existingFinalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)->first();
             if ($existingFinalRoutine) {
                 return [

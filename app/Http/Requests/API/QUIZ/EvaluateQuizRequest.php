@@ -54,21 +54,5 @@ class EvaluateQuizRequest extends FormRequest
         ];
     }
 
-    /**
-     * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     * @return void
-     */
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            $user = auth('sanctum')->user();
-            if ($user && $user->skin_type_id !== null) {
-                if ($this->input('skin_type_id') != $user->skin_type_id) {
-                    $validator->errors()->add('skin_type_id', __('messages.skin_type_mismatch'));
-                }
-            }
-        });
     }
 }

@@ -18,14 +18,15 @@ class CartController extends Controller
     public function __construct(private CartService $cartService) {}
 
     /**
-     * Add multiple products to the cart at once (bulk add).
+     * Add multiple products or an entire routine to the cart at once (bulk add).
      */
     public function addBulk(AddBulkCartRequest $request)
     {
         $data = $request->validated();
         $result = $this->cartService->addProductsToCart(
-            $data['product_ids'],
-            $data['session_id'] ?? null
+            $data['product_ids'] ?? [],
+            $data['session_id'] ?? null,
+            $data['routine_id'] ?? null
         );
 
         if (!$result['status']) {
