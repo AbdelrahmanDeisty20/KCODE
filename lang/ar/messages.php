@@ -136,4 +136,5 @@ return [
     'product_removed_from_routine_successfully' => 'تم حذف المنتج من الروتين بنجاح.',
     'product_out_of_stock' => 'عذراً، المنتج (:name) غير متوفر في المخزون حالياً.',
     'product_stock_insufficient' => 'عذراً، الكمية المتاحة من المنتج (:name) في المخزون هي :stock فقط.',
+    'product_not_found_in_routine' => 'المنتج غير موجود في هذا الروتين أو تم حذفه مسبقاً.',
 ];

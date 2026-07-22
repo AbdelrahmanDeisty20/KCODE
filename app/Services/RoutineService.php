@@ -295,43 +295,70 @@ class RoutineService
     }
 
     /**
-     * Delete/reset user's routine and assessment so they can retake the quiz.
+     * Delete/reset a routine by routine_id (or user's active/final routine).
      */
-    public function deleteRoutine()
+    public function deleteRoutine(?int $routineId = null): array
     {
         $user = auth('sanctum')->user();
-        if (!$user) {
+        $deletedAny = false;
+
+        // 1. Delete by explicit routine_id first if provided
+        if ($routineId) {
+            $finalRoutines = \App\Models\FinalRoutine::where('id', $routineId)
+                ->orWhere('routine_id', $routineId)
+                ->get();
+
+            foreach ($finalRoutines as $fr) {
+                $fr->products()->delete();
+                $fr->delete();
+                $deletedAny = true;
+            }
+
+            $routine = Routine::where('id', $routineId)->first();
+            if ($routine) {
+                \App\Models\RoutineProduct::where('routine_id', $routine->id)->delete();
+                if ($routine->assessment_id) {
+                    \App\Models\AssessmentGoal::where('assessment_id', $routine->assessment_id)->delete();
+                    \App\Models\AssessmentConcern::where('assessment_id', $routine->assessment_id)->delete();
+                    Assessment::where('id', $routine->assessment_id)->delete();
+                }
+                $routine->delete();
+                $deletedAny = true;
+            }
+        } elseif ($user) {
+            $finalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)->first();
+            if ($finalRoutine) {
+                $finalRoutine->products()->delete();
+                $finalRoutine->delete();
+                $deletedAny = true;
+            }
+
+            $assessment = Assessment::where('user_id', $user->id)->first();
+            if ($assessment) {
+                \App\Models\AssessmentGoal::where('assessment_id', $assessment->id)->delete();
+                \App\Models\AssessmentConcern::where('assessment_id', $assessment->id)->delete();
+
+                $routine = Routine::where('assessment_id', $assessment->id)->first();
+                if ($routine) {
+                    \App\Models\RoutineProduct::where('routine_id', $routine->id)->delete();
+                    $routine->delete();
+                }
+
+                $assessment->delete();
+                $deletedAny = true;
+            }
+        }
+
+        if (!$deletedAny) {
             return [
-                'status' => false,
-                'message' => __('auth.unauthenticated'),
-                'code' => 401
+                'status'  => false,
+                'message' => __('messages.no_routine_found'),
+                'code'    => 404
             ];
         }
 
-        // 1. Delete FinalRoutine & FinalRoutineProducts
-        $finalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)->first();
-        if ($finalRoutine) {
-            $finalRoutine->products()->delete();
-            $finalRoutine->delete();
-        }
-
-        // 2. Delete Assessment, AssessmentGoal, AssessmentConcern, Routine, RoutineProduct
-        $assessment = Assessment::where('user_id', $user->id)->first();
-        if ($assessment) {
-            \App\Models\AssessmentGoal::where('assessment_id', $assessment->id)->delete();
-            \App\Models\AssessmentConcern::where('assessment_id', $assessment->id)->delete();
-
-            $routine = Routine::where('assessment_id', $assessment->id)->first();
-            if ($routine) {
-                \App\Models\RoutineProduct::where('routine_id', $routine->id)->delete();
-                $routine->delete();
-            }
-
-            $assessment->delete();
-        }
-
         return [
-            'status' => true,
+            'status'  => true,
             'message' => __('messages.routine_deleted_successfully')
         ];
     }
@@ -383,15 +410,16 @@ class RoutineService
             }
         }
 
-        if ($deletedCount === 0 && !$user && !$routineId) {
+        if ($deletedCount === 0) {
             return [
-                'status' => false,
-                'message' => __('messages.no_routine_found')
+                'status'  => false,
+                'message' => __('messages.product_not_found_in_routine'),
+                'code'    => 404
             ];
         }
 
         return [
-            'status' => true,
+            'status'  => true,
             'message' => __('messages.product_removed_from_routine_successfully')
         ];
     }

@@ -90,11 +90,11 @@ class RoutineController extends Controller
     }
 
     /**
-     * Delete/reset user's routine and assessment.
+     * Delete/reset routine by routine_id.
      */
-    public function deleteRoutine()
+    public function deleteRoutine(\App\Http\Requests\API\ROUTINES\DeleteRoutineRequest $request)
     {
-        $result = $this->routineService->deleteRoutine();
+        $result = $this->routineService->deleteRoutine((int) $request->routine_id);
 
         if (!$result['status']) {
             $code = $result['code'] ?? 400;
