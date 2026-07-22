@@ -36,7 +36,7 @@ class ProductController extends Controller
         if (!$result['status']) {
             return $this->error($result['message']);
         }
-        return $this->success(ProductResource::collection($result['data']), $result['message']);
+        return $this->success(ProductListResource::collection($result['data']), $result['message']);
     }
 
     public function bestSellers() {
