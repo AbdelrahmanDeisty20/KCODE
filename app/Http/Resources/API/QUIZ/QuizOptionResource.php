@@ -18,7 +18,7 @@ class QuizOptionResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'image' => $this->image ? asset('uploads/quiz/' . $this->image) : null,
+            'image' => $this->image,
             'option_type' => $this->option_type,
             'mapped_id' => $this->mapped_id,
         ];
