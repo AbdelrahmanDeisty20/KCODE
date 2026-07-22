@@ -3,28 +3,25 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-use Illuminate\Contracts\Queue\ShouldQueue;
-
 class NewsletterWelcomeMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public $email;
-    public $couponCode;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(string $email, string $couponCode = 'KCODE10')
+    public function __construct(string $email)
     {
         $this->email = $email;
-        $this->couponCode = $couponCode;
     }
 
     /**
@@ -45,8 +42,7 @@ class NewsletterWelcomeMail extends Mailable implements ShouldQueue
         return new Content(
             view: 'emails.newsletter_welcome',
             with: [
-                'email'      => $this->email,
-                'couponCode' => $this->couponCode,
+                'email' => $this->email,
             ],
         );
     }

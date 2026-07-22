@@ -34,11 +34,11 @@ class NewsletterService
             ]);
         }
 
-        // Send welcome email to subscriber via Queue (with discount coupon and locale support)
+        // Send welcome email to subscriber via Queue
         try {
             Mail::to($email)
                 ->locale(app()->getLocale())
-                ->queue(new NewsletterWelcomeMail($email, 'KCODE10'));
+                ->queue(new NewsletterWelcomeMail($email));
         } catch (\Throwable $e) {
             Log::error("Failed to queue newsletter welcome email to {$email}: " . $e->getMessage());
         }

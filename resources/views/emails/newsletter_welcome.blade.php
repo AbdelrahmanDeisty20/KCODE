@@ -37,7 +37,7 @@
             height: auto;
         }
         .email-body {
-            padding: 20px 40px 40px 40px;
+            padding: 30px 40px 40px 40px;
             text-align: center;
             color: #1d1e20;
         }
@@ -54,28 +54,6 @@
             margin-top: 0;
             margin-bottom: 24px;
             color: #65676b;
-        }
-        .coupon-container {
-            background-color: #fef7f8;
-            border: 1px dashed #f48c96;
-            border-radius: 12px;
-            padding: 20px;
-            margin: 25px 0;
-            display: inline-block;
-            min-width: 220px;
-        }
-        .coupon-code {
-            font-size: 28px;
-            font-weight: bold;
-            letter-spacing: 4px;
-            color: #e57b88;
-            margin: 0;
-            font-family: monospace, sans-serif;
-        }
-        .coupon-text {
-            font-size: 13px;
-            color: #a0a0a0;
-            margin-top: 8px;
         }
         .divider {
             height: 1px;
@@ -111,14 +89,6 @@
             <div class="email-body">
                 <h1>{{ __('messages.newsletter_welcome_title') }}</h1>
                 <p>{{ __('messages.newsletter_welcome_body') }}</p>
-                
-                @if(!empty($couponCode))
-                <p style="font-weight: 600; color: #1d1e20; margin-bottom: 8px;">{{ __('messages.newsletter_welcome_coupon_text') }}</p>
-                <div class="coupon-container">
-                    <div class="coupon-code">{{ $couponCode }}</div>
-                    <div class="coupon-text">{{ __('messages.newsletter_welcome_coupon_hint') }}</div>
-                </div>
-                @endif
             </div>
 
             <div class="divider"></div>
