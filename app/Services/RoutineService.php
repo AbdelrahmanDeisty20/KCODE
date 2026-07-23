@@ -114,12 +114,18 @@ class RoutineService
             ];
         }
 
-        $routine = Routine::where('id', $routineId)->with('routineProducts')->first();
+        $routine = Routine::where('id', $routineId)
+            ->whereHas('assessment', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->with('routineProducts')
+            ->first();
 
         if (!$routine) {
             return [
                 'status'  => false,
-                'message' => __('messages.no_routine_found')
+                'message' => __('messages.no_routine_found'),
+                'code'    => 404
             ];
         }
 
@@ -300,12 +306,23 @@ class RoutineService
     public function deleteRoutine(?int $routineId = null): array
     {
         $user = auth('sanctum')->user();
+        if (!$user) {
+            return [
+                'status'  => false,
+                'message' => __('auth.unauthenticated'),
+                'code'    => 401
+            ];
+        }
+
         $deletedAny = false;
 
-        // 1. Delete by explicit routine_id first if provided
+        // 1. Delete by explicit routine_id first if provided (must belong to $user)
         if ($routineId) {
-            $finalRoutines = \App\Models\FinalRoutine::where('id', $routineId)
-                ->orWhere('routine_id', $routineId)
+            $finalRoutines = \App\Models\FinalRoutine::where('user_id', $user->id)
+                ->where(function ($q) use ($routineId) {
+                    $q->where('id', $routineId)
+                      ->orWhere('routine_id', $routineId);
+                })
                 ->get();
 
             foreach ($finalRoutines as $fr) {
@@ -314,7 +331,12 @@ class RoutineService
                 $deletedAny = true;
             }
 
-            $routine = Routine::where('id', $routineId)->first();
+            $routine = Routine::where('id', $routineId)
+                ->whereHas('assessment', function ($query) use ($user) {
+                    $query->where('user_id', $user->id);
+                })
+                ->first();
+
             if ($routine) {
                 \App\Models\RoutineProduct::where('routine_id', $routine->id)->delete();
                 if ($routine->assessment_id) {
@@ -368,16 +390,53 @@ class RoutineService
      */
     public function removeProduct(int $productId, int $routineId): array
     {
-        $deletedFinal = \App\Models\FinalRoutineProduct::where('final_routine_id', $routineId)
-            ->where('product_id', $productId)
-            ->delete();
+        $user = auth('sanctum')->user();
+        if (!$user) {
+            return [
+                'status'  => false,
+                'message' => __('auth.unauthenticated'),
+                'code'    => 401
+            ];
+        }
 
-        $deletedTemp = \App\Models\RoutineProduct::where('routine_id', $routineId)
-            ->where(function ($q) use ($productId) {
-                $q->where('product_id', $productId)
-                  ->orWhere('replaced_with_product_id', $productId);
+        // Verify routineId belongs to $user
+        $userFinalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)
+            ->where(function ($q) use ($routineId) {
+                $q->where('id', $routineId)
+                  ->orWhere('routine_id', $routineId);
             })
-            ->delete();
+            ->first();
+
+        $userQuizRoutine = Routine::where('id', $routineId)
+            ->whereHas('assessment', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->first();
+
+        if (!$userFinalRoutine && !$userQuizRoutine) {
+            return [
+                'status'  => false,
+                'message' => __('messages.no_routine_found'),
+                'code'    => 404
+            ];
+        }
+
+        $deletedFinal = 0;
+        if ($userFinalRoutine) {
+            $deletedFinal = \App\Models\FinalRoutineProduct::where('final_routine_id', $userFinalRoutine->id)
+                ->where('product_id', $productId)
+                ->delete();
+        }
+
+        $deletedTemp = 0;
+        if ($userQuizRoutine) {
+            $deletedTemp = \App\Models\RoutineProduct::where('routine_id', $userQuizRoutine->id)
+                ->where(function ($q) use ($productId) {
+                    $q->where('product_id', $productId)
+                      ->orWhere('replaced_with_product_id', $productId);
+                })
+                ->delete();
+        }
 
         $deletedCount = $deletedFinal + $deletedTemp;
 
