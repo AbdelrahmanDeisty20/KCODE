@@ -10,46 +10,54 @@ class RoutineService
     /**
      * Get the authenticated user's routine products.
      */
-    public function getUserRoutine()
+    public function getUserRoutine(?int $routineId = null)
     {
         $user = auth('sanctum')->user();
         if (!$user) {
             return [
-                'status' => false,
+                'status'  => false,
                 'message' => __('auth.unauthenticated'),
-                'code' => 401
+                'code'    => 401
             ];
         }
 
-        $finalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)
+        $query = \App\Models\FinalRoutine::where('user_id', $user->id)
             ->with([
                 'products.routineStep',
                 'products.product.brand'
-            ])
-            ->first();
+            ]);
 
-        if (!$finalRoutine) {
+        if (!empty($routineId)) {
+            $query->where(function ($q) use ($routineId) {
+                $q->where('id', $routineId)->orWhere('routine_id', $routineId);
+            });
+        }
+
+        $finalRoutines = $query->latest()->get();
+
+        if ($finalRoutines->isEmpty()) {
             return [
-                'status' => false,
+                'status'  => false,
                 'message' => __('messages.no_routine_found')
             ];
         }
 
-        // Sort routine products by step order (ascending) and reset keys
-        $routineProducts = $finalRoutine->products->sortBy('step')->values();
+        $routinesList = $finalRoutines->map(function ($finalRoutine) {
+            $routineProducts = $finalRoutine->products->sortBy('step')->values();
+            $routineProducts->each(function ($item, $index) {
+                $item->temp_sequence_order = $index + 1;
+            });
 
-        // Assign sequential order starting from 1
-        $routineProducts->each(function ($item, $index) {
-            $item->temp_sequence_order = $index + 1;
-        });
+            return [
+                'id'    => $finalRoutine->routine_id ?? $finalRoutine->id,
+                'items' => \App\Http\Resources\API\QUIZ\FinalRoutineResource::collection($routineProducts),
+            ];
+        })->values();
 
         return [
             'status'  => true,
             'message' => __('messages.routine_retrieved_successfully'),
-            'data'    => [
-                'id'    => $finalRoutine->routine_id ?? $finalRoutine->id,
-                'items' => $routineProducts,
-            ]
+            'data'    => $routinesList,
         ];
     }
 
@@ -61,16 +69,16 @@ class RoutineService
         $user = auth('sanctum')->user();
         if (!$user) {
             return [
-                'status' => false,
+                'status'  => false,
                 'message' => __('auth.unauthenticated'),
-                'code' => 401
+                'code'    => 401
             ];
         }
 
-        $assessment = Assessment::where('user_id', $user->id)->first();
+        $assessment = Assessment::where('user_id', $user->id)->latest()->first();
         if (!$assessment) {
             return [
-                'status' => false,
+                'status'  => false,
                 'message' => __('messages.no_routine_found')
             ];
         }
@@ -81,11 +89,12 @@ class RoutineService
                 'routineProducts.product.brand',
                 'routineProducts.replacedProduct.brand',
             ])
+            ->latest()
             ->first();
 
         if (!$routine) {
             return [
-                'status' => false,
+                'status'  => false,
                 'message' => __('messages.no_routine_found')
             ];
         }
@@ -99,8 +108,8 @@ class RoutineService
         return [
             'status'  => true,
             'message' => __('messages.routine_retrieved_successfully'),
-            'data'    => [
-                'id'    => $routine->id,
+            'data' => [
+                'id' => $routine->id,
                 'items' => $routineProducts,
             ]
         ];
@@ -135,13 +144,13 @@ class RoutineService
             ];
         }
 
-        // Create or update final routine record for user
-        $finalRoutine = \App\Models\FinalRoutine::updateOrCreate(
-            ['user_id' => $user->id],
-            ['routine_id' => $routine->id]
-        );
+        // Create or update final routine record for this specific user AND routine_id
+        $finalRoutine = \App\Models\FinalRoutine::firstOrCreate([
+            'user_id'    => $user->id,
+            'routine_id' => $routine->id,
+        ]);
 
-        // Delete old final products if updating
+        // Clear existing products for this final routine if re-saving
         $finalRoutine->products()->delete();
 
         // Copy active routine products to final routine products
@@ -159,7 +168,7 @@ class RoutineService
         $routine->routineProducts()->delete();
 
         return [
-            'status'  => true,
+            'status' => true,
             'message' => __('messages.final_routine_saved_successfully')
         ];
     }
@@ -294,7 +303,7 @@ class RoutineService
         }
 
         $sortedProducts = $finalRoutine->products->sortBy('step')->values();
-        
+
         $sortedProducts->each(function ($item, $index) {
             $item->temp_sequence_order = $index + 1;
         });
@@ -314,9 +323,9 @@ class RoutineService
         $user = auth('sanctum')->user();
         if (!$user) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('auth.unauthenticated'),
-                'code'    => 401
+                'code' => 401
             ];
         }
 
@@ -326,8 +335,9 @@ class RoutineService
         if ($routineId) {
             $finalRoutines = \App\Models\FinalRoutine::where('user_id', $user->id)
                 ->where(function ($q) use ($routineId) {
-                    $q->where('id', $routineId)
-                      ->orWhere('routine_id', $routineId);
+                    $q
+                        ->where('id', $routineId)
+                        ->orWhere('routine_id', $routineId);
                 })
                 ->get();
 
@@ -379,14 +389,14 @@ class RoutineService
 
         if (!$deletedAny) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('messages.no_routine_found'),
-                'code'    => 404
+                'code' => 404
             ];
         }
 
         return [
-            'status'  => true,
+            'status' => true,
             'message' => __('messages.routine_deleted_successfully')
         ];
     }
@@ -399,17 +409,18 @@ class RoutineService
         $user = auth('sanctum')->user();
         if (!$user) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('auth.unauthenticated'),
-                'code'    => 401
+                'code' => 401
             ];
         }
 
         // Verify routineId belongs to $user
         $userFinalRoutine = \App\Models\FinalRoutine::where('user_id', $user->id)
             ->where(function ($q) use ($routineId) {
-                $q->where('id', $routineId)
-                  ->orWhere('routine_id', $routineId);
+                $q
+                    ->where('id', $routineId)
+                    ->orWhere('routine_id', $routineId);
             })
             ->first();
 
@@ -421,9 +432,9 @@ class RoutineService
 
         if (!$userFinalRoutine && !$userQuizRoutine) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('messages.no_routine_found'),
-                'code'    => 404
+                'code' => 404
             ];
         }
 
@@ -438,8 +449,9 @@ class RoutineService
         if ($userQuizRoutine) {
             $deletedTemp = \App\Models\RoutineProduct::where('routine_id', $userQuizRoutine->id)
                 ->where(function ($q) use ($productId) {
-                    $q->where('product_id', $productId)
-                      ->orWhere('replaced_with_product_id', $productId);
+                    $q
+                        ->where('product_id', $productId)
+                        ->orWhere('replaced_with_product_id', $productId);
                 })
                 ->delete();
         }
@@ -448,14 +460,14 @@ class RoutineService
 
         if ($deletedCount === 0) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('messages.product_not_found_in_routine'),
-                'code'    => 404
+                'code' => 404
             ];
         }
 
         return [
-            'status'  => true,
+            'status' => true,
             'message' => __('messages.product_removed_from_routine_successfully')
         ];
     }

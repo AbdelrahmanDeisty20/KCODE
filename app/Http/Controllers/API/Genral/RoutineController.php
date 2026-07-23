@@ -23,19 +23,17 @@ class RoutineController extends Controller
     /**
      * Get user's saved routine.
      */
-    public function getRoutine()
+    public function getRoutine(\Illuminate\Http\Request $request)
     {
-        $result = $this->routineService->getUserRoutine();
+        $routineId = $request->query('routine_id') ?? $request->input('routine_id');
+        $result = $this->routineService->getUserRoutine($routineId ? (int) $routineId : null);
 
         if (!$result['status']) {
             $code = $result['code'] ?? 400;
             return $this->error($result['message'], $code);
         }
 
-        return $this->success([
-            'id'    => $result['data']['id'],
-            'items' => FinalRoutineResource::collection($result['data']['items']),
-        ], $result['message']);
+        return $this->success($result['data'], $result['message']);
     }
 
     /**
