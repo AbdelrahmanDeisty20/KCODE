@@ -232,10 +232,14 @@ class CartService
     /**
      * Get user or guest cart.
      */
-    public function getCart(?string $sessionId = null): array
+    public function getCart(string $sessionId): array
     {
         $userId = auth('sanctum')->id();
-        $cart = $this->resolveCart($userId, $sessionId);
+        $cart = Cart::where('session_id', $sessionId)->first();
+
+        if (!$cart && $userId) {
+            $cart = Cart::where('user_id', $userId)->first();
+        }
 
         if (!$cart) {
             return [
@@ -245,14 +249,10 @@ class CartService
             ];
         }
 
-        if (empty($cart->session_id)) {
-            $cart->update(['session_id' => !empty($sessionId) ? $sessionId : (string) \Illuminate\Support\Str::uuid()]);
-        }
-
         return [
             'status'  => true,
             'message' => __('messages.cart_retrieved_successfully'),
-            'data'    => $cart->fresh(['items.product.brand', 'user']),
+            'data'    => $cart->load(['items.product.brand', 'user']),
         ];
     }
 

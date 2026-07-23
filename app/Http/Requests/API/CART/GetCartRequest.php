@@ -20,7 +20,7 @@ class GetCartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'session_id' => ['nullable', 'string'],
+            'session_id' => ['required', 'string'],
         ];
     }
 }
