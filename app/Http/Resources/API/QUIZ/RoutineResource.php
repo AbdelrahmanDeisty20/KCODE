@@ -37,7 +37,7 @@ class RoutineResource extends JsonResource
         }
 
         return [
-            'routine_id' => $this->routine_id,
+            'id' => $this->routine_id,
             'step_id' => $step ? $step->id : null,
             'step_name' => $step ? ($lang === 'ar' ? $step->name_ar : $step->name_en) : null,
             'step_order' => $this->temp_sequence_order ?? $this->step,
