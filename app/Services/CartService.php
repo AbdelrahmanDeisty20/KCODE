@@ -171,7 +171,7 @@ class CartService
             return [
                 'status' => true,
                 'message' => __('messages.products_added_to_cart_successfully'),
-                'data' => $cart->fresh(['items.product.brand', 'user']),
+                'data' => $cart->fresh(['items.product.brand', 'items.product.offers', 'user']),
             ];
         });
     }
@@ -252,7 +252,7 @@ class CartService
         return [
             'status'  => true,
             'message' => __('messages.cart_retrieved_successfully'),
-            'data'    => $cart->load(['items.product.brand', 'user']),
+            'data'    => $cart->load(['items.product.brand', 'items.product.offers', 'user']),
         ];
     }
 
@@ -331,7 +331,7 @@ class CartService
         return [
             'status'  => true,
             'message' => __('messages.cart_item_updated_successfully'),
-            'data'    => $cart->fresh(['items.product.brand', 'user']),
+            'data'    => $cart->fresh(['items.product.brand', 'items.product.offers', 'user']),
         ];
     }
 
@@ -365,7 +365,7 @@ class CartService
         return [
             'status'  => true,
             'message' => __('messages.cart_item_removed_successfully'),
-            'data'    => $cart->fresh(['items.product.brand', 'user']),
+            'data'    => $cart->fresh(['items.product.brand', 'items.product.offers', 'user']),
         ];
     }
 
@@ -390,7 +390,7 @@ class CartService
         return [
             'status'  => true,
             'message' => __('messages.cart_cleared_successfully'),
-            'data'    => $cart->fresh(['items.product.brand', 'user']),
+            'data'    => $cart->fresh(['items.product.brand', 'items.product.offers', 'user']),
         ];
     }
 
