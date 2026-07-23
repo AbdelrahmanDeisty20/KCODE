@@ -190,19 +190,18 @@ class CartService
      */
     private function getRoutineProductIds(?int $routineId = null, ?int $userId = null): array
     {
-        // Check by explicit routine_id first
-        if ($routineId) {
-            // Check FinalRoutine by id or routine_id
-            $finalRoutine = FinalRoutine::where('id', $routineId)
-                ->orWhere('routine_id', $routineId)
-                ->first();
+        // 1. If explicit routine_id is provided, ONLY check for that routine ID!
+        if (!empty($routineId)) {
+            $finalRoutine = FinalRoutine::where(function ($q) use ($routineId) {
+                $q->where('id', $routineId)->orWhere('routine_id', $routineId);
+            })->first();
+
             if ($finalRoutine) {
                 return FinalRoutineProduct::where('final_routine_id', $finalRoutine->id)
                     ->pluck('product_id')
                     ->toArray();
             }
 
-            // Check Routine
             $routine = Routine::where('id', $routineId)->first();
             if ($routine) {
                 $routineProducts = RoutineProduct::where('routine_id', $routine->id)->get();
@@ -212,9 +211,12 @@ class CartService
                 }
                 return array_filter($ids);
             }
+
+            // Routine ID was provided but does not exist -> DO NOT fallback!
+            return [];
         }
 
-        // Fallback to user's latest routine if no routine_id passed
+        // 2. Fallback to user's latest routine ONLY IF NO routine_id was passed at all
         if ($userId) {
             $finalRoutine = FinalRoutine::where('user_id', $userId)->latest()->first();
             if ($finalRoutine) {
