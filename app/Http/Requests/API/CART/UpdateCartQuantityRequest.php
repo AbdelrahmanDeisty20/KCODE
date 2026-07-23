@@ -22,7 +22,7 @@ class UpdateCartQuantityRequest extends FormRequest
         return [
             'product_id' => ['required', 'integer', 'exists:products,id'],
             'quantity'   => ['required', 'integer', 'min:1'],
-            'session_id' => ['nullable', 'string'],
+            'session_id' => ['required', 'string'],
         ];
     }
 }
