@@ -82,15 +82,9 @@ class CartController extends Controller
             return $this->error($result['message'], $code);
         }
 
-        return $this->paginated(
-            CartItemResource::class,
-            $result['items'],
-            $result['message'],
-            [
-                'cart_id'    => $result['cart']->id,
-                'session_id' => $result['cart']->session_id,
-                'user'       => $result['cart']->user ? new UserResource($result['cart']->user) : null,
-            ]
+        return $this->success(
+            new CartResource($result['data']),
+            $result['message']
         );
     }
 

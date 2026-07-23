@@ -263,15 +263,10 @@ class CartService
             ];
         }
 
-        $items = CartItem::where('cart_id', $cart->id)
-            ->with(['product.brand', 'product.offers'])
-            ->paginate(10);
-
         return [
             'status'  => true,
             'message' => __('messages.cart_retrieved_successfully'),
-            'cart'    => $cart->load('user'),
-            'items'   => $items,
+            'data'    => $cart->load(['items.product.brand', 'items.product.offers', 'user']),
         ];
     }
 
