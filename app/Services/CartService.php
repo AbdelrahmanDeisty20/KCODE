@@ -25,7 +25,30 @@ class CartService
             // 1. Get or create Cart
             $cart = null;
             if ($userId) {
-                $cart = Cart::firstOrCreate(['user_id' => $userId]);
+                $guestCart = !empty($sessionId) ? Cart::where('session_id', $sessionId)->whereNull('user_id')->first() : null;
+                $userCart  = Cart::where('user_id', $userId)->first();
+
+                if ($guestCart && !$userCart) {
+                    $guestCart->update(['user_id' => $userId]);
+                    $cart = $guestCart;
+                } elseif ($guestCart && $userCart && $guestCart->id !== $userCart->id) {
+                    foreach ($guestCart->items as $gItem) {
+                        $existing = CartItem::where('cart_id', $userCart->id)->where('product_id', $gItem->product_id)->first();
+                        if ($existing) {
+                            $existing->update(['quantity' => $existing->quantity + $gItem->quantity]);
+                        } else {
+                            $gItem->update(['cart_id' => $userCart->id]);
+                        }
+                    }
+                    $guestCart->delete();
+                    $cart = $userCart;
+                } else {
+                    $cart = $userCart ?? Cart::create(['user_id' => $userId, 'session_id' => $sessionId]);
+                }
+
+                if (!empty($sessionId) && $cart->session_id !== $sessionId) {
+                    $cart->update(['session_id' => $sessionId]);
+                }
             } elseif (!empty($sessionId)) {
                 $cart = Cart::firstOrCreate(['session_id' => $sessionId]);
             } else {
@@ -368,7 +391,10 @@ class CartService
     private function resolveCart(?int $userId = null, ?string $sessionId = null): ?Cart
     {
         if ($userId) {
-            return Cart::where('user_id', $userId)->first();
+            $cart = Cart::where('user_id', $userId)->first();
+            if ($cart) {
+                return $cart;
+            }
         }
 
         if (!empty($sessionId)) {
