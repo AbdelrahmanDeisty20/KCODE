@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\API\CART;
 
+use App\Http\Resources\API\PRODUCT\ProductListResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\API\PRODUCT\ProductResource;
@@ -27,7 +28,7 @@ class CartItemResource extends JsonResource
             'discount_percentage' => (float) $this->discount_percentage,
             'price_after_discount' => round($priceAfterDiscount, 2),
             'total_price' => (float) $this->total_price,
-            'product' => new ProductResource($this->product),
+            'product' => new ProductListResource($this->product),
         ];
     }
 }
