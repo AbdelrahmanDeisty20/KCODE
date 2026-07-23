@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\API\Skins;
 
-use App\Http\Resources\API\PRODUCT\ProductResource;
+use App\Http\Resources\API\PRODUCT\ProductListResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +20,7 @@ class SkinTypeResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'image' => $this->image_path,
-            'products' => ProductResource::collection($this->whenLoaded('products')),
+            'products' => ProductListResource::collection($this->whenLoaded('products')),
         ];
     }
 }
