@@ -81,12 +81,13 @@ class CartService
                     ];
                 }
 
-                // Check if any product from this routine already exists in cart
-                $alreadyInCart = CartItem::where('cart_id', $cart->id)
-                    ->whereIn('product_id', $routineProductIds)
-                    ->exists();
+                // Check if ALL products from this routine already exist in cart
+                $uniqueRoutineProductIds = array_unique($routineProductIds);
+                $existingCount = CartItem::where('cart_id', $cart->id)
+                    ->whereIn('product_id', $uniqueRoutineProductIds)
+                    ->count();
 
-                if ($alreadyInCart) {
+                if ($existingCount > 0 && $existingCount === count($uniqueRoutineProductIds)) {
                     return [
                         'status'  => false,
                         'message' => __('messages.routine_already_in_cart'),
