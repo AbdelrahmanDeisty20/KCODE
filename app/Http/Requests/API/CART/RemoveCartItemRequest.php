@@ -24,4 +24,15 @@ class RemoveCartItemRequest extends FormRequest
             'session_id' => ['nullable', 'string'],
         ];
     }
+
+    /**
+     * Get custom messages for validator errors.
+     */
+    public function messages(): array
+    {
+        return [
+            'product_id.required' => __('messages.product_id_required'),
+            'product_id.exists'   => __('messages.invalid_product'),
+        ];
+    }
 }

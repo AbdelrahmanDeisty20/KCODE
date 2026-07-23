@@ -25,4 +25,18 @@ class UpdateCartQuantityRequest extends FormRequest
             'session_id' => ['required', 'string'],
         ];
     }
+
+    /**
+     * Get custom messages for validator errors.
+     */
+    public function messages(): array
+    {
+        return [
+            'product_id.required' => __('messages.product_id_required'),
+            'product_id.exists'   => __('messages.invalid_product'),
+            'quantity.required'   => __('messages.quantity_required'),
+            'quantity.min'        => __('messages.quantity_min'),
+            'session_id.required' => __('messages.cart_identifier_required'),
+        ];
+    }
 }

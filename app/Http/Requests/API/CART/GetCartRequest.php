@@ -23,4 +23,14 @@ class GetCartRequest extends FormRequest
             'session_id' => ['required', 'string'],
         ];
     }
+
+    /**
+     * Get custom messages for validator errors.
+     */
+    public function messages(): array
+    {
+        return [
+            'session_id.required' => __('messages.cart_identifier_required'),
+        ];
+    }
 }

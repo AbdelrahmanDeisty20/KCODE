@@ -144,4 +144,8 @@ return [
     'cart_cleared_successfully' => 'Cart cleared successfully.',
     'cart_item_not_found' => 'Item not found in cart.',
     'cart_not_found' => 'Cart not found or empty.',
+    'product_id_required' => 'Product ID is required.',
+    'invalid_product' => 'The selected product is invalid.',
+    'quantity_required' => 'Quantity is required.',
+    'quantity_min' => 'Quantity must be at least 1.',
 ];

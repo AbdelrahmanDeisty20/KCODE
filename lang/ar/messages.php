@@ -144,4 +144,8 @@ return [
     'cart_cleared_successfully' => 'تم إفراغ السلة بنجاح.',
     'cart_item_not_found' => 'المنتج غير موجود في السلة.',
     'cart_not_found' => 'السلة غير موجودة أو فارغة.',
+    'product_id_required' => 'معرف المنتج مطلوب.',
+    'invalid_product' => 'المنتج المحدد غير موجود.',
+    'quantity_required' => 'الكمية مطلوبة.',
+    'quantity_min' => 'الكمية يجب أن تكون 1 على الأقل.',
 ];
