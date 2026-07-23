@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Resources\API\CATEGORY\SkinTypeResource;
+use App\Models\Product;
 use App\Models\SkinType;
 
 class SkinService
@@ -30,18 +31,22 @@ class SkinService
         ];
     }
     public function show($id) {
-        $skinType = SkinType::with(['products.brand', 'products.offers'])->find($id);
-        if (!$skinType) {
+        $products = Product::whereHas('skinTypes', function ($q) use ($id) {
+            $q->where('skin_type_id', $id);
+        })->with(['brand', 'offers'])->paginate(10);
+
+        if ($products->isEmpty()) {
             return [
-                'status' => false,
-                'message' => __('messages.skin_type_not_found'),
-                'data' => null,
+                'status'  => false,
+                'message' => __('messages.products_not_found'),
+                'data'    => [],
             ];
         }
+
         return [
-            'status' => true,
+            'status'  => true,
             'message' => __('messages.skin_type_retrieved_successfully'),
-            'data' => $skinType,
+            'data'    => $products,
         ];
     }
 }

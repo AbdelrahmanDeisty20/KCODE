@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\API\PRODUCT\ProductListResource;
 use App\Http\Resources\API\Skins\SkinTypeResource;
 use App\Services\SkinService;
 use App\Traits\ApiResponse;
@@ -27,6 +28,6 @@ class SkinController extends Controller
         if (!$skinType['status']) {
             return $this->error($skinType['message'], 404);
         }
-        return $this->success(new SkinTypeResource($skinType['data']), __('messages.skin_type_retrieved_successfully'));
+        return $this->paginated(ProductListResource::class, $skinType['data'], __('messages.products_retrieved_successfully'));
     }
 }
