@@ -30,7 +30,7 @@ class SkinService
         ];
     }
     public function show($id) {
-        $skinType = SkinType::find($id);
+        $skinType = SkinType::with('products')->find($id);
         if (!$skinType) {
             return [
                 'status' => false,
