@@ -26,14 +26,11 @@ class CartService
             $cart = null;
             if ($userId) {
                 $cart = Cart::firstOrCreate(['user_id' => $userId]);
-            } elseif ($sessionId) {
+            } elseif (!empty($sessionId)) {
                 $cart = Cart::firstOrCreate(['session_id' => $sessionId]);
             } else {
-                return [
-                    'status' => false,
-                    'message' => __('messages.cart_identifier_required'),
-                    'data' => [],
-                ];
+                $sessionId = (string) \Illuminate\Support\Str::uuid();
+                $cart = Cart::create(['session_id' => $sessionId]);
             }
 
             // 2. If routine_id is passed or product_ids is empty, resolve products from routine
