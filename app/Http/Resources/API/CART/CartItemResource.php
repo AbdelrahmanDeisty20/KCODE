@@ -28,7 +28,7 @@ class CartItemResource extends JsonResource
             'discount_percentage' => (float) $this->discount_percentage,
             'price_after_discount' => round($priceAfterDiscount, 2),
             'total_price' => (float) $this->total_price,
-            'product' => new ProductListResource($this->product),
+            'product' => new ProductListResource($this->whenLoaded('product')),
         ];
     }
 }

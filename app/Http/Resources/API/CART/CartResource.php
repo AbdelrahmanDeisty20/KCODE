@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\API\CART;
 
+use App\Http\Resources\API\AUHT\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,9 +15,8 @@ class CartResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'session_id' => $this->session_id,
-            'items' => CartItemResource::collection($this->items),
+            'user' => new UserResource($this->whenLoaded('user')),
+            'items' => CartItemResource::collection($this->whenLoaded('items')),
         ];
     }
 }
