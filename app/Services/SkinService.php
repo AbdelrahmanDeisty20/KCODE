@@ -32,22 +32,24 @@ class SkinService
 
     public function show($id)
     {
-        $products = Product::whereHas('skinTypes', function ($q) use ($id) {
-            $q->where('skin_type_id', $id);
-        })->with(['brand', 'offers', 'skinTypes'])->paginate(10);
-
-        if ($products->isEmpty()) {
+        $skinType = SkinType::find($id);
+        if (!$skinType) {
             return [
-                'status' => false,
-                'message' => __('messages.products_not_found'),
-                'data' => [],
+                'status'  => false,
+                'message' => __('messages.skin_type_not_found'),
+                'data'    => null,
             ];
         }
 
+        $products = Product::whereHas('skinTypes', function ($q) use ($id) {
+            $q->where('skin_type_id', $id);
+        })->with(['brand', 'offers'])->paginate(10);
+
         return [
-            'status' => true,
-            'message' => __('messages.skin_type_retrieved_successfully'),
-            'data' => $products,
+            'status'    => true,
+            'message'   => __('messages.skin_type_retrieved_successfully'),
+            'skin_type' => $skinType,
+            'data'      => $products,
         ];
     }
 }
