@@ -137,4 +137,5 @@ return [
     'product_out_of_stock' => 'Sorry, product (:name) is currently out of stock.',
     'product_stock_insufficient' => 'Sorry, only :stock items of product (:name) are available in stock.',
     'product_not_found_in_routine' => 'Product was not found in this routine or has already been removed.',
+    'routine_already_in_cart' => 'Products from this routine are already in your cart.',
 ];

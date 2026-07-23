@@ -33,20 +33,40 @@ class CartService
                 $cart = Cart::create(['session_id' => $sessionId]);
             }
 
-            // 2. If routine_id is passed or product_ids is empty, resolve products from routine
-            if (!empty($routineId) || empty($productIds)) {
+            // 2. Resolve products from routine_id
+            if (!empty($routineId)) {
                 $routineProductIds = $this->getRoutineProductIds($routineId, $userId);
-                if (!empty($routineProductIds)) {
-                    $productIds = array_unique(array_merge($productIds, $routineProductIds));
+
+                if (empty($routineProductIds)) {
+                    return [
+                        'status'  => false,
+                        'message' => __('messages.no_routine_found'),
+                        'data'    => [],
+                    ];
                 }
+
+                // Check if any product from this routine already exists in cart
+                $alreadyInCart = CartItem::where('cart_id', $cart->id)
+                    ->whereIn('product_id', $routineProductIds)
+                    ->exists();
+
+                if ($alreadyInCart) {
+                    return [
+                        'status'  => false,
+                        'message' => __('messages.routine_already_in_cart'),
+                        'data'    => [],
+                    ];
+                }
+
+                $productIds = array_unique(array_merge($productIds, $routineProductIds));
             }
 
             // 3. Validate product IDs exist
             if (empty($productIds)) {
                 return [
-                    'status' => false,
+                    'status'  => false,
                     'message' => __('messages.no_valid_products_found'),
-                    'data' => [],
+                    'data'    => [],
                 ];
             }
 
@@ -123,7 +143,7 @@ class CartService
             return [
                 'status' => true,
                 'message' => __('messages.products_added_to_cart_successfully'),
-                'data' => $cart->fresh(['items.product.brand']),
+                'data' => $cart->fresh(['items.product.brand', 'user']),
             ];
         });
     }
