@@ -200,4 +200,181 @@ class CartService
 
         return [];
     }
+
+    /**
+     * Get user or guest cart.
+     */
+    public function getCart(?string $sessionId = null): array
+    {
+        $userId = auth('sanctum')->id();
+        $cart = $this->resolveCart($userId, $sessionId);
+
+        if (!$cart) {
+            return [
+                'status'  => false,
+                'message' => __('messages.cart_not_found'),
+                'code'    => 404,
+            ];
+        }
+
+        return [
+            'status'  => true,
+            'message' => __('messages.cart_retrieved_successfully'),
+            'data'    => $cart->load(['items.product.brand', 'user']),
+        ];
+    }
+
+    /**
+     * Update quantity of a single cart item.
+     */
+    public function updateQuantity(int $productId, int $quantity, ?string $sessionId = null): array
+    {
+        $userId = auth('sanctum')->id();
+        $cart = $this->resolveCart($userId, $sessionId);
+
+        if (!$cart) {
+            return [
+                'status'  => false,
+                'message' => __('messages.cart_not_found'),
+                'code'    => 404,
+            ];
+        }
+
+        $cartItem = CartItem::where('cart_id', $cart->id)->where('product_id', $productId)->first();
+        if (!$cartItem) {
+            return [
+                'status'  => false,
+                'message' => __('messages.cart_item_not_found'),
+                'code'    => 404,
+            ];
+        }
+
+        $product = Product::with('offers')->find($productId);
+        if (!$product) {
+            return [
+                'status'  => false,
+                'message' => __('messages.product_not_found'),
+                'code'    => 404,
+            ];
+        }
+
+        $lang = request()->header('lang') ?? app()->getLocale();
+        $productName = $lang === 'ar' ? $product->name_ar : $product->name_en;
+
+        if ($product->stock < $quantity) {
+            return [
+                'status'  => false,
+                'message' => __('messages.product_stock_insufficient', [
+                    'name'  => $productName,
+                    'stock' => $product->stock
+                ]),
+                'code'    => 422,
+            ];
+        }
+
+        $unitPrice = (float) $product->price;
+        $activeOffer = $product->offers ? $product->offers->first(fn($o) => $o->isActive()) : null;
+
+        $discountPercentage = 0.00;
+        $discountAmount = 0.00;
+        $priceAfterDiscount = $unitPrice;
+
+        if ($activeOffer) {
+            $discountPercentage = (float) $activeOffer->discount_percentage;
+            $discountAmount = round($unitPrice * ($discountPercentage / 100), 2);
+            $priceAfterDiscount = max(0, round($unitPrice - $discountAmount, 2));
+        }
+
+        $totalPrice = round($priceAfterDiscount * $quantity, 2);
+
+        $cartItem->update([
+            'quantity'             => $quantity,
+            'unit_price'           => $unitPrice,
+            'discount_amount'      => $discountAmount,
+            'discount_percentage'  => $discountPercentage,
+            'price_after_discount' => $priceAfterDiscount,
+            'total_price'          => $totalPrice,
+        ]);
+
+        return [
+            'status'  => true,
+            'message' => __('messages.cart_item_updated_successfully'),
+            'data'    => $cart->fresh(['items.product.brand', 'user']),
+        ];
+    }
+
+    /**
+     * Remove a single item from the cart.
+     */
+    public function removeItem(int $productId, ?string $sessionId = null): array
+    {
+        $userId = auth('sanctum')->id();
+        $cart = $this->resolveCart($userId, $sessionId);
+
+        if (!$cart) {
+            return [
+                'status'  => false,
+                'message' => __('messages.cart_not_found'),
+                'code'    => 404,
+            ];
+        }
+
+        $cartItem = CartItem::where('cart_id', $cart->id)->where('product_id', $productId)->first();
+        if (!$cartItem) {
+            return [
+                'status'  => false,
+                'message' => __('messages.cart_item_not_found'),
+                'code'    => 404,
+            ];
+        }
+
+        $cartItem->delete();
+
+        return [
+            'status'  => true,
+            'message' => __('messages.cart_item_removed_successfully'),
+            'data'    => $cart->fresh(['items.product.brand', 'user']),
+        ];
+    }
+
+    /**
+     * Clear all items from the cart.
+     */
+    public function clearCart(?string $sessionId = null): array
+    {
+        $userId = auth('sanctum')->id();
+        $cart = $this->resolveCart($userId, $sessionId);
+
+        if (!$cart) {
+            return [
+                'status'  => false,
+                'message' => __('messages.cart_not_found'),
+                'code'    => 404,
+            ];
+        }
+
+        $cart->items()->delete();
+
+        return [
+            'status'  => true,
+            'message' => __('messages.cart_cleared_successfully'),
+            'data'    => $cart->fresh(['items.product.brand', 'user']),
+        ];
+    }
+
+    /**
+     * Helper to find existing cart for user or session.
+     */
+    private function resolveCart(?int $userId = null, ?string $sessionId = null): ?Cart
+    {
+        if ($userId) {
+            return Cart::where('user_id', $userId)->first();
+        }
+
+        if (!empty($sessionId)) {
+            return Cart::where('session_id', $sessionId)->first();
+        }
+
+        return null;
+    }
 }

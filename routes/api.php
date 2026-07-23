@@ -120,7 +120,12 @@ Route::middleware([SetLang::class])->group(function () {
 
     // Cart Routes
     Route::controller(CartController::class)->group(function () {
+        Route::get('/cart', 'getCart');
         Route::post('/cart/add-bulk', 'addBulk');
+        Route::post('/cart/update-quantity', 'updateQuantity');
+        Route::post('/cart/remove-item', 'removeItem');
+        Route::delete('/cart/remove-item', 'removeItem');
+        Route::delete('/cart/clear', 'clearCart');
     });
 
     // Newsletter Routes
