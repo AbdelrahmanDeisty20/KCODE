@@ -16,9 +16,12 @@ class CartItemResource extends JsonResource
     {
         $unitPrice = (float) $this->unit_price;
         $discountAmount = (float) $this->discount_amount;
-        $priceAfterDiscount = $this->price_after_discount !== null 
-            ? (float) $this->price_after_discount 
-            : max(0, $unitPrice - $discountAmount);
+        $discountPercentage = (float) $this->discount_percentage;
+        $rawPriceAfterDiscount = (float) $this->price_after_discount;
+
+        $priceAfterDiscount = ($discountAmount > 0 || $discountPercentage > 0) && $rawPriceAfterDiscount > 0
+            ? round($rawPriceAfterDiscount, 2)
+            : 0;
 
         return [
             'id' => $this->id,

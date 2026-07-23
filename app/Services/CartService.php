@@ -145,7 +145,7 @@ class CartService
 
                 $discountPercentage = 0.00;
                 $discountAmount = 0.00;
-                $priceAfterDiscount = $unitPrice;
+                $priceAfterDiscount = 0.00;
 
                 if ($activeOffer) {
                     $discountPercentage = (float) $activeOffer->discount_percentage;
@@ -153,7 +153,8 @@ class CartService
                     $priceAfterDiscount = max(0, round($unitPrice - $discountAmount, 2));
                 }
 
-                $totalPrice = round($priceAfterDiscount * $targetQuantity, 2);
+                $effectivePrice = $priceAfterDiscount > 0 ? $priceAfterDiscount : $unitPrice;
+                $totalPrice = round($effectivePrice * $targetQuantity, 2);
 
                 CartItem::updateOrCreate(
                     ['cart_id' => $cart->id, 'product_id' => $product->id],
@@ -309,7 +310,7 @@ class CartService
 
         $discountPercentage = 0.00;
         $discountAmount = 0.00;
-        $priceAfterDiscount = $unitPrice;
+        $priceAfterDiscount = 0.00;
 
         if ($activeOffer) {
             $discountPercentage = (float) $activeOffer->discount_percentage;
@@ -317,7 +318,8 @@ class CartService
             $priceAfterDiscount = max(0, round($unitPrice - $discountAmount, 2));
         }
 
-        $totalPrice = round($priceAfterDiscount * $quantity, 2);
+        $effectivePrice = $priceAfterDiscount > 0 ? $priceAfterDiscount : $unitPrice;
+        $totalPrice = round($effectivePrice * $quantity, 2);
 
         $cartItem->update([
             'quantity'             => $quantity,
