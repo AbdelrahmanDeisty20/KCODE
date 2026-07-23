@@ -192,8 +192,10 @@ class CartService
     {
         // Check by explicit routine_id first
         if ($routineId) {
-            // Check FinalRoutine
-            $finalRoutine = FinalRoutine::where('id', $routineId)->first();
+            // Check FinalRoutine by id or routine_id
+            $finalRoutine = FinalRoutine::where('id', $routineId)
+                ->orWhere('routine_id', $routineId)
+                ->first();
             if ($finalRoutine) {
                 return FinalRoutineProduct::where('final_routine_id', $finalRoutine->id)
                     ->pluck('product_id')
