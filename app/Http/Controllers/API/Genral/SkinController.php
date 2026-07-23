@@ -24,10 +24,23 @@ class SkinController extends Controller
         return $this->paginated(SkinTypeResource::class, $skinTypes['data'], __('messages.skin_types_retrieved_successfully'));
     }
     public function show($id) {
-        $skinType = $this->skinService->show($id);
-        if (!$skinType['status']) {
-            return $this->error($skinType['message'], 404);
+        $result = $this->skinService->show($id);
+        if (!$result['status']) {
+            return $this->error($result['message'], 404);
         }
-        return $this->paginated(ProductListResource::class, $skinType['data'], __('messages.products_retrieved_successfully'));
+
+        return response()->json([
+            'status'     => true,
+            'message'    => $result['message'],
+            'skin_type'  => new SkinTypeResource($result['skin_type']),
+            'data'       => ProductListResource::collection($result['data']),
+            'pagination' => [
+                'total'        => $result['data']->total(),
+                'count'        => $result['data']->count(),
+                'per_page'     => $result['data']->perPage(),
+                'current_page' => $result['data']->currentPage(),
+                'total_pages'  => $result['data']->lastPage(),
+            ]
+        ], 200);
     }
 }

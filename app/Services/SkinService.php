@@ -11,11 +11,10 @@ class SkinService
     /**
      * Create a new class instance.
      */
-    public function __construct()
+    public function __construct() {}
+
+    public function SkinTypes()
     {
-        
-    }
-    public function SkinTypes() {
         $skinTypes = SkinType::paginate(10);
         if ($skinTypes->isEmpty()) {
             return [
@@ -30,23 +29,25 @@ class SkinService
             'data' => $skinTypes,
         ];
     }
-    public function show($id) {
+
+    public function show($id)
+    {
         $products = Product::whereHas('skinTypes', function ($q) use ($id) {
             $q->where('skin_type_id', $id);
-        })->with(['brand', 'offers','skin'])->paginate(10);
+        })->with(['brand', 'offers', 'skinTypes'])->paginate(10);
 
         if ($products->isEmpty()) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('messages.products_not_found'),
-                'data'    => [],
+                'data' => [],
             ];
         }
 
         return [
-            'status'  => true,
+            'status' => true,
             'message' => __('messages.skin_type_retrieved_successfully'),
-            'data'    => $products,
+            'data' => $products,
         ];
     }
 }
