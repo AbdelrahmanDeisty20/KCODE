@@ -43,10 +43,15 @@ class CartService
                     $guestCart->delete();
                     $cart = $userCart;
                 } else {
-                    $cart = $userCart ?? Cart::create(['user_id' => $userId, 'session_id' => $sessionId]);
+                    $cart = $userCart ?? Cart::create([
+                        'user_id'    => $userId,
+                        'session_id' => !empty($sessionId) ? $sessionId : (string) \Illuminate\Support\Str::uuid()
+                    ]);
                 }
 
-                if (!empty($sessionId) && $cart->session_id !== $sessionId) {
+                if (empty($cart->session_id)) {
+                    $cart->update(['session_id' => !empty($sessionId) ? $sessionId : (string) \Illuminate\Support\Str::uuid()]);
+                } elseif (!empty($sessionId) && $cart->session_id !== $sessionId) {
                     $cart->update(['session_id' => $sessionId]);
                 }
             } elseif (!empty($sessionId)) {
@@ -240,10 +245,14 @@ class CartService
             ];
         }
 
+        if (empty($cart->session_id)) {
+            $cart->update(['session_id' => !empty($sessionId) ? $sessionId : (string) \Illuminate\Support\Str::uuid()]);
+        }
+
         return [
             'status'  => true,
             'message' => __('messages.cart_retrieved_successfully'),
-            'data'    => $cart->load(['items.product.brand', 'user']),
+            'data'    => $cart->fresh(['items.product.brand', 'user']),
         ];
     }
 
