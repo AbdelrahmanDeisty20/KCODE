@@ -32,10 +32,10 @@ class RoutineController extends Controller
             return $this->error($result['message'], $code);
         }
 
-        return $this->success(
-            FinalRoutineResource::collection($result['data']),
-            $result['message']
-        );
+        return $this->success([
+            'id'    => $result['data']['id'],
+            'items' => FinalRoutineResource::collection($result['data']['items']),
+        ], $result['message']);
     }
 
     /**
@@ -83,10 +83,10 @@ class RoutineController extends Controller
             return $this->error($result['message'], $code);
         }
 
-        return $this->success(
-            RoutineResource::collection($result['data']),
-            $result['message']
-        );
+        return $this->success([
+            'id'    => $result['data']['id'],
+            'items' => RoutineResource::collection($result['data']['items']),
+        ], $result['message']);
     }
 
     /**

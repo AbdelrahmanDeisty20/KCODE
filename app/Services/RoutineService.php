@@ -44,9 +44,12 @@ class RoutineService
         });
 
         return [
-            'status' => true,
+            'status'  => true,
             'message' => __('messages.routine_retrieved_successfully'),
-            'data' => $routineProducts
+            'data'    => [
+                'id'    => $finalRoutine->routine_id ?? $finalRoutine->id,
+                'items' => $routineProducts,
+            ]
         ];
     }
 
@@ -94,9 +97,12 @@ class RoutineService
         });
 
         return [
-            'status' => true,
+            'status'  => true,
             'message' => __('messages.routine_retrieved_successfully'),
-            'data' => $routineProducts
+            'data'    => [
+                'id'    => $routine->id,
+                'items' => $routineProducts,
+            ]
         ];
     }
 
