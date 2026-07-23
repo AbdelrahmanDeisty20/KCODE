@@ -33,7 +33,7 @@ class SkinService
     public function show($id) {
         $products = Product::whereHas('skinTypes', function ($q) use ($id) {
             $q->where('skin_type_id', $id);
-        })->with(['brand', 'offers'])->paginate(10);
+        })->with(['brand', 'offers','skin'])->paginate(10);
 
         if ($products->isEmpty()) {
             return [

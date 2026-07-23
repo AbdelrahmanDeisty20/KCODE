@@ -192,7 +192,7 @@ class Product extends Model
 
     public function skinTypes()
     {
-        return $this->hasMany(ProductSkinType::class);
+        return $this->belongsToMany(ProductSkinType::class, 'product_skin_type');
     }
 
     public function goals()
