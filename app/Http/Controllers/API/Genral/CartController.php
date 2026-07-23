@@ -4,14 +4,15 @@ namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CART\AddBulkCartRequest;
-use App\Http\Resources\API\CART\CartResource;
-use App\Services\CartService;
-use App\Traits\ApiResponse;
-
 use App\Http\Requests\API\CART\AddSingleCartRequest;
 use App\Http\Requests\API\CART\GetCartRequest;
 use App\Http\Requests\API\CART\UpdateCartQuantityRequest;
 use App\Http\Requests\API\CART\RemoveCartItemRequest;
+use App\Http\Resources\API\AUHT\UserResource;
+use App\Http\Resources\API\CART\CartItemResource;
+use App\Http\Resources\API\CART\CartResource;
+use App\Services\CartService;
+use App\Traits\ApiResponse;
 
 class CartController extends Controller
 {
@@ -20,7 +21,9 @@ class CartController extends Controller
     /**
      * Inject CartService
      */
-    public function __construct(private CartService $cartService) {}
+    public function __construct(
+        private CartService $cartService
+    ) {}
 
     /**
      * Add a single product to the cart.
@@ -79,9 +82,15 @@ class CartController extends Controller
             return $this->error($result['message'], $code);
         }
 
-        return $this->success(
-            new CartResource($result['data']),
-            $result['message']
+        return $this->paginated(
+            CartItemResource::class,
+            $result['items'],
+            $result['message'],
+            [
+                'cart_id'    => $result['cart']->id,
+                'session_id' => $result['cart']->session_id,
+                'user'       => $result['cart']->user ? new UserResource($result['cart']->user) : null,
+            ]
         );
     }
 
@@ -109,7 +118,7 @@ class CartController extends Controller
     }
 
     /**
-     * Remove a single product from the cart.
+     * Remove an item from the cart.
      */
     public function removeItem(RemoveCartItemRequest $request)
     {
@@ -133,10 +142,10 @@ class CartController extends Controller
     /**
      * Clear all items from the cart.
      */
-    public function clearCart(GetCartRequest $request)
+    public function clearCart(\Illuminate\Http\Request $request)
     {
-        $data = $request->validated();
-        $result = $this->cartService->clearCart($data['session_id'] ?? null);
+        $sessionId = $request->query('session_id') ?? $request->input('session_id');
+        $result = $this->cartService->clearCart($sessionId);
 
         if (!$result['status']) {
             $code = $result['code'] ?? 400;
