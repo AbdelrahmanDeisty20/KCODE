@@ -15,13 +15,21 @@ use Illuminate\Support\Facades\DB;
 class CartService
 {
     /**
+     * Add a single product to the cart.
+     */
+    public function addSingleProduct(int $productId, int $quantity = 1, ?string $sessionId = null): array
+    {
+        return $this->addProductsToCart([$productId], $sessionId, null, $quantity);
+    }
+
+    /**
      * Add multiple products or an entire routine to the cart at once inside a database transaction (bulk add).
      */
-    public function addProductsToCart(array $productIds = [], ?string $sessionId = null, ?int $routineId = null): array
+    public function addProductsToCart(array $productIds = [], ?string $sessionId = null, ?int $routineId = null, int $addQuantity = 1): array
     {
         $userId = auth('sanctum')->id();
 
-        return DB::transaction(function () use ($productIds, $sessionId, $routineId, $userId) {
+        return DB::transaction(function () use ($productIds, $sessionId, $routineId, $userId, $addQuantity) {
             // 1. Get or create Cart
             $cart = null;
             if ($userId) {
@@ -123,7 +131,7 @@ class CartService
 
                 $existingItem = CartItem::where('cart_id', $cart->id)->where('product_id', $product->id)->first();
                 $currentCartQuantity = $existingItem ? (int)$existingItem->quantity : 0;
-                $targetQuantity = $currentCartQuantity > 0 ? $currentCartQuantity : 1;
+                $targetQuantity = $currentCartQuantity > 0 ? ($currentCartQuantity + $addQuantity) : $addQuantity;
 
                 if ($targetQuantity > $product->stock) {
                     return [

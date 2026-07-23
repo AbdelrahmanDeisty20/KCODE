@@ -8,6 +8,7 @@ use App\Http\Resources\API\CART\CartResource;
 use App\Services\CartService;
 use App\Traits\ApiResponse;
 
+use App\Http\Requests\API\CART\AddSingleCartRequest;
 use App\Http\Requests\API\CART\GetCartRequest;
 use App\Http\Requests\API\CART\UpdateCartQuantityRequest;
 use App\Http\Requests\API\CART\RemoveCartItemRequest;
@@ -20,6 +21,28 @@ class CartController extends Controller
      * Inject CartService
      */
     public function __construct(private CartService $cartService) {}
+
+    /**
+     * Add a single product to the cart.
+     */
+    public function addSingle(AddSingleCartRequest $request)
+    {
+        $data = $request->validated();
+        $result = $this->cartService->addSingleProduct(
+            (int) $data['product_id'],
+            (int) ($data['quantity'] ?? 1),
+            $data['session_id'] ?? null
+        );
+
+        if (!$result['status']) {
+            return $this->error($result['message']);
+        }
+
+        return $this->success(
+            new CartResource($result['data']),
+            $result['message']
+        );
+    }
 
     /**
      * Add multiple products or an entire routine to the cart at once (bulk add).
