@@ -276,13 +276,13 @@ class QuizService
                 }
 
                 // Goal match bonus
-                if ($goalId && $product->goals->contains('goal_id', $goalId)) {
+                if ($goalId && ($product->goals->contains('id', $goalId) || $product->goals->contains('pivot.goal_id', $goalId))) {
                     $score += 100;
                 }
 
                 // Concern match bonus (highly prioritized to treat the concerns)
                 foreach ($concernIds as $cId) {
-                    if ($product->concerns->contains('concern_id', $cId)) {
+                    if ($product->concerns->contains('id', $cId) || $product->concerns->contains('pivot.concern_id', $cId)) {
                         $score += 200;
                     }
                 }

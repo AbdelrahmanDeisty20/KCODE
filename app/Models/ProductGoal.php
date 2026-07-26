@@ -17,6 +17,6 @@ class ProductGoal extends Model
     }
     public function goal(): BelongsTo
     {
-        return $this->belongsTo(RoutineGoal::class);
+        return $this->belongsTo(RoutineGoal::class, 'goal_id');
     }
 }

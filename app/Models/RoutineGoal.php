@@ -25,10 +25,10 @@ class RoutineGoal extends Model
     }
     public function products()
     {
-        return $this->hasMany(ProductGoal::class);
+        return $this->hasMany(ProductGoal::class, 'goal_id');
     }  
     public function assessment_goals()
     {
-        return $this->hasMany(AssessmentGoal::class);
+        return $this->hasMany(AssessmentGoal::class, 'goal_id');
     }
 }

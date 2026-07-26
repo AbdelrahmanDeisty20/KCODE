@@ -197,7 +197,7 @@ class Product extends Model
 
     public function goals()
     {
-        return $this->belongsToMany(RoutineGoal::class, 'product_goals');
+        return $this->belongsToMany(RoutineGoal::class, 'product_goals', 'product_id', 'goal_id');
     }
 
     public function productSkinTypes()

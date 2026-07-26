@@ -16,6 +16,6 @@ class AssessmentGoal extends Model
     }
     public function goal()
     {
-        return $this->belongsTo(RoutineGoal::class);
+        return $this->belongsTo(RoutineGoal::class, 'goal_id');
     }
 }
