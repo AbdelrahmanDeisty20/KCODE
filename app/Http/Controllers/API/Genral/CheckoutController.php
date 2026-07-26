@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Genral;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CHECKOUT\CheckoutRequest;
 use App\Http\Resources\API\CHECKOUTS\CheckoutResource;
+use App\Http\Resources\API\ORDER\OrderItemResource;
 use App\Http\Resources\API\ORDER\OrderResource;
 use App\Services\CheckoutService;
 use App\Traits\ApiResponse;
@@ -64,7 +65,7 @@ class CheckoutController extends Controller
         }
 
         return $this->success(
-            new OrderResource($result['data']),
+            new OrderItemResource($result['data']),
             $result['message']
         );
     }
