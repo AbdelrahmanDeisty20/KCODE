@@ -16,6 +16,7 @@ class AnnouncementBannerResource extends JsonResource
     {
         return [
             'text' => $this['banner_text'] ?? $this['text'] ?? null,
+            'code' => $this['code'] ?? null,
         ];
     }
 }

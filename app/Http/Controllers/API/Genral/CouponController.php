@@ -9,7 +9,6 @@ use App\Services\CouponService;
 use App\Traits\ApiResponse;
 
 use App\Http\Resources\API\BANNER\AnnouncementBannerResource;
-use App\Http\Resources\API\BANNER\AnnouncementCodeResource;
 
 class CouponController extends Controller
 {
@@ -61,19 +60,5 @@ class CouponController extends Controller
         }
 
         return $this->success(new AnnouncementBannerResource($result['data']), $result['message']);
-    }
-
-    /**
-     * Get Announcement Coupon Code data.
-     */
-    public function getAnnouncementCode()
-    {
-        $result = $this->couponService->getAnnouncementCode();
-
-        if (!$result['status']) {
-            return $this->error($result['message']);
-        }
-
-        return $this->success(new AnnouncementCodeResource($result['data']), $result['message']);
     }
 }

@@ -127,20 +127,6 @@ class CouponService
             $bannerText = $lang === 'en' ? $bannerTextEn : $bannerTextAr;
         }
 
-        return [
-            'status'  => true,
-            'message' => __('messages.banner_retrieved_successfully'),
-            'data'    => [
-                'banner_text' => $bannerText,
-            ],
-        ];
-    }
-
-    /**
-     * Get announcement coupon code data.
-     */
-    public function getAnnouncementCode(): array
-    {
         $codeSetting = Setting::where('key_en', 'announcement_code')->first();
 
         if ($codeSetting) {
@@ -152,9 +138,10 @@ class CouponService
 
         return [
             'status'  => true,
-            'message' => __('messages.announcement_code_retrieved_successfully'),
+            'message' => __('messages.banner_retrieved_successfully'),
             'data'    => [
-                'code' => $couponCode,
+                'banner_text' => $bannerText,
+                'code'        => $couponCode,
             ],
         ];
     }

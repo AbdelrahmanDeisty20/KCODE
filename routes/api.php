@@ -147,7 +147,6 @@ Route::middleware([SetLang::class])->group(function () {
         Route::post('/coupons/apply', 'applyCoupon');
         Route::get('/coupons/general', 'getGeneralCoupon');
         Route::get('/banner/announcement', 'getAnnouncementBanner');
-        Route::get('/banner/announcement/code', 'getAnnouncementCode');
     });
 
     // FAQ & Policy Routes
