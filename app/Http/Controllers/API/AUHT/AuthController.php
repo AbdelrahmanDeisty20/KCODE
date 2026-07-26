@@ -47,6 +47,17 @@ class AuthController extends Controller
         $data = $request->validated();
         return $this->authService->updateProfile($data);
     }
+    public function getQuote()
+    {
+        return $this->authService->getQuote();
+    }
+    public function updateQuote(Request $request)
+    {
+        $request->validate([
+            'quote' => 'nullable|string|max:1000',
+        ]);
+        return $this->authService->updateQuote($request->input('quote'));
+    }
     public function logout()
     {
         return $this->authService->logout();

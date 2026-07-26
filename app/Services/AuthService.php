@@ -337,4 +337,27 @@ class AuthService
             ],
         ];
     }
+
+    public function getQuote()
+    {
+        $user = Auth::user();
+        return response()->json([
+            'status'  => true,
+            'message' => __('messages.quote_retrieved_successfully'),
+            'data'    => new \App\Http\Resources\API\AUHT\UserQuoteResource(['quote' => $user ? $user->quote : null]),
+        ]);
+    }
+
+    public function updateQuote(?string $quote)
+    {
+        $user = Auth::user();
+        if ($user) {
+            $user->update(['quote' => $quote]);
+        }
+        return response()->json([
+            'status'  => true,
+            'message' => __('messages.quote_updated_successfully'),
+            'data'    => new \App\Http\Resources\API\AUHT\UserQuoteResource(['quote' => $user ? $user->quote : null]),
+        ]);
+    }
 }

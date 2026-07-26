@@ -38,6 +38,8 @@ Route::middleware([SetLang::class])->group(function () {
         Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('/profile', 'profile');
             Route::post('/update-profile', 'updateProfile');
+            Route::get('/profile/quote', 'getQuote');
+            Route::put('/profile/quote', 'updateQuote');
             Route::post('/logout', 'logout');
             Route::post('/logout-all-devices', 'logoutAllDevice');
         });
@@ -145,6 +147,7 @@ Route::middleware([SetLang::class])->group(function () {
         Route::post('/coupons/apply', 'applyCoupon');
         Route::get('/coupons/general', 'getGeneralCoupon');
         Route::get('/banner/announcement', 'getAnnouncementBanner');
+        Route::get('/banner/announcement/code', 'getAnnouncementCode');
     });
 
     // FAQ & Policy Routes

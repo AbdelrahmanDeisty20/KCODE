@@ -117,8 +117,8 @@ class CouponService
         $generalCoupon = Coupon::where('is_general', true)->where('is_active', true)->first();
         $couponCode = $generalCoupon ? $generalCoupon->code : 'KCODE10';
 
-        $bannerTextAr = "شحن مجاني للطلبات فوق {$minAmount} {$currencyAr} | كود الخصم: {$couponCode}";
-        $bannerTextEn = "Free shipping on orders over {$minAmount} {$currencyEn} | Discount Code: {$couponCode}";
+        $bannerTextAr = "شحن مجاني للطلبات فوق {$minAmount} {$currencyAr}";
+        $bannerTextEn = "Free shipping on orders over {$minAmount} {$currencyEn}";
 
         $bannerText = $lang === 'en' ? $bannerTextEn : $bannerTextAr;
 
@@ -127,6 +127,23 @@ class CouponService
             'message' => __('messages.banner_retrieved_successfully'),
             'data'    => [
                 'banner_text' => $bannerText,
+            ],
+        ];
+    }
+
+    /**
+     * Get announcement coupon code data.
+     */
+    public function getAnnouncementCode(): array
+    {
+        $generalCoupon = Coupon::where('is_general', true)->where('is_active', true)->first();
+        $couponCode = $generalCoupon ? $generalCoupon->code : 'KCODE10';
+
+        return [
+            'status'  => true,
+            'message' => __('messages.announcement_code_retrieved_successfully'),
+            'data'    => [
+                'code' => $couponCode,
             ],
         ];
     }
