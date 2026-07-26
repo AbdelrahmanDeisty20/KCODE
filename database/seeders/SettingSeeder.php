@@ -32,6 +32,12 @@ class SettingSeeder extends Seeder
                 'value_en' => '25',
             ],
             [
+                'key_ar' => 'رسوم الشحن القياسية',
+                'key_en' => 'shipping_fee',
+                'value_ar' => '2.00',
+                'value_en' => '2.00',
+            ],
+            [
                 'key_ar' => 'رمز العملة',
                 'key_en' => 'currency_symbol',
                 'value_ar' => 'ر.ع',
