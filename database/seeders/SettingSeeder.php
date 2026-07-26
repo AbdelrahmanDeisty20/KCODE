@@ -40,14 +40,14 @@ class SettingSeeder extends Seeder
             [
                 'key_ar' => 'نص الإعلان العلوي',
                 'key_en' => 'announcement_text',
-                'value_ar' => '',
-                'value_en' => '',
+                'value_ar' => 'شحن مجاني للطلبات فوق 25 ر.ع',
+                'value_en' => 'Free shipping on orders over 25 OMR',
             ],
             [
                 'key_ar' => 'كود خصم الإعلان العلوي',
                 'key_en' => 'announcement_code',
-                'value_ar' => '',
-                'value_en' => '',
+                'value_ar' => 'KCODE10',
+                'value_en' => 'KCODE10',
             ],
         ];
 
