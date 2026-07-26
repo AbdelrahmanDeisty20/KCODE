@@ -336,9 +336,9 @@ class ProductService
             }
 
             // Retrieve original product concerns, skin types, and goals
-            $skinTypeIds = $product->skinTypes()->pluck('skin_type_id')->toArray();
-            $concernIds = $product->concerns()->pluck('concern_id')->toArray();
-            $goalIds = $product->goals()->pluck('goal_id')->toArray();
+            $skinTypeIds = $product->skinTypes->pluck('id')->toArray();
+            $concernIds = $product->concerns->pluck('id')->toArray();
+            $goalIds = $product->goals->pluck('id')->toArray();
 
             // Find other products belonging to the same step
             $otherProducts = Product::where('id', '!=', $product->id)
@@ -350,9 +350,9 @@ class ProductService
 
             // Calculate relevance score and sort
             $otherProducts = $otherProducts->map(function ($altProd) use ($skinTypeIds, $concernIds, $goalIds) {
-                $altSkinTypes = $altProd->skinTypes->pluck('skin_type_id')->toArray();
-                $altConcerns = $altProd->concerns->pluck('concern_id')->toArray();
-                $altGoals = $altProd->goals->pluck('goal_id')->toArray();
+                $altSkinTypes = $altProd->skinTypes->pluck('id')->toArray();
+                $altConcerns = $altProd->concerns->pluck('id')->toArray();
+                $altGoals = $altProd->goals->pluck('id')->toArray();
 
                 $sharedConcerns = count(array_intersect($concernIds, $altConcerns));
                 $sharedSkinTypes = count(array_intersect($skinTypeIds, $altSkinTypes));

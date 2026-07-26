@@ -187,15 +187,30 @@ class Product extends Model
 
     public function concerns()
     {
-        return $this->hasMany(ProductConcern::class);
+        return $this->belongsToMany(Concern::class, 'product_concerns');
     }
 
     public function skinTypes()
     {
-        return $this->hasMany(ProductSkinType::class, 'product_id');
+        return $this->belongsToMany(SkinType::class, 'product_skin_types');
     }
 
     public function goals()
+    {
+        return $this->belongsToMany(RoutineGoal::class, 'product_goals');
+    }
+
+    public function productSkinTypes()
+    {
+        return $this->hasMany(ProductSkinType::class, 'product_id');
+    }
+
+    public function productConcerns()
+    {
+        return $this->hasMany(ProductConcern::class);
+    }
+
+    public function productGoals()
     {
         return $this->hasMany(ProductGoal::class);
     }

@@ -31,9 +31,13 @@ class RoutineResource extends JsonResource
         // Retrieve product routine details
         $routineInfo = null;
         if ($product && $step) {
-            $routineInfo = \App\Models\ProductRoutine::where('product_id', $product->id)
-                ->where('routine_step_id', $step->id)
-                ->first();
+            if ($product->relationLoaded('routines')) {
+                $routineInfo = $product->routines->firstWhere('routine_step_id', $step->id);
+            } else {
+                $routineInfo = \App\Models\ProductRoutine::where('product_id', $product->id)
+                    ->where('routine_step_id', $step->id)
+                    ->first();
+            }
         }
 
         return [

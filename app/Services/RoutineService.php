@@ -24,7 +24,8 @@ class RoutineService
         $query = \App\Models\FinalRoutine::where('user_id', $user->id)
             ->with([
                 'products.routineStep',
-                'products.product.brand'
+                'products.product.brand',
+                'products.product.routines'
             ]);
 
         if (!empty($routineId)) {
@@ -87,7 +88,9 @@ class RoutineService
             ->with([
                 'routineProducts.routineStep',
                 'routineProducts.product.brand',
+                'routineProducts.product.routines',
                 'routineProducts.replacedProduct.brand',
+                'routineProducts.replacedProduct.routines',
             ])
             ->latest()
             ->first();
