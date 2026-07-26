@@ -3,6 +3,7 @@
 namespace App\Http\Requests\API\CHECKOUT;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CheckoutRequest extends FormRequest
 {
@@ -21,18 +22,20 @@ class CheckoutRequest extends FormRequest
      */
     public function rules(): array
     {
+        $hasAddressId = $this->filled('address_id');
+
         return [
             // User info
             'user_name'      => ['required', 'string', 'max:255'],
             'user_phone'     => ['required', 'string', 'max:50'],
 
-            // Address ID (optional if new address fields are provided)
+            // Address ID
             'address_id'     => ['nullable', 'integer', 'exists:addresses,id'],
 
-            // Required only if address_id is not provided
-            'country_id'     => ['required_without:address_id', 'nullable', 'integer', 'exists:countries,id'],
-            'city_id'        => ['required_without:address_id', 'nullable', 'integer', 'exists:cities,id'],
-            'address'        => ['required_without:address_id', 'nullable', 'string', 'max:500'],
+            // Inline Address fields (Required ONLY if address_id is missing or empty)
+            'country_id'     => [Rule::requiredIf(!$hasAddressId), 'nullable', 'integer', 'exists:countries,id'],
+            'city_id'        => [Rule::requiredIf(!$hasAddressId), 'nullable', 'integer', 'exists:cities,id'],
+            'address'        => [Rule::requiredIf(!$hasAddressId), 'nullable', 'string', 'max:500'],
 
             // Optional inline address fields
             'state_id'       => ['nullable', 'integer', 'exists:states,id'],
@@ -54,8 +57,14 @@ class CheckoutRequest extends FormRequest
     {
         return [
             'address_id.exists'           => __('messages.invalid_address'),
+            'country_id.required'         => __('messages.country_required'),
+            'country_id.required_if'      => __('messages.country_required'),
             'country_id.required_without' => __('messages.country_required'),
+            'city_id.required'            => __('messages.city_required'),
+            'city_id.required_if'         => __('messages.city_required'),
             'city_id.required_without'    => __('messages.city_required'),
+            'address.required'            => __('messages.address_required'),
+            'address.required_if'         => __('messages.address_required'),
             'address.required_without'    => __('messages.address_required'),
             'user_name.required'          => __('validation.required'),
             'user_phone.required'         => __('validation.required'),
