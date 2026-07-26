@@ -27,15 +27,15 @@ class CheckoutRequest extends FormRequest
             'user_phone'          => ['required', 'string', 'max:50'],
 
             // Address ID (optional if new address fields are provided)
-            'address_id'     => ['required', 'integer', 'exists:addresses,id'],
+            'address_id'     => ['nullable', 'integer', 'exists:addresses,id'],
 
             // Inline Address fields (required if address_id is not passed)
             'country_id'     => ['required_without:address_id', 'nullable', 'integer', 'exists:countries,id'],
-            'state_id'       => ['required', 'integer', 'exists:states,id'],
+            'state_id'       => ['required_required_without:address_id', 'integer', 'exists:states,id'],
             'city_id'        => ['required_without:address_id', 'nullable', 'integer', 'exists:cities,id'],
             'address'        => ['required_without:address_id', 'nullable', 'string', 'max:500'],
-            'street'         => ['nullable', 'string', 'max:255'],
-            'title'          => ['nullable', 'string', 'max:100'],
+            'street'         => ['required_without:address_id', 'string', 'max:255'],
+            'title'          => ['required_without:address_id', 'string', 'max:100'],
 
             // Checkout options
             'session_id'     => ['required', 'string'],
