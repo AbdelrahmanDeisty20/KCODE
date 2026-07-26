@@ -31,9 +31,9 @@ class RemoveCartItemRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'product_id.required' => __('messages.product_id_required'),
-            'product_id.exists'   => __('messages.invalid_product'),
-            'session_id.required' => __('messages.session_id_required'),
+            'product_id.required' => __('validation.required'),
+            'product_id.exists'   => __('validation.exists'),
+            'session_id.required' => __('validation.required'),
         ];
     }
 }
