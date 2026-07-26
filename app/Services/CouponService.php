@@ -107,35 +107,15 @@ class CouponService
             $lang = 'ar';
         }
 
+        // 1. Text: Read strictly from settings table (returns null if empty)
         $announcementSetting = Setting::where('key_en', 'announcement_text')->first();
+        $settingText = $announcementSetting ? trim($lang === 'en' ? ($announcementSetting->value_en ?: $announcementSetting->value_ar) : ($announcementSetting->value_ar ?: $announcementSetting->value_en)) : '';
+        $bannerText = !empty($settingText) ? $settingText : null;
 
-        if ($announcementSetting) {
-            $bannerText = $lang === 'en'
-                ? ($announcementSetting->value_en ?: $announcementSetting->value_ar)
-                : ($announcementSetting->value_ar ?: $announcementSetting->value_en);
-        } else {
-            $freeShippingSetting = Setting::where('key_en', 'free_shipping_min_amount')->first();
-            $currencySetting = Setting::where('key_en', 'currency_symbol')->first();
-
-            $minAmount = $freeShippingSetting ? ($freeShippingSetting->value_en ?: $freeShippingSetting->value_ar) : '25';
-            $currencyAr = $currencySetting ? $currencySetting->value_ar : 'ر.ع';
-            $currencyEn = $currencySetting ? $currencySetting->value_en : 'OMR';
-
-            $bannerTextAr = "شحن مجاني للطلبات فوق {$minAmount} {$currencyAr}";
-            $bannerTextEn = "Free shipping on orders over {$minAmount} {$currencyEn}";
-
-            $bannerText = $lang === 'en' ? $bannerTextEn : $bannerTextAr;
-        }
-
+        // 2. Code: Read strictly from settings table (returns null if empty)
         $codeSetting = Setting::where('key_en', 'announcement_code')->first();
-        $settingCode = $codeSetting ? trim($codeSetting->value_en ?: $codeSetting->value_ar) : null;
-
-        if (!empty($settingCode)) {
-            $couponCode = $settingCode;
-        } else {
-            $generalCoupon = Coupon::where('is_general', true)->where('is_active', true)->first();
-            $couponCode = $generalCoupon ? $generalCoupon->code : null;
-        }
+        $settingCode = $codeSetting ? trim($codeSetting->value_en ?: $codeSetting->value_ar) : '';
+        $couponCode = !empty($settingCode) ? $settingCode : null;
 
         return [
             'status'  => true,
