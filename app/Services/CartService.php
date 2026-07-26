@@ -295,7 +295,7 @@ class CartService
             ];
         }
 
-        $product = Product::with('offers')->find($productId);
+        $product = Product::lockForUpdate()->with('offers')->find($productId);
         if (!$product) {
             return [
                 'status'  => false,

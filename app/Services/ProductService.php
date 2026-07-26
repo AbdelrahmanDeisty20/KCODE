@@ -7,7 +7,8 @@ use App\Models\Product;
 class ProductService
 {
     public function index() {
-        $products = Product::with('brand', 'subCategory','offers','category')
+        $products = Product::where('stock', '>', 0)
+            ->with('brand', 'subCategory','offers','category')
             ->paginate(10);
         if ($products->isEmpty()) {
             return [
@@ -26,7 +27,8 @@ class ProductService
     public function search(array $data) {
         $query = $data['query'];
 
-        $products = Product::with(['brand', 'subCategory', 'offers'])
+        $products = Product::where('stock', '>', 0)
+            ->with(['brand', 'subCategory', 'offers'])
             ->where(function ($q) use ($query) {
                 $q->where('name_en', 'LIKE', '%' . $query . '%')
                   ->orWhere('name_ar', 'LIKE', '%' . $query . '%')
@@ -62,7 +64,7 @@ class ProductService
     }
 
     public function filter(array $filters = []) {
-        $query = Product::with(['brand', 'subCategory', 'reviews','offers','category']);
+        $query = Product::where('stock', '>', 0)->with(['brand', 'subCategory', 'reviews','offers','category']);
 
         // 1. Category Filter
         if (!empty($filters['category_id'])) {
@@ -223,7 +225,7 @@ class ProductService
         $alternatives = collect();
         foreach ($explicit as $item) {
             $altProd = $item->alternative;
-            if ($altProd) {
+            if ($altProd && $altProd->stock > 0) {
                 $alternatives->push($altProd);
             }
         }
@@ -237,7 +239,8 @@ class ProductService
     }
 
     public function bestSellers() {
-        $products = Product::bestSeller()
+        $products = Product::where('stock', '>', 0)
+            ->bestSeller()
             ->with(['brand', 'subCategory'])
             ->orderBy('sales_count', 'desc')
             ->paginate(10);
@@ -267,7 +270,8 @@ class ProductService
             ];
         }
 
-        $products = Product::whereHas('skinTypes', function ($q) use ($skinTypeId) {
+        $products = Product::where('stock', '>', 0)
+        ->whereHas('skinTypes', function ($q) use ($skinTypeId) {
             $q->where('skin_type_id', $skinTypeId);
         })
         ->with(['brand', 'subCategory'])
@@ -298,7 +302,8 @@ class ProductService
             ];
         }
 
-        $products = Product::whereHas('goals', function ($q) use ($goalId) {
+        $products = Product::where('stock', '>', 0)
+        ->whereHas('goals', function ($q) use ($goalId) {
             $q->where('goal_id', $goalId);
         })
         ->with(['brand', 'subCategory'])

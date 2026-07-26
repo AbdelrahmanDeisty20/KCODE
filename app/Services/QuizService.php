@@ -240,8 +240,9 @@ class QuizService
         $candidates = [];
 
         foreach ($steps as $step) {
-            // Query only best-selling products for the current routine step
+            // Query only best-selling products with stock > 0 for the current routine step
             $query = Product::query()
+                ->where('stock', '>', 0)
                 ->bestSeller()
                 ->whereHas('routines', function ($q) use ($step) {
                     $q->where('routine_step_id', $step->id);
