@@ -17,7 +17,6 @@ class CheckoutResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $shipping =Setting::where('key','shipping_fee')->where('lang',app()->getLocale())->first()->value;
         return [
             'id'               => $this->id,
             'order_number'     => $this->order_number,
@@ -28,7 +27,7 @@ class CheckoutResource extends JsonResource
             'order_status'     => $this->order_status,
             'subtotal'         => (float) $this->subtotal,
             'discount_amount'  => (float) $this->discount_amount,
-            'shipping_fee'     => (float) $shipping,
+            'shipping_fee'     => (float) $this->shipping_fee,
             'total'            => (float) $this->total,
             'coupon_code'      => $this->coupon_code,
             'notes'            => $this->notes,
