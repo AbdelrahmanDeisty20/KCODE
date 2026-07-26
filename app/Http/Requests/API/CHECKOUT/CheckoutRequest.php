@@ -24,18 +24,20 @@ class CheckoutRequest extends FormRequest
         return [
             // User info
             'user_name'      => ['required', 'string', 'max:255'],
-            'user_phone'          => ['required', 'string', 'max:50'],
+            'user_phone'     => ['required', 'string', 'max:50'],
 
             // Address ID (optional if new address fields are provided)
             'address_id'     => ['nullable', 'integer', 'exists:addresses,id'],
 
-            // Inline Address fields (required if address_id is not passed)
+            // Required only if address_id is not provided
             'country_id'     => ['required_without:address_id', 'nullable', 'integer', 'exists:countries,id'],
-            'state_id'       => ['required_required_without:address_id', 'integer', 'exists:states,id'],
             'city_id'        => ['required_without:address_id', 'nullable', 'integer', 'exists:cities,id'],
             'address'        => ['required_without:address_id', 'nullable', 'string', 'max:500'],
-            'street'         => ['required_without:address_id', 'string', 'max:255'],
-            'title'          => ['required_without:address_id', 'string', 'max:100'],
+
+            // Optional inline address fields
+            'state_id'       => ['nullable', 'integer', 'exists:states,id'],
+            'street'         => ['nullable', 'string', 'max:255'],
+            'title'          => ['nullable', 'string', 'max:100'],
 
             // Checkout options
             'session_id'     => ['required', 'string'],
@@ -51,14 +53,14 @@ class CheckoutRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'address_id.exists'         => __('messages.invalid_address'),
+            'address_id.exists'           => __('messages.invalid_address'),
             'country_id.required_without' => __('messages.country_required'),
             'city_id.required_without'    => __('messages.city_required'),
             'address.required_without'    => __('messages.address_required'),
-            'user_name.required'        => __('validation.required'),
-            'user_phone.required'       => __('validation.required'),
-            'session_id.required'       => __('validation.required'),
-            'payment_method.required'   => __('validation.required'),
+            'user_name.required'          => __('validation.required'),
+            'user_phone.required'         => __('validation.required'),
+            'session_id.required'         => __('validation.required'),
+            'payment_method.required'     => __('validation.required'),
         ];
     }
 }
