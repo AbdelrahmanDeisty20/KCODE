@@ -133,7 +133,7 @@ class CouponService
             $couponCode = $codeSetting->value_en ?: $codeSetting->value_ar;
         } else {
             $generalCoupon = Coupon::where('is_general', true)->where('is_active', true)->first();
-            $couponCode = $generalCoupon ? $generalCoupon->code : 'KCODE10';
+            $couponCode = $generalCoupon ? $generalCoupon->code : null;
         }
 
         return [
