@@ -16,8 +16,8 @@ class FavouriteService
         try {
             $favourites = Favourite::where('user_id', $userId)
                 ->where('is_active', true)
-                ->with('product','product.brand', 'product.subCategory','product.offers','product.category')
-            ->paginate(10);
+                ->with(['product', 'product.brand', 'product.subCategory', 'product.offers', 'product.category'])
+                ->paginate(10);
 
             return [
                 'status' => true,

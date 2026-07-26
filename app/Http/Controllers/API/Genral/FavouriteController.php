@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\API\FAVOURITE\FavouriteResource;
 use App\Http\Resources\API\PRODUCT\ProductListResource;
 use App\Services\FavouriteService;
 use App\Traits\ApiResponse;
@@ -27,7 +28,7 @@ class FavouriteController extends Controller
         }
 
         return $this->paginated(
-            ProductListResource::class,
+            FavouriteResource::class,
             $result['data'],
             $result['message']
         );
