@@ -26,8 +26,9 @@ class FavouriteController extends Controller
             return $this->error($result['message']);
         }
 
-        return $this->success(
-            ProductListResource::collection($result['data']),
+        return $this->paginated(
+            ProductListResource::class,
+            $result['data'],
             $result['message']
         );
     }

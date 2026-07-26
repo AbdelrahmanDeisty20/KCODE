@@ -14,18 +14,15 @@ class FavouriteService
     public function getFavorites($userId)
     {
         try {
-            $productIds = Favourite::where('user_id', $userId)
+            $favourites = Favourite::where('user_id', $userId)
                 ->where('is_active', true)
-                ->pluck('product_id');
-
-            $products = Product::whereIn('id', $productIds)
-                ->with(['brand', 'subCategory', 'category', 'offers'])
-                ->get();
+                ->with('product','product.brand', 'product.subCategory','product.offers','product.category')
+            ->paginate(10);
 
             return [
                 'status' => true,
                 'message' => __('messages.favoritesRetrievedSuccessfully'),
-                'data' => $products
+                'data' => $favourites
             ];
         } catch (\Exception $e) {
             Log::error('Error fetching favorites: ' . $e->getMessage());
