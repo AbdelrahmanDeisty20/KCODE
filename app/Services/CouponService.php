@@ -128,9 +128,10 @@ class CouponService
         }
 
         $codeSetting = Setting::where('key_en', 'announcement_code')->first();
+        $settingCode = $codeSetting ? trim($codeSetting->value_en ?: $codeSetting->value_ar) : null;
 
-        if ($codeSetting) {
-            $couponCode = $codeSetting->value_en ?: $codeSetting->value_ar;
+        if (!empty($settingCode)) {
+            $couponCode = $settingCode;
         } else {
             $generalCoupon = Coupon::where('is_general', true)->where('is_active', true)->first();
             $couponCode = $generalCoupon ? $generalCoupon->code : null;

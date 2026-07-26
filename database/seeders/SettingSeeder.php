@@ -46,8 +46,8 @@ class SettingSeeder extends Seeder
             [
                 'key_ar' => 'كود خصم الإعلان العلوي',
                 'key_en' => 'announcement_code',
-                'value_ar' => 'KCODE10',
-                'value_en' => 'KCODE10',
+                'value_ar' => '',
+                'value_en' => '',
             ],
         ];
 
