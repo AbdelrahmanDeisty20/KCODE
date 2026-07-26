@@ -13,6 +13,21 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->string('order_number')->unique();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('address_id')->nullable();
+            $table->json('shipping_address')->nullable();
+            $table->string('payment_method')->default('cash');
+            $table->string('payment_status')->default('pending');
+            $table->string('order_status')->default('pending');
+            $table->decimal('subtotal', 10, 2)->default(0.00);
+            $table->decimal('discount_amount', 10, 2)->default(0.00);
+            $table->decimal('shipping_fee', 10, 2)->default(0.00);
+            $table->decimal('total', 10, 2)->default(0.00);
+            $table->string('user_name')->nullable();
+            $table->string('user_phone')->nullable();
+            $table->string('coupon_code')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

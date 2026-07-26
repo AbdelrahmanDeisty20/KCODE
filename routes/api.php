@@ -22,6 +22,7 @@ use App\Http\Controllers\API\Genral\FaqController;
 use App\Http\Controllers\API\Genral\PolicyController;
 use App\Http\Controllers\API\Genral\LocationController;
 use App\Http\Controllers\API\Genral\AddressController;
+use App\Http\Controllers\API\Genral\CheckoutController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -192,6 +193,12 @@ Route::middleware([SetLang::class])->group(function () {
             Route::put('/addresses/{id}', 'update');
             Route::delete('/addresses/{id}', 'destroy');
             Route::patch('/addresses/{id}/default', 'setDefault');
+        });
+
+        Route::controller(CheckoutController::class)->group(function () {
+            Route::post('/checkout', 'checkout');
+            Route::get('/orders', 'index');
+            Route::get('/orders/{id}', 'show');
         });
     });
     Route::controller(ReviewController::class)->group(function () {
