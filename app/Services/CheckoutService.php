@@ -160,7 +160,7 @@ class CheckoutService
                 $coupon = null;
                 if (!empty($couponCode)) {
                     $couponService = new CouponService();
-                    $couponResult = $couponService->applyCoupon($couponCode, $subtotal);
+                    $couponResult = $couponService->applyCoupon($couponCode, $subtotal, $userId);
 
                     if (!$couponResult['status']) {
                         return [

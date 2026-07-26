@@ -85,6 +85,15 @@ return new class extends Migration
                 $table->text('notes')->nullable();
             }
         });
+
+        Schema::table('coupons', function (Blueprint $table) {
+            if (!Schema::hasColumn('coupons', 'user_id')) {
+                $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            }
+            if (!Schema::hasColumn('coupons', 'user_limit')) {
+                $table->integer('user_limit')->nullable()->default(1);
+            }
+        });
     }
 
     /**

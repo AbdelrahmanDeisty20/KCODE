@@ -18,6 +18,8 @@ class Coupon extends Model
         'end_date',
         'usage_limit',
         'used_count',
+        'user_id',
+        'user_limit',
         'is_general',
         'is_active',
     ];
@@ -26,6 +28,7 @@ class Coupon extends Model
         'discount_value' => 'float',
         'min_order_amount' => 'float',
         'max_discount_amount' => 'float',
+        'user_limit' => 'integer',
         'is_general' => 'boolean',
         'is_active' => 'boolean',
         'start_date' => 'datetime',

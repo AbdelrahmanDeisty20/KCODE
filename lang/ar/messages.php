@@ -124,6 +124,8 @@ return [
     'coupon_expired' => 'عذراً، انتهت صلاحية هذا الكوبون.',
     'coupon_not_started_yet' => 'هذا الكوبون غير متاح للاستخدام بعد.',
     'coupon_usage_limit_reached' => 'تم استنفاد الحد الأقصى لاستخدام هذا الكوبون.',
+    'coupon_not_for_user' => 'عذراً، كود الخصم هذا مخصص لمستخدم آخر.',
+    'coupon_already_used_by_user' => 'عذراً، لقد قمت باستخدام هذا الكوبون مسبقاً.',
     'coupon_min_order_required' => 'الحد الأدنى للطلب لاستخدام هذا الكوبون هو :amount :currency.',
     'coupon_retrieved_successfully' => 'تم جلب بيانات الكوبون بنجاح.',
     'coupon_not_found' => 'الكوبون غير موجود.',

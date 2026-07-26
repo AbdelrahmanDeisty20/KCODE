@@ -124,6 +124,8 @@ return [
     'coupon_expired' => 'Sorry, this coupon has expired.',
     'coupon_not_started_yet' => 'This coupon is not active yet.',
     'coupon_usage_limit_reached' => 'This coupon has reached its maximum usage limit.',
+    'coupon_not_for_user' => 'Sorry, this coupon code is assigned to another user.',
+    'coupon_already_used_by_user' => 'Sorry, you have already used this coupon code.',
     'coupon_min_order_required' => 'Minimum order amount to use this coupon is :amount :currency.',
     'coupon_retrieved_successfully' => 'Coupon data retrieved successfully.',
     'coupon_not_found' => 'Coupon not found.',

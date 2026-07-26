@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Coupon;
+use App\Models\Order;
 use App\Models\Setting;
 
 class CouponService
@@ -10,14 +11,14 @@ class CouponService
     /**
      * Apply and validate a coupon code against an order amount.
      */
-    public function applyCoupon(string $code, float $orderAmount = 0): array
+    public function applyCoupon(string $code, float $orderAmount = 0, ?int $userId = null): array
     {
         $coupon = Coupon::where('code', strtoupper(trim($code)))->first();
 
         if (!$coupon) {
             return [
                 'status'  => false,
-                'message' => __('messages.coupon_invalid_or_expired'),
+                'message' => __('messages.coupon_not_found'),
             ];
         }
 
@@ -49,8 +50,32 @@ class CouponService
             ];
         }
 
+        // Check if coupon is assigned to a specific user
+        if ($coupon->user_id && $userId && (int)$coupon->user_id !== (int)$userId) {
+            return [
+                'status'  => false,
+                'message' => __('messages.coupon_not_for_user'),
+            ];
+        }
+
+        // Check per-user limit
+        if ($userId && Order::class) {
+            $userUsedCount = Order::where('user_id', $userId)
+                ->where('coupon_code', $coupon->code)
+                ->count();
+
+            $userLimit = $coupon->user_limit ?? 1;
+            if ($userUsedCount >= $userLimit) {
+                return [
+                    'status'  => false,
+                    'message' => __('messages.coupon_already_used_by_user'),
+                ];
+            }
+        }
+
         if ($orderAmount > 0 && $orderAmount < $coupon->min_order_amount) {
-            $currency = Setting::where('key_en', 'currency_symbol')->first()?->value ?? 'ر.ع';
+            $currencySetting = Setting::where('key_en', 'currency_symbol')->first();
+            $currency = $currencySetting ? ($currencySetting->value_ar ?: $currencySetting->value_en) : 'ر.ع';
             return [
                 'status'  => false,
                 'message' => __('messages.coupon_min_order_required', [
