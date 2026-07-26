@@ -107,20 +107,25 @@ class CouponService
             $lang = 'ar';
         }
 
-        $freeShippingSetting = Setting::where('key_en', 'free_shipping_min_amount')->first();
-        $currencySetting = Setting::where('key_en', 'currency_symbol')->first();
+        $announcementSetting = Setting::where('key_en', 'announcement_text')->first();
 
-        $minAmount = $freeShippingSetting ? ($freeShippingSetting->value_en ?: $freeShippingSetting->value_ar) : '25';
-        $currencyAr = $currencySetting ? $currencySetting->value_ar : 'ر.ع';
-        $currencyEn = $currencySetting ? $currencySetting->value_en : 'OMR';
+        if ($announcementSetting) {
+            $bannerText = $lang === 'en'
+                ? ($announcementSetting->value_en ?: $announcementSetting->value_ar)
+                : ($announcementSetting->value_ar ?: $announcementSetting->value_en);
+        } else {
+            $freeShippingSetting = Setting::where('key_en', 'free_shipping_min_amount')->first();
+            $currencySetting = Setting::where('key_en', 'currency_symbol')->first();
 
-        $generalCoupon = Coupon::where('is_general', true)->where('is_active', true)->first();
-        $couponCode = $generalCoupon ? $generalCoupon->code : 'KCODE10';
+            $minAmount = $freeShippingSetting ? ($freeShippingSetting->value_en ?: $freeShippingSetting->value_ar) : '25';
+            $currencyAr = $currencySetting ? $currencySetting->value_ar : 'ر.ع';
+            $currencyEn = $currencySetting ? $currencySetting->value_en : 'OMR';
 
-        $bannerTextAr = "شحن مجاني للطلبات فوق {$minAmount} {$currencyAr}";
-        $bannerTextEn = "Free shipping on orders over {$minAmount} {$currencyEn}";
+            $bannerTextAr = "شحن مجاني للطلبات فوق {$minAmount} {$currencyAr}";
+            $bannerTextEn = "Free shipping on orders over {$minAmount} {$currencyEn}";
 
-        $bannerText = $lang === 'en' ? $bannerTextEn : $bannerTextAr;
+            $bannerText = $lang === 'en' ? $bannerTextEn : $bannerTextAr;
+        }
 
         return [
             'status'  => true,
@@ -136,8 +141,14 @@ class CouponService
      */
     public function getAnnouncementCode(): array
     {
-        $generalCoupon = Coupon::where('is_general', true)->where('is_active', true)->first();
-        $couponCode = $generalCoupon ? $generalCoupon->code : 'KCODE10';
+        $codeSetting = Setting::where('key_en', 'announcement_code')->first();
+
+        if ($codeSetting) {
+            $couponCode = $codeSetting->value_en ?: $codeSetting->value_ar;
+        } else {
+            $generalCoupon = Coupon::where('is_general', true)->where('is_active', true)->first();
+            $couponCode = $generalCoupon ? $generalCoupon->code : 'KCODE10';
+        }
 
         return [
             'status'  => true,
