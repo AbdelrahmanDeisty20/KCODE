@@ -185,7 +185,7 @@ class CheckoutService
                 $finalTotal = max(0.00, round($subtotal - $discountAmount + $shippingFee, 2));
 
                 // 7. Order Number & Shipping Address Snapshot
-                $orderNumber = 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(5));
+                $orderNumber = 'KCODE-' . date('Ymd') . '-' . strtoupper(Str::random(5));
 
                 $shippingAddressSnapshot = [
                     'user_name'   => $userName,
