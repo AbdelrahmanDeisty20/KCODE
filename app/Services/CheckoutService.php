@@ -141,7 +141,8 @@ class CheckoutService
                         ];
                     }
 
-                    $itemTotalPrice = (float) $item->total_price;
+                    $unitPrice = (float) ($item->unit_price > 0 ? $item->unit_price : ($product->price_after_discount ?: $product->price));
+                    $itemTotalPrice = (float) ($item->total_price > 0 ? $item->total_price : ($unitPrice * $item->quantity));
                     $subtotal += $itemTotalPrice;
 
                     $orderItemsData[] = [
@@ -149,8 +150,8 @@ class CheckoutService
                         'product_id'       => $product->id,
                         'product_name'     => $productName,
                         'quantity'         => $item->quantity,
-                        'unit_price'       => (float) $item->unit_price,
-                        'discount_amount'  => (float) $item->discount_amount,
+                        'unit_price'       => $unitPrice,
+                        'discount_amount'  => (float) ($item->discount_amount ?? 0.00),
                         'total_price'      => $itemTotalPrice,
                     ];
                 }
