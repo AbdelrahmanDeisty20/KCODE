@@ -175,14 +175,9 @@ class CheckoutService
                     $coupon = $couponResult['data']['coupon'] ?? null;
                 }
 
-                // 6. Calculate shipping fee
-                $freeShippingSetting = Setting::where('key_en', 'free_shipping_min_amount')->first();
-                $minAmount = $freeShippingSetting ? (float) ($freeShippingSetting->value_en ?: $freeShippingSetting->value_ar) : 25.00;
-
+                // 6. Calculate fixed shipping fee from settings
                 $shippingFeeSetting = Setting::where('key_en', 'shipping_fee')->first();
-                $standardShippingFee = $shippingFeeSetting ? (float) ($shippingFeeSetting->value_en ?: $shippingFeeSetting->value_ar) : 2.00;
-
-                $shippingFee = ($subtotal >= $minAmount) ? 0.00 : $standardShippingFee;
+                $shippingFee = $shippingFeeSetting ? (float) ($shippingFeeSetting->value_en ?: $shippingFeeSetting->value_ar) : 2.00;
                 $finalTotal = max(0.00, round($subtotal - $discountAmount + $shippingFee, 2));
 
                 // 7. Order Number & Shipping Address Snapshot
