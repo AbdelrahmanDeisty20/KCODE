@@ -23,6 +23,7 @@ use App\Http\Controllers\API\Genral\PolicyController;
 use App\Http\Controllers\API\Genral\LocationController;
 use App\Http\Controllers\API\Genral\AddressController;
 use App\Http\Controllers\API\Genral\CheckoutController;
+use App\Http\Controllers\API\Genral\OrderController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -197,8 +198,12 @@ Route::middleware([SetLang::class])->group(function () {
 
         Route::controller(CheckoutController::class)->group(function () {
             Route::post('/checkout', 'checkout');
+        });
+
+        Route::controller(OrderController::class)->group(function () {
             Route::get('/orders', 'index');
             Route::get('/orders/{id}', 'show');
+            Route::delete('/orders/{id}', 'destroy');
         });
     });
     Route::controller(ReviewController::class)->group(function () {

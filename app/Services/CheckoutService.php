@@ -256,48 +256,4 @@ class CheckoutService
             ];
         }
     }
-
-    /**
-     * Get orders list for a user.
-     */
-    public function getUserOrders(int $userId): array
-    {
-        $orders = Order::where('user_id', $userId)
-            ->with(['items.product.brand', 'address'])
-            ->orderBy('id', 'desc')
-            ->paginate(10);
-
-        return [
-            'status'  => true,
-            'message' => __('messages.orders_retrieved_successfully'),
-            'data'    => $orders,
-        ];
-    }
-
-    /**
-     * Get specific order details.
-     */
-    public function getOrderDetails(int $orderId, ?int $userId = null): array
-    {
-        $query = Order::where('id', $orderId)->with(['items.product.brand', 'address']);
-        if ($userId) {
-            $query->where('user_id', $userId);
-        }
-
-        $order = $query->first();
-
-        if (!$order) {
-            return [
-                'status'  => false,
-                'message' => __('messages.order_not_found'),
-                'code'    => 404,
-            ];
-        }
-
-        return [
-            'status'  => true,
-            'message' => __('messages.order_retrieved_successfully'),
-            'data'    => $order,
-        ];
-    }
 }

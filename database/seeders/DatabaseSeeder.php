@@ -61,6 +61,7 @@ class DatabaseSeeder extends Seeder
             SettingSeeder::class,
             PageSeeder::class,
             CouponSeeder::class,
+            BlogAuthorSeeder::class,
         ]);
 
         // User::factory(10)->create();

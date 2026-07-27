@@ -162,4 +162,6 @@ return [
     'invalid_product' => 'المنتج المحدد غير موجود.',
     'quantity_required' => 'الكمية مطلوبة.',
     'quantity_min' => 'الكمية يجب أن تكون 1 على الأقل.',
+    'order_deleted_successfully' => 'تم حذف الطلب بنجاح.',
+    'cannot_delete_order_status' => 'لا يمكن حذف الطلب لأن حالته الحالية هي (:status).',
 ];

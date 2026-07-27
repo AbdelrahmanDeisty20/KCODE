@@ -162,4 +162,6 @@ return [
     'invalid_product' => 'The selected product is invalid.',
     'quantity_required' => 'Quantity is required.',
     'quantity_min' => 'Quantity must be at least 1.',
+    'order_deleted_successfully' => 'Order deleted successfully.',
+    'cannot_delete_order_status' => 'Order cannot be deleted because its status is :status.',
 ];
