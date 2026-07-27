@@ -82,9 +82,9 @@ class CartController extends Controller
             return $this->error($result['message'], $code);
         }
 
-        return $this->success(
-            new CartResource($result['data']),
-            $result['message']
+        return $this->paginated(new CartResource($result['data']),
+            $result['message'],
+            200
         );
     }
 

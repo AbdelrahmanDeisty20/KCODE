@@ -252,7 +252,7 @@ class CartService
         $cart = Cart::where('session_id', $sessionId)->first();
 
         if (!$cart && $userId) {
-            $cart = Cart::where('user_id', $userId)->first();
+            $cart = Cart::where('user_id', $userId)->paginate(10);
         }
 
         if (!$cart) {
