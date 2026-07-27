@@ -249,13 +249,22 @@ class CartService
     public function getCart(string $sessionId): array
     {
         $userId = auth('sanctum')->id();
-        $cart = Cart::where('session_id', $sessionId)->first();
 
-        if (!$cart && $userId) {
-            $cart = Cart::where('user_id', $userId)->paginate(10);
+        $query = Cart::query();
+        if (!empty($sessionId)) {
+            $query->where('session_id', $sessionId);
+        }
+        if ($userId) {
+            if (!empty($sessionId)) {
+                $query->orWhere('user_id', $userId);
+            } else {
+                $query->where('user_id', $userId);
+            }
         }
 
-        if (!$cart) {
+        $carts = $query->with(['items.product.brand', 'items.product.offers', 'user'])->paginate(10);
+
+        if ($carts->isEmpty()) {
             return [
                 'status'  => false,
                 'message' => __('messages.cart_not_found'),
@@ -266,7 +275,7 @@ class CartService
         return [
             'status'  => true,
             'message' => __('messages.cart_retrieved_successfully'),
-            'data'    => $cart->load(['items.product.brand', 'items.product.offers', 'user']),
+            'data'    => $carts,
         ];
     }
 
