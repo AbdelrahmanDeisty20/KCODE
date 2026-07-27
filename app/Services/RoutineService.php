@@ -34,7 +34,7 @@ class RoutineService
             });
         }
 
-        $finalRoutines = $query->latest()->get();
+        $finalRoutines = $query->latest()->paginate(10);
 
         if ($finalRoutines->isEmpty()) {
             return [
@@ -43,7 +43,7 @@ class RoutineService
             ];
         }
 
-        $routinesList = $finalRoutines->map(function ($finalRoutine) {
+        $finalRoutines->through(function ($finalRoutine) {
             $routineProducts = $finalRoutine->products->sortBy('step')->values();
             $routineProducts->each(function ($item, $index) {
                 $item->temp_sequence_order = $index + 1;
@@ -53,12 +53,12 @@ class RoutineService
                 'id'    => $finalRoutine->routine_id ?? $finalRoutine->id,
                 'items' => \App\Http\Resources\API\QUIZ\FinalRoutineResource::collection($routineProducts),
             ];
-        })->values();
+        });
 
         return [
             'status'  => true,
             'message' => __('messages.routine_retrieved_successfully'),
-            'data'    => $routinesList,
+            'data'    => $finalRoutines,
         ];
     }
 
