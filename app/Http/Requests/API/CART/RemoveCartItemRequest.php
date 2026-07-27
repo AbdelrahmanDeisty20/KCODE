@@ -21,7 +21,7 @@ class RemoveCartItemRequest extends FormRequest
     {
         return [
             'product_id' => ['required', 'integer', 'exists:products,id'],
-            'session_id' => ['required', 'string'],
+            'session_id' => ['nullable', 'string'],
         ];
     }
 
@@ -33,7 +33,6 @@ class RemoveCartItemRequest extends FormRequest
         return [
             'product_id.required' => __('validation.required'),
             'product_id.exists'   => __('validation.exists'),
-            'session_id.required' => __('validation.required'),
         ];
     }
 }

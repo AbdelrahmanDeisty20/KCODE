@@ -246,20 +246,27 @@ class CartService
     /**
      * Get user or guest cart.
      */
-    public function getCart(string $sessionId): array
+    public function getCart(?string $sessionId = null): array
     {
         $userId = auth('sanctum')->id();
 
         $query = Cart::query();
-        if (!empty($sessionId)) {
-            $query->where('session_id', $sessionId);
-        }
+
         if ($userId) {
-            if (!empty($sessionId)) {
-                $query->orWhere('user_id', $userId);
-            } else {
-                $query->where('user_id', $userId);
-            }
+            $query->where(function ($q) use ($userId, $sessionId) {
+                $q->where('user_id', $userId);
+                if (!empty($sessionId)) {
+                    $q->orWhere('session_id', $sessionId);
+                }
+            });
+        } elseif (!empty($sessionId)) {
+            $query->where('session_id', $sessionId);
+        } else {
+            return [
+                'status'  => false,
+                'message' => __('messages.cart_not_found'),
+                'code'    => 404,
+            ];
         }
 
         $carts = $query->with(['items.product.brand', 'items.product.offers', 'user'])->paginate(10);

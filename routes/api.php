@@ -123,7 +123,7 @@ Route::middleware([SetLang::class])->group(function () {
     });
 
     // Cart Routes
-    Route::controller(CartController::class)->group(function () {
+    Route::controller(CartController::class)->middleware('auth:sanctum')->group(function () {
         Route::get('/cart', 'getCart');
         Route::post('/cart/add', 'addSingle');
         Route::post('/cart/add-bulk', 'addBulk');

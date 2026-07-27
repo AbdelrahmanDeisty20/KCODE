@@ -75,7 +75,8 @@ class CartController extends Controller
     public function getCart(GetCartRequest $request)
     {
         $data = $request->validated();
-        $result = $this->cartService->getCart($data['session_id']);
+        $sessionId = $data['session_id'] ?? null;
+        $result = $this->cartService->getCart($sessionId);
 
         if (!$result['status']) {
             $code = $result['code'] ?? 400;

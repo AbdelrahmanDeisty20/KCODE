@@ -43,7 +43,7 @@ class CheckoutRequest extends FormRequest
             'title'          => ['nullable', 'string', 'max:100'],
 
             // Checkout options
-            'session_id'     => ['required', 'string'],
+            'session_id'     => ['nullable', 'string'],
             'coupon_code'    => ['nullable', 'string'],
             'notes'          => ['nullable', 'string', 'max:1000'],
             'payment_method' => ['required', 'string', 'in:cash'],

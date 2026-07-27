@@ -20,7 +20,7 @@ class GetCartRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'session_id' => ['required', 'string'],
+            'session_id' => ['nullable', 'string'],
         ];
     }
 
@@ -29,8 +29,6 @@ class GetCartRequest extends FormRequest
      */
     public function messages(): array
     {
-        return [
-            'session_id.required' => __('messages.cart_identifier_required'),
-        ];
+        return [];
     }
 }
