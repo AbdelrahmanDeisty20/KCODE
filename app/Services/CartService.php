@@ -71,7 +71,17 @@ class CartService
 
             // 2. Resolve products from routine_id
             if (!empty($routineId)) {
-                $routineProductIds = $this->getRoutineProductIds($routineId, $userId);
+                $routineResult = $this->getRoutineProductIds($routineId, $userId);
+
+                if (!$routineResult['status']) {
+                    return [
+                        'status'  => false,
+                        'message' => $routineResult['message'],
+                        'data'    => [],
+                    ];
+                }
+
+                $routineProductIds = $routineResult['ids'];
 
                 if (empty($routineProductIds)) {
                     return [
@@ -198,32 +208,66 @@ class CartService
             })->first();
 
             if ($finalRoutine) {
-                return FinalRoutineProduct::where('final_routine_id', $finalRoutine->id)
+                if ($userId && $finalRoutine->user_id && (int)$finalRoutine->user_id !== (int)$userId) {
+                    return [
+                        'status'  => false,
+                        'message' => __('messages.routine_not_belong_to_user'),
+                        'ids'     => [],
+                    ];
+                }
+
+                $ids = FinalRoutineProduct::where('final_routine_id', $finalRoutine->id)
                     ->pluck('product_id')
                     ->toArray();
+
+                return [
+                    'status' => true,
+                    'ids'    => $ids,
+                ];
             }
 
-            $routine = Routine::where('id', $routineId)->first();
+            $routine = Routine::with('assessment')->where('id', $routineId)->first();
             if ($routine) {
+                if ($userId && $routine->assessment && $routine->assessment->user_id && (int)$routine->assessment->user_id !== (int)$userId) {
+                    return [
+                        'status'  => false,
+                        'message' => __('messages.routine_not_belong_to_user'),
+                        'ids'     => [],
+                    ];
+                }
+
                 $routineProducts = RoutineProduct::where('routine_id', $routine->id)->get();
                 $ids = [];
                 foreach ($routineProducts as $rp) {
                     $ids[] = $rp->replaced_with_product_id ?: $rp->product_id;
                 }
-                return array_filter($ids);
+
+                return [
+                    'status' => true,
+                    'ids'    => array_values(array_filter($ids)),
+                ];
             }
 
             // Routine ID was provided but does not exist -> DO NOT fallback!
-            return [];
+            return [
+                'status'  => false,
+                'message' => __('messages.no_routine_found'),
+                'ids'     => [],
+            ];
         }
 
         // 2. Fallback to user's latest routine ONLY IF NO routine_id was passed at all
         if ($userId) {
             $finalRoutine = FinalRoutine::where('user_id', $userId)->latest()->first();
             if ($finalRoutine) {
-                return FinalRoutineProduct::where('final_routine_id', $finalRoutine->id)
+                $ids = FinalRoutineProduct::where('final_routine_id', $finalRoutine->id)
                     ->pluck('product_id')
                     ->toArray();
+
+                return [
+                    'status' => true,
+                    'ids'    => $ids,
+                ];
             }
 
             $assessment = Assessment::where('user_id', $userId)->latest()->first();
@@ -235,12 +279,20 @@ class CartService
                     foreach ($routineProducts as $rp) {
                         $ids[] = $rp->replaced_with_product_id ?: $rp->product_id;
                     }
-                    return array_filter($ids);
+
+                    return [
+                        'status' => true,
+                        'ids'    => array_values(array_filter($ids)),
+                    ];
                 }
             }
         }
 
-        return [];
+        return [
+            'status'  => false,
+            'message' => __('messages.no_routine_found'),
+            'ids'     => [],
+        ];
     }
 
     /**

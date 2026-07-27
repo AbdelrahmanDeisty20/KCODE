@@ -143,6 +143,7 @@ return [
     'product_stock_insufficient' => 'عذراً، الكمية المتاحة من المنتج (:name) في المخزون هي :stock فقط.',
     'product_not_found_in_routine' => 'المنتج غير موجود في هذا الروتين أو تم حذفه مسبقاً.',
     'routine_already_in_cart' => 'منتجات هذا الروتين مضافة إلى السلة بالفعل.',
+    'routine_not_belong_to_user' => 'هذا الروتين لا ينتمي إلى حسابك.',
     'cart_retrieved_successfully' => 'تم جلب السلة بنجاح.',
     'cart_item_updated_successfully' => 'تم تحديث كمية المنتج في السلة بنجاح.',
     'cart_is_empty' => 'السلة فارغة حالياً.',

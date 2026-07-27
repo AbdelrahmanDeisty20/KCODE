@@ -143,6 +143,7 @@ return [
     'product_stock_insufficient' => 'Sorry, only :stock items of product (:name) are available in stock.',
     'product_not_found_in_routine' => 'Product was not found in this routine or has already been removed.',
     'routine_already_in_cart' => 'Products from this routine are already in your cart.',
+    'routine_not_belong_to_user' => 'This routine does not belong to your account.',
     'cart_retrieved_successfully' => 'Cart retrieved successfully.',
     'cart_item_updated_successfully' => 'Cart item quantity updated successfully.',
     'cart_is_empty' => 'Your cart is currently empty.',
