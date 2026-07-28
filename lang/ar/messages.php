@@ -165,4 +165,7 @@ return [
     'quantity_min' => 'الكمية يجب أن تكون 1 على الأقل.',
     'order_deleted_successfully' => 'تم حذف الطلب بنجاح.',
     'cannot_delete_order_status' => 'لا يمكن حذف الطلب لأن حالته الحالية هي (:status).',
+    'coupons_retrieved_successfully' => 'تم جلب الكوبونات بنجاح.',
+    'coupon_retrieved_successfully' => 'تم جلب الكوبون بنجاح.',
+    'coupon_not_found' => 'لم يتم العثور على الكوبون.',
 ];

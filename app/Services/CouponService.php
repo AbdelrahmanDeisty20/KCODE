@@ -151,4 +151,24 @@ class CouponService
             ],
         ];
     }
+
+
+    public function getMyCoupuns()
+    {
+        $userId = auth()->id();
+        $coupon = Coupon::where('user_id', $userId)->where('is_active', true)->paginate(10);
+
+        if (!$coupon) {
+            return [
+                'status'  => false,
+                'message' => __('messages.coupon_not_found'),
+            ];
+        }
+
+        return [
+            'status'  => true,
+            'message' => __('messages.coupon_retrieved_successfully'),
+            'data'    => $coupon,
+        ];
+    }
 }

@@ -149,6 +149,7 @@ Route::middleware([SetLang::class])->group(function () {
         Route::post('/coupons/apply', 'applyCoupon')->middleware('auth:sanctum');
         Route::get('/coupons/general', 'getGeneralCoupon');
         Route::get('/banner/announcement', 'getAnnouncementBanner');
+        Route::get('/my-coupons', 'getMyCoupuns')->middleware('auth:sanctum');
     });
 
     // FAQ & Policy Routes

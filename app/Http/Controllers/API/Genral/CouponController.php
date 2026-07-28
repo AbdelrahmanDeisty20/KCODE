@@ -62,4 +62,15 @@ class CouponController extends Controller
 
         return $this->success(new AnnouncementBannerResource($result['data']), $result['message']);
     }
+
+    public function getMyCoupuns()
+    {
+        $result = $this->couponService->getMyCoupuns();
+
+        if (!$result['status']) {
+            return $this->error($result['message'], 404);
+        }
+
+        return $this->paginated(CouponResource::class, $result['data'], $result['message']);
+    }
 }
