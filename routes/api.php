@@ -146,7 +146,7 @@ Route::middleware([SetLang::class])->group(function () {
 
     // Coupon & Announcement Banner Routes
     Route::controller(CouponController::class)->group(function () {
-        Route::post('/coupons/apply', 'applyCoupon');
+        Route::post('/coupons/apply', 'applyCoupon')->middleware('auth:sanctum');
         Route::get('/coupons/general', 'getGeneralCoupon');
         Route::get('/banner/announcement', 'getAnnouncementBanner');
     });

@@ -22,7 +22,8 @@ class CouponController extends Controller
     public function applyCoupon(ApplyCouponRequest $request)
     {
         $orderAmount = (float) $request->input('order_amount', 0);
-        $result = $this->couponService->applyCoupon($request->code, $orderAmount);
+        $userId = $request->user()?->id ?? auth('sanctum')->id();
+        $result = $this->couponService->applyCoupon($request->code, $orderAmount, $userId);
 
         if (!$result['status']) {
             return $this->error($result['message'], 422);

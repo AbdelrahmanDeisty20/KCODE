@@ -51,7 +51,7 @@ class CouponService
         }
 
         // Check if coupon is assigned to a specific user
-        if ($coupon->user_id && $userId && (int)$coupon->user_id !== (int)$userId) {
+        if ($coupon->user_id !== null && (int)$coupon->user_id !== (int)$userId) {
             return [
                 'status'  => false,
                 'message' => __('messages.coupon_not_for_user'),
