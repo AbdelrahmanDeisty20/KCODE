@@ -65,7 +65,8 @@ class CouponController extends Controller
 
     public function getMyCoupuns()
     {
-        $result = $this->couponService->getMyCoupuns();
+        $userId = auth('sanctum')->id();
+        $result = $this->couponService->getMyCoupuns($userId);
 
         if (!$result['status']) {
             return $this->error($result['message'], 404);

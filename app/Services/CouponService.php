@@ -153,22 +153,25 @@ class CouponService
     }
 
 
-    public function getMyCoupuns()
+    public function getMyCoupuns(?int $userId = null): array
     {
-        $userId = auth()->id();
-        $coupon = Coupon::where('user_id', $userId)->where('is_active', true)->paginate(10);
+        $userId = $userId ?? auth('sanctum')->id() ?? auth()->id();
 
-        if (!$coupon) {
-            return [
-                'status'  => false,
-                'message' => __('messages.coupon_not_found'),
-            ];
-        }
+        $coupons = Coupon::where(function ($query) use ($userId) {
+            $query->where('user_id', $userId)
+                  ->orWhere('is_general', true);
+        })
+        ->where(function ($query) use ($userId) {
+            $query->whereNull('user_id')
+                  ->orWhere('user_id', $userId);
+        })
+        ->orderBy('id', 'desc')
+        ->paginate(10);
 
         return [
             'status'  => true,
             'message' => __('messages.coupon_retrieved_successfully'),
-            'data'    => $coupon,
+            'data'    => $coupons,
         ];
     }
 }
