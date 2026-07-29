@@ -10,9 +10,12 @@ $user = App\Models\User::updateOrCreate(
     [
         'name' => 'KCODE Admin',
         'password' => \Illuminate\Support\Facades\Hash::make('password'),
-        'type' => 'admin',
+        'type' => 'user',
         'status' => 'active',
     ]
 );
+
+$role = \Spatie\Permission\Models\Role::findOrCreate('super_admin', 'web');
+$user->assignRole($role);
 
 echo "SUCCESS: Admin user created/updated with email: " . $user->email . " and password: password\n";
