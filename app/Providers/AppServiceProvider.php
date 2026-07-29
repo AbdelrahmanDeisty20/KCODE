@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (class_exists(LanguageSwitch::class)) {
+            LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+                $switch
+                    ->locales(['ar', 'en'])
+                    ->labels([
+                        'ar' => 'العربية',
+                        'en' => 'English',
+                    ]);
+            });
+        }
     }
 }

@@ -25,6 +25,8 @@ class CartItemResource extends JsonResource
 
         return [
             'id' => $this->id,
+            'item_type' => $this->item_type ?? 'single',
+            'routine_id' => $this->routine_id ? (int) $this->routine_id : null,
             'quantity' => (int) $this->quantity,
             'unit_price' => $unitPrice,
             'discount_amount' => $discountAmount,
@@ -32,6 +34,7 @@ class CartItemResource extends JsonResource
             'price_after_discount' => round($priceAfterDiscount, 2),
             'total_price' => (float) $this->total_price,
             'product' => new ProductListResource($this->whenLoaded('product')),
+            'routine' => $this->whenLoaded('routine'),
         ];
     }
 }

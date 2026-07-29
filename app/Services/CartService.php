@@ -175,9 +175,13 @@ class CartService
                 $effectivePrice = $priceAfterDiscount > 0 ? $priceAfterDiscount : $unitPrice;
                 $totalPrice = round($effectivePrice * $targetQuantity, 2);
 
+                $itemType = !empty($routineId) ? 'routine' : 'single';
+
                 CartItem::updateOrCreate(
                     ['cart_id' => $cart->id, 'product_id' => $product->id],
                     [
+                        'item_type'            => $itemType,
+                        'routine_id'           => $routineId ?: null,
                         'quantity'             => $targetQuantity,
                         'unit_price'           => $unitPrice,
                         'discount_amount'      => $discountAmount,
@@ -191,7 +195,7 @@ class CartService
             return [
                 'status' => true,
                 'message' => __('messages.products_added_to_cart_successfully'),
-                'data' => $cart->fresh(['items.product.brand', 'items.product.offers', 'user']),
+                'data' => $cart->fresh(['items.product.brand', 'items.product.offers', 'items.routine', 'user']),
             ];
         });
     }
@@ -321,7 +325,7 @@ class CartService
             ];
         }
 
-        $carts = $query->with(['items.product.brand', 'items.product.offers', 'user'])->paginate(10);
+        $carts = $query->with(['items.product.brand', 'items.product.offers', 'items.routine', 'user'])->paginate(10);
 
         if ($carts->isEmpty()) {
             return [

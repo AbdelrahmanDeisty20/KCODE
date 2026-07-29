@@ -10,6 +10,8 @@ class CartItem extends Model
     protected $fillable = [
         'cart_id',
         'product_id',
+        'item_type',
+        'routine_id',
         'quantity',
         'unit_price',
         'discount_amount',
@@ -41,5 +43,13 @@ class CartItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Relationship to Routine
+     */
+    public function routine(): BelongsTo
+    {
+        return $this->belongsTo(Routine::class);
     }
 }
