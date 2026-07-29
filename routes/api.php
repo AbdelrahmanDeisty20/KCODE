@@ -41,7 +41,7 @@ Route::middleware([SetLang::class])->group(function () {
             Route::get('/profile', 'profile');
             Route::post('/update-profile', 'updateProfile');
             Route::get('/profile/quote', 'getQuote');
-            Route::put('/profile/quote', 'updateQuote');
+            Route::post('/profile/quote', 'updateQuote');
             Route::post('/logout', 'logout');
             Route::post('/logout-all-devices', 'logoutAllDevice');
         });
