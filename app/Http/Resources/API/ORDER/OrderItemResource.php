@@ -17,23 +17,14 @@ class OrderItemResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-           'id'               => $this->id,
-            'order_number'     => $this->order_number,
-            'user_name'        => $this->user_name,
-            'user_phone'       => $this->user_phone,
-            'payment_method'   => $this->payment_method,
-            'payment_status'   => $this->payment_status,
-            'order_status'     => $this->order_status,
-            'subtotal'         => (float) $this->subtotal,
-            'discount_amount'  => (float) $this->discount_amount,
-            'shipping_fee'     => (float) $this->shipping_fee,
-            'total'            => (float) $this->total,
-            'coupon_code'      => $this->coupon_code,
-            'notes'            => $this->notes,
-            'shipping_address' => $this->shipping_address,
-            'address'          => new AddressResource($this->whenLoaded('address')),
+            'id'              => $this->id,
+            'quantity'        => (int) $this->quantity,
+            'unit_price'      => (float) $this->unit_price,
+            'discount_amount' => (float) $this->discount_amount,
+            'total_price'     => (float) $this->total_price,
+            'notes'           => $this->notes,
             'product'         => new ProductListResource($this->whenLoaded('product')),
-            'created_at'       => $this->created_at->format('Y-m-d H:i:s'),
+            'created_at'      => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : null,
         ];
     }
 }

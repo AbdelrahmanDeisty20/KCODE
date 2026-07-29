@@ -16,10 +16,22 @@ class OrderResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'            => $this->id,
-            'order_number'  => $this->order_number,
-            'order_status'  => $this->order_status,
-            'created_at'    => $this->created_at,
+            'id'               => $this->id,
+            'order_number'     => $this->order_number,
+            'user_name'        => $this->user_name,
+            'user_phone'       => $this->user_phone,
+            'payment_method'   => $this->payment_method,
+            'payment_status'   => $this->payment_status,
+            'order_status'     => $this->order_status,
+            'subtotal'         => (float) $this->subtotal,
+            'discount_amount'  => (float) $this->discount_amount,
+            'shipping_fee'     => (float) $this->shipping_fee,
+            'total'            => (float) $this->total,
+            'coupon_code'      => $this->coupon_code,
+            'notes'            => $this->notes,
+            'shipping_address' => $this->shipping_address,
+            'items'            => OrderItemResource::collection($this->whenLoaded('items')),
+            'created_at'       => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : null,
         ];
     }
 }

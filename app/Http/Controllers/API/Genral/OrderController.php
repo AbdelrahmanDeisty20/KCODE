@@ -43,7 +43,7 @@ class OrderController extends Controller
         }
 
         return $this->success(
-            new OrderItemResource($result['data']),
+            new OrderResource($result['data']),
             $result['message']
         );
     }
