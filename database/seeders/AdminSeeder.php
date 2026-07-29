@@ -16,7 +16,6 @@ class AdminSeeder extends Seeder
             [
                 'name'     => 'KCODE Admin',
                 'password' => Hash::make('password'),
-                'type'     => 'admin',
                 'status'   => 'active',
             ]
         );

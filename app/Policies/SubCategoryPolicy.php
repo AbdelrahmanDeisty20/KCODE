@@ -11,7 +11,7 @@ class SubCategoryPolicy
 
     public function before(User $user, string $ability): ?bool
     {
-        if ($user->type === 'admin' || $user->hasRole('super_admin')) {
+        if ($user->hasAnyRole(['admin', 'super_admin']) || $user->type === 'admin') {
             return true;
         }
         return null;
