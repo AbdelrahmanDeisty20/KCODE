@@ -32,7 +32,6 @@ class CheckoutResource extends JsonResource
             'coupon_code'      => $this->coupon_code,
             'notes'            => $this->notes,
             'shipping_address' => $this->shipping_address,
-            'address'          => new AddressResource($this->whenLoaded('address')),
             'items'            => OrderItemResource::collection($this->whenLoaded('items')),
             'created_at'       => $this->created_at,
         ];
