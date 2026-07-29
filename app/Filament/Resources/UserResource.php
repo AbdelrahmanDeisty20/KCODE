@@ -57,6 +57,13 @@ class UserResource extends Resource
                             ->default('user')
                             ->required(),
 
+                        Forms\Components\Select::make('roles')
+                            ->label('أدوار المستخدم (Roles)')
+                            ->multiple()
+                            ->relationship('roles', 'name')
+                            ->preload()
+                            ->searchable(),
+
                         Forms\Components\DatePicker::make('birth_date')
                             ->label('تاريخ الميلاد'),
 
@@ -109,6 +116,11 @@ class UserResource extends Resource
                         'user' => 'عميل',
                         default => $state,
                     }),
+
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('الأدوار')
+                    ->badge()
+                    ->color('info'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تاريخ التسجيل')

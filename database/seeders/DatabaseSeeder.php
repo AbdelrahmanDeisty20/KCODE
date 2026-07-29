@@ -62,6 +62,7 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             CouponSeeder::class,
             BlogAuthorSeeder::class,
+            RolesAndPermissionsSeeder::class,
         ]);
 
         // User::factory(10)->create();
