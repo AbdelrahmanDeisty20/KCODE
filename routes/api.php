@@ -171,6 +171,7 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/countries', 'getCountries');
         Route::get('/countries/{countryId}/states', 'getStates');
         Route::get('/states/{stateId}/cities', 'getCities');
+        Route::get('/shipping', 'getShippingFees');
     });
 
     // Favorites & Reviews Routes (Protected)

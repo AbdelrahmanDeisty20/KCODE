@@ -60,4 +60,16 @@ class LocationController extends Controller
             $result['message']
         );
     }
+
+    /**
+     * Get all active cities with shipping fees (unpaginated).
+     */
+    public function getShippingFees()
+    {
+        $result = $this->locationService->getShippingFees();
+        return $this->success(
+            $result['data'],
+            $result['message']
+        );
+    }
 }

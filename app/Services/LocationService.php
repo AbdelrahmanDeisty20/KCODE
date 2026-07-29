@@ -69,4 +69,18 @@ class LocationService
             'data'    => CityResource::collection($cities),
         ];
     }
+
+    /**
+     * Get all active cities with shipping fee (unpaginated).
+     */
+    public function getShippingFees(): array
+    {
+        $cities = City::where('is_active', true)->get();
+
+        return [
+            'status'  => true,
+            'message' => __('messages.cities_retrieved_successfully'),
+            'data'    => \App\Http\Resources\API\LOCATION\ShippingResource::collection($cities),
+        ];
+    }
 }

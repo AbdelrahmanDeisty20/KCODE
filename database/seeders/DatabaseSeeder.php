@@ -58,6 +58,7 @@ class DatabaseSeeder extends Seeder
             CouponPolicySeeder::class,
             PointsProgramPolicySeeder::class,
             LocationSeeder::class,
+            CityShippingFeeSeeder::class,
             SettingSeeder::class,
             PageSeeder::class,
             CouponSeeder::class,

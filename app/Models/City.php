@@ -12,10 +12,12 @@ class City extends Model
         'country_id',
         'name_ar',
         'name_en',
+        'shipping_fee',
         'is_active',
     ];
 
     protected $casts = [
+        'shipping_fee' => 'float',
         'is_active' => 'boolean',
     ];
 

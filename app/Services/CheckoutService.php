@@ -161,9 +161,17 @@ class CheckoutService
                     $coupon = $couponResult['data']['coupon'] ?? null;
                 }
 
-                // 6. Calculate fixed shipping fee from settings
-                $shippingFeeSetting = Setting::where('key_en', 'shipping_fee')->first();
-                $shippingFee = $shippingFeeSetting ? (float) ($shippingFeeSetting->value_en ?: $shippingFeeSetting->value_ar) : 2.00;
+                // 6. Calculate shipping fee based on city's shipping_fee
+                $shippingFee = 0.00;
+                if ($address && $address->city) {
+                    $shippingFee = (float) ($address->city->shipping_fee ?? 0.00);
+                } else {
+                    $cityId = $data['city_id'] ?? null;
+                    if ($cityId) {
+                        $cityObj = City::find($cityId);
+                        $shippingFee = $cityObj ? (float) ($cityObj->shipping_fee ?? 0.00) : 0.00;
+                    }
+                }
                 $finalTotal = max(0.00, round($subtotal - $discountAmount + $shippingFee, 2));
 
                 // 7. Order Number & Shipping Address Snapshot
