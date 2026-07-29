@@ -196,9 +196,6 @@ class CheckoutService
                         'city'        => $city ? $city->name : null,
                         'state'       => $state ? $state->name : null,
                         'country'     => $country ? $country->name : null,
-                        'country_id'  => $data['country_id'] ?? null,
-                        'state_id'    => $data['state_id'] ?? null,
-                        'city_id'     => $data['city_id'] ?? null,
                         'notes'       => $notes,
                     ];
                 }
