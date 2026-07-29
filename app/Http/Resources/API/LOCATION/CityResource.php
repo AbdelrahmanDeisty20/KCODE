@@ -17,6 +17,7 @@ class CityResource extends JsonResource
         return [
             'id'         => $this->id,
             'name'       => $this->name, // uses dynamic name accessor for localization
+            'shipping_fee' => $this->shipping_fee,
         ];
     }
 }
