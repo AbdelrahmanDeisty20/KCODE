@@ -193,6 +193,7 @@ class CheckoutService
                     $shippingAddressSnapshot = [
                         'user_name'   => $userName,
                         'user_phone'  => $phone,
+                        'address'     => $data['address'] ?? $data['street'] ?? null,
                         'city'        => $city ? $city->name : null,
                         'state'       => $state ? $state->name : null,
                         'country'     => $country ? $country->name : null,
