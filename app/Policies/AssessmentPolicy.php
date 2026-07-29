@@ -19,12 +19,12 @@ class AssessmentPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_assessments');
+        return $user->can('view_assessments');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_assessments');
+        return $user->can('view_assessments');
     }
 
     public function create(User $user): bool
@@ -39,11 +39,11 @@ class AssessmentPolicy
 
     public function delete(User $user): bool
     {
-        return $user->hasPermissionTo('delete_assessments');
+        return $user->can('delete_assessments');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('delete_assessments');
+        return $user->can('delete_assessments');
     }
 }

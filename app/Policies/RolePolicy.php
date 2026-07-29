@@ -19,31 +19,31 @@ class RolePolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_roles');
+        return $user->can('view_roles');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_roles');
+        return $user->can('view_roles');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create_roles');
+        return $user->can('create_roles');
     }
 
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('edit_roles');
+        return $user->can('edit_roles');
     }
 
     public function delete(User $user): bool
     {
-        return $user->hasPermissionTo('delete_roles');
+        return $user->can('delete_roles');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('delete_roles');
+        return $user->can('delete_roles');
     }
 }

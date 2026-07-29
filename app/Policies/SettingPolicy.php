@@ -19,12 +19,12 @@ class SettingPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_settings');
+        return $user->can('view_settings');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_settings');
+        return $user->can('view_settings');
     }
 
     public function create(User $user): bool
@@ -34,7 +34,7 @@ class SettingPolicy
 
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('edit_settings');
+        return $user->can('edit_settings');
     }
 
     public function delete(User $user): bool

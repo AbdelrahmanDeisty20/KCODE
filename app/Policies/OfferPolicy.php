@@ -19,31 +19,31 @@ class OfferPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_offers');
+        return $user->can('view_offers');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_offers');
+        return $user->can('view_offers');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create_offers');
+        return $user->can('create_offers');
     }
 
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('edit_offers');
+        return $user->can('edit_offers');
     }
 
     public function delete(User $user): bool
     {
-        return $user->hasPermissionTo('delete_offers');
+        return $user->can('delete_offers');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('delete_offers');
+        return $user->can('delete_offers');
     }
 }

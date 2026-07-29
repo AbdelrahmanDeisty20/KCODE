@@ -19,31 +19,31 @@ class ConcernPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_concerns');
+        return $user->can('view_concerns');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_concerns');
+        return $user->can('view_concerns');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create_concerns');
+        return $user->can('create_concerns');
     }
 
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('edit_concerns');
+        return $user->can('edit_concerns');
     }
 
     public function delete(User $user): bool
     {
-        return $user->hasPermissionTo('delete_concerns');
+        return $user->can('delete_concerns');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('delete_concerns');
+        return $user->can('delete_concerns');
     }
 }

@@ -19,31 +19,31 @@ class OrderPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_orders');
+        return $user->can('view_orders');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_orders');
+        return $user->can('view_orders');
     }
 
     public function create(User $user): bool
     {
-        return false; // Orders are created by customers via API/checkout
+        return false;
     }
 
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('edit_orders');
+        return $user->can('edit_orders');
     }
 
     public function delete(User $user): bool
     {
-        return $user->hasPermissionTo('delete_orders');
+        return $user->can('delete_orders');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('delete_orders');
+        return $user->can('delete_orders');
     }
 }

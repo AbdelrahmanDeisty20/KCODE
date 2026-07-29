@@ -19,31 +19,31 @@ class CategoryPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_categories');
+        return $user->can('view_categories');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_categories');
+        return $user->can('view_categories');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create_categories');
+        return $user->can('create_categories');
     }
 
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('edit_categories');
+        return $user->can('edit_categories');
     }
 
     public function delete(User $user): bool
     {
-        return $user->hasPermissionTo('delete_categories');
+        return $user->can('delete_categories');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('delete_categories');
+        return $user->can('delete_categories');
     }
 }

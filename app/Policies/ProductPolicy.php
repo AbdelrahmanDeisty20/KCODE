@@ -19,31 +19,31 @@ class ProductPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_products');
+        return $user->can('view_products');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_products');
+        return $user->can('view_products');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create_products');
+        return $user->can('create_products');
     }
 
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('edit_products');
+        return $user->can('edit_products');
     }
 
     public function delete(User $user): bool
     {
-        return $user->hasPermissionTo('delete_products');
+        return $user->can('delete_products');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('delete_products');
+        return $user->can('delete_products');
     }
 }

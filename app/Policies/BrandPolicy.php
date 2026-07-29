@@ -19,31 +19,31 @@ class BrandPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_brands');
+        return $user->can('view_brands');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_brands');
+        return $user->can('view_brands');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create_brands');
+        return $user->can('create_brands');
     }
 
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('edit_brands');
+        return $user->can('edit_brands');
     }
 
     public function delete(User $user): bool
     {
-        return $user->hasPermissionTo('delete_brands');
+        return $user->can('delete_brands');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('delete_brands');
+        return $user->can('delete_brands');
     }
 }

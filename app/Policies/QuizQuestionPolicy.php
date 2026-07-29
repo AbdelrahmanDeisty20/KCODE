@@ -19,31 +19,31 @@ class QuizQuestionPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_quiz_questions');
+        return $user->can('view_quiz_questions');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_quiz_questions');
+        return $user->can('view_quiz_questions');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create_quiz_questions');
+        return $user->can('create_quiz_questions');
     }
 
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('edit_quiz_questions');
+        return $user->can('edit_quiz_questions');
     }
 
     public function delete(User $user): bool
     {
-        return $user->hasPermissionTo('delete_quiz_questions');
+        return $user->can('delete_quiz_questions');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('delete_quiz_questions');
+        return $user->can('delete_quiz_questions');
     }
 }

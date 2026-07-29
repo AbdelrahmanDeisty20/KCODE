@@ -19,31 +19,31 @@ class CouponPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo('view_coupons');
+        return $user->can('view_coupons');
     }
 
     public function view(User $user): bool
     {
-        return $user->hasPermissionTo('view_coupons');
+        return $user->can('view_coupons');
     }
 
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('create_coupons');
+        return $user->can('create_coupons');
     }
 
     public function update(User $user): bool
     {
-        return $user->hasPermissionTo('edit_coupons');
+        return $user->can('edit_coupons');
     }
 
     public function delete(User $user): bool
     {
-        return $user->hasPermissionTo('delete_coupons');
+        return $user->can('delete_coupons');
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->hasPermissionTo('delete_coupons');
+        return $user->can('delete_coupons');
     }
 }
