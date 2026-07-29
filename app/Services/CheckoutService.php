@@ -5,10 +5,13 @@ namespace App\Services;
 use App\Models\Address;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\City;
+use App\Models\Country;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Setting;
+use App\Models\State;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -33,7 +36,7 @@ class CheckoutService
             $userName = $data['user_name'] ?? ($user ? $user->name : 'عميل KCODE');
             $phone    = $data['user_phone'] ?? $data['phone'] ?? ($user ? $user->phone : null);
 
-            // 2. Resolve Address (from pre-existing address_id OR create inline address)
+            // 2. Resolve Address (from pre-existing address_id if provided)
             $address = null;
             if (!empty($addressId)) {
                 $address = Address::with(['country', 'state', 'city'])->find($addressId);
@@ -53,23 +56,6 @@ class CheckoutService
                         'code'    => 403,
                     ];
                 }
-            } else {
-                // Inline Address Creation
-                $addressText = $data['address'] ?? $data['street'] ?? '';
-                $isDefault = $userId ? !Address::where('user_id', $userId)->exists() : false;
-
-                $address = Address::create([
-                    'user_id'    => $userId,
-                    'country_id' => $data['country_id'] ?? null,
-                    'state_id'   => $data['state_id'] ?? null,
-                    'city_id'    => $data['city_id'] ?? null,
-                    'title'      => $data['title'] ?? 'عنوان الشحن',
-                    'phone'      => $phone,
-                    'address'    => $addressText,
-                    'is_default' => $isDefault,
-                ]);
-
-                $address->load(['country', 'state', 'city']);
             }
 
             // 3. Resolve Cart
@@ -183,18 +169,43 @@ class CheckoutService
                 // 7. Order Number & Shipping Address Snapshot
                 $orderNumber = 'KCODE-' . date('Ymd') . '-' . strtoupper(Str::random(5));
 
-                $shippingAddressSnapshot = [
-                    'user_name'   => $userName,
-                    'user_phone'       => $phone ?? $address->phone,
-                    'title'       => $address->title,
-                    'address'     => $address->address,
-                    'street'      => $data['street'] ?? $address->address,
-                    'building_no' => $data['building_no'] ?? null,
-                    'city'        => $address->city ? $address->city->name : null,
-                    'state'       => $address->state ? $address->state->name : null,
-                    'country'     => $address->country ? $address->country->name : null,
-                    'notes'       => $notes,
-                ];
+                if ($address) {
+                    $shippingAddressSnapshot = [
+                        'user_name'   => $userName,
+                        'user_phone'  => $phone ?? $address->phone,
+                        'title'       => $address->title,
+                        'address'     => $address->address,
+                        'street'      => $data['street'] ?? $address->address,
+                        'building_no' => $data['building_no'] ?? null,
+                        'city'        => $address->city ? $address->city->name : null,
+                        'state'       => $address->state ? $address->state->name : null,
+                        'country'     => $address->country ? $address->country->name : null,
+                        'country_id'  => $address->country_id,
+                        'state_id'    => $address->state_id,
+                        'city_id'     => $address->city_id,
+                        'notes'       => $notes,
+                    ];
+                } else {
+                    $country = !empty($data['country_id']) ? Country::find($data['country_id']) : null;
+                    $state   = !empty($data['state_id']) ? State::find($data['state_id']) : null;
+                    $city    = !empty($data['city_id']) ? City::find($data['city_id']) : null;
+
+                    $shippingAddressSnapshot = [
+                        'user_name'   => $userName,
+                        'user_phone'  => $phone,
+                        'title'       => $data['title'] ?? 'عنوان الشحن',
+                        'address'     => $data['address'] ?? $data['street'] ?? '',
+                        'street'      => $data['street'] ?? null,
+                        'building_no' => $data['building_no'] ?? null,
+                        'city'        => $city ? $city->name : null,
+                        'state'       => $state ? $state->name : null,
+                        'country'     => $country ? $country->name : null,
+                        'country_id'  => $data['country_id'] ?? null,
+                        'state_id'    => $data['state_id'] ?? null,
+                        'city_id'     => $data['city_id'] ?? null,
+                        'notes'       => $notes,
+                    ];
+                }
 
                 // 8. Create Order Record
                 $order = Order::create([
@@ -202,7 +213,7 @@ class CheckoutService
                     'user_id'          => $userId,
                     'user_name'        => $userName,
                     'user_phone'       => $phone,
-                    'address_id'       => $address->id,
+                    'address_id'       => $address ? $address->id : null,
                     'shipping_address' => $shippingAddressSnapshot,
                     'payment_method'   => $data['payment_method'] ?? 'cash',
                     'payment_status'   => 'pending',

@@ -154,6 +154,7 @@ return [
     'address_required' => 'عنوان الشحن مطلوب لإتمام الطلب.',
     'invalid_address' => 'عنوان الشحن المحدد غير صالح.',
     'country_required' => 'الدولة مطلوبة عند عدم اختيار عنوان محدد.',
+    'state_required' => 'المحافظة مطلوبة عند عدم اختيار عنوان محدد.',
     'city_required' => 'المدينة مطلوبة عند عدم اختيار عنوان محدد.',
     'cart_item_removed_successfully' => 'تم إزالة المنتج من السلة بنجاح.',
     'cart_cleared_successfully' => 'تم إفراغ السلة بنجاح.',

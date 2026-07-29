@@ -154,6 +154,7 @@ return [
     'address_required' => 'Shipping address is required for checkout.',
     'invalid_address' => 'Selected shipping address is invalid.',
     'country_required' => 'Country is required when no address ID is selected.',
+    'state_required' => 'State is required when no address ID is selected.',
     'city_required' => 'City is required when no address ID is selected.',
     'cart_item_removed_successfully' => 'Item removed from cart successfully.',
     'cart_cleared_successfully' => 'Cart cleared successfully.',
