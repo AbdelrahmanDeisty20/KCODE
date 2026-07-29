@@ -10,7 +10,7 @@ $user = App\Models\User::updateOrCreate(
     [
         'name' => 'KCODE Admin',
         'password' => \Illuminate\Support\Facades\Hash::make('password'),
-        'type' => 'user',
+        'type' => 'admin',
         'status' => 'active',
     ]
 );
