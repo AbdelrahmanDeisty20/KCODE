@@ -17,14 +17,14 @@ class BlogTagService
         if ($tags->isEmpty()) {
             return [
                 'status' => false,
-                'message' => 'No tags found',
+                'message' => __('messages.no_blog_tags_found'),
                 'data' => [],
             ];
         }
 
         return [
             'status' => true,
-            'message' => 'Tags retrieved successfully',
+            'message' => __('messages.blog_tags_retrieved_successfully'),
             'data' => $tags,
         ];
     }
@@ -41,22 +41,20 @@ class BlogTagService
         if (!$tag) {
             return [
                 'status' => false,
-                'message' => 'Tag not found',
+                'message' => __('messages.blog_tag_not_found'),
                 'data' => null,
             ];
         }
-
-        $perPage = request('per_page', 15);
 
         $blogs = $tag->blogs()
             ->published()
             ->with(['category', 'author', 'tags', 'seo'])
             ->latest('published_at')
-            ->paginate($perPage);
+            ->paginate(10);
 
         return [
             'status' => true,
-            'message' => 'Tag blogs retrieved successfully',
+            'message' => __('messages.tag_blogs_retrieved_successfully'),
             'data' => $blogs,
         ];
     }
@@ -75,7 +73,7 @@ class BlogTagService
 
         return [
             'status' => true,
-            'message' => 'Tag created successfully',
+            'message' => __('messages.blog_tag_created_successfully'),
             'data' => $tag,
         ];
     }
@@ -90,7 +88,7 @@ class BlogTagService
         if (!$tag) {
             return [
                 'status' => false,
-                'message' => 'Tag not found',
+                'message' => __('messages.blog_tag_not_found'),
                 'data' => null,
             ];
         }
@@ -104,7 +102,7 @@ class BlogTagService
 
         return [
             'status' => true,
-            'message' => 'Tag updated successfully',
+            'message' => __('messages.blog_tag_updated_successfully'),
             'data' => $tag,
         ];
     }
@@ -119,7 +117,7 @@ class BlogTagService
         if (!$tag) {
             return [
                 'status' => false,
-                'message' => 'Tag not found',
+                'message' => __('messages.blog_tag_not_found'),
                 'data' => null,
             ];
         }
@@ -128,7 +126,7 @@ class BlogTagService
 
         return [
             'status' => true,
-            'message' => 'Tag deleted successfully',
+            'message' => __('messages.blog_tag_deleted_successfully'),
             'data' => null,
         ];
     }

@@ -17,14 +17,14 @@ class BlogCategoryService
         if ($categories->isEmpty()) {
             return [
                 'status' => false,
-                'message' => 'No categories found',
+                'message' => __('messages.no_blog_categories_found'),
                 'data' => [],
             ];
         }
 
         return [
             'status' => true,
-            'message' => 'Categories retrieved successfully',
+            'message' => __('messages.blog_categories_retrieved_successfully'),
             'data' => $categories,
         ];
     }
@@ -41,22 +41,20 @@ class BlogCategoryService
         if (!$category) {
             return [
                 'status' => false,
-                'message' => 'Category not found',
+                'message' => __('messages.blog_category_not_found'),
                 'data' => null,
             ];
         }
-
-        $perPage = request('per_page', 15);
 
         $blogs = $category->blogs()
             ->published()
             ->with(['category', 'author', 'tags', 'seo'])
             ->latest('published_at')
-            ->paginate($perPage);
+            ->paginate(10);
 
         return [
             'status' => true,
-            'message' => 'Category blogs retrieved successfully',
+            'message' => __('messages.category_blogs_retrieved_successfully'),
             'data' => $blogs,
         ];
     }
@@ -79,7 +77,7 @@ class BlogCategoryService
 
         return [
             'status' => true,
-            'message' => 'Category created successfully',
+            'message' => __('messages.blog_category_created_successfully'),
             'data' => $category,
         ];
     }
@@ -94,7 +92,7 @@ class BlogCategoryService
         if (!$category) {
             return [
                 'status' => false,
-                'message' => 'Category not found',
+                'message' => __('messages.blog_category_not_found'),
                 'data' => null,
             ];
         }
@@ -112,7 +110,7 @@ class BlogCategoryService
 
         return [
             'status' => true,
-            'message' => 'Category updated successfully',
+            'message' => __('messages.blog_category_updated_successfully'),
             'data' => $category,
         ];
     }
@@ -127,7 +125,7 @@ class BlogCategoryService
         if (!$category) {
             return [
                 'status' => false,
-                'message' => 'Category not found',
+                'message' => __('messages.blog_category_not_found'),
                 'data' => null,
             ];
         }
@@ -136,7 +134,7 @@ class BlogCategoryService
 
         return [
             'status' => true,
-            'message' => 'Category deleted successfully',
+            'message' => __('messages.blog_category_deleted_successfully'),
             'data' => null,
         ];
     }

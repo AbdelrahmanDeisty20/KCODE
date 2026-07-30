@@ -20,14 +20,14 @@ class BlogService
         if ($blogs->isEmpty()) {
             return [
                 'status' => false,
-                'message' => 'No blogs found',
+                'message' => __('messages.no_blogs_found'),
                 'data' => $blogs,
             ];
         }
 
         return [
             'status' => true,
-            'message' => 'Blogs retrieved successfully',
+            'message' => __('messages.blogs_retrieved_successfully'),
             'data' => $blogs,
         ];
     }
@@ -50,7 +50,7 @@ class BlogService
         if (!$blog) {
             return [
                 'status' => false,
-                'message' => 'Blog not found',
+                'message' => __('messages.blog_not_found'),
                 'data' => null,
             ];
         }
@@ -73,7 +73,7 @@ class BlogService
 
         return [
             'status' => true,
-            'message' => 'Blog details retrieved successfully',
+            'message' => __('messages.blog_details_retrieved_successfully'),
             'data' => $blog,
         ];
     }
@@ -92,14 +92,14 @@ class BlogService
         if ($blogs->isEmpty()) {
             return [
                 'status' => false,
-                'message' => 'No featured blogs found',
+                'message' => __('messages.no_featured_blogs_found'),
                 'data' => $blogs,
             ];
         }
 
         return [
             'status' => true,
-            'message' => 'Featured blogs retrieved successfully',
+            'message' => __('messages.featured_blogs_retrieved_successfully'),
             'data' => $blogs,
         ];
     }
@@ -117,14 +117,14 @@ class BlogService
         if ($blogs->isEmpty()) {
             return [
                 'status' => false,
-                'message' => 'No popular blogs found',
+                'message' => __('messages.no_popular_blogs_found'),
                 'data' => $blogs,
             ];
         }
 
         return [
             'status' => true,
-            'message' => 'Popular blogs retrieved successfully',
+            'message' => __('messages.popular_blogs_retrieved_successfully'),
             'data' => $blogs,
         ];
     }
@@ -179,14 +179,14 @@ class BlogService
         if ($blogs->isEmpty()) {
             return [
                 'status' => false,
-                'message' => 'No search results found',
+                'message' => __('messages.no_search_results_found'),
                 'data' => $blogs,
             ];
         }
 
         return [
             'status' => true,
-            'message' => 'Search results retrieved successfully',
+            'message' => __('messages.search_results_retrieved_successfully'),
             'data' => $blogs,
         ];
     }
@@ -237,7 +237,7 @@ class BlogService
 
         return [
             'status' => true,
-            'message' => 'Blog created successfully',
+            'message' => __('messages.blog_created_successfully'),
             'data' => $blog->load(['category', 'author', 'tags', 'seo']),
         ];
     }
@@ -252,7 +252,7 @@ class BlogService
         if (!$blog) {
             return [
                 'status' => false,
-                'message' => 'Blog not found',
+                'message' => __('messages.blog_not_found'),
                 'data' => null,
             ];
         }
@@ -296,7 +296,7 @@ class BlogService
 
         return [
             'status' => true,
-            'message' => 'Blog updated successfully',
+            'message' => __('messages.blog_updated_successfully'),
             'data' => $blog->load(['category', 'author', 'tags', 'seo']),
         ];
     }
@@ -311,7 +311,7 @@ class BlogService
         if (!$blog) {
             return [
                 'status' => false,
-                'message' => 'Blog not found',
+                'message' => __('messages.blog_not_found'),
                 'data' => null,
             ];
         }
@@ -320,7 +320,7 @@ class BlogService
 
         return [
             'status' => true,
-            'message' => 'Blog deleted successfully',
+            'message' => __('messages.blog_deleted_successfully'),
             'data' => null,
         ];
     }
@@ -335,7 +335,7 @@ class BlogService
         if (!$blog) {
             return [
                 'status' => false,
-                'message' => 'Blog not found',
+                'message' => __('messages.blog_not_found'),
                 'data' => null,
             ];
         }
@@ -347,7 +347,7 @@ class BlogService
 
         return [
             'status' => true,
-            'message' => 'Blog published successfully',
+            'message' => __('messages.blog_published_successfully'),
             'data' => $blog->load(['category', 'author', 'tags', 'seo']),
         ];
     }
@@ -362,7 +362,7 @@ class BlogService
         if (!$blog) {
             return [
                 'status' => false,
-                'message' => 'Blog not found',
+                'message' => __('messages.blog_not_found'),
                 'data' => null,
             ];
         }
@@ -371,7 +371,7 @@ class BlogService
 
         return [
             'status' => true,
-            'message' => 'Blog moved to draft successfully',
+            'message' => __('messages.blog_moved_to_draft_successfully'),
             'data' => $blog->load(['category', 'author', 'tags', 'seo']),
         ];
     }
@@ -386,7 +386,7 @@ class BlogService
         if (!$blog) {
             return [
                 'status' => false,
-                'message' => 'Blog not found',
+                'message' => __('messages.blog_not_found'),
                 'data' => null,
             ];
         }
@@ -396,7 +396,7 @@ class BlogService
 
         return [
             'status' => true,
-            'message' => 'Featured image uploaded successfully',
+            'message' => __('messages.featured_image_uploaded_successfully'),
             'data' => $blog,
         ];
     }
@@ -411,7 +411,7 @@ class BlogService
         if (!$blog) {
             return [
                 'status' => false,
-                'message' => 'Blog not found',
+                'message' => __('messages.blog_not_found'),
                 'data' => null,
             ];
         }
@@ -424,7 +424,7 @@ class BlogService
 
         return [
             'status' => true,
-            'message' => 'SEO saved successfully',
+            'message' => __('messages.seo_saved_successfully'),
             'data' => $seo,
         ];
     }
