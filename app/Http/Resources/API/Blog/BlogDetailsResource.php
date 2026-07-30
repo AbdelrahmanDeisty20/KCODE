@@ -32,7 +32,6 @@ class BlogDetailsResource extends JsonResource
             'seo' => new SeoResource($this->whenLoaded('seo')),
             'related_blogs' => BlogListResource::collection($this->whenLoaded('relatedBlogs')),
             'created_at' => $this->created_at?->toDateTimeString(),
-            'updated_at' => $this->updated_at?->toDateTimeString(),
         ];
     }
 }
