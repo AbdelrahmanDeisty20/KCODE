@@ -27,6 +27,7 @@ use App\Http\Controllers\API\Genral\OrderController;
 use App\Http\Controllers\API\Blog\BlogController;
 use App\Http\Controllers\API\Blog\BlogCategoryController;
 use App\Http\Controllers\API\Blog\BlogTagController;
+use App\Http\Middleware\CheckBlogAuthor;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -211,29 +212,32 @@ Route::middleware([SetLang::class])->group(function () {
             Route::delete('/orders/{id}', 'destroy');
         });
 
-        // Protected Blog Management Routes
-        Route::controller(BlogController::class)->group(function () {
-            Route::post('/blogs', 'store');
-            Route::post('/blogs/{id}/update', 'update');
-            Route::delete('/blogs/{id}', 'destroy');
-            Route::post('/blogs/{id}/publish', 'publish');
-            Route::post('/blogs/{id}/draft', 'draft');
-            Route::post('/blogs/{id}/upload-featured-image', 'uploadFeaturedImage');
-            Route::post('/blogs/{id}/seo', 'manageSeo');
-        });
+        // Protected Blog Management Routes (Requires user type = blog_authors)
+        Route::middleware([CheckBlogAuthor::class])->group(function () {
+            Route::controller(BlogController::class)->group(function () {
+                Route::post('/blogs', 'store');
+                Route::post('/blogs/{id}/update', 'update');
+                Route::put('/blogs/{id}', 'update');
+                Route::delete('/blogs/{id}', 'destroy');
+                Route::post('/blogs/{id}/publish', 'publish');
+                Route::post('/blogs/{id}/draft', 'draft');
+                Route::post('/blogs/{id}/upload-featured-image', 'uploadFeaturedImage');
+                Route::post('/blogs/{id}/seo', 'manageSeo');
+            });
 
-        Route::controller(BlogCategoryController::class)->group(function () {
-            Route::post('/blog-categories', 'store');
-            Route::post('/blog-categories/{id}/update', 'update');
-            Route::put('/blog-categories/{id}', 'update');
-            Route::delete('/blog-categories/{id}', 'destroy');
-        });
+            Route::controller(BlogCategoryController::class)->group(function () {
+                Route::post('/blog-categories', 'store');
+                Route::post('/blog-categories/{id}/update', 'update');
+                Route::put('/blog-categories/{id}', 'update');
+                Route::delete('/blog-categories/{id}', 'destroy');
+            });
 
-        Route::controller(BlogTagController::class)->group(function () {
-            Route::post('/blog-tags', 'store');
-            Route::post('/blog-tags/{id}/update', 'update');
-            Route::put('/blog-tags/{id}', 'update');
-            Route::delete('/blog-tags/{id}', 'destroy');
+            Route::controller(BlogTagController::class)->group(function () {
+                Route::post('/blog-tags', 'store');
+                Route::post('/blog-tags/{id}/update', 'update');
+                Route::put('/blog-tags/{id}', 'update');
+                Route::delete('/blog-tags/{id}', 'destroy');
+            });
         });
     });
     Route::controller(ReviewController::class)->group(function () {
