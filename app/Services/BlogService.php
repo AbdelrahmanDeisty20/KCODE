@@ -12,11 +12,10 @@ class BlogService
      */
     public function index()
     {
-        $perPage = request('per_page', 15);
         $blogs = Blog::published()
             ->with(['category', 'author', 'tags', 'seo'])
             ->latest('published_at')
-            ->paginate($perPage);
+            ->paginate(10);
 
         if ($blogs->isEmpty()) {
             return [
@@ -84,12 +83,11 @@ class BlogService
      */
     public function featured()
     {
-        $perPage = request('per_page', 15);
         $blogs = Blog::published()
             ->featured()
             ->with(['category', 'author', 'tags', 'seo'])
             ->latest('published_at')
-            ->paginate($perPage);
+            ->paginate(10);
 
         if ($blogs->isEmpty()) {
             return [
@@ -111,11 +109,10 @@ class BlogService
      */
     public function popular()
     {
-        $perPage = request('per_page', 15);
         $blogs = Blog::published()
             ->popular()
             ->with(['category', 'author', 'tags', 'seo'])
-            ->paginate($perPage);
+            ->paginate(10);
 
         if ($blogs->isEmpty()) {
             return [
@@ -137,7 +134,6 @@ class BlogService
      */
     public function search(array $filters = [])
     {
-        $perPage = $filters['per_page'] ?? request('per_page', 15);
         $query = Blog::published()->with(['category', 'author', 'tags', 'seo']);
 
         if (!empty($filters['keyword'])) {
@@ -178,7 +174,7 @@ class BlogService
             $query->whereDate('published_at', $filters['date']);
         }
 
-        $blogs = $query->latest('published_at')->paginate($perPage);
+        $blogs = $query->latest('published_at')->paginate(10);
 
         if ($blogs->isEmpty()) {
             return [
