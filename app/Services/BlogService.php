@@ -226,14 +226,24 @@ class BlogService
             $blog->tags()->sync($data['tags']);
         }
 
-        // Create SEO if provided
-        if (!empty($data['seo'])) {
-            $seoData = $data['seo'];
-            if (isset($seoData['og_image']) && is_object($seoData['og_image']) && method_exists($seoData['og_image'], 'store')) {
-                $seoData['og_image'] = $seoData['og_image']->store('blogs/seo', 'public');
-            }
-            $blog->seo()->create($seoData);
+        // Create SEO record (if provided, use custom; if omitted, generate smart fallbacks)
+        $seoData = $data['seo'] ?? [];
+        if (isset($seoData['og_image']) && is_object($seoData['og_image']) && method_exists($seoData['og_image'], 'store')) {
+            $seoData['og_image'] = $seoData['og_image']->store('blogs/seo', 'public');
+        } else {
+            $seoData['og_image'] = $seoData['og_image'] ?? $blog->featured_image;
         }
+
+        $seoData['meta_title_ar'] = $seoData['meta_title_ar'] ?? $blog->title_ar;
+        $seoData['meta_title_en'] = $seoData['meta_title_en'] ?? $blog->title_en;
+        $seoData['meta_description_ar'] = $seoData['meta_description_ar'] ?? $blog->excerpt_ar ?? Str::limit(strip_tags($blog->content_ar), 160);
+        $seoData['meta_description_en'] = $seoData['meta_description_en'] ?? $blog->excerpt_en ?? Str::limit(strip_tags($blog->content_en), 160);
+        $seoData['og_title_ar'] = $seoData['og_title_ar'] ?? $blog->title_ar;
+        $seoData['og_title_en'] = $seoData['og_title_en'] ?? $blog->title_en;
+        $seoData['og_description_ar'] = $seoData['og_description_ar'] ?? $blog->excerpt_ar ?? Str::limit(strip_tags($blog->content_ar), 160);
+        $seoData['og_description_en'] = $seoData['og_description_en'] ?? $blog->excerpt_en ?? Str::limit(strip_tags($blog->content_en), 160);
+
+        $blog->seo()->create($seoData);
 
         return [
             'status' => true,

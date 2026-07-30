@@ -11,7 +11,8 @@ class ManageSeoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $user = $this->user();
+        return $user && in_array($user->type, ['blog_authors', 'blog_aouhtros', 'admin', 'super_admin']);
     }
 
     /**
@@ -22,10 +23,10 @@ class ManageSeoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'meta_title_ar' => 'nullable|string|max:255',
-            'meta_title_en' => 'nullable|string|max:255',
-            'meta_description_ar' => 'nullable|string',
-            'meta_description_en' => 'nullable|string',
+            'meta_title_ar' => 'required|string|max:255',
+            'meta_title_en' => 'required|string|max:255',
+            'meta_description_ar' => 'required|string',
+            'meta_description_en' => 'required|string',
             'meta_keywords_ar' => 'nullable|string',
             'meta_keywords_en' => 'nullable|string',
             'canonical_url' => 'nullable|url|max:255',

@@ -27,8 +27,8 @@ class UpdateBlogCategoryRequest extends FormRequest
         }
 
         return [
-            'name_ar' => 'sometimes|required|string|max:255',
-            'name_en' => 'sometimes|required|string|max:255',
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:blog_categories,slug,' . $categoryId,
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
         ];

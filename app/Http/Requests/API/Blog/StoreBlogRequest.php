@@ -37,12 +37,12 @@ class StoreBlogRequest extends FormRequest
             'is_featured' => 'nullable|boolean',
             'published_at' => 'nullable|date',
 
-            // SEO fields
-            'seo' => 'nullable|array',
-            'seo.meta_title_ar' => 'nullable|string|max:255',
-            'seo.meta_title_en' => 'nullable|string|max:255',
-            'seo.meta_description_ar' => 'nullable|string',
-            'seo.meta_description_en' => 'nullable|string',
+            // SEO fields (Required)
+            'seo' => 'required|array',
+            'seo.meta_title_ar' => 'required|string|max:255',
+            'seo.meta_title_en' => 'required|string|max:255',
+            'seo.meta_description_ar' => 'required|string',
+            'seo.meta_description_en' => 'required|string',
             'seo.meta_keywords_ar' => 'nullable|string',
             'seo.meta_keywords_en' => 'nullable|string',
             'seo.canonical_url' => 'nullable|url|max:255',
