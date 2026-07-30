@@ -76,7 +76,7 @@ class OrderService
                 ];
             }
 
-            $allowedStatuses = ['pending', 'delivered'];
+            $allowedStatuses = ['pending', 'delivered','cancelled'];
             $currentStatus = strtolower($order->order_status);
 
             if (!in_array($currentStatus, $allowedStatuses)) {
