@@ -24,6 +24,9 @@ use App\Http\Controllers\API\Genral\LocationController;
 use App\Http\Controllers\API\Genral\AddressController;
 use App\Http\Controllers\API\Genral\CheckoutController;
 use App\Http\Controllers\API\Genral\OrderController;
+use App\Http\Controllers\API\Blog\BlogController;
+use App\Http\Controllers\API\Blog\BlogCategoryController;
+use App\Http\Controllers\API\Blog\BlogTagController;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -207,8 +210,60 @@ Route::middleware([SetLang::class])->group(function () {
             Route::get('/orders/{id}', 'show');
             Route::delete('/orders/{id}', 'destroy');
         });
+
+        // Protected Blog Management Routes
+        Route::controller(BlogController::class)->group(function () {
+            Route::post('/blogs', 'store');
+            Route::post('/blogs/{id}/update', 'update');
+            Route::delete('/blogs/{id}', 'destroy');
+            Route::post('/blogs/{id}/publish', 'publish');
+            Route::post('/blogs/{id}/draft', 'draft');
+            Route::post('/blogs/{id}/upload-featured-image', 'uploadFeaturedImage');
+            Route::post('/blogs/{id}/seo', 'manageSeo');
+        });
+
+        Route::controller(BlogCategoryController::class)->group(function () {
+            Route::post('/blog-categories', 'store');
+            Route::post('/blog-categories/{id}/update', 'update');
+            Route::put('/blog-categories/{id}', 'update');
+            Route::delete('/blog-categories/{id}', 'destroy');
+        });
+
+        Route::controller(BlogTagController::class)->group(function () {
+            Route::post('/blog-tags', 'store');
+            Route::post('/blog-tags/{id}/update', 'update');
+            Route::put('/blog-tags/{id}', 'update');
+            Route::delete('/blog-tags/{id}', 'destroy');
+        });
     });
     Route::controller(ReviewController::class)->group(function () {
         Route::get('/reviews/general', 'genralReview');
+    });
+
+    // Blog Routes
+    Route::controller(BlogController::class)->group(function () {
+        Route::get('/blogs', 'index');
+        Route::get('/blogs/featured', 'featured');
+        Route::get('/blogs/popular', 'popular');
+        Route::get('/blogs/search', 'search');
+        Route::get('/blogs/{slug}', 'show');
+    });
+
+    Route::controller(BlogCategoryController::class)->group(function () {
+        Route::get('/blog-categories', 'index');
+        Route::get('/blog-categories/{slug}/blogs', 'blogs');
+    });
+
+    Route::controller(BlogTagController::class)->group(function () {
+        Route::get('/blog-tags', 'index');
+        Route::get('/blog-tags/{slug}/blogs', 'blogs');
+    });
+
+    // Sitemap & Robots.txt Routes
+    Route::get('/sitemap.xml', function (\App\Services\SitemapService $sitemapService) {
+        return $sitemapService->generateSitemap();
+    });
+    Route::get('/robots.txt', function (\App\Services\SitemapService $sitemapService) {
+        return $sitemapService->generateRobots();
     });
 });
