@@ -244,8 +244,8 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/reviews/general', 'genralReview');
     });
 
-    // Blog Routes
-    Route::controller(BlogController::class)->middleware(CheckBlogAuthor::class)->group(function () {
+    // Public Blog Routes
+    Route::controller(BlogController::class)->group(function () {
         Route::get('/blogs', 'index');
         Route::get('/blogs/featured', 'featured');
         Route::get('/blogs/popular', 'popular');
