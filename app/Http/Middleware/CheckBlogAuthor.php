@@ -17,7 +17,7 @@ class CheckBlogAuthor
     {
         $user = $request->user();
 
-        if (!$user || !in_array($user->type, ['blog_authors', 'blog_author', 'admin', 'super_admin'])) {
+        if ($user->type !== 'blog_author') {
             return response()->json([
                 'status' => false,
                 'message' => __('messages.unauthorized_blog_author'),
