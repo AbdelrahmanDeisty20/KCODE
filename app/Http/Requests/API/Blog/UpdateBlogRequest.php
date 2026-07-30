@@ -30,8 +30,8 @@ class UpdateBlogRequest extends FormRequest
             'title_ar' => 'required|string|max:255',
             'title_en' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:blogs,slug,' . $blogId,
-            'excerpt_ar' => 'nullable|string',
-            'excerpt_en' => 'nullable|string',
+            'excerpt_ar' => 'required|string',
+            'excerpt_en' => 'required|string',
             'content_ar' => 'required|string',
             'content_en' => 'required|string',
             'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
@@ -42,20 +42,49 @@ class UpdateBlogRequest extends FormRequest
             'is_featured' => 'nullable|boolean',
             'published_at' => 'nullable|date',
 
-            // SEO fields (Optional object; required fields inside if seo is sent)
-            'seo' => 'nullable|array',
-            'seo.meta_title_ar' => 'required_with:seo|string|max:255',
-            'seo.meta_title_en' => 'required_with:seo|string|max:255',
-            'seo.meta_description_ar' => 'required_with:seo|string',
-            'seo.meta_description_en' => 'required_with:seo|string',
-            'seo.meta_keywords_ar' => 'nullable|string',
-            'seo.meta_keywords_en' => 'nullable|string',
+            // SEO Object (All Required)
+            'seo' => 'required|array',
+            'seo.meta_title_ar' => 'required|string|max:255',
+            'seo.meta_title_en' => 'required|string|max:255',
+            'seo.meta_description_ar' => 'required|string',
+            'seo.meta_description_en' => 'required|string',
+            'seo.meta_keywords_ar' => 'required|string',
+            'seo.meta_keywords_en' => 'required|string',
             'seo.canonical_url' => 'nullable|url|max:255',
-            'seo.og_title_ar' => 'nullable|string|max:255',
-            'seo.og_title_en' => 'nullable|string|max:255',
-            'seo.og_description_ar' => 'nullable|string',
-            'seo.og_description_en' => 'nullable|string',
+            'seo.og_title_ar' => 'required|string|max:255',
+            'seo.og_title_en' => 'required|string|max:255',
+            'seo.og_description_ar' => 'required|string',
+            'seo.og_description_en' => 'required|string',
             'seo.og_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+        ];
+    }
+
+    /**
+     * Get custom attribute names for localized validation errors.
+     */
+    public function attributes(): array
+    {
+        return [
+            'title_ar' => __('messages.title_ar'),
+            'title_en' => __('messages.title_en'),
+            'excerpt_ar' => __('messages.excerpt_ar'),
+            'excerpt_en' => __('messages.excerpt_en'),
+            'content_ar' => __('messages.content_ar'),
+            'content_en' => __('messages.content_en'),
+            'featured_image' => __('messages.featured_image'),
+            'category_id' => __('messages.category_id'),
+            'seo' => 'SEO',
+            'seo.meta_title_ar' => __('messages.meta_title_ar'),
+            'seo.meta_title_en' => __('messages.meta_title_en'),
+            'seo.meta_description_ar' => __('messages.meta_description_ar'),
+            'seo.meta_description_en' => __('messages.meta_description_en'),
+            'seo.meta_keywords_ar' => __('messages.meta_keywords_ar'),
+            'seo.meta_keywords_en' => __('messages.meta_keywords_en'),
+            'seo.canonical_url' => __('messages.canonical_url'),
+            'seo.og_title_ar' => __('messages.og_title_ar'),
+            'seo.og_title_en' => __('messages.og_title_en'),
+            'seo.og_description_ar' => __('messages.og_description_ar'),
+            'seo.og_description_en' => __('messages.og_description_en'),
         ];
     }
 }
