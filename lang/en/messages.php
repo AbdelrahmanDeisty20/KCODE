@@ -47,6 +47,7 @@ return [
     'content_en' => 'English Content',
     'featured_image' => 'Featured Image',
     'category_id' => 'Category',
+    'tags' => 'Tags',
     'name_ar' => 'Arabic Name',
     'name_en' => 'English Name',
     'meta_title_ar' => 'Arabic Meta Title',

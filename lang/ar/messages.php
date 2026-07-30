@@ -47,6 +47,7 @@ return [
     'content_en' => 'المحتوى بالإنجليزية',
     'featured_image' => 'الصورة الرئيسية',
     'category_id' => 'القسم',
+    'tags' => 'الوسوم',
     'name_ar' => 'الاسم بالعربية',
     'name_en' => 'الاسم بالإنجليزية',
     'meta_title_ar' => 'عنوان SEO بالعربية',
