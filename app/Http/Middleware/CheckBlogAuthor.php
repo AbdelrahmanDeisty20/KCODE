@@ -2,15 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Traits\ApiResponse;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckBlogAuthor
 {
-    use ApiResponse;
-
     /**
      * Handle an incoming request.
      *
@@ -23,7 +20,7 @@ class CheckBlogAuthor
         if (!$user || !in_array($user->type, ['blog_authors', 'blog_aouhtros', 'admin', 'super_admin'])) {
             return response()->json([
                 'status' => false,
-                'message' => 'Unauthorized: User must have type blog_authors to perform blog operations.',
+                'message' => __('messages.unauthorized_blog_author'),
             ], 403);
         }
 

@@ -3,6 +3,7 @@ return [
     'loginSuccessFully' => 'Account logged in successfully',
     'accountCreatedSuccessfully' => 'Account created successfully, check your email for verification code',
     'userNotActive' => 'Your account is not active, please verify your email',
+    'unauthorized_blog_author' => 'Unauthorized: User must have type blog_authors to perform blog operations.',
     'otp_subject' => 'Your Verification Code',
     'otp_title' => 'Your Verification Code',
     'otp_body' => 'Welcome :name to KCODE, curated Korean skincare. Please use the verification code below to complete your login or registration process:',
