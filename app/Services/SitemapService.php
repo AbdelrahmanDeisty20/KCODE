@@ -84,4 +84,16 @@ class SitemapService
             'Content-Type' => 'text/plain',
         ]);
     }
+
+    /**
+     * Save sitemap.xml and robots.txt into public directory.
+     */
+    public function saveToPublic(): void
+    {
+        $sitemapContent = $this->generateSitemap()->getContent();
+        file_put_contents(public_path('sitemap.xml'), $sitemapContent);
+
+        $robotsContent = $this->generateRobots()->getContent();
+        file_put_contents(public_path('robots.txt'), $robotsContent);
+    }
 }

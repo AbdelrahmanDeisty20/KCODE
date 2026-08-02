@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 class BlogService
 {
+    public function __construct(protected SitemapService $sitemapService) {}
+
     /**
      * Get paginated list of published blogs.
      */
@@ -256,6 +258,8 @@ class BlogService
 
         $blog->seo()->create($seoData);
 
+        $this->sitemapService->saveToPublic();
+
         return [
             'status' => true,
             'message' => __('messages.blog_created_successfully'),
@@ -319,6 +323,8 @@ class BlogService
             $blog->seo()->updateOrCreate([], $seoData);
         }
 
+        $this->sitemapService->saveToPublic();
+
         return [
             'status' => true,
             'message' => __('messages.blog_updated_successfully'),
@@ -342,6 +348,8 @@ class BlogService
         }
 
         $blog->delete();
+
+        $this->sitemapService->saveToPublic();
 
         return [
             'status' => true,
@@ -370,6 +378,8 @@ class BlogService
             'published_at' => $blog->published_at ?? now(),
         ]);
 
+        $this->sitemapService->saveToPublic();
+
         return [
             'status' => true,
             'message' => __('messages.blog_published_successfully'),
@@ -393,6 +403,8 @@ class BlogService
         }
 
         $blog->update(['status' => 'draft']);
+
+        $this->sitemapService->saveToPublic();
 
         return [
             'status' => true,
