@@ -15,7 +15,10 @@ class SitemapService
     {
         $blogs = Blog::published()->select(['slug', 'updated_at', 'created_at'])->latest('updated_at')->get();
         $categories = BlogCategory::select(['slug', 'updated_at', 'created_at'])->latest('updated_at')->get();
-        $baseUrl = url('/');
+        $baseUrl = rtrim(config('app.url', url('/')), '/');
+        if (empty($baseUrl) || $baseUrl === 'http://localhost') {
+            $baseUrl = rtrim(url('/'), '/');
+        }
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
         $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . PHP_EOL;
@@ -71,7 +74,10 @@ class SitemapService
      */
     public function generateRobots()
     {
-        $baseUrl = url('/');
+        $baseUrl = rtrim(config('app.url', url('/')), '/');
+        if (empty($baseUrl) || $baseUrl === 'http://localhost') {
+            $baseUrl = rtrim(url('/'), '/');
+        }
 
         $content = "User-agent: *" . PHP_EOL;
         $content .= "Allow: /" . PHP_EOL;
