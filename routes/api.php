@@ -234,7 +234,6 @@ Route::middleware([SetLang::class])->group(function () {
             Route::controller(BlogTagController::class)->group(function () {
                 Route::post('/blog-tags', 'store');
                 Route::post('/blog-tags/{id}/update', 'update');
-                Route::put('/blog-tags/{id}', 'update');
                 Route::delete('/blog-tags/{id}', 'destroy');
             });
         });
