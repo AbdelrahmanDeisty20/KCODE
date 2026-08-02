@@ -49,6 +49,71 @@ class SettingSeeder extends Seeder
                 'value_ar' => 'KCODE10',
                 'value_en' => 'KCODE10',
             ],
+
+            // KCODE Philosophy / فلسفتنا
+            [
+                'key_ar' => 'شارة فلسفتنا',
+                'key_en' => 'philosophy_badge',
+                'value_ar' => 'فلسفتنا',
+                'value_en' => 'Our Philosophy',
+            ],
+            [
+                'key_ar' => 'عنوان فلسفتنا',
+                'key_en' => 'philosophy_title',
+                'value_ar' => 'كل اختيار له سبب',
+                'value_en' => 'Every Choice Has a Reason',
+            ],
+            [
+                'key_ar' => 'الوصف الفرعي لفلسفتنا',
+                'key_en' => 'philosophy_subtitle',
+                'value_ar' => 'في كود، لا نتبع الترندات العابرة أو العلامات التجارية الشهيرة لمجرد شهرتها. نحن نحلل التركيبة العلمية لكل منتج قبل ترشيحه لك.',
+                'value_en' => 'At KCODE, we do not follow passing trends or famous brands just for their popularity. We analyze the scientific formulation of every product before recommending it to you.',
+            ],
+            [
+                'key_ar' => 'مقولة فلسفتنا',
+                'key_en' => 'philosophy_quote',
+                'value_ar' => 'العناية بالبشرة ليست عشوائية، بل هي كود علمي متناغم يستحق الفهم والدقة.',
+                'value_en' => 'Skincare is not random; it is a harmonious scientific code that deserves understanding and precision.',
+            ],
+            // Feature 1
+            [
+                'key_ar' => 'عنوان الفاعلية المثبتة',
+                'key_en' => 'philosophy_feature_1_title',
+                'value_ar' => 'الفاعلية المثبتة',
+                'value_en' => 'Proven Efficacy',
+            ],
+            [
+                'key_ar' => 'وصف الفاعلية المثبتة',
+                'key_en' => 'philosophy_feature_1_desc',
+                'value_ar' => 'نختار فقط المنتجات التي تحتوي على نسب مدروسة ومثبتة علمياً من المكونات النشطة والفعالة لبشرتك.',
+                'value_en' => 'We select only products that contain scientifically proven and studied percentages of active ingredients for your skin.',
+            ],
+            // Feature 2
+            [
+                'key_ar' => 'عنوان سلامة التركيبة',
+                'key_en' => 'philosophy_feature_2_title',
+                'value_ar' => 'سلامة التركيبة',
+                'value_en' => 'Formulation Safety',
+            ],
+            [
+                'key_ar' => 'وصف سلامة التركيبة',
+                'key_en' => 'philosophy_feature_2_desc',
+                'value_ar' => 'نستبعد تماماً أي منتجات تحتوي على مكونات ضارة أو مهيجة قد تضر بحاجز البشرة الطبيعي.',
+                'value_en' => 'We completely exclude any products containing harmful or irritating ingredients that may damage your natural skin barrier.',
+            ],
+            // Feature 3
+            [
+                'key_ar' => 'عنوان ملائمة الاحتياج',
+                'key_en' => 'philosophy_feature_3_title',
+                'value_ar' => 'ملائمة الاحتياج',
+                'value_en' => 'Suitability to Need',
+            ],
+            [
+                'key_ar' => 'وصف ملائمة الاحتياج',
+                'key_en' => 'philosophy_feature_3_desc',
+                'value_ar' => 'كل منتج يوضع في متجرنا يتم اختياره ليحل مشكلة حقيقية ومحددة لبشرتك بناءً على تركيبته.',
+                'value_en' => 'Every product placed in our store is chosen to solve a real and specific skin problem based on its formulation.',
+            ],
         ];
 
         foreach ($settings as $setting) {

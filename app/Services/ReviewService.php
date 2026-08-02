@@ -56,6 +56,15 @@ class ReviewService
                 'comment' => $data['comment'] ?? null,
             ]);
 
+            (new LoyaltyService())->addPoints(
+                $userId,
+                25,
+                'review',
+                $review->id,
+                'نقاط كسب من كتابة تقييم',
+                'Points earned for writing a review'
+            );
+
             return [
                 'status' => true,
                 'message' => __('messages.reviewCreatedSuccessfully'),
@@ -205,6 +214,15 @@ class ReviewService
                 'rating' => $data['rating'],
                 'comment' => $data['comment'] ?? null,
             ]);
+
+            (new LoyaltyService())->addPoints(
+                $userId,
+                25,
+                'review',
+                $review->id,
+                'نقاط كسب من كتابة تقييم للموقع',
+                'Points earned for writing a website review'
+            );
 
             return [
                 'status' => true,

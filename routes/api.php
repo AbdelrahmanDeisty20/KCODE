@@ -24,6 +24,7 @@ use App\Http\Controllers\API\Genral\LocationController;
 use App\Http\Controllers\API\Genral\AddressController;
 use App\Http\Controllers\API\Genral\CheckoutController;
 use App\Http\Controllers\API\Genral\OrderController;
+use App\Http\Controllers\API\Genral\SettingController;
 use App\Http\Controllers\API\Blog\BlogController;
 use App\Http\Controllers\API\Blog\BlogCategoryController;
 use App\Http\Controllers\API\Blog\BlogTagController;
@@ -146,6 +147,12 @@ Route::middleware([SetLang::class])->group(function () {
     Route::controller(PageController::class)->group(function () {
         Route::get('/pages/about', 'getAboutUs');
         Route::get('/pages/{type}', 'getPageByType');
+    });
+
+    // Setting & Philosophy Routes
+    Route::controller(SettingController::class)->group(function () {
+        Route::get('/settings/philosophy', 'getPhilosophy');
+        Route::get('/settings', 'index');
     });
 
     // Coupon & Announcement Banner Routes

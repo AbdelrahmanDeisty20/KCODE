@@ -251,6 +251,19 @@ class CheckoutService
                     $coupon->increment('used_count');
                 }
 
+                // 10b. Award Loyalty Points if logged in
+                if ($userId && $finalTotal > 0) {
+                    $earnedPoints = (int) max(1, floor($finalTotal * 10));
+                    (new LoyaltyService())->addPoints(
+                        $userId,
+                        $earnedPoints,
+                        'order',
+                        $order->id,
+                        "كسب نقاط من الطلب رقم {$order->order_number}",
+                        "Earned points from order {$order->order_number}"
+                    );
+                }
+
                 // 11. Clear cart
                 CartItem::where('cart_id', $cart->id)->delete();
 

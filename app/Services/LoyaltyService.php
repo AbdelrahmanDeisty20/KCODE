@@ -43,4 +43,29 @@ class LoyaltyService
             'data'    => $levels,
         ];
     }
+
+    /**
+     * Add loyalty points for a user and record in ledger.
+     */
+    public function addPoints(
+        int $userId,
+        int $points,
+        string $sourceType,
+        ?int $sourceId = null,
+        ?string $descriptionAr = null,
+        ?string $descriptionEn = null
+    ): ?\App\Models\LoyaltyPointsLedger {
+        if ($points <= 0) {
+            return null;
+        }
+
+        return \App\Models\LoyaltyPointsLedger::create([
+            'user_id'        => $userId,
+            'points'         => $points,
+            'source_type'    => $sourceType,
+            'source_id'      => $sourceId,
+            'description_ar' => $descriptionAr ?? "كسب نقاط من {$sourceType}",
+            'description_en' => $descriptionEn ?? "Earned points from {$sourceType}",
+        ]);
+    }
 }

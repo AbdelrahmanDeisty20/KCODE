@@ -118,12 +118,24 @@ class AuthService
             ], 400);
         }
 
-        // 5. تفعيل حساب المستخدم
+        // 5. تفعيل حساب المستخدم وإضافة النقاط الترحيبية
         $user = User::where('email', $otp->email)->first();
         if ($user) {
+            $isFirstActivation = is_null($user->email_verified_at);
             $user->email_verified_at = now();
             $user->status = 'active';
             $user->save();
+
+            if ($isFirstActivation) {
+                (new LoyaltyService())->addPoints(
+                    $user->id,
+                    100,
+                    'registration',
+                    $user->id,
+                    'نقاط ترحيبية لإنشاء حساب جديد',
+                    'Welcome points for creating a new account'
+                );
+            }
         }
 
         return response()->json([
