@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://kcodeskin.com/sitemap.xml
+Sitemap: https://kcodeskin.com/api/sitemap.xml
