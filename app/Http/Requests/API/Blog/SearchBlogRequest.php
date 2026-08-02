@@ -24,7 +24,6 @@ class SearchBlogRequest extends FormRequest
             'category' => ['nullable', 'string', 'max:255'],
             'tag' => ['nullable', 'string', 'max:255'],
             'date' => ['nullable', 'date'],
-            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
         ];
     }
 }
