@@ -13,8 +13,8 @@ class SitemapService
      */
     public function generateSitemap()
     {
-        $blogs = Blog::published()->select(['slug', 'updated_at'])->latest('updated_at')->get();
-        $categories = BlogCategory::select(['slug', 'updated_at'])->latest('updated_at')->get();
+        $blogs = Blog::published()->select(['slug', 'updated_at', 'created_at'])->latest('updated_at')->get();
+        $categories = BlogCategory::select(['slug', 'updated_at', 'created_at'])->latest('updated_at')->get();
         $baseUrl = url('/');
 
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
@@ -29,9 +29,15 @@ class SitemapService
 
         // Blogs
         foreach ($blogs as $blog) {
+            if (empty($blog->slug)) {
+                continue;
+            }
+            $date = $blog->updated_at ?? $blog->created_at ?? now();
+            $lastMod = is_string($date) ? date('c', strtotime($date)) : $date->toAtomString();
+
             $xml .= '  <url>' . PHP_EOL;
             $xml .= '    <loc>' . htmlspecialchars($baseUrl . '/blogs/' . $blog->slug) . '</loc>' . PHP_EOL;
-            $xml .= '    <lastmod>' . $blog->updated_at->toAtomString() . '</lastmod>' . PHP_EOL;
+            $xml .= '    <lastmod>' . $lastMod . '</lastmod>' . PHP_EOL;
             $xml .= '    <changefreq>weekly</changefreq>' . PHP_EOL;
             $xml .= '    <priority>0.8</priority>' . PHP_EOL;
             $xml .= '  </url>' . PHP_EOL;
@@ -39,9 +45,15 @@ class SitemapService
 
         // Categories
         foreach ($categories as $category) {
+            if (empty($category->slug)) {
+                continue;
+            }
+            $date = $category->updated_at ?? $category->created_at ?? now();
+            $lastMod = is_string($date) ? date('c', strtotime($date)) : $date->toAtomString();
+
             $xml .= '  <url>' . PHP_EOL;
             $xml .= '    <loc>' . htmlspecialchars($baseUrl . '/blog-categories/' . $category->slug) . '</loc>' . PHP_EOL;
-            $xml .= '    <lastmod>' . $category->updated_at->toAtomString() . '</lastmod>' . PHP_EOL;
+            $xml .= '    <lastmod>' . $lastMod . '</lastmod>' . PHP_EOL;
             $xml .= '    <changefreq>monthly</changefreq>' . PHP_EOL;
             $xml .= '    <priority>0.6</priority>' . PHP_EOL;
             $xml .= '  </url>' . PHP_EOL;

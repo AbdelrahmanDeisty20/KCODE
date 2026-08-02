@@ -27,8 +27,8 @@ class UpdateBlogTagRequest extends FormRequest
         }
 
         return [
-            'name_ar' => 'required|string|max:255',
-            'name_en' => 'required|string|max:255',
+            'name_ar' => 'sometimes|nullable|string|max:255',
+            'name_en' => 'sometimes|nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:blog_tags,slug,' . $tagId,
         ];
     }

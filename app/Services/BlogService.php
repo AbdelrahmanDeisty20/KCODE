@@ -209,12 +209,18 @@ class BlogService
         $data['reading_time'] = $this->calculateReadingTime($contentForReading);
 
         // Handle featured image upload
-        if (isset($data['featured_image']) && is_object($data['featured_image']) && method_exists($data['featured_image'], 'store')) {
+        if (request()->hasFile('featured_image')) {
+            $data['featured_image'] = request()->file('featured_image')->store('blogs', 'public');
+        } elseif (isset($data['featured_image']) && is_object($data['featured_image']) && method_exists($data['featured_image'], 'store')) {
             $data['featured_image'] = $data['featured_image']->store('blogs', 'public');
+        } elseif (empty($data['featured_image'])) {
+            unset($data['featured_image']);
         }
 
         $data['author_id'] = $authorId;
         $data['status'] = $data['status'] ?? 'draft';
+        $data['views'] = 0;
+        $data['is_featured'] = !empty($data['is_featured']);
         if ($data['status'] === 'published' && empty($data['published_at'])) {
             $data['published_at'] = now();
         }
@@ -280,8 +286,12 @@ class BlogService
         }
 
         // Handle featured image upload
-        if (isset($data['featured_image']) && is_object($data['featured_image']) && method_exists($data['featured_image'], 'store')) {
+        if (request()->hasFile('featured_image')) {
+            $data['featured_image'] = request()->file('featured_image')->store('blogs', 'public');
+        } elseif (isset($data['featured_image']) && is_object($data['featured_image']) && method_exists($data['featured_image'], 'store')) {
             $data['featured_image'] = $data['featured_image']->store('blogs', 'public');
+        } elseif (empty($data['featured_image'])) {
+            unset($data['featured_image']);
         }
 
         if (isset($data['status']) && $data['status'] === 'published' && !$blog->published_at && empty($data['published_at'])) {

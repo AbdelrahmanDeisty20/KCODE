@@ -63,6 +63,7 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             CouponSeeder::class,
             BlogAuthorSeeder::class,
+            BlogSeeder::class,
             RolesAndPermissionsSeeder::class,
         ]);
 
