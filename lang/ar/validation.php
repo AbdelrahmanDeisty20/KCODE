@@ -12,6 +12,7 @@ return [
     'exists' => 'القيمة المحددة لـ :attribute غير موجودة',
     'user_not_found' => 'المستخدم غير موجود',
     'current_password' => 'كلمة المرور الحالية غير صحيحة',
+    'date' => 'يجب أن يكون :attribute تاريخ',
     'digits' => 'يجب أن يكون :attribute مكون من :digits أرقام',
     'same' => 'يجب أن يكون :attribute مطابق لـ :other',
     'string' => 'يجب أن يكون :attribute نص',

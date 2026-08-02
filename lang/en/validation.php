@@ -11,6 +11,7 @@ return [
     'password_uppercase' => 'The password must contain at least one uppercase letter',
     'exists' => 'The selected :attribute is invalid.',
     'user_not_found' => 'User not found',
+    'date'=> 'This field must be a date',
     'current_password' => 'The current password is incorrect.',
     'digits' => 'The :attribute must be a :digits digit number.',
     'same' => 'The :attribute and :other must match.',

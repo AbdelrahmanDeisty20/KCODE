@@ -20,10 +20,25 @@ class SearchBlogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'keyword' => ['nullable', 'string', 'max:255'],
+            'keyword' => ['required', 'string', 'max:255'],
             'category' => ['nullable', 'string', 'max:255'],
             'tag' => ['nullable', 'string', 'max:255'],
             'date' => ['nullable', 'date'],
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     */
+    public function messages(): array
+    {
+        return [
+            'keyword.required' => __('validation.required'),
+            'category.string' => __('validation.string'),
+            'category.max' => __('validation.max'),
+            'tag.string' => __('validation.string'),
+            'tag.max' => __('validation.max'),
+            'date.date' => __('validation.date'),
         ];
     }
 }
