@@ -144,7 +144,12 @@ class BlogService
                   ->orWhere('excerpt_ar', 'like', "%{$keyword}%")
                   ->orWhere('excerpt_en', 'like', "%{$keyword}%")
                   ->orWhere('content_ar', 'like', "%{$keyword}%")
-                  ->orWhere('content_en', 'like', "%{$keyword}%");
+                  ->orWhere('content_en', 'like', "%{$keyword}%")
+                  ->orWhereHas('category', function ($cq) use ($keyword) {
+                      $cq->where('name_ar', 'like', "%{$keyword}%")
+                         ->orWhere('name_en', 'like', "%{$keyword}%")
+                         ->orWhere('slug', 'like', "%{$keyword}%");
+                  });
             });
         }
 
