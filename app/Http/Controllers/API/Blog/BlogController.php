@@ -14,6 +14,7 @@ use App\Http\Resources\API\Blog\SeoResource;
 use App\Services\BlogService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
+use Request;
 
 class BlogController extends Controller
 {
