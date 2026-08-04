@@ -90,7 +90,7 @@ class BlogResource extends Resource
                                 'draft' => 'مسودة (Draft)',
                                 'published' => 'منشور (Published)',
                             ])
-                            ->default('draft')
+                            ->default('published')
                             ->required(),
 
                         Forms\Components\Toggle::make('is_featured')

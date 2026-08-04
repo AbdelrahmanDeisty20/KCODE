@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('featured_image')->nullable();
             $table->foreignId('category_id')->nullable()->constrained('blog_categories')->nullOnDelete();
             $table->foreignId('author_id')->constrained('users')->cascadeOnDelete();
-            $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->enum('status', ['draft', 'published'])->default('published');
             $table->boolean('is_featured')->default(false);
             $table->unsignedInteger('reading_time')->default(0);
             $table->unsignedBigInteger('views')->default(0);

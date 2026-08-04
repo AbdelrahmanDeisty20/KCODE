@@ -256,7 +256,7 @@ class BlogService
         }
 
         $data['author_id'] = $authorId;
-        $data['status'] = $data['status'] ?? 'draft';
+        $data['status'] = $data['status'] ?? 'published';
         $data['views'] = 0;
         $data['is_featured'] = !empty($data['is_featured']);
         if ($data['status'] === 'published' && empty($data['published_at'])) {
