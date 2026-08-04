@@ -233,7 +233,7 @@ Route::middleware([SetLang::class])->group(function () {
 
             Route::controller(BlogCategoryController::class)->group(function () {
                 Route::post('/blog-categories', 'store');
-                Route::put('/blog-categories/{id}', 'update');
+                Route::post('/blog-categories/{id}/update', 'update');
                 Route::delete('/blog-categories/{id}', 'destroy');
             });
 
