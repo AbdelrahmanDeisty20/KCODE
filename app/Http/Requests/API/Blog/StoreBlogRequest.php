@@ -22,9 +22,9 @@ class StoreBlogRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name_ar' => 'nullable|string|max:255',
-            'name_en' => 'nullable|string|max:255',
-            'name' => 'nullable|string|max:255',
+            'name_ar' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'title_ar' => 'required|string|max:255',
             'title_en' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:blogs,slug',
@@ -63,6 +63,8 @@ class StoreBlogRequest extends FormRequest
     public function attributes(): array
     {
         return [
+            'name_ar' => __('messages.name_ar'),
+            'name_en' => __('messages.name_en'),
             'title_ar' => __('messages.title_ar'),
             'title_en' => __('messages.title_en'),
             'excerpt_ar' => __('messages.excerpt_ar'),
