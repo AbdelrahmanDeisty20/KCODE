@@ -54,10 +54,6 @@ class BlogResource extends Resource
                             ->label('اسم المقال (إنجليزي)')
                             ->maxLength(255),
 
-                        Forms\Components\TextInput::make('name')
-                            ->label('الاسم العام')
-                            ->maxLength(255),
-
                         Forms\Components\TextInput::make('title_ar')
                             ->label('عنوان المقال (عربي)')
                             ->required()
