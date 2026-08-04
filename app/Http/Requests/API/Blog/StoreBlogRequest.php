@@ -23,7 +23,7 @@ class StoreBlogRequest extends FormRequest
     {
         return [
             'name_ar' => 'required|string|max:255',
-            'name_en' => 'required|string|max:255',
+            'name_en' => 'nullable|string|max:255',
             'name' => 'nullable|string|max:255',
             'title_ar' => 'required|string|max:255',
             'title_en' => 'required|string|max:255',

@@ -199,6 +199,37 @@ class BlogService
     }
 
     /**
+     * Get paginated list of blogs for the authenticated author (includes drafts and published).
+     */
+    public function myBlogs(?int $authorId = null, array $filters = [])
+    {
+        $authorId = $authorId ?? auth()->id() ?? 1;
+
+        $query = Blog::where('author_id', $authorId)
+            ->with(['category', 'author', 'tags', 'seo']);
+
+        if (!empty($filters['status']) && in_array($filters['status'], ['draft', 'published'])) {
+            $query->where('status', $filters['status']);
+        }
+
+        $blogs = $query->latest('created_at')->paginate(10);
+
+        if ($blogs->isEmpty()) {
+            return [
+                'status' => false,
+                'message' => __('messages.no_blogs_found'),
+                'data' => $blogs,
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.blogs_retrieved_successfully'),
+            'data' => $blogs,
+        ];
+    }
+
+    /**
      * Store a new blog post.
      */
     public function store(array $data, ?int $authorId = null)

@@ -97,6 +97,21 @@ class BlogController extends Controller
     }
 
     /**
+     * Display blogs belonging to the authenticated author (drafts & published).
+     * GET /blogs/my-blogs
+     */
+    public function myBlogs(Request $request): JsonResponse
+    {
+        $result = $this->blogService->myBlogs(auth()->id(), $request->only(['status']));
+
+        if (!$result['status']) {
+            return $this->error($result['message']);
+        }
+
+        return $this->paginated(BlogListResource::class, $result['data'], $result['message']);
+    }
+
+    /**
      * Store a new blog post.
      * POST /blogs
      */

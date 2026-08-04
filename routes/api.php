@@ -222,6 +222,7 @@ Route::middleware([SetLang::class])->group(function () {
         // Protected Blog Management Routes (Requires user type = blog_authors)
         Route::middleware([CheckBlogAuthor::class])->group(function () {
             Route::controller(BlogController::class)->group(function () {
+                Route::get('/blogs/my-blogs', 'myBlogs');
                 Route::post('/blogs', 'store');
                 Route::post('/blogs/{id}/update', 'update');
                 Route::delete('/blogs/{id}', 'destroy');
