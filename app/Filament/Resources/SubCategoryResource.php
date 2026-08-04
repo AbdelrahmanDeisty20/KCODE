@@ -20,13 +20,25 @@ class SubCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static string|UnitEnum|null $navigationGroup = 'الكتالوج والمنتجات';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Products & Catalog' : 'الكتالوج والمنتجات';
+    }
 
-    protected static ?string $navigationLabel = 'الأقسام الفرعية';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Sub Categories' : 'الأقسام الفرعية';
+    }
 
-    protected static ?string $pluralModelLabel = 'الأقسام الفرعية';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Sub Categories' : 'الأقسام الفرعية';
+    }
 
-    protected static ?string $modelLabel = 'قسم فرعي';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Sub Category' : 'قسم فرعي';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -54,32 +66,31 @@ class SubCategoryResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('category.name_ar')
-                    ->label('القسم الرئيسي')
+                Tables\Columns\TextColumn::make('category')
+                    ->label($isEn ? 'Main Category' : 'القسم الرئيسي')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->category?->name_en ?: $record->category?->name_ar) : ($record->category?->name_ar ?: $record->category?->name_en))
                     ->sortable()
                     ->searchable(),
 
-                Tables\Columns\TextColumn::make('name_ar')
-                    ->label('الاسم (عربي)')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('name_en')
-                    ->label('الاسم (إنجليزي)')
+                Tables\Columns\TextColumn::make('name')
+                    ->label($isEn ? 'Sub Category Name' : 'اسم القسم الفرعي')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('تاريخ الإنشاء')
-                    ->dateTime('Y-m-d')
+                    ->label($isEn ? 'Created At' : 'تاريخ الإضافة')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('category_id')
-                    ->label('القسم الرئيسي')
-                    ->relationship('category', 'name_ar'),
+                    ->label($isEn ? 'Main Category' : 'القسم الرئيسي')
+                    ->relationship('category', $isEn ? 'name_en' : 'name_ar'),
             ])
             ->actions([
                 Actions\EditAction::make(),

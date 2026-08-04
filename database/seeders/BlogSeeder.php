@@ -89,6 +89,9 @@ class BlogSeeder extends Seeder
         // 4. Create Blogs with detailed content & SEO
         $blogsData = [
             [
+                'name_ar' => 'روتين البشرة الجافة في الشتاء',
+                'name_en' => 'Winter Dry Skin Care Routine',
+                'name' => 'روتين البشرة الجافة في الشتاء',
                 'title_ar' => 'أفضل 5 خطوات لروتين العناية بالبشرة الجافة في الشتاء',
                 'title_en' => 'Top 5 Steps for Dry Skin Care Routine in Winter',
                 'slug' => 'top-5-steps-for-dry-skin-care-routine-in-winter',
@@ -120,6 +123,9 @@ class BlogSeeder extends Seeder
                 ]
             ],
             [
+                'name_ar' => 'دليل سيروم فيتامين سي',
+                'name_en' => 'Vitamin C Serum Guide',
+                'name' => 'دليل سيروم فيتامين سي',
                 'title_ar' => 'فوائد سيروم فيتامين سي وكيفية استخدامه بالشكل الصحيح',
                 'title_en' => 'Benefits of Vitamin C Serum & How to Use it Correctly',
                 'slug' => 'benefits-of-vitamin-c-serum-and-how-to-use-it',
@@ -151,6 +157,9 @@ class BlogSeeder extends Seeder
                 ]
             ],
             [
+                'name_ar' => 'الروتين المسائي قبل النوم',
+                'name_en' => 'Night Skincare Routine Guide',
+                'name' => 'الروتين المسائي قبل النوم',
                 'title_ar' => 'دليلك الشامل لروتين العناية المسائي قبل النوم',
                 'title_en' => 'Your Ultimate Night Skincare Routine Guide',
                 'slug' => 'your-ultimate-night-skincare-routine-guide',
@@ -182,6 +191,9 @@ class BlogSeeder extends Seeder
                 ]
             ],
             [
+                'name_ar' => 'أخطاء واقي الشمس',
+                'name_en' => 'Sunscreen Mistakes',
+                'name' => 'أخطاء واقي الشمس',
                 'title_ar' => 'أخطاء شائعة عند استخدام واقي الشمس تسبب ظهور التصبغات',
                 'title_en' => 'Common Sunscreen Mistakes That Cause Pigmentation',
                 'slug' => 'common-sunscreen-mistakes-that-cause-pigmentation',

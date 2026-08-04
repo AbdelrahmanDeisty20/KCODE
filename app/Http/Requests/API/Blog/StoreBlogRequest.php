@@ -22,6 +22,9 @@ class StoreBlogRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name_ar' => 'nullable|string|max:255',
+            'name_en' => 'nullable|string|max:255',
+            'name' => 'nullable|string|max:255',
             'title_ar' => 'required|string|max:255',
             'title_en' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:blogs,slug',

@@ -20,13 +20,25 @@ class OrderResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-shopping-cart';
 
-    protected static string|UnitEnum|null $navigationGroup = 'الطلبات والمبيعات';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Sales & Orders' : 'إدارة المبيعات والطلبات';
+    }
 
-    protected static ?string $navigationLabel = 'الطلبات';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Orders' : 'الطلبات والمبيعات';
+    }
 
-    protected static ?string $pluralModelLabel = 'الطلبات';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Orders' : 'الطلبات';
+    }
 
-    protected static ?string $modelLabel = 'طلب';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Order' : 'طلب';
+    }
 
     public static function form(Schema $schema): Schema
     {

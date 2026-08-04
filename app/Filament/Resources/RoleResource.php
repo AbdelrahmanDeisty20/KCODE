@@ -20,13 +20,25 @@ class RoleResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-shield-check';
 
-    protected static string|UnitEnum|null $navigationGroup = 'إدارة المستخدمين والعملاء';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Users & Permissions' : 'إدارة المستخدمين والصلاحيات';
+    }
 
-    protected static ?string $navigationLabel = 'الأدوار والصلاحيات';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Roles & Permissions' : 'الأدوار والصلاحيات';
+    }
 
-    protected static ?string $pluralModelLabel = 'الأدوار والصلاحيات';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Roles & Permissions' : 'الأدوار والصلاحيات';
+    }
 
-    protected static ?string $modelLabel = 'دور / صلاحية';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Role' : 'دور / صلاحية';
+    }
 
     public static function form(Schema $schema): Schema
     {

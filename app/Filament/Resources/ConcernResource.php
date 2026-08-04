@@ -20,13 +20,25 @@ class ConcernResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-exclamation-triangle';
 
-    protected static string|UnitEnum|null $navigationGroup = 'محرك التقييم و Quiz البشرة';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';
+    }
 
-    protected static ?string $navigationLabel = 'مشاكل البشرة (Concerns)';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Skin Concerns' : 'مشاكل البشرة';
+    }
 
-    protected static ?string $pluralModelLabel = 'مشاكل البشرة';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Skin Concerns' : 'مشاكل البشرة';
+    }
 
-    protected static ?string $modelLabel = 'مشكلة بشرة';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Skin Concern' : 'مشكلة بشرة';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -67,29 +79,31 @@ class ConcernResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('الصورة'),
+                    ->label($isEn ? 'Image' : 'الصورة'),
 
                 Tables\Columns\TextColumn::make('name_ar')
-                    ->label('الاسم (عربي)')
+                    ->label($isEn ? 'Name (Arabic)' : 'الاسم (عربي)')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('name_en')
-                    ->label('الاسم (إنجليزي)')
+                    ->label($isEn ? 'Name (English)' : 'الاسم (إنجليزي)')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('status')
-                    ->label('الحالة')
+                    ->label($isEn ? 'Status' : 'الحالة')
                     ->badge()
                     ->colors([
                         'success' => 'active',
                         'danger' => 'inactive',
                     ])
-                    ->formatStateUsing(fn ($state) => $state === 'active' ? 'نشط' : 'غير نشط'),
+                    ->formatStateUsing(fn ($state) => $state === 'active' ? ($isEn ? 'Active' : 'نشط') : ($isEn ? 'Inactive' : 'غير نشط')),
             ])
             ->actions([
                 Actions\EditAction::make(),

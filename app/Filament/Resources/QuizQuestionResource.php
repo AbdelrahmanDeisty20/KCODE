@@ -20,13 +20,25 @@ class QuizQuestionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-question-mark-circle';
 
-    protected static string|UnitEnum|null $navigationGroup = 'محرك التقييم و Quiz البشرة';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';
+    }
 
-    protected static ?string $navigationLabel = 'أسئلة الاختبار (Quiz)';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Quiz Questions' : 'أسئلة الاختبار (Quiz)';
+    }
 
-    protected static ?string $pluralModelLabel = 'أسئلة الاختبار (Quiz)';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Quiz Questions' : 'أسئلة الاختبار (Quiz)';
+    }
 
-    protected static ?string $modelLabel = 'سؤال';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Quiz Question' : 'سؤال';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -97,26 +109,32 @@ class QuizQuestionResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('step_number')
-                    ->label('الترتيب')
+                    ->label($isEn ? 'Step / Order' : 'الترتيب')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('title_ar')
-                    ->label('السؤال (عربي)')
+                    ->label($isEn ? 'Question (Arabic)' : 'السؤال (عربي)')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('title_en')
+                    ->label($isEn ? 'Question (English)' : 'السؤال (إنجليزي)')
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('selection_type')
-                    ->label('نوع الاختيار')
-                    ->formatStateUsing(fn ($state) => $state === 'single' ? 'مفرد' : 'متعدد'),
+                    ->label($isEn ? 'Selection Type' : 'نوع الاختيار')
+                    ->formatStateUsing(fn ($state) => $state === 'single' ? ($isEn ? 'Single' : 'مفرد') : ($isEn ? 'Multiple' : 'متعدد')),
 
                 Tables\Columns\IconColumn::make('is_optional')
-                    ->label('اختياري')
+                    ->label($isEn ? 'Optional' : 'اختياري')
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('options_count')
-                    ->label('عدد الخيارات')
+                    ->label($isEn ? 'Options Count' : 'عدد الخيارات')
                     ->counts('options'),
             ])
             ->defaultSort('step_number', 'asc')

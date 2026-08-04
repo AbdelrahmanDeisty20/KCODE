@@ -20,13 +20,25 @@ class SkinTypeResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-face-smile';
 
-    protected static string|UnitEnum|null $navigationGroup = 'محرك التقييم و Quiz البشرة';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';
+    }
 
-    protected static ?string $navigationLabel = 'أنواع البشرة (Skin Types)';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Skin Types' : 'أنواع البشرة';
+    }
 
-    protected static ?string $pluralModelLabel = 'أنواع البشرة';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Skin Types' : 'أنواع البشرة';
+    }
 
-    protected static ?string $modelLabel = 'نوع بشرة';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Skin Type' : 'نوع بشرة';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -67,29 +79,27 @@ class SkinTypeResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('الصورة'),
+                    ->label($isEn ? 'Image' : 'الصورة'),
 
-                Tables\Columns\TextColumn::make('name_ar')
-                    ->label('الاسم (عربي)')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('name_en')
-                    ->label('الاسم (إنجليزي)')
+                Tables\Columns\TextColumn::make('name')
+                    ->label($isEn ? 'Skin Type Name' : 'اسم نوع البشرة')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('status')
-                    ->label('الحالة')
+                    ->label($isEn ? 'Status' : 'الحالة')
                     ->badge()
                     ->colors([
                         'success' => 'active',
                         'danger' => 'inactive',
                     ])
-                    ->formatStateUsing(fn ($state) => $state === 'active' ? 'نشط' : 'غير نشط'),
+                    ->formatStateUsing(fn ($state) => $state === 'active' ? ($isEn ? 'Active' : 'نشط') : ($isEn ? 'Inactive' : 'غير نشط')),
             ])
             ->actions([
                 Actions\EditAction::make(),

@@ -20,13 +20,25 @@ class OfferResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-sparkles';
 
-    protected static string|UnitEnum|null $navigationGroup = 'التسويق والعروض';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Products & Catalog' : 'الكتالوج والمنتجات';
+    }
 
-    protected static ?string $navigationLabel = 'عروض المنتجات';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Offers & Discounts' : 'عروض المنتجات';
+    }
 
-    protected static ?string $pluralModelLabel = 'عروض المنتجات';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Offers & Discounts' : 'عروض المنتجات';
+    }
 
-    protected static ?string $modelLabel = 'عرض';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Offer' : 'عرض';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -61,29 +73,32 @@ class OfferResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('product.name_ar')
-                    ->label('المنتج')
+                Tables\Columns\TextColumn::make('product')
+                    ->label($isEn ? 'Product' : 'المنتج')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->product?->name_en ?: $record->product?->name_ar) : ($record->product?->name_ar ?: $record->product?->name_en))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('discount_percentage')
-                    ->label('نسبة الخصم %')
+                    ->label($isEn ? 'Discount %' : 'نسبة الخصم %')
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('نشط')
+                    ->label($isEn ? 'Active' : 'نشط')
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('start_date')
-                    ->label('من')
-                    ->dateTime('Y-m-d H:i')
+                    ->label($isEn ? 'Start Date' : 'من')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('end_date')
-                    ->label('إلى')
-                    ->dateTime('Y-m-d H:i')
+                    ->label($isEn ? 'End Date' : 'إلى')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable(),
             ])
             ->actions([

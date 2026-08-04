@@ -13,24 +13,29 @@ class LatestOrdersWidget extends BaseWidget
 
     protected int | string | array $columnSpan = 'full';
 
-    protected static ?string $heading = 'أحدث الطلبات';
+    public static function getHeading(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Latest Orders' : 'أحدث الطلبات';
+    }
 
     public function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->query(
                 Order::query()->latest()->limit(5)
             )
             ->columns([
                 Tables\Columns\TextColumn::make('order_number')
-                    ->label('رقم الطلب'),
+                    ->label($isEn ? 'Order Number' : 'رقم الطلب'),
 
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('العميل')
-                    ->default(fn ($record) => $record->user_name ?? 'زائر'),
+                    ->label($isEn ? 'Customer' : 'العميل')
+                    ->default(fn ($record) => $record->user_name ?? ($isEn ? 'Guest' : 'زائر')),
 
                 Tables\Columns\BadgeColumn::make('order_status')
-                    ->label('حالة الطلب')
+                    ->label($isEn ? 'Order Status' : 'حالة الطلب')
                     ->colors([
                         'warning' => 'pending',
                         'info' => 'processing',
@@ -39,20 +44,20 @@ class LatestOrdersWidget extends BaseWidget
                         'danger' => 'cancelled',
                     ])
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'pending' => 'قيد الانتظار',
-                        'processing' => 'جاري التحضير',
-                        'shipped' => 'تم الشحن',
-                        'delivered' => 'تم التسليم',
-                        'cancelled' => 'ملغي',
+                        'pending' => $isEn ? 'Pending' : 'قيد الانتظار',
+                        'processing' => $isEn ? 'Processing' : 'جاري التحضير',
+                        'shipped' => $isEn ? 'Shipped' : 'تم الشحن',
+                        'delivered' => $isEn ? 'Delivered' : 'تم التسليم',
+                        'cancelled' => $isEn ? 'Cancelled' : 'ملغي',
                         default => $state,
                     }),
 
                 Tables\Columns\TextColumn::make('total')
-                    ->label('الإجمالي')
-                    ->money('EGP'),
+                    ->label($isEn ? 'Total' : 'الإجمالي')
+                    ->money('OMR'),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('التاريخ')
+                    ->label($isEn ? 'Date' : 'التاريخ')
                     ->dateTime('Y-m-d H:i'),
             ]);
     }

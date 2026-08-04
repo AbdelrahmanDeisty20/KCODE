@@ -20,13 +20,25 @@ class CouponResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-ticket';
 
-    protected static string|UnitEnum|null $navigationGroup = 'التسويق والعروض';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Sales & Orders' : 'إدارة المبيعات والطلبات';
+    }
 
-    protected static ?string $navigationLabel = 'كوبونات الخصم';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Discount Coupons' : 'كوبونات الخصم';
+    }
 
-    protected static ?string $pluralModelLabel = 'كوبونات الخصم';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Discount Coupons' : 'كوبونات الخصم';
+    }
 
-    protected static ?string $modelLabel = 'كوبون خصم';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Discount Coupon' : 'كوبون خصم';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -88,31 +100,33 @@ class CouponResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->label('الكود')
+                    ->label($isEn ? 'Code' : 'الكود')
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('discount_type')
-                    ->label('النوع')
-                    ->formatStateUsing(fn ($state) => $state === 'percentage' ? 'نسبة %' : 'مبلغ ثابت'),
+                    ->label($isEn ? 'Type' : 'النوع')
+                    ->formatStateUsing(fn ($state) => $state === 'percentage' ? ($isEn ? 'Percentage %' : 'نسبة %') : ($isEn ? 'Fixed Amount' : 'مبلغ ثابت')),
 
                 Tables\Columns\TextColumn::make('discount_value')
-                    ->label('القيمة')
+                    ->label($isEn ? 'Value' : 'القيمة')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('used_count')
-                    ->label('عدد مرات الاستخدام')
+                    ->label($isEn ? 'Times Used' : 'عدد مرات الاستخدام')
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('نشط')
+                    ->label($isEn ? 'Active' : 'تفعيل')
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('end_date')
-                    ->label('تاريخ الانتهاء')
+                    ->label($isEn ? 'End Date' : 'تاريخ الانتهاء')
                     ->dateTime('Y-m-d')
                     ->sortable(),
             ])

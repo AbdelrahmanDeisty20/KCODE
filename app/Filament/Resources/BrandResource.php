@@ -20,13 +20,25 @@ class BrandResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bookmark-square';
 
-    protected static string|UnitEnum|null $navigationGroup = 'الكتالوج والمنتجات';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Products & Catalog' : 'الكتالوج والمنتجات';
+    }
 
-    protected static ?string $navigationLabel = 'العلامات التجارية';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Brands' : 'العلامات التجارية';
+    }
 
-    protected static ?string $pluralModelLabel = 'العلامات التجارية';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Brands' : 'العلامات التجارية';
+    }
 
-    protected static ?string $modelLabel = 'علامة تجارية';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Brand' : 'علامة تجارية';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -52,24 +64,22 @@ class BrandResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('الشعار'),
+                    ->label($isEn ? 'Logo' : 'الشعار'),
 
-                Tables\Columns\TextColumn::make('name_ar')
-                    ->label('الاسم (عربي)')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('name_en')
-                    ->label('الاسم (إنجليزي)')
+                Tables\Columns\TextColumn::make('name')
+                    ->label($isEn ? 'Brand Name' : 'اسم العلامة التجارية')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('تاريخ الإنشاء')
-                    ->dateTime('Y-m-d')
+                    ->label($isEn ? 'Created At' : 'تاريخ الإضافة')
+                    ->dateTime('d/m/Y H:i')
                     ->sortable(),
             ])
             ->actions([

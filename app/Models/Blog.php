@@ -18,6 +18,9 @@ class Blog extends Model
     protected $table = 'blogs';
 
     protected $fillable = [
+        'name_ar',
+        'name_en',
+        'name',
         'title_ar',
         'title_en',
         'slug',
@@ -41,6 +44,21 @@ class Blog extends Model
         'views' => 'integer',
         'published_at' => 'datetime',
     ];
+
+    /**
+     * Accessor for locale-based name.
+     */
+    public function getNameAttribute(): ?string
+    {
+        $nameFromCol = $this->attributes['name'] ?? null;
+        if ($nameFromCol) {
+            return $nameFromCol;
+        }
+
+        return app()->getLocale() === 'ar' 
+            ? ($this->name_ar ?? $this->name_en ?? $this->title_ar ?? $this->title_en) 
+            : ($this->name_en ?? $this->name_ar ?? $this->title_en ?? $this->title_ar);
+    }
 
     /**
      * Accessor for locale-based title.

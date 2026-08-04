@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Models\Category;
+use App\Filament\Resources\BlogTagResource\Pages;
+use App\Models\BlogTag;
 use BackedEnum;
 use Filament\Actions;
 use Filament\Forms;
@@ -14,50 +14,52 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use UnitEnum;
 
-class CategoryResource extends Resource
+class BlogTagResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = BlogTag::class;
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-tag';
 
     public static function getNavigationGroup(): ?string
     {
-        return app()->getLocale() === 'en' ? 'Products & Catalog' : 'الكتالوج والمنتجات';
+        return __('admin.navigation.blog_group');
     }
 
     public static function getNavigationLabel(): string
     {
-        return app()->getLocale() === 'en' ? 'Main Categories' : 'الأقسام الرئيسية';
+        return __('admin.navigation.blog_tags');
     }
 
     public static function getPluralModelLabel(): string
     {
-        return app()->getLocale() === 'en' ? 'Main Categories' : 'الأقسام الرئيسية';
+        return __('admin.navigation.blog_tags');
     }
 
     public static function getModelLabel(): string
     {
-        return app()->getLocale() === 'en' ? 'Main Category' : 'قسم رئيسي';
+        return __('admin.navigation.blog_tags');
     }
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
-                Components\Section::make('بيانات القسم')
+                Components\Section::make('بيانات التاج')
                     ->schema([
                         Forms\Components\TextInput::make('name_ar')
-                            ->label('الاسم بالعربية')
-                            ->required(),
+                            ->label('اسم التاج (عربي)')
+                            ->required()
+                            ->maxLength(255),
 
                         Forms\Components\TextInput::make('name_en')
-                            ->label('الاسم بالإنجليزية')
-                            ->required(),
+                            ->label('اسم التاج (إنجليزي)')
+                            ->required()
+                            ->maxLength(255),
 
-                        Forms\Components\FileUpload::make('image')
-                            ->label('صورة القسم')
-                            ->image()
-                            ->directory('categories'),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('الرابط المختصر (Slug)')
+                            ->unique(ignoreRecord: true)
+                            ->maxLength(255),
                     ])->columns(2),
             ]);
     }
@@ -68,14 +70,15 @@ class CategoryResource extends Resource
 
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
-                    ->label($isEn ? 'Image' : 'الصورة'),
-
                 Tables\Columns\TextColumn::make('name')
-                    ->label($isEn ? 'Category Name' : 'اسم القسم الرئيسي')
+                    ->label($isEn ? 'Tag Name' : 'اسم التاج')
                     ->getStateUsing(fn ($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
                     ->searchable()
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('slug')
+                    ->label($isEn ? 'Slug' : 'الرابط المختصر (Slug)')
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label($isEn ? 'Created At' : 'تاريخ الإضافة')
@@ -96,9 +99,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListBlogTags::route('/'),
+            'create' => Pages\CreateBlogTag::route('/create'),
+            'edit' => Pages\EditBlogTag::route('/{record}/edit'),
         ];
     }
 }

@@ -20,13 +20,40 @@ class SettingResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-cog-6-tooth';
 
-    protected static string|UnitEnum|null $navigationGroup = 'برنامج الولاء والإعدادات';
+    public static function getNavigationGroup(): ?string
+    {
+        return __('admin.navigation.settings_group');
+    }
 
-    protected static ?string $navigationLabel = 'إعدادات النظام العامة';
+    public static function getNavigationLabel(): string
+    {
+        return __('admin.navigation.settings');
+    }
 
-    protected static ?string $pluralModelLabel = 'إعدادات النظام';
+    public static function getPluralModelLabel(): string
+    {
+        return __('admin.navigation.settings');
+    }
 
-    protected static ?string $modelLabel = 'إعداد';
+    public static function getModelLabel(): string
+    {
+        return __('admin.navigation.settings');
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
+    public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
+    {
+        return false;
+    }
+
+    public static function canDeleteAny(): bool
+    {
+        return false;
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -36,10 +63,12 @@ class SettingResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('key_en')
                             ->label('مفتاح الإعداد (Key EN)')
+                            ->disabled()
                             ->required(),
 
                         Forms\Components\TextInput::make('key_ar')
                             ->label('مفتاح الإعداد (Key AR)')
+                            ->disabled()
                             ->required(),
 
                         Forms\Components\Textarea::make('value_ar')
@@ -53,43 +82,33 @@ class SettingResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('key_en')
-                    ->label('المفتاح (EN)')
+                Tables\Columns\TextColumn::make('key')
+                    ->label($isEn ? 'Setting Key' : 'مفتاح الإعداد')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->key_en ?: $record->key_ar) : ($record->key_ar ?: $record->key_en))
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('key_ar')
-                    ->label('المفتاح (AR)')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('value_ar')
-                    ->label('القيمة (عربي)')
-                    ->limit(50),
-
-                Tables\Columns\TextColumn::make('value_en')
-                    ->label('القيمة (إنجليزي)')
-                    ->limit(50),
+                Tables\Columns\TextColumn::make('value')
+                    ->label($isEn ? 'Value' : 'القيمة')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->value_en ?: $record->value_ar) : ($record->value_ar ?: $record->value_en))
+                    ->limit(60)
+                    ->searchable(),
             ])
             ->actions([
                 Actions\EditAction::make(),
-                Actions\DeleteAction::make(),
             ])
-            ->bulkActions([
-                Actions\BulkActionGroup::make([
-                    Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+            ->bulkActions([]);
     }
 
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListSettings::route('/'),
-            'create' => Pages\CreateSetting::route('/create'),
-            'edit' => Pages\EditSetting::route('/{record}/edit'),
+            'edit'  => Pages\EditSetting::route('/{record}/edit'),
         ];
     }
 }

@@ -21,13 +21,25 @@ class UserResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-users';
 
-    protected static string|UnitEnum|null $navigationGroup = 'إدارة المستخدمين والعملاء';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Users & Permissions' : 'إدارة المستخدمين والصلاحيات';
+    }
 
-    protected static ?string $navigationLabel = 'المستخدمين والعملاء';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Users & Customers' : 'المستخدمون والعملاء';
+    }
 
-    protected static ?string $pluralModelLabel = 'المستخدمين والعملاء';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Users & Customers' : 'المستخدمون والعملاء';
+    }
 
-    protected static ?string $modelLabel = 'مستخدم';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'User' : 'مستخدم';
+    }
 
     public static function form(Schema $schema): Schema
     {

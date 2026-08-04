@@ -27,6 +27,9 @@ class UpdateBlogRequest extends FormRequest
         }
 
         return [
+            'name_ar' => 'sometimes|nullable|string|max:255',
+            'name_en' => 'sometimes|nullable|string|max:255',
+            'name' => 'sometimes|nullable|string|max:255',
             'title_ar' => 'sometimes|nullable|string|max:255',
             'title_en' => 'sometimes|nullable|string|max:255',
             'slug' => 'nullable|string|max:255|unique:blogs,slug,' . $blogId,

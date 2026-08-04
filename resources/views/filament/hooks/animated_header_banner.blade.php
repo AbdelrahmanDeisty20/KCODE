@@ -311,23 +311,23 @@
     <div class="kcode-page-banner">
         <div class="kcode-banner-info">
             @if ($type === 'orders')
-                <h2>📦 إدارة ومتابعة الطلبات</h2>
-                <p>تتبع حالات الشحن والتسليم وتحديث الطلبات لحظة بلحظة</p>
+                <h2>📦 {{ app()->getLocale() === 'en' ? 'Orders & Delivery Management' : 'إدارة ومتابعة الطلبات' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Track order status, delivery, and update shipments in real-time' : 'تتبع حالات الشحن والتسليم وتحديث الطلبات لحظة بلحظة' }}</p>
             @elseif ($type === 'products')
-                <h2>🛍️ كتالوج المنتجات والأقسام</h2>
-                <p>إدارة المنتجات، المخزون، التصنيفات والماركات التجارية</p>
+                <h2>🛍️ {{ app()->getLocale() === 'en' ? 'Products & Catalog Management' : 'كتالوج المنتجات والأقسام' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage products, inventory, categories, and brand catalog' : 'إدارة المنتجات، المخزون، التصنيفات والماركات التجارية' }}</p>
             @elseif ($type === 'users')
-                <h2>👥 إدارة العملاء والأدوار</h2>
-                <p>متابعة حسابات العملاء، الأدوار، والصلاحيات الخاصة باللوحة</p>
+                <h2>👥 {{ app()->getLocale() === 'en' ? 'Customers & Roles Management' : 'إدارة العملاء والأدوار' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Monitor customer accounts, panel roles, and access permissions' : 'متابعة حسابات العملاء، الأدوار، والصلاحيات الخاصة باللوحة' }}</p>
             @elseif ($type === 'coupons')
-                <h2>🏷️ الكوبونات والعروض الترويجية</h2>
-                <p>إنشاء وتفعيل كودات الخصم والعروض الخاصة بالمتجر</p>
+                <h2>🏷️ {{ app()->getLocale() === 'en' ? 'Coupons & Store Promotions' : 'الكوبونات والعروض الترويجية' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Create and manage discount codes, offers, and store promotions' : 'إنشاء وتفعيل كودات الخصم والعروض الخاصة بالمتجر' }}</p>
             @elseif ($type === 'skincare')
-                <h2>✨ العناية واختبارات البشرة (Quiz)</h2>
-                <p>إدارة الأسئلة، أنواع البشرة، والمشاكل والتوصيات الطبية</p>
+                <h2>✨ {{ app()->getLocale() === 'en' ? 'Skin Care & Quiz Engine' : 'العناية واختبارات البشرة (Quiz)' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage quiz questions, skin types, concerns, and recommendations' : 'إدارة الأسئلة، أنواع البشرة، والمشاكل والتوصيات الطبية' }}</p>
             @elseif ($type === 'settings')
-                <h2>⚙️ إعدادات وهيئة النظام العامة</h2>
-                <p>التحكم في إعدادات الشحن، الواتساب، والصفحات والمعلومات الترحيبية</p>
+                <h2>⚙️ {{ app()->getLocale() === 'en' ? 'System Settings & Configuration' : 'إعدادات وهيئة النظام العامة' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage shipping policies, WhatsApp, static pages, and general options' : 'التحكم في إعدادات الشحن، الواتساب، والصفحات والمعلومات الترحيبية' }}</p>
             @endif
         </div>
 

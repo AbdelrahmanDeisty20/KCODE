@@ -20,13 +20,25 @@ class ProductResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-shopping-bag';
 
-    protected static string|UnitEnum|null $navigationGroup = 'الكتالوج والمنتجات';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Products & Catalog' : 'الكتالوج والمنتجات';
+    }
 
-    protected static ?string $navigationLabel = 'المنتجات';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Products' : 'المنتجات';
+    }
 
-    protected static ?string $pluralModelLabel = 'المنتجات';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Products' : 'المنتجات';
+    }
 
-    protected static ?string $modelLabel = 'منتج';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Product' : 'منتج';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -174,51 +186,56 @@ class ProductResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label('الصورة'),
+                    ->label($isEn ? 'Image' : 'الصورة'),
 
                 Tables\Columns\TextColumn::make('sku')
                     ->label('SKU')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('name_ar')
-                    ->label('اسم المنتج')
+                Tables\Columns\TextColumn::make('name')
+                    ->label($isEn ? 'Product Name' : 'اسم المنتج')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('category.name_ar')
-                    ->label('القسم')
+                Tables\Columns\TextColumn::make('category')
+                    ->label($isEn ? 'Category' : 'القسم')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->category?->name_en ?: $record->category?->name_ar) : ($record->category?->name_ar ?: $record->category?->name_en))
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('brand.name_ar')
-                    ->label('العلامة التجارية')
+                Tables\Columns\TextColumn::make('brand')
+                    ->label($isEn ? 'Brand' : 'العلامة التجارية')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->brand?->name_en ?: $record->brand?->name_ar) : ($record->brand?->name_ar ?: $record->brand?->name_en))
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('price')
-                    ->label('السعر')
-                    ->money('EGP')
+                    ->label($isEn ? 'Price' : 'السعر')
+                    ->money('OMR')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('stock')
-                    ->label('المخزون')
+                    ->label($isEn ? 'Stock' : 'المخزون')
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_best_seller')
-                    ->label('الأكثر مبيعاً')
+                    ->label($isEn ? 'Best Seller' : 'الأكثر مبيعاً')
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('تاريخ الإضافة')
-                    ->dateTime('Y-m-d')
+                    ->label($isEn ? 'Created At' : 'تاريخ الإضافة')
+                    ->dateTime('d/m/Y H:i')
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('category_id')
-                    ->label('القسم')
-                    ->relationship('category', 'name_ar'),
+                    ->label($isEn ? 'Category' : 'القسم')
+                    ->relationship('category', $isEn ? 'name_en' : 'name_ar'),
 
                 Tables\Filters\TernaryFilter::make('is_best_seller')
                     ->label('الأكثر مبيعاً'),

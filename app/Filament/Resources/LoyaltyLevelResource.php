@@ -20,13 +20,25 @@ class LoyaltyLevelResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-star';
 
-    protected static string|UnitEnum|null $navigationGroup = 'برنامج الولاء والإعدادات';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Loyalty Program & Settings' : 'برنامج الولاء والإعدادات';
+    }
 
-    protected static ?string $navigationLabel = 'مستويات برنامج الولاء';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Loyalty Levels' : 'مستويات برنامج الولاء';
+    }
 
-    protected static ?string $pluralModelLabel = 'مستويات برنامج الولاء';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Loyalty Levels' : 'مستويات برنامج الولاء';
+    }
 
-    protected static ?string $modelLabel = 'مستوى ولاء';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Loyalty Level' : 'مستوى ولاء';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -67,28 +79,26 @@ class LoyaltyLevelResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name_ar')
-                    ->label('المستوى (عربي)')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('name_en')
-                    ->label('المستوى (إنجليزي)')
+                Tables\Columns\TextColumn::make('name')
+                    ->label($isEn ? 'Loyalty Level' : 'مستوى الولاء')
+                    ->getStateUsing(fn ($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
                     ->searchable()
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('min_points')
-                    ->label('أقل نقاط')
+                    ->label($isEn ? 'Min Points' : 'أقل نقاط')
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('max_points')
-                    ->label('أقصى نقاط')
+                    ->label($isEn ? 'Max Points' : 'أقصى نقاط')
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label('نشط')
+                    ->label($isEn ? 'Active' : 'نشط')
                     ->boolean(),
             ])
             ->actions([

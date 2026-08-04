@@ -11,11 +11,14 @@ class OrdersChartWidget extends ChartWidget
 
     public function getHeading(): ?string
     {
-        return 'مخطط أداء الطلبات (آخر 7 أيام)';
+        return app()->getLocale() === 'en'
+            ? 'Orders Performance Chart (Last 7 Days)'
+            : 'مخطط أداء الطلبات (آخر 7 أيام)';
     }
 
     protected function getData(): array
     {
+        $isEn = app()->getLocale() === 'en';
         $data = [];
         $labels = [];
 
@@ -28,7 +31,7 @@ class OrdersChartWidget extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'عدد الطلبات',
+                    'label' => $isEn ? 'Number of Orders' : 'عدد الطلبات',
                     'data'  => $data,
                     'fill'  => 'start',
                     'borderColor' => '#10b981',

@@ -20,13 +20,25 @@ class AssessmentResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-clipboard-document-check';
 
-    protected static string|UnitEnum|null $navigationGroup = 'محرك التقييم و Quiz البشرة';
+    public static function getNavigationGroup(): ?string
+    {
+        return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';
+    }
 
-    protected static ?string $navigationLabel = 'نتائج الاختبارات (Assessments Log)';
+    public static function getNavigationLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Assessments Log' : 'نتائج الاختبارات';
+    }
 
-    protected static ?string $pluralModelLabel = 'نتائج الاختبارات';
+    public static function getPluralModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Assessments Log' : 'نتائج الاختبارات';
+    }
 
-    protected static ?string $modelLabel = 'نتيجة اختبار';
+    public static function getModelLabel(): string
+    {
+        return app()->getLocale() === 'en' ? 'Assessment' : 'نتيجة اختبار';
+    }
 
     public static function form(Schema $schema): Schema
     {
@@ -35,13 +47,13 @@ class AssessmentResource extends Resource
                 Components\Section::make('بيانات نتيجة الاختبار')
                     ->schema([
                         Forms\Components\Select::make('user_id')
-                            ->label('المستخدم / العميل')
+                            ->label(app()->getLocale() === 'en' ? 'User / Customer' : 'المستخدم / العميل')
                             ->relationship('user', 'name')
                             ->disabled(),
 
                         Forms\Components\Select::make('skin_type_id')
-                            ->label('نوع البشرة المحدد')
-                            ->relationship('skinType', 'name_ar')
+                            ->label(app()->getLocale() === 'en' ? 'Resulting Skin Type' : 'نوع البشرة المحدد')
+                            ->relationship('skinType', app()->getLocale() === 'en' ? 'name_en' : 'name_ar')
                             ->disabled(),
                     ])->columns(2),
             ]);
@@ -49,6 +61,8 @@ class AssessmentResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $isEn = app()->getLocale() === 'en';
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
@@ -56,16 +70,17 @@ class AssessmentResource extends Resource
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('العميل')
+                    ->label($isEn ? 'Customer' : 'العميل')
                     ->searchable()
-                    ->default('زائر غير مسجل'),
+                    ->default($isEn ? 'Unregistered Guest' : 'زائر غير مسجل'),
 
-                Tables\Columns\TextColumn::make('skinType.name_ar')
-                    ->label('نوع البشرة الناتج')
+                Tables\Columns\TextColumn::make('skinType')
+                    ->label($isEn ? 'Resulting Skin Type' : 'نوع البشرة الناتج')
+                    ->formatStateUsing(fn ($record) => $isEn ? ($record->skinType?->name_en ?: $record->skinType?->name_ar) : ($record->skinType?->name_ar ?: $record->skinType?->name_en))
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('تاريخ إجراء الاختبار')
+                    ->label($isEn ? 'Assessment Date' : 'تاريخ إجراء الاختبار')
                     ->dateTime('Y-m-d H:i')
                     ->sortable(),
             ])
