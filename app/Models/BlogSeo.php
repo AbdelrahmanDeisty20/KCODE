@@ -69,6 +69,20 @@ class BlogSeo extends Model
     }
 
     /**
+     * Accessor for og_image matching Product model storage pattern.
+     */
+    public function getOgImageAttribute($value): ?string
+    {
+        if (!$value) return null;
+        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
+
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
+
+        return asset($base . $path);
+    }
+
+    /**
      * Get the blog that owns the SEO record.
      */
     public function blog(): BelongsTo

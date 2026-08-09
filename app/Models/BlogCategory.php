@@ -20,6 +20,20 @@ class BlogCategory extends Model
     ];
 
     /**
+     * Accessor for image matching Product model storage pattern.
+     */
+    public function getImageAttribute($value): ?string
+    {
+        if (!$value) return null;
+        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
+
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
+
+        return asset($base . $path);
+    }
+
+    /**
      * Accessor for locale-based name.
      */
     public function getNameAttribute(): string
