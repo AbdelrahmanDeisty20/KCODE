@@ -224,7 +224,7 @@ Route::middleware([SetLang::class])->group(function () {
             Route::controller(BlogController::class)->group(function () {
                 Route::get('/blogs/my-blogs', 'myBlogs');
                 Route::post('/blogs', 'store');
-                Route::post('/blogs/{id}/update', 'update');
+                Route::post('/blogs/{id}', 'update');
                 Route::delete('/blogs/{id}', 'destroy');
                 Route::post('/blogs/{id}/publish', 'publish');
                 Route::post('/blogs/{id}/draft', 'draft');
