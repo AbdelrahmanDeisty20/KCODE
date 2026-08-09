@@ -18,7 +18,7 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'image' => $this->image ? (filter_var($this->image, FILTER_VALIDATE_URL) ? $this->image : asset('storage/' . $this->image)) : null,
+            'image' => $this->image ? (filter_var($this->image, FILTER_VALIDATE_URL) ? $this->image : asset('storage/' . ltrim(preg_replace('/^storage\//', '', $this->image), '/'))) : null,
             'created_at' => $this->created_at?->toDateTimeString(),
         ];
     }

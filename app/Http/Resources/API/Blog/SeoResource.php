@@ -22,7 +22,7 @@ class SeoResource extends JsonResource
             'canonical_url' => $this->canonical_url,
             'og_title' => $this->og_title,
             'og_description' => $this->og_description,
-            'og_image' => $this->og_image ? (filter_var($this->og_image, FILTER_VALIDATE_URL) ? $this->og_image : asset('storage/' . $this->og_image)) : null,
+            'og_image' => $this->og_image ? (filter_var($this->og_image, FILTER_VALIDATE_URL) ? $this->og_image : asset('storage/' . ltrim(preg_replace('/^storage\//', '', $this->og_image), '/'))) : null,
         ];
     }
 }

@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             'routine-goals',
             'pages',
             'product_images',
+            'blogs',
+            'blogs/categories',
         ];
 
         foreach ($imageDirs as $dir) {
@@ -79,4 +81,4 @@ class DatabaseSeeder extends Seeder
         );
     }
 }
-// php artisan db:seed --class=LoyaltyLevelsSeeder
+// php artisan db:seed --class=BlogSeeder

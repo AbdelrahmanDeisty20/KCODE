@@ -21,7 +21,7 @@ class BlogDetailsResource extends JsonResource
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
             'content' => $this->content,
-            'featured_image' => $this->featured_image ? (filter_var($this->featured_image, FILTER_VALIDATE_URL) ? $this->featured_image : asset('storage/' . $this->featured_image)) : null,
+            'featured_image' => $this->featured_image ? (filter_var($this->featured_image, FILTER_VALIDATE_URL) ? $this->featured_image : asset('storage/' . ltrim(preg_replace('/^storage\//', '', $this->featured_image), '/'))) : null,
             'status' => $this->status ?? 'draft',
             'is_featured' => (bool) ($this->is_featured ?? false),
             'reading_time' => (int) ($this->reading_time ?? 1),

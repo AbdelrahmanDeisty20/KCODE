@@ -20,7 +20,7 @@ class BlogListResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
-            'featured_image' => $this->featured_image ? (filter_var($this->featured_image, FILTER_VALIDATE_URL) ? $this->featured_image : asset('storage/' . $this->featured_image)) : null,
+            'featured_image' => $this->featured_image ? (filter_var($this->featured_image, FILTER_VALIDATE_URL) ? $this->featured_image : asset('storage/' . ltrim(preg_replace('/^storage\//', '', $this->featured_image), '/'))) : null,
             'status' => $this->status ?? 'draft',
             'category' => new CategoryResource($this->whenLoaded('category')),
             'author' => new UserBlogResource($this->whenLoaded('author')),
