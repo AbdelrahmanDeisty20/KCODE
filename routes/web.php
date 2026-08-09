@@ -14,3 +14,11 @@ Route::get('/sitemap.xml', function (SitemapService $sitemapService) {
 Route::get('/robots.txt', function (SitemapService $sitemapService) {
     return $sitemapService->generateRobots();
 });
+
+Route::get('/storage/{path}', function ($path) {
+    $filePath = storage_path('app/public/' . $path);
+    if (!file_exists($filePath)) {
+        abort(404);
+    }
+    return response()->file($filePath);
+})->where('path', '.*');
