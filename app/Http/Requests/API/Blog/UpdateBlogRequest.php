@@ -37,7 +37,7 @@ class UpdateBlogRequest extends FormRequest
             'excerpt_en' => 'sometimes|nullable|string',
             'content_ar' => 'sometimes|nullable|string',
             'content_en' => 'sometimes|nullable|string',
-            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,gif|max:5120',
+            'featured_image' => 'nullable|image|max:5120',
             'category_id' => 'sometimes|nullable|exists:blog_categories,id',
             'tags' => 'sometimes|nullable|array',
             'tags.*' => 'nullable|exists:blog_tags,id',
@@ -58,7 +58,7 @@ class UpdateBlogRequest extends FormRequest
             'seo.og_title_en' => 'nullable|string|max:255',
             'seo.og_description_ar' => 'nullable|string',
             'seo.og_description_en' => 'nullable|string',
-            'seo.og_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'seo.og_image' => 'nullable|image|max:5120',
         ];
     }
 
