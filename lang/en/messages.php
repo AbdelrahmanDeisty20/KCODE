@@ -224,4 +224,11 @@ return [
     'quantity_min' => 'Quantity must be at least 1.',
     'order_deleted_successfully' => 'Order deleted successfully.',
     'cannot_delete_order_status' => 'Order cannot be deleted because its status is :status.',
+
+    // Chatbot Messages
+    'chatbot_response_success' => 'AI Consultant responded successfully.',
+    'suggestions_retrieved_successfully' => 'Suggestions retrieved successfully.',
+    'history_retrieved_successfully' => 'Chat history retrieved successfully.',
+    'history_cleared_successfully' => 'Chat history cleared successfully.',
+    'no_chat_history_found' => 'No chat history found.',
 ];

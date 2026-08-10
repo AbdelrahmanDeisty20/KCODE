@@ -22,22 +22,11 @@ class ChatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'prompt' => 'required|string|min:2|max:1000',
+            'prompt' => 'required|string|min:2|max:2000',
             'history' => 'nullable|array',
             'history.*.role' => 'nullable|string|in:user,model,assistant',
             'history.*.content' => 'nullable|string|max:2000',
-        ];
-    }
-
-    /**
-     * Custom validation messages.
-     */
-    public function messages(): array
-    {
-        return [
-            'prompt.required' => __('messages.prompt_required', ['default' => 'يرجى إدخال السؤال أو الرسالة']),
-            'prompt.string' => __('messages.prompt_invalid'),
-            'prompt.max' => __('messages.prompt_too_long', ['default' => 'الرسالة طويلة جداً']),
+            'session_id' => 'nullable|string|max:255',
         ];
     }
 }

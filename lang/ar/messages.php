@@ -227,4 +227,11 @@ return [
     'coupons_retrieved_successfully' => 'تم جلب الكوبونات بنجاح.',
     'coupon_retrieved_successfully' => 'تم جلب الكوبون بنجاح.',
     'coupon_not_found' => 'لم يتم العثور على الكوبون.',
+
+    // Chatbot Messages
+    'chatbot_response_success' => 'تم رد المستشار الذكي بنجاح.',
+    'suggestions_retrieved_successfully' => 'تم جلب الأسئلة المقترحة بنجاح.',
+    'history_retrieved_successfully' => 'تم جلب سجل المحادثات بنجاح.',
+    'history_cleared_successfully' => 'تم مسح سجل المحادثات بنجاح.',
+    'no_chat_history_found' => 'لا يوجد سجل محادثات سابق.',
 ];

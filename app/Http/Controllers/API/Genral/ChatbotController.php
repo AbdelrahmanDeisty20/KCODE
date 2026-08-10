@@ -4,36 +4,31 @@ namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Chatbot\ChatRequest;
-use App\Models\ChatbotMessage;
-use App\Models\ChatbotSuggestion;
-use App\Services\GroqChatService;
+use App\Http\Resources\API\CHATBOT\ChatbotMessageResource;
+use App\Services\ChatbotService;
+use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ChatbotController extends Controller
 {
-    public function __construct(protected GroqChatService $groqChatService) {}
+    use ApiResponse;
+
+    public function __construct(protected ChatbotService $chatbotService) {}
 
     /**
      * Send prompt to Groq AI Chatbot and get skincare advice + product recommendations.
      */
     public function chat(ChatRequest $request): JsonResponse
     {
-        $prompt = $request->input('prompt');
-        $history = $request->input('history', []);
-        $sessionId = $request->input('session_id') ?? $request->header('X-Session-ID');
         $userId = auth('sanctum')->id();
+        $result = $this->chatbotService->chat($userId, $request->validated());
 
-        $result = $this->groqChatService->ask($prompt, $history, null, $userId, $sessionId);
+        if (!$result['status']) {
+            return $this->error($result['message']);
+        }
 
-        return response()->json([
-            'status' => $result['status'] ?? true,
-            'message' => __('messages.chatbot_response_success', ['default' => 'تم رد المستشار الذكي بنجاح']),
-            'data' => [
-                'reply' => $result['reply'],
-                'recommended_products' => $result['recommended_products'],
-            ]
-        ]);
+        return $this->success($result['data'], $result['message']);
     }
 
     /**
@@ -41,96 +36,51 @@ class ChatbotController extends Controller
      */
     public function suggestions(): JsonResponse
     {
-        $isAr = app()->getLocale() === 'ar';
+        $result = $this->chatbotService->getSuggestions();
 
-        $dbSuggestions = ChatbotSuggestion::where('is_active', true)
-            ->orderBy('sort_order', 'asc')
-            ->get();
-
-        if ($dbSuggestions->isNotEmpty()) {
-            $suggestions = $dbSuggestions->map(function ($item) use ($isAr) {
-                return $isAr ? $item->question_ar : $item->question_en;
-            })->values()->toArray();
-        } else {
-            // Default fallback if database is empty
-            $suggestions = $isAr ? [
-                "ما هو الروتين المناسب للبشرة الجافة في الشتاء؟",
-                "أفضل سيروم لتفتيح التصبغات والبقع الداكنة؟",
-                "طريقة استخدام واقي الشمس بالشكل الصحيح؟",
-                "علاج حب الشباب والحد من إفرازات الدهون؟",
-                "ترتيب خطوات الروتين المسائي قبل النوم؟",
-            ] : [
-                "What is the best routine for dry skin in winter?",
-                "Top recommended serum for hyperpigmentation and dark spots?",
-                "How to apply sunscreen correctly?",
-                "How to control acne and excess oil?",
-                "What is the correct order for a night skincare routine?",
-            ];
+        if (!$result['status']) {
+            return $this->error($result['message']);
         }
 
-        return response()->json([
-            'status' => true,
-            'message' => __('messages.suggestions_retrieved_successfully', ['default' => 'تم جلب الأسئلة المقترحة بنجاح']),
-            'data' => $suggestions,
-        ]);
+        return $this->success($result['data'], $result['message']);
     }
 
     /**
-     * Get chat history for the user or session.
+     * Get paginated chat history for the authenticated user or session.
      */
     public function history(Request $request): JsonResponse
     {
         $userId = auth('sanctum')->id();
         $sessionId = $request->input('session_id') ?? $request->header('X-Session-ID');
+        $perPage = (int) $request->input('per_page', 10);
 
-        $query = ChatbotMessage::query();
+        $result = $this->chatbotService->getHistory($userId, $sessionId, $perPage);
 
-        if ($userId) {
-            $query->where('user_id', $userId);
-        } elseif ($sessionId) {
-            $query->where('session_id', $sessionId);
-        } else {
-            return response()->json([
-                'status' => true,
-                'message' => __('messages.history_retrieved', ['default' => 'تم جلب سجل المحادثات بنجاح']),
-                'data' => [],
-            ]);
+        if (!$result['status']) {
+            return $this->error($result['message']);
         }
 
-        $messages = $query->orderBy('created_at', 'asc')->get();
-
-        return response()->json([
-            'status' => true,
-            'message' => __('messages.history_retrieved', ['default' => 'تم جلب سجل المحادثات بنجاح']),
-            'data' => $messages->map(function ($msg) {
-                return [
-                    'id' => $msg->id,
-                    'prompt' => $msg->prompt,
-                    'reply' => $msg->reply,
-                    'recommended_products' => $msg->recommended_products ?? [],
-                    'created_at' => $msg->created_at->toDateTimeString(),
-                ];
-            }),
-        ]);
+        return $this->paginated(
+            ChatbotMessageResource::class,
+            $result['data'],
+            $result['message']
+        );
     }
 
     /**
-     * Clear chat history for the user or session.
+     * Clear chat history for the authenticated user or session.
      */
     public function clearHistory(Request $request): JsonResponse
     {
         $userId = auth('sanctum')->id();
         $sessionId = $request->input('session_id') ?? $request->header('X-Session-ID');
 
-        if ($userId) {
-            ChatbotMessage::where('user_id', $userId)->delete();
-        } elseif ($sessionId) {
-            ChatbotMessage::where('session_id', $sessionId)->delete();
+        $result = $this->chatbotService->clearHistory($userId, $sessionId);
+
+        if (!$result['status']) {
+            return $this->error($result['message']);
         }
 
-        return response()->json([
-            'status' => true,
-            'message' => __('messages.history_cleared', ['default' => 'تم مسح سجل المحادثات بنجاح']),
-        ]);
+        return $this->success([], $result['message']);
     }
 }
