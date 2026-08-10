@@ -66,6 +66,7 @@ class DatabaseSeeder extends Seeder
             CouponSeeder::class,
             BlogAuthorSeeder::class,
             BlogSeeder::class,
+            ChatbotSuggestionSeeder::class,
             RolesAndPermissionsSeeder::class,
         ]);
 
