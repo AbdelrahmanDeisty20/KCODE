@@ -47,7 +47,8 @@ class ChatbotMessageResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('user_name')
                             ->label('اسم المستخدم / العميل')
-                            ->getStateUsing(fn ($record) => $record?->user?->name ?? 'عميل زائر (Guest)')
+                            ->default(fn ($record) => $record?->user?->name ?? 'عميل زائر (Guest)')
+                            ->formatStateUsing(fn ($state, $record) => $record?->user?->name ?? 'عميل زائر (Guest)')
                             ->disabled(),
 
                         Forms\Components\TextInput::make('created_at')
