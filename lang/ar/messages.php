@@ -234,4 +234,8 @@ return [
     'history_retrieved_successfully' => 'تم جلب سجل المحادثات بنجاح.',
     'history_cleared_successfully' => 'تم مسح سجل المحادثات بنجاح.',
     'no_chat_history_found' => 'لا يوجد سجل محادثات سابق.',
+
+    // FCM Token Messages
+    'fcm_token_saved_successfully' => 'تم حفظ رمز الجهاز (FCM Token) بنجاح.',
+    'fcm_token_save_failed' => 'حدث خطأ أثناء حفظ رمز الجهاز.',
 ];

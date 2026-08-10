@@ -116,6 +116,16 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Address::class);
     }
 
+    public function appNotifications()
+    {
+        return $this->hasMany(AppNotification::class);
+    }
+
+    public function fcmTokens()
+    {
+        return $this->hasMany(UserFcmToken::class);
+    }
+
     public function loyaltyLedger()
     {
         return $this->hasMany(LoyaltyPointsLedger::class);

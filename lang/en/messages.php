@@ -227,8 +227,12 @@ return [
 
     // Chatbot Messages
     'chatbot_response_success' => 'AI Consultant responded successfully.',
-    'suggestions_retrieved_successfully' => 'Suggestions retrieved successfully.',
+    'suggestions_retrieved_successfully' => 'Suggested questions retrieved successfully.',
     'history_retrieved_successfully' => 'Chat history retrieved successfully.',
     'history_cleared_successfully' => 'Chat history cleared successfully.',
     'no_chat_history_found' => 'No chat history found.',
+
+    // FCM Token Messages
+    'fcm_token_saved_successfully' => 'FCM Token saved successfully.',
+    'fcm_token_save_failed' => 'Failed to save FCM Token.',
 ];

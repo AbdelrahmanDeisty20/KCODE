@@ -8,7 +8,7 @@
         $type = 'products';
     } elseif (str_contains($path, 'admin/users') || str_contains($path, 'admin/roles')) {
         $type = 'users';
-    } elseif (str_contains($path, 'admin/coupons') || str_contains($path, 'admin/offers')) {
+    } elseif (str_contains($path, 'admin/coupons') || str_contains($path, 'admin/offers') || str_contains($path, 'admin/app-notifications')) {
         $type = 'coupons';
     } elseif (str_contains($path, 'admin/chatbot-suggestions') || str_contains($path, 'admin/chatbot-messages')) {
         $type = 'chatbot';

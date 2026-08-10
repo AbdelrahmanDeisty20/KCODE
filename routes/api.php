@@ -194,8 +194,13 @@ Route::middleware([SetLang::class])->group(function () {
         Route::delete('/chatbot/history', 'clearHistory')->middleware('auth:sanctum');
     });
 
+    // FCM Token Routes
+    Route::post('/fcm-token', [\App\Http\Controllers\API\Genral\FcmTokenController::class, 'storeGuestToken']);
+
     // Favorites & Reviews Routes (Protected)
     Route::middleware('auth:sanctum')->group(function () {
+        Route::post('/user/fcm-token', [\App\Http\Controllers\API\Genral\FcmTokenController::class, 'storeUserToken']);
+
         Route::controller(FavouriteController::class)->group(function () {
             Route::get('/favorites', 'index');
             Route::post('/favorites/{product_id}', 'add');
