@@ -30,7 +30,8 @@ class AppNotificationController extends Controller
         }
 
         return $this->paginated(
-            AppNotificationResource::collection($result['data']),
+            AppNotificationResource::class,
+            $result['data'],
             $result['message']
         );
     }
@@ -48,6 +49,6 @@ class AppNotificationController extends Controller
             return $this->error($result['message'], $result['code'] ?? 500);
         }
 
-        return $this->success($result['message'], new AppNotificationResource($result['data']));
+        return $this->success(new AppNotificationResource($result['data']), $result['message']);
     }
 }

@@ -26,7 +26,7 @@ class FcmTokenController extends Controller
             return $this->error($result['message'], 500);
         }
 
-        return $this->success($result['message'], new FcmTokenResource($result['data']));
+        return $this->success(new FcmTokenResource($result['data']), $result['message']);
     }
 
     /**
@@ -42,6 +42,6 @@ class FcmTokenController extends Controller
             return $this->error($result['message'], 500);
         }
 
-        return $this->success($result['message'], new FcmTokenResource($result['data']));
+        return $this->success(new FcmTokenResource($result['data']), $result['message']);
     }
 }
