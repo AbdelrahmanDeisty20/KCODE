@@ -43,54 +43,8 @@ class OrderResource extends Resource
     {
         return $schema
             ->components([
-                Components\Section::make('👤 البيانات الشخصية للعميل')
-                    ->schema([
-                        Forms\Components\Select::make('user_id')
-                            ->label('حساب العميل المسجل')
-                            ->relationship('user', 'name')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('user_name')
-                            ->label('اسم صاحب الطلب')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('user_phone')
-                            ->label('رقم الهاتف للتواصل'),
-                    ])->columns(3),
-
-                Components\Section::make('🛍️ المنتجات المطلوبة والكميات (Order Items)')
-                    ->schema([
-                        Forms\Components\Repeater::make('items')
-                            ->label('قائمة المنتجات المطلوبة')
-                            ->relationship('items')
-                            ->schema([
-                                Forms\Components\TextInput::make('product_name')
-                                    ->label('اسم المنتج')
-                                    ->disabled()
-                                    ->columnSpan(2),
-
-                                Forms\Components\TextInput::make('quantity')
-                                    ->label('الكمية')
-                                    ->disabled(),
-
-                                Forms\Components\TextInput::make('unit_price')
-                                    ->label('سعر الوحدة')
-                                    ->prefix('EGP')
-                                    ->disabled(),
-
-                                Forms\Components\TextInput::make('total_price')
-                                    ->label('الإجمالي')
-                                    ->prefix('EGP')
-                                    ->disabled(),
-                            ])
-                            ->columns(5)
-                            ->addable(false)
-                            ->deletable(false)
-                            ->reorderable(false)
-                            ->columnSpanFull(),
-                    ]),
-
-                Components\Section::make('💳 تفاصيل الدفع والإجماليات')
+                // Section 1: Customer & Order Overview (Full Width)
+                Components\Section::make('👤 بيانات الطلب والعميل')
                     ->schema([
                         Forms\Components\TextInput::make('order_number')
                             ->label('رقم الطلب')
@@ -117,9 +71,78 @@ class OrderResource extends Resource
                             ])
                             ->required(),
 
+                        Forms\Components\TextInput::make('user_name')
+                            ->label('اسم صاحب الطلب')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('user_phone')
+                            ->label('رقم الهاتف للتواصل'),
+
                         Forms\Components\TextInput::make('payment_method')
                             ->label('طريقة الدفع'),
+                    ])
+                    ->columns(3)
+                    ->columnSpanFull(),
 
+                // Section 2: Order Items (Full Width Repeater)
+                Components\Section::make('🛍️ المنتجات المطلوبة والكميات (Order Items)')
+                    ->schema([
+                        Forms\Components\Repeater::make('items')
+                            ->label('عناصر الطلب')
+                            ->relationship('items')
+                            ->schema([
+                                Forms\Components\TextInput::make('product_name')
+                                    ->label('اسم المنتج')
+                                    ->disabled()
+                                    ->columnSpan(2),
+
+                                Forms\Components\TextInput::make('quantity')
+                                    ->label('الكمية')
+                                    ->disabled(),
+
+                                Forms\Components\TextInput::make('unit_price')
+                                    ->label('سعر القطعة')
+                                    ->prefix('EGP')
+                                    ->disabled(),
+
+                                Forms\Components\TextInput::make('total_price')
+                                    ->label('الإجمالي')
+                                    ->prefix('EGP')
+                                    ->disabled(),
+                            ])
+                            ->columns(5)
+                            ->addable(false)
+                            ->deletable(false)
+                            ->reorderable(false)
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull(),
+
+                // Section 3: Delivery Address Details (Full Width)
+                Components\Section::make('🚚 بيانات التوصيل والعنوان التفصيلي')
+                    ->schema([
+                        Forms\Components\TextInput::make('shipping_address.name')
+                            ->label('اسم المستلم')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('shipping_address.phone')
+                            ->label('هاتف المستلم')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('shipping_address.city')
+                            ->label('المدينة / المحافظة')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('shipping_address.address_details')
+                            ->label('العنوان التفصيلي')
+                            ->disabled(),
+                    ])
+                    ->columns(2)
+                    ->columnSpanFull(),
+
+                // Section 4: Financial Summary (Full Width)
+                Components\Section::make('💳 الملخص المالي والإجماليات')
+                    ->schema([
                         Forms\Components\TextInput::make('subtotal')
                             ->label('المجموع الفرعي')
                             ->numeric()
@@ -144,26 +167,9 @@ class OrderResource extends Resource
                         Forms\Components\Textarea::make('notes')
                             ->label('ملاحظات الطلب')
                             ->columnSpanFull(),
-                    ])->columns(2),
-
-                Components\Section::make('🚚 بيانات التوصيل والعنوان التفصيلي')
-                    ->schema([
-                        Forms\Components\TextInput::make('shipping_address.name')
-                            ->label('اسم المستلم')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('shipping_address.phone')
-                            ->label('هاتف المستلم')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('shipping_address.city')
-                            ->label('المدينة / المحافظة')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('shipping_address.address_details')
-                            ->label('العنوان التفصيلي')
-                            ->disabled(),
-                    ])->columns(2),
+                    ])
+                    ->columns(4)
+                    ->columnSpanFull(),
             ]);
     }
 
