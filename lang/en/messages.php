@@ -235,4 +235,11 @@ return [
     // FCM Token Messages
     'fcm_token_saved_successfully' => 'FCM Token saved successfully.',
     'fcm_token_save_failed' => 'Failed to save FCM Token.',
+
+    // Notification Messages
+    'notifications_retrieved_successfully' => 'Notifications retrieved successfully.',
+    'notifications_fetch_failed' => 'Failed to fetch notifications.',
+    'notification_not_found' => 'Notification not found.',
+    'notification_marked_as_read' => 'Notification marked as read successfully.',
+    'notification_update_failed' => 'Failed to update notification status.',
 ];

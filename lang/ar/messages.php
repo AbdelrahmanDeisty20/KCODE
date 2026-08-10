@@ -238,4 +238,11 @@ return [
     // FCM Token Messages
     'fcm_token_saved_successfully' => 'تم حفظ رمز الجهاز (FCM Token) بنجاح.',
     'fcm_token_save_failed' => 'حدث خطأ أثناء حفظ رمز الجهاز.',
+
+    // Notification Messages
+    'notifications_retrieved_successfully' => 'تم جلب الإشعارات بنجاح.',
+    'notifications_fetch_failed' => 'حدث خطأ أثناء جلب الإشعارات.',
+    'notification_not_found' => 'الإشعار غير موجود.',
+    'notification_marked_as_read' => 'تم تحديد الإشعار كمقروء بنجاح.',
+    'notification_update_failed' => 'حدث خطأ أثناء تحديث حالة الإشعار.',
 ];

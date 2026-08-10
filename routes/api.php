@@ -197,9 +197,15 @@ Route::middleware([SetLang::class])->group(function () {
     // FCM Token Routes
     Route::post('/fcm-token', [\App\Http\Controllers\API\Genral\FcmTokenController::class, 'storeGuestToken']);
 
-    // Favorites & Reviews Routes (Protected)
+    // Favorites & Reviews & Notifications Routes (Protected)
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/user/fcm-token', [\App\Http\Controllers\API\Genral\FcmTokenController::class, 'storeUserToken']);
+
+        // App Notifications
+        Route::controller(\App\Http\Controllers\API\Genral\AppNotificationController::class)->group(function () {
+            Route::get('/user/notifications', 'index');
+            Route::post('/user/notifications/{id}/read', 'markAsRead');
+        });
 
         Route::controller(FavouriteController::class)->group(function () {
             Route::get('/favorites', 'index');

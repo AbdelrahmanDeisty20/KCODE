@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\FcmTokenRequest;
+use App\Http\Resources\API\FCM\FcmTokenResource;
 use App\Services\FcmTokenService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
@@ -25,7 +26,7 @@ class FcmTokenController extends Controller
             return $this->error($result['message'], 500);
         }
 
-        return $this->success($result['message'], $result['data']);
+        return $this->success($result['message'], new FcmTokenResource($result['data']));
     }
 
     /**
@@ -41,6 +42,6 @@ class FcmTokenController extends Controller
             return $this->error($result['message'], 500);
         }
 
-        return $this->success($result['message'], $result['data']);
+        return $this->success($result['message'], new FcmTokenResource($result['data']));
     }
 }
