@@ -28,6 +28,7 @@ use App\Http\Controllers\API\Genral\SettingController;
 use App\Http\Controllers\API\Blog\BlogController;
 use App\Http\Controllers\API\Blog\BlogCategoryController;
 use App\Http\Controllers\API\Blog\BlogTagController;
+use App\Http\Controllers\API\Genral\ChatbotController;
 use App\Http\Middleware\CheckBlogAuthor;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
@@ -183,6 +184,12 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/countries/{countryId}/states', 'getStates');
         Route::get('/states/{stateId}/cities', 'getCities');
         Route::get('/shipping', 'getShippingFees');
+    });
+
+    // Gemini AI Chatbot Routes
+    Route::controller(ChatbotController::class)->group(function () {
+        Route::post('/chatbot/chat', 'chat');
+        Route::get('/chatbot/suggestions', 'suggestions');
     });
 
     // Favorites & Reviews Routes (Protected)
