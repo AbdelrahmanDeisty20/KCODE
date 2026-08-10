@@ -118,23 +118,40 @@ class OrderResource extends Resource
                     ])
                     ->columnSpanFull(),
 
-                // Section 3: Delivery Address Details (Full Width)
+                // Section 3: Delivery Address Details (Full Width with dynamic getters)
                 Components\Section::make('🚚 بيانات التوصيل والعنوان التفصيلي')
                     ->schema([
-                        Forms\Components\TextInput::make('shipping_address.name')
+                        Forms\Components\TextInput::make('recipient_name')
                             ->label('اسم المستلم')
+                            ->getStateUsing(fn ($record) => $record?->shipping_address['user_name'] ?? $record?->address?->user?->name ?? $record?->user_name ?? '—')
                             ->disabled(),
 
-                        Forms\Components\TextInput::make('shipping_address.phone')
+                        Forms\Components\TextInput::make('recipient_phone')
                             ->label('هاتف المستلم')
+                            ->getStateUsing(fn ($record) => $record?->shipping_address['user_phone'] ?? $record?->address?->phone ?? $record?->user_phone ?? '—')
                             ->disabled(),
 
-                        Forms\Components\TextInput::make('shipping_address.city')
+                        Forms\Components\TextInput::make('recipient_city')
                             ->label('المدينة / المحافظة')
+                            ->getStateUsing(function ($record) {
+                                if (!empty($record?->shipping_address['city'])) {
+                                    return $record->shipping_address['city'];
+                                }
+                                if (!empty($record?->address?->city)) {
+                                    return $record->address->city->name_ar ?? $record->address->city->name_en;
+                                }
+                                return '—';
+                            })
                             ->disabled(),
 
-                        Forms\Components\TextInput::make('shipping_address.address_details')
+                        Forms\Components\TextInput::make('recipient_address')
                             ->label('العنوان التفصيلي')
+                            ->getStateUsing(function ($record) {
+                                if (!empty($record?->shipping_address['address'])) {
+                                    return $record->shipping_address['address'];
+                                }
+                                return $record?->address?->address ?? '—';
+                            })
                             ->disabled(),
                     ])
                     ->columns(2)
