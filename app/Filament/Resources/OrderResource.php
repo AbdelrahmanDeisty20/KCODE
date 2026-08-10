@@ -46,15 +46,51 @@ class OrderResource extends Resource
                 Components\Section::make('👤 البيانات الشخصية للعميل')
                     ->schema([
                         Forms\Components\Select::make('user_id')
-                            ->label('حساب العميل')
+                            ->label('حساب العميل المسجل')
                             ->relationship('user', 'name')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('user_name')
+                            ->label('اسم صاحب الطلب')
                             ->disabled(),
 
                         Forms\Components\TextInput::make('user_phone')
                             ->label('رقم الهاتف للتواصل'),
-                    ])->columns(2),
+                    ])->columns(3),
 
-                Components\Section::make('💳 تفاصيل الطلب والدفع')
+                Components\Section::make('🛍️ المنتجات المطلوبة والكميات (Order Items)')
+                    ->schema([
+                        Forms\Components\Repeater::make('items')
+                            ->label('قائمة المنتجات المطلوبة')
+                            ->relationship('items')
+                            ->schema([
+                                Forms\Components\TextInput::make('product_name')
+                                    ->label('اسم المنتج')
+                                    ->disabled()
+                                    ->columnSpan(2),
+
+                                Forms\Components\TextInput::make('quantity')
+                                    ->label('الكمية')
+                                    ->disabled(),
+
+                                Forms\Components\TextInput::make('unit_price')
+                                    ->label('سعر الوحدة')
+                                    ->prefix('EGP')
+                                    ->disabled(),
+
+                                Forms\Components\TextInput::make('total_price')
+                                    ->label('الإجمالي')
+                                    ->prefix('EGP')
+                                    ->disabled(),
+                            ])
+                            ->columns(5)
+                            ->addable(false)
+                            ->deletable(false)
+                            ->reorderable(false)
+                            ->columnSpanFull(),
+                    ]),
+
+                Components\Section::make('💳 تفاصيل الدفع والإجماليات')
                     ->schema([
                         Forms\Components\TextInput::make('order_number')
                             ->label('رقم الطلب')
@@ -108,6 +144,25 @@ class OrderResource extends Resource
                         Forms\Components\Textarea::make('notes')
                             ->label('ملاحظات الطلب')
                             ->columnSpanFull(),
+                    ])->columns(2),
+
+                Components\Section::make('🚚 بيانات التوصيل والعنوان التفصيلي')
+                    ->schema([
+                        Forms\Components\TextInput::make('shipping_address.name')
+                            ->label('اسم المستلم')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('shipping_address.phone')
+                            ->label('هاتف المستلم')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('shipping_address.city')
+                            ->label('المدينة / المحافظة')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('shipping_address.address_details')
+                            ->label('العنوان التفصيلي')
+                            ->disabled(),
                     ])->columns(2),
             ]);
     }
@@ -201,6 +256,7 @@ class OrderResource extends Resource
             ->actions([
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([

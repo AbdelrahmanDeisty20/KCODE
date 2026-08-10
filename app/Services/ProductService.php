@@ -28,7 +28,7 @@ class ProductService
         $query = $data['query'];
 
         $products = Product::where('stock', '>', 0)
-            ->with(['brand', 'subCategory', 'offers'])
+            ->with(['brand', 'subCategory', 'offers', 'category', 'concerns', 'skinTypes', 'goals'])
             ->where(function ($q) use ($query) {
                 $q->where('name_en', 'LIKE', '%' . $query . '%')
                   ->orWhere('name_ar', 'LIKE', '%' . $query . '%')
@@ -41,10 +41,42 @@ class ProductService
                       $q->where('name_en', 'LIKE', '%' . $query . '%')
                         ->orWhere('name_ar', 'LIKE', '%' . $query . '%');
                   })
+                  ->orWhereHas('category', function ($q) use ($query) {
+                      $q->where('name_en', 'LIKE', '%' . $query . '%')
+                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%');
+                  })
                   ->orWhereHas('subCategory', function ($q) use ($query) {
                       $q->where('name_en', 'LIKE', '%' . $query . '%')
                         ->orWhere('name_ar', 'LIKE', '%' . $query . '%');
+                  })
+                  ->orWhereHas('concerns', function ($q) use ($query) {
+                      $q->where('name_en', 'LIKE', '%' . $query . '%')
+                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%')
+                        ->orWhere('description_en', 'LIKE', '%' . $query . '%')
+                        ->orWhere('description_ar', 'LIKE', '%' . $query . '%');
+                  })
+                  ->orWhereHas('skinTypes', function ($q) use ($query) {
+                      $q->where('name_en', 'LIKE', '%' . $query . '%')
+                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%')
+                        ->orWhere('description_en', 'LIKE', '%' . $query . '%')
+                        ->orWhere('description_ar', 'LIKE', '%' . $query . '%');
+                  })
+                  ->orWhereHas('goals', function ($q) use ($query) {
+                      $q->where('name_en', 'LIKE', '%' . $query . '%')
+                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%');
                   });
+            })
+            ->when(!empty($data['skin_type_id']), function ($q) use ($data) {
+                $skinTypeIds = is_array($data['skin_type_id']) ? $data['skin_type_id'] : [$data['skin_type_id']];
+                $q->whereHas('skinTypes', fn ($skQ) => $skQ->whereIn('skin_types.id', $skinTypeIds));
+            })
+            ->when(!empty($data['concern_id']), function ($q) use ($data) {
+                $concernIds = is_array($data['concern_id']) ? $data['concern_id'] : [$data['concern_id']];
+                $q->whereHas('concerns', fn ($cQ) => $cQ->whereIn('concerns.id', $concernIds));
+            })
+            ->when(!empty($data['goal_id']), function ($q) use ($data) {
+                $goalIds = is_array($data['goal_id']) ? $data['goal_id'] : [$data['goal_id']];
+                $q->whereHas('goals', fn ($gQ) => $gQ->whereIn('routine_goals.id', $goalIds));
             })
             ->paginate(10);
 
