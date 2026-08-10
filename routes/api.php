@@ -187,7 +187,7 @@ Route::middleware([SetLang::class])->group(function () {
     });
 
     // AI Chatbot Routes
-    Route::controller(ChatbotController::class)->middleware('auth:sanctum')->group(function () {
+    Route::controller(ChatbotController::class)->group(function () {
         Route::post('/chatbot/chat', 'chat');
         Route::get('/chatbot/suggestions', 'suggestions');
         Route::get('/chatbot/history', 'history');
