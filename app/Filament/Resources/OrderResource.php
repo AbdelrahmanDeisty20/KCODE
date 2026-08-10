@@ -118,7 +118,7 @@ class OrderResource extends Resource
                     ])
                     ->columnSpanFull(),
 
-                // Section 3: Delivery Address Details (Full Width with dynamic formatters)
+                // Section 3: Delivery Address Details (Full Width with Country, State, City)
                 Components\Section::make('🚚 بيانات التوصيل والعنوان التفصيلي')
                     ->schema([
                         Forms\Components\TextInput::make('recipient_name')
@@ -133,45 +133,65 @@ class OrderResource extends Resource
                             ->formatStateUsing(fn ($state, $record) => $record?->shipping_address['user_phone'] ?? $record?->address?->phone ?? $record?->user_phone ?? '—')
                             ->disabled(),
 
-                        Forms\Components\TextInput::make('recipient_city')
-                            ->label('المدينة / المحافظة')
+                        Forms\Components\TextInput::make('recipient_country')
+                            ->label('الدولة')
                             ->default(function ($record) {
-                                if (!empty($record?->shipping_address['city'])) {
-                                    return $record->shipping_address['city'];
-                                }
-                                if (!empty($record?->address?->city)) {
-                                    return $record->address->city->name_ar ?? $record->address->city->name_en;
-                                }
-                                return '—';
+                                return $record?->shipping_address['country'] 
+                                    ?? $record?->address?->country?->name_ar 
+                                    ?? $record?->address?->country?->name_en 
+                                    ?? 'مصر (Egypt)';
                             })
                             ->formatStateUsing(function ($state, $record) {
-                                if (!empty($record?->shipping_address['city'])) {
-                                    return $record->shipping_address['city'];
-                                }
-                                if (!empty($record?->address?->city)) {
-                                    return $record->address->city->name_ar ?? $record->address->city->name_en;
-                                }
-                                return '—';
+                                return $record?->shipping_address['country'] 
+                                    ?? $record?->address?->country?->name_ar 
+                                    ?? $record?->address?->country?->name_en 
+                                    ?? 'مصر (Egypt)';
+                            })
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('recipient_state')
+                            ->label('المحافظة')
+                            ->default(function ($record) {
+                                return $record?->shipping_address['state'] 
+                                    ?? $record?->address?->state?->name_ar 
+                                    ?? $record?->address?->state?->name_en 
+                                    ?? '—';
+                            })
+                            ->formatStateUsing(function ($state, $record) {
+                                return $record?->shipping_address['state'] 
+                                    ?? $record?->address?->state?->name_ar 
+                                    ?? $record?->address?->state?->name_en 
+                                    ?? '—';
+                            })
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('recipient_city')
+                            ->label('المدينة')
+                            ->default(function ($record) {
+                                return $record?->shipping_address['city'] 
+                                    ?? $record?->address?->city?->name_ar 
+                                    ?? $record?->address?->city?->name_en 
+                                    ?? '—';
+                            })
+                            ->formatStateUsing(function ($state, $record) {
+                                return $record?->shipping_address['city'] 
+                                    ?? $record?->address?->city?->name_ar 
+                                    ?? $record?->address?->city?->name_en 
+                                    ?? '—';
                             })
                             ->disabled(),
 
                         Forms\Components\TextInput::make('recipient_address')
                             ->label('العنوان التفصيلي')
                             ->default(function ($record) {
-                                if (!empty($record?->shipping_address['address'])) {
-                                    return $record->shipping_address['address'];
-                                }
-                                return $record?->address?->address ?? '—';
+                                return $record?->shipping_address['address'] ?? $record?->address?->address ?? '—';
                             })
                             ->formatStateUsing(function ($state, $record) {
-                                if (!empty($record?->shipping_address['address'])) {
-                                    return $record->shipping_address['address'];
-                                }
-                                return $record?->address?->address ?? '—';
+                                return $record?->shipping_address['address'] ?? $record?->address?->address ?? '—';
                             })
                             ->disabled(),
                     ])
-                    ->columns(2)
+                    ->columns(3)
                     ->columnSpanFull(),
 
                 // Section 4: Financial Summary (Full Width)
