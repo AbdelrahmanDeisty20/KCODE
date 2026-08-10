@@ -10,6 +10,8 @@
         $type = 'users';
     } elseif (str_contains($path, 'admin/coupons') || str_contains($path, 'admin/offers')) {
         $type = 'coupons';
+    } elseif (str_contains($path, 'admin/chatbot-suggestions') || str_contains($path, 'admin/chatbot-messages')) {
+        $type = 'chatbot';
     } elseif (str_contains($path, 'admin/skin-types') || str_contains($path, 'admin/concerns') || str_contains($path, 'admin/quiz-questions') || str_contains($path, 'admin/assessments')) {
         $type = 'skincare';
     } elseif (str_contains($path, 'admin/settings') || str_contains($path, 'admin/pages') || str_contains($path, 'admin/faqs')) {
@@ -322,6 +324,9 @@
             @elseif ($type === 'coupons')
                 <h2>🏷️ {{ app()->getLocale() === 'en' ? 'Coupons & Store Promotions' : 'الكوبونات والعروض الترويجية' }}</h2>
                 <p>{{ app()->getLocale() === 'en' ? 'Create and manage discount codes, offers, and store promotions' : 'إنشاء وتفعيل كودات الخصم والعروض الخاصة بالمتجر' }}</p>
+            @elseif ($type === 'chatbot')
+                <h2>🤖 {{ app()->getLocale() === 'en' ? 'AI Skincare Assistant & Logs' : 'المستشار الذكي (AI) وسجل المحادثات' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage AI suggestion questions and monitor user consultation logs' : 'إدارة أسئلة الشات بوت المقترحة ومتابعة استفسارات ومحادثات العملاء' }}</p>
             @elseif ($type === 'skincare')
                 <h2>✨ {{ app()->getLocale() === 'en' ? 'Skin Care & Quiz Engine' : 'العناية واختبارات البشرة (Quiz)' }}</h2>
                 <p>{{ app()->getLocale() === 'en' ? 'Manage quiz questions, skin types, concerns, and recommendations' : 'إدارة الأسئلة، أنواع البشرة، والمشاكل والتوصيات الطبية' }}</p>

@@ -2,18 +2,18 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Order;
+use App\Models\ChatbotMessage;
 use Filament\Widgets\ChartWidget;
 
-class OrdersChartWidget extends ChartWidget
+class ChatbotAnalyticsWidget extends ChartWidget
 {
     protected static ?int $sort = 2;
 
     public function getHeading(): ?string
     {
         return app()->getLocale() === 'en'
-            ? 'Orders Analytics Chart (Last 7 Days)'
-            : 'مخطط أداء تحليل الطلبات (آخر 7 أيام)';
+            ? 'AI Chatbot Consultations (Last 7 Days)'
+            : 'نشاط استشارات المستشار الذكي AI (آخر 7 أيام)';
     }
 
     protected function getData(): array
@@ -25,21 +25,19 @@ class OrdersChartWidget extends ChartWidget
         for ($i = 6; $i >= 0; $i--) {
             $date = now()->subDays($i);
             $labels[] = $date->translatedFormat('d M');
-            $data[] = Order::whereDate('created_at', $date->toDateString())->count();
+            $data[] = ChatbotMessage::whereDate('created_at', $date->toDateString())->count();
         }
 
         return [
             'datasets' => [
                 [
-                    'label' => $isEn ? 'Daily Orders Count' : 'عدد الطلبات اليومية',
+                    'label' => $isEn ? 'AI Queries Count' : 'عدد الاستشارات الذكية',
                     'data'  => $data,
                     'fill'  => 'start',
-                    'borderColor' => '#10b981',
-                    'backgroundColor' => 'rgba(16, 185, 129, 0.15)',
-                    'pointBackgroundColor' => '#10b981',
+                    'borderColor' => '#f59e0b',
+                    'backgroundColor' => 'rgba(245, 158, 11, 0.15)',
+                    'pointBackgroundColor' => '#f59e0b',
                     'pointBorderColor' => '#ffffff',
-                    'pointHoverBackgroundColor' => '#ffffff',
-                    'pointHoverBorderColor' => '#10b981',
                     'tension' => 0.45,
                 ],
             ],

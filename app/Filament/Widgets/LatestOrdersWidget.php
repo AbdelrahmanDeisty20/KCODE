@@ -9,13 +9,13 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class LatestOrdersWidget extends BaseWidget
 {
-    protected static ?int $sort = 2;
+    protected static ?int $sort = 3;
 
     protected int | string | array $columnSpan = 'full';
 
     public static function getHeading(): ?string
     {
-        return app()->getLocale() === 'en' ? 'Latest Orders' : 'أحدث الطلبات';
+        return app()->getLocale() === 'en' ? 'Latest Store Orders' : 'أحدث طلبات المتجر';
     }
 
     public function table(Table $table): Table
@@ -24,25 +24,31 @@ class LatestOrdersWidget extends BaseWidget
 
         return $table
             ->query(
-                Order::query()->latest()->limit(5)
+                Order::query()->latest()->limit(8)
             )
             ->columns([
                 Tables\Columns\TextColumn::make('order_number')
-                    ->label($isEn ? 'Order Number' : 'رقم الطلب'),
+                    ->label($isEn ? 'Order Number' : 'رقم الطلب')
+                    ->searchable()
+                    ->sortable()
+                    ->weight('bold'),
 
                 Tables\Columns\TextColumn::make('user.name')
                     ->label($isEn ? 'Customer' : 'العميل')
-                    ->default(fn ($record) => $record->user_name ?? ($isEn ? 'Guest' : 'زائر')),
+                    ->default(fn ($record) => $record->user_name ?? ($isEn ? 'Guest Customer' : 'عميل زائر'))
+                    ->searchable(),
 
-                Tables\Columns\BadgeColumn::make('order_status')
+                Tables\Columns\TextColumn::make('order_status')
                     ->label($isEn ? 'Order Status' : 'حالة الطلب')
-                    ->colors([
-                        'warning' => 'pending',
-                        'info' => 'processing',
-                        'primary' => 'shipped',
-                        'success' => 'delivered',
-                        'danger' => 'cancelled',
-                    ])
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'processing' => 'info',
+                        'shipped' => 'primary',
+                        'delivered' => 'success',
+                        'cancelled' => 'danger',
+                        default => 'gray',
+                    })
                     ->formatStateUsing(fn (string $state): string => match ($state) {
                         'pending' => $isEn ? 'Pending' : 'قيد الانتظار',
                         'processing' => $isEn ? 'Processing' : 'جاري التحضير',
@@ -54,11 +60,14 @@ class LatestOrdersWidget extends BaseWidget
 
                 Tables\Columns\TextColumn::make('total')
                     ->label($isEn ? 'Total' : 'الإجمالي')
-                    ->money('OMR'),
+                    ->money('EGP')
+                    ->sortable()
+                    ->weight('bold'),
 
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label($isEn ? 'Date' : 'التاريخ')
-                    ->dateTime('Y-m-d H:i'),
+                    ->label($isEn ? 'Date' : 'التاريخ والتوقيت')
+                    ->dateTime('Y-m-d H:i')
+                    ->sortable(),
             ]);
     }
 }

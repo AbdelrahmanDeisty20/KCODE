@@ -13,7 +13,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Hash;
-use UnitEnum;
 
 class UserResource extends Resource
 {
@@ -45,7 +44,7 @@ class UserResource extends Resource
     {
         return $schema
             ->components([
-                Components\Section::make('بيانات الحساب')
+                Components\Section::make('👤 بيانات الملف الشخصي والحساب')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('الاسم بالكامل')
@@ -60,6 +59,17 @@ class UserResource extends Resource
                         Forms\Components\TextInput::make('phone')
                             ->label('رقم الهاتف'),
 
+                        Forms\Components\DatePicker::make('birth_date')
+                            ->label('تاريخ الميلاد'),
+
+                        Forms\Components\FileUpload::make('image')
+                            ->label('الصورة الشخصية')
+                            ->image()
+                            ->directory('users'),
+                    ])->columns(2),
+
+                Components\Section::make('🔐 الصلاحيات والأدوار والنظام')
+                    ->schema([
                         Forms\Components\Select::make('type')
                             ->label('نوع الحساب / الصلاحية')
                             ->options([
@@ -76,20 +86,12 @@ class UserResource extends Resource
                             ->preload()
                             ->searchable(),
 
-                        Forms\Components\DatePicker::make('birth_date')
-                            ->label('تاريخ الميلاد'),
-
                         Forms\Components\TextInput::make('password')
                             ->label('كلمة السر')
                             ->password()
                             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                             ->dehydrated(fn ($state) => filled($state))
                             ->required(fn (string $context): bool => $context === 'create'),
-
-                        Forms\Components\FileUpload::make('image')
-                            ->label('الصورة الشخصية')
-                            ->image()
-                            ->directory('users'),
                     ])->columns(2),
             ]);
     }
@@ -105,7 +107,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('الاسم')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->weight('bold'),
 
                 Tables\Columns\TextColumn::make('email')
                     ->label('البريد الإلكتروني')
@@ -148,6 +151,7 @@ class UserResource extends Resource
                     ]),
             ])
             ->actions([
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
@@ -163,6 +167,7 @@ class UserResource extends Resource
         return [
             'index' => Pages\ListUsers::route('/'),
             'create' => Pages\CreateUser::route('/create'),
+            'view' => Pages\ViewUser::route('/{record}'),
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }

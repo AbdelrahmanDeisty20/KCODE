@@ -43,27 +43,30 @@ class ChatbotMessageResource extends Resource
     {
         return $schema
             ->components([
-                Components\Section::make('تفاصيل المحادثة')
+                Components\Section::make('👤 بيانات المستخدم والاستشارة')
                     ->schema([
                         Forms\Components\TextInput::make('user_name')
-                            ->label('اسم المستخدم')
-                            ->getStateUsing(fn ($record) => $record?->user?->name ?? 'زائر (Guest)')
+                            ->label('اسم المستخدم / العميل')
+                            ->getStateUsing(fn ($record) => $record?->user?->name ?? 'عميل زائر (Guest)')
                             ->disabled(),
 
                         Forms\Components\TextInput::make('created_at')
                             ->label('تاريخ وتوقيت المحادثة')
                             ->disabled(),
+                    ])->columns(2),
 
+                Components\Section::make('💬 نص السؤال وإجابة المستشار الذكي (AI)')
+                    ->schema([
                         Forms\Components\Textarea::make('prompt')
-                            ->label('سؤال المستخدم')
+                            ->label('سؤال العميل')
                             ->rows(3)
                             ->disabled(),
 
                         Forms\Components\Textarea::make('reply')
-                            ->label('رد المستشار الذكي (AI Reply)')
-                            ->rows(6)
+                            ->label('رد المستشار الذكي (Groq AI Reply)')
+                            ->rows(7)
                             ->disabled(),
-                    ])->columns(2),
+                    ]),
             ]);
     }
 

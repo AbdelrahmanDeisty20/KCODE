@@ -45,6 +45,7 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 StatsOverviewWidget::class,
                 \App\Filament\Widgets\OrdersChartWidget::class,
+                \App\Filament\Widgets\ChatbotAnalyticsWidget::class,
                 LatestOrdersWidget::class,
                 AccountWidget::class,
             ])

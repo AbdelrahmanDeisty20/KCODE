@@ -12,7 +12,6 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use UnitEnum;
 
 class OrderResource extends Resource
 {
@@ -44,19 +43,22 @@ class OrderResource extends Resource
     {
         return $schema
             ->components([
-                Components\Section::make('تفاصيل الطلب')
+                Components\Section::make('👤 البيانات الشخصية للعميل')
                     ->schema([
-                        Forms\Components\TextInput::make('order_number')
-                            ->label('رقم الطلب')
-                            ->disabled(),
-
                         Forms\Components\Select::make('user_id')
-                            ->label('العميل')
+                            ->label('حساب العميل')
                             ->relationship('user', 'name')
                             ->disabled(),
 
                         Forms\Components\TextInput::make('user_phone')
-                            ->label('رقم الهاتف'),
+                            ->label('رقم الهاتف للتواصل'),
+                    ])->columns(2),
+
+                Components\Section::make('💳 تفاصيل الطلب والدفع')
+                    ->schema([
+                        Forms\Components\TextInput::make('order_number')
+                            ->label('رقم الطلب')
+                            ->disabled(),
 
                         Forms\Components\Select::make('order_status')
                             ->label('حالة الطلب')
@@ -117,7 +119,8 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('order_number')
                     ->label('رقم الطلب')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->weight('bold'),
 
                 Tables\Columns\TextColumn::make('user.name')
                     ->label('العميل')
@@ -167,7 +170,8 @@ class OrderResource extends Resource
                 Tables\Columns\TextColumn::make('total')
                     ->label('الإجمالي')
                     ->money('EGP')
-                    ->sortable(),
+                    ->sortable()
+                    ->weight('bold'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تاريخ الطلب')
@@ -195,6 +199,7 @@ class OrderResource extends Resource
                     ]),
             ])
             ->actions([
+                Actions\ViewAction::make(),
                 Actions\EditAction::make(),
             ])
             ->bulkActions([
@@ -208,6 +213,7 @@ class OrderResource extends Resource
     {
         return [
             'index' => Pages\ListOrders::route('/'),
+            'view' => Pages\ViewOrder::route('/{record}'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }

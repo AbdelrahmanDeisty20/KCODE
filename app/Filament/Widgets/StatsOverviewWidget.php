@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Assessment;
+use App\Models\ChatbotMessage;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
@@ -22,8 +23,19 @@ class StatsOverviewWidget extends BaseWidget
         $totalProducts = Product::count();
         $totalUsers = User::where('type', 'user')->count();
         $totalQuizDone = Assessment::count();
+        $totalChatbotQueries = ChatbotMessage::count();
 
-        $currency = $isEn ? 'OMR ' : 'ر.ع ';
+        // 7-day trend arrays for sparkline charts
+        $ordersTrend = [];
+        $revenueTrend = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i)->toDateString();
+            $ordersTrend[] = Order::whereDate('created_at', $date)->count();
+            $revenueTrend[] = (float) Order::where('payment_status', 'paid')->whereDate('created_at', $date)->sum('total');
+        }
+
+        $currency = $isEn ? 'EGP ' : ' ج.م ';
 
         return [
             Stat::make(
@@ -32,6 +44,7 @@ class StatsOverviewWidget extends BaseWidget
             )
                 ->description($isEn ? 'Total Paid Revenue' : 'إجمالي الإيرادات المدفوعة')
                 ->descriptionIcon('heroicon-m-banknotes')
+                ->chart($revenueTrend)
                 ->color('success'),
 
             Stat::make(
@@ -40,7 +53,17 @@ class StatsOverviewWidget extends BaseWidget
             )
                 ->description($isEn ? 'Store Orders Count' : 'عدد طلبات المتجر')
                 ->descriptionIcon('heroicon-m-shopping-cart')
+                ->chart($ordersTrend)
                 ->color('primary'),
+
+            Stat::make(
+                $isEn ? 'AI Skincare Consultations' : 'استشارات المستشار الذكي (AI)',
+                number_format($totalChatbotQueries)
+            )
+                ->description($isEn ? 'AI Conversations Count' : 'مجموع محادثات الذكاء الاصطناعي')
+                ->descriptionIcon('heroicon-m-sparkles')
+                ->chart([3, 5, 8, 12, 15, 20, max(1, $totalChatbotQueries)])
+                ->color('warning'),
 
             Stat::make(
                 $isEn ? 'Available Products' : 'المنتجات المتاحة',
@@ -56,15 +79,7 @@ class StatsOverviewWidget extends BaseWidget
             )
                 ->description($isEn ? 'Total Customer Accounts' : 'إجمالي حسابات العملاء')
                 ->descriptionIcon('heroicon-m-users')
-                ->color('warning'),
-
-            Stat::make(
-                $isEn ? 'Skin Quizzes' : 'اختبارات البشرة (Quiz)',
-                number_format($totalQuizDone)
-            )
-                ->description($isEn ? 'Completed Quizzes Count' : 'عدد الاختبارات المكتملة')
-                ->descriptionIcon('heroicon-m-clipboard-document-check')
-                ->color('secondary'),
+                ->color('success'),
         ];
     }
 }
