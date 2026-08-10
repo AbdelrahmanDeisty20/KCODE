@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\API\PRODUCT\ProductListResource;
 use App\Models\Category;
+use App\Models\ChatbotMessage;
 use App\Models\Concern;
 use App\Models\Product;
 use App\Models\SkinType;
@@ -28,7 +29,7 @@ class GroqChatService
     /**
      * Handle chat request with Groq AI (Llama models).
      */
-    public function ask(string $prompt, array $history = [], ?string $locale = null): array
+    public function ask(string $prompt, array $history = [], ?string $locale = null, ?int $userId = null, ?string $sessionId = null): array
     {
         $locale = $locale ?? app()->getLocale();
 
@@ -44,7 +45,9 @@ class GroqChatService
 
         // 3. Fallback if API key is missing
         if (empty($this->apiKey)) {
-            return $this->generateFallbackResponse($prompt, $locale);
+            $result = $this->generateFallbackResponse($prompt, $locale);
+            $this->saveChatMessage($prompt, $result['reply'], $result['recommended_products'], $userId, $sessionId);
+            return $result;
         }
 
         // 4. Build OpenAI-compatible Messages Payload for Groq
@@ -98,6 +101,8 @@ class GroqChatService
                 if ($replyText) {
                     $recommendedProducts = $this->extractRecommendedProducts($replyText, $prompt);
 
+                    $this->saveChatMessage($prompt, trim($replyText), $recommendedProducts, $userId, $sessionId);
+
                     return [
                         'status' => true,
                         'reply' => trim($replyText),
@@ -111,7 +116,27 @@ class GroqChatService
             Log::error('Groq API Exception: ' . $e->getMessage());
         }
 
-        return $this->generateFallbackResponse($prompt, $locale);
+        $result = $this->generateFallbackResponse($prompt, $locale);
+        $this->saveChatMessage($prompt, $result['reply'], $result['recommended_products'], $userId, $sessionId);
+        return $result;
+    }
+
+    /**
+     * Save message to chatbot_messages table.
+     */
+    protected function saveChatMessage(string $prompt, string $reply, array $recommendedProducts, ?int $userId = null, ?string $sessionId = null): void
+    {
+        try {
+            ChatbotMessage::create([
+                'user_id' => $userId,
+                'session_id' => $sessionId,
+                'prompt' => $prompt,
+                'reply' => $reply,
+                'recommended_products' => $recommendedProducts,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to save chatbot message: ' . $e->getMessage());
+        }
     }
 
     /**

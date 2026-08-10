@@ -186,10 +186,12 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/shipping', 'getShippingFees');
     });
 
-    // Gemini AI Chatbot Routes
+    // AI Chatbot Routes
     Route::controller(ChatbotController::class)->group(function () {
         Route::post('/chatbot/chat', 'chat');
         Route::get('/chatbot/suggestions', 'suggestions');
+        Route::get('/chatbot/history', 'history');
+        Route::delete('/chatbot/history', 'clearHistory');
     });
 
     // Favorites & Reviews Routes (Protected)
