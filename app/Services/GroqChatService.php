@@ -14,20 +14,28 @@ use Illuminate\Support\Facades\Log;
 class GroqChatService
 {
     protected string $apiKey;
-    protected string $model;
+    protected string $defaultModel;
+    protected array $models;
     protected float $temperature;
     protected int $maxTokens;
 
     public function __construct()
     {
         $this->apiKey = config('groq.api_key', env('GROQ_API_KEY', ''));
-        $this->model = config('groq.model', env('GROQ_MODEL', 'llama-3.3-70b-versatile'));
+        $this->defaultModel = config('groq.model', env('GROQ_MODEL', 'llama-3.3-70b-versatile'));
+        $this->models = config('groq.models', [
+            'llama-3.3-70b-versatile',
+            'llama-3.1-8b-instant',
+            'allam-2-7b',
+            'qwen/qwen3.6-27b',
+            'openai/gpt-oss-20b',
+        ]);
         $this->temperature = (float) config('groq.temperature', 0.7);
         $this->maxTokens = (int) config('groq.max_tokens', 1000);
     }
 
     /**
-     * Handle chat request with Groq AI (Llama models).
+     * Handle chat request with Groq AI with automatic Model Fallback Chain.
      */
     public function ask(string $prompt, array $history = [], ?string $locale = null, ?int $userId = null, ?string $sessionId = null): array
     {
@@ -77,45 +85,62 @@ class GroqChatService
             'content' => $prompt,
         ];
 
-        try {
-            $endpoint = 'https://api.groq.com/openai/v1/chat/completions';
+        // 5. Automatic Model Fallback Chain Processing
+        $modelsToTry = array_unique(array_merge([$this->defaultModel], $this->models));
+        $endpoint = 'https://api.groq.com/openai/v1/chat/completions';
 
-            $payload = [
-                'model' => $this->model,
-                'messages' => $messages,
-                'temperature' => $this->temperature,
-                'max_tokens' => $this->maxTokens,
-            ];
+        foreach ($modelsToTry as $currentModel) {
+            try {
+                $payload = [
+                    'model' => $currentModel,
+                    'messages' => $messages,
+                    'temperature' => $this->temperature,
+                    'max_tokens' => $this->maxTokens,
+                ];
 
-            $response = Http::timeout(15)
-                ->withHeaders([
-                    'Authorization' => "Bearer {$this->apiKey}",
-                    'Content-Type' => 'application/json',
-                ])
-                ->post($endpoint, $payload);
+                $response = Http::timeout(15)
+                    ->withHeaders([
+                        'Authorization' => "Bearer {$this->apiKey}",
+                        'Content-Type' => 'application/json',
+                    ])
+                    ->post($endpoint, $payload);
 
-            if ($response->successful()) {
-                $responseData = $response->json();
-                $replyText = $responseData['choices'][0]['message']['content'] ?? null;
+                if ($response->successful()) {
+                    $responseData = $response->json();
+                    $replyText = $responseData['choices'][0]['message']['content'] ?? null;
 
-                if ($replyText) {
-                    $recommendedProducts = $this->extractRecommendedProducts($replyText, $prompt);
+                    if ($replyText) {
+                        // Clean up any internal reasoning tags if present
+                        $cleanReplyText = preg_replace('/<think>[\s\S]*?<\/think>/i', '', $replyText);
+                        $cleanReplyText = trim($cleanReplyText);
 
-                    $this->saveChatMessage($prompt, trim($replyText), $recommendedProducts, $userId, $sessionId);
+                        if (!empty($cleanReplyText)) {
+                            $recommendedProducts = $this->extractRecommendedProducts($cleanReplyText, $prompt);
 
-                    return [
-                        'status' => true,
-                        'reply' => trim($replyText),
-                        'recommended_products' => $recommendedProducts,
-                    ];
+                            $this->saveChatMessage($prompt, $cleanReplyText, $recommendedProducts, $userId, $sessionId);
+
+                            Log::info("Groq Chat successfully responded using model [{$currentModel}]");
+
+                            return [
+                                'status' => true,
+                                'model' => $currentModel,
+                                'reply' => $cleanReplyText,
+                                'recommended_products' => $recommendedProducts,
+                            ];
+                        }
+                    }
                 }
-            }
 
-            Log::error('Groq API Error: ' . $response->body());
-        } catch (\Exception $e) {
-            Log::error('Groq API Exception: ' . $e->getMessage());
+                Log::warning("Groq model [{$currentModel}] returned HTTP {$response->status()}. Failing over to next model...", [
+                    'response' => substr($response->body(), 0, 200)
+                ]);
+            } catch (\Exception $e) {
+                Log::warning("Groq model [{$currentModel}] exception: {$e->getMessage()}. Failing over to next model...");
+            }
         }
 
+        // 6. Hard Fallback Response if all Groq models fail or hit rate limits
+        Log::error("All Groq AI models failed or hit rate limits. Serving intelligent fallback response.");
         $result = $this->generateFallbackResponse($prompt, $locale);
         $this->saveChatMessage($prompt, $result['reply'], $result['recommended_products'], $userId, $sessionId);
         return $result;

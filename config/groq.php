@@ -3,17 +3,26 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Groq AI Configuration
+    | Groq AI Configuration & Model Fallback Chain
     |--------------------------------------------------------------------------
     |
     | Configuration for Groq Llama AI models used by KCODE Chatbot Assistant.
-    | Get your API key from https://console.groq.com/
+    | Ordered by priority. If a model hits rate-limits (HTTP 429), the chatbot
+    | automatically fails over to the next model in the list.
     |
     */
 
     'api_key' => env('GROQ_API_KEY', ''),
 
     'model' => env('GROQ_MODEL', 'llama-3.3-70b-versatile'),
+
+    'models' => [
+        'llama-3.3-70b-versatile',
+        'llama-3.1-8b-instant',
+        'allam-2-7b',
+        'qwen/qwen3.6-27b',
+        'openai/gpt-oss-20b',
+    ],
 
     'temperature' => (float) env('GROQ_TEMPERATURE', 0.7),
 
