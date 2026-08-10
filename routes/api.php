@@ -190,8 +190,8 @@ Route::middleware([SetLang::class])->group(function () {
     Route::controller(ChatbotController::class)->group(function () {
         Route::post('/chatbot/chat', 'chat');
         Route::get('/chatbot/suggestions', 'suggestions');
-        Route::get('/chatbot/history', 'history');
-        Route::delete('/chatbot/history', 'clearHistory');
+        Route::get('/chatbot/history', 'history')->middleware('auth:sanctum');
+        Route::delete('/chatbot/history', 'clearHistory')->middleware('auth:sanctum');
     });
 
     // Favorites & Reviews Routes (Protected)
