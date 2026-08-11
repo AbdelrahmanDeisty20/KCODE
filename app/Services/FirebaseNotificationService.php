@@ -65,12 +65,25 @@ class FirebaseNotificationService
         }
 
         try {
-            return Http::withToken($tokenAccess)
+            $response = Http::withToken($tokenAccess)
                 ->post(
                     "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send",
                     $payload
                 )
                 ->json();
+
+            // Auto-cleanup if token is unregistered or expired on the device
+            if (isset($response['error'])) {
+                $message = $response['error']['message'] ?? '';
+                $details = $response['error']['details'][0]['errorCode'] ?? '';
+                
+                if ($message === 'NotRegistered' || $details === 'UNREGISTERED') {
+                    UserFcmToken::where('token', $token)->delete();
+                    Log::info("Cleaned up expired/unregistered FCM Token from database.");
+                }
+            }
+
+            return $response;
         } catch (\Exception $e) {
             Log::error("Firebase Notification Send Error: " . $e->getMessage());
             return null;
