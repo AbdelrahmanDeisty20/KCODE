@@ -5,9 +5,11 @@ namespace App\Filament\Resources\AppNotificationResource\Pages;
 use App\Filament\Resources\AppNotificationResource;
 use App\Models\AppNotification;
 use App\Models\User;
+use App\Services\FirebaseNotificationService;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class CreateAppNotification extends CreateRecord
 {
@@ -61,12 +63,31 @@ class CreateAppNotification extends CreateRecord
             ]);
         }
 
+        // Send Push Notification via Firebase
+        try {
+            $firebaseService = app(FirebaseNotificationService::class);
+            $pushTitle = $titleAr ?: $titleEn;
+            $pushBody = $messageAr ?: $messageEn;
+            $extraData = [
+                'type' => $type,
+            ];
+
+            if ($targetType === 'all') {
+                $firebaseService->sendToUsers($pushTitle, $pushBody, [], $extraData);
+            } else if (!empty($userIds)) {
+                $firebaseService->sendToUsers($pushTitle, $pushBody, $userIds, $extraData);
+            }
+        } catch (\Exception $e) {
+            Log::error('Dashboard Push Notification error: ' . $e->getMessage());
+        }
+
         Notification::make()
             ->title('تم إرسال الإشعار بنجاح 📣')
-            ->body('تم حفظ وإرسال الإشعار لجميع المستهدفين المعنيين.')
+            ->body('تم حفظ الإشعار وإرساله إشعاراً فورياً (Push Notification) عبر Firebase.')
             ->success()
             ->send();
 
         return $createdNotification;
     }
 }
+
