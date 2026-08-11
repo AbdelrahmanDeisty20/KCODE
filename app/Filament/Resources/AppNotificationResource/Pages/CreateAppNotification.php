@@ -22,6 +22,8 @@ class CreateAppNotification extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
+        Log::info("Dashboard CreateAppNotification form submitted with target_type: " . ($data['target_type'] ?? 'all'));
+
         $targetType = $data['target_type'] ?? 'all';
         $titleAr = $data['title_ar'];
         $titleEn = $data['title_en'] ?? null;
