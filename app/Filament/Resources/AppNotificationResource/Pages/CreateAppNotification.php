@@ -3,12 +3,9 @@
 namespace App\Filament\Resources\AppNotificationResource\Pages;
 
 use App\Filament\Resources\AppNotificationResource;
-use App\Models\AppNotification;
-use App\Models\User;
+use App\Models\UserFcmToken;
 use App\Services\FirebaseNotificationService;
-use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 
 class CreateAppNotification extends CreateRecord
@@ -20,75 +17,52 @@ class CreateAppNotification extends CreateRecord
         return $this->getResource()::getUrl('index');
     }
 
-    protected function handleRecordCreation(array $data): Model
+    protected function afterCreate(): void
     {
-        Log::info("Dashboard CreateAppNotification form submitted with target_type: " . ($data['target_type'] ?? 'all'));
+        $notification = $this->record;
 
-        $targetType = $data['target_type'] ?? 'all';
-        $titleAr = $data['title_ar'];
-        $titleEn = $data['title_en'] ?? null;
-        $messageAr = $data['message_ar'];
-        $messageEn = $data['message_en'] ?? null;
-        $type = $data['type'] ?? 'general';
-
-        $createdNotification = null;
-
-        if ($targetType === 'all') {
-            // General broadcast notification for all users & guest devices
-            $createdNotification = AppNotification::create([
-                'user_id'    => null,
-                'title_ar'   => $titleAr,
-                'title_en'   => $titleEn,
-                'message_ar' => $messageAr,
-                'message_en' => $messageEn,
-                'type'       => $type,
-                'is_read'    => false,
-            ]);
-        } else {
-            // Selected specific users
-            $userIds = $data['user_ids'] ?? [];
-            if (!empty($userIds)) {
-                foreach ($userIds as $userId) {
-                    $createdNotification = AppNotification::create([
-                        'user_id'    => $userId,
-                        'title_ar'   => $titleAr,
-                        'title_en'   => $titleEn,
-                        'message_ar' => $messageAr,
-                        'message_en' => $messageEn,
-                        'type'       => $type,
-                        'is_read'    => false,
-                    ]);
-                }
-            }
-        }
-
-        // Send Push Notification via Firebase
         try {
             $firebaseService = app(FirebaseNotificationService::class);
-            $pushTitle = $titleAr ?: $titleEn;
-            $pushBody = $messageAr ?: $messageEn;
-            $extraData = [
-                'type' => $type,
+
+            $data = [
+                'type'            => $notification->type ?? 'general',
+                'notification_id' => (string) $notification->id,
             ];
 
-            if ($targetType === 'all') {
-                // Send to ALL tokens in database (Registered users + Guest devices)
-                $firebaseService->sendToUsers($pushTitle, $pushBody, [], $extraData);
-            } else if (!empty($userIds)) {
-                // Send only to selected user IDs
-                $firebaseService->sendToUsers($pushTitle, $pushBody, $userIds, $extraData);
+            $title = $notification->title_ar ?: ($notification->title_en ?? '');
+            $body = $notification->message_ar ?: ($notification->message_en ?? '');
+
+            if ($notification->user_id) {
+                // Send push notification to specific user's tokens
+                $tokens = UserFcmToken::where('user_id', $notification->user_id)->pluck('token');
+
+                Log::info("Sending push notification to user #{$notification->user_id}. Total tokens: " . $tokens->count());
+
+                foreach ($tokens as $token) {
+                    try {
+                        $firebaseService->sendToToken($token, $title, $body, $data);
+                    } catch (\Exception $e) {
+                        Log::error("Individual token send error: " . $e->getMessage());
+                    }
+                }
+            } else {
+                // Broadcast push notification to all tokens (registered users & guest devices)
+                $tokens = UserFcmToken::all();
+
+                Log::info("Broadcasting push notification to ALL " . $tokens->count() . " tokens.");
+
+                foreach ($tokens as $tokenModel) {
+                    try {
+                        $firebaseService->sendToToken($tokenModel->token, $title, $body, $data);
+                    } catch (\Exception $e) {
+                        Log::error("Broadcast token send error: " . $e->getMessage());
+                    }
+                }
             }
         } catch (\Exception $e) {
-            Log::error('Dashboard Push Notification error: ' . $e->getMessage());
+            Log::error('Firebase afterCreate notification error: ' . $e->getMessage());
         }
-
-        Notification::make()
-            ->title('تم إرسال الإشعار بنجاح 📣')
-            ->body('تم حفظ الإشعار وإرساله إشعاراً فورياً (Push Notification) عبر Firebase.')
-            ->success()
-            ->send();
-
-        return $createdNotification;
     }
 }
+
 

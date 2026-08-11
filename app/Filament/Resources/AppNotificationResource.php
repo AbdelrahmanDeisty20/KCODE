@@ -47,25 +47,13 @@ class AppNotificationResource extends Resource
                 Components\Section::make('📣 إرسال إشعار جديد للمستخدمين')
                     ->description('قم بتحديد الجمهور الفئة المستهدفة ثم كتابة عنوان ونص الإشعار.')
                     ->schema([
-                        Forms\Components\Radio::make('target_type')
-                            ->label('الفئة المستهدفة')
-                            ->options([
-                                'all' => '📣 إرسال عام لجميع التوكينات والأجهزة (Send to All Devices & Tokens)',
-                                'selected' => '👥 اختيار مستخدمين محددين (Select Specific Users)',
-                            ])
-                            ->default('all')
-                            ->reactive()
-                            ->required()
-                            ->columnSpanFull(),
-
-                        Forms\Components\Select::make('user_ids')
-                            ->label('المستخدمون المستهدفون')
+                        Forms\Components\Select::make('user_id')
+                            ->label('المستلم / المستخدم المستهدف')
                             ->options(User::pluck('name', 'id'))
-                            ->multiple()
                             ->searchable()
                             ->preload()
-                            ->visible(fn ($get) => $get('target_type') === 'selected')
-                            ->required(fn ($get) => $get('target_type') === 'selected')
+                            ->nullable()
+                            ->placeholder('📣 جميع المستخدمين والأجهزة (إرسال عام لكل التوكينات)')
                             ->columnSpanFull(),
 
                         Forms\Components\TextInput::make('title_ar')
