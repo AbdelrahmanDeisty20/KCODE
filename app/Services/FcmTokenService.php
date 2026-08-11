@@ -17,15 +17,27 @@ class FcmTokenService
             $deviceId = $data['device_id'] ?? null;
             $finalUserId = $userId ?? ($data['user_id'] ?? null);
 
-            $fcmRecord = UserFcmToken::updateOrCreate(
-                [
-                    'token' => $token,
-                ],
-                [
-                    'user_id'   => $finalUserId,
-                    'device_id' => $deviceId,
-                ]
-            );
+            if (!empty($deviceId)) {
+                $fcmRecord = UserFcmToken::updateOrCreate(
+                    [
+                        'device_id' => $deviceId,
+                    ],
+                    [
+                        'user_id' => $finalUserId,
+                        'token'   => $token,
+                    ]
+                );
+            } else {
+                $fcmRecord = UserFcmToken::updateOrCreate(
+                    [
+                        'token' => $token,
+                    ],
+                    [
+                        'user_id'   => $finalUserId,
+                        'device_id' => null,
+                    ]
+                );
+            }
 
             return [
                 'status'  => true,
