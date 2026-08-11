@@ -50,7 +50,7 @@ class AppNotificationResource extends Resource
                         Forms\Components\Radio::make('target_type')
                             ->label('الفئة المستهدفة')
                             ->options([
-                                'all' => '📣 جميع المستخدمين المسجلين (Send to All Users)',
+                                'all' => '📣 إرسال عام لجميع التوكينات والأجهزة (Send to All Devices & Tokens)',
                                 'selected' => '👥 اختيار مستخدمين محددين (Select Specific Users)',
                             ])
                             ->default('all')

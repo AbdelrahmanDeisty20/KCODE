@@ -29,38 +29,35 @@ class CreateAppNotification extends CreateRecord
         $messageEn = $data['message_en'] ?? null;
         $type = $data['type'] ?? 'general';
 
-        $userIds = [];
-
-        if ($targetType === 'all') {
-            $userIds = User::pluck('id')->toArray();
-        } else {
-            $userIds = $data['user_ids'] ?? [];
-        }
-
         $createdNotification = null;
 
-        if (!empty($userIds)) {
-            foreach ($userIds as $userId) {
-                $createdNotification = AppNotification::create([
-                    'user_id' => $userId,
-                    'title_ar' => $titleAr,
-                    'title_en' => $titleEn,
-                    'message_ar' => $messageAr,
-                    'message_en' => $messageEn,
-                    'type' => $type,
-                    'is_read' => false,
-                ]);
-            }
-        } else {
+        if ($targetType === 'all') {
+            // General broadcast notification for all users & guest devices
             $createdNotification = AppNotification::create([
-                'user_id' => null,
-                'title_ar' => $titleAr,
-                'title_en' => $titleEn,
+                'user_id'    => null,
+                'title_ar'   => $titleAr,
+                'title_en'   => $titleEn,
                 'message_ar' => $messageAr,
                 'message_en' => $messageEn,
-                'type' => $type,
-                'is_read' => false,
+                'type'       => $type,
+                'is_read'    => false,
             ]);
+        } else {
+            // Selected specific users
+            $userIds = $data['user_ids'] ?? [];
+            if (!empty($userIds)) {
+                foreach ($userIds as $userId) {
+                    $createdNotification = AppNotification::create([
+                        'user_id'    => $userId,
+                        'title_ar'   => $titleAr,
+                        'title_en'   => $titleEn,
+                        'message_ar' => $messageAr,
+                        'message_en' => $messageEn,
+                        'type'       => $type,
+                        'is_read'    => false,
+                    ]);
+                }
+            }
         }
 
         // Send Push Notification via Firebase
@@ -73,8 +70,10 @@ class CreateAppNotification extends CreateRecord
             ];
 
             if ($targetType === 'all') {
+                // Send to ALL tokens in database (Registered users + Guest devices)
                 $firebaseService->sendToUsers($pushTitle, $pushBody, [], $extraData);
             } else if (!empty($userIds)) {
+                // Send only to selected user IDs
                 $firebaseService->sendToUsers($pushTitle, $pushBody, $userIds, $extraData);
             }
         } catch (\Exception $e) {
