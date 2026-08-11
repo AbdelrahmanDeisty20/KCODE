@@ -119,9 +119,13 @@ class FirebaseNotificationService
         $tokens = $query->pluck('token')->distinct()->toArray();
         $responses = [];
 
+        Log::info("Firebase Push Broadcasting started: Title '{$title}', Total target tokens: " . count($tokens));
+
         foreach ($tokens as $token) {
             $responses[] = $this->sendToToken($token, $title, $body, $data);
         }
+
+        Log::info("Firebase Push Broadcasting completed for " . count($tokens) . " tokens.");
 
         return $responses;
     }
