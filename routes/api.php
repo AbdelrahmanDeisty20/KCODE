@@ -204,8 +204,11 @@ Route::middleware([SetLang::class])->group(function () {
         // App Notifications
         Route::controller(\App\Http\Controllers\API\Genral\AppNotificationController::class)->group(function () {
             Route::get('/user/notifications', 'index');
+            Route::get('/user/notifications/general', 'general');
             Route::post('/user/notifications/read-all', 'markAllAsRead');
             Route::post('/user/notifications/{id}/read', 'markAsRead');
+            Route::delete('/user/notifications/clear-all', 'clearAll');
+            Route::delete('/user/notifications/{id}', 'destroy');
         });
 
         Route::controller(FavouriteController::class)->group(function () {

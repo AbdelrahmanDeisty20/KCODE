@@ -246,4 +246,7 @@ return [
     'notification_marked_as_read' => 'تم تحديد الإشعار كمقروء بنجاح.',
     'notification_update_failed' => 'حدث خطأ أثناء تحديث حالة الإشعار.',
     'all_notifications_marked_as_read' => 'تم تحديد جميع الإشعارات كمقروءة بنجاح.',
+    'notification_deleted_successfully' => 'تم حذف الإشعار بنجاح.',
+    'notification_delete_failed' => 'حدث خطأ أثناء حذف الإشعار.',
+    'all_notifications_cleared_successfully' => 'تم حذف جميع الإشعارات بنجاح.',
 ];

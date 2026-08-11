@@ -243,4 +243,7 @@ return [
     'notification_marked_as_read' => 'Notification marked as read successfully.',
     'notification_update_failed' => 'Failed to update notification status.',
     'all_notifications_marked_as_read' => 'All notifications marked as read successfully.',
+    'notification_deleted_successfully' => 'Notification deleted successfully.',
+    'notification_delete_failed' => 'Failed to delete notification.',
+    'all_notifications_cleared_successfully' => 'All notifications cleared successfully.',
 ];

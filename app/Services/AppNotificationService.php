@@ -3,20 +3,38 @@
 namespace App\Services;
 
 use App\Models\AppNotification;
+use App\Models\AppNotificationUserStatus;
 use Illuminate\Support\Facades\Log;
 
 class AppNotificationService
 {
     /**
-     * Get user notifications paginated.
+     * Get user notifications paginated (Personal + General, excluding deleted).
      */
     public function getUserNotifications(int $userId, int $perPage = 10): array
     {
         try {
-            $notifications = AppNotification::where('user_id', $userId)
-                ->orWhereNull('user_id')
+            $deletedIds = AppNotificationUserStatus::where('user_id', $userId)
+                ->where('is_deleted', true)
+                ->pluck('app_notification_id')
+                ->toArray();
+
+            $readIds = AppNotificationUserStatus::where('user_id', $userId)
+                ->where('is_read', true)
+                ->pluck('app_notification_id')
+                ->toArray();
+
+            $notifications = AppNotification::where(function ($q) use ($userId) {
+                    $q->where('user_id', $userId)->orWhereNull('user_id');
+                })
+                ->whereNotIn('id', $deletedIds)
                 ->latest()
                 ->paginate($perPage);
+
+            $notifications->getCollection()->transform(function ($item) use ($readIds) {
+                $item->is_read = (bool) ($item->is_read || in_array($item->id, $readIds));
+                return $item;
+            });
 
             return [
                 'status'  => true,
@@ -35,11 +53,66 @@ class AppNotificationService
     }
 
     /**
-     * Mark a notification as read.
+     * Get ONLY general notifications paginated (where user_id IS NULL).
+     */
+    public function getGeneralNotifications(int $userId, int $perPage = 10): array
+    {
+        try {
+            $deletedIds = AppNotificationUserStatus::where('user_id', $userId)
+                ->where('is_deleted', true)
+                ->pluck('app_notification_id')
+                ->toArray();
+
+            $readIds = AppNotificationUserStatus::where('user_id', $userId)
+                ->where('is_read', true)
+                ->pluck('app_notification_id')
+                ->toArray();
+
+            $notifications = AppNotification::whereNull('user_id')
+                ->whereNotIn('id', $deletedIds)
+                ->latest()
+                ->paginate($perPage);
+
+            $notifications->getCollection()->transform(function ($item) use ($readIds) {
+                $item->is_read = (bool) in_array($item->id, $readIds);
+                return $item;
+            });
+
+            return [
+                'status'  => true,
+                'message' => __('messages.notifications_retrieved_successfully'),
+                'data'    => $notifications,
+            ];
+        } catch (\Exception $e) {
+            Log::error('General Notifications Fetch Error: ' . $e->getMessage());
+
+            return [
+                'status'  => false,
+                'message' => __('messages.notifications_fetch_failed'),
+                'data'    => [],
+            ];
+        }
+    }
+
+    /**
+     * Mark a notification as read for a specific user.
      */
     public function markAsRead(int $userId, int $notificationId): array
     {
         try {
+            $deletedIds = AppNotificationUserStatus::where('user_id', $userId)
+                ->where('is_deleted', true)
+                ->pluck('app_notification_id')
+                ->toArray();
+
+            if (in_array($notificationId, $deletedIds)) {
+                return [
+                    'status'  => false,
+                    'message' => __('messages.notification_not_found'),
+                    'code'    => 404,
+                ];
+            }
+
             $notification = AppNotification::where('id', $notificationId)
                 ->where(function ($q) use ($userId) {
                     $q->where('user_id', $userId)->orWhereNull('user_id');
@@ -54,7 +127,22 @@ class AppNotificationService
                 ];
             }
 
-            $notification->update(['is_read' => true]);
+            if ($notification->user_id === $userId) {
+                $notification->update(['is_read' => true]);
+            }
+
+            AppNotificationUserStatus::updateOrCreate(
+                [
+                    'user_id'             => $userId,
+                    'app_notification_id' => $notificationId,
+                ],
+                [
+                    'is_read' => true,
+                    'read_at' => now(),
+                ]
+            );
+
+            $notification->is_read = true;
 
             return [
                 'status'  => true,
@@ -78,11 +166,33 @@ class AppNotificationService
     public function markAllAsRead(int $userId): array
     {
         try {
-            AppNotification::where(function ($q) use ($userId) {
-                $q->where('user_id', $userId)->orWhereNull('user_id');
-            })
-            ->where('is_read', false)
-            ->update(['is_read' => true]);
+            $deletedIds = AppNotificationUserStatus::where('user_id', $userId)
+                ->where('is_deleted', true)
+                ->pluck('app_notification_id')
+                ->toArray();
+
+            $notifications = AppNotification::where(function ($q) use ($userId) {
+                    $q->where('user_id', $userId)->orWhereNull('user_id');
+                })
+                ->whereNotIn('id', $deletedIds)
+                ->get();
+
+            foreach ($notifications as $notification) {
+                if ($notification->user_id === $userId) {
+                    $notification->update(['is_read' => true]);
+                }
+
+                AppNotificationUserStatus::updateOrCreate(
+                    [
+                        'user_id'             => $userId,
+                        'app_notification_id' => $notification->id,
+                    ],
+                    [
+                        'is_read' => true,
+                        'read_at' => now(),
+                    ]
+                );
+            }
 
             return [
                 'status'  => true,
@@ -94,6 +204,97 @@ class AppNotificationService
             return [
                 'status'  => false,
                 'message' => __('messages.notification_update_failed'),
+                'code'    => 500,
+            ];
+        }
+    }
+
+    /**
+     * Delete a specific notification for a user.
+     */
+    public function deleteNotification(int $userId, int $notificationId): array
+    {
+        try {
+            $notification = AppNotification::where('id', $notificationId)
+                ->where(function ($q) use ($userId) {
+                    $q->where('user_id', $userId)->orWhereNull('user_id');
+                })
+                ->first();
+
+            if (!$notification) {
+                return [
+                    'status'  => false,
+                    'message' => __('messages.notification_not_found'),
+                    'code'    => 404,
+                ];
+            }
+
+            AppNotificationUserStatus::updateOrCreate(
+                [
+                    'user_id'             => $userId,
+                    'app_notification_id' => $notificationId,
+                ],
+                [
+                    'is_deleted' => true,
+                    'deleted_at' => now(),
+                ]
+            );
+
+            return [
+                'status'  => true,
+                'message' => __('messages.notification_deleted_successfully'),
+            ];
+        } catch (\Exception $e) {
+            Log::error('Notification Delete Error: ' . $e->getMessage());
+
+            return [
+                'status'  => false,
+                'message' => __('messages.notification_delete_failed'),
+                'code'    => 500,
+            ];
+        }
+    }
+
+    /**
+     * Clear / Delete all notifications for a user.
+     */
+    public function clearAllNotifications(int $userId): array
+    {
+        try {
+            $deletedIds = AppNotificationUserStatus::where('user_id', $userId)
+                ->where('is_deleted', true)
+                ->pluck('app_notification_id')
+                ->toArray();
+
+            $notificationIds = AppNotification::where(function ($q) use ($userId) {
+                    $q->where('user_id', $userId)->orWhereNull('user_id');
+                })
+                ->whereNotIn('id', $deletedIds)
+                ->pluck('id');
+
+            foreach ($notificationIds as $notificationId) {
+                AppNotificationUserStatus::updateOrCreate(
+                    [
+                        'user_id'             => $userId,
+                        'app_notification_id' => $notificationId,
+                    ],
+                    [
+                        'is_deleted' => true,
+                        'deleted_at' => now(),
+                    ]
+                );
+            }
+
+            return [
+                'status'  => true,
+                'message' => __('messages.all_notifications_cleared_successfully'),
+            ];
+        } catch (\Exception $e) {
+            Log::error('Clear All Notifications Error: ' . $e->getMessage());
+
+            return [
+                'status'  => false,
+                'message' => __('messages.notification_delete_failed'),
                 'code'    => 500,
             ];
         }
