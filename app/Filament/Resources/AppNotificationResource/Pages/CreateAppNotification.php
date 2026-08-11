@@ -33,10 +33,13 @@ class CreateAppNotification extends CreateRecord
             $body = $notification->message_ar ?: ($notification->message_en ?? '');
 
             if ($notification->user_id) {
-                // Send push notification to specific user's tokens
-                $tokens = UserFcmToken::where('user_id', $notification->user_id)->pluck('token');
+                // Send push notification to specific user's unique tokens
+                $tokens = UserFcmToken::where('user_id', $notification->user_id)
+                    ->pluck('token')
+                    ->unique()
+                    ->filter();
 
-                Log::info("Sending push notification to user #{$notification->user_id}. Total tokens: " . $tokens->count());
+                Log::info("Sending push notification to user #{$notification->user_id}. Unique tokens count: " . $tokens->count());
 
                 foreach ($tokens as $token) {
                     try {
@@ -46,14 +49,16 @@ class CreateAppNotification extends CreateRecord
                     }
                 }
             } else {
-                // Broadcast push notification to all tokens (registered users & guest devices)
-                $tokens = UserFcmToken::all();
+                // Broadcast push notification to all unique tokens (registered users & guest devices)
+                $tokens = UserFcmToken::pluck('token')
+                    ->unique()
+                    ->filter();
 
-                Log::info("Broadcasting push notification to ALL " . $tokens->count() . " tokens.");
+                Log::info("Broadcasting push notification to ALL " . $tokens->count() . " unique tokens.");
 
-                foreach ($tokens as $tokenModel) {
+                foreach ($tokens as $token) {
                     try {
-                        $firebaseService->sendToToken($tokenModel->token, $title, $body, $data);
+                        $firebaseService->sendToToken($token, $title, $body, $data);
                     } catch (\Exception $e) {
                         Log::error("Broadcast token send error: " . $e->getMessage());
                     }
