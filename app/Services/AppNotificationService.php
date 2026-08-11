@@ -71,4 +71,31 @@ class AppNotificationService
             ];
         }
     }
+
+    /**
+     * Mark all notifications as read for a user.
+     */
+    public function markAllAsRead(int $userId): array
+    {
+        try {
+            AppNotification::where(function ($q) use ($userId) {
+                $q->where('user_id', $userId)->orWhereNull('user_id');
+            })
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
+            return [
+                'status'  => true,
+                'message' => __('messages.all_notifications_marked_as_read'),
+            ];
+        } catch (\Exception $e) {
+            Log::error('Notifications Mark All As Read Error: ' . $e->getMessage());
+
+            return [
+                'status'  => false,
+                'message' => __('messages.notification_update_failed'),
+                'code'    => 500,
+            ];
+        }
+    }
 }

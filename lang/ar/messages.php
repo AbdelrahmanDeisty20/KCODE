@@ -245,4 +245,5 @@ return [
     'notification_not_found' => 'الإشعار غير موجود.',
     'notification_marked_as_read' => 'تم تحديد الإشعار كمقروء بنجاح.',
     'notification_update_failed' => 'حدث خطأ أثناء تحديث حالة الإشعار.',
+    'all_notifications_marked_as_read' => 'تم تحديد جميع الإشعارات كمقروءة بنجاح.',
 ];

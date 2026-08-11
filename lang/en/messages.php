@@ -242,4 +242,5 @@ return [
     'notification_not_found' => 'Notification not found.',
     'notification_marked_as_read' => 'Notification marked as read successfully.',
     'notification_update_failed' => 'Failed to update notification status.',
+    'all_notifications_marked_as_read' => 'All notifications marked as read successfully.',
 ];

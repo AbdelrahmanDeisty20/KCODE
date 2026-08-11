@@ -37,18 +37,38 @@ class AppNotificationController extends Controller
     }
 
     /**
-     * Mark notification as read.
+     * Mark notification as read (or mark all as read if id is 'all' or 'read-all').
      */
-    public function markAsRead(Request $request, int $id): JsonResponse
+    public function markAsRead(Request $request, mixed $id = null): JsonResponse
     {
         $userId = $request->user()->id;
 
-        $result = $this->notificationService->markAsRead($userId, $id);
+        if ($id === null || $id === 'all' || $id === 'read-all') {
+            return $this->markAllAsRead($request);
+        }
+
+        $result = $this->notificationService->markAsRead($userId, (int) $id);
 
         if (!$result['status']) {
             return $this->error($result['message'], $result['code'] ?? 500);
         }
 
         return $this->success(new AppNotificationResource($result['data']), $result['message']);
+    }
+
+    /**
+     * Mark all user notifications as read.
+     */
+    public function markAllAsRead(Request $request): JsonResponse
+    {
+        $userId = $request->user()->id;
+
+        $result = $this->notificationService->markAllAsRead($userId);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], $result['code'] ?? 500);
+        }
+
+        return $this->success([], $result['message']);
     }
 }
