@@ -37,14 +37,14 @@ class AppNotificationController extends Controller
     }
 
     /**
-     * Get ONLY general notifications (where user_id IS NULL).
+     * Get public general notifications (where user_id IS NULL).
+     * Public endpoint - No Auth required.
      */
-    public function general(Request $request): JsonResponse
+    public function publicGeneral(Request $request): JsonResponse
     {
-        $userId = $request->user()->id;
         $perPage = (int) $request->get('per_page', 10);
 
-        $result = $this->notificationService->getGeneralNotifications($userId, $perPage);
+        $result = $this->notificationService->getPublicGeneralNotifications($perPage);
 
         if (!$result['status']) {
             return $this->error($result['message'], 500);

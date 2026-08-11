@@ -194,8 +194,9 @@ Route::middleware([SetLang::class])->group(function () {
         Route::delete('/chatbot/history', 'clearHistory')->middleware('auth:sanctum');
     });
 
-    // FCM Token Routes
+    // FCM Token & Public Notifications Routes
     Route::post('/fcm-token', [\App\Http\Controllers\API\Genral\FcmTokenController::class, 'storeGuestToken']);
+    Route::get('/notifications/general', [\App\Http\Controllers\API\Genral\AppNotificationController::class, 'publicGeneral']);
 
     // Favorites & Reviews & Notifications Routes (Protected)
     Route::middleware('auth:sanctum')->group(function () {
@@ -204,7 +205,6 @@ Route::middleware([SetLang::class])->group(function () {
         // App Notifications
         Route::controller(\App\Http\Controllers\API\Genral\AppNotificationController::class)->group(function () {
             Route::get('/user/notifications', 'index');
-            Route::get('/user/notifications/general', 'general');
             Route::post('/user/notifications/read-all', 'markAllAsRead');
             Route::post('/user/notifications/{id}/read', 'markAsRead');
             Route::delete('/user/notifications/clear-all', 'clearAll');

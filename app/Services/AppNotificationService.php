@@ -53,30 +53,14 @@ class AppNotificationService
     }
 
     /**
-     * Get ONLY general notifications paginated (where user_id IS NULL).
+     * Get public general notifications paginated (where user_id IS NULL, no auth required).
      */
-    public function getGeneralNotifications(int $userId, int $perPage = 10): array
+    public function getPublicGeneralNotifications(int $perPage = 10): array
     {
         try {
-            $deletedIds = AppNotificationUserStatus::where('user_id', $userId)
-                ->where('is_deleted', true)
-                ->pluck('app_notification_id')
-                ->toArray();
-
-            $readIds = AppNotificationUserStatus::where('user_id', $userId)
-                ->where('is_read', true)
-                ->pluck('app_notification_id')
-                ->toArray();
-
             $notifications = AppNotification::whereNull('user_id')
-                ->whereNotIn('id', $deletedIds)
                 ->latest()
                 ->paginate($perPage);
-
-            $notifications->getCollection()->transform(function ($item) use ($readIds) {
-                $item->is_read = (bool) in_array($item->id, $readIds);
-                return $item;
-            });
 
             return [
                 'status'  => true,
@@ -84,7 +68,7 @@ class AppNotificationService
                 'data'    => $notifications,
             ];
         } catch (\Exception $e) {
-            Log::error('General Notifications Fetch Error: ' . $e->getMessage());
+            Log::error('Public General Notifications Fetch Error: ' . $e->getMessage());
 
             return [
                 'status'  => false,
