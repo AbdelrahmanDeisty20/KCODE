@@ -205,8 +205,6 @@ Route::middleware([SetLang::class])->group(function () {
         Route::controller(\App\Http\Controllers\API\Genral\AppNotificationController::class)->group(function () {
             Route::get('/user/notifications', 'index');
             Route::post('/user/notifications/read-all', 'markAllAsRead');
-            Route::post('/user/notifications/mark-all-read', 'markAllAsRead');
-            Route::post('/user/notifications/read', 'markAllAsRead');
             Route::post('/user/notifications/{id}/read', 'markAsRead');
         });
 
