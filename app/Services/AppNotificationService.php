@@ -329,10 +329,14 @@ class AppNotificationService
                 ];
             }
 
-            $fcmTokenRecord = UserFcmToken::firstOrCreate(
-                ['device_id' => $deviceId],
-                ['token' => $deviceId]
-            );
+            $fcmTokenRecord = UserFcmToken::where('device_id', $deviceId)->first();
+
+            if (!$fcmTokenRecord) {
+                $fcmTokenRecord = UserFcmToken::create([
+                    'device_id' => $deviceId,
+                    'token'     => $deviceId,
+                ]);
+            }
 
             $existingStatus = AppNotificationUserStatus::where('user_fcm_token_id', $fcmTokenRecord->id)
                 ->where('app_notification_id', $notificationId)
@@ -378,10 +382,14 @@ class AppNotificationService
     public function clearAllGeneralNotificationsByDeviceId(string $deviceId): array
     {
         try {
-            $fcmTokenRecord = UserFcmToken::firstOrCreate(
-                ['device_id' => $deviceId],
-                ['token' => $deviceId]
-            );
+            $fcmTokenRecord = UserFcmToken::where('device_id', $deviceId)->first();
+
+            if (!$fcmTokenRecord) {
+                $fcmTokenRecord = UserFcmToken::create([
+                    'device_id' => $deviceId,
+                    'token'     => $deviceId,
+                ]);
+            }
 
             $deletedIds = AppNotificationUserStatus::where('user_fcm_token_id', $fcmTokenRecord->id)
                 ->where('is_deleted', true)
