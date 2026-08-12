@@ -98,11 +98,15 @@ class AppNotificationController extends Controller
     /**
      * Delete a specific notification for the authenticated user.
      */
-    public function destroy(Request $request, int $id): JsonResponse
+    public function destroy(Request $request, mixed $id = null): JsonResponse
     {
         $userId = $request->user()->id;
 
-        $result = $this->notificationService->deleteNotification($userId, $id);
+        if ($id === null || $id === 'clear-all') {
+            return $this->clearAll($request);
+        }
+
+        $result = $this->notificationService->deleteNotification($userId, (int) $id);
 
         if (!$result['status']) {
             return $this->error($result['message'], $result['code'] ?? 500);
@@ -130,11 +134,15 @@ class AppNotificationController extends Controller
     /**
      * Delete a specific public general notification by device_id.
      */
-    public function destroyGeneral(DeleteGeneralNotificationRequest $request, int $id): JsonResponse
+    public function destroyGeneral(DeleteGeneralNotificationRequest $request, mixed $id = null): JsonResponse
     {
         $deviceId = $request->validated('device_id');
 
-        $result = $this->notificationService->deleteGeneralNotificationByDeviceId($deviceId, $id);
+        if ($id === null || $id === 'clear-all') {
+            return $this->clearAllGeneral($request);
+        }
+
+        $result = $this->notificationService->deleteGeneralNotificationByDeviceId($deviceId, (int) $id);
 
         if (!$result['status']) {
             return $this->error($result['message'], $result['code'] ?? 500);
