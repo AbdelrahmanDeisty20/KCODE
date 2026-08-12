@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\AppNotification;
 use App\Models\AppNotificationUserStatus;
+use App\Models\UserFcmToken;
 use Illuminate\Support\Facades\Log;
 
 class AppNotificationService
@@ -55,12 +56,26 @@ class AppNotificationService
     /**
      * Get public general notifications paginated (where user_id IS NULL, no auth required).
      */
-    public function getPublicGeneralNotifications(int $perPage = 10): array
+    public function getPublicGeneralNotifications(?string $deviceId = null, int $perPage = 10): array
     {
         try {
-            $notifications = AppNotification::whereNull('user_id')
-                ->latest()
-                ->paginate($perPage);
+            $query = AppNotification::whereNull('user_id');
+
+            if (!empty($deviceId)) {
+                $fcmTokenRecord = UserFcmToken::where('device_id', $deviceId)->first();
+                if ($fcmTokenRecord) {
+                    $deletedIds = AppNotificationUserStatus::where('user_fcm_token_id', $fcmTokenRecord->id)
+                        ->where('is_deleted', true)
+                        ->pluck('app_notification_id')
+                        ->toArray();
+
+                    if (!empty($deletedIds)) {
+                        $query->whereNotIn('id', $deletedIds);
+                    }
+                }
+            }
+
+            $notifications = $query->latest()->paginate($perPage);
 
             return [
                 'status'  => true,
@@ -275,6 +290,103 @@ class AppNotificationService
             ];
         } catch (\Exception $e) {
             Log::error('Clear All Notifications Error: ' . $e->getMessage());
+
+            return [
+                'status'  => false,
+                'message' => __('messages.notification_delete_failed'),
+                'code'    => 500,
+            ];
+        }
+    }
+
+    /**
+     * Delete a specific public general notification for a device using device_id.
+     */
+    public function deleteGeneralNotificationByDeviceId(string $deviceId, int $notificationId): array
+    {
+        try {
+            $notification = AppNotification::where('id', $notificationId)
+                ->whereNull('user_id')
+                ->first();
+
+            if (!$notification) {
+                return [
+                    'status'  => false,
+                    'message' => __('messages.notification_not_found'),
+                    'code'    => 404,
+                ];
+            }
+
+            $fcmTokenRecord = UserFcmToken::firstOrCreate(
+                ['device_id' => $deviceId],
+                ['token' => $deviceId]
+            );
+
+            AppNotificationUserStatus::updateOrCreate(
+                [
+                    'user_fcm_token_id'   => $fcmTokenRecord->id,
+                    'app_notification_id' => $notificationId,
+                ],
+                [
+                    'is_deleted' => true,
+                    'deleted_at' => now(),
+                ]
+            );
+
+            return [
+                'status'  => true,
+                'message' => __('messages.notification_deleted_successfully'),
+            ];
+        } catch (\Exception $e) {
+            Log::error('General Notification Delete Error: ' . $e->getMessage());
+
+            return [
+                'status'  => false,
+                'message' => __('messages.notification_delete_failed'),
+                'code'    => 500,
+            ];
+        }
+    }
+
+    /**
+     * Clear all public general notifications for a device using device_id.
+     */
+    public function clearAllGeneralNotificationsByDeviceId(string $deviceId): array
+    {
+        try {
+            $fcmTokenRecord = UserFcmToken::firstOrCreate(
+                ['device_id' => $deviceId],
+                ['token' => $deviceId]
+            );
+
+            $deletedIds = AppNotificationUserStatus::where('user_fcm_token_id', $fcmTokenRecord->id)
+                ->where('is_deleted', true)
+                ->pluck('app_notification_id')
+                ->toArray();
+
+            $notificationIds = AppNotification::whereNull('user_id')
+                ->whereNotIn('id', $deletedIds)
+                ->pluck('id');
+
+            foreach ($notificationIds as $notificationId) {
+                AppNotificationUserStatus::updateOrCreate(
+                    [
+                        'user_fcm_token_id'   => $fcmTokenRecord->id,
+                        'app_notification_id' => $notificationId,
+                    ],
+                    [
+                        'is_deleted' => true,
+                        'deleted_at' => now(),
+                    ]
+                );
+            }
+
+            return [
+                'status'  => true,
+                'message' => __('messages.all_notifications_cleared_successfully'),
+            ];
+        } catch (\Exception $e) {
+            Log::error('Clear All General Notifications Error: ' . $e->getMessage());
 
             return [
                 'status'  => false,

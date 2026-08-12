@@ -8,6 +8,7 @@ class AppNotificationUserStatus extends Model
 {
     protected $fillable = [
         'user_id',
+        'user_fcm_token_id',
         'app_notification_id',
         'is_read',
         'is_deleted',
@@ -25,6 +26,11 @@ class AppNotificationUserStatus extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function userFcmToken()
+    {
+        return $this->belongsTo(UserFcmToken::class, 'user_fcm_token_id');
     }
 
     public function notification()

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\DeleteGeneralNotificationRequest;
 use App\Http\Resources\API\NOTIFICATION\AppNotificationResource;
 use App\Services\AppNotificationService;
 use App\Traits\ApiResponse;
@@ -38,13 +39,14 @@ class AppNotificationController extends Controller
 
     /**
      * Get public general notifications (where user_id IS NULL).
-     * Public endpoint - No Auth required.
+     * Public endpoint - No Auth required. Option to pass device_id via query/header to exclude deleted.
      */
     public function publicGeneral(Request $request): JsonResponse
     {
         $perPage = (int) $request->get('per_page', 10);
+        $deviceId = $request->get('device_id') ?? $request->header('X-Device-ID');
 
-        $result = $this->notificationService->getPublicGeneralNotifications($perPage);
+        $result = $this->notificationService->getPublicGeneralNotifications($deviceId, $perPage);
 
         if (!$result['status']) {
             return $this->error($result['message'], 500);
@@ -117,6 +119,38 @@ class AppNotificationController extends Controller
         $userId = $request->user()->id;
 
         $result = $this->notificationService->clearAllNotifications($userId);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], $result['code'] ?? 500);
+        }
+
+        return $this->success([], $result['message']);
+    }
+
+    /**
+     * Delete a specific public general notification by device_id.
+     */
+    public function destroyGeneral(DeleteGeneralNotificationRequest $request, int $id): JsonResponse
+    {
+        $deviceId = $request->validated('device_id');
+
+        $result = $this->notificationService->deleteGeneralNotificationByDeviceId($deviceId, $id);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], $result['code'] ?? 500);
+        }
+
+        return $this->success([], $result['message']);
+    }
+
+    /**
+     * Clear all public general notifications by device_id.
+     */
+    public function clearAllGeneral(DeleteGeneralNotificationRequest $request): JsonResponse
+    {
+        $deviceId = $request->validated('device_id');
+
+        $result = $this->notificationService->clearAllGeneralNotificationsByDeviceId($deviceId);
 
         if (!$result['status']) {
             return $this->error($result['message'], $result['code'] ?? 500);
