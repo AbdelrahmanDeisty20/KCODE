@@ -197,6 +197,8 @@ Route::middleware([SetLang::class])->group(function () {
     // FCM Token & Public Notifications Routes
     Route::post('/fcm-token', [\App\Http\Controllers\API\Genral\FcmTokenController::class, 'storeGuestToken']);
     Route::get('/notifications/general', [\App\Http\Controllers\API\Genral\AppNotificationController::class, 'publicGeneral']);
+    Route::post('/notifications/general/read-all', [\App\Http\Controllers\API\Genral\AppNotificationController::class, 'markAllGeneralAsRead']);
+    Route::post('/notifications/general/{id}/read', [\App\Http\Controllers\API\Genral\AppNotificationController::class, 'markGeneralAsRead']);
     Route::delete('/notifications/general/clear-all', [\App\Http\Controllers\API\Genral\AppNotificationController::class, 'clearAllGeneral']);
     Route::delete('/notifications/general/{id}', [\App\Http\Controllers\API\Genral\AppNotificationController::class, 'destroyGeneral']);
 

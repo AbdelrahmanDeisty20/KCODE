@@ -74,6 +74,7 @@ class AppNotificationService
     {
         try {
             $query = AppNotification::whereNull('user_id');
+            $readIds = [];
 
             if (!empty($deviceId)) {
                 $fcmTokenRecord = UserFcmToken::where('device_id', $deviceId)->first();
@@ -86,10 +87,22 @@ class AppNotificationService
                     if (!empty($deletedIds)) {
                         $query->whereNotIn('id', $deletedIds);
                     }
+
+                    $readIds = AppNotificationUserStatus::where('user_fcm_token_id', $fcmTokenRecord->id)
+                        ->where('is_read', true)
+                        ->pluck('app_notification_id')
+                        ->toArray();
                 }
             }
 
             $notifications = $query->latest()->paginate($perPage);
+
+            if (!empty($readIds)) {
+                $notifications->getCollection()->transform(function ($item) use ($readIds) {
+                    $item->is_read = (bool) ($item->is_read || in_array($item->id, $readIds));
+                    return $item;
+                });
+            }
 
             return [
                 'status'  => true,
@@ -437,6 +450,127 @@ class AppNotificationService
             return [
                 'status'  => false,
                 'message' => __('messages.notification_delete_failed'),
+                'code'    => 500,
+            ];
+        }
+    }
+
+    /**
+     * Mark a public general notification as read for a device using device_id.
+     */
+    public function markGeneralAsReadByDeviceId(string $deviceId, int $notificationId): array
+    {
+        try {
+            $notification = AppNotification::where('id', $notificationId)
+                ->whereNull('user_id')
+                ->first();
+
+            if (!$notification) {
+                return [
+                    'status'  => false,
+                    'message' => __('messages.notification_not_found'),
+                    'code'    => 404,
+                ];
+            }
+
+            $fcmTokenRecord = UserFcmToken::where('device_id', $deviceId)->first();
+
+            if (!$fcmTokenRecord) {
+                $fcmTokenRecord = UserFcmToken::create([
+                    'device_id' => $deviceId,
+                    'token'     => $deviceId,
+                ]);
+            }
+
+            $deletedIds = AppNotificationUserStatus::where('user_fcm_token_id', $fcmTokenRecord->id)
+                ->where('is_deleted', true)
+                ->pluck('app_notification_id')
+                ->toArray();
+
+            if (in_array($notificationId, $deletedIds)) {
+                return [
+                    'status'  => false,
+                    'message' => __('messages.notification_not_found'),
+                    'code'    => 404,
+                ];
+            }
+
+            AppNotificationUserStatus::updateOrCreate(
+                [
+                    'user_fcm_token_id'   => $fcmTokenRecord->id,
+                    'app_notification_id' => $notificationId,
+                ],
+                [
+                    'is_read' => true,
+                    'read_at' => now(),
+                ]
+            );
+
+            $notification->is_read = true;
+
+            return [
+                'status'  => true,
+                'message' => __('messages.notification_marked_as_read'),
+                'data'    => $notification,
+            ];
+        } catch (\Exception $e) {
+            Log::error('General Notification Mark As Read Error: ' . $e->getMessage());
+
+            return [
+                'status'  => false,
+                'message' => __('messages.notification_update_failed'),
+                'code'    => 500,
+            ];
+        }
+    }
+
+    /**
+     * Mark all public general notifications as read for a device using device_id.
+     */
+    public function markAllGeneralAsReadByDeviceId(string $deviceId): array
+    {
+        try {
+            $fcmTokenRecord = UserFcmToken::where('device_id', $deviceId)->first();
+
+            if (!$fcmTokenRecord) {
+                $fcmTokenRecord = UserFcmToken::create([
+                    'device_id' => $deviceId,
+                    'token'     => $deviceId,
+                ]);
+            }
+
+            $deletedIds = AppNotificationUserStatus::where('user_fcm_token_id', $fcmTokenRecord->id)
+                ->where('is_deleted', true)
+                ->pluck('app_notification_id')
+                ->toArray();
+
+            $notifications = AppNotification::whereNull('user_id')
+                ->whereNotIn('id', $deletedIds)
+                ->get();
+
+            foreach ($notifications as $notification) {
+                AppNotificationUserStatus::updateOrCreate(
+                    [
+                        'user_fcm_token_id'   => $fcmTokenRecord->id,
+                        'app_notification_id' => $notification->id,
+                    ],
+                    [
+                        'is_read' => true,
+                        'read_at' => now(),
+                    ]
+                );
+            }
+
+            return [
+                'status'  => true,
+                'message' => __('messages.all_notifications_marked_as_read'),
+            ];
+        } catch (\Exception $e) {
+            Log::error('General Notifications Mark All As Read Error: ' . $e->getMessage());
+
+            return [
+                'status'  => false,
+                'message' => __('messages.notification_update_failed'),
                 'code'    => 500,
             ];
         }

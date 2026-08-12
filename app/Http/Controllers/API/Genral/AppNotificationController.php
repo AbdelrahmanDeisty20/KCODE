@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Genral;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\DeleteGeneralNotificationRequest;
+use App\Http\Requests\API\GeneralNotificationRequest;
 use App\Http\Resources\API\NOTIFICATION\AppNotificationResource;
 use App\Services\AppNotificationService;
 use App\Traits\ApiResponse;
@@ -96,6 +97,42 @@ class AppNotificationController extends Controller
     }
 
     /**
+     * Mark a public general notification as read by device_id.
+     */
+    public function markGeneralAsRead(GeneralNotificationRequest $request, mixed $id = null): JsonResponse
+    {
+        $deviceId = $request->validated('device_id');
+
+        if ($id === null || $id === 'all' || $id === 'read-all') {
+            return $this->markAllGeneralAsRead($request);
+        }
+
+        $result = $this->notificationService->markGeneralAsReadByDeviceId($deviceId, (int) $id);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], $result['code'] ?? 500);
+        }
+
+        return $this->success(new AppNotificationResource($result['data']), $result['message']);
+    }
+
+    /**
+     * Mark all public general notifications as read by device_id.
+     */
+    public function markAllGeneralAsRead(GeneralNotificationRequest $request): JsonResponse
+    {
+        $deviceId = $request->validated('device_id');
+
+        $result = $this->notificationService->markAllGeneralAsReadByDeviceId($deviceId);
+
+        if (!$result['status']) {
+            return $this->error($result['message'], $result['code'] ?? 500);
+        }
+
+        return $this->success([], $result['message']);
+    }
+
+    /**
      * Delete a specific notification for the authenticated user.
      */
     public function destroy(Request $request, mixed $id = null): JsonResponse
@@ -134,7 +171,7 @@ class AppNotificationController extends Controller
     /**
      * Delete a specific public general notification by device_id.
      */
-    public function destroyGeneral(DeleteGeneralNotificationRequest $request, mixed $id = null): JsonResponse
+    public function destroyGeneral(GeneralNotificationRequest $request, mixed $id = null): JsonResponse
     {
         $deviceId = $request->validated('device_id');
 
@@ -154,7 +191,7 @@ class AppNotificationController extends Controller
     /**
      * Clear all public general notifications by device_id.
      */
-    public function clearAllGeneral(DeleteGeneralNotificationRequest $request): JsonResponse
+    public function clearAllGeneral(GeneralNotificationRequest $request): JsonResponse
     {
         $deviceId = $request->validated('device_id');
 

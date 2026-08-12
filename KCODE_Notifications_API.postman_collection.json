@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "kcode-notifications-api-collection",
     "name": "KCODE Notifications API",
-    "description": "Postman Collection for KCODE Notifications API endpoints including FCM Tokens, Fetching Notifications, Mark Read, Delete, Clear All, and Public General Notification Deletion by Device ID.",
+    "description": "Postman Collection for KCODE Notifications API endpoints including FCM Tokens, Fetching Notifications, Mark Read, Delete, Clear All for authenticated users and guest devices.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -83,10 +83,56 @@
               "path": ["api", "notifications", "general"],
               "query": [
                 { "key": "per_page", "value": "10" },
-                { "key": "device_id", "value": "device_unique_id_12345", "description": "Optional device_id to exclude deleted general notifications" }
+                { "key": "device_id", "value": "device_unique_id_12345", "description": "Optional device_id to exclude deleted general notifications for this device" }
               ]
             },
-            "description": "Fetch public general broadcast notifications (where user_id IS NULL). Pass device_id to exclude notifications deleted by this device."
+            "description": "Fetch public general broadcast notifications (where user_id IS NULL). Pass device_id in query params to exclude notifications deleted by this device."
+          }
+        },
+        {
+          "name": "Mark Single General Notification as Read (By Device ID)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_id\": \"device_unique_id_12345\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notifications/general/1/read?device_id=device_unique_id_12345",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "general", "1", "read"],
+              "query": [
+                { "key": "device_id", "value": "device_unique_id_12345", "description": "device_id of the guest/device" }
+              ]
+            },
+            "description": "Mark a specific public general notification as read for a guest/device using device_id."
+          }
+        },
+        {
+          "name": "Mark All General Notifications as Read (By Device ID)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Accept", "value": "application/json" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"device_id\": \"device_unique_id_12345\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notifications/general/read-all?device_id=device_unique_id_12345",
+              "host": ["{{base_url}}"],
+              "path": ["api", "notifications", "general", "read-all"],
+              "query": [
+                { "key": "device_id", "value": "device_unique_id_12345", "description": "device_id of the guest/device" }
+              ]
+            },
+            "description": "Mark all public general notifications as read for a guest/device using device_id."
           }
         },
         {
@@ -102,9 +148,12 @@
               "raw": "{\n  \"device_id\": \"device_unique_id_12345\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/notifications/general/1",
+              "raw": "{{base_url}}/api/notifications/general/1?device_id=device_unique_id_12345",
               "host": ["{{base_url}}"],
-              "path": ["api", "notifications", "general", "1"]
+              "path": ["api", "notifications", "general", "1"],
+              "query": [
+                { "key": "device_id", "value": "device_unique_id_12345", "description": "device_id of the guest/device" }
+              ]
             },
             "description": "Delete / hide a specific public general notification for a guest/device using device_id."
           }
@@ -122,9 +171,12 @@
               "raw": "{\n  \"device_id\": \"device_unique_id_12345\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/api/notifications/general/clear-all",
+              "raw": "{{base_url}}/api/notifications/general/clear-all?device_id=device_unique_id_12345",
               "host": ["{{base_url}}"],
-              "path": ["api", "notifications", "general", "clear-all"]
+              "path": ["api", "notifications", "general", "clear-all"],
+              "query": [
+                { "key": "device_id", "value": "device_unique_id_12345", "description": "device_id of the guest/device" }
+              ]
             },
             "description": "Delete / clear all public general notifications for a guest/device using device_id."
           }
