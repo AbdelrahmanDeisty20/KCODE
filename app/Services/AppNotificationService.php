@@ -228,6 +228,18 @@ class AppNotificationService
                 ];
             }
 
+            $existingStatus = AppNotificationUserStatus::where('user_id', $userId)
+                ->where('app_notification_id', $notificationId)
+                ->first();
+
+            if ($existingStatus && $existingStatus->is_deleted) {
+                return [
+                    'status'  => false,
+                    'message' => __('messages.notification_already_deleted'),
+                    'code'    => 400,
+                ];
+            }
+
             AppNotificationUserStatus::updateOrCreate(
                 [
                     'user_id'             => $userId,
@@ -321,6 +333,18 @@ class AppNotificationService
                 ['device_id' => $deviceId],
                 ['token' => $deviceId]
             );
+
+            $existingStatus = AppNotificationUserStatus::where('user_fcm_token_id', $fcmTokenRecord->id)
+                ->where('app_notification_id', $notificationId)
+                ->first();
+
+            if ($existingStatus && $existingStatus->is_deleted) {
+                return [
+                    'status'  => false,
+                    'message' => __('messages.notification_already_deleted'),
+                    'code'    => 400,
+                ];
+            }
 
             AppNotificationUserStatus::updateOrCreate(
                 [
