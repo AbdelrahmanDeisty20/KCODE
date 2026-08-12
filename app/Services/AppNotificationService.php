@@ -15,12 +15,26 @@ class AppNotificationService
     public function getUserNotifications(int $userId, int $perPage = 10): array
     {
         try {
-            $deletedIds = AppNotificationUserStatus::where('user_id', $userId)
+            $userFcmTokenIds = UserFcmToken::where('user_id', $userId)
+                ->pluck('id')
+                ->toArray();
+
+            $deletedIds = AppNotificationUserStatus::where(function ($q) use ($userId, $userFcmTokenIds) {
+                    $q->where('user_id', $userId);
+                    if (!empty($userFcmTokenIds)) {
+                        $q->orWhereIn('user_fcm_token_id', $userFcmTokenIds);
+                    }
+                })
                 ->where('is_deleted', true)
                 ->pluck('app_notification_id')
                 ->toArray();
 
-            $readIds = AppNotificationUserStatus::where('user_id', $userId)
+            $readIds = AppNotificationUserStatus::where(function ($q) use ($userId, $userFcmTokenIds) {
+                    $q->where('user_id', $userId);
+                    if (!empty($userFcmTokenIds)) {
+                        $q->orWhereIn('user_fcm_token_id', $userFcmTokenIds);
+                    }
+                })
                 ->where('is_read', true)
                 ->pluck('app_notification_id')
                 ->toArray();
