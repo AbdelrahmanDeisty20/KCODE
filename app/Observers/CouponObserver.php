@@ -124,7 +124,9 @@ class CouponObserver
 
                 // 3. Check if user's email is subscribed in NewsletterSubscription
                 if (!empty($user->email)) {
-                    $isSubscribed = NewsletterSubscription::where('email', $user->email)
+                    $userEmail = strtolower(trim($user->email));
+
+                    $isSubscribed = NewsletterSubscription::whereRaw('LOWER(TRIM(email)) = ?', [$userEmail])
                         ->where('is_active', true)
                         ->exists();
 
