@@ -37,6 +37,7 @@ class AdminPanelProvider extends PanelProvider
                 </div>
             '))
             ->brandLogoHeight('2.5rem')
+            ->favicon(asset('images/logo-BfbQ1CpO.svg'))
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
             ->colors([
@@ -145,15 +146,6 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook(
                 \Filament\View\PanelsRenderHook::PAGE_START,
                 fn (): string => \Illuminate\Support\Facades\Blade::render("@include('filament.hooks.animated_header_banner')")
-            )
-            ->renderHook(
-                \Filament\View\PanelsRenderHook::GLOBAL_SEARCH_BEFORE,
-                fn (): string => \Illuminate\Support\Facades\Blade::render('
-                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-inline-end: 1rem;">
-                        <img src="' . asset('images/logo-BfbQ1CpO.svg') . '" alt="KCODE Logo" style="height: 28px; width: auto; filter: drop-shadow(0 2px 6px rgba(16, 185, 129, 0.4));" />
-                        <span style="font-weight: 800; font-size: 1.1rem; color: #10b981; letter-spacing: -0.5px;">KCODE</span>
-                    </div>
-                ')
             )
             ->middleware([
                 EncryptCookies::class,
