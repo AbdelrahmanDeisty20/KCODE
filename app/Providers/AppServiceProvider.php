@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Models\Blog;
 use App\Models\Offer;
+use App\Models\Order;
 use App\Observers\BlogObserver;
 use App\Observers\OfferObserver;
+use App\Observers\OrderObserver;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Offer::observe(OfferObserver::class);
         Blog::observe(BlogObserver::class);
+        Order::observe(OrderObserver::class);
 
         if (class_exists(LanguageSwitch::class)) {
             LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
