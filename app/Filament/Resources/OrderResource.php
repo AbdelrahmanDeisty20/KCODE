@@ -53,9 +53,8 @@ class OrderResource extends Resource
                         Forms\Components\Select::make('order_status')
                             ->label('حالة الطلب')
                             ->options([
-                                'pending' => 'قيد الانتظار',
-                                'processing' => 'جاري التحضير',
-                                'shipped' => 'تم الشحن',
+                                'pending'   => 'قيد الانتظار',
+                                'accepted'  => 'مقبول',
                                 'delivered' => 'تم التسليم',
                                 'cancelled' => 'ملغي',
                             ])
@@ -251,18 +250,16 @@ class OrderResource extends Resource
                     ->badge()
                     ->colors([
                         'warning' => 'pending',
-                        'info' => 'processing',
-                        'primary' => 'shipped',
+                        'info'    => 'accepted',
                         'success' => 'delivered',
-                        'danger' => 'cancelled',
+                        'danger'  => 'cancelled',
                     ])
                     ->formatStateUsing(fn (string $state): string => match ($state) {
-                        'pending' => 'قيد الانتظار',
-                        'processing' => 'جاري التحضير',
-                        'shipped' => 'تم الشحن',
+                        'pending'   => 'قيد الانتظار',
+                        'accepted'  => 'مقبول',
                         'delivered' => 'تم التسليم',
                         'cancelled' => 'ملغي',
-                        default => $state,
+                        default     => $state,
                     }),
 
                 Tables\Columns\TextColumn::make('payment_status')
@@ -297,9 +294,8 @@ class OrderResource extends Resource
                 Tables\Filters\SelectFilter::make('order_status')
                     ->label('حالة الطلب')
                     ->options([
-                        'pending' => 'قيد الانتظار',
-                        'processing' => 'جاري التحضير',
-                        'shipped' => 'تم الشحن',
+                        'pending'   => 'قيد الانتظار',
+                        'accepted'  => 'مقبول',
                         'delivered' => 'تم التسليم',
                         'cancelled' => 'ملغي',
                     ]),

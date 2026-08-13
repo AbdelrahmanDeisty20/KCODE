@@ -128,21 +128,19 @@ class OrderObserver
             $status = $order->order_status;
 
             $statusTextAr = match ($status) {
-                'pending'    => 'قيد الانتظار',
-                'processing' => 'جاري التحضير',
-                'shipped'    => 'تم الشحن',
-                'delivered'  => 'تم التسليم',
-                'cancelled'  => 'ملغي',
-                default      => $status,
+                'pending'   => 'قيد الانتظار',
+                'accepted'  => 'مقبول',
+                'delivered' => 'تم التسليم',
+                'cancelled' => 'ملغي',
+                default     => $status,
             };
 
             $statusTextEn = match ($status) {
-                'pending'    => 'Pending',
-                'processing' => 'Processing',
-                'shipped'    => 'Shipped',
-                'delivered'  => 'Delivered',
-                'cancelled'  => 'Cancelled',
-                default      => $status,
+                'pending'   => 'Pending',
+                'accepted'  => 'Accepted',
+                'delivered' => 'Delivered',
+                'cancelled' => 'Cancelled',
+                default     => $status,
             };
 
             $titleAr   = "تحديث حالة الطلب #{$orderNumber} 📦";

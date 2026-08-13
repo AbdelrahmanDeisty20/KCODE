@@ -23,11 +23,10 @@ class ViewOrder extends ViewRecord
                     Forms\Components\Select::make('order_status')
                         ->label('حالة الطلب الجديدة')
                         ->options([
-                            'pending'    => 'قيد الانتظار',
-                            'processing' => 'جاري التحضير',
-                            'shipped'    => 'تم الشحن',
-                            'delivered'  => 'تم التسليم',
-                            'cancelled'  => 'ملغي',
+                            'pending'   => 'قيد الانتظار',
+                            'accepted'  => 'مقبول',
+                            'delivered' => 'تم التسليم',
+                            'cancelled' => 'ملغي',
                         ])
                         ->default(fn ($record) => $record->order_status)
                         ->required(),
