@@ -40,6 +40,16 @@ class SkinTypeResource extends Resource
         return app()->getLocale() === 'en' ? 'Skin Type' : 'نوع بشرة';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

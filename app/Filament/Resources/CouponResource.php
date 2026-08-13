@@ -41,6 +41,16 @@ class CouponResource extends Resource
         return app()->getLocale() === 'en' ? 'Discount Coupon' : 'كوبون خصم';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

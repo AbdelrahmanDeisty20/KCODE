@@ -39,6 +39,16 @@ class NewsletterSubscriptionResource extends Resource
         return app()->getLocale() === 'en' ? 'Newsletter Subscriber' : 'مشترك نشرة بريدية';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'info';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

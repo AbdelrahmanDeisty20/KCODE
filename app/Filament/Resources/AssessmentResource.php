@@ -40,6 +40,16 @@ class AssessmentResource extends Resource
         return app()->getLocale() === 'en' ? 'Assessment' : 'نتيجة اختبار';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'info';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

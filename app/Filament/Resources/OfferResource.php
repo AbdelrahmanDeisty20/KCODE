@@ -40,6 +40,16 @@ class OfferResource extends Resource
         return app()->getLocale() === 'en' ? 'Offer' : 'عرض';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

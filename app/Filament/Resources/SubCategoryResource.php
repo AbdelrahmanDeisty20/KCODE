@@ -40,6 +40,16 @@ class SubCategoryResource extends Resource
         return app()->getLocale() === 'en' ? 'Sub Category' : 'قسم فرعي';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'primary';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

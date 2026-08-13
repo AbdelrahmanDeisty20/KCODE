@@ -40,6 +40,16 @@ class LoyaltyLevelResource extends Resource
         return app()->getLocale() === 'en' ? 'Loyalty Level' : 'مستوى ولاء';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

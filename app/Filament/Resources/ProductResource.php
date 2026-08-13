@@ -40,6 +40,16 @@ class ProductResource extends Resource
         return app()->getLocale() === 'en' ? 'Product' : 'منتج';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

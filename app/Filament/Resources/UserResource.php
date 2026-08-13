@@ -40,6 +40,16 @@ class UserResource extends Resource
         return app()->getLocale() === 'en' ? 'User' : 'مستخدم';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'success';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

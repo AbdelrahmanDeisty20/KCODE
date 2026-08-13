@@ -40,6 +40,16 @@ class ConcernResource extends Resource
         return app()->getLocale() === 'en' ? 'Skin Concern' : 'مشكلة بشرة';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'warning';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema

@@ -40,6 +40,16 @@ class FaqResource extends Resource
         return app()->getLocale() === 'en' ? 'FAQ' : 'سؤال شائع';
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return (string) static::getModel()::count();
+    }
+
+    public static function getNavigationBadgeColor(): ?string
+    {
+        return 'primary';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return $schema
