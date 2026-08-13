@@ -30,6 +30,13 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('KCODE Admin')
+            ->brandLogo(fn () => new \Illuminate\Support\HtmlString('
+                <div style="display: flex; align-items: center; gap: 0.65rem;">
+                    <img src="' . asset('images/logo-BfbQ1CpO.svg') . '" alt="KCODE Logo" style="height: 32px; width: auto; filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.45));" />
+                    <span style="font-weight: 800; font-size: 1.25rem; color: #10b981; letter-spacing: -0.5px;">KCODE Admin</span>
+                </div>
+            '))
+            ->brandLogoHeight('2.5rem')
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
             ->colors([
