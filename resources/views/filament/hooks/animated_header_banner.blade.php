@@ -2,19 +2,53 @@
     $path = request()->path();
     $type = null;
 
-    if (str_contains($path, 'admin/orders')) {
-        $type = 'orders';
-    } elseif (str_contains($path, 'admin/products') || str_contains($path, 'admin/categories') || str_contains($path, 'admin/sub-categories') || str_contains($path, 'admin/brands')) {
-        $type = 'products';
-    } elseif (str_contains($path, 'admin/users') || str_contains($path, 'admin/roles')) {
-        $type = 'users';
-    } elseif (str_contains($path, 'admin/coupons') || str_contains($path, 'admin/offers') || str_contains($path, 'admin/app-notifications')) {
+    if (str_contains($path, 'admin/app-notifications')) {
+        $type = 'app_notifications';
+    } elseif (str_contains($path, 'admin/coupons')) {
         $type = 'coupons';
-    } elseif (str_contains($path, 'admin/chatbot-suggestions') || str_contains($path, 'admin/chatbot-messages')) {
-        $type = 'chatbot';
-    } elseif (str_contains($path, 'admin/skin-types') || str_contains($path, 'admin/concerns') || str_contains($path, 'admin/quiz-questions') || str_contains($path, 'admin/assessments')) {
-        $type = 'skincare';
-    } elseif (str_contains($path, 'admin/settings') || str_contains($path, 'admin/pages') || str_contains($path, 'admin/faqs')) {
+    } elseif (str_contains($path, 'admin/offers')) {
+        $type = 'offers';
+    } elseif (str_contains($path, 'admin/orders')) {
+        $type = 'orders';
+    } elseif (str_contains($path, 'admin/products')) {
+        $type = 'products';
+    } elseif (str_contains($path, 'admin/categories')) {
+        $type = 'categories';
+    } elseif (str_contains($path, 'admin/sub-categories')) {
+        $type = 'sub_categories';
+    } elseif (str_contains($path, 'admin/brands')) {
+        $type = 'brands';
+    } elseif (str_contains($path, 'admin/users')) {
+        $type = 'users';
+    } elseif (str_contains($path, 'admin/roles')) {
+        $type = 'roles';
+    } elseif (str_contains($path, 'admin/assessments')) {
+        $type = 'assessments';
+    } elseif (str_contains($path, 'admin/concerns')) {
+        $type = 'concerns';
+    } elseif (str_contains($path, 'admin/quiz-questions')) {
+        $type = 'quiz_questions';
+    } elseif (str_contains($path, 'admin/skin-types')) {
+        $type = 'skin_types';
+    } elseif (str_contains($path, 'admin/blog-categories')) {
+        $type = 'blog_categories';
+    } elseif (str_contains($path, 'admin/blog-tags')) {
+        $type = 'blog_tags';
+    } elseif (str_contains($path, 'admin/blogs')) {
+        $type = 'blogs';
+    } elseif (str_contains($path, 'admin/chatbot-messages')) {
+        $type = 'chatbot_messages';
+    } elseif (str_contains($path, 'admin/chatbot-suggestions')) {
+        $type = 'chatbot_suggestions';
+    } elseif (str_contains($path, 'admin/newsletter-subscriptions')) {
+        $type = 'newsletter_subscriptions';
+    } elseif (str_contains($path, 'admin/loyalty-levels')) {
+        $type = 'loyalty_levels';
+    } elseif (str_contains($path, 'admin/faqs')) {
+        $type = 'faqs';
+    } elseif (str_contains($path, 'admin/pages')) {
+        $type = 'pages';
+    } elseif (str_contains($path, 'admin/settings')) {
         $type = 'settings';
     }
 @endphp
@@ -315,24 +349,98 @@
             @if ($type === 'orders')
                 <h2>📦 {{ app()->getLocale() === 'en' ? 'Orders & Delivery Management' : 'إدارة ومتابعة الطلبات' }}</h2>
                 <p>{{ app()->getLocale() === 'en' ? 'Track order status, delivery, and update shipments in real-time' : 'تتبع حالات الشحن والتسليم وتحديث الطلبات لحظة بلحظة' }}</p>
+
             @elseif ($type === 'products')
-                <h2>🛍️ {{ app()->getLocale() === 'en' ? 'Products & Catalog Management' : 'كتالوج المنتجات والأقسام' }}</h2>
-                <p>{{ app()->getLocale() === 'en' ? 'Manage products, inventory, categories, and brand catalog' : 'إدارة المنتجات، المخزون، التصنيفات والماركات التجارية' }}</p>
+                <h2>🛍️ {{ app()->getLocale() === 'en' ? 'Products & Catalog Management' : 'كتالوج المنتجات والأسعار' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage products, prices, stock levels, and store inventory' : 'إضافة وتعديل المنتجات، الأسعار، والمخزون بكتالوج المتجر' }}</p>
+
+            @elseif ($type === 'categories')
+                <h2>📁 {{ app()->getLocale() === 'en' ? 'Main Categories' : 'الأقسام الرئيسية للمتجر' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Organize and structure main product categories' : 'تنظيم وترتيب أقسام وتصنيفات المتجر الرئيسية' }}</p>
+
+            @elseif ($type === 'sub_categories')
+                <h2>📂 {{ app()->getLocale() === 'en' ? 'Sub Categories' : 'الأقسام الفرعية' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage sub categories linked to main product categories' : 'إدارة الأقسام الفرعية التابعة للأقسام الرئيسية' }}</p>
+
+            @elseif ($type === 'brands')
+                <h2>🏷️ {{ app()->getLocale() === 'en' ? 'Brands & Manufacturers' : 'العلامات التجارية (الماركات)' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage store brand catalog and featured manufacturers' : 'إدارة وتصنيف الماركات والعلامات التجارية لمنتجات المتجر' }}</p>
+
             @elseif ($type === 'users')
-                <h2>👥 {{ app()->getLocale() === 'en' ? 'Customers & Roles Management' : 'إدارة العملاء والأدوار' }}</h2>
-                <p>{{ app()->getLocale() === 'en' ? 'Monitor customer accounts, panel roles, and access permissions' : 'متابعة حسابات العملاء، الأدوار، والصلاحيات الخاصة باللوحة' }}</p>
+                <h2>👤 {{ app()->getLocale() === 'en' ? 'Customers & User Accounts' : 'المستخدمون والعملاء' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Monitor customer accounts, details, and activity' : 'متابعة وإدارة حسابات العملاء، البيانات، والنشاط بالمتجر' }}</p>
+
+            @elseif ($type === 'roles')
+                <h2>🔑 {{ app()->getLocale() === 'en' ? 'Roles & Permissions' : 'الصلاحيات والأدوار' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage admin panel roles and user access permissions' : 'إدارة صلاحيات الوصول وأدوار المشرفين باللوحة' }}</p>
+
+            @elseif ($type === 'app_notifications')
+                <h2>🔔 {{ app()->getLocale() === 'en' ? 'App Notifications (Push)' : 'إشعارات التطبيق (Push Notifications)' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Send and monitor real-time push notifications and store alerts' : 'إرسال ومتابعة الإشعارات اللحظية والتنبيهات المباشرة للتطبيق' }}</p>
+
             @elseif ($type === 'coupons')
-                <h2>🏷️ {{ app()->getLocale() === 'en' ? 'Coupons & Store Promotions' : 'الكوبونات والعروض الترويجية' }}</h2>
-                <p>{{ app()->getLocale() === 'en' ? 'Create and manage discount codes, offers, and store promotions' : 'إنشاء وتفعيل كودات الخصم والعروض الخاصة بالمتجر' }}</p>
-            @elseif ($type === 'chatbot')
-                <h2>🤖 {{ app()->getLocale() === 'en' ? 'AI Skincare Assistant & Logs' : 'المستشار الذكي (AI) وسجل المحادثات' }}</h2>
-                <p>{{ app()->getLocale() === 'en' ? 'Manage AI suggestion questions and monitor user consultation logs' : 'إدارة أسئلة الشات بوت المقترحة ومتابعة استفسارات ومحادثات العملاء' }}</p>
-            @elseif ($type === 'skincare')
-                <h2>✨ {{ app()->getLocale() === 'en' ? 'Skin Care & Quiz Engine' : 'العناية واختبارات البشرة (Quiz)' }}</h2>
-                <p>{{ app()->getLocale() === 'en' ? 'Manage quiz questions, skin types, concerns, and recommendations' : 'إدارة الأسئلة، أنواع البشرة، والمشاكل والتوصيات الطبية' }}</p>
+                <h2>🏷️ {{ app()->getLocale() === 'en' ? 'Discount Coupons' : 'كوبونات الخصم' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Create and manage discount codes and store promo vouchers' : 'إنشاء وتفعيل كودات الخصم وقسائم الشراء الخاصة بالمتجر' }}</p>
+
+            @elseif ($type === 'offers')
+                <h2>⚡ {{ app()->getLocale() === 'en' ? 'Product Offers & Discounts' : 'عروض المنتجات والخصومات' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage promotional offers and direct product discounts' : 'إدارة العروض الترويجية والخصومات المباشرة على المنتجات' }}</p>
+
+            @elseif ($type === 'assessments')
+                <h2>✨ {{ app()->getLocale() === 'en' ? 'Skin Quiz Results & Assessments Log' : 'نتائج اختبارات البشرة (Skin Quiz)' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Track customer skin quiz results and routine recommendations' : 'متابعة نتائج اختبارات البشرة والتوصيات الطبية والروتينات المقترحة للعملاء' }}</p>
+
+            @elseif ($type === 'concerns')
+                <h2>⚠️ {{ app()->getLocale() === 'en' ? 'Skin Concerns' : 'مشاكل البشرة' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Define skin concerns and map products to skin conditions' : 'تعريف وإدارة مشاكل البشرة وتصنيف المنتجات حسب الحالة العلاجية' }}</p>
+
+            @elseif ($type === 'quiz_questions')
+                <h2>❓ {{ app()->getLocale() === 'en' ? 'Quiz Questions & Options' : 'أسئلة اختبار البشرة (Quiz)' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage interactive skin quiz questions and answer options' : 'إدارة أسئلة اختبار البشرة والخيارات التفاعلية للتقييم' }}</p>
+
+            @elseif ($type === 'skin_types')
+                <h2>😊 {{ app()->getLocale() === 'en' ? 'Skin Types' : 'أنواع البشرة' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage skin types and routine guidelines' : 'تعريف أنواع البشرة المختلفة والروتين الخاص بكل نوع' }}</p>
+
+            @elseif ($type === 'blogs')
+                <h2>📝 {{ app()->getLocale() === 'en' ? 'Blog & Articles' : 'المقالات والمدونة' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage skincare blog articles, tips, and content' : 'إدارة مقالات المدونة، النصائح الطبية، والمحتوى التوعوي' }}</p>
+
+            @elseif ($type === 'blog_categories')
+                <h2>📁 {{ app()->getLocale() === 'en' ? 'Blog Categories' : 'أقسام المدونة' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Organize blog articles into thematic categories' : 'تصنيف وتعميق مقالات المدونة حسب المواضيع' }}</p>
+
+            @elseif ($type === 'blog_tags')
+                <h2>🏷️ {{ app()->getLocale() === 'en' ? 'Blog Tags' : 'تاجات ووسوم المدونة' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage blog search tags and keywords' : 'إدارة الكلمات المفتاحية والوسوم المسهلة للبحث بالمقالات' }}</p>
+
+            @elseif ($type === 'chatbot_messages')
+                <h2>💬 {{ app()->getLocale() === 'en' ? 'AI Consultation Log & Chat Messages' : 'سجل محادثات العملاء (المستشار الذكي)' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Monitor customer conversations with AI Skincare Assistant' : 'متابعة واستعراض محادثات واستفسارات العملاء مع المستشار الذكي' }}</p>
+
+            @elseif ($type === 'chatbot_suggestions')
+                <h2>💡 {{ app()->getLocale() === 'en' ? 'AI Quick Suggestion Questions' : 'الأسئلة المقترحة للشات بوت' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage quick pre-defined suggestion questions for AI chatbot' : 'إدارة أسئلة الشات بوت الجاهزة والإجابات التلقائية السريعة' }}</p>
+
+            @elseif ($type === 'newsletter_subscriptions')
+                <h2>📧 {{ app()->getLocale() === 'en' ? 'Newsletter Subscribers' : 'المشتركون بالنشرة البريدية' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage newsletter subscribers list and export emails' : 'متابعة قائمة إيميلات المشتركين بالنشرة وتصدير البيانات' }}</p>
+
+            @elseif ($type === 'loyalty_levels')
+                <h2>💎 {{ app()->getLocale() === 'en' ? 'Loyalty Levels & Rewards' : 'مستويات برنامج الولاء' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Configure customer loyalty tiers and reward program' : 'إدارة مستويات ودرجات برنامج الولاء ومكافآت النقاط' }}</p>
+
+            @elseif ($type === 'faqs')
+                <h2>❓ {{ app()->getLocale() === 'en' ? 'Frequently Asked Questions' : 'الأسئلة الشائعة' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage store FAQs and customer support answers' : 'إدارة الأسئلة والإجابات الشائعة لمستخدمي التطبيق والمتجر' }}</p>
+
+            @elseif ($type === 'pages')
+                <h2>📄 {{ app()->getLocale() === 'en' ? 'Static Pages' : 'الصفحات الثابتة' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage terms, privacy policy, and static store pages' : 'إدارة الشروط والظروف، سياسة الخصوصية، والصفحات التعريفية' }}</p>
+
             @elseif ($type === 'settings')
-                <h2>⚙️ {{ app()->getLocale() === 'en' ? 'System Settings & Configuration' : 'إعدادات وهيئة النظام العامة' }}</h2>
-                <p>{{ app()->getLocale() === 'en' ? 'Manage shipping policies, WhatsApp, static pages, and general options' : 'التحكم في إعدادات الشحن، الواتساب، والصفحات والمعلومات الترحيبية' }}</p>
+                <h2>⚙️ {{ app()->getLocale() === 'en' ? 'System Settings & Configuration' : 'إعدادات النظام العامة' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Manage store settings, shipping rates, and WhatsApp contact' : 'التحكم في إعدادات المتجر، أسعار الشحن، والواتساب والمعلومات العامة' }}</p>
             @endif
         </div>
 
@@ -359,8 +467,8 @@
                     </div>
                 </div>
 
-            @elseif ($type === 'products')
-                <!-- 2. PRODUCTS: 3D Box & Floating Stars -->
+            @elseif ($type === 'products' || $type === 'categories' || $type === 'sub_categories' || $type === 'brands')
+                <!-- 2. PRODUCTS / CATALOG: 3D Box & Floating Stars -->
                 <div class="products-stage">
                     <span class="sparkle-icon sp-1">✦</span>
                     <svg class="box-svg" width="46" height="42" viewBox="0 0 46 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -372,7 +480,7 @@
                     <span class="sparkle-icon sp-2">✦</span>
                 </div>
 
-            @elseif ($type === 'users')
+            @elseif ($type === 'users' || $type === 'roles')
                 <!-- 3. USERS: Avatar Radar Wave & Online Dot -->
                 <div class="users-stage">
                     <div class="radar-wave"></div>
@@ -383,8 +491,8 @@
                     </svg>
                 </div>
 
-            @elseif ($type === 'coupons')
-                <!-- 4. COUPONS: Ticket & Floating Percent -->
+            @elseif ($type === 'coupons' || $type === 'offers' || $type === 'app_notifications')
+                <!-- 4. COUPONS / OFFERS / NOTIFICATIONS: Ticket & Floating Percent -->
                 <div class="coupons-stage">
                     <span class="rising-pct pct-a">%</span>
                     <svg class="ticket-svg" width="46" height="34" viewBox="0 0 46 34" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -397,8 +505,8 @@
                     <span class="rising-pct pct-b">%</span>
                 </div>
 
-            @elseif ($type === 'skincare')
-                <!-- 5. SKINCARE: Serum Bottle & Liquid Ripple -->
+            @elseif ($type === 'skincare' || $type === 'assessments' || $type === 'concerns' || $type === 'quiz_questions' || $type === 'skin_types')
+                <!-- 5. SKINCARE / QUIZ: Serum Bottle & Liquid Drop Ripple -->
                 <div class="skincare-stage">
                     <div class="drop-particle"></div>
                     <svg class="serum-svg" width="36" height="42" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -410,8 +518,8 @@
                     <div class="liquid-ripple"></div>
                 </div>
 
-            @elseif ($type === 'settings')
-                <!-- 6. SETTINGS: Interlocking Gears -->
+            @elseif ($type === 'settings' || $type === 'pages' || $type === 'faqs' || $type === 'chatbot_messages' || $type === 'chatbot_suggestions' || $type === 'newsletter_subscriptions' || $type === 'loyalty_levels' || $type === 'blogs' || $type === 'blog_categories' || $type === 'blog_tags')
+                <!-- 6. SETTINGS / PAGES / LOGS: Interlocking Gears -->
                 <div class="settings-stage">
                     <svg class="gear-main" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14.5 2H19.5V5.5C20.7 5.9 21.8 6.5 22.8 7.3L25.5 5L29 8.5L26.7 11.2C27.5 12.2 28.1 13.3 28.5 14.5H32V19.5H28.5C28.1 20.7 27.5 21.8 26.7 22.8L29 25.5L25.5 29L22.8 26.7C21.8 27.5 20.7 28.1 19.5 28.5V32H14.5V28.5C13.3 28.1 12.2 27.5 11.2 26.7L8.5 29L5 25.5L7.3 22.8C6.5 21.8 5.9 20.7 5.5 19.5H2V14.5H5.5C5.9 13.3 6.5 12.2 7.3 11.2L5 8.5L8.5 5L11.2 7.3C12.2 6.5 13.3 5.9 14.5 5.5V2Z" fill="#10b981"/>
