@@ -72,25 +72,22 @@ class OfferObserver
                 ->toArray();
 
             // 3. Segment Users into Categories
-
-            // Group 1: Both Cart AND Favorites (Highest Priority - emphasized cart notification)
-            $bothUserIds = array_values(array_intersect($cartUserIds, $favoriteUserIds));
-
-            // Group 2: Cart Only
-            $cartOnlyUserIds = array_values(array_diff($cartUserIds, $bothUserIds));
-
-            // Group 3: Favorites Only
+            $bothUserIds          = array_values(array_intersect($cartUserIds, $favoriteUserIds));
+            $cartOnlyUserIds      = array_values(array_diff($cartUserIds, $bothUserIds));
             $favoritesOnlyUserIds = array_values(array_diff($favoriteUserIds, $bothUserIds));
 
-            // All targeted users
+            // All targeted logged-in user IDs
             $targetedUserIds = array_unique(array_merge($bothUserIds, $cartOnlyUserIds, $favoritesOnlyUserIds));
 
-            // --- Send Group 1: Both Cart & Favorites ---
+            // Track tokens that received targeted notifications to prevent duplicate push
+            $targetedTokens = [];
+
+            // --- Group 1: Both Cart & Favorites (Exclusive Targeted Offer) ---
             if (!empty($bothUserIds)) {
-                $titleAr = "خصم مميز على منتج في سلتك ومفضلتك! 🛒❤️";
-                $titleEn = "Special Discount on item in Cart & Favorites!";
-                $msgAr   = "المنتج \"{$productNameAr}\" الموجود في سلتك ومفضلتك يتوفر عليه خصم {$discount}% الآن!";
-                $msgEn   = "The item \"{$productNameEn}\" in your cart and wishlist has a {$discount}% discount now!";
+                $titleAr = "عرض خاص على منتجك المفضل وفي سلتك! 🛒❤️";
+                $titleEn = "Special Offer on your Favorite & Cart item!";
+                $msgAr   = "خصم حصري لك! المنتج \"{$productNameAr}\" في مفضلتك وسلتك عليه خصم {$discount}% الآن!";
+                $msgEn   = "Exclusive discount for you! The item \"{$productNameEn}\" in your favorites & cart has a {$discount}% discount now!";
 
                 $this->createAppNotificationsForUsers($bothUserIds, $titleAr, $titleEn, $msgAr, $msgEn, 'cart_favorite_offer', $offer);
                 $firebaseService->sendToUsers($titleAr, $msgAr, $bothUserIds, [
@@ -100,14 +97,17 @@ class OfferObserver
                     'offer_id' => (string) $offer->id,
                     'discount_percentage' => (string) $discount,
                 ]);
+
+                $tokens1 = UserFcmToken::whereIn('user_id', $bothUserIds)->pluck('token')->toArray();
+                $targetedTokens = array_merge($targetedTokens, $tokens1);
             }
 
-            // --- Send Group 2: Cart Only ---
+            // --- Group 2: Cart Only ---
             if (!empty($cartOnlyUserIds)) {
-                $titleAr = "تخفيض على منتج في سلتك! 🛒";
-                $titleEn = "Discount on an item in your Cart!";
-                $msgAr   = "المنتج \"{$productNameAr}\" في سلتك أصبح عليه خصم {$discount}% الآن، سارع بالشراء!";
-                $msgEn   = "The item \"{$productNameEn}\" in your cart has {$discount}% discount now, grab it!";
+                $titleAr = "عرض خاص على منتج في سلتك! 🛒";
+                $titleEn = "Special Offer on item in your Cart!";
+                $msgAr   = "خصم خصيصاً لك! المنتج \"{$productNameAr}\" في سلتك عليه خصم {$discount}% الآن، اطلبه قبل نفاذ الكمية!";
+                $msgEn   = "Special discount for you! The item \"{$productNameEn}\" in your cart has a {$discount}% discount now!";
 
                 $this->createAppNotificationsForUsers($cartOnlyUserIds, $titleAr, $titleEn, $msgAr, $msgEn, 'cart_offer', $offer);
                 $firebaseService->sendToUsers($titleAr, $msgAr, $cartOnlyUserIds, [
@@ -117,14 +117,17 @@ class OfferObserver
                     'offer_id' => (string) $offer->id,
                     'discount_percentage' => (string) $discount,
                 ]);
+
+                $tokens2 = UserFcmToken::whereIn('user_id', $cartOnlyUserIds)->pluck('token')->toArray();
+                $targetedTokens = array_merge($targetedTokens, $tokens2);
             }
 
-            // --- Send Group 3: Favorites Only ---
+            // --- Group 3: Favorites Only ---
             if (!empty($favoritesOnlyUserIds)) {
-                $titleAr = "خصم على منتج في قائمة مفضلتك! ❤️";
-                $titleEn = "Offer on an item in your Wishlist!";
-                $msgAr   = "المنتج \"{$productNameAr}\" في قائمة مفضلتك عليه خصم {$discount}% الآن!";
-                $msgEn   = "The item \"{$productNameEn}\" in your wishlist has {$discount}% discount now!";
+                $titleAr = "عرض خاص على منتجك المفضل! ❤️";
+                $titleEn = "Special Offer on your Favorite item!";
+                $msgAr   = "خصم خصيصاً لك! المنتج \"{$productNameAr}\" في قائمة مفضلتك عليه خصم {$discount}% الآن!";
+                $msgEn   = "Special discount for you! The item \"{$productNameEn}\" in your wishlist has a {$discount}% discount now!";
 
                 $this->createAppNotificationsForUsers($favoritesOnlyUserIds, $titleAr, $titleEn, $msgAr, $msgEn, 'favorite_offer', $offer);
                 $firebaseService->sendToUsers($titleAr, $msgAr, $favoritesOnlyUserIds, [
@@ -134,15 +137,18 @@ class OfferObserver
                     'offer_id' => (string) $offer->id,
                     'discount_percentage' => (string) $discount,
                 ]);
+
+                $tokens3 = UserFcmToken::whereIn('user_id', $favoritesOnlyUserIds)->pluck('token')->toArray();
+                $targetedTokens = array_merge($targetedTokens, $tokens3);
             }
 
-            // --- Group 4: General Broadcast to all remaining users & guest devices ---
+            // --- Group 4: General Broadcast to Non-Targeted Users & Guests ---
             $generalTitleAr = "عرض جديد على {$productNameAr}! 🎉";
             $generalTitleEn = "New Offer on {$productNameEn}!";
             $generalMsgAr   = "احصل على خصم بنسبة {$discount}% على {$productNameAr}، تسوق الآن!";
             $generalMsgEn   = "Get {$discount}% off on {$productNameEn}, shop now!";
 
-            // 1. Create general App Notification (user_id = null)
+            // Create general App Notification record (user_id = null)
             $generalNotification = AppNotification::create([
                 'user_id'    => null,
                 'title_ar'   => $generalTitleAr,
@@ -158,12 +164,17 @@ class OfferObserver
                 'is_read'    => false,
             ]);
 
-            // 2. Send FCM to all tokens excluding targeted users
+            // Exclude ALL tokens belonging to targeted logged-in users to ensure NO duplicate push notification!
+            $targetedTokens = array_unique(array_filter($targetedTokens));
+
             $query = UserFcmToken::query();
             if (!empty($targetedUserIds)) {
                 $query->where(function ($q) use ($targetedUserIds) {
                     $q->whereNotIn('user_id', $targetedUserIds)->orWhereNull('user_id');
                 });
+            }
+            if (!empty($targetedTokens)) {
+                $query->whereNotIn('token', $targetedTokens);
             }
 
             $otherTokens = $query->pluck('token')->unique()->filter()->values()->toArray();

@@ -39,8 +39,19 @@ class AppNotificationService
                 ->pluck('app_notification_id')
                 ->toArray();
 
-            $notifications = AppNotification::where(function ($q) use ($userId) {
-                    $q->where('user_id', $userId)->orWhereNull('user_id');
+            // Check if user has personal offer notifications to prevent showing duplicate general offer notifications
+            $hasPersonalOffer = AppNotification::where('user_id', $userId)
+                ->whereIn('type', ['cart_favorite_offer', 'cart_offer', 'favorite_offer'])
+                ->exists();
+
+            $notifications = AppNotification::where(function ($q) use ($userId, $hasPersonalOffer) {
+                    $q->where('user_id', $userId);
+                    $q->orWhere(function ($q2) use ($hasPersonalOffer) {
+                        $q2->whereNull('user_id');
+                        if ($hasPersonalOffer) {
+                            $q2->where('type', '!=', 'general_offer');
+                        }
+                    });
                 })
                 ->whereNotIn('id', $deletedIds)
                 ->latest()
