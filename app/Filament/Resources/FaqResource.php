@@ -18,7 +18,7 @@ class FaqResource extends Resource
 {
     protected static ?string $model = Faq::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-information-circle';
+    protected static string|BackedEnum|null $navigationIcon = 'fas-circle-info';
 
     public static function getNavigationGroup(): ?string
     {

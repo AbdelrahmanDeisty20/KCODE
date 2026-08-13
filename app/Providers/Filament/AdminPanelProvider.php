@@ -118,6 +118,116 @@ class AdminPanelProvider extends PanelProvider
                         .fi-badge:hover {
                             animation: pulseBadge 1.2s infinite ease-in-out !important;
                         }
+
+                        /* --- VIBRANT MULTI-COLOR SIDEBAR ICONS --- */
+                        .fi-sidebar-item-icon {
+                            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                            padding: 2px !important;
+                            border-radius: 6px !important;
+                        }
+                        .fi-sidebar-item:hover .fi-sidebar-item-icon {
+                            transform: scale(1.25) rotate(4deg) !important;
+                        }
+
+                        /* 1. Sales & Orders -> Emerald Green Glow */
+                        .fi-sidebar-item[href*="admin/orders"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[href*="admin/orders"] svg {
+                            color: #10b981 !important;
+                            filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.5)) !important;
+                        }
+
+                        /* 2. Coupons & Offers -> Golden Amber Glow */
+                        .fi-sidebar-item[href*="admin/coupons"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/offers"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[href*="admin/coupons"] svg,
+                        .fi-sidebar-item-button[href*="admin/offers"] svg {
+                            color: #f59e0b !important;
+                            filter: drop-shadow(0 2px 8px rgba(245, 158, 11, 0.5)) !important;
+                        }
+
+                        /* 3. Products & Catalog -> Purple Violet Glow */
+                        .fi-sidebar-item[href*="admin/products"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/categories"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/sub-categories"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/brands"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[href*="admin/products"] svg,
+                        .fi-sidebar-item-button[href*="admin/categories"] svg,
+                        .fi-sidebar-item-button[href*="admin/sub-categories"] svg,
+                        .fi-sidebar-item-button[href*="admin/brands"] svg {
+                            color: #8b5cf6 !important;
+                            filter: drop-shadow(0 2px 8px rgba(139, 92, 246, 0.5)) !important;
+                        }
+
+                        /* 4. Customers & Roles -> Electric Blue Glow */
+                        .fi-sidebar-item[href*="admin/users"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/roles"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[href*="admin/users"] svg,
+                        .fi-sidebar-item-button[href*="admin/roles"] svg {
+                            color: #06b6d4 !important;
+                            filter: drop-shadow(0 2px 8px rgba(6, 182, 212, 0.5)) !important;
+                        }
+
+                        /* 5. Notifications -> Rose Pink / Red Glow */
+                        .fi-sidebar-item[href*="admin/app-notifications"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[href*="admin/app-notifications"] svg {
+                            color: #f43f5e !important;
+                            filter: drop-shadow(0 2px 8px rgba(244, 63, 94, 0.5)) !important;
+                        }
+
+                        /* 6. AI Chatbot -> Indigo Purple Glow */
+                        .fi-sidebar-item[href*="admin/chatbot-messages"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/chatbot-suggestions"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[href*="admin/chatbot-messages"] svg,
+                        .fi-sidebar-item-button[href*="admin/chatbot-suggestions"] svg {
+                            color: #6366f1 !important;
+                            filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.5)) !important;
+                        }
+
+                        /* 7. Skincare & Quiz -> Bright Mint Teal Glow */
+                        .fi-sidebar-item[href*="admin/assessments"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/concerns"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/quiz-questions"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/skin-types"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[href*="admin/assessments"] svg,
+                        .fi-sidebar-item-button[href*="admin/concerns"] svg,
+                        .fi-sidebar-item-button[href*="admin/quiz-questions"] svg,
+                        .fi-sidebar-item-button[href*="admin/skin-types"] svg {
+                            color: #14b8a6 !important;
+                            filter: drop-shadow(0 2px 8px rgba(20, 184, 166, 0.5)) !important;
+                        }
+
+                        /* 8. Blog & Articles -> Warm Orange Glow */
+                        .fi-sidebar-item[href*="admin/blogs"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/blog-categories"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/blog-tags"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[href*="admin/blogs"] svg,
+                        .fi-sidebar-item-button[href*="admin/blog-categories"] svg,
+                        .fi-sidebar-item-button[href*="admin/blog-tags"] svg {
+                            color: #f97316 !important;
+                            filter: drop-shadow(0 2px 8px rgba(249, 115, 22, 0.5)) !important;
+                        }
+
+                        /* 9. Newsletter, FAQs, Pages -> Sky Blue Glow */
+                        .fi-sidebar-item[href*="admin/newsletter-subscriptions"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/faqs"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/pages"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[href*="admin/newsletter-subscriptions"] svg,
+                        .fi-sidebar-item-button[href*="admin/faqs"] svg,
+                        .fi-sidebar-item-button[href*="admin/pages"] svg {
+                            color: #0284c7 !important;
+                            filter: drop-shadow(0 2px 8px rgba(2, 132, 199, 0.5)) !important;
+                        }
+
+                        /* 10. Loyalty, Activity Logs, Settings -> Gold / Amber Glow */
+                        .fi-sidebar-item[href*="admin/loyalty-levels"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/activity-logs"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item[href*="admin/settings"] .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[href*="admin/loyalty-levels"] svg,
+                        .fi-sidebar-item-button[href*="admin/activity-logs"] svg,
+                        .fi-sidebar-item-button[href*="admin/settings"] svg {
+                            color: #eab308 !important;
+                            filter: drop-shadow(0 2px 8px rgba(234, 179, 8, 0.5)) !important;
+                        }
                     </style>
                 ')
             )

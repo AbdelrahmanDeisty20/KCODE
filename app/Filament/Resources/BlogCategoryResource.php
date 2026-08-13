@@ -18,7 +18,7 @@ class BlogCategoryResource extends Resource
 {
     protected static ?string $model = BlogCategory::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bookmarks';
+    protected static string|BackedEnum|null $navigationIcon = 'fas-folder-tree';
 
     public static function getNavigationGroup(): ?string
     {

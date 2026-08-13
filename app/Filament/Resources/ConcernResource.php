@@ -18,7 +18,7 @@ class ConcernResource extends Resource
 {
     protected static ?string $model = Concern::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-exclamation-triangle';
+    protected static string|BackedEnum|null $navigationIcon = 'fas-triangle-exclamation';
 
     public static function getNavigationGroup(): ?string
     {

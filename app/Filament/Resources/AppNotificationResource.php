@@ -19,7 +19,7 @@ class AppNotificationResource extends Resource
 {
     protected static ?string $model = AppNotification::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-bell-alert';
+    protected static string|BackedEnum|null $navigationIcon = 'fas-paper-plane';
 
     public static function getNavigationGroup(): ?string
     {

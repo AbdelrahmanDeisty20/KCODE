@@ -17,7 +17,7 @@ class ActivityLogResource extends Resource
 {
     protected static ?string $model = ActivityLog::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-queue-list';
+    protected static string|BackedEnum|null $navigationIcon = 'fas-clock-rotate-left';
 
     public static function getNavigationGroup(): ?string
     {
