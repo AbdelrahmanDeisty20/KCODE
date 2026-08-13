@@ -18,7 +18,7 @@ class SkinTypeResource extends Resource
 {
     protected static ?string $model = SkinType::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-sparkles';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-face-smile';
 
     public static function getNavigationGroup(): ?string
     {

@@ -13,6 +13,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Collection;
 
 class AppNotificationResource extends Resource
 {
@@ -54,8 +55,8 @@ class AppNotificationResource extends Resource
     {
         return $schema
             ->components([
-                Components\Section::make('📣 إرسال إشعار جديد للمستخدمين')
-                    ->description('قم بتحديد الجمهور الفئة المستهدفة ثم كتابة عنوان ونص الإشعار.')
+                Components\Section::make('📣 تفاصيل وإعدادات الإشعار')
+                    ->description('عرض وإنشاء بيانات الإشعار اللحظي')
                     ->schema([
                         Forms\Components\Select::make('user_id')
                             ->label('المستلم / المستخدم المستهدف')
@@ -63,8 +64,11 @@ class AppNotificationResource extends Resource
                             ->searchable()
                             ->preload()
                             ->nullable()
-                            ->placeholder('📣 جميع المستخدمين والأجهزة (إرسال عام لكل التوكينات)')
-                            ->columnSpanFull(),
+                            ->placeholder('📣 جميع المستخدمين والأجهزة (إرسال عام لكل التوكينات)'),
+
+                        Forms\Components\Toggle::make('is_read')
+                            ->label('تم القراءة (Is Read)')
+                            ->default(false),
 
                         Forms\Components\TextInput::make('title_ar')
                             ->label('عنوان الإشعار (بالعربية)')
@@ -89,9 +93,12 @@ class AppNotificationResource extends Resource
                         Forms\Components\Select::make('type')
                             ->label('نوع الإشعار')
                             ->options([
-                                'general' => 'عام (General)',
-                                'promotion' => 'عرض ترويجي (Promotion)',
-                                'order' => 'تحديث طلب (Order Update)',
+                                'general'        => 'عام (General)',
+                                'promotion'      => 'عرض ترويجي (Promotion)',
+                                'order'          => 'تحديث طلب (Order Update)',
+                                'general_coupon' => 'كوبون عام (General Coupon)',
+                                'private_coupon' => 'كوبون خاص (Private Coupon)',
+                                'blog'           => 'مقالة مدونة (Blog)',
                             ])
                             ->default('general')
                             ->required(),
@@ -117,21 +124,24 @@ class AppNotificationResource extends Resource
 
                 Tables\Columns\TextColumn::make('message_ar')
                     ->label('نص الإشعار')
-                    ->limit(40)
+                    ->limit(50)
                     ->searchable(),
 
                 Tables\Columns\TextColumn::make('type')
                     ->label('النوع')
                     ->badge()
                     ->colors([
-                        'primary' => 'general',
-                        'success' => 'promotion',
-                        'warning' => 'order',
+                        'primary'   => 'general',
+                        'success'   => 'promotion',
+                        'warning'   => 'order',
+                        'info'      => 'general_coupon',
+                        'gray'      => 'private_coupon',
                     ]),
 
                 Tables\Columns\IconColumn::make('is_read')
                     ->label('مقروء')
-                    ->boolean(),
+                    ->boolean()
+                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تاريخ الإرسال')
@@ -143,17 +153,41 @@ class AppNotificationResource extends Resource
                 Tables\Filters\SelectFilter::make('type')
                     ->label('نوع الإشعار')
                     ->options([
-                        'general' => 'عام',
-                        'promotion' => 'عرض ترويجي',
-                        'order' => 'تحديث طلب',
+                        'general'        => 'عام',
+                        'promotion'      => 'عرض ترويجي',
+                        'order'          => 'تحديث طلب',
+                        'general_coupon' => 'كوبون عام',
+                        'private_coupon' => 'كوبون خاص',
                     ]),
+
+                Tables\Filters\TernaryFilter::make('is_read')
+                    ->label('حالة القراءة')
+                    ->placeholder('الكل')
+                    ->trueLabel('المقروءة فقط')
+                    ->falseLabel('غير المقروءة فقط'),
             ])
             ->actions([
-                Actions\ViewAction::make(),
+                Actions\ViewAction::make()
+                    ->label('عرض التفاصيل'),
+
+                Tables\Actions\Action::make('toggle_read')
+                    ->label(fn ($record) => $record->is_read ? 'تحديد كغير مقروء' : 'تحديد كمقروء')
+                    ->icon(fn ($record) => $record->is_read ? 'heroicon-o-envelope' : 'heroicon-o-envelope-open')
+                    ->color(fn ($record) => $record->is_read ? 'warning' : 'success')
+                    ->action(function ($record) {
+                        $record->update(['is_read' => !$record->is_read]);
+                    }),
+
                 Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
+                    Tables\Actions\BulkAction::make('mark_as_read')
+                        ->label('تحديد المحددة كمقروءة')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->action(fn (Collection $records) => $records->each->update(['is_read' => true])),
+
                     Actions\DeleteBulkAction::make(),
                 ]),
             ]);
@@ -162,7 +196,7 @@ class AppNotificationResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListAppNotifications::route('/'),
+            'index'  => Pages\ListAppNotifications::route('/'),
             'create' => Pages\CreateAppNotification::route('/create'),
         ];
     }
