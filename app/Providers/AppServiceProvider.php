@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Offer;
+use App\Observers\OfferObserver;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Offer::observe(OfferObserver::class);
+
         if (class_exists(LanguageSwitch::class)) {
             LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
                 $switch
