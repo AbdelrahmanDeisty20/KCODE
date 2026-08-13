@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 class AppNotificationService
 {
     /**
-     * Get user notifications paginated (Personal + General, excluding deleted).
+     * Get user notifications paginated (Personal + General, excluding deleted & duplicate offer notifications).
      */
     public function getUserNotifications(int $userId, int $perPage = 10): array
     {
@@ -39,17 +39,34 @@ class AppNotificationService
                 ->pluck('app_notification_id')
                 ->toArray();
 
-            // Check if user has personal offer notifications to prevent showing duplicate general offer notifications
-            $hasPersonalOffer = AppNotification::where('user_id', $userId)
-                ->whereIn('type', ['cart_favorite_offer', 'cart_offer', 'favorite_offer'])
-                ->exists();
+            // Find all offer_ids & product_ids for which this user has a personal notification
+            $personalNotifications = AppNotification::where('user_id', $userId)->get();
 
-            $notifications = AppNotification::where(function ($q) use ($userId, $hasPersonalOffer) {
+            $personalOfferIds = [];
+            $personalProductIds = [];
+
+            foreach ($personalNotifications as $pNotif) {
+                if (isset($pNotif->data['offer_id'])) {
+                    $personalOfferIds[] = (string) $pNotif->data['offer_id'];
+                }
+                if (isset($pNotif->data['product_id'])) {
+                    $personalProductIds[] = (string) $pNotif->data['product_id'];
+                }
+            }
+
+            $personalOfferIds = array_unique(array_filter($personalOfferIds));
+            $personalProductIds = array_unique(array_filter($personalProductIds));
+
+            $notifications = AppNotification::where(function ($q) use ($userId, $personalOfferIds, $personalProductIds) {
                     $q->where('user_id', $userId);
-                    $q->orWhere(function ($q2) use ($hasPersonalOffer) {
+                    $q->orWhere(function ($q2) use ($personalOfferIds, $personalProductIds) {
                         $q2->whereNull('user_id');
-                        if ($hasPersonalOffer) {
-                            $q2->where('type', '!=', 'general_offer');
+
+                        if (!empty($personalOfferIds)) {
+                            $q2->whereNotIn('data->offer_id', $personalOfferIds);
+                        }
+                        if (!empty($personalProductIds)) {
+                            $q2->whereNotIn('data->product_id', $personalProductIds);
                         }
                     });
                 })
