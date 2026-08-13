@@ -20,6 +20,16 @@ class OrderObserver
     }
 
     /**
+     * Handle the Order "updated" event.
+     */
+    public function updated(Order $order): void
+    {
+        if ($order->wasChanged('order_status') && $order->user_id) {
+            $this->notifyUserOrderStatusChange($order);
+        }
+    }
+
+    /**
      * Notify admin users about a new order.
      */
     protected function notifyAdminsNewOrder(Order $order): void
@@ -105,6 +115,74 @@ class OrderObserver
 
         } catch (\Exception $e) {
             Log::error("OrderObserver Error: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Notify customer about order status change.
+     */
+    protected function notifyUserOrderStatusChange(Order $order): void
+    {
+        try {
+            $orderNumber = $order->order_number ?? $order->id;
+            $status = $order->order_status;
+
+            $statusTextAr = match ($status) {
+                'pending'    => 'قيد الانتظار',
+                'processing' => 'جاري التحضير',
+                'shipped'    => 'تم الشحن',
+                'delivered'  => 'تم التسليم',
+                'cancelled'  => 'ملغي',
+                default      => $status,
+            };
+
+            $statusTextEn = match ($status) {
+                'pending'    => 'Pending',
+                'processing' => 'Processing',
+                'shipped'    => 'Shipped',
+                'delivered'  => 'Delivered',
+                'cancelled'  => 'Cancelled',
+                default      => $status,
+            };
+
+            $titleAr   = "تحديث حالة الطلب #{$orderNumber} 📦";
+            $titleEn   = "Order Status Updated #{$orderNumber} 📦";
+            $messageAr = "تم تغيير حالة طلبك رقم #{$orderNumber} إلى ({$statusTextAr}).";
+            $messageEn = "Your order #{$orderNumber} status has been updated to ({$statusTextEn}).";
+
+            // 1. Create AppNotification in database for customer
+            AppNotification::create([
+                'user_id'    => $order->user_id,
+                'title_ar'   => $titleAr,
+                'title_en'   => $titleEn,
+                'message_ar' => $messageAr,
+                'message_en' => $messageEn,
+                'type'       => 'order_status',
+                'data'       => [
+                    'order_id'     => (string) $order->id,
+                    'order_number' => (string) $orderNumber,
+                    'order_status' => (string) $status,
+                ],
+                'is_read'    => false,
+            ]);
+
+            // 2. Send Real-Time Firebase FCM Push Notification to Customer
+            $firebaseService = app(FirebaseNotificationService::class);
+            $firebaseService->sendToUser(
+                $order->user_id,
+                $titleAr,
+                $messageAr,
+                [
+                    'type'         => 'order_status',
+                    'order_id'     => (string) $order->id,
+                    'order_number' => (string) $orderNumber,
+                    'order_status' => (string) $status,
+                ]
+            );
+
+            Log::info("OrderObserver notified customer User ID {$order->user_id} of status change for Order #{$orderNumber}");
+        } catch (\Exception $e) {
+            Log::error("OrderObserver Error notifying status change: " . $e->getMessage());
         }
     }
 }
