@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Models\Coupon;
 use App\Models\User;
-use App\Models\NewsletterSubscription;
 use App\Models\AppNotification;
 use App\Services\FirebaseNotificationService;
 use App\Mail\CouponMail;
@@ -32,7 +31,7 @@ class CouponObserver
     }
 
     /**
-     * Process coupon notifications (Push, DB, and optional Email for subscribers).
+     * Process coupon notifications (Push, DB, and Email for private coupons).
      */
     protected function processCouponNotification(Coupon $coupon): void
     {
@@ -51,7 +50,7 @@ class CouponObserver
 
             if ($isGeneral) {
                 // --- CASE 1: GENERAL COUPON (لكل الناس) ---
-                // DO NOT send to NewsletterSubscription list
+                // DO NOT send email to NewsletterSubscription list
                 // DO send Real-time FCM Push Notification & DB notification to all users/devices
 
                 $titleAr   = "كوبون خصم جديد للجميع! 🎁";
@@ -122,23 +121,13 @@ class CouponObserver
                     'coupon_code' => (string) $coupon->code,
                 ]);
 
-                // 3. Check if user's email is subscribed in NewsletterSubscription
+                // 3. Send Email directly to the user's email address
                 if (!empty($user->email)) {
-                    $userEmail = strtolower(trim($user->email));
-
-                    $isSubscribed = NewsletterSubscription::whereRaw('LOWER(TRIM(email)) = ?', [$userEmail])
-                        ->where('is_active', true)
-                        ->exists();
-
-                    if ($isSubscribed) {
-                        try {
-                            Mail::to($user->email)->send(new CouponMail($coupon, $user));
-                            Log::info("Private Coupon email sent to subscribed user {$user->email} for code {$coupon->code}");
-                        } catch (\Exception $e) {
-                            Log::error("Failed sending private coupon email to {$user->email}: " . $e->getMessage());
-                        }
-                    } else {
-                        Log::info("Private Coupon email skipped for {$user->email} (Not in NewsletterSubscription)");
+                    try {
+                        Mail::to($user->email)->send(new CouponMail($coupon, $user));
+                        Log::info("Private Coupon email sent directly to user {$user->email} for code {$coupon->code}");
+                    } catch (\Exception $e) {
+                        Log::error("Failed sending private coupon email to {$user->email}: " . $e->getMessage());
                     }
                 }
             }
