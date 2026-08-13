@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\AppNotificationResource\Pages;
 
 use App\Filament\Resources\AppNotificationResource;
-use App\Models\UserFcmToken;
 use App\Services\FirebaseNotificationService;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Facades\Log;
@@ -33,32 +32,14 @@ class CreateAppNotification extends CreateRecord
             $body = $notification->message_ar ?: ($notification->message_en ?? '');
 
             if ($notification->user_id) {
-                // Send push notification to specific user's tokens
-                $tokens = UserFcmToken::where('user_id', $notification->user_id)->pluck('token');
-
-                foreach ($tokens as $token) {
-                    try {
-                        $firebaseService->sendToToken($token, $title, $body, $data);
-                    } catch (\Exception $e) {
-                        Log::error("Individual token send error: " . $e->getMessage());
-                    }
-                }
+                // Send deduplicated push notification to specific user
+                $firebaseService->sendToUser((int) $notification->user_id, $title, $body, $data);
             } else {
-                // Broadcast push notification to all tokens (registered users & guest devices)
-                $tokens = UserFcmToken::all();
-
-                foreach ($tokens as $tokenModel) {
-                    try {
-                        $firebaseService->sendToToken($tokenModel->token, $title, $body, $data);
-                    } catch (\Exception $e) {
-                        Log::error("Broadcast token send error: " . $e->getMessage());
-                    }
-                }
+                // Broadcast deduplicated push notification to all users/devices
+                $firebaseService->sendToUsers($title, $body, [], $data);
             }
         } catch (\Exception $e) {
             Log::error('Firebase afterCreate notification error: ' . $e->getMessage());
         }
     }
 }
-
-

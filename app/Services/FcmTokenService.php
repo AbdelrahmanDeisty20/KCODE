@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 class FcmTokenService
 {
     /**
-     * Store or update FCM Token in database.
+     * Store or update FCM Token in database, ensuring zero duplicate tokens.
      */
     public function storeToken(?int $userId, array $data): array
     {
@@ -18,6 +18,11 @@ class FcmTokenService
             $finalUserId = $userId ?? ($data['user_id'] ?? null);
 
             if (!empty($deviceId)) {
+                // Remove older token records for this device that have a different token string
+                UserFcmToken::where('device_id', $deviceId)
+                    ->where('token', '!=', $token)
+                    ->delete();
+
                 $fcmRecord = UserFcmToken::updateOrCreate(
                     [
                         'device_id' => $deviceId,
@@ -38,6 +43,11 @@ class FcmTokenService
                     ]
                 );
             }
+
+            // Cleanup any duplicate rows having the exact same token string across the table
+            UserFcmToken::where('token', $token)
+                ->where('id', '!=', $fcmRecord->id)
+                ->delete();
 
             return [
                 'status'  => true,

@@ -79,8 +79,10 @@ class OfferObserver
             // All targeted logged-in user IDs
             $targetedUserIds = array_unique(array_merge($bothUserIds, $cartOnlyUserIds, $favoritesOnlyUserIds));
 
-            // Track tokens that received targeted notifications to prevent duplicate push
-            $targetedTokens = [];
+            // Collect all FCM tokens and device IDs belonging to targeted users to prevent ANY duplicate push
+            $targetedFcmRecords = UserFcmToken::whereIn('user_id', $targetedUserIds)->get();
+            $targetedTokens     = $targetedFcmRecords->pluck('token')->filter()->unique()->toArray();
+            $targetedDeviceIds  = $targetedFcmRecords->pluck('device_id')->filter()->unique()->toArray();
 
             // --- Group 1: Both Cart & Favorites (Exclusive Targeted Offer) ---
             if (!empty($bothUserIds)) {
@@ -91,15 +93,12 @@ class OfferObserver
 
                 $this->createAppNotificationsForUsers($bothUserIds, $titleAr, $titleEn, $msgAr, $msgEn, 'cart_favorite_offer', $offer);
                 $firebaseService->sendToUsers($titleAr, $msgAr, $bothUserIds, [
-                    'type' => 'offer',
-                    'category' => 'cart_favorite',
-                    'product_id' => (string) $productId,
-                    'offer_id' => (string) $offer->id,
+                    'type'                => 'offer',
+                    'category'            => 'cart_favorite',
+                    'product_id'          => (string) $productId,
+                    'offer_id'            => (string) $offer->id,
                     'discount_percentage' => (string) $discount,
                 ]);
-
-                $tokens1 = UserFcmToken::whereIn('user_id', $bothUserIds)->pluck('token')->toArray();
-                $targetedTokens = array_merge($targetedTokens, $tokens1);
             }
 
             // --- Group 2: Cart Only ---
@@ -111,15 +110,12 @@ class OfferObserver
 
                 $this->createAppNotificationsForUsers($cartOnlyUserIds, $titleAr, $titleEn, $msgAr, $msgEn, 'cart_offer', $offer);
                 $firebaseService->sendToUsers($titleAr, $msgAr, $cartOnlyUserIds, [
-                    'type' => 'offer',
-                    'category' => 'cart',
-                    'product_id' => (string) $productId,
-                    'offer_id' => (string) $offer->id,
+                    'type'                => 'offer',
+                    'category'            => 'cart',
+                    'product_id'          => (string) $productId,
+                    'offer_id'            => (string) $offer->id,
                     'discount_percentage' => (string) $discount,
                 ]);
-
-                $tokens2 = UserFcmToken::whereIn('user_id', $cartOnlyUserIds)->pluck('token')->toArray();
-                $targetedTokens = array_merge($targetedTokens, $tokens2);
             }
 
             // --- Group 3: Favorites Only ---
@@ -131,15 +127,12 @@ class OfferObserver
 
                 $this->createAppNotificationsForUsers($favoritesOnlyUserIds, $titleAr, $titleEn, $msgAr, $msgEn, 'favorite_offer', $offer);
                 $firebaseService->sendToUsers($titleAr, $msgAr, $favoritesOnlyUserIds, [
-                    'type' => 'offer',
-                    'category' => 'favorite',
-                    'product_id' => (string) $productId,
-                    'offer_id' => (string) $offer->id,
+                    'type'                => 'offer',
+                    'category'            => 'favorite',
+                    'product_id'          => (string) $productId,
+                    'offer_id'            => (string) $offer->id,
                     'discount_percentage' => (string) $discount,
                 ]);
-
-                $tokens3 = UserFcmToken::whereIn('user_id', $favoritesOnlyUserIds)->pluck('token')->toArray();
-                $targetedTokens = array_merge($targetedTokens, $tokens3);
             }
 
             // --- Group 4: General Broadcast to Non-Targeted Users & Guests ---
@@ -164,20 +157,26 @@ class OfferObserver
                 'is_read'    => false,
             ]);
 
-            // Exclude ALL tokens belonging to targeted logged-in users to ensure NO duplicate push notification!
-            $targetedTokens = array_unique(array_filter($targetedTokens));
+            // Build query for general non-targeted tokens with 3-way isolation (user_id, device_id, token)
+            $otherTokensQuery = UserFcmToken::query();
 
-            $query = UserFcmToken::query();
             if (!empty($targetedUserIds)) {
-                $query->where(function ($q) use ($targetedUserIds) {
+                $otherTokensQuery->where(function ($q) use ($targetedUserIds) {
                     $q->whereNotIn('user_id', $targetedUserIds)->orWhereNull('user_id');
                 });
             }
-            if (!empty($targetedTokens)) {
-                $query->whereNotIn('token', $targetedTokens);
+
+            if (!empty($targetedDeviceIds)) {
+                $otherTokensQuery->where(function ($q) use ($targetedDeviceIds) {
+                    $q->whereNotIn('device_id', $targetedDeviceIds)->orWhereNull('device_id');
+                });
             }
 
-            $otherTokens = $query->pluck('token')->unique()->filter()->values()->toArray();
+            if (!empty($targetedTokens)) {
+                $otherTokensQuery->whereNotIn('token', $targetedTokens);
+            }
+
+            $otherTokens = $otherTokensQuery->pluck('token')->unique()->filter()->values()->toArray();
 
             foreach ($otherTokens as $token) {
                 try {
