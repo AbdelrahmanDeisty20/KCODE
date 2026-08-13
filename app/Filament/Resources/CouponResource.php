@@ -53,7 +53,7 @@ class CouponResource extends Resource
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->suffixAction(
-                                Forms\Components\Actions\Action::make('generate_code')
+                                Actions\Action::make('generate_code')
                                     ->label('توليد كود عشوائي')
                                     ->icon('heroicon-o-arrow-path')
                                     ->action(function ($set) {
