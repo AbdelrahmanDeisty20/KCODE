@@ -18,7 +18,7 @@ class SubCategoryResource extends Resource
 {
     protected static ?string $model = SubCategory::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'fas-sitemap';
+    protected static string|BackedEnum|null $navigationIcon = 'icon-sub-categories';
 
     public static function getNavigationGroup(): ?string
     {

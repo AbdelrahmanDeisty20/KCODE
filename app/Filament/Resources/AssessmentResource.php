@@ -18,7 +18,7 @@ class AssessmentResource extends Resource
 {
     protected static ?string $model = Assessment::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'fas-clipboard-check';
+    protected static string|BackedEnum|null $navigationIcon = 'icon-assessments';
 
     public static function getNavigationGroup(): ?string
     {

@@ -18,7 +18,7 @@ class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'fas-sliders';
+    protected static string|BackedEnum|null $navigationIcon = 'icon-settings';
 
     public static function getNavigationGroup(): ?string
     {

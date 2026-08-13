@@ -17,7 +17,7 @@ class ChatbotSuggestionResource extends Resource
 {
     protected static ?string $model = ChatbotSuggestion::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'fas-wand-magic-sparkles';
+    protected static string|BackedEnum|null $navigationIcon = 'icon-chatbot-suggestions';
 
     public static function getNavigationGroup(): ?string
     {

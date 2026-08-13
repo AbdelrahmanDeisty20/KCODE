@@ -19,7 +19,7 @@ class CouponResource extends Resource
 {
     protected static ?string $model = Coupon::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'fas-ticket-simple';
+    protected static string|BackedEnum|null $navigationIcon = 'icon-coupons';
 
     public static function getNavigationGroup(): ?string
     {

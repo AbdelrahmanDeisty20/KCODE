@@ -18,7 +18,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'fas-user-gear';
+    protected static string|BackedEnum|null $navigationIcon = 'icon-users';
 
     public static function getNavigationGroup(): ?string
     {

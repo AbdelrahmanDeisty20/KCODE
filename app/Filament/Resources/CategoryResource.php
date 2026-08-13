@@ -18,7 +18,7 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'fas-layer-group';
+    protected static string|BackedEnum|null $navigationIcon = 'icon-categories';
 
     public static function getNavigationGroup(): ?string
     {

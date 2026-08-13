@@ -17,7 +17,7 @@ class OrderResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'fas-cart-shopping';
+    protected static string|BackedEnum|null $navigationIcon = 'icon-orders';
 
     public static function getNavigationGroup(): ?string
     {

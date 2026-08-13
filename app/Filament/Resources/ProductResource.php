@@ -18,7 +18,7 @@ class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'fas-boxes-stacked';
+    protected static string|BackedEnum|null $navigationIcon = 'icon-products';
 
     public static function getNavigationGroup(): ?string
     {

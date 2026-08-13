@@ -17,7 +17,7 @@ class NewsletterSubscriptionResource extends Resource
 {
     protected static ?string $model = NewsletterSubscription::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'fas-envelope-open-text';
+    protected static string|BackedEnum|null $navigationIcon = 'icon-newsletter-subscriptions';
 
     public static function getNavigationGroup(): ?string
     {
