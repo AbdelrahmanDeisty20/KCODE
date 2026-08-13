@@ -118,7 +118,7 @@ class FirebaseNotificationService
      */
     public function sendToUser(int $userId, string $title, string $body, array $data = [])
     {
-        $tokens = UserFcmToken::where('user_id', $userId)->pluck('token')->toArray();
+        $tokens = UserFcmToken::where('user_id', $userId)->pluck('token')->unique()->filter()->toArray();
         $responses = [];
 
         foreach ($tokens as $token) {
@@ -130,7 +130,6 @@ class FirebaseNotificationService
 
     /**
      * Send real-time push notification to multiple users (or all users if $userIds is empty).
-     * Employs parallel HTTP request pooling for instant real-time delivery.
      */
     public function sendToUsers(string $title, string $body, array $userIds = [], array $data = [])
     {
@@ -140,96 +139,25 @@ class FirebaseNotificationService
             $query->whereIn('user_id', $userIds);
         }
 
-        $tokens = $query->pluck('token')->filter()->distinct()->values()->toArray();
+        $tokens = $query->pluck('token')->unique()->filter()->values()->toArray();
         if (empty($tokens)) {
             Log::info("Firebase Push: No tokens found for broadcasting.");
             return [];
         }
 
-        $tokenAccess = $this->accessToken();
-        if (!$tokenAccess) {
-            Log::error("Firebase Notification Error: Access token could not be generated.");
-            return [];
-        }
-
-        $projectId = env('FIREBASE_PROJECT_ID');
-        if (!$projectId) {
-            Log::error("Firebase Notification Error: FIREBASE_PROJECT_ID is not set in env.");
-            return [];
-        }
-
-        Log::info("Firebase Push Real-Time Broadcasting started: Title '{$title}', Total target tokens: " . count($tokens));
-
-        $formattedData = !empty($data) ? array_map('strval', $data) : null;
-        $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
-
-        $chunks = array_chunk($tokens, 50);
         $responses = [];
 
-        foreach ($chunks as $chunk) {
-            $poolResponses = Http::pool(function ($pool) use ($chunk, $tokenAccess, $url, $title, $body, $formattedData) {
-                $requests = [];
-                foreach ($chunk as $token) {
-                    $payload = [
-                        'message' => [
-                            'token' => $token,
-                            'notification' => [
-                                'title' => $title,
-                                'body'  => $body,
-                            ],
-                            'android' => [
-                                'priority' => 'HIGH',
-                                'notification' => [
-                                    'sound' => 'default',
-                                    'default_sound' => true,
-                                    'default_vibrate_timings' => true,
-                                    'notification_priority' => 'PRIORITY_MAX',
-                                ],
-                            ],
-                            'apns' => [
-                                'headers' => [
-                                    'apns-priority' => '10',
-                                ],
-                                'payload' => [
-                                    'aps' => [
-                                        'sound' => 'default',
-                                        'content-available' => 1,
-                                    ],
-                                ],
-                            ],
-                        ]
-                    ];
+        Log::info("Firebase Push Broadcasting started: Title '{$title}', Total target tokens: " . count($tokens));
 
-                    if (!empty($formattedData)) {
-                        $payload['message']['data'] = $formattedData;
-                    }
-
-                    $requests[] = $pool->withToken($tokenAccess)->post($url, $payload);
-                }
-                return $requests;
-            });
-
-            foreach ($poolResponses as $index => $response) {
-                if ($response instanceof \Illuminate\Http\Client\Response) {
-                    $resJson = $response->json();
-                    $responses[] = $resJson;
-
-                    if (isset($resJson['error'])) {
-                        $msg = $resJson['error']['message'] ?? '';
-                        $det = $resJson['error']['details'][0]['errorCode'] ?? '';
-                        if ($msg === 'NotRegistered' || $det === 'UNREGISTERED') {
-                            $unregisteredToken = $chunk[$index] ?? null;
-                            if ($unregisteredToken) {
-                                UserFcmToken::where('token', $unregisteredToken)->delete();
-                                Log::info("Cleaned up expired/unregistered FCM Token: {$unregisteredToken}");
-                            }
-                        }
-                    }
-                }
+        foreach ($tokens as $token) {
+            try {
+                $responses[] = $this->sendToToken($token, $title, $body, $data);
+            } catch (\Exception $e) {
+                Log::error("Firebase sendToToken error for token '{$token}': " . $e->getMessage());
             }
         }
 
-        Log::info("Firebase Push Real-Time Broadcasting completed for " . count($tokens) . " tokens.");
+        Log::info("Firebase Push Broadcasting completed for " . count($tokens) . " tokens.");
 
         return $responses;
     }
