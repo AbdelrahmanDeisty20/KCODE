@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CouponResource\Pages;
 use App\Models\Coupon;
+use App\Models\User;
 use BackedEnum;
 use Filament\Actions;
 use Filament\Forms;
@@ -12,7 +13,7 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use UnitEnum;
+use Illuminate\Support\Str;
 
 class CouponResource extends Resource
 {
@@ -44,23 +45,65 @@ class CouponResource extends Resource
     {
         return $schema
             ->components([
-                Components\Section::make('تفاصيل الكوبون')
+                Components\Section::make('🎫 بيانات وكود الكوبون')
                     ->schema([
                         Forms\Components\TextInput::make('code')
                             ->label('كود الكوبون')
+                            ->default(fn () => 'KCODE-' . strtoupper(Str::random(6)))
                             ->required()
-                            ->unique(ignoreRecord: true),
+                            ->unique(ignoreRecord: true)
+                            ->suffixAction(
+                                Forms\Components\Actions\Action::make('generate_code')
+                                    ->label('توليد كود عشوائي')
+                                    ->icon('heroicon-o-arrow-path')
+                                    ->action(function ($set) {
+                                        $set('code', 'KCODE-' . strtoupper(Str::random(6)));
+                                    })
+                            ),
 
                         Forms\Components\TextInput::make('title_ar')
-                            ->label('العنوان بالعربية'),
+                            ->label('العنوان بالعربية')
+                            ->placeholder('مثال: خصم بمناسبة الافتتاح'),
 
                         Forms\Components\TextInput::make('title_en')
-                            ->label('العنوان بالإنجليزية'),
+                            ->label('العنوان بالإنجليزية')
+                            ->placeholder('Example: Opening Discount'),
+                    ])->columns(3),
 
+                Components\Section::make('👥 تخصيص المستهدفين بالخصم')
+                    ->schema([
+                        Forms\Components\Radio::make('target_type')
+                            ->label('نطاق تخصيص الكوبون')
+                            ->options([
+                                'general'  => '🌐 عام (لكل المستخدمين / جميع العملاء)',
+                                'specific' => '🎯 مخصص لمستخدمين محددين (توليد كوبون مستقل لكل مستخدم)',
+                            ])
+                            ->default('general')
+                            ->live()
+                            ->columnSpanFull(),
+
+                        Forms\Components\Select::make('target_user_ids')
+                            ->label('اختر المستخدمين المستهدفين')
+                            ->options(function () {
+                                return User::all()->mapWithKeys(function ($user) {
+                                    $label = $user->name . ($user->email ? " ({$user->email})" : '');
+                                    return [$user->id => $label];
+                                });
+                            })
+                            ->multiple()
+                            ->searchable()
+                            ->preload()
+                            ->visible(fn ($get) => $get('target_type') === 'specific')
+                            ->required(fn ($get) => $get('target_type') === 'specific')
+                            ->columnSpanFull(),
+                    ]),
+
+                Components\Section::make('💰 تفاصيل وشروط الخصم')
+                    ->schema([
                         Forms\Components\Select::make('discount_type')
                             ->label('نوع الخصم')
                             ->options([
-                                'fixed' => 'مبلغ ثابت',
+                                'fixed'      => 'مبلغ ثابت (EGP)',
                                 'percentage' => 'نسبة مئوية (%)',
                             ])
                             ->default('percentage')
@@ -77,7 +120,7 @@ class CouponResource extends Resource
                             ->prefix('EGP'),
 
                         Forms\Components\TextInput::make('max_discount_amount')
-                            ->label('الحد الأقصى للخصم')
+                            ->label('الحد الأقصى للخصم (لـ %) ')
                             ->numeric()
                             ->prefix('EGP'),
 
@@ -88,7 +131,7 @@ class CouponResource extends Resource
                             ->label('تاريخ النهاية'),
 
                         Forms\Components\TextInput::make('usage_limit')
-                            ->label('الحد الأقصى للاستخدام العام')
+                            ->label('الحد الأقصى لاستخدام الكوبون')
                             ->numeric(),
 
                         Forms\Components\Toggle::make('is_active')
@@ -105,30 +148,50 @@ class CouponResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('code')
-                    ->label($isEn ? 'Code' : 'الكود')
+                    ->label($isEn ? 'Code' : 'كود الكوبون')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->weight('bold')
+                    ->copyable(),
+
+                Tables\Columns\TextColumn::make('user.name')
+                    ->label($isEn ? 'Target User' : 'المستهدف')
+                    ->default(fn ($record) => $record->is_general || is_null($record->user_id) ? '🌐 عام للجميع' : ($record->user?->name ?? 'مستخدم خاص'))
+                    ->badge()
+                    ->colors([
+                        'success' => fn ($state) => str_contains($state, 'عام'),
+                        'info'    => fn ($state) => !str_contains($state, 'عام'),
+                    ]),
 
                 Tables\Columns\TextColumn::make('discount_type')
-                    ->label($isEn ? 'Type' : 'النوع')
-                    ->formatStateUsing(fn ($state) => $state === 'percentage' ? ($isEn ? 'Percentage %' : 'نسبة %') : ($isEn ? 'Fixed Amount' : 'مبلغ ثابت')),
+                    ->label($isEn ? 'Type' : 'نوع الخصم')
+                    ->formatStateUsing(fn ($state) => $state === 'percentage' ? 'نسبة %' : 'مبلغ ثابت'),
 
                 Tables\Columns\TextColumn::make('discount_value')
                     ->label($isEn ? 'Value' : 'القيمة')
-                    ->sortable(),
+                    ->sortable()
+                    ->formatStateUsing(fn ($state, $record) => $record->discount_type === 'percentage' ? "{$state}%" : "{$state} EGP"),
 
                 Tables\Columns\TextColumn::make('used_count')
-                    ->label($isEn ? 'Times Used' : 'عدد مرات الاستخدام')
+                    ->label($isEn ? 'Times Used' : 'عدد الاستخدامات')
                     ->sortable(),
 
                 Tables\Columns\IconColumn::make('is_active')
-                    ->label($isEn ? 'Active' : 'تفعيل')
+                    ->label($isEn ? 'Active' : 'مفعل')
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('end_date')
                     ->label($isEn ? 'End Date' : 'تاريخ الانتهاء')
                     ->dateTime('Y-m-d')
-                    ->sortable(),
+                    ->sortable()
+                    ->placeholder('دائم'),
+            ])
+            ->filters([
+                Tables\Filters\TernaryFilter::make('is_general')
+                    ->label('نطاق الكوبون')
+                    ->placeholder('جميع الكوبونات')
+                    ->trueLabel('كوبونات عامة')
+                    ->falseLabel('كوبونات مخصصة'),
             ])
             ->actions([
                 Actions\EditAction::make(),
