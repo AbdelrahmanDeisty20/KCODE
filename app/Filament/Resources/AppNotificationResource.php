@@ -170,7 +170,7 @@ class AppNotificationResource extends Resource
                 Actions\ViewAction::make()
                     ->label('عرض التفاصيل'),
 
-                Tables\Actions\Action::make('toggle_read')
+                Actions\Action::make('toggle_read')
                     ->label(fn ($record) => $record->is_read ? 'تحديد كغير مقروء' : 'تحديد كمقروء')
                     ->icon(fn ($record) => $record->is_read ? 'heroicon-o-envelope' : 'heroicon-o-envelope-open')
                     ->color(fn ($record) => $record->is_read ? 'warning' : 'success')
@@ -182,8 +182,8 @@ class AppNotificationResource extends Resource
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
-                    Tables\Actions\BulkAction::make('mark_as_read')
-                        ->label('تحديد المحددة كمقروءة')
+                    Actions\BulkAction::make('mark_as_read')
+                        ->label('تحديد المقروء للكل')
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
                         ->action(fn (Collection $records) => $records->each->update(['is_read' => true])),
