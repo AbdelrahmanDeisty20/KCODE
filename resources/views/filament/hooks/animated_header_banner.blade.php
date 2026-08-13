@@ -52,6 +52,8 @@
         $type = 'pages';
     } elseif (str_contains($path, 'admin/settings')) {
         $type = 'settings';
+    } elseif ($path === 'admin' || $path === 'admin/' || str_contains($path, 'admin/dashboard')) {
+        $type = 'dashboard';
     }
 @endphp
 
@@ -447,6 +449,10 @@
             @elseif ($type === 'settings')
                 <h2>⚙️ {{ app()->getLocale() === 'en' ? 'System Settings & Configuration' : 'إعدادات النظام العامة' }}</h2>
                 <p>{{ app()->getLocale() === 'en' ? 'Manage store settings, shipping rates, and WhatsApp contact' : 'التحكم في إعدادات المتجر، أسعار الشحن، والواتساب والمعلومات العامة' }}</p>
+
+            @elseif ($type === 'dashboard')
+                <h2>🏠 {{ app()->getLocale() === 'en' ? 'Welcome to KCODE Skincare Admin Panel' : 'مرحباً بك في لوحة تحكم KCODE للعناية بالبشرة' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Monitor sales revenue, active customers, orders analytics, and AI skincare consultation logs' : 'تتبع إحصائيات المبيعات، الطلبات، العملاء المسجلين واستشارات الذكاء الاصطناعي لحظة بلحظة' }}</p>
             @endif
         </div>
 
@@ -524,8 +530,8 @@
                     <div class="liquid-ripple"></div>
                 </div>
 
-            @elseif ($type === 'settings' || $type === 'pages' || $type === 'faqs' || $type === 'chatbot_messages' || $type === 'chatbot_suggestions' || $type === 'newsletter_subscriptions' || $type === 'loyalty_levels' || $type === 'blogs' || $type === 'blog_categories' || $type === 'blog_tags')
-                <!-- 6. SETTINGS / PAGES / LOGS: Interlocking Gears -->
+            @elseif ($type === 'settings' || $type === 'pages' || $type === 'faqs' || $type === 'chatbot_messages' || $type === 'chatbot_suggestions' || $type === 'newsletter_subscriptions' || $type === 'loyalty_levels' || $type === 'blogs' || $type === 'blog_categories' || $type === 'blog_tags' || $type === 'dashboard')
+                <!-- 6. SETTINGS / DASHBOARD / PAGES / LOGS: Interlocking Gears -->
                 <div class="settings-stage">
                     <svg class="gear-main" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14.5 2H19.5V5.5C20.7 5.9 21.8 6.5 22.8 7.3L25.5 5L29 8.5L26.7 11.2C27.5 12.2 28.1 13.3 28.5 14.5H32V19.5H28.5C28.1 20.7 27.5 21.8 26.7 22.8L29 25.5L25.5 29L22.8 26.7C21.8 27.5 20.7 28.1 19.5 28.5V32H14.5V28.5C13.3 28.1 12.2 27.5 11.2 26.7L8.5 29L5 25.5L7.3 22.8C6.5 21.8 5.9 20.7 5.5 19.5H2V14.5H5.5C5.9 13.3 6.5 12.2 7.3 11.2L5 8.5L8.5 5L11.2 7.3C12.2 6.5 13.3 5.9 14.5 5.5V2Z" fill="#10b981"/>
