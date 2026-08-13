@@ -22,6 +22,8 @@
         $type = 'users';
     } elseif (str_contains($path, 'admin/roles')) {
         $type = 'roles';
+    } elseif (str_contains($path, 'admin/activity-logs')) {
+        $type = 'activity_logs';
     } elseif (str_contains($path, 'admin/assessments')) {
         $type = 'assessments';
     } elseif (str_contains($path, 'admin/concerns')) {
@@ -373,6 +375,10 @@
             @elseif ($type === 'roles')
                 <h2>🔑 {{ app()->getLocale() === 'en' ? 'Roles & Permissions' : 'الصلاحيات والأدوار' }}</h2>
                 <p>{{ app()->getLocale() === 'en' ? 'Manage admin panel roles and user access permissions' : 'إدارة صلاحيات الوصول وأدوار المشرفين باللوحة' }}</p>
+
+            @elseif ($type === 'activity_logs')
+                <h2>📜 {{ app()->getLocale() === 'en' ? 'Activity & System Audit Logs' : 'سجلات العمليات والأحداث' }}</h2>
+                <p>{{ app()->getLocale() === 'en' ? 'Monitor admin actions, model changes, logins, and system audit trails' : 'متابعة حركة المشرفين، التعديلات، تسجيلات الدخول وسجل تتبع النظام' }}</p>
 
             @elseif ($type === 'app_notifications')
                 <h2>🔔 {{ app()->getLocale() === 'en' ? 'App Notifications (Push)' : 'إشعارات التطبيق (Push Notifications)' }}</h2>
