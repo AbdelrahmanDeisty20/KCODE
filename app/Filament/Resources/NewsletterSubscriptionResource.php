@@ -12,7 +12,6 @@ use Filament\Schemas\Schema;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use UnitEnum;
 
 class NewsletterSubscriptionResource extends Resource
 {
@@ -51,7 +50,11 @@ class NewsletterSubscriptionResource extends Resource
                             ->email()
                             ->required()
                             ->maxLength(255),
-                    ]),
+
+                        Forms\Components\TextInput::make('device_id')
+                            ->label('معرف الجهاز (Device ID)')
+                            ->placeholder('غير محدد'),
+                    ])->columns(2),
             ]);
     }
 
@@ -62,7 +65,16 @@ class NewsletterSubscriptionResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label('البريد الإلكتروني')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->weight('bold'),
+
+                Tables\Columns\TextColumn::make('device_id')
+                    ->label('معرف الجهاز (Device ID)')
+                    ->searchable()
+                    ->sortable()
+                    ->placeholder('غير محدد')
+                    ->badge()
+                    ->color('info'),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('تاريخ الاشتراك')

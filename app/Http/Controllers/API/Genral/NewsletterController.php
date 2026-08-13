@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Services\NewsletterService;
 use App\Traits\ApiResponse;
 use App\Http\Requests\API\GENERAL\SubscribeNewsletterRequest;
-
 use App\Http\Resources\API\NEWSLETTER\NewsletterSubscriptionResource;
 
 class NewsletterController extends Controller
@@ -20,7 +19,9 @@ class NewsletterController extends Controller
      */
     public function subscribe(SubscribeNewsletterRequest $request)
     {
-        $result = $this->newsletterService->subscribe($request->email);
+        $deviceId = $request->header('device-id') ?? $request->header('device_id') ?? $request->input('device_id');
+
+        $result = $this->newsletterService->subscribe($request->email, $deviceId);
 
         if (!$result['status']) {
             return $this->error($result['message']);

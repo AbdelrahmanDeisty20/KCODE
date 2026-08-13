@@ -15,9 +15,10 @@ class NewsletterSubscriptionResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'email' => $this->email,
-            'is_active' => (bool) $this->is_active,
+            'id'         => $this->id,
+            'email'      => $this->email,
+            'device_id'  => $this->device_id,
+            'is_active'  => (bool) $this->is_active,
             'created_at' => $this->created_at,
         ];
     }
