@@ -41,13 +41,13 @@ class OrderResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        $pendingCount = static::getModel()::whereIn('status', ['pending', 'processing'])->count();
+        $pendingCount = static::getModel()::whereIn('order_status', ['pending', 'processing'])->count();
         return $pendingCount > 0 ? (string) $pendingCount : (string) static::getModel()::count();
     }
 
     public static function getNavigationBadgeColor(): ?string
     {
-        $pendingCount = static::getModel()::whereIn('status', ['pending', 'processing'])->count();
+        $pendingCount = static::getModel()::whereIn('order_status', ['pending', 'processing'])->count();
         return $pendingCount > 0 ? 'warning' : 'primary';
     }
 
