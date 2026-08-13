@@ -19,9 +19,7 @@ class NewsletterController extends Controller
      */
     public function subscribe(SubscribeNewsletterRequest $request)
     {
-        $deviceId = $request->header('device-id') ?? $request->header('device_id') ?? $request->input('device_id');
-
-        $result = $this->newsletterService->subscribe($request->email, $deviceId);
+        $result = $this->newsletterService->subscribe($request->email);
 
         if (!$result['status']) {
             return $this->error($result['message']);

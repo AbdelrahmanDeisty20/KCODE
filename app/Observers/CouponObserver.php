@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Models\Coupon;
 use App\Models\User;
-use App\Models\UserFcmToken;
 use App\Models\NewsletterSubscription;
 use App\Models\AppNotification;
 use App\Services\FirebaseNotificationService;
@@ -33,7 +32,9 @@ class CouponObserver
     }
 
     /**
-     * Process coupon notifications (Push, DB, and Email based on device_id / user).
+     * Process coupon notifications:
+     * - General Coupon: Real-time Push Notification to all users + Email Broadcast to NewsletterSubscription.
+     * - Private Coupon: Real-time Push Notification ONLY to target user (No email).
      */
     protected function processCouponNotification(Coupon $coupon): void
     {
@@ -51,7 +52,7 @@ class CouponObserver
             $isGeneral = (bool) ($coupon->is_general || is_null($coupon->user_id));
 
             if ($isGeneral) {
-                // --- CASE 1: GENERAL COUPON (لكل الناس) ---
+                // --- CASE 1: GENERAL COUPON (الكوبون العام) ---
                 $titleAr   = "كوبون خصم جديد للجميع! 🎁";
                 $titleEn   = "New Discount Coupon for Everyone! 🎁";
                 $messageAr = "استخدم كود الخصم [{$coupon->code}] واحصل على خصم {$discountText} عند الشراء!";
@@ -82,18 +83,29 @@ class CouponObserver
                     'coupon_code'     => (string) $coupon->code,
                 ]);
 
-                Log::info("General Coupon notification sent for code {$coupon->code}");
+                // 3. Broadcast Email to ALL subscribers in NewsletterSubscription
+                $subscriberEmails = NewsletterSubscription::where('is_active', true)
+                    ->pluck('email')
+                    ->filter()
+                    ->unique();
+
+                foreach ($subscriberEmails as $email) {
+                    try {
+                        Mail::to($email)->send(new CouponMail($coupon, null));
+                        Log::info("General Coupon email sent to newsletter subscriber {$email} for code {$coupon->code}");
+                    } catch (\Exception $e) {
+                        Log::error("Failed sending general coupon email to {$email}: " . $e->getMessage());
+                    }
+                }
+
+                Log::info("General Coupon notification and email broadcast processed for code {$coupon->code}");
 
             } else {
-                // --- CASE 2: PRIVATE COUPON (كوبون خاص لمستخدم معين بناءً على جهازه) ---
+                // --- CASE 2: PRIVATE COUPON (الكوبون الخاص - إشعار لحظي فقط) ---
                 $user = User::find($coupon->user_id);
                 if (!$user) {
                     return;
                 }
-
-                // Get device_id from user's FCM tokens
-                $fcmRecord = UserFcmToken::where('user_id', $user->id)->latest()->first();
-                $deviceId  = $fcmRecord?->device_id;
 
                 $titleAr   = "كوبون خصم خاص بك! 🎁";
                 $titleEn   = "Private Discount Coupon for You! 🎁";
@@ -113,34 +125,18 @@ class CouponObserver
                         'coupon_code'    => (string) $coupon->code,
                         'discount_value' => (string) $coupon->discount_value,
                         'discount_type'  => (string) $coupon->discount_type,
-                        'device_id'      => (string) ($deviceId ?? ''),
                     ],
                     'is_read'    => false,
                 ]);
 
-                // 2. Send Real-time FCM Push Notification to the user's device
+                // 2. Send Real-time FCM Push Notification ONLY to the target user (NO EMAIL)
                 $firebaseService->sendToUser($user->id, $titleAr, $messageAr, [
                     'type'        => 'coupon',
                     'category'    => 'private',
                     'coupon_code' => (string) $coupon->code,
-                    'device_id'   => (string) ($deviceId ?? ''),
                 ]);
 
-                // 3. Resolve target email based on device_id / newsletter / user email
-                $targetEmail = null;
-                if (!empty($user->email)) {
-                    $newsletter = NewsletterSubscription::whereRaw('LOWER(TRIM(email)) = ?', [strtolower(trim($user->email))])->first();
-                    $targetEmail = $newsletter?->email ?? $user->email;
-                }
-
-                if (!empty($targetEmail)) {
-                    try {
-                        Mail::to($targetEmail)->send(new CouponMail($coupon, $user));
-                        Log::info("Private Coupon email sent to {$targetEmail} for device_id: {$deviceId} and code {$coupon->code}");
-                    } catch (\Exception $e) {
-                        Log::error("Failed sending private coupon email to {$targetEmail}: " . $e->getMessage());
-                    }
-                }
+                Log::info("Private Coupon push notification sent to User ID {$user->id} for code {$coupon->code} (No email as configured)");
             }
         } catch (\Exception $e) {
             Log::error("CouponObserver Error: " . $e->getMessage());

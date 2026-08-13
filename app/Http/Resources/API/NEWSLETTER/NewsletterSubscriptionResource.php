@@ -17,7 +17,6 @@ class NewsletterSubscriptionResource extends JsonResource
         return [
             'id'         => $this->id,
             'email'      => $this->email,
-            'device_id'  => $this->device_id,
             'is_active'  => (bool) $this->is_active,
             'created_at' => $this->created_at,
         ];

@@ -10,30 +10,26 @@ use Illuminate\Support\Facades\Log;
 class NewsletterService
 {
     /**
-     * Subscribe an email to the newsletter with optional device_id.
+     * Subscribe an email to the newsletter.
      */
-    public function subscribe(string $email, ?string $deviceId = null): array
+    public function subscribe(string $email): array
     {
         $existing = NewsletterSubscription::where('email', $email)->first();
 
         if ($existing) {
-            if ($existing->is_active && $existing->device_id === $deviceId) {
+            if ($existing->is_active) {
                 return [
                     'status'  => false,
                     'message' => __('messages.newsletter_already_subscribed'),
                 ];
             }
 
-            // Update active status and device_id
-            $existing->update([
-                'is_active' => true,
-                'device_id' => $deviceId ?? $existing->device_id,
-            ]);
+            // Reactivate subscription if inactive
+            $existing->update(['is_active' => true]);
             $subscription = $existing;
         } else {
             $subscription = NewsletterSubscription::create([
                 'email'     => $email,
-                'device_id' => $deviceId,
                 'is_active' => true,
             ]);
         }

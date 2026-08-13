@@ -10,7 +10,6 @@ class NewsletterSubscription extends Model
 
     protected $fillable = [
         'email',
-        'device_id',
         'is_active',
     ];
 
