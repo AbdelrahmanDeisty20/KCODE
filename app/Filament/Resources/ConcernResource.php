@@ -73,7 +73,9 @@ class ConcernResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('الصورة')
                             ->image()
-                            ->directory('concerns'),
+                            ->directory('concerns')
+                            ->formatStateUsing(fn ($state, $record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'concerns/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'concerns/' . ltrim($record->getRawOriginal('image'), '/'))) : null)
+                            ->dehydrateStateUsing(fn ($state) => $state ? (filter_var($state, FILTER_VALIDATE_URL) ? $state : basename($state)) : null),
 
                         Forms\Components\Select::make('status')
                             ->label('الحالة')

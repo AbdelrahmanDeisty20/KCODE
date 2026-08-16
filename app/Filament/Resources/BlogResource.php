@@ -114,7 +114,9 @@ class BlogResource extends Resource
                             ->label('الصورة البارزة')
                             ->image()
                             ->directory('blogs')
-                            ->disk('public'),
+                            ->disk('public')
+                            ->formatStateUsing(fn ($state, $record) => $record?->getRawOriginal('featured_image') ? (str_starts_with($record->getRawOriginal('featured_image'), 'blogs/') ? $record->getRawOriginal('featured_image') : (filter_var($record->getRawOriginal('featured_image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('featured_image') : 'blogs/' . ltrim($record->getRawOriginal('featured_image'), '/'))) : null)
+                            ->dehydrateStateUsing(fn ($state) => $state ? (filter_var($state, FILTER_VALIDATE_URL) ? $state : (str_starts_with($state, 'blogs/') ? $state : 'blogs/' . basename($state))) : null),
                     ])->columns(2),
 
                 Components\Section::make('ملخص ومحتوى المقال')

@@ -75,7 +75,9 @@ class UserResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('الصورة الشخصية')
                             ->image()
-                            ->directory('users'),
+                            ->directory('users')
+                            ->formatStateUsing(fn ($state, $record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'users/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'users/' . ltrim($record->getRawOriginal('image'), '/'))) : null)
+                            ->dehydrateStateUsing(fn ($state) => $state ? (filter_var($state, FILTER_VALIDATE_URL) ? $state : (str_starts_with($state, 'users/') ? $state : 'users/' . basename($state))) : null),
                     ])->columns(2),
 
                 Components\Section::make('🔐 الصلاحيات والأدوار والنظام')
