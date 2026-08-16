@@ -76,10 +76,9 @@ class BlogSeo extends Model
         if (!$value) return null;
         if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
 
-        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
-        $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
+        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
 
-        return asset($base . $path);
+        return asset('storage/' . $path);
     }
 
     /**
