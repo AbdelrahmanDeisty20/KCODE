@@ -3,9 +3,12 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Assessment;
+use App\Models\Blog;
 use App\Models\ChatbotMessage;
+use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -24,6 +27,11 @@ class StatsOverviewWidget extends BaseWidget
         $totalUsers = User::where('type', 'user')->count();
         $totalQuizDone = Assessment::count();
         $totalChatbotQueries = ChatbotMessage::count();
+        $totalPublishedBlogs = Blog::where('status', 'published')->count();
+        $totalReviewsCount = Review::count();
+        $avgRating = round(Review::avg('rating') ?? 5.0, 1);
+        $lowStockProducts = Product::where('stock', '<', 10)->count();
+        $activeCoupons = Coupon::where('is_active', true)->count();
 
         // 7-day trend arrays for sparkline charts
         $ordersTrend = [];
@@ -66,6 +74,14 @@ class StatsOverviewWidget extends BaseWidget
                 ->color('warning'),
 
             Stat::make(
+                $isEn ? 'Customer Ratings' : 'تقييمات وآراء العملاء',
+                "{$avgRating} / 5 ⭐"
+            )
+                ->description($isEn ? "Total Ratings: {$totalReviewsCount}" : "إجمالي تقييمات المنتجات: {$totalReviewsCount}")
+                ->descriptionIcon('heroicon-m-star')
+                ->color('warning'),
+
+            Stat::make(
                 $isEn ? 'Available Products' : 'المنتجات المتاحة',
                 number_format($totalProducts)
             )
@@ -74,11 +90,35 @@ class StatsOverviewWidget extends BaseWidget
                 ->color('info'),
 
             Stat::make(
+                $isEn ? 'Low Stock Alerts' : 'تنبيهات المخزون المنخفض',
+                number_format($lowStockProducts)
+            )
+                ->description($isEn ? 'Products with stock < 10' : 'منتجات المخزون أقل من 10 قطع')
+                ->descriptionIcon('heroicon-m-exclamation-triangle')
+                ->color($lowStockProducts > 0 ? 'danger' : 'success'),
+
+            Stat::make(
                 $isEn ? 'Registered Customers' : 'العملاء المسجلين',
                 number_format($totalUsers)
             )
                 ->description($isEn ? 'Total Customer Accounts' : 'إجمالي حسابات العملاء')
                 ->descriptionIcon('heroicon-m-users')
+                ->color('success'),
+
+            Stat::make(
+                $isEn ? 'Published Articles' : 'مقالات المدونة المنشورة',
+                number_format($totalPublishedBlogs)
+            )
+                ->description($isEn ? 'Live Skincare Articles' : 'مقالات مدونة العناية بالبشرة')
+                ->descriptionIcon('heroicon-m-document-text')
+                ->color('primary'),
+
+            Stat::make(
+                $isEn ? 'Active Coupons' : 'الكوبونات والقسائم الفعالة',
+                number_format($activeCoupons)
+            )
+                ->description($isEn ? 'Active Promo Codes' : 'قسائم الخصم الفعالة بالمتجر')
+                ->descriptionIcon('heroicon-m-ticket')
                 ->color('success'),
         ];
     }
