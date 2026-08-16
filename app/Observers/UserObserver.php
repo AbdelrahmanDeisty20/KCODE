@@ -57,7 +57,8 @@ class UserObserver
                             ->label('عرض بيانات العميل 👁️')
                             ->url($userUrl)
                             ->button()
-                            ->color('primary'),
+                            ->color('primary')
+                            ->markAsRead(),
                     ])
                     ->sendToDatabase($admins);
             }

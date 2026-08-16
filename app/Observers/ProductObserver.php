@@ -96,7 +96,8 @@ class ProductObserver
                                 ->label('عرض وتعديل المخزون ⚙️')
                                 ->url($productUrl)
                                 ->button()
-                                ->color('warning'),
+                                ->color('warning')
+                                ->markAsRead(),
                         ])
                         ->sendToDatabase($admins);
 

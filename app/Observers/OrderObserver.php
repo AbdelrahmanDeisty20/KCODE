@@ -122,7 +122,8 @@ class OrderObserver
                                 ->label('عرض تفاصيل الطلب 📦')
                                 ->url($orderUrl)
                                 ->button()
-                                ->color('success'),
+                                ->color('success')
+                                ->markAsRead(),
                         ])
                         ->sendToDatabase($admin);
                 } catch (\Exception $e) {
