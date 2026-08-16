@@ -84,11 +84,20 @@ class ProductObserver
                 }
 
                 if ($admins->isNotEmpty()) {
+                    $productUrl = \App\Filament\Resources\ProductResource::getUrl('edit', ['record' => $product->id]);
+
                     Notification::make()
                         ->title("تنبيه مخزون منخفض ⚠️")
                         ->body("المنتج [{$product->name_ar}] (SKU: {$product->sku}) كمية المخزون المتبقية أقل من 10 قطع (المتبقي: {$product->stock} قطع)")
                         ->icon('heroicon-o-exclamation-triangle')
                         ->warning()
+                        ->actions([
+                            \Filament\Notifications\Actions\Action::make('view_product')
+                                ->label('عرض وتعديل المخزون ⚙️')
+                                ->url($productUrl)
+                                ->button()
+                                ->color('warning'),
+                        ])
                         ->sendToDatabase($admins);
 
                     Log::info("Low stock notification sent to admins for Product ID {$product->id} (Stock: {$product->stock})");

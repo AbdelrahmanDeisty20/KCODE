@@ -17,20 +17,27 @@ class OrderObserver
      */
     public function created(Order $order): void
     {
-        $orderNumber  = $order->order_number ?? $order->id;
-        $customerName = $order->user_name ?: ($order->user?->name ?: 'عميل');
+        try {
+            $orderNumber  = $order->order_number ?? $order->id;
+            $customerName = $order->user_name ?: ($order->user?->name ?: 'عميل جديد');
+            $contact      = $order->user_phone ?: ($order->user_email ?: ($order->user?->phone ?: $order->user?->email));
 
-        ActivityLogger::log(
-            event: 'created',
-            description: "تم إنشاء طلب جديد رقم #{$orderNumber} بقيمة {$order->total} ج.م من العميل ({$customerName})",
-            subjectType: 'Order',
-            subjectId: $order->id,
-            newValues: [
-                'order_number' => $orderNumber,
-                'total'        => $order->total,
-                'status'       => $order->order_status,
-            ]
-        );
+            ActivityLogger::log(
+                event: 'created',
+                description: "قام العميل [{$customerName}] (" . ($contact ? $contact : 'بدون تفاصيل تواصل') . ") بطلب جديد رقم #{$orderNumber} إجمالي {$order->total} ج.م",
+                subjectType: 'Order',
+                subjectId: $order->id,
+                newValues: [
+                    'order_number'  => $orderNumber,
+                    'total'         => $order->total,
+                    'status'        => $order->order_status,
+                    'customer_name' => $customerName,
+                    'contact'       => $contact,
+                ]
+            );
+        } catch (\Exception $e) {
+            Log::error("OrderObserver ActivityLogger created error: " . $e->getMessage());
+        }
 
         $this->notifyAdminsNewOrder($order);
     }
@@ -100,16 +107,23 @@ class OrderObserver
             $messageAr = "وصلك طلب جديد برقم #{$orderNumber} بقيمة {$totalAmount} ج.م من العميل ({$customerName})، يرجى التجهيز والمراجعة.";
             $messageEn = "New order #{$orderNumber} received for {$totalAmount} EGP from {$customerName}.";
 
-            $firebaseService = app(FirebaseNotificationService::class);
+            $orderUrl = \App\Filament\Resources\OrderResource::getUrl('edit', ['record' => $order->id]);
 
             foreach ($adminUsers as $admin) {
                 // 1. Send Filament Dashboard Notification (bell icon in admin panel)
                 try {
                     FilamentNotification::make()
-                        ->title("طلب جديد برقم: #{$orderNumber}")
+                        ->title("طلب جديد برقم: #{$orderNumber} 🛒")
                         ->body("تم استلام طلب جديد بمبلغ {$totalAmount} ج.م من العميل ({$customerName})")
                         ->icon('heroicon-o-shopping-bag')
                         ->iconColor('success')
+                        ->actions([
+                            \Filament\Notifications\Actions\Action::make('view_order')
+                                ->label('عرض تفاصيل الطلب 📦')
+                                ->url($orderUrl)
+                                ->button()
+                                ->color('success'),
+                        ])
                         ->sendToDatabase($admin);
                 } catch (\Exception $e) {
                     Log::error("Filament Notification Error for Admin {$admin->id}: " . $e->getMessage());

@@ -44,11 +44,20 @@ class UserObserver
             }
 
             if ($admins->isNotEmpty()) {
+                $userUrl = \App\Filament\Resources\UserResource::getUrl('edit', ['record' => $user->id]);
+
                 Notification::make()
                     ->title("تسجيل حساب جديد 👤")
                     ->body("قام العميل [{$userName}] ({$userEmail}) بتسجيل حساب جديد بالتطبيق")
                     ->icon('heroicon-o-user-plus')
                     ->iconColor('success')
+                    ->actions([
+                        \Filament\Notifications\Actions\Action::make('view_user')
+                            ->label('عرض بيانات العميل 👁️')
+                            ->url($userUrl)
+                            ->button()
+                            ->color('primary'),
+                    ])
                     ->sendToDatabase($admins);
             }
 
