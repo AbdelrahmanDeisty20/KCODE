@@ -67,10 +67,7 @@ class BrandResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('شعار العلامة التجارية (Logo)')
                             ->image()
-                            ->directory('brands')
-                            ->disk('public')
-                            ->formatStateUsing(fn ($state, $record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'brands/') ? $record->getRawOriginal('image') : 'brands/' . ltrim($record->getRawOriginal('image'), '/')) : null)
-                            ->dehydrateStateUsing(fn ($state) => $state ? (filter_var($state, FILTER_VALIDATE_URL) ? $state : basename($state)) : null),
+                            ->directory('brands'),
                     ])->columns(2),
             ]);
     }
@@ -82,8 +79,7 @@ class BrandResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label($isEn ? 'Logo' : 'الشعار')
-                    ->disk('public'),
+                    ->label($isEn ? 'Logo' : 'الشعار'),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Brand Name' : 'اسم العلامة التجارية')
@@ -114,5 +110,7 @@ class BrandResource extends Resource
             'create' => Pages\CreateBrand::route('/create'),
             'edit' => Pages\EditBrand::route('/{record}/edit'),
         ];
+    }
+}
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Model;
 
 class BlogSeo extends Model
 {
@@ -73,12 +73,15 @@ class BlogSeo extends Model
      */
     public function getOgImageAttribute($value): ?string
     {
-        if (!$value) return null;
-        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
+        if (!$value)
+            return null;
+        if (filter_var($value, FILTER_VALIDATE_URL))
+            return $value;
 
-        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
 
-        return asset('storage/' . $path);
+        return asset($base . $path);
     }
 
     /**

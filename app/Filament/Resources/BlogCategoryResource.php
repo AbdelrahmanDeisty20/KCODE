@@ -75,9 +75,7 @@ class BlogCategoryResource extends Resource
                             ->label('صورة القسم')
                             ->image()
                             ->directory('blog-categories')
-                            ->disk('public')
-                            ->formatStateUsing(fn ($state, $record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'blog-categories/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'blog-categories/' . ltrim($record->getRawOriginal('image'), '/'))) : null)
-                            ->dehydrateStateUsing(fn ($state) => $state ? (filter_var($state, FILTER_VALIDATE_URL) ? $state : (str_starts_with($state, 'blog-categories/') ? $state : 'blog-categories/' . basename($state))) : null),
+                            ->disk('public'),
                     ])->columns(2),
             ]);
     }

@@ -73,10 +73,7 @@ class ConcernResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('الصورة')
                             ->image()
-                            ->directory('concerns')
-                            ->disk('public')
-                            ->formatStateUsing(fn ($state, $record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'concerns/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'concerns/' . ltrim($record->getRawOriginal('image'), '/'))) : null)
-                            ->dehydrateStateUsing(fn ($state) => $state ? (filter_var($state, FILTER_VALIDATE_URL) ? $state : basename($state)) : null),
+                            ->directory('concerns'),
 
                         Forms\Components\Select::make('status')
                             ->label('الحالة')
@@ -97,8 +94,7 @@ class ConcernResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label($isEn ? 'Image' : 'الصورة')
-                    ->disk('public'),
+                    ->label($isEn ? 'Image' : 'الصورة'),
 
                 Tables\Columns\TextColumn::make('name_ar')
                     ->label($isEn ? 'Name (Arabic)' : 'الاسم (عربي)')
@@ -137,5 +133,7 @@ class ConcernResource extends Resource
             'create' => Pages\CreateConcern::route('/create'),
             'edit' => Pages\EditConcern::route('/{record}/edit'),
         ];
+    }
+}
     }
 }

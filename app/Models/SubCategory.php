@@ -35,13 +35,8 @@ class SubCategory extends Model
             return null;
         if (filter_var($value, FILTER_VALIDATE_URL))
             return $value;
-
-        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
-        if (!str_starts_with($path, 'sub_categories/')) {
-            $path = 'sub_categories/' . $path;
-        }
-
-        return asset('storage/' . $path);
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        return asset($base . 'sub_categories/' . $value);
     }
 
     public function getProductsCountAttribute()

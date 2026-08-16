@@ -106,10 +106,7 @@ class QuizQuestionResource extends Resource
                                 Forms\Components\FileUpload::make('image')
                                     ->label('صورة الخيار')
                                     ->image()
-                                    ->directory('quiz')
-                                    ->disk('public')
-                                    ->formatStateUsing(fn ($state, $record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'quiz/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'quiz/' . ltrim($record->getRawOriginal('image'), '/'))) : null)
-                                    ->dehydrateStateUsing(fn ($state) => $state ? (filter_var($state, FILTER_VALIDATE_URL) ? $state : basename($state)) : null),
+                                    ->directory('quiz_options'),
 
                                 Forms\Components\TextInput::make('order')
                                     ->label('الترتيب')
@@ -170,4 +167,5 @@ class QuizQuestionResource extends Resource
             'edit' => Pages\EditQuizQuestion::route('/{record}/edit'),
         ];
     }
+}
 }

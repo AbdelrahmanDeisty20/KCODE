@@ -55,12 +55,13 @@ class Blog extends Model
         if (filter_var($value, FILTER_VALIDATE_URL))
             return $value;
 
-        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
         if (!str_starts_with($path, 'blogs/')) {
             $path = 'blogs/' . $path;
         }
 
-        return asset('storage/' . $path);
+        return asset($base . $path);
     }
 
     /**
