@@ -80,7 +80,8 @@ class BrandResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Logo' : 'الشعار')
-                    ->state(fn($record) => $record->image_path),
+                    ->state(fn($record) => $record->image_path)
+                    ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Brand Name' : 'اسم العلامة التجارية')
                     ->getStateUsing(fn($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))

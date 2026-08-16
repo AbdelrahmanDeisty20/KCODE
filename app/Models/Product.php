@@ -98,9 +98,8 @@ class Product extends Model
             return $this->image;
 
         $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $this->image), '/');
-        if (!str_starts_with(strtolower($path), 'products/')) {
-            $path = 'products/' . $path;
-        }
+        $path = ltrim(preg_replace('/^products\//i', '', $path), '/');
+        $path = 'products/' . $path;
 
         return asset('storage/' . $path);
     }

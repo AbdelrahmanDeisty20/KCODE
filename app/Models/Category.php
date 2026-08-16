@@ -25,9 +25,8 @@ class Category extends Model
             return $this->image;
 
         $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $this->image), '/');
-        if (!str_starts_with(strtolower($path), 'categories/')) {
-            $path = 'categories/' . $path;
-        }
+        $path = ltrim(preg_replace('/^categories\//i', '', $path), '/');
+        $path = 'categories/' . $path;
 
         return asset('storage/' . $path);
     }

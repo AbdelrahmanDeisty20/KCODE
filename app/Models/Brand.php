@@ -25,9 +25,8 @@ class Brand extends Model
             return $this->image;
 
         $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $this->image), '/');
-        if (!str_starts_with(strtolower($path), 'brands/')) {
-            $path = 'brands/' . $path;
-        }
+        $path = ltrim(preg_replace('/^brands\//i', '', $path), '/');
+        $path = 'brands/' . $path;
 
         return asset('storage/' . $path);
     }
