@@ -95,7 +95,8 @@ class SkinTypeResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->getStateUsing(fn ($record) => $record->image_path),
+                    ->disk('public')
+                    ->getStateUsing(fn ($record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'skin_types/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'skin_types/' . ltrim($record->getRawOriginal('image'), '/'))) : null),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Skin Type Name' : 'اسم نوع البشرة')

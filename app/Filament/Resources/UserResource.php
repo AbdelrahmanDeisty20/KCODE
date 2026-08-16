@@ -112,7 +112,8 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label('الصورة')
-                    ->getStateUsing(fn ($record) => $record->image_path)
+                    ->disk('public')
+                    ->getStateUsing(fn ($record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'users/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'users/' . ltrim($record->getRawOriginal('image'), '/'))) : null)
                     ->circular(),
 
                 Tables\Columns\TextColumn::make('name')

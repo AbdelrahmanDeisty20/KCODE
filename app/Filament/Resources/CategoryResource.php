@@ -67,7 +67,10 @@ class CategoryResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('صورة القسم')
                             ->image()
-                            ->directory('categories'),
+                            ->directory('categories')
+                            ->disk('public')
+                            ->formatStateUsing(fn ($state, $record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'categories/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'categories/' . ltrim($record->getRawOriginal('image'), '/'))) : null)
+                            ->dehydrateStateUsing(fn ($state) => $state ? (filter_var($state, FILTER_VALIDATE_URL) ? $state : basename($state)) : null),
                     ])->columns(2),
             ]);
     }
@@ -80,7 +83,8 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->getStateUsing(fn ($record) => $record->image),
+                    ->disk('public')
+                    ->getStateUsing(fn ($record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'categories/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'categories/' . ltrim($record->getRawOriginal('image'), '/'))) : null),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Category Name' : 'اسم القسم الرئيسي')
