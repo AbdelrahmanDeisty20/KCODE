@@ -21,7 +21,7 @@ class BlogDetailsResource extends JsonResource
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
             'content' => $this->content,
-            'featured_image' => $this->featured_image,
+            'featured_image' => $this->featured_image_path,
             'status' => $this->status ?? 'draft',
             'is_featured' => (bool) ($this->is_featured ?? false),
             'reading_time' => (int) ($this->reading_time ?? 1),

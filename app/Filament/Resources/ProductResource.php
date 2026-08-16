@@ -202,8 +202,7 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->disk('public')
-                    ->getStateUsing(fn ($record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'products/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'products/' . ltrim($record->getRawOriginal('image'), '/'))) : null),
+                    ->state(fn ($record) => $record->image_path),
 
                 Tables\Columns\TextColumn::make('sku')
                     ->label('SKU')

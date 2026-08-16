@@ -150,8 +150,7 @@ class BlogResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('featured_image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->disk('public')
-                    ->getStateUsing(fn ($record) => $record?->getRawOriginal('featured_image') ? (str_starts_with($record->getRawOriginal('featured_image'), 'blogs/') ? $record->getRawOriginal('featured_image') : (filter_var($record->getRawOriginal('featured_image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('featured_image') : 'blogs/' . ltrim($record->getRawOriginal('featured_image'), '/'))) : null),
+                    ->state(fn ($record) => $record->featured_image_path),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Name' : 'الاسم')

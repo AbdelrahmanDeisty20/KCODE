@@ -26,7 +26,7 @@ class ProductResource extends JsonResource
             'sku' => $this->sku,
             'price' => $this->price,
             'stock' => $this->stock,
-            'image' => $this->image,
+            'image' => $this->image_path,
             'status' => $this->status,
             'sales_count' => (int) $this->sales_count,
             'is_favorite' => auth('sanctum')->check() ? $this->favorites()->where('user_id', auth('sanctum')->id())->where('is_active', true)->exists() : false,

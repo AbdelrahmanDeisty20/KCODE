@@ -24,7 +24,7 @@ class ProductListResource extends JsonResource
             'sku' => $this->sku,
             'short_name' => $this->short_name,
             'price' => $this->price,
-            'image' => $this->image,
+            'image' => $this->image_path,
             'brand' => BrandResource::make($this->whenLoaded('brand')),
             'sub_category' => SubCategoryResource::make($this->whenLoaded('subCategory')),
             'offers' => OfferResource::collection($this->whenLoaded('offers')),

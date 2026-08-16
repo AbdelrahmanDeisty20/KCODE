@@ -22,15 +22,15 @@ class BlogCategory extends Model
     /**
      * Accessor for image matching Product model storage pattern.
      */
-    public function getImageAttribute($value): ?string
+    public function getImagePathAttribute(): ?string
     {
-        if (!$value)
+        if (!$this->image)
             return null;
-        if (filter_var($value, FILTER_VALIDATE_URL))
-            return $value;
+        if (filter_var($this->image, FILTER_VALIDATE_URL))
+            return $this->image;
 
-        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
-        if (!str_starts_with($path, 'blog-categories/')) {
+        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $this->image), '/');
+        if (!str_starts_with(strtolower($path), 'blog-categories/')) {
             $path = 'blog-categories/' . $path;
         }
 

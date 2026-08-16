@@ -20,7 +20,7 @@ class BlogListResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
-            'featured_image' => $this->featured_image,
+            'featured_image' => $this->featured_image_path,
             'status' => $this->status ?? 'draft',
             'category' => new CategoryResource($this->whenLoaded('category')),
             'author' => new UserBlogResource($this->whenLoaded('author')),

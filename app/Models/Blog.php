@@ -48,15 +48,15 @@ class Blog extends Model
     /**
      * Accessor for featured_image matching Product model storage pattern.
      */
-    public function getFeaturedImageAttribute($value): ?string
+    public function getFeaturedImagePathAttribute(): ?string
     {
-        if (!$value)
+        if (!$this->featured_image)
             return null;
-        if (filter_var($value, FILTER_VALIDATE_URL))
-            return $value;
+        if (filter_var($this->featured_image, FILTER_VALIDATE_URL))
+            return $this->featured_image;
 
-        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
-        if (!str_starts_with($path, 'blogs/')) {
+        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $this->featured_image), '/');
+        if (!str_starts_with(strtolower($path), 'blogs/')) {
             $path = 'blogs/' . $path;
         }
 
