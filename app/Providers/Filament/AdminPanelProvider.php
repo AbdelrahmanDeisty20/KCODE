@@ -32,8 +32,8 @@ class AdminPanelProvider extends PanelProvider
             ->brandName('KCODE Admin')
             ->brandLogo(fn () => new \Illuminate\Support\HtmlString('
                 <div style="display: flex; align-items: center; gap: 0.65rem;">
-                    <img src="' . asset('images/logo-BfbQ1CpO.svg') . '" alt="KCODE Logo" style="height: 32px; width: auto; filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.45));" />
-                    <span style="font-weight: 800; font-size: 1.25rem; color: #10b981; letter-spacing: -0.5px;">KCODE Admin</span>
+                    <img src="' . asset('images/logo-BfbQ1CpO.svg') . '" alt="KCODE Logo" style="height: 32px; width: auto; filter: drop-shadow(0 2px 8px rgba(194, 89, 117, 0.45));" />
+                    <span style="font-weight: 800; font-size: 1.25rem; color: #c25975; letter-spacing: -0.5px;">KCODE Admin</span>
                 </div>
             '))
             ->brandLogoHeight('2.5rem')
@@ -41,7 +41,19 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
             ->colors([
-                'primary' => Color::Emerald,
+                'primary' => [
+                    50 => '#fdf4f7',
+                    100 => '#f9eaee',
+                    200 => '#f5d5e0',
+                    300 => '#eba6be',
+                    400 => '#e0769a',
+                    500 => '#c25975',
+                    600 => '#aa3f5d',
+                    700 => '#8e304a',
+                    800 => '#762b3f',
+                    900 => '#642838',
+                    950 => '#3a121e',
+                ],
                 'secondary' => Color::Amber,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
@@ -69,7 +81,71 @@ class AdminPanelProvider extends PanelProvider
                             0%, 100% { transform: scale(1); opacity: 1; }
                             50% { transform: scale(1.08); opacity: 0.85; }
                         }
-                        
+
+                        /* Global KCODE Styling Parameters */
+                        :root {
+                            --kcode-rose-primary: #c25975;
+                            --kcode-rose-light: #e5a2b5;
+                            --kcode-rose-soft-bg: #f8e7ed;
+                            --kcode-rose-glow: rgba(194, 89, 117, 0.25);
+                        }
+
+                        /* LIGHT MODE OVERRIDES (Matching Image 1) */
+                        html:not(.dark) .fi-layout,
+                        html:not(.dark) body {
+                            background-color: #faf6f4 !important;
+                        }
+                        html:not(.dark) .fi-sidebar {
+                            background-color: #ffffff !important;
+                            border-left-color: rgba(194, 89, 117, 0.12) !important;
+                            border-right-color: rgba(194, 89, 117, 0.12) !important;
+                        }
+                        html:not(.dark) .fi-topbar {
+                            background-color: #ffffff !important;
+                            border-bottom: 1px solid rgba(194, 89, 117, 0.12) !important;
+                        }
+                        html:not(.dark) .fi-wi-stats-overview-stat-card,
+                        html:not(.dark) .fi-wi-widget,
+                        html:not(.dark) .fi-section,
+                        html:not(.dark) .fi-ta-content {
+                            background-color: #ffffff !important;
+                            border: 1px solid rgba(194, 89, 117, 0.14) !important;
+                            border-radius: 1.25rem !important;
+                            box-shadow: 0 6px 20px -3px rgba(194, 89, 117, 0.07) !important;
+                        }
+                        html:not(.dark) .fi-wi-stats-overview-stat-card:hover {
+                            border-color: rgba(194, 89, 117, 0.35) !important;
+                            box-shadow: 0 14px 28px -6px rgba(194, 89, 117, 0.2), 0 0 15px rgba(194, 89, 117, 0.12) !important;
+                        }
+
+                        /* DARK MODE OVERRIDES (Matching Image 2) */
+                        html.dark .fi-layout,
+                        html.dark body {
+                            background-color: #0e0e11 !important;
+                        }
+                        html.dark .fi-sidebar {
+                            background-color: #121215 !important;
+                            border-left-color: rgba(229, 162, 181, 0.12) !important;
+                            border-right-color: rgba(229, 162, 181, 0.12) !important;
+                        }
+                        html.dark .fi-topbar {
+                            background-color: #121215 !important;
+                            border-bottom: 1px solid rgba(229, 162, 181, 0.12) !important;
+                        }
+                        html.dark .fi-wi-stats-overview-stat-card,
+                        html.dark .fi-wi-widget,
+                        html.dark .fi-section,
+                        html.dark .fi-ta-content {
+                            background-color: #1a1a20 !important;
+                            border: 1px solid rgba(229, 162, 181, 0.12) !important;
+                            border-radius: 1.25rem !important;
+                            box-shadow: 0 8px 25px -4px rgba(0, 0, 0, 0.35) !important;
+                        }
+                        html.dark .fi-wi-stats-overview-stat-card:hover {
+                            border-color: rgba(229, 162, 181, 0.35) !important;
+                            box-shadow: 0 14px 28px -6px rgba(229, 162, 181, 0.22), 0 0 20px rgba(229, 162, 181, 0.15) !important;
+                        }
+
                         /* Entrance Animation for Dashboard Cards */
                         .fi-wi-stats-overview-stat-card,
                         .fi-wi-widget,
@@ -83,7 +159,6 @@ class AdminPanelProvider extends PanelProvider
                         }
                         .fi-wi-stats-overview-stat-card:hover {
                             transform: translateY(-6px) scale(1.015) !important;
-                            box-shadow: 0 14px 28px -6px rgba(16, 185, 129, 0.22), 0 0 15px rgba(16, 185, 129, 0.15) !important;
                         }
                         .fi-wi-stats-overview-stat-card:hover .fi-icon-btn,
                         .fi-wi-stats-overview-stat-card:hover svg {
@@ -91,8 +166,9 @@ class AdminPanelProvider extends PanelProvider
                             transition: transform 0.3s ease !important;
                         }
 
-                        /* Sidebar Items Hover Slide */
+                        /* Sidebar Items Hover & Active */
                         .fi-sidebar-item-button {
+                            border-radius: 9999px !important;
                             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
                         }
                         .fi-sidebar-item-button:hover {
@@ -103,24 +179,29 @@ class AdminPanelProvider extends PanelProvider
                         .fi-ta-row {
                             transition: all 0.2s ease !important;
                         }
-                        .fi-ta-row:hover {
-                            background-color: rgba(16, 185, 129, 0.05) !important;
+                        html:not(.dark) .fi-ta-row:hover {
+                            background-color: rgba(194, 89, 117, 0.05) !important;
+                        }
+                        html.dark .fi-ta-row:hover {
+                            background-color: rgba(229, 162, 181, 0.07) !important;
                         }
 
-                        /* Buttons Interactions */
+                        /* Buttons Interactions & Full Pill Styling */
                         .fi-btn {
+                            border-radius: 9999px !important;
                             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
                         }
                         .fi-btn:hover {
                             transform: translateY(-2px) !important;
-                            box-shadow: 0 6px 16px -4px rgba(16, 185, 129, 0.3) !important;
+                            box-shadow: 0 6px 16px -4px rgba(194, 89, 117, 0.35) !important;
                         }
                         .fi-btn:active {
                             transform: translateY(0) scale(0.97) !important;
                         }
 
-                        /* Badges Soft Pulse */
+                        /* Badges Soft Pulse & Pill Shapes */
                         .fi-badge {
+                            border-radius: 9999px !important;
                             transition: all 0.2s ease !important;
                         }
                         .fi-badge:hover {
@@ -138,7 +219,7 @@ class AdminPanelProvider extends PanelProvider
                         .fi-sidebar-item:hover .fi-sidebar-item-icon,
                         .fi-sidebar-item-button:hover svg {
                             transform: scale(1.22) rotate(3deg) !important;
-                            filter: drop-shadow(0 4px 12px rgba(16, 185, 129, 0.4)) !important;
+                            filter: drop-shadow(0 4px 12px rgba(194, 89, 117, 0.4)) !important;
                         }
                     </style>
                 ')

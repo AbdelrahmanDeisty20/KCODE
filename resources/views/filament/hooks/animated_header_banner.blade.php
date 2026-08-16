@@ -61,34 +61,47 @@
     <style>
         .kcode-page-banner {
             position: relative;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.09) 0%, rgba(15, 23, 42, 0.03) 100%);
-            border: 1px solid rgba(16, 185, 129, 0.22);
-            border-radius: 0.85rem;
-            padding: 0.85rem 1.4rem;
-            margin-bottom: 1.2rem;
+            border-radius: 1rem;
+            padding: 1rem 1.4rem;
+            margin-bottom: 1.25rem;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.05);
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        html:not(.dark) .kcode-page-banner {
+            background: linear-gradient(135deg, rgba(194, 89, 117, 0.08) 0%, rgba(248, 231, 237, 0.35) 100%);
+            border: 1px solid rgba(194, 89, 117, 0.22);
+        }
+
+        html.dark .kcode-page-banner {
+            background: linear-gradient(135deg, rgba(229, 162, 181, 0.09) 0%, rgba(26, 26, 32, 0.6) 100%);
+            border: 1px solid rgba(229, 162, 181, 0.18);
         }
 
         .kcode-banner-info h2 {
             font-size: 1.1rem;
             font-weight: 700;
-            color: #10b981;
             margin: 0 0 0.2rem 0;
             display: flex;
             align-items: center;
             gap: 0.4rem;
         }
 
+        html:not(.dark) .kcode-banner-info h2 { color: #c25975; }
+        html.dark .kcode-banner-info h2 { color: #e5a2b5; }
+
         .kcode-banner-info p {
             font-size: 0.8rem;
-            color: #64748b;
             margin: 0;
         }
+
+        html:not(.dark) .kcode-banner-info p { color: #64748b; }
+        html.dark .kcode-banner-info p { color: #a1a1aa; }
 
         /* --- RESPONSIVE MEDIA QUERIES --- */
         @media (max-width: 640px) {
@@ -142,7 +155,7 @@
             width: 200px;
             height: 44px;
             overflow: hidden;
-            border-bottom: 2px dashed rgba(16, 185, 129, 0.35);
+            border-bottom: 2px dashed rgba(194, 89, 117, 0.35);
         }
 
         .van-wrapper {
@@ -180,7 +193,7 @@
 
         .box-svg {
             animation: boxFloat 3s ease-in-out infinite;
-            filter: drop-shadow(0 6px 10px rgba(16, 185, 129, 0.3));
+            filter: drop-shadow(0 6px 10px rgba(194, 89, 117, 0.3));
         }
 
         .sparkle-icon {
@@ -189,7 +202,7 @@
         }
 
         .sp-1 { top: -2px; right: 5px; color: #fbbf24; font-size: 0.9rem; }
-        .sp-2 { bottom: 0px; left: 5px; color: #10b981; font-size: 0.8rem; animation-delay: 1.2s; }
+        .sp-2 { bottom: 0px; left: 5px; color: #c25975; font-size: 0.8rem; animation-delay: 1.2s; }
 
         /* --- 3. USERS ANIMATION: Radar Pulse & Avatars --- */
         @keyframes radarWave1 {
@@ -197,7 +210,7 @@
             100% { transform: scale(1.6); opacity: 0; }
         }
 
-        @keyframes greenBlink {
+        @keyframes roseBlink {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.4; transform: scale(0.85); }
         }
@@ -216,7 +229,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            border: 2px solid #10b981;
+            border: 2px solid #c25975;
             animation: radarWave1 2.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
         }
 
@@ -226,10 +239,10 @@
             right: 18px;
             width: 8px;
             height: 8px;
-            background: #10b981;
+            background: #c25975;
             border-radius: 50%;
-            box-shadow: 0 0 8px #10b981;
-            animation: greenBlink 1.5s ease-in-out infinite;
+            box-shadow: 0 0 8px #c25975;
+            animation: roseBlink 1.5s ease-in-out infinite;
         }
 
         /* --- 4. COUPONS ANIMATION: Floating Ticket & Rising % --- */
@@ -292,7 +305,7 @@
         }
 
         .serum-svg {
-            filter: drop-shadow(0 4px 10px rgba(16, 185, 129, 0.4));
+            filter: drop-shadow(0 4px 10px rgba(194, 89, 117, 0.4));
         }
 
         .drop-particle {
@@ -300,7 +313,7 @@
             top: 8px;
             width: 6px;
             height: 9px;
-            background: #10b981;
+            background: #c25975;
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             animation: dropFall 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
@@ -308,7 +321,7 @@
         .liquid-ripple {
             position: absolute;
             bottom: 4px;
-            border: 2px solid #10b981;
+            border: 2px solid #c25975;
             border-radius: 50%;
             animation: rippleExpand 2.2s ease-out infinite;
             animation-delay: 0.8s;
@@ -462,17 +475,17 @@
                 <div class="orders-stage">
                     <div class="van-wrapper">
                         <svg width="56" height="32" viewBox="0 0 56 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="2" y="4" width="34" height="20" rx="3" fill="#10b981"/>
-                            <path d="M36 10H46L52 17V24H36V10Z" fill="#059669"/>
-                            <path d="M39 12H44L48 17H39V12Z" fill="#e0f2fe"/>
+                            <rect x="2" y="4" width="34" height="20" rx="3" fill="#c25975"/>
+                            <path d="M36 10H46L52 17V24H36V10Z" fill="#aa3f5d"/>
+                            <path d="M39 12H44L48 17H39V12Z" fill="#f5d5e0"/>
                             <rect x="51" y="19" width="3" height="3" rx="1" fill="#fbbf24"/>
-                            <line x1="13" y1="4" x2="13" y2="24" stroke="#047857" stroke-width="1.5"/>
+                            <line x1="13" y1="4" x2="13" y2="24" stroke="#8e304a" stroke-width="1.5"/>
                             <g class="wheel-rotate">
-                                <circle cx="13" cy="24" r="5" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+                                <circle cx="13" cy="24" r="5" fill="#1e293b" stroke="#c25975" stroke-width="2"/>
                                 <circle cx="13" cy="24" r="2" fill="#cbd5e1"/>
                             </g>
                             <g class="wheel-rotate">
-                                <circle cx="42" cy="24" r="5" fill="#1e293b" stroke="#10b981" stroke-width="2"/>
+                                <circle cx="42" cy="24" r="5" fill="#1e293b" stroke="#c25975" stroke-width="2"/>
                                 <circle cx="42" cy="24" r="2" fill="#cbd5e1"/>
                             </g>
                         </svg>
@@ -484,10 +497,10 @@
                 <div class="products-stage">
                     <span class="sparkle-icon sp-1">✦</span>
                     <svg class="box-svg" width="46" height="42" viewBox="0 0 46 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M23 4L42 13V29L23 38L4 29V13L23 4Z" fill="#10b981" opacity="0.85"/>
-                        <path d="M23 4L42 13L23 22L4 13L23 4Z" fill="#34d399"/>
-                        <path d="M23 22V38L4 29V13L23 22Z" fill="#059669"/>
-                        <path d="M23 22L42 13V29L23 38V22Z" fill="#047857"/>
+                        <path d="M23 4L42 13V29L23 38L4 29V13L23 4Z" fill="#c25975" opacity="0.85"/>
+                        <path d="M23 4L42 13L23 22L4 13L23 4Z" fill="#e5a2b5"/>
+                        <path d="M23 22V38L4 29V13L23 22Z" fill="#aa3f5d"/>
+                        <path d="M23 22L42 13V29L23 38V22Z" fill="#8e304a"/>
                     </svg>
                     <span class="sparkle-icon sp-2">✦</span>
                 </div>
@@ -498,8 +511,8 @@
                     <div class="radar-wave"></div>
                     <div class="online-dot"></div>
                     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="21" cy="14" r="7" fill="#10b981"/>
-                        <path d="M7 34C7 27.3726 13.268 22 21 22C28.732 22 35 27.3726 35 34V36H7V34Z" fill="#059669"/>
+                        <circle cx="21" cy="14" r="7" fill="#c25975"/>
+                        <path d="M7 34C7 27.3726 13.268 22 21 22C28.732 22 35 27.3726 35 34V36H7V34Z" fill="#aa3f5d"/>
                     </svg>
                 </div>
 
@@ -522,10 +535,10 @@
                 <div class="skincare-stage">
                     <div class="drop-particle"></div>
                     <svg class="serum-svg" width="36" height="42" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="14" y="2" width="8" height="6" rx="2" fill="#34d399"/>
-                        <path d="M12 8H24V13H12V8Z" fill="#10b981"/>
-                        <rect x="8" y="13" width="20" height="26" rx="4" fill="#059669"/>
-                        <rect x="11" y="17" width="14" height="18" rx="2" fill="#ecfdf5" opacity="0.3"/>
+                        <rect x="14" y="2" width="8" height="6" rx="2" fill="#e5a2b5"/>
+                        <path d="M12 8H24V13H12V8Z" fill="#c25975"/>
+                        <rect x="8" y="13" width="20" height="26" rx="4" fill="#aa3f5d"/>
+                        <rect x="11" y="17" width="14" height="18" rx="2" fill="#fdf4f7" opacity="0.3"/>
                     </svg>
                     <div class="liquid-ripple"></div>
                 </div>
@@ -534,7 +547,7 @@
                 <!-- 6. SETTINGS / DASHBOARD / PAGES / LOGS: Interlocking Gears -->
                 <div class="settings-stage">
                     <svg class="gear-main" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M14.5 2H19.5V5.5C20.7 5.9 21.8 6.5 22.8 7.3L25.5 5L29 8.5L26.7 11.2C27.5 12.2 28.1 13.3 28.5 14.5H32V19.5H28.5C28.1 20.7 27.5 21.8 26.7 22.8L29 25.5L25.5 29L22.8 26.7C21.8 27.5 20.7 28.1 19.5 28.5V32H14.5V28.5C13.3 28.1 12.2 27.5 11.2 26.7L8.5 29L5 25.5L7.3 22.8C6.5 21.8 5.9 20.7 5.5 19.5H2V14.5H5.5C5.9 13.3 6.5 12.2 7.3 11.2L5 8.5L8.5 5L11.2 7.3C12.2 6.5 13.3 5.9 14.5 5.5V2Z" fill="#10b981"/>
+                        <path d="M14.5 2H19.5V5.5C20.7 5.9 21.8 6.5 22.8 7.3L25.5 5L29 8.5L26.7 11.2C27.5 12.2 28.1 13.3 28.5 14.5H32V19.5H28.5C28.1 20.7 27.5 21.8 26.7 22.8L29 25.5L25.5 29L22.8 26.7C21.8 27.5 20.7 28.1 19.5 28.5V32H14.5V28.5C13.3 28.1 12.2 27.5 11.2 26.7L8.5 29L5 25.5L7.3 22.8C6.5 21.8 5.9 20.7 5.5 19.5H2V14.5H5.5C5.9 13.3 6.5 12.2 7.3 11.2L5 8.5L8.5 5L11.2 7.3C12.2 6.5 13.3 5.9 14.5 5.5V2Z" fill="#c25975"/>
                         <circle cx="17" cy="17" r="6" fill="#0f172a"/>
                     </svg>
                     <svg class="gear-sub" width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
