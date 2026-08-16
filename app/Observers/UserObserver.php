@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\User;
 use App\Services\ActivityLogger;
+use Filament\Actions\Action;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 
@@ -52,7 +53,7 @@ class UserObserver
                     ->icon('heroicon-o-user-plus')
                     ->iconColor('success')
                     ->actions([
-                        \Filament\Notifications\Actions\Action::make('view_user')
+                        Action::make('view_user')
                             ->label('عرض بيانات العميل 👁️')
                             ->url($userUrl)
                             ->button()

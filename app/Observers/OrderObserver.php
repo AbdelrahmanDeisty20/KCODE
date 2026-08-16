@@ -118,7 +118,7 @@ class OrderObserver
                         ->icon('heroicon-o-shopping-bag')
                         ->iconColor('success')
                         ->actions([
-                            \Filament\Notifications\Actions\Action::make('view_order')
+                            \Filament\Actions\Action::make('view_order')
                                 ->label('عرض تفاصيل الطلب 📦')
                                 ->url($orderUrl)
                                 ->button()

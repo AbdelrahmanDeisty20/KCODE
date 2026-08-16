@@ -92,7 +92,7 @@ class ProductObserver
                         ->icon('heroicon-o-exclamation-triangle')
                         ->warning()
                         ->actions([
-                            \Filament\Notifications\Actions\Action::make('view_product')
+                            \Filament\Actions\Action::make('view_product')
                                 ->label('عرض وتعديل المخزون ⚙️')
                                 ->url($productUrl)
                                 ->button()
