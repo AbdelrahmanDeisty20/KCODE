@@ -56,7 +56,8 @@ class AppNotificationResource extends Resource
         return $schema
             ->components([
                 Components\Section::make('📣 تفاصيل وإعدادات الإشعار')
-                    ->description('عرض وإنشاء بيانات الإشعار اللحظي')
+                    ->description('عرض وإنشاء بيانات الإشعار اللحظي للمستخدمين والتطبيق')
+                    ->columnSpanFull()
                     ->schema([
                         Forms\Components\Select::make('user_id')
                             ->label('المستلم / المستخدم المستهدف')
@@ -64,11 +65,8 @@ class AppNotificationResource extends Resource
                             ->searchable()
                             ->preload()
                             ->nullable()
-                            ->placeholder('📣 جميع المستخدمين والأجهزة (إرسال عام لكل التوكينات)'),
-
-                        Forms\Components\Toggle::make('is_read')
-                            ->label('تم القراءة (Is Read)')
-                            ->default(false),
+                            ->placeholder('📣 جميع المستخدمين والأجهزة (إرسال عام لكل التوكينات)')
+                            ->columnSpanFull(),
 
                         Forms\Components\TextInput::make('title_ar')
                             ->label('عنوان الإشعار (بالعربية)')
@@ -102,12 +100,27 @@ class AppNotificationResource extends Resource
                             ])
                             ->default('general')
                             ->required(),
+
+                        Forms\Components\Toggle::make('is_read')
+                            ->label('تم القراءة (Is Read)')
+                            ->default(false),
                     ])->columns(2),
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $exportHeaders = ['المعرف', 'المستلم', 'العنوان بالعربي', 'نص الإشعار بالعربي', 'النوع', 'مقروء', 'تاريخ الإرسال'];
+        $exportRowCallback = fn ($record) => [
+            $record->id,
+            $record->user_id ? ($record->user?->name ?? 'مستخدم') : 'جميع المستخدمين',
+            $record->title_ar,
+            $record->message_ar,
+            $record->type,
+            $record->is_read ? 'نعم' : 'لا',
+            $record->created_at?->format('Y-m-d H:i') ?? '',
+        ];
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
@@ -168,7 +181,9 @@ class AppNotificationResource extends Resource
             ])
             ->actions([
                 Actions\ViewAction::make()
-                    ->label('عرض التفاصيل'),
+                    ->label('عرض التفاصيل')
+                    ->modalWidth('3xl')
+                    ->modalHeading('عرض تفاصيل الإشعار 📣'),
 
                 Actions\Action::make('toggle_read')
                     ->label(fn ($record) => $record->is_read ? 'تحديد كغير مقروء' : 'تحديد كمقروء')
@@ -180,6 +195,14 @@ class AppNotificationResource extends Resource
 
                 Actions\DeleteAction::make(),
             ])
+            ->headerActions([
+                \App\Helpers\FilamentExportHelper::makeExportHeaderAction(
+                    'app_notifications',
+                    $exportHeaders,
+                    $exportRowCallback,
+                    AppNotification::class
+                ),
+            ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\BulkAction::make('mark_as_read')
@@ -189,6 +212,11 @@ class AppNotificationResource extends Resource
                         ->action(fn (Collection $records) => $records->each->update(['is_read' => true])),
 
                     Actions\DeleteBulkAction::make(),
+                    \App\Helpers\FilamentExportHelper::makeExportBulkAction(
+                        'selected_app_notifications',
+                        $exportHeaders,
+                        $exportRowCallback
+                    ),
                 ]),
             ]);
     }

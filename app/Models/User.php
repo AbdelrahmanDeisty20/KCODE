@@ -163,4 +163,12 @@ class User extends Authenticatable implements FilamentUser
 
         return min(100, round((($points - $start) / ($end - $start)) * 100, 2));
     }
+
+    /**
+     * Get all blogs written by this author/user.
+     */
+    public function blogs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Blog::class, 'author_id');
+    }
 }
