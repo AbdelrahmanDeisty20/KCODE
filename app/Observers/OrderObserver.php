@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\AppNotification;
+use App\Services\ActivityLogger;
 use App\Services\FirebaseNotificationService;
 use Filament\Notifications\Notification as FilamentNotification;
 use Illuminate\Support\Facades\Log;
@@ -16,6 +17,21 @@ class OrderObserver
      */
     public function created(Order $order): void
     {
+        $orderNumber  = $order->order_number ?? $order->id;
+        $customerName = $order->user_name ?: ($order->user?->name ?: 'عميل');
+
+        ActivityLogger::log(
+            event: 'created',
+            description: "تم إنشاء طلب جديد رقم #{$orderNumber} بقيمة {$order->total} ج.م من العميل ({$customerName})",
+            subjectType: 'Order',
+            subjectId: $order->id,
+            newValues: [
+                'order_number' => $orderNumber,
+                'total'        => $order->total,
+                'status'       => $order->order_status,
+            ]
+        );
+
         $this->notifyAdminsNewOrder($order);
     }
 
@@ -24,9 +40,35 @@ class OrderObserver
      */
     public function updated(Order $order): void
     {
-        if ($order->wasChanged('order_status') && $order->user_id) {
-            $this->notifyUserOrderStatusChange($order);
+        if ($order->wasChanged('order_status')) {
+            $orderNumber = $order->order_number ?? $order->id;
+            ActivityLogger::log(
+                event: 'updated',
+                description: "تم تحديث حالة الطلب رقم #{$orderNumber} إلى ({$order->order_status})",
+                subjectType: 'Order',
+                subjectId: $order->id,
+                oldValues: ['order_status' => $order->getOriginal('order_status')],
+                newValues: ['order_status' => $order->order_status]
+            );
+
+            if ($order->user_id) {
+                $this->notifyUserOrderStatusChange($order);
+            }
         }
+    }
+
+    /**
+     * Handle the Order "deleted" event.
+     */
+    public function deleted(Order $order): void
+    {
+        $orderNumber = $order->order_number ?? $order->id;
+        ActivityLogger::log(
+            event: 'deleted',
+            description: "تم حذف الطلب رقم #{$orderNumber}",
+            subjectType: 'Order',
+            subjectId: $order->id
+        );
     }
 
     /**

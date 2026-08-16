@@ -3,14 +3,24 @@
 namespace App\Providers;
 
 use App\Models\Blog;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Offer;
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\Review;
+use App\Models\SubCategory;
 use App\Models\User;
 use App\Observers\BlogObserver;
+use App\Observers\BrandObserver;
+use App\Observers\CategoryObserver;
 use App\Observers\CouponObserver;
 use App\Observers\OfferObserver;
 use App\Observers\OrderObserver;
+use App\Observers\ProductObserver;
+use App\Observers\ReviewObserver;
+use App\Observers\SubCategoryObserver;
 use App\Observers\UserObserver;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Illuminate\Support\ServiceProvider;
@@ -35,6 +45,11 @@ class AppServiceProvider extends ServiceProvider
         Order::observe(OrderObserver::class);
         Coupon::observe(CouponObserver::class);
         User::observe(UserObserver::class);
+        Product::observe(ProductObserver::class);
+        Category::observe(CategoryObserver::class);
+        SubCategory::observe(SubCategoryObserver::class);
+        Brand::observe(BrandObserver::class);
+        Review::observe(ReviewObserver::class);
 
         if (class_exists(LanguageSwitch::class)) {
             LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
