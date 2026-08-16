@@ -73,6 +73,7 @@ class SubCategoryResource extends Resource
                             ->label('صورة القسم الفرعي')
                             ->image()
                             ->directory('sub_categories')
+                            ->disk('public')
                             ->formatStateUsing(fn ($state, $record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'sub_categories/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'sub_categories/' . ltrim($record->getRawOriginal('image'), '/'))) : null)
                             ->dehydrateStateUsing(fn ($state) => $state ? (filter_var($state, FILTER_VALIDATE_URL) ? $state : basename($state)) : null),
                     ])
@@ -86,6 +87,9 @@ class SubCategoryResource extends Resource
 
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                    ->label($isEn ? 'Image' : 'الصورة')
+                    ->disk('public'),
                 Tables\Columns\TextColumn::make('category')
                     ->label($isEn ? 'Main Category' : 'القسم الرئيسي')
                     ->getStateUsing(fn($record) => $isEn ? ($record->category?->name_en ?: $record->category?->name_ar) : ($record->category?->name_ar ?: $record->category?->name_en))

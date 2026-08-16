@@ -76,6 +76,7 @@ class UserResource extends Resource
                             ->label('الصورة الشخصية')
                             ->image()
                             ->directory('users')
+                            ->disk('public')
                             ->formatStateUsing(fn ($state, $record) => $record?->getRawOriginal('image') ? (str_starts_with($record->getRawOriginal('image'), 'users/') ? $record->getRawOriginal('image') : (filter_var($record->getRawOriginal('image'), FILTER_VALIDATE_URL) ? $record->getRawOriginal('image') : 'users/' . ltrim($record->getRawOriginal('image'), '/'))) : null)
                             ->dehydrateStateUsing(fn ($state) => $state ? (filter_var($state, FILTER_VALIDATE_URL) ? $state : (str_starts_with($state, 'users/') ? $state : 'users/' . basename($state))) : null),
                     ])->columns(2),
@@ -114,6 +115,7 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label('الصورة')
+                    ->disk('public')
                     ->circular(),
 
                 Tables\Columns\TextColumn::make('name')
