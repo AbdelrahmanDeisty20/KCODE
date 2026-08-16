@@ -4,14 +4,14 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SubCategoryResource\Pages;
 use App\Models\SubCategory;
-use BackedEnum;
-use Filament\Actions;
-use Filament\Forms;
+use Filament\Resources\Resource;
 use Filament\Schemas\Components;
 use Filament\Schemas\Schema;
-use Filament\Resources\Resource;
-use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Actions;
+use Filament\Forms;
+use Filament\Tables;
+use BackedEnum;
 use UnitEnum;
 
 class SubCategoryResource extends Resource
@@ -62,20 +62,14 @@ class SubCategoryResource extends Resource
                             ->required()
                             ->searchable()
                             ->preload(),
-
                         Forms\Components\TextInput::make('name_ar')
                             ->label('الاسم بالعربية')
                             ->required(),
-
                         Forms\Components\TextInput::make('name_en')
                             ->label('الاسم بالإنجليزية')
                             ->required(),
-
-                        Forms\Components\FileUpload::make('image')
-                            ->label('صورة القسم الفرعي')
-                            ->image()
-                            ->directory('sub_categories'),
-                    ])->columns(2),
+                    ])
+                    ->columns(2),
             ]);
     }
 
@@ -85,20 +79,16 @@ class SubCategoryResource extends Resource
 
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
-                    ->label($isEn ? 'Image' : 'الصورة'),
                 Tables\Columns\TextColumn::make('category')
                     ->label($isEn ? 'Main Category' : 'القسم الرئيسي')
-                    ->getStateUsing(fn ($record) => $isEn ? ($record->category?->name_en ?: $record->category?->name_ar) : ($record->category?->name_ar ?: $record->category?->name_en))
+                    ->getStateUsing(fn($record) => $isEn ? ($record->category?->name_en ?: $record->category?->name_ar) : ($record->category?->name_ar ?: $record->category?->name_en))
                     ->sortable()
                     ->searchable(),
-
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Sub Category Name' : 'اسم القسم الفرعي')
-                    ->getStateUsing(fn ($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
+                    ->getStateUsing(fn($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
                     ->searchable()
                     ->sortable(),
-
                 Tables\Columns\TextColumn::make('created_at')
                     ->label($isEn ? 'Created At' : 'تاريخ الإضافة')
                     ->dateTime('d/m/Y H:i')

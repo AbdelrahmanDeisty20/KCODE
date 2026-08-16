@@ -27,7 +27,6 @@ class Product extends Model
         'how_to_use_ar',
         'how_to_use_en',
         'status',
-        
         // Product Details
         'texture_ar',
         'texture_en',
@@ -39,7 +38,6 @@ class Product extends Model
         'safety_notes_en',
         'ar_key_benefits',
         'en_key_benefits',
-
         // SEO Fields
         'ar_product_title_seo',
         'en_product_title_seo',
@@ -81,6 +79,7 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
     public function subCategory()
     {
         return $this->belongsTo(SubCategory::class, 'sub_category_id');
@@ -93,19 +92,12 @@ class Product extends Model
 
     public function getImageAttribute($value)
     {
-        if (!$value) return null;
-        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
-
-        $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
-        if (!str_starts_with($path, 'products/')) {
-            $path = 'products/' . $path;
-        }
-
-        if (request() && request()->is('admin*')) {
-            return $path;
-        }
-
-        return asset('storage/' . $path);
+        if (!$value)
+            return null;
+        if (filter_var($value, FILTER_VALIDATE_URL))
+            return $value;
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        return asset($base . 'products/' . $value);
     }
 
     public function getNameAttribute($value)
@@ -182,7 +174,6 @@ class Product extends Model
     {
         return app()->getLocale() == 'ar' ? $this->og_description_ar : $this->og_description_en;
     }
-
 
     public function images()
     {

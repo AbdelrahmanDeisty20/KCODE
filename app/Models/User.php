@@ -26,9 +26,9 @@ class User extends Authenticatable implements FilamentUser
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasAnyRole(['admin', 'super_admin'])
-            || $this->type === 'admin' 
-            || app()->environment('local');
+        return $this->hasAnyRole(['admin', 'super_admin']) ||
+            $this->type === 'admin' ||
+            app()->environment('local');
     }
 
     /**
@@ -73,26 +73,27 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Otp::class);
     }
 
-    public function getImageAttribute($value)
+    public function getImagePathAttribute()
     {
-        if (!$value) return null;
-        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
+        $value = $this->image;
+        if (!$value)
+            return null;
 
-        $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+
+        $path = $value;
         if (!str_starts_with(strtolower($path), 'users/')) {
             $path = 'users/' . $path;
         }
 
-        if (request() && request()->is('admin*')) {
-            return $path;
+        $base = 'storage/';
+        if (!is_link(public_path('storage')) && request() && request()->getHost() !== '127.0.0.1' && request()->getHost() !== 'localhost') {
+            $base = 'storage/app/public/';
         }
 
-        return asset('storage/' . $path);
-    }
-
-    public function getImagePathAttribute()
-    {
-        return $this->image;
+        return asset($base . $path);
     }
 
     public function refresh_tokens()
@@ -152,17 +153,18 @@ class User extends Authenticatable implements FilamentUser
     public function getLoyaltyProgressAttribute(): float
     {
         $current = $this->loyalty_level;
-        $next    = $this->next_loyalty_level;
+        $next = $this->next_loyalty_level;
 
         if (!$next) {
             return 100.0;
         }
 
-        $start   = $current ? $current->min_points : 0;
-        $end     = $next->min_points;
-        $points  = $this->loyalty_points_balance;
+        $start = $current ? $current->min_points : 0;
+        $end = $next->min_points;
+        $points = $this->loyalty_points_balance;
 
-        if ($end <= $start) return 0.0;
+        if ($end <= $start)
+            return 0.0;
 
         return min(100, round((($points - $start) / ($end - $start)) * 100, 2));
     }

@@ -14,43 +14,38 @@ class SkinType extends Model
         'image',
         'status',
     ];
+
     public function getNameAttribute($value)
     {
         return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
     }
+
     public function getDescriptionAttribute()
     {
         return app()->getLocale() == 'ar' ? $this->description_ar : $this->description_en;
     }
-    public function getImageAttribute($value)
-    {
-        if (!$value) return null;
-        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
-
-        $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
-        if (!str_starts_with($path, 'skin_types/')) {
-            $path = 'skin_types/' . $path;
-        }
-
-        if (request() && request()->is('admin*')) {
-            return $path;
-        }
-
-        return asset('storage/' . $path);
-    }
 
     public function getImagePathAttribute()
     {
-        return $this->image;
+        $value = $this->image;
+        if (!$value)
+            return null;
+        if (filter_var($value, FILTER_VALIDATE_URL))
+            return $value;
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
+        return asset($base . 'skin_types/' . $value);
     }
+
     public function assessments()
     {
         return $this->hasMany(Assessment::class);
     }
+
     public function users()
     {
         return $this->hasMany(User::class);
     }
+
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_skin_types');

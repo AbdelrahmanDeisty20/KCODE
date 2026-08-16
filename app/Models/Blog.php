@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Blog extends Model
@@ -50,19 +50,18 @@ class Blog extends Model
      */
     public function getFeaturedImageAttribute($value): ?string
     {
-        if (!$value) return null;
-        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
+        if (!$value)
+            return null;
+        if (filter_var($value, FILTER_VALIDATE_URL))
+            return $value;
 
+        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
         $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
         if (!str_starts_with($path, 'blogs/')) {
             $path = 'blogs/' . $path;
         }
 
-        if (request() && request()->is('admin*')) {
-            return $path;
-        }
-
-        return asset('storage/' . $path);
+        return asset($base . $path);
     }
 
     /**
@@ -70,8 +69,8 @@ class Blog extends Model
      */
     public function getNameAttribute(): ?string
     {
-        return app()->getLocale() === 'ar' 
-            ? ($this->name_ar ?? $this->name_en ?? $this->title_ar ?? $this->title_en) 
+        return app()->getLocale() === 'ar'
+            ? ($this->name_ar ?? $this->name_en ?? $this->title_ar ?? $this->title_en)
             : ($this->name_en ?? $this->name_ar ?? $this->title_en ?? $this->title_ar);
     }
 
@@ -136,7 +135,8 @@ class Blog extends Model
      */
     public function scopePublished(Builder $query): Builder
     {
-        return $query->where('status', 'published')
+        return $query
+            ->where('status', 'published')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now());
     }
