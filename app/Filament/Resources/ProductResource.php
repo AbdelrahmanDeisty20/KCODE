@@ -199,6 +199,23 @@ class ProductResource extends Resource
     {
         $isEn = app()->getLocale() === 'en';
 
+        $exportHeaders = $isEn ? [
+            'SKU', 'Name (AR)', 'Name (EN)', 'Category', 'Brand', 'Price', 'Stock', 'Status'
+        ] : [
+            'رمز SKU', 'الاسم بالعربية', 'الاسم بالإنجليزية', 'القسم', 'العلامة التجارية', 'السعر', 'المخزون', 'الحالة'
+        ];
+
+        $exportRowCallback = fn ($record) => [
+            $record->sku,
+            $record->name_ar,
+            $record->name_en,
+            $record->category?->name_ar ?? '',
+            $record->brand?->name_ar ?? '',
+            $record->price,
+            $record->stock,
+            $record->status,
+        ];
+
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
@@ -258,9 +275,45 @@ class ProductResource extends Resource
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
+            ->headerActions([
+                \App\Helpers\FilamentExportHelper::makeImportHeaderAction(
+                    'products',
+                    function (array $row) {
+                        $catName = $row['category_name'] ?? ($row['category'] ?? '');
+                        $category = $catName ? \App\Models\Category::firstOrCreate(['name_ar' => $catName], ['name_en' => $catName]) : null;
+                        
+                        $brandName = $row['brand_name'] ?? ($row['brand'] ?? '');
+                        $brand = $brandName ? \App\Models\Brand::firstOrCreate(['name_ar' => $brandName], ['name_en' => $brandName]) : null;
+
+                        \App\Models\Product::updateOrCreate(
+                            ['sku' => $row['sku'] ?? ('SKU-' . uniqid())],
+                            [
+                                'name_ar'        => $row['name_ar'] ?? ($row['name'] ?? 'منتج جديد'),
+                                'name_en'        => $row['name_en'] ?? ($row['name_ar'] ?? 'New Product'),
+                                'price'          => (float) ($row['price'] ?? 0),
+                                'stock'          => (int) ($row['stock'] ?? 0),
+                                'category_id'    => $category?->id,
+                                'brand_id'       => $brand?->id,
+                                'description_ar' => $row['description_ar'] ?? null,
+                            ]
+                        );
+                    }
+                ),
+                \App\Helpers\FilamentExportHelper::makeExportHeaderAction(
+                    'products',
+                    $exportHeaders,
+                    $exportRowCallback,
+                    \App\Models\Product::class
+                ),
+            ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    \App\Helpers\FilamentExportHelper::makeExportBulkAction(
+                        'selected_products',
+                        $exportHeaders,
+                        $exportRowCallback
+                    ),
                 ]),
             ]);
     }

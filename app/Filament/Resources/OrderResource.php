@@ -240,6 +240,18 @@ class OrderResource extends Resource
 
     public static function table(Table $table): Table
     {
+        $exportHeaders = ['رقم الطلب', 'اسم العميل', 'البريد الإلكتروني', 'رقم الهاتف', 'حالة الطلب', 'حالة الدفع', 'الإجمالي', 'تاريخ الطلب'];
+        $exportRowCallback = fn ($record) => [
+            $record->order_number ?? $record->id,
+            $record->user_name ?: ($record->user?->name ?: 'عميل'),
+            $record->user_email ?: ($record->user?->email ?: ''),
+            $record->user_phone ?: ($record->user?->phone ?: ''),
+            $record->order_status,
+            $record->payment_status,
+            $record->total,
+            $record->created_at?->format('Y-m-d H:i') ?? '',
+        ];
+
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('order_number')
@@ -321,6 +333,14 @@ class OrderResource extends Resource
                         'refunded' => 'مسترجع',
                     ]),
             ])
+            ->headerActions([
+                \App\Helpers\FilamentExportHelper::makeExportHeaderAction(
+                    'orders',
+                    $exportHeaders,
+                    $exportRowCallback,
+                    \App\Models\Order::class
+                ),
+            ])
             ->actions([
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
@@ -329,6 +349,11 @@ class OrderResource extends Resource
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    \App\Helpers\FilamentExportHelper::makeExportBulkAction(
+                        'selected_orders',
+                        $exportHeaders,
+                        $exportRowCallback
+                    ),
                 ]),
             ]);
     }

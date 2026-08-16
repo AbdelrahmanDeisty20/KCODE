@@ -76,6 +76,13 @@ class BrandResource extends Resource
     {
         $isEn = app()->getLocale() === 'en';
 
+        $exportHeaders = $isEn ? ['ID', 'Name (AR)', 'Name (EN)'] : ['المعرف', 'الاسم بالعربية', 'الاسم بالإنجليزية'];
+        $exportRowCallback = fn ($record) => [
+            $record->id,
+            $record->name_ar,
+            $record->name_en,
+        ];
+
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
@@ -96,9 +103,34 @@ class BrandResource extends Resource
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
+            ->headerActions([
+                \App\Helpers\FilamentExportHelper::makeImportHeaderAction(
+                    'brands',
+                    function (array $row) {
+                        $nameAr = $row['name_ar'] ?? ($row['name'] ?? null);
+                        if ($nameAr) {
+                            Brand::firstOrCreate(
+                                ['name_ar' => $nameAr],
+                                ['name_en' => $row['name_en'] ?? $nameAr]
+                            );
+                        }
+                    }
+                ),
+                \App\Helpers\FilamentExportHelper::makeExportHeaderAction(
+                    'brands',
+                    $exportHeaders,
+                    $exportRowCallback,
+                    Brand::class
+                ),
+            ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    \App\Helpers\FilamentExportHelper::makeExportBulkAction(
+                        'selected_brands',
+                        $exportHeaders,
+                        $exportRowCallback
+                    ),
                 ]),
             ]);
     }
