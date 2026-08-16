@@ -168,4 +168,3 @@ class QuizQuestionResource extends Resource
         ];
     }
 }
-}

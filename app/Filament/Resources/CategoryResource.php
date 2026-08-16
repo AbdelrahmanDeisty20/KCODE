@@ -112,5 +112,3 @@ class CategoryResource extends Resource
         ];
     }
 }
-    }
-}

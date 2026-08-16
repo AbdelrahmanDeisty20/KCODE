@@ -119,7 +119,3 @@ class SubCategoryResource extends Resource
         ];
     }
 }
-            'edit' => Pages\EditSubCategory::route('/{record}/edit'),
-        ];
-    }
-}
