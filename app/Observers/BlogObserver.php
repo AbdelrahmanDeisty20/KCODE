@@ -39,7 +39,8 @@ class BlogObserver
             title: "مقالة جديدة من الكاتب: {$authorName} 📝",
             body: "قام الكاتب [{$authorName}] بإنشاء مقالة جديدة بعنوان: \"{$blogTitle}\"",
             icon: 'heroicon-o-document-plus',
-            status: 'warning'
+            status: 'warning',
+            blog: $blog
         );
 
         // 3. Broadcast push notification to mobile app users if published
@@ -71,7 +72,8 @@ class BlogObserver
             title: "تعديل مقالة بواسطة: {$authorName} ✏️",
             body: "قام الكاتب / المحرر [{$authorName}] بتعديل المقالة: \"{$blogTitle}\"",
             icon: 'heroicon-o-pencil-square',
-            status: 'info'
+            status: 'info',
+            blog: $blog
         );
 
         // 3. Broadcast push notification if status was changed to 'published'
@@ -109,7 +111,7 @@ class BlogObserver
     /**
      * Send Database Notification to Admin users in Filament Admin Panel.
      */
-    protected function notifyAdmins(string $title, string $body, string $icon, string $status = 'info'): void
+    protected function notifyAdmins(string $title, string $body, string $icon, string $status = 'info', ?Blog $blog = null): void
     {
         try {
             $admins = User::whereHas('roles', function ($q) {
@@ -121,12 +123,25 @@ class BlogObserver
             }
 
             if ($admins->isNotEmpty()) {
-                Notification::make()
+                $notification = Notification::make()
                     ->title($title)
                     ->body($body)
                     ->icon($icon)
-                    ->{$status}()
-                    ->sendToDatabase($admins);
+                    ->{$status}();
+
+                if ($blog) {
+                    $blogUrl = \App\Filament\Resources\BlogResource::getUrl('edit', ['record' => $blog->id]);
+                    $notification->actions([
+                        \Filament\Actions\Action::make('view_blog')
+                            ->label('عرض المقالة 📖')
+                            ->url($blogUrl)
+                            ->button()
+                            ->color($status === 'warning' ? 'warning' : 'primary')
+                            ->markAsRead(),
+                    ]);
+                }
+
+                $notification->sendToDatabase($admins);
             }
         } catch (\Exception $e) {
             Log::error("Failed to send admin Filament notification: " . $e->getMessage());
