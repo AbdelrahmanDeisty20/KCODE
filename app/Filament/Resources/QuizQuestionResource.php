@@ -106,7 +106,8 @@ class QuizQuestionResource extends Resource
                                 Forms\Components\FileUpload::make('image')
                                     ->label('صورة الخيار')
                                     ->image()
-                                    ->directory('quiz_options'),
+                                    ->directory('quiz_options')
+                                    ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'quiz/') ? $state : 'quiz/' . ltrim($state, '/')) : null),
 
                                 Forms\Components\TextInput::make('order')
                                     ->label('الترتيب')

@@ -71,7 +71,8 @@ class SubCategoryResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('صورة القسم الفرعي')
                             ->image()
-                            ->directory('sub_categories'),
+                            ->directory('sub_categories')
+                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'sub_categories/') ? $state : 'sub_categories/' . ltrim($state, '/')) : null),
                     ])
                     ->columns(2),
             ]);

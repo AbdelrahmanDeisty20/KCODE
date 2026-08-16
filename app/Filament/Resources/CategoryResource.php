@@ -67,7 +67,8 @@ class CategoryResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('صورة القسم')
                             ->image()
-                            ->directory('categories'),
+                            ->directory('categories')
+                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'categories/') ? $state : 'categories/' . ltrim($state, '/')) : null),
                     ])->columns(2),
             ]);
     }

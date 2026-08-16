@@ -67,7 +67,8 @@ class BrandResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('شعار العلامة التجارية (Logo)')
                             ->image()
-                            ->directory('brands'),
+                            ->directory('brands')
+                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'brands/') ? $state : 'brands/' . ltrim($state, '/')) : null),
                     ])->columns(2),
             ]);
     }

@@ -73,7 +73,8 @@ class ConcernResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('الصورة')
                             ->image()
-                            ->directory('concerns'),
+                            ->directory('concerns')
+                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'concerns/') ? $state : 'concerns/' . ltrim($state, '/')) : null),
 
                         Forms\Components\Select::make('status')
                             ->label('الحالة')

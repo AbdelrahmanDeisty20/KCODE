@@ -114,7 +114,7 @@ class BlogResource extends Resource
                             ->label('الصورة البارزة')
                             ->image()
                             ->directory('blogs')
-                            ->disk('public'),
+                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'blogs/') ? $state : 'blogs/' . ltrim($state, '/')) : null),
                     ])->columns(2),
 
                 Components\Section::make('ملخص ومحتوى المقال')

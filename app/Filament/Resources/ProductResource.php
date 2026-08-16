@@ -125,7 +125,8 @@ class ProductResource extends Resource
                                 Forms\Components\FileUpload::make('image')
                                     ->label('صورة المنتج')
                                     ->image()
-                                    ->directory('products'),
+                                    ->directory('products')
+                                    ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'products/') ? $state : 'products/' . ltrim($state, '/')) : null),
                             ])->columns(2),
 
                         Components\Tabs\Tab::make('الوصف والاستخدام')

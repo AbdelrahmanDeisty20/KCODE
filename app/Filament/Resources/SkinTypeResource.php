@@ -73,7 +73,8 @@ class SkinTypeResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('الصورة')
                             ->image()
-                            ->directory('skin_types'),
+                            ->directory('skin_types')
+                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'skin_types/') ? $state : 'skin_types/' . ltrim($state, '/')) : null),
 
                         Forms\Components\Select::make('status')
                             ->label('الحالة')
