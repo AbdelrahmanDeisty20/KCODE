@@ -33,11 +33,10 @@ class Concern extends Model
             return $this->image;
 
         $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $this->image), '/');
-        if (!str_starts_with(strtolower($path), 'concerns/')) {
-            $path = 'concerns/' . $path;
-        }
+        $path = ltrim(preg_replace('/^concerns\//i', '', $path), '/');
+        $path = 'concerns/' . $path;
 
-        return asset('storage/' . $path);
+        return Storage::disk('public')->url($path);
     }
 
     public function products()

@@ -37,11 +37,10 @@ class SubCategory extends Model
             return $value;
 
         $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
-        if (!str_starts_with($path, 'sub_categories/')) {
-            $path = 'sub_categories/' . $path;
-        }
+        $path = ltrim(preg_replace('/^sub_categories\//i', '', $path), '/');
+        $path = 'sub_categories/' . $path;
 
-        return asset('storage/' . $path);
+        return Storage::disk('public')->url($path);
     }
 
     public function getProductsCountAttribute()

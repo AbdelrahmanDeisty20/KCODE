@@ -30,11 +30,11 @@ class BlogCategory extends Model
             return $this->image;
 
         $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $this->image), '/');
-        if (!str_starts_with(strtolower($path), 'blog-categories/')) {
-            $path = 'blog-categories/' . $path;
-        }
+        $path = ltrim(preg_replace('/^blogs\/categories\//i', '', $path), '/');
+        $path = ltrim(preg_replace('/^blog-categories\//i', '', $path), '/');
+        $path = 'blogs/categories/' . $path;
 
-        return asset('storage/' . $path);
+        return Storage::disk('public')->url($path);
     }
 
     /**

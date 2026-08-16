@@ -56,11 +56,10 @@ class Blog extends Model
             return $this->featured_image;
 
         $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $this->featured_image), '/');
-        if (!str_starts_with(strtolower($path), 'blogs/')) {
-            $path = 'blogs/' . $path;
-        }
+        $path = ltrim(preg_replace('/^blogs\//i', '', $path), '/');
+        $path = 'blogs/' . $path;
 
-        return asset('storage/' . $path);
+        return Storage::disk('public')->url($path);
     }
 
     /**

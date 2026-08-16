@@ -84,11 +84,10 @@ class User extends Authenticatable implements FilamentUser
         }
 
         $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
-        if (!str_starts_with(strtolower($path), 'users/')) {
-            $path = 'users/' . $path;
-        }
+        $path = ltrim(preg_replace('/^users\//i', '', $path), '/');
+        $path = 'users/' . $path;
 
-        return asset('storage/' . $path);
+        return Storage::disk('public')->url($path);
     }
 
     public function refresh_tokens()

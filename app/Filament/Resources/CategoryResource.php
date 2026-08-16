@@ -81,7 +81,8 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->state(fn ($record) => $record->image_path),
+                    ->state(fn ($record) => $record->image_path)
+                    ->circular(),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Category Name' : 'اسم القسم الرئيسي')

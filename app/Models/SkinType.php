@@ -34,11 +34,10 @@ class SkinType extends Model
             return $value;
 
         $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
-        if (!str_starts_with($path, 'skin_types/')) {
-            $path = 'skin_types/' . $path;
-        }
+        $path = ltrim(preg_replace('/^skin_types\//i', '', $path), '/');
+        $path = 'skin_types/' . $path;
 
-        return asset('storage/' . $path);
+        return Storage::disk('public')->url($path);
     }
 
     public function assessments()

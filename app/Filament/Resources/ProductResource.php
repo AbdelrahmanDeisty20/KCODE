@@ -203,7 +203,8 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->state(fn ($record) => $record->image_path),
+                    ->state(fn ($record) => $record->image_path)
+                    ->square(),
 
                 Tables\Columns\TextColumn::make('sku')
                     ->label('SKU')
