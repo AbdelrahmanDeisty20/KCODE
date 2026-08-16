@@ -85,9 +85,11 @@ class BlogAuthorResource extends Resource
                         Forms\Components\TextInput::make('password')
                             ->label('كلمة السر')
                             ->password()
+                            ->revealable()
                             ->dehydrateStateUsing(fn ($state) => Hash::make($state))
                             ->dehydrated(fn ($state) => filled($state))
-                            ->required(fn (string $context): bool => $context === 'create'),
+                            ->required(fn (string $context): bool => $context === 'create')
+                            ->helperText(fn (string $context) => $context === 'edit' ? 'اتركه فارغاً إذا لا ترغب في تغييره' : null),
 
                         Forms\Components\FileUpload::make('image')
                             ->label('صورة الكاتب (Avatar)')

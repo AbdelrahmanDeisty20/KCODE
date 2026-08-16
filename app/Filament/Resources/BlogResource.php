@@ -92,7 +92,27 @@ class BlogResource extends Resource
                             ->default(fn () => auth()->id())
                             ->required()
                             ->searchable()
-                            ->preload(),
+                            ->preload()
+                            ->createOptionForm([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('اسم الكاتب بالكامل')
+                                    ->required(),
+                                Forms\Components\TextInput::make('email')
+                                    ->label('البريد الإلكتروني')
+                                    ->email()
+                                    ->required()
+                                    ->unique(\App\Models\User::class, 'email'),
+                                Forms\Components\TextInput::make('phone')
+                                    ->label('رقم الهاتف'),
+                                Forms\Components\TextInput::make('password')
+                                    ->label('كلمة السر')
+                                    ->password()
+                                    ->revealable()
+                                    ->required()
+                                    ->dehydrateStateUsing(fn ($state) => \Illuminate\Support\Facades\Hash::make($state)),
+                                Forms\Components\Hidden::make('type')
+                                    ->default('blog_author'),
+                            ]),
 
                         Forms\Components\Select::make('status')
                             ->label('حالة المقال')
