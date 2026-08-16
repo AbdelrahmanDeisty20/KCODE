@@ -94,7 +94,8 @@ class SkinTypeResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label($isEn ? 'Image' : 'الصورة'),
+                    ->label($isEn ? 'Image' : 'الصورة')
+                    ->getStateUsing(fn ($record) => $record->image_path),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Skin Type Name' : 'اسم نوع البشرة')

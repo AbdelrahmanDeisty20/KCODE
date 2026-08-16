@@ -79,7 +79,8 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label($isEn ? 'Image' : 'الصورة'),
+                    ->label($isEn ? 'Image' : 'الصورة')
+                    ->getStateUsing(fn ($record) => $record->image),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Category Name' : 'اسم القسم الرئيسي')

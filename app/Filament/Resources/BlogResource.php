@@ -150,7 +150,7 @@ class BlogResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('featured_image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->disk('public'),
+                    ->getStateUsing(fn ($record) => $record->featured_image),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Name' : 'الاسم')

@@ -79,6 +79,10 @@ class SubCategoryResource extends Resource
 
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                    ->label($isEn ? 'Image' : 'الصورة')
+                    ->getStateUsing(fn ($record) => $record->image_path),
+
                 Tables\Columns\TextColumn::make('category')
                     ->label($isEn ? 'Main Category' : 'القسم الرئيسي')
                     ->getStateUsing(fn($record) => $isEn ? ($record->category?->name_en ?: $record->category?->name_ar) : ($record->category?->name_ar ?: $record->category?->name_en))

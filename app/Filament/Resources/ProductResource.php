@@ -201,7 +201,8 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label($isEn ? 'Image' : 'الصورة'),
+                    ->label($isEn ? 'Image' : 'الصورة')
+                    ->getStateUsing(fn ($record) => $record->image),
 
                 Tables\Columns\TextColumn::make('sku')
                     ->label('SKU')

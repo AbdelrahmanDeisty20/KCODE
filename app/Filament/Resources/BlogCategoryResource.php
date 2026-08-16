@@ -88,7 +88,7 @@ class BlogCategoryResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->disk('public'),
+                    ->getStateUsing(fn ($record) => $record->image),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Category Name' : 'اسم القسم')

@@ -112,6 +112,7 @@ class UserResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label('الصورة')
+                    ->getStateUsing(fn ($record) => $record->image_path)
                     ->circular(),
 
                 Tables\Columns\TextColumn::make('name')

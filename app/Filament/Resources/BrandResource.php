@@ -79,7 +79,8 @@ class BrandResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label($isEn ? 'Logo' : 'الشعار'),
+                    ->label($isEn ? 'Logo' : 'الشعار')
+                    ->getStateUsing(fn ($record) => $record->image),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Brand Name' : 'اسم العلامة التجارية')

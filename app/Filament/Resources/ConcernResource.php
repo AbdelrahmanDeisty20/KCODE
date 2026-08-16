@@ -94,7 +94,8 @@ class ConcernResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label($isEn ? 'Image' : 'الصورة'),
+                    ->label($isEn ? 'Image' : 'الصورة')
+                    ->getStateUsing(fn ($record) => $record->image),
 
                 Tables\Columns\TextColumn::make('name_ar')
                     ->label($isEn ? 'Name (Arabic)' : 'الاسم (عربي)')
