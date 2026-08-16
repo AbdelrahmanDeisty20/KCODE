@@ -23,7 +23,12 @@ class Category extends Model
             return null;
         if (filter_var($value, FILTER_VALIDATE_URL))
             return $value;
-        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
-        return asset($base . 'categories/' . $value);
+
+        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
+        if (!str_starts_with($path, 'categories/')) {
+            $path = 'categories/' . $path;
+        }
+
+        return asset('storage/' . $path);
     }
 }

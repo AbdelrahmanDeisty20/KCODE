@@ -29,10 +29,12 @@ class BlogCategory extends Model
         if (filter_var($value, FILTER_VALIDATE_URL))
             return $value;
 
-        $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
-        $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
+        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
+        if (!str_starts_with($path, 'blog-categories/')) {
+            $path = 'blog-categories/' . $path;
+        }
 
-        return asset($base . $path);
+        return asset('storage/' . $path);
     }
 
     /**

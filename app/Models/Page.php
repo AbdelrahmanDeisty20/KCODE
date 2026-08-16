@@ -18,8 +18,11 @@ class Page extends Model
     {
         $val = app()->getLocale() == 'ar' ? $this->value_ar : $this->value_en;
         if ($this->key_en === 'image' && $val && !filter_var($val, FILTER_VALIDATE_URL)) {
-            $base = is_link(public_path('storage')) ? 'storage/' : 'storage/app/public/';
-            return asset($base . 'pages/' . $val);
+            $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $val), '/');
+            if (!str_starts_with($path, 'pages/')) {
+                $path = 'pages/' . $path;
+            }
+            return asset('storage/' . $path);
         }
         return $val;
     }
