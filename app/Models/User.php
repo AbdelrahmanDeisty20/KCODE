@@ -73,27 +73,26 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Otp::class);
     }
 
-    public function getImagePathAttribute()
+    public function getImageAttribute($value)
     {
-        $value = $this->image;
-        if (!$value)
-            return null;
+        if (!$value) return null;
+        if (filter_var($value, FILTER_VALIDATE_URL)) return $value;
 
-        if (filter_var($value, FILTER_VALIDATE_URL)) {
-            return $value;
-        }
-
-        $path = $value;
+        $path = ltrim(preg_replace('/^storage\//', '', $value), '/');
         if (!str_starts_with(strtolower($path), 'users/')) {
             $path = 'users/' . $path;
         }
 
-        $base = 'storage/';
-        if (!is_link(public_path('storage')) && request() && request()->getHost() !== '127.0.0.1' && request()->getHost() !== 'localhost') {
-            $base = 'storage/app/public/';
+        if (request() && request()->is('admin*')) {
+            return $path;
         }
 
-        return asset($base . $path);
+        return asset('storage/' . $path);
+    }
+
+    public function getImagePathAttribute()
+    {
+        return $this->image;
     }
 
     public function refresh_tokens()

@@ -70,6 +70,11 @@ class SubCategoryResource extends Resource
                         Forms\Components\TextInput::make('name_en')
                             ->label('الاسم بالإنجليزية')
                             ->required(),
+
+                        Forms\Components\FileUpload::make('image')
+                            ->label('صورة القسم الفرعي')
+                            ->image()
+                            ->directory('sub_categories'),
                     ])->columns(2),
             ]);
     }
@@ -80,6 +85,8 @@ class SubCategoryResource extends Resource
 
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('image')
+                    ->label($isEn ? 'Image' : 'الصورة'),
                 Tables\Columns\TextColumn::make('category')
                     ->label($isEn ? 'Main Category' : 'القسم الرئيسي')
                     ->getStateUsing(fn ($record) => $isEn ? ($record->category?->name_en ?: $record->category?->name_ar) : ($record->category?->name_ar ?: $record->category?->name_en))
