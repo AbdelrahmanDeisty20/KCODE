@@ -84,8 +84,9 @@ class UserResource extends Resource
                         Forms\Components\Select::make('type')
                             ->label('نوع الحساب / الصلاحية')
                             ->options([
-                                'admin' => 'مدير النظام (Admin)',
-                                'user' => 'عميل (Customer)',
+                                'admin'       => 'مدير النظام (Admin)',
+                                'user'        => 'عميل (Customer)',
+                                'blog_author' => 'كاتب مقالات (Blog Author)',
                             ])
                             ->default('user')
                             ->required(),
