@@ -1,4 +1,4 @@
-<div x-data="{ isOpen: false, showTooltip: true, inputMsg: '' }" class="{{ app()->getLocale() === 'ar' ? 'is-rtl' : 'is-ltr' }}">
+<div x-data="{ isOpen: false, showTooltip: true }" class="{{ app()->getLocale() === 'ar' ? 'is-rtl' : 'is-ltr' }}">
     <style>
         @keyframes kcodePulseGlow {
             0%, 100% {
@@ -148,7 +148,6 @@
         }
 
         /* DYNAMIC RTL / ARABIC ADAPTATION */
-        /* When in Arabic (RTL), Sidebar is on the RIGHT -> Chatbot automatically moves to BOTTOM-LEFT */
         .is-rtl .kcode-float-btn-wrapper,
         html[dir="rtl"] .kcode-float-btn-wrapper,
         [dir="rtl"] .kcode-float-btn-wrapper {
@@ -223,7 +222,6 @@
             display: flex;
             flex-direction: column;
             gap: 0.85rem;
-            scroll-behavior: smooth;
         }
 
         .kcode-float-msg {
@@ -339,7 +337,7 @@
         }
     </style>
 
-    <!-- PURE CSS TOOLTIP CARD -->
+    <!-- TOOLTIP BUBBLE CARD -->
     <div class="kcode-float-tooltip" :class="{ 'is-visible': showTooltip && !isOpen }">
         <button @click.stop="showTooltip = false" type="button" class="absolute top-1.5 left-2 text-gray-400 hover:text-gray-600 dark:hover:text-white text-xs p-1">
             ✕
@@ -352,7 +350,7 @@
         </div>
     </div>
 
-    <!-- PURE CSS BUTTON TRIGGER WITH ANIMATED ICON -->
+    <!-- BUTTON TRIGGER WITH ANIMATED ROBOT ICON -->
     <div class="kcode-float-btn-wrapper">
         <button @click="isOpen = !isOpen; showTooltip = false" type="button" class="kcode-float-btn" title="مستشار KCODE الذكي">
             <div class="kcode-float-icon" :class="{ 'is-active': isOpen }">
@@ -362,7 +360,7 @@
         </button>
     </div>
 
-    <!-- PURE CSS SPRING EXPANSION CHAT POPUP WINDOW -->
+    <!-- CHAT WINDOW POPUP DRAWER -->
     <div class="kcode-float-modal" :class="{ 'is-open': isOpen }">
 
         <!-- Header -->
@@ -396,8 +394,8 @@
 
         <!-- Messages Area -->
         <div class="kcode-float-messages" id="floatChatMessages">
-            @foreach ($messages as $msg)
-                <div class="kcode-float-msg {{ $msg['role'] }}">
+            @foreach ($messages as $index => $msg)
+                <div class="kcode-float-msg {{ $msg['role'] }}" wire:key="msg-{{ $index }}">
                     <div class="kcode-float-bubble">
                         {!! nl2br(e($msg['content'])) !!}
 
@@ -427,6 +425,7 @@
                 </div>
             @endforeach
 
+            <!-- Immediate Loading Indicator -->
             <div wire:loading wire:target="sendMessage, sendPreset" class="kcode-float-msg assistant">
                 <div class="kcode-float-bubble text-xs italic text-rose-500 font-medium animate-pulse flex items-center gap-1.5">
                     <span class="inline-block animate-spin">⚡</span> جاري التفكير والرد الآن...
@@ -448,20 +447,20 @@
                 </button>
             </div>
 
-            <form
-                @submit.prevent="if (inputMsg.trim() !== '') { $wire.sendMessage(inputMsg); inputMsg = ''; }"
-                class="kcode-float-input-wrapper"
-            >
+            <form wire:submit="sendMessage" class="kcode-float-input-wrapper">
                 <input
                     type="text"
-                    x-model="inputMsg"
+                    wire:model="userMessage"
                     placeholder="اسأل المستشار الذكي عن أي شيء..."
                     class="kcode-float-input"
+                    wire:loading.attr="disabled"
+                    wire:target="sendMessage, sendPreset"
                 />
-                <button type="submit" class="kcode-float-send-btn">
+                <button type="submit" wire:loading.attr="disabled" wire:target="sendMessage, sendPreset" class="kcode-float-send-btn">
                     <span wire:loading.remove wire:target="sendMessage, sendPreset">إرسال 🚀</span>
                     <span wire:loading wire:target="sendMessage, sendPreset">⚡...</span>
                 </button>
             </form>
         </div>
+    </div>
 </div>

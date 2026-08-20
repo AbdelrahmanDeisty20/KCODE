@@ -44,9 +44,9 @@ class FloatingChatbot extends Component
         $this->showTooltip = false;
     }
 
-    public function sendMessage(?string $message = null): void
+    public function sendMessage(?string $text = null): void
     {
-        $prompt = trim($message ?? $this->userMessage);
+        $prompt = trim($text ?? $this->userMessage);
         if (empty($prompt)) {
             return;
         }
