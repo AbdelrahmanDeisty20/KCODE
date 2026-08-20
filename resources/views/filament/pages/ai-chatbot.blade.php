@@ -303,4 +303,21 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            const autoScrollPage = () => {
+                const el = document.getElementById('chatMessages');
+                if (el) {
+                    el.scrollTop = el.scrollHeight;
+                }
+            };
+
+            Livewire.hook('commit', ({ succeed }) => {
+                succeed(() => {
+                    setTimeout(autoScrollPage, 50);
+                });
+            });
+        });
+    </script>
 </x-filament-panels::page>

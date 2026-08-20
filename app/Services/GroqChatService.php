@@ -112,6 +112,10 @@ class GroqChatService
                     if ($replyText) {
                         // Clean up any internal reasoning tags if present
                         $cleanReplyText = preg_replace('/<think>[\s\S]*?<\/think>/i', '', $replyText);
+
+                        // Strict Apology Sanitizer: Remove any apology phrases or headers
+                        $cleanReplyText = preg_replace('/^(أعتذر|عذراً|أسف|عذرا|I apologize|Sorry|Apologies)[\s\S]*?(؟|\.|\!\n|\n)/u', '', $cleanReplyText);
+                        $cleanReplyText = preg_replace('/(أعتذر عن الالتباس السابق|أعتذر عن الالتباس|عذراً عن الالتباس|أعتذر عن الخلل|عذراً على الإزعاج|عذرا على الخطأ|I apologize for the confusion)/u', '', $cleanReplyText);
                         $cleanReplyText = trim($cleanReplyText);
 
                         if (!empty($cleanReplyText)) {
@@ -218,26 +222,29 @@ class GroqChatService
 
             if ($locale === 'ar') {
                 return "=== إحصائيات ومعلومات الداشبورد والمتجر المباشرة (LIVE DASHBOARD DATA) ===\n" .
-                       "- عدد مبيعات اليوم: {$todaySalesCount} طلبات\n" .
+                       "- إجمالي عدد الطلبات الكلي بالمتجر كله (منذ الإنشاء حتى الآن): {$totalOrders} طلب (الطلبات قيد المعالجة: {$pendingOrders}، الطلبات المكتملة: {$completedOrders})\n" .
+                       "- عدد طلبات اليوم فقط (اليوم فقط): {$todaySalesCount} طلب\n" .
                        "- إجمالي إيرادات المبيعات اليوم: " . number_format($todaySalesRevenue, 2) . " EGP\n" .
                        "- متوسط قيمة المبيعات والطلبات: " . number_format($avgOrderValue, 2) . " EGP\n" .
-                       "- إجمالي المبيعات الكلية: " . number_format($totalSales, 2) . " EGP\n" .
-                       "- إجمالي عدد الطلبات بالمتجر: {$totalOrders} طلب (الطلبات قيد المعالجة: {$pendingOrders}، الطلبات المكتملة: {$completedOrders})\n" .
+                       "- إجمالي المبيعات الكلية للمتجر: " . number_format($totalSales, 2) . " EGP\n" .
                        "- إجمالي عدد المستخدمين كلهم: {$totalUsers} مستخدم\n" .
-                       "- عدد العملاء (Customers): {$totalCustomers}\n" .
+                       "- عدد العملاء المشترين (Customers): {$totalCustomers}\n" .
                        "- عدد كتاب المقالات (Blog Authors): {$blogAuthorsCount}\n" .
                        "- عدد المدراء (Admins): {$adminsCount}\n" .
                        "- إجمالي عدد المنتجات بالمتجر: {$totalProducts} (المنتجات النشطة: {$activeProducts})\n" .
                        "- عدد المقالات المنشورة: {$totalBlogs} مقال\n" .
                        "- إجمالي تقييمات العملاء: {$totalReviews} تقييم (متوسط التقييم: " . number_format($avgRating, 1) . " من 5)\n\n" .
+                       "تنويه هام للغاية:\n" .
+                       "- إذا سُئلت عن إجمالي الطلبات الكلي في المتجر، أجب فوراً بـ: {$totalOrders} طلب.\n" .
+                       "- إذا سُئلت عن طلبات اليوم، أجب بـ: {$todaySalesCount} طلب.\n\n" .
                        $todayOrdersText . "\n";
             } else {
                 return "=== LIVE DASHBOARD & STORE METRICS ===\n" .
-                       "- Today Sales Count: {$todaySalesCount} orders\n" .
+                       "- Total All-Time Store Orders: {$totalOrders} orders (Pending/Processing: {$pendingOrders}, Completed: {$completedOrders})\n" .
+                       "- Today Orders Count Only: {$todaySalesCount} orders\n" .
                        "- Today Sales Revenue: " . number_format($todaySalesRevenue, 2) . " EGP\n" .
                        "- Average Order/Sales Value: " . number_format($avgOrderValue, 2) . " EGP\n" .
                        "- Total All-Time Revenue: " . number_format($totalSales, 2) . " EGP\n" .
-                       "- Total Orders: {$totalOrders} (Pending/Processing: {$pendingOrders}, Completed: {$completedOrders})\n" .
                        "- Total All Users Count: {$totalUsers}\n" .
                        "- Total Customers Count: {$totalCustomers}\n" .
                        "- Total Blog Authors Count: {$blogAuthorsCount}\n" .
@@ -245,6 +252,9 @@ class GroqChatService
                        "- Total Products Count: {$totalProducts} (Active: {$activeProducts})\n" .
                        "- Total Blog Articles Count: {$totalBlogs}\n" .
                        "- Total Customer Reviews: {$totalReviews} (Avg Rating: " . number_format($avgRating, 1) . "/5)\n\n" .
+                       "IMPORTANT DIRECTIVE:\n" .
+                       "- If asked about total store orders, answer: {$totalOrders} orders.\n" .
+                       "- If asked about today's orders, answer: {$todaySalesCount} orders.\n\n" .
                        $todayOrdersText . "\n";
             }
         });

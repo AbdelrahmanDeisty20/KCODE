@@ -463,4 +463,21 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('livewire:initialized', () => {
+            const autoScrollFloat = () => {
+                const el = document.getElementById('floatChatMessages');
+                if (el) {
+                    el.scrollTop = el.scrollHeight;
+                }
+            };
+
+            Livewire.hook('commit', ({ succeed }) => {
+                succeed(() => {
+                    setTimeout(autoScrollFloat, 50);
+                });
+            });
+        });
+    </script>
 </div>
