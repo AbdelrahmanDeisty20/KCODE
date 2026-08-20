@@ -448,15 +448,15 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="sendMessage" x-on:submit.prevent="$wire.sendMessage()" class="kcode-float-input-wrapper">
+            <form wire:submit.prevent="sendMessage" class="kcode-float-input-wrapper" wire:key="chat-form-floating">
                 <input
                     type="text"
-                    x-model="$wire.userMessage"
-                    x-on:keydown.enter.prevent="$wire.sendMessage()"
+                    wire:model="userMessage"
+                    wire:key="chat-input-field-floating"
                     placeholder="اسأل المستشار الذكي عن أي شيء..."
                     class="kcode-float-input"
                 />
-                <button type="button" wire:click="sendMessage" wire:loading.attr="disabled" class="kcode-float-send-btn">
+                <button type="submit" wire:key="chat-send-btn-floating" class="kcode-float-send-btn">
                     <span wire:loading.remove wire:target="sendMessage, sendPreset">إرسال 🚀</span>
                     <span wire:loading wire:target="sendMessage, sendPreset">⚡...</span>
                 </button>

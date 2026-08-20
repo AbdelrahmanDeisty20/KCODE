@@ -44,9 +44,9 @@ class FloatingChatbot extends Component
         $this->showTooltip = false;
     }
 
-    public function sendMessage(): void
+    public function sendMessage(?string $message = null): void
     {
-        $prompt = trim($this->userMessage);
+        $prompt = trim($message ?? $this->userMessage);
         if (empty($prompt)) {
             return;
         }
@@ -59,11 +59,11 @@ class FloatingChatbot extends Component
             'products' => [],
         ];
 
-        // 2. Clear input immediately
+        // 2. Clear input state
         $this->userMessage = '';
         $this->isThinking = true;
 
-        // 3. Process AI Response directly
+        // 3. Process AI Response
         try {
             /** @var GroqChatService $chatService */
             $chatService = app(GroqChatService::class);
@@ -106,8 +106,7 @@ class FloatingChatbot extends Component
 
     public function sendPreset(string $text): void
     {
-        $this->userMessage = $text;
-        $this->sendMessage();
+        $this->sendMessage($text);
     }
 
     public function clearChat(): void

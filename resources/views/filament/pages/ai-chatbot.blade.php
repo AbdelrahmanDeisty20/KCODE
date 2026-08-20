@@ -343,16 +343,16 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="sendMessage" x-on:submit.prevent="$wire.sendMessage()" class="kcode-input-wrapper">
+            <form wire:submit.prevent="sendMessage" class="kcode-input-wrapper" wire:key="chat-form-page">
                 <input
                     type="text"
-                    x-model="$wire.userMessage"
-                    x-on:keydown.enter.prevent="$wire.sendMessage()"
+                    wire:model="userMessage"
+                    wire:key="chat-input-field-page"
                     placeholder="{{ app()->getLocale() === 'ar' ? 'اكتب أي سؤال أو استفسار هنا (غير مقيد بالموضوع)...' : 'Type any question or prompt here (unrestricted)...' }}"
                     class="kcode-input"
                     autofocus
                 />
-                <button type="button" wire:click="sendMessage" wire:loading.attr="disabled" class="kcode-send-btn">
+                <button type="submit" wire:key="chat-send-btn-page" class="kcode-send-btn">
                     <span wire:loading.remove wire:target="sendMessage, sendPreset">إرسال 🚀</span>
                     <span wire:loading wire:target="sendMessage, sendPreset">جاري الإرسال...</span>
                 </button>

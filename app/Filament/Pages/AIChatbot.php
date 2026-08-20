@@ -49,14 +49,14 @@ class AIChatbot extends Page
         ];
     }
 
-    public function sendMessage(): void
+    public function sendMessage(?string $message = null): void
     {
-        $prompt = trim($this->userMessage);
+        $prompt = trim($message ?? $this->userMessage);
         if (empty($prompt)) {
             return;
         }
 
-        // Push user message immediately (1ms)
+        // Push user message
         $this->messages[] = [
             'role' => 'user',
             'content' => $prompt,
@@ -67,11 +67,6 @@ class AIChatbot extends Page
         $this->userMessage = '';
         $this->isThinking = true;
 
-        $this->dispatch('fetch-page-ai-reply', prompt: $prompt);
-    }
-
-    public function fetchAiReply(string $prompt): void
-    {
         try {
             /** @var GroqChatService $chatService */
             $chatService = app(GroqChatService::class);
@@ -114,8 +109,7 @@ class AIChatbot extends Page
 
     public function sendPreset(string $text): void
     {
-        $this->userMessage = $text;
-        $this->sendMessage();
+        $this->sendMessage($text);
     }
 
     public function clearChat(): void
