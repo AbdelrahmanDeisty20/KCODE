@@ -110,12 +110,15 @@ class GroqChatService
                     $replyText = $responseData['choices'][0]['message']['content'] ?? null;
 
                     if ($replyText) {
-                        // Clean up any internal reasoning tags if present
+                        // Clean up internal reasoning & prompt artifacts
                         $cleanReplyText = preg_replace('/<think>[\s\S]*?<\/think>/i', '', $replyText);
+                        $cleanReplyText = preg_replace('/\[(SYSTEM|ID:\s*\d+|ID)\][^\n]*\n?/i', '', $cleanReplyText);
+                        $cleanReplyText = preg_replace('/\[ID:\s*\d+\]/i', '', $cleanReplyText);
 
-                        // Strict Apology Sanitizer: Remove any apology phrases or headers
+                        // Strict Disclaimer & Apology Sanitizer:
                         $cleanReplyText = preg_replace('/^(أعتذر|عذراً|أسف|عذرا|I apologize|Sorry|Apologies)[\s\S]*?(؟|\.|\!\n|\n)/u', '', $cleanReplyText);
                         $cleanReplyText = preg_replace('/(أعتذر عن الالتباس السابق|أعتذر عن الالتباس|عذراً عن الالتباس|أعتذر عن الخلل|عذراً على الإزعاج|عذرا على الخطأ|I apologize for the confusion)/u', '', $cleanReplyText);
+                        $cleanReplyText = preg_replace('/(بصفتي مساعد ذكاء اصطناعي،? ليس لديّ? اسمٌ? حقيقي[\.\،\!]?|كمساعد ذكاء (اصطناعي|صناعي)،? لا أملك اسمًا شخصيًا كإنسان[\.\،\!]?|كمساعد ذكاء (اصطناعي|صناعي)[^،\.\!\n]*[،\.\!\n]?)/u', 'أنا مستشار KCODE الذكي 🤖، ', $cleanReplyText);
                         $cleanReplyText = trim($cleanReplyText);
 
                         if (!empty($cleanReplyText)) {
@@ -276,7 +279,7 @@ class GroqChatService
                 $name = $locale === 'ar' ? ($p->name_ar ?? $p->name_en) : ($p->name_en ?? $p->name_ar);
                 $cat = $p->category ? ($locale === 'ar' ? $p->category->name_ar : $p->category->name_en) : '';
                 $price = $p->price;
-                $summary .= "- [ID: {$p->id}] {$name} | القسم: {$cat} | السعر: {$price} EGP\n";
+                $summary .= "- {$name} | القسم: {$cat} | السعر: {$price} EGP\n";
             }
 
             return $summary;
@@ -309,16 +312,28 @@ class GroqChatService
             }
         }
 
-        // 2. If no direct match in reply, search products matching keywords in prompt
+        // 2. If no direct match in reply, search products matching keywords in prompt ONLY if product/skincare intent is present
         if ($matchedProducts->isEmpty()) {
-            $searchKeywords = array_filter(explode(' ', $prompt), fn($w) => mb_strlen($w) > 3);
-            if (!empty($searchKeywords)) {
-                $matchedProducts = Product::where(function ($q) use ($searchKeywords) {
-                    foreach ($searchKeywords as $kw) {
-                        $q->orWhere('name_ar', 'like', "%{$kw}%")
-                          ->orWhere('name_en', 'like', "%{$kw}%");
-                    }
-                })->take(4)->get();
+            $productIntentKeywords = ['منتج', 'منتجات', 'روتين', 'غسول', 'سيروم', 'كريم', 'واقي', 'تونر', 'بشرة', 'حبوب', 'تفتيح', 'تجاعيد', 'مرطب', 'ماسك', 'شمس', 'كولاجين', 'عناية', 'skincare', 'product', 'routine', 'cream', 'serum', 'toner'];
+            $hasProductIntent = false;
+
+            foreach ($productIntentKeywords as $pik) {
+                if (mb_stripos($prompt, $pik) !== false || mb_stripos($replyText, $pik) !== false) {
+                    $hasProductIntent = true;
+                    break;
+                }
+            }
+
+            if ($hasProductIntent) {
+                $searchKeywords = array_filter(explode(' ', $prompt), fn($w) => mb_strlen($w) > 3);
+                if (!empty($searchKeywords)) {
+                    $matchedProducts = Product::where(function ($q) use ($searchKeywords) {
+                        foreach ($searchKeywords as $kw) {
+                            $q->orWhere('name_ar', 'like', "%{$kw}%")
+                              ->orWhere('name_en', 'like', "%{$kw}%");
+                        }
+                    })->take(2)->get();
+                }
             }
         }
 
