@@ -169,7 +169,64 @@ class GroqChatService
      */
     protected function buildStoreContext(string $locale): string
     {
-        return \Illuminate\Support\Facades\Cache::remember("groq_store_context_{$locale}", 300, function () use ($locale) {
+        // 1. Fetch Live Dashboard Metrics (cached for 30s)
+        $dashboardMetrics = \Illuminate\Support\Facades\Cache::remember("groq_dash_metrics_{$locale}", 30, function () use ($locale) {
+            $totalSales = \App\Models\Order::whereNotIn('order_status', ['cancelled', 'failed'])->sum('total');
+            $todaySalesCount = \App\Models\Order::whereDate('created_at', today())->count();
+            $todaySalesRevenue = \App\Models\Order::whereDate('created_at', today())->whereNotIn('order_status', ['cancelled', 'failed'])->sum('total');
+            $avgOrderValue = \App\Models\Order::whereNotIn('order_status', ['cancelled', 'failed'])->avg('total') ?? 0;
+
+            $totalUsers = \App\Models\User::count();
+            $totalCustomers = \App\Models\User::where('type', 'user')->count();
+            $blogAuthorsCount = \App\Models\User::where('type', 'blog_author')
+                ->orWhereHas('roles', fn($q) => $q->where('name', 'like', '%blog%'))
+                ->count();
+            $adminsCount = \App\Models\User::where('type', 'admin')->count();
+
+            $totalOrders = \App\Models\Order::count();
+            $pendingOrders = \App\Models\Order::whereIn('order_status', ['pending', 'processing'])->count();
+            $completedOrders = \App\Models\Order::where('order_status', 'completed')->count();
+
+            $totalProducts = Product::count();
+            $activeProducts = Product::where('status', 'active')->count();
+
+            $totalBlogs = \App\Models\Blog::count();
+            $totalReviews = \App\Models\Review::count();
+            $avgRating = \App\Models\Review::avg('rating') ?? 0;
+
+            if ($locale === 'ar') {
+                return "=== إحصائيات ومعلومات الداشبورد والمتجر المباشرة (LIVE DASHBOARD DATA) ===\n" .
+                       "- عدد مبيعات اليوم: {$todaySalesCount} طلبات\n" .
+                       "- إجمالي إيرادات المبيعات اليوم: " . number_format($todaySalesRevenue, 2) . " EGP\n" .
+                       "- متوسط قيمة المبيعات والطلبات: " . number_format($avgOrderValue, 2) . " EGP\n" .
+                       "- إجمالي المبيعات الكلية: " . number_format($totalSales, 2) . " EGP\n" .
+                       "- إجمالي عدد الطلبات بالمتجر: {$totalOrders} طلب (الطلبات قيد المعالجة: {$pendingOrders}، الطلبات المكتملة: {$completedOrders})\n" .
+                       "- إجمالي عدد المستخدمين كلهم: {$totalUsers} مستخدم\n" .
+                       "- عدد العملاء (Customers): {$totalCustomers}\n" .
+                       "- عدد كتاب المقالات (Blog Authors): {$blogAuthorsCount}\n" .
+                       "- عدد المدراء (Admins): {$adminsCount}\n" .
+                       "- إجمالي عدد المنتجات بالمتجر: {$totalProducts} (المنتجات النشطة: {$activeProducts})\n" .
+                       "- عدد المقالات المنشورة: {$totalBlogs} مقال\n" .
+                       "- إجمالي تقييمات العملاء: {$totalReviews} تقييم (متوسط التقييم: " . number_format($avgRating, 1) . " من 5)\n\n";
+            } else {
+                return "=== LIVE DASHBOARD & STORE METRICS ===\n" .
+                       "- Today Sales Count: {$todaySalesCount} orders\n" .
+                       "- Today Sales Revenue: " . number_format($todaySalesRevenue, 2) . " EGP\n" .
+                       "- Average Order/Sales Value: " . number_format($avgOrderValue, 2) . " EGP\n" .
+                       "- Total All-Time Revenue: " . number_format($totalSales, 2) . " EGP\n" .
+                       "- Total Orders: {$totalOrders} (Pending/Processing: {$pendingOrders}, Completed: {$completedOrders})\n" .
+                       "- Total All Users Count: {$totalUsers}\n" .
+                       "- Total Customers Count: {$totalCustomers}\n" .
+                       "- Total Blog Authors Count: {$blogAuthorsCount}\n" .
+                       "- Total Admins Count: {$adminsCount}\n" .
+                       "- Total Products Count: {$totalProducts} (Active: {$activeProducts})\n" .
+                       "- Total Blog Articles Count: {$totalBlogs}\n" .
+                       "- Total Customer Reviews: {$totalReviews} (Avg Rating: " . number_format($avgRating, 1) . "/5)\n\n";
+            }
+        });
+
+        // 2. Fetch Store Product Catalog Context
+        $catalogSummary = \Illuminate\Support\Facades\Cache::remember("groq_store_context_{$locale}", 180, function () use ($locale) {
             $products = Product::with(['category', 'brand', 'skinTypes', 'concerns'])
                 ->where('status', 'active')
                 ->orWhereNull('status')
@@ -179,17 +236,19 @@ class GroqChatService
             $skinTypes = SkinType::all()->pluck('name')->implode(', ');
             $concerns = Concern::all()->pluck('name')->implode(', ');
 
-            $catalogSummary = "أنواع البشرة المدعومة: {$skinTypes}\nمشاكل البشرة المدعومة: {$concerns}\n\nقائمة منتجات KCODE المتاحة حالياً:\n";
+            $summary = "أنواع البشرة المدعومة: {$skinTypes}\nمشاكل البشرة المدعومة: {$concerns}\n\nقائمة منتجات KCODE المتاحة حالياً:\n";
 
             foreach ($products as $p) {
                 $name = $locale === 'ar' ? ($p->name_ar ?? $p->name_en) : ($p->name_en ?? $p->name_ar);
                 $cat = $p->category ? ($locale === 'ar' ? $p->category->name_ar : $p->category->name_en) : '';
                 $price = $p->price;
-                $catalogSummary .= "- [ID: {$p->id}] {$name} | القسم: {$cat} | السعر: {$price} EGP\n";
+                $summary .= "- [ID: {$p->id}] {$name} | القسم: {$cat} | السعر: {$price} EGP\n";
             }
 
-            return $catalogSummary;
+            return $summary;
         });
+
+        return $dashboardMetrics . "\n" . $catalogSummary;
     }
 
     /**

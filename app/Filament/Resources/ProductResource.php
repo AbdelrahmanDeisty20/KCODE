@@ -72,10 +72,12 @@ class ProductResource extends Resource
                                     ->required(),
 
                                 Forms\Components\TextInput::make('short_name_ar')
-                                    ->label('الاسم المختصر بالعربية'),
+                                    ->label('الاسم المختصر بالعربية')
+                                    ->required(),
 
                                 Forms\Components\TextInput::make('short_name_en')
-                                    ->label('الاسم المختصر بالإنجليزية'),
+                                    ->label('الاسم المختصر بالإنجليزية')
+                                    ->required(),
 
                                 Forms\Components\Select::make('category_id')
                                     ->label('القسم الرئيسي')
@@ -88,13 +90,15 @@ class ProductResource extends Resource
                                     ->label('القسم الفرعي')
                                     ->relationship('subCategory', 'name_ar')
                                     ->searchable()
-                                    ->preload(),
+                                    ->preload()
+                                    ->required(),
 
                                 Forms\Components\Select::make('brand_id')
                                     ->label('العلامة التجارية')
                                     ->relationship('brand', 'name_ar')
                                     ->searchable()
-                                    ->preload(),
+                                    ->preload()
+                                    ->required(),
 
                                 Forms\Components\TextInput::make('price')
                                     ->label('السعر')
@@ -126,6 +130,7 @@ class ProductResource extends Resource
                                     ->label('صورة المنتج')
                                     ->image()
                                     ->directory('products')
+                                    ->required()
                                     ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'products/') ? $state : 'products/' . ltrim($state, '/')) : null),
                             ])->columns(2),
 
@@ -133,63 +138,84 @@ class ProductResource extends Resource
                             ->schema([
                                 Forms\Components\Textarea::make('description_ar')
                                     ->label('الوصف بالعربية')
-                                    ->rows(4),
+                                    ->rows(4)
+                                    ->required(),
 
                                 Forms\Components\Textarea::make('description_en')
                                     ->label('الوصف بالإنجليزية')
-                                    ->rows(4),
+                                    ->rows(4)
+                                    ->required(),
 
                                 Forms\Components\Textarea::make('ingredients_ar')
                                     ->label('المكونات بالعربية')
-                                    ->rows(3),
+                                    ->rows(3)
+                                    ->required(),
 
                                 Forms\Components\Textarea::make('ingredients_en')
                                     ->label('المكونات بالإنجليزية')
-                                    ->rows(3),
+                                    ->rows(3)
+                                    ->required(),
 
                                 Forms\Components\Textarea::make('how_to_use_ar')
                                     ->label('طريقة الاستخدام بالعربية')
-                                    ->rows(3),
+                                    ->rows(3)
+                                    ->required(),
 
                                 Forms\Components\Textarea::make('how_to_use_en')
                                     ->label('طريقة الاستخدام بالإنجليزية')
-                                    ->rows(3),
+                                    ->rows(3)
+                                    ->required(),
                             ])->columns(2),
 
                         Components\Tabs\Tab::make('تفاصيل KCODE الطبية والروتين')
                             ->schema([
                                 Forms\Components\TextInput::make('texture_ar')
-                                    ->label('الملمس / القوام (عربي)'),
+                                    ->label('الملمس / القوام (عربي)')
+                                    ->required(),
 
                                 Forms\Components\TextInput::make('texture_en')
-                                    ->label('الملمس / القوام (إنجليزي)'),
+                                    ->label('الملمس / القوام (إنجليزي)')
+                                    ->required(),
 
                                 Forms\Components\Textarea::make('why_kcode_ar')
-                                    ->label('لماذا اختار KCODE هذا المنتج؟ (عربي)'),
+                                    ->label('لماذا اختار KCODE هذا المنتج؟ (عربي)')
+                                    ->required(),
 
                                 Forms\Components\TextInput::make('usage_frequency_ar')
-                                    ->label('معدل الاستخدام (عربي)'),
+                                    ->label('معدل الاستخدام (عربي)')
+                                    ->required(),
 
-                                Forms\Components\TextInput::make('active_strength_level')
-                                    ->label('مستوى كفاءة المواد الفعالة'),
+                                Forms\Components\Select::make('active_strength_level')
+                                    ->label('مستوى كفاءة المواد الفعالة')
+                                    ->options([
+                                        'Low' => 'منخفض (Low)',
+                                        'Medium' => 'متوسط (Medium)',
+                                        'High' => 'مرتفع (High)',
+                                    ])
+                                    ->required(),
 
                                 Forms\Components\Textarea::make('safety_notes_ar')
-                                    ->label('ملاحظات الأمان والتحذيرات'),
+                                    ->label('ملاحظات الأمان والتحذيرات')
+                                    ->required(),
                             ])->columns(2),
 
                         Components\Tabs\Tab::make('SEO ومحركات البحث')
                             ->schema([
                                 Forms\Components\TextInput::make('final_url_slug')
-                                    ->label('رابط الصفحة (Slug)'),
+                                    ->label('رابط الصفحة (Slug)')
+                                    ->required(),
 
                                 Forms\Components\TextInput::make('seo_meta_title_ar')
-                                    ->label('عنوان SEO (عربي)'),
+                                    ->label('عنوان SEO (عربي)')
+                                    ->required(),
 
                                 Forms\Components\Textarea::make('meta_description_ar')
-                                    ->label('وصف Meta (عربي)'),
+                                    ->label('وصف Meta (عربي)')
+                                    ->required(),
 
                                 Forms\Components\Textarea::make('meta_description_en')
-                                    ->label('وصف Meta (إنجليزي)'),
+                                    ->label('وصف Meta (إنجليزي)')
+                                    ->required(),
                             ])->columns(2),
                     ])->columnSpanFull(),
             ]);
