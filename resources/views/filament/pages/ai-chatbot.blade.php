@@ -343,16 +343,19 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="sendMessage" class="kcode-input-wrapper" wire:key="chat-form-page">
+            <form
+                x-data="{ inputMsg: '' }"
+                @submit.prevent="if (inputMsg.trim() !== '') { $wire.sendMessage(inputMsg); inputMsg = ''; }"
+                class="kcode-input-wrapper"
+            >
                 <input
                     type="text"
-                    wire:model="userMessage"
-                    wire:key="chat-input-field-page"
+                    x-model="inputMsg"
                     placeholder="{{ app()->getLocale() === 'ar' ? 'اكتب أي سؤال أو استفسار هنا (غير مقيد بالموضوع)...' : 'Type any question or prompt here (unrestricted)...' }}"
                     class="kcode-input"
                     autofocus
                 />
-                <button type="submit" wire:key="chat-send-btn-page" class="kcode-send-btn">
+                <button type="submit" class="kcode-send-btn">
                     <span wire:loading.remove wire:target="sendMessage, sendPreset">إرسال 🚀</span>
                     <span wire:loading wire:target="sendMessage, sendPreset">جاري الإرسال...</span>
                 </button>
