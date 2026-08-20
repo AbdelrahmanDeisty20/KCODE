@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Services\GroqChatService;
 use Livewire\Component;
-use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Log;
 
 class FloatingChatbot extends Component
@@ -52,7 +51,7 @@ class FloatingChatbot extends Component
             return;
         }
 
-        // Step 1: Push user message immediately to state (1ms)
+        // 1. Push user message
         $this->messages[] = [
             'role' => 'user',
             'content' => $prompt,
@@ -63,11 +62,10 @@ class FloatingChatbot extends Component
         $this->userMessage = '';
         $this->isThinking = true;
 
-        // Dispatch background event to execute AI generation in next frame
-        $this->dispatch('triggerAiGeneration', prompt: $prompt);
+        // 2. Generate AI Response immediately & synchronously
+        $this->generateAiResponse($prompt);
     }
 
-    #[On('triggerAiGeneration')]
     public function generateAiResponse(string $prompt): void
     {
         try {

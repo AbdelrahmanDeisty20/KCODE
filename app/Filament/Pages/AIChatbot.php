@@ -5,7 +5,6 @@ namespace App\Filament\Pages;
 use App\Services\GroqChatService;
 use BackedEnum;
 use Filament\Pages\Page;
-use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Log;
 
 class AIChatbot extends Page
@@ -57,7 +56,7 @@ class AIChatbot extends Page
             return;
         }
 
-        // Push user message immediately to state (1ms)
+        // Push user message
         $this->messages[] = [
             'role' => 'user',
             'content' => $prompt,
@@ -68,10 +67,9 @@ class AIChatbot extends Page
         $this->userMessage = '';
         $this->isThinking = true;
 
-        $this->dispatch('triggerPageAiGeneration', prompt: $prompt);
+        $this->generateAiResponse($prompt);
     }
 
-    #[On('triggerPageAiGeneration')]
     public function generateAiResponse(string $prompt): void
     {
         try {

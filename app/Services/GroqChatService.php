@@ -98,7 +98,7 @@ class GroqChatService
                     'max_tokens' => $this->maxTokens,
                 ];
 
-                $response = Http::timeout(15)
+                $response = Http::timeout(6)
                     ->withHeaders([
                         'Authorization' => "Bearer {$this->apiKey}",
                         'Content-Type' => 'application/json',
