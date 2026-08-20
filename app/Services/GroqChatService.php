@@ -194,6 +194,28 @@ class GroqChatService
             $totalReviews = \App\Models\Review::count();
             $avgRating = \App\Models\Review::avg('rating') ?? 0;
 
+            // Detailed Today Orders Breakdown
+            $todayOrders = \App\Models\Order::with('items')
+                ->whereDate('created_at', today())
+                ->latest()
+                ->take(10)
+                ->get();
+
+            $todayOrdersText = "";
+            if ($todayOrders->count() > 0) {
+                $todayOrdersText .= "تفاصيل طلبات وتنفيذ المبيعات لليوم:\n";
+                foreach ($todayOrders as $ord) {
+                    $itemNames = [];
+                    foreach ($ord->items as $it) {
+                        $itemNames[] = ($it->product_name ?? 'منتج') . " (الكمية: {$it->quantity})";
+                    }
+                    $itemsStr = implode(', ', $itemNames);
+                    $todayOrdersText .= "- طلب #{$ord->order_number} | العميل: " . ($ord->user_name ?? 'مشتري') . " | الإجمالي: {$ord->total} EGP | الحالة: {$ord->order_status} | العناصر: [{$itemsStr}]\n";
+                }
+            } else {
+                $todayOrdersText .= "ملاحظة: لم تُسجل طلبات شراء جديدة اليوم حتى الآن.\n";
+            }
+
             if ($locale === 'ar') {
                 return "=== إحصائيات ومعلومات الداشبورد والمتجر المباشرة (LIVE DASHBOARD DATA) ===\n" .
                        "- عدد مبيعات اليوم: {$todaySalesCount} طلبات\n" .
@@ -207,7 +229,8 @@ class GroqChatService
                        "- عدد المدراء (Admins): {$adminsCount}\n" .
                        "- إجمالي عدد المنتجات بالمتجر: {$totalProducts} (المنتجات النشطة: {$activeProducts})\n" .
                        "- عدد المقالات المنشورة: {$totalBlogs} مقال\n" .
-                       "- إجمالي تقييمات العملاء: {$totalReviews} تقييم (متوسط التقييم: " . number_format($avgRating, 1) . " من 5)\n\n";
+                       "- إجمالي تقييمات العملاء: {$totalReviews} تقييم (متوسط التقييم: " . number_format($avgRating, 1) . " من 5)\n\n" .
+                       $todayOrdersText . "\n";
             } else {
                 return "=== LIVE DASHBOARD & STORE METRICS ===\n" .
                        "- Today Sales Count: {$todaySalesCount} orders\n" .
@@ -221,7 +244,8 @@ class GroqChatService
                        "- Total Admins Count: {$adminsCount}\n" .
                        "- Total Products Count: {$totalProducts} (Active: {$activeProducts})\n" .
                        "- Total Blog Articles Count: {$totalBlogs}\n" .
-                       "- Total Customer Reviews: {$totalReviews} (Avg Rating: " . number_format($avgRating, 1) . "/5)\n\n";
+                       "- Total Customer Reviews: {$totalReviews} (Avg Rating: " . number_format($avgRating, 1) . "/5)\n\n" .
+                       $todayOrdersText . "\n";
             }
         });
 
