@@ -1,4 +1,4 @@
-<div x-data="{ isOpen: false, showTooltip: true }" class="{{ app()->getLocale() === 'ar' ? 'is-rtl' : 'is-ltr' }}">
+<div x-data="{ isOpen: false, showTooltip: true, inputMsg: '' }" class="{{ app()->getLocale() === 'ar' ? 'is-rtl' : 'is-ltr' }}">
     <style>
         @keyframes kcodePulseGlow {
             0%, 100% {
@@ -449,7 +449,6 @@
             </div>
 
             <form
-                x-data="{ inputMsg: '' }"
                 @submit.prevent="if (inputMsg.trim() !== '') { $wire.sendMessage(inputMsg); inputMsg = ''; }"
                 class="kcode-float-input-wrapper"
             >

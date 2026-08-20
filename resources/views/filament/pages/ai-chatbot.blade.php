@@ -248,7 +248,7 @@
         }
     </style>
 
-    <div class="kcode-chat-container">
+    <div class="kcode-chat-container" x-data="{ inputMsg: '' }">
         <!-- Header -->
         <div class="kcode-chat-header">
             <div class="flex items-center gap-3">
@@ -344,7 +344,6 @@
             </div>
 
             <form
-                x-data="{ inputMsg: '' }"
                 @submit.prevent="if (inputMsg.trim() !== '') { $wire.sendMessage(inputMsg); inputMsg = ''; }"
                 class="kcode-input-wrapper"
             >
