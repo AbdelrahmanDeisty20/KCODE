@@ -103,7 +103,11 @@ class BlogResource extends Resource
                                     ->required()
                                     ->unique(\App\Models\User::class, 'email'),
                                 Forms\Components\TextInput::make('phone')
-                                    ->label('رقم الهاتف'),
+                                    ->label('رقم الهاتف')
+                                    ->unique(\App\Models\User::class, 'phone')
+                                    ->validationMessages([
+                                        'unique' => 'رقم الهاتف موجود بالفعل',
+                                    ]),
                                 Forms\Components\TextInput::make('password')
                                     ->label('كلمة السر')
                                     ->password()

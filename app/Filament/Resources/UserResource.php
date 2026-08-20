@@ -67,7 +67,11 @@ class UserResource extends Resource
                             ->unique(ignoreRecord: true),
 
                         Forms\Components\TextInput::make('phone')
-                            ->label('رقم الهاتف'),
+                            ->label('رقم الهاتف')
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => 'رقم الهاتف موجود بالفعل',
+                            ]),
 
                         Forms\Components\DatePicker::make('birth_date')
                             ->label('تاريخ الميلاد'),

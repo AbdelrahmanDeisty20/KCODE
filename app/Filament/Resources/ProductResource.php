@@ -285,17 +285,45 @@ class ProductResource extends Resource
                         $brandName = $row['brand_name'] ?? ($row['brand'] ?? '');
                         $brand = $brandName ? \App\Models\Brand::firstOrCreate(['name_ar' => $brandName], ['name_en' => $brandName]) : null;
 
+                        $updateData = array_filter([
+                            'name_ar'               => $row['name_ar'] ?? ($row['name'] ?? null),
+                            'name_en'               => $row['name_en'] ?? null,
+                            'price'                 => isset($row['price']) && $row['price'] !== '' ? (float) $row['price'] : null,
+                            'stock'                 => isset($row['stock']) && $row['stock'] !== '' ? (int) $row['stock'] : null,
+                            'image'                 => $row['image'] ?? null,
+                            'category_id'           => $category?->id,
+                            'brand_id'              => $brand?->id,
+                            'description_ar'        => $row['description_ar'] ?? null,
+                            'description_en'        => $row['description_en'] ?? null,
+                            'short_name_ar'         => $row['short_name_ar'] ?? null,
+                            'short_name_en'         => $row['short_name_en'] ?? null,
+                            'ingredients_ar'        => $row['ingredients_ar'] ?? null,
+                            'ingredients_en'        => $row['ingredients_en'] ?? null,
+                            'how_to_use_ar'         => $row['how_to_use_ar'] ?? null,
+                            'how_to_use_en'         => $row['how_to_use_en'] ?? null,
+                            'final_url_slug'        => $row['final_url_slug'] ?? null,
+                            'seo_meta_title_ar'     => $row['seo_meta_title_ar'] ?? null,
+                            'meta_description_ar'   => $row['meta_description_ar'] ?? null,
+                            'meta_description_en'   => $row['meta_description_en'] ?? null,
+                            'primary_keyword_ar'    => $row['primary_keyword_ar'] ?? null,
+                            'secondary_keywords_ar' => $row['secondary_keywords_ar'] ?? null,
+                            'image_alt_ar'          => $row['image_alt_ar'] ?? null,
+                            'keywords'              => $row['keywords'] ?? null,
+                        ], fn($val) => !is_null($val));
+
+                        if (!isset($updateData['name_ar']) || empty($updateData['name_ar'])) {
+                            $updateData['name_ar'] = 'منتج جديد';
+                        }
+                        if (!isset($updateData['name_en']) || empty($updateData['name_en'])) {
+                            $updateData['name_en'] = $updateData['name_ar'];
+                        }
+                        if (!isset($updateData['price'])) {
+                            $updateData['price'] = 0;
+                        }
+
                         \App\Models\Product::updateOrCreate(
-                            ['sku' => $row['sku'] ?? ('SKU-' . uniqid())],
-                            [
-                                'name_ar'        => $row['name_ar'] ?? ($row['name'] ?? 'منتج جديد'),
-                                'name_en'        => $row['name_en'] ?? ($row['name_ar'] ?? 'New Product'),
-                                'price'          => (float) ($row['price'] ?? 0),
-                                'stock'          => (int) ($row['stock'] ?? 0),
-                                'category_id'    => $category?->id,
-                                'brand_id'       => $brand?->id,
-                                'description_ar' => $row['description_ar'] ?? null,
-                            ]
+                            ['sku' => !empty($row['sku']) ? $row['sku'] : ('SKU-' . uniqid())],
+                            $updateData
                         );
                     }
                 ),

@@ -95,13 +95,19 @@ class QuizQuestionResource extends Resource
                         Forms\Components\Repeater::make('options')
                             ->relationship('options')
                             ->schema([
-                                Forms\Components\TextInput::make('option_text_ar')
+                                Forms\Components\TextInput::make('title_ar')
                                     ->label('نص الخيار (عربي)')
                                     ->required(),
 
-                                Forms\Components\TextInput::make('option_text_en')
+                                Forms\Components\TextInput::make('title_en')
                                     ->label('نص الخيار (إنجليزي)')
                                     ->required(),
+
+                                Forms\Components\Textarea::make('description_ar')
+                                    ->label('الوصف (عربي)'),
+
+                                Forms\Components\Textarea::make('description_en')
+                                    ->label('الوصف (إنجليزي)'),
 
                                 Forms\Components\FileUpload::make('image')
                                     ->label('صورة الخيار')
@@ -109,10 +115,20 @@ class QuizQuestionResource extends Resource
                                     ->directory('quiz_options')
                                     ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'quiz/') ? $state : 'quiz/' . ltrim($state, '/')) : null),
 
-                                Forms\Components\TextInput::make('order')
-                                    ->label('الترتيب')
-                                    ->numeric()
-                                    ->default(1),
+                                Forms\Components\Select::make('option_type')
+                                    ->label('نوع الربط')
+                                    ->options([
+                                        'none' => 'عام (غير مرتبط)',
+                                        'skin_type' => 'نوع بشرة (Skin Type)',
+                                        'concern' => 'مشكلة بشرة (Concern)',
+                                        'goal' => 'هدف روتين (Routine Goal)',
+                                    ])
+                                    ->default('none')
+                                    ->required(),
+
+                                Forms\Components\TextInput::make('mapped_id')
+                                    ->label('معرّف الربط (Mapped ID)')
+                                    ->numeric(),
                             ])->columns(2),
                     ]),
             ]);

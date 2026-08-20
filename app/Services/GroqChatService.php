@@ -169,25 +169,27 @@ class GroqChatService
      */
     protected function buildStoreContext(string $locale): string
     {
-        $products = Product::with(['category', 'brand', 'skinTypes', 'concerns'])
-            ->where('status', 'active')
-            ->orWhereNull('status')
-            ->take(30)
-            ->get();
+        return \Illuminate\Support\Facades\Cache::remember("groq_store_context_{$locale}", 300, function () use ($locale) {
+            $products = Product::with(['category', 'brand', 'skinTypes', 'concerns'])
+                ->where('status', 'active')
+                ->orWhereNull('status')
+                ->take(30)
+                ->get();
 
-        $skinTypes = SkinType::all()->pluck('name')->implode(', ');
-        $concerns = Concern::all()->pluck('name')->implode(', ');
+            $skinTypes = SkinType::all()->pluck('name')->implode(', ');
+            $concerns = Concern::all()->pluck('name')->implode(', ');
 
-        $catalogSummary = "أنواع البشرة المدعومة: {$skinTypes}\nمشاكل البشرة المدعومة: {$concerns}\n\nقائمة منتجات KCODE المتاحة حالياً:\n";
+            $catalogSummary = "أنواع البشرة المدعومة: {$skinTypes}\nمشاكل البشرة المدعومة: {$concerns}\n\nقائمة منتجات KCODE المتاحة حالياً:\n";
 
-        foreach ($products as $p) {
-            $name = $locale === 'ar' ? ($p->name_ar ?? $p->name_en) : ($p->name_en ?? $p->name_ar);
-            $cat = $p->category ? ($locale === 'ar' ? $p->category->name_ar : $p->category->name_en) : '';
-            $price = $p->price;
-            $catalogSummary .= "- [ID: {$p->id}] {$name} | القسم: {$cat} | السعر: {$price} EGP\n";
-        }
+            foreach ($products as $p) {
+                $name = $locale === 'ar' ? ($p->name_ar ?? $p->name_en) : ($p->name_en ?? $p->name_ar);
+                $cat = $p->category ? ($locale === 'ar' ? $p->category->name_ar : $p->category->name_en) : '';
+                $price = $p->price;
+                $catalogSummary .= "- [ID: {$p->id}] {$name} | القسم: {$cat} | السعر: {$price} EGP\n";
+            }
 
-        return $catalogSummary;
+            return $catalogSummary;
+        });
     }
 
     /**
@@ -249,8 +251,8 @@ class GroqChatService
                 : "For oily and acne-prone skin, use a gentle foaming wash with Salicylic Acid and an oil-free gel moisturizer to balance sebum production. Recommended products:";
         } else {
             $reply = $locale === 'ar'
-                ? "أهلاً بك في مستشار KCODE الذكي! يسعدني مساعدتك في اختيار أفضل روتين ومنتجات لبشرتك. يرجى توضيح نوع بشرتك أو المشكلة التي تعاني منها للحصول على ترشيح مخصص."
-                : "Welcome to KCODE AI Consultant! I am happy to help you find the best skincare routine and products. Please specify your skin type or concerns for tailored advice.";
+                ? "أهلاً بك في مستشار KCODE الذكي! أنا مساعدك الذكي الشامل. كيف يمكنني مساعدتك اليوم في أي استفسار أو موضوع؟"
+                : "Welcome to KCODE AI Assistant! I am your versatile AI assistant. How can I help you with your query today?";
         }
 
         return [
