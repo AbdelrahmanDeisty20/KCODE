@@ -348,7 +348,7 @@
             <form wire:submit.prevent="sendMessage" class="kcode-input-wrapper">
                 <input
                     type="text"
-                    wire:model="userMessage"
+                    wire:model.live="userMessage"
                     placeholder="{{ app()->getLocale() === 'ar' ? 'اكتب أي سؤال أو استفسار هنا (غير مقيد بالموضوع)...' : 'Type any question or prompt here (unrestricted)...' }}"
                     class="kcode-input"
                     autofocus

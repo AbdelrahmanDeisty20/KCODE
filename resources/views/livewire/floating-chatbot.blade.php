@@ -453,7 +453,7 @@
             <form wire:submit.prevent="sendMessage" class="kcode-float-input-wrapper">
                 <input
                     type="text"
-                    wire:model="userMessage"
+                    wire:model.live="userMessage"
                     placeholder="اسأل المستشار الذكي عن أي شيء..."
                     class="kcode-float-input"
                 />
