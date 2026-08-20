@@ -248,7 +248,7 @@
         }
     </style>
 
-    <div class="kcode-chat-container">
+    <div class="kcode-chat-container" @fetch-page-ai-reply.window="$wire.fetchAiReply($event.detail.prompt)">
         <!-- Header -->
         <div class="kcode-chat-header">
             <div class="flex items-center gap-3">
@@ -317,14 +317,12 @@
                 </div>
             @endforeach
 
-            @if ($isThinking)
-                <div class="kcode-message assistant">
-                    <div class="kcode-avatar ai">🤖</div>
-                    <div class="kcode-bubble animate-pulse">
-                        ⏳ {{ app()->getLocale() === 'ar' ? 'جاري التفكير والتوليد...' : 'AI is thinking...' }}
-                    </div>
+            <div wire:loading wire:target="fetchAiReply" class="kcode-message assistant">
+                <div class="kcode-avatar ai">🤖</div>
+                <div class="kcode-bubble animate-pulse">
+                    ⏳ {{ app()->getLocale() === 'ar' ? 'جاري التفكير والتوليد...' : 'AI is thinking...' }}
                 </div>
-            @endif
+            </div>
         </div>
 
         <!-- Input & Presets -->

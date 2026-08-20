@@ -1,4 +1,4 @@
-<div x-data="{ isOpen: false, showTooltip: true }" class="{{ app()->getLocale() === 'ar' ? 'is-rtl' : 'is-ltr' }}">
+<div x-data="{ isOpen: false, showTooltip: true }" @fetch-ai-reply.window="$wire.fetchAiReply($event.detail.prompt)" class="{{ app()->getLocale() === 'ar' ? 'is-rtl' : 'is-ltr' }}">
     <style>
         @keyframes kcodePulseGlow {
             0%, 100% {
@@ -427,13 +427,11 @@
                 </div>
             @endforeach
 
-            @if ($isThinking)
-                <div class="kcode-float-msg assistant">
-                    <div class="kcode-float-bubble text-xs italic text-rose-500 font-medium animate-pulse flex items-center gap-1.5">
-                        <span class="inline-block animate-spin">⚡</span> جاري التفكير والرد الآن...
-                    </div>
+            <div wire:loading wire:target="fetchAiReply" class="kcode-float-msg assistant">
+                <div class="kcode-float-bubble text-xs italic text-rose-500 font-medium animate-pulse flex items-center gap-1.5">
+                    <span class="inline-block animate-spin">⚡</span> جاري التفكير والرد الآن...
                 </div>
-            @endif
+            </div>
         </div>
 
         <!-- Input & Presets -->

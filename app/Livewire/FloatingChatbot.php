@@ -51,7 +51,7 @@ class FloatingChatbot extends Component
             return;
         }
 
-        // 1. Push user message
+        // 1. Immediately append user message & clear input (1ms response time)
         $this->messages[] = [
             'role' => 'user',
             'content' => $prompt,
@@ -62,11 +62,11 @@ class FloatingChatbot extends Component
         $this->userMessage = '';
         $this->isThinking = true;
 
-        // 2. Generate AI Response immediately & synchronously
-        $this->generateAiResponse($prompt);
+        // 2. Dispatch browser event to fetch AI reply asynchronously in 2nd frame
+        $this->dispatch('fetch-ai-reply', prompt: $prompt);
     }
 
-    public function generateAiResponse(string $prompt): void
+    public function fetchAiReply(string $prompt): void
     {
         try {
             /** @var GroqChatService $chatService */

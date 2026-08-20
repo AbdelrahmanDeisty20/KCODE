@@ -56,7 +56,7 @@ class AIChatbot extends Page
             return;
         }
 
-        // Push user message
+        // Push user message immediately (1ms)
         $this->messages[] = [
             'role' => 'user',
             'content' => $prompt,
@@ -67,10 +67,10 @@ class AIChatbot extends Page
         $this->userMessage = '';
         $this->isThinking = true;
 
-        $this->generateAiResponse($prompt);
+        $this->dispatch('fetch-page-ai-reply', prompt: $prompt);
     }
 
-    public function generateAiResponse(string $prompt): void
+    public function fetchAiReply(string $prompt): void
     {
         try {
             /** @var GroqChatService $chatService */
