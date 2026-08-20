@@ -346,7 +346,7 @@
             <form wire:submit.prevent="sendMessage" x-on:submit.prevent="$wire.sendMessage()" class="kcode-input-wrapper">
                 <input
                     type="text"
-                    wire:model="userMessage"
+                    x-model="$wire.userMessage"
                     x-on:keydown.enter.prevent="$wire.sendMessage()"
                     placeholder="{{ app()->getLocale() === 'ar' ? 'اكتب أي سؤال أو استفسار هنا (غير مقيد بالموضوع)...' : 'Type any question or prompt here (unrestricted)...' }}"
                     class="kcode-input"

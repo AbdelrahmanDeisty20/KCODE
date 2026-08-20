@@ -451,7 +451,7 @@
             <form wire:submit.prevent="sendMessage" x-on:submit.prevent="$wire.sendMessage()" class="kcode-float-input-wrapper">
                 <input
                     type="text"
-                    wire:model="userMessage"
+                    x-model="$wire.userMessage"
                     x-on:keydown.enter.prevent="$wire.sendMessage()"
                     placeholder="اسأل المستشار الذكي عن أي شيء..."
                     class="kcode-float-input"
