@@ -248,7 +248,7 @@
         }
     </style>
 
-    <div class="kcode-chat-container" @fetch-page-ai-reply.window="$wire.fetchAiReply($event.detail.prompt)">
+    <div class="kcode-chat-container">
         <!-- Header -->
         <div class="kcode-chat-header">
             <div class="flex items-center gap-3">
@@ -317,7 +317,7 @@
                 </div>
             @endforeach
 
-            <div wire:loading wire:target="fetchAiReply" class="kcode-message assistant">
+            <div wire:loading wire:target="sendMessage, sendPreset" class="kcode-message assistant">
                 <div class="kcode-avatar ai">🤖</div>
                 <div class="kcode-bubble animate-pulse">
                     ⏳ {{ app()->getLocale() === 'ar' ? 'جاري التفكير والتوليد...' : 'AI is thinking...' }}
@@ -343,17 +343,18 @@
                 </button>
             </div>
 
-            <form wire:submit.prevent="sendMessage" class="kcode-input-wrapper">
+            <form wire:submit.prevent="sendMessage" x-on:submit.prevent="$wire.sendMessage()" class="kcode-input-wrapper">
                 <input
                     type="text"
-                    wire:model.live="userMessage"
+                    wire:model="userMessage"
+                    x-on:keydown.enter.prevent="$wire.sendMessage()"
                     placeholder="{{ app()->getLocale() === 'ar' ? 'اكتب أي سؤال أو استفسار هنا (غير مقيد بالموضوع)...' : 'Type any question or prompt here (unrestricted)...' }}"
                     class="kcode-input"
                     autofocus
                 />
-                <button type="submit" wire:loading.attr="disabled" class="kcode-send-btn">
-                    <span wire:loading.remove wire:target="sendMessage">إرسال 🚀</span>
-                    <span wire:loading wire:target="sendMessage">جاري الإرسال...</span>
+                <button type="button" wire:click="sendMessage" wire:loading.attr="disabled" class="kcode-send-btn">
+                    <span wire:loading.remove wire:target="sendMessage, sendPreset">إرسال 🚀</span>
+                    <span wire:loading wire:target="sendMessage, sendPreset">جاري الإرسال...</span>
                 </button>
             </form>
         </div>
