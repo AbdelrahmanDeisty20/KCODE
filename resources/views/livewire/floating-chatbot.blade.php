@@ -463,18 +463,4 @@
                 </button>
             </form>
         </div>
-    </div>
-
-    <script>
-        document.addEventListener('livewire:initialized', () => {
-            const scrollFloat = () => {
-                const c = document.getElementById('floatChatMessages');
-                if (c) c.scrollTop = c.scrollHeight;
-            };
-            scrollFloat();
-            Livewire.hook('morph.updated', () => {
-                scrollFloat();
-            });
-        });
-    </script>
 </div>

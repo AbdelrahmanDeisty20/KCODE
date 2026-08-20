@@ -95,7 +95,7 @@ class AIChatbot extends Page
 
             $this->messages[] = [
                 'role' => 'assistant',
-                'content' => $response['reply'] ?? (app()->getLocale() === 'ar' ? 'عذراً، لم أتمكن من الحصول على إجابة.' : 'Sorry, could not generate response.'),
+                'content' => $response['reply'] ?? (app()->getLocale() === 'ar' ? 'لم أتمكن من استخراج الإجابة حالياً.' : 'Could not generate response currently.'),
                 'time' => now()->format('H:i'),
                 'model' => $response['model'] ?? 'Groq AI',
                 'products' => $response['recommended_products'] ?? [],
@@ -105,7 +105,7 @@ class AIChatbot extends Page
 
             $this->messages[] = [
                 'role' => 'assistant',
-                'content' => (app()->getLocale() === 'ar' ? 'حدث خطأ غير متوقع: ' : 'An error occurred: ') . $e->getMessage(),
+                'content' => (app()->getLocale() === 'ar' ? 'تنبيه: ' : 'Notice: ') . $e->getMessage(),
                 'time' => now()->format('H:i'),
                 'products' => [],
             ];
