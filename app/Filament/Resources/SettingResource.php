@@ -20,9 +20,11 @@ class SettingResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'icon-settings';
 
+    protected static ?int $navigationSort = 4;
+
     public static function getNavigationGroup(): ?string
     {
-        return __('admin.navigation.settings_group');
+        return app()->getLocale() === 'en' ? 'Project & System Settings' : 'عن المشروع وإعدادات النظام';
     }
 
     public static function getNavigationLabel(): string

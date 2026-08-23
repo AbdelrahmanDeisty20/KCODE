@@ -20,9 +20,11 @@ class FaqResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'icon-faqs';
 
+    protected static ?int $navigationSort = 5;
+
     public static function getNavigationGroup(): ?string
     {
-        return app()->getLocale() === 'en' ? 'Content & Static Pages' : 'المحتوى والصفحات التعريفية';
+        return app()->getLocale() === 'en' ? 'Project & System Settings' : 'عن المشروع وإعدادات النظام';
     }
 
     public static function getNavigationLabel(): string

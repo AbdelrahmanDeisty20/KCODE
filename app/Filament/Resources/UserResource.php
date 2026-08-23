@@ -20,6 +20,8 @@ class UserResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'icon-users';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getNavigationGroup(): ?string
     {
         return app()->getLocale() === 'en' ? 'Users & Permissions' : 'إدارة المستخدمين والصلاحيات';

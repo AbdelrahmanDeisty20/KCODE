@@ -13,9 +13,11 @@ class AIChatbot extends Page
 
     protected string $view = 'filament.pages.ai-chatbot';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getNavigationGroup(): ?string
     {
-        return app()->getLocale() === 'en' ? 'AI Chatbot' : 'المستشار الذكي';
+        return app()->getLocale() === 'en' ? 'Project & System Settings' : 'عن المشروع وإعدادات النظام';
     }
 
     public static function getNavigationLabel(): string

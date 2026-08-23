@@ -20,6 +20,8 @@ class RoleResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'icon-roles';
 
+    protected static ?int $navigationSort = 2;
+
     public static function getNavigationGroup(): ?string
     {
         return app()->getLocale() === 'en' ? 'Users & Permissions' : 'إدارة المستخدمين والصلاحيات';

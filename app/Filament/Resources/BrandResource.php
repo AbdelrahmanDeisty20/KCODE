@@ -20,9 +20,11 @@ class BrandResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'icon-brands';
 
+    protected static ?int $navigationSort = 4;
+
     public static function getNavigationGroup(): ?string
     {
-        return app()->getLocale() === 'en' ? 'Products & Catalog' : 'الكتالوج والمنتجات';
+        return app()->getLocale() === 'en' ? 'Products & Catalog' : 'إدارة المنتجات والكتالوج';
     }
 
     public static function getNavigationLabel(): string

@@ -19,9 +19,11 @@ class ChatbotMessageResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'icon-chatbot-messages';
 
+    protected static ?int $navigationSort = 2;
+
     public static function getNavigationGroup(): ?string
     {
-        return app()->getLocale() === 'en' ? 'AI Chatbot' : 'المستشار الذكي';
+        return app()->getLocale() === 'en' ? 'Project & System Settings' : 'عن المشروع وإعدادات النظام';
     }
 
     public static function getNavigationLabel(): string

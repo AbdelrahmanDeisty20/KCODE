@@ -55,6 +55,26 @@ class AdminPanelProvider extends PanelProvider
                 ],
                 'secondary' => Color::Amber,
             ])
+            ->navigationGroups([
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Project & System Settings' : 'عن المشروع وإعدادات النظام'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Users & Permissions' : 'إدارة المستخدمين والصلاحيات'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Products & Catalog' : 'إدارة المنتجات والكتالوج'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Orders & Sales' : 'إدارة المبيعات والطلبات'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Loyalty Program & Points' : 'برنامج الولاء والنقاط'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Reviews & Ratings' : 'المراجعات والتقييمات'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Blog & Articles' : 'المحتوى والمدونة'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Reports & Exporter' : 'التقارير وتصدير البيانات'),
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
