@@ -57,6 +57,17 @@
             align-self: flex-start;
         }
 
+        .kcode-drop-icon-page {
+            width: 18px !important;
+            height: 18px !important;
+            min-width: 18px !important;
+            min-height: 18px !important;
+            max-width: 18px !important;
+            max-height: 18px !important;
+            display: inline-block !important;
+            fill: #ffffff !important;
+        }
+
         .kcode-avatar {
             width: 38px;
             height: 38px;
@@ -205,7 +216,11 @@
         <!-- Header -->
         <div class="kcode-chat-header">
             <div class="flex items-center gap-3">
-                <div class="kcode-avatar ai">🤖</div>
+                <div class="kcode-avatar ai">
+                    <svg class="kcode-drop-icon-page" viewBox="0 0 24 24">
+                        <path d="M12 2.69C12 2.69 6 9.5 6 14C6 17.31 8.69 20 12 20C15.31 20 18 17.31 18 14C18 9.5 12 2.69 12 2.69Z" />
+                    </svg>
+                </div>
                 <div>
                     <h3 class="font-bold text-lg text-gray-900 dark:text-white flex items-center gap-2">
                         {{ app()->getLocale() === 'en' ? 'KCODE Skincare AI Assistant' : 'مستشار KCODE الذكي للمتجر' }}
@@ -229,7 +244,13 @@
             @foreach ($messages as $index => $msg)
                 <div class="kcode-message {{ $msg['role'] }}" wire:key="pmsg-{{ $index }}">
                     <div class="kcode-avatar {{ $msg['role'] === 'user' ? 'user' : 'ai' }}">
-                        {{ $msg['role'] === 'user' ? '👤' : '🤖' }}
+                        @if ($msg['role'] === 'user')
+                            👤
+                        @else
+                            <svg class="kcode-drop-icon-page" viewBox="0 0 24 24">
+                                <path d="M12 2.69C12 2.69 6 9.5 6 14C6 17.31 8.69 20 12 20C15.31 20 18 17.31 18 14C18 9.5 12 2.69 12 2.69Z" />
+                            </svg>
+                        @endif
                     </div>
                     <div class="kcode-bubble">
                         {!! nl2br(e($msg['content'])) !!}
@@ -260,32 +281,20 @@
                 </div>
             @endforeach
 
-            <div wire:loading wire:target="sendMessage, sendPreset" class="kcode-message assistant">
-                <div class="kcode-avatar ai">🤖</div>
+            <div wire:loading wire:target="fetchAiResponse" class="kcode-message assistant">
+                <div class="kcode-avatar ai">
+                    <svg class="kcode-drop-icon-page" viewBox="0 0 24 24">
+                        <path d="M12 2.69C12 2.69 6 9.5 6 14C6 17.31 8.69 20 12 20C15.31 20 18 17.31 18 14C18 9.5 12 2.69 12 2.69Z" />
+                    </svg>
+                </div>
                 <div class="kcode-bubble animate-pulse">
                     ⏳ {{ app()->getLocale() === 'ar' ? 'جاري التفكير والتوليد...' : 'AI is thinking...' }}
                 </div>
             </div>
         </div>
 
-        <!-- Input & Presets -->
+        <!-- Input Area (Without Presets) -->
         <div class="kcode-chat-input-area">
-            <!-- Preset Prompt Chips -->
-            <div class="kcode-presets">
-                <button type="button" wire:click="sendPreset('ما هي أهم مميزات متجر KCODE وكيف نزيد المبيعات؟')" class="kcode-chip">
-                    💡 مميزات KCODE وزيادة المبيعات
-                </button>
-                <button type="button" wire:click="sendPreset('اقترح لي روتين عناية بالبشرة الدهنية مع المنتجات')" class="kcode-chip">
-                    ✨ روتين للبشرة الدهنية
-                </button>
-                <button type="button" wire:click="sendPreset('اكتب لي كود لارافيل لحساب إجمالي المبيعات اليومية')" class="kcode-chip">
-                    💻 كود Laravel مفيد
-                </button>
-                <button type="button" wire:click="sendPreset('ما هي أحدث صيحات التجارة الإلكترونية هذا العام؟')" class="kcode-chip">
-                    🚀 صيحات التجارة الإلكترونية
-                </button>
-            </div>
-
             <form wire:submit="sendMessage" class="kcode-input-wrapper">
                 <input
                     type="text"
@@ -293,12 +302,12 @@
                     placeholder="{{ app()->getLocale() === 'ar' ? 'اكتب أي سؤال أو استفسار هنا (غير مقيد بالموضوع)...' : 'Type any question or prompt here (unrestricted)...' }}"
                     class="kcode-input"
                     wire:loading.attr="disabled"
-                    wire:target="sendMessage, sendPreset"
+                    wire:target="sendMessage, fetchAiResponse"
                     autofocus
                 />
-                <button type="submit" wire:loading.attr="disabled" wire:target="sendMessage, sendPreset" class="kcode-send-btn">
-                    <span wire:loading.remove wire:target="sendMessage, sendPreset">إرسال 🚀</span>
-                    <span wire:loading wire:target="sendMessage, sendPreset">جاري الإرسال...</span>
+                <button type="submit" wire:loading.attr="disabled" wire:target="sendMessage, fetchAiResponse" class="kcode-send-btn">
+                    <span wire:loading.remove wire:target="sendMessage, fetchAiResponse">إرسال 🚀</span>
+                    <span wire:loading wire:target="sendMessage, fetchAiResponse">جاري الإرسال...</span>
                 </button>
             </form>
         </div>

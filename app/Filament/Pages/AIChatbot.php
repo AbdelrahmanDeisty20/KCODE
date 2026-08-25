@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Services\GroqChatService;
 use BackedEnum;
 use Filament\Pages\Page;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Log;
 
 class AIChatbot extends Page
@@ -32,6 +33,7 @@ class AIChatbot extends Page
 
     public array $messages = [];
     public string $userMessage = '';
+    public string $pendingPrompt = '';
     public bool $isThinking = false;
 
     public function mount(): void
@@ -58,7 +60,7 @@ class AIChatbot extends Page
             return;
         }
 
-        // Push user message
+        // Push user message immediately
         $this->messages[] = [
             'role' => 'user',
             'content' => $prompt,
@@ -66,8 +68,23 @@ class AIChatbot extends Page
             'products' => [],
         ];
 
+        $this->pendingPrompt = $prompt;
         $this->userMessage = '';
         $this->isThinking = true;
+
+        // Dispatch async AI fetch
+        $this->dispatch('fetch-page-ai-response');
+    }
+
+    #[On('fetch-page-ai-response')]
+    public function fetchAiResponse(): void
+    {
+        if (empty($this->pendingPrompt)) {
+            return;
+        }
+
+        $prompt = $this->pendingPrompt;
+        $this->pendingPrompt = '';
 
         try {
             /** @var GroqChatService $chatService */
@@ -109,14 +126,10 @@ class AIChatbot extends Page
         }
     }
 
-    public function sendPreset(string $text): void
-    {
-        $this->sendMessage($text);
-    }
-
     public function clearChat(): void
     {
         $this->mount();
         $this->isThinking = false;
+        $this->pendingPrompt = '';
     }
 }

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Services\GroqChatService;
 use Livewire\Component;
+use Livewire\Attributes\On;
 use Illuminate\Support\Facades\Log;
 
 class FloatingChatbot extends Component
@@ -12,6 +13,7 @@ class FloatingChatbot extends Component
     public bool $showTooltip = true;
     public array $messages = [];
     public string $userMessage = '';
+    public string $pendingPrompt = '';
     public bool $isThinking = false;
 
     public function mount(): void
@@ -51,7 +53,7 @@ class FloatingChatbot extends Component
             return;
         }
 
-        // 1. Immediately push user message to conversation
+        // 1. Immediately push user message to conversation so it renders in the DOM right away
         $this->messages[] = [
             'role' => 'user',
             'content' => $prompt,
@@ -59,11 +61,24 @@ class FloatingChatbot extends Component
             'products' => [],
         ];
 
-        // 2. Clear input state
+        $this->pendingPrompt = $prompt;
         $this->userMessage = '';
         $this->isThinking = true;
 
-        // 3. Process AI Response
+        // 2. Dispatch event to process AI response in next request
+        $this->dispatch('fetch-floating-ai-response');
+    }
+
+    #[On('fetch-floating-ai-response')]
+    public function fetchAiResponse(): void
+    {
+        if (empty($this->pendingPrompt)) {
+            return;
+        }
+
+        $prompt = $this->pendingPrompt;
+        $this->pendingPrompt = '';
+
         try {
             /** @var GroqChatService $chatService */
             $chatService = app(GroqChatService::class);
@@ -104,15 +119,11 @@ class FloatingChatbot extends Component
         }
     }
 
-    public function sendPreset(string $text): void
-    {
-        $this->sendMessage($text);
-    }
-
     public function clearChat(): void
     {
         $this->mount();
         $this->isThinking = false;
+        $this->pendingPrompt = '';
     }
 
     public function render()

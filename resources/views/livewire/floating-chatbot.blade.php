@@ -2,95 +2,131 @@
     <style>
         @keyframes kcodePulseGlow {
             0%, 100% {
-                box-shadow: 0 8px 25px -4px rgba(194, 89, 117, 0.4), 0 0 15px rgba(194, 89, 117, 0.2);
+                box-shadow: 0 8px 25px -4px rgba(194, 89, 117, 0.45), 0 0 18px rgba(244, 114, 182, 0.35);
+                transform: scale(1);
             }
             50% {
-                box-shadow: 0 12px 32px -2px rgba(194, 89, 117, 0.65), 0 0 25px rgba(194, 89, 117, 0.4);
+                box-shadow: 0 12px 32px -2px rgba(194, 89, 117, 0.7), 0 0 28px rgba(244, 114, 182, 0.55);
+                transform: scale(1.04);
             }
         }
 
         @keyframes kcodeFloatWave {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .kcode-drop-icon {
+            width: 22px !important;
+            height: 22px !important;
+            min-width: 22px !important;
+            min-height: 22px !important;
+            max-width: 22px !important;
+            max-height: 22px !important;
+            display: inline-block !important;
+            fill: #ffffff !important;
+        }
+
+        .kcode-drop-icon-sm {
+            width: 16px !important;
+            height: 16px !important;
+            min-width: 16px !important;
+            min-height: 16px !important;
+            max-width: 16px !important;
+            max-height: 16px !important;
+            display: inline-block !important;
+            fill: #ffffff !important;
         }
 
         .kcode-float-btn-wrapper {
             position: fixed;
             bottom: 28px;
-            right: 28px;
-            left: auto;
+            left: 28px;
+            right: auto;
             z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
+        .is-ltr .kcode-float-btn-wrapper {
+            right: 28px;
+            left: auto;
+        }
+
         .kcode-float-btn {
-            width: 58px;
-            height: 58px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #ffffff 0%, #fdf4f7 100%);
-            border: 2px solid #c25975;
+            background: #fce7f3;
+            border: 2.5px solid rgba(194, 89, 117, 0.35);
             animation: kcodePulseGlow 3s infinite ease-in-out;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            padding: 5px;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
         }
 
         .kcode-float-btn:hover {
-            transform: scale(1.12) rotate(-8deg);
+            transform: scale(1.12) rotate(-6deg);
         }
 
-        .kcode-float-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #c25975 0%, #aa3f5d 100%);
+        .kcode-float-icon-inner {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
+            background: linear-gradient(135deg, #c25975 0%, #aa3f5d 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
-            font-size: 16px;
-            box-shadow: 0 4px 12px rgba(194, 89, 117, 0.35);
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.35), 0 4px 12px rgba(194, 89, 117, 0.4);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .kcode-float-icon.is-active {
-            transform: rotate(180deg) scale(1.15);
+        .kcode-float-icon-inner.is-active {
+            transform: rotate(180deg) scale(1.1);
         }
 
         /* TOOLTIP BUBBLE CARD */
         .kcode-float-tooltip {
             position: fixed;
-            bottom: 96px;
-            right: 28px;
-            left: auto;
+            bottom: 30px;
+            left: 100px;
+            right: auto;
             z-index: 9998;
             background: #ffffff;
             border: 1px solid rgba(194, 89, 117, 0.25);
             border-radius: 1.25rem;
-            padding: 0.85rem 1.15rem;
-            box-shadow: 0 12px 30px -5px rgba(194, 89, 117, 0.25);
+            padding: 0.75rem 1.15rem 0.75rem 1.75rem;
+            box-shadow: 0 12px 30px -5px rgba(194, 89, 117, 0.22);
+            min-width: 200px;
             max-width: 260px;
-            transform-origin: bottom right;
             animation: kcodeFloatWave 3.5s infinite ease-in-out;
 
             opacity: 0;
             visibility: hidden;
-            transform: translateY(12px) scale(0.85);
+            transform: translateX(-10px) scale(0.9);
             pointer-events: none;
             transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
                         transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
                         visibility 0.3s step-end;
         }
 
+        .is-ltr .kcode-float-tooltip {
+            right: 100px;
+            left: auto;
+            padding: 0.75rem 1.75rem 0.75rem 1.15rem;
+            transform: translateX(10px) scale(0.9);
+        }
+
         .kcode-float-tooltip.is-visible {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0) scale(1);
+            transform: translateX(0) scale(1);
             pointer-events: auto;
             transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
                         transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -98,31 +134,41 @@
         }
 
         html.dark .kcode-float-tooltip {
-            background: #1e1e24;
+            background: #1c1c22;
             border-color: rgba(229, 162, 181, 0.25);
-            box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.6);
         }
 
-        .kcode-float-tooltip::after {
-            content: '';
+        .kcode-float-tooltip-close {
             position: absolute;
-            bottom: -8px;
-            right: 24px;
-            left: auto;
-            width: 14px;
-            height: 14px;
-            background: inherit;
-            border-right: 1px solid rgba(194, 89, 117, 0.25);
-            border-bottom: 1px solid rgba(194, 89, 117, 0.25);
-            transform: rotate(45deg);
+            top: 6px;
+            left: 8px;
+            right: auto;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            font-size: 11px;
+            cursor: pointer;
+            padding: 2px 4px;
+            line-height: 1;
+            transition: color 0.2s;
         }
 
-        /* CHAT WINDOW POPUP DRAWER (SPRING EXPANSION & CONTRACTION) */
+        .is-ltr .kcode-float-tooltip-close {
+            right: 8px;
+            left: auto;
+        }
+
+        .kcode-float-tooltip-close:hover {
+            color: #c25975;
+        }
+
+        /* CHAT WINDOW POPUP DRAWER */
         .kcode-float-modal {
             position: fixed;
-            bottom: 96px;
-            right: 28px;
-            left: auto;
+            bottom: 98px;
+            left: 28px;
+            right: auto;
             width: 395px;
             max-width: calc(100vw - 32px);
             height: 565px;
@@ -136,53 +182,22 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            transform-origin: bottom right;
+            transform-origin: bottom left;
 
             opacity: 0;
             visibility: hidden;
-            transform: translateY(28px) scale(0.7) rotate(3deg);
+            transform: translateY(28px) scale(0.7) rotate(-3deg);
             pointer-events: none;
             transition: opacity 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
                         transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
                         visibility 0.35s step-end;
         }
 
-        /* DYNAMIC RTL / ARABIC ADAPTATION */
-        .is-rtl .kcode-float-btn-wrapper,
-        html[dir="rtl"] .kcode-float-btn-wrapper,
-        [dir="rtl"] .kcode-float-btn-wrapper {
-            right: auto !important;
-            left: 28px !important;
-        }
-
-        .is-rtl .kcode-float-tooltip,
-        html[dir="rtl"] .kcode-float-tooltip,
-        [dir="rtl"] .kcode-float-tooltip {
-            right: auto !important;
-            left: 28px !important;
-            transform-origin: bottom left !important;
-        }
-
-        .is-rtl .kcode-float-tooltip::after,
-        html[dir="rtl"] .kcode-float-tooltip::after,
-        [dir="rtl"] .kcode-float-tooltip::after {
-            right: auto !important;
-            left: 24px !important;
-        }
-
-        .is-rtl .kcode-float-modal,
-        html[dir="rtl"] .kcode-float-modal,
-        [dir="rtl"] .kcode-float-modal {
-            right: auto !important;
-            left: 28px !important;
-            transform-origin: bottom left !important;
-            transform: translateY(28px) scale(0.7) rotate(-3deg);
-        }
-
-        .is-rtl .kcode-float-modal.is-open,
-        html[dir="rtl"] .kcode-float-modal.is-open,
-        [dir="rtl"] .kcode-float-modal.is-open {
-            transform: translateY(0) scale(1) rotate(0deg);
+        .is-ltr .kcode-float-modal {
+            right: 28px;
+            left: auto;
+            transform-origin: bottom right;
+            transform: translateY(28px) scale(0.7) rotate(3deg);
         }
 
         .kcode-float-modal.is-open {
@@ -248,8 +263,8 @@
         .kcode-float-bubble {
             padding: 0.75rem 1rem;
             border-radius: 1.15rem;
-            font-size: 0.88rem;
-            line-height: 1.5;
+            font-size: 0.875rem;
+            line-height: 1.55;
             white-space: pre-wrap;
             word-wrap: break-word;
         }
@@ -257,42 +272,42 @@
         .kcode-float-msg.assistant .kcode-float-bubble {
             background: #ffffff;
             color: #1f2937;
-            border-top-left-radius: 0.2rem;
+            border-top-right-radius: 0.2rem;
             border: 1px solid rgba(194, 89, 117, 0.12);
-            box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
 
         html.dark .kcode-float-msg.assistant .kcode-float-bubble {
-            background: #282832;
+            background: #272730;
             color: #f3f4f6;
-            border-color: rgba(229, 162, 181, 0.15);
+            border-color: rgba(229, 162, 181, 0.12);
         }
 
         .kcode-float-msg.user .kcode-float-bubble {
             background: linear-gradient(135deg, #c25975 0%, #aa3f5d 100%);
             color: #ffffff;
-            border-top-right-radius: 0.2rem;
-            box-shadow: 0 4px 14px rgba(194, 89, 117, 0.35);
+            border-top-left-radius: 0.2rem;
+            box-shadow: 0 4px 12px rgba(194, 89, 117, 0.3);
         }
 
         .kcode-float-input-area {
             padding: 0.85rem 1rem;
-            background: rgba(255, 255, 255, 0.95);
-            border-top: 1px solid rgba(194, 89, 117, 0.12);
+            background: rgba(249, 250, 251, 0.85);
+            border-top: 1px solid rgba(194, 89, 117, 0.15);
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
         }
 
         html.dark .kcode-float-input-area {
-            background: rgba(18, 18, 22, 0.95);
-            border-top-color: rgba(229, 162, 181, 0.12);
+            background: rgba(24, 24, 30, 0.85);
+            border-top-color: rgba(229, 162, 181, 0.15);
         }
 
         .kcode-float-input-wrapper {
             display: flex;
-            gap: 0.5rem;
             align-items: center;
+            gap: 0.5rem;
         }
 
         .kcode-float-input {
@@ -301,21 +316,21 @@
             border-radius: 9999px;
             border: 1px solid rgba(194, 89, 117, 0.25);
             background: #ffffff;
-            color: #1f2937;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
+            color: #111827;
             outline: none;
             transition: all 0.2s ease;
+        }
+
+        html.dark .kcode-float-input {
+            background: #18181b;
+            border-color: rgba(229, 162, 181, 0.25);
+            color: #f3f4f6;
         }
 
         .kcode-float-input:focus {
             border-color: #c25975;
             box-shadow: 0 0 0 3px rgba(194, 89, 117, 0.2);
-        }
-
-        html.dark .kcode-float-input {
-            background: #1a1a20;
-            border-color: rgba(229, 162, 181, 0.25);
-            color: #f3f4f6;
         }
 
         .kcode-float-send-btn {
@@ -339,23 +354,29 @@
 
     <!-- TOOLTIP BUBBLE CARD -->
     <div class="kcode-float-tooltip" :class="{ 'is-visible': showTooltip && !isOpen }">
-        <button @click.stop="showTooltip = false" type="button" class="absolute top-1.5 left-2 text-gray-400 hover:text-gray-600 dark:hover:text-white text-xs p-1">
+        <button @click.stop="showTooltip = false" type="button" class="kcode-float-tooltip-close" title="إغلاق">
             ✕
         </button>
-        <div class="font-bold text-sm text-gray-900 dark:text-white flex items-center gap-1">
+        <div class="font-bold text-xs sm:text-sm text-gray-900 dark:text-white flex items-center gap-1">
             مستشار KCODE الذكي ✨
         </div>
-        <div class="text-xs text-rose-600 dark:text-rose-400 font-medium mt-1">
+        <div class="text-[11px] sm:text-xs text-rose-500 dark:text-rose-400 font-medium mt-0.5">
             نحن هنا من أجلك لمساعدتك 💖
         </div>
     </div>
 
-    <!-- BUTTON TRIGGER WITH ANIMATED ROBOT ICON -->
+    <!-- BUTTON TRIGGER WITH ANIMATED KCODE DROPLET ICON -->
     <div class="kcode-float-btn-wrapper">
         <button @click="isOpen = !isOpen; showTooltip = false" type="button" class="kcode-float-btn" title="مستشار KCODE الذكي">
-            <div class="kcode-float-icon" :class="{ 'is-active': isOpen }">
-                <span x-show="isOpen">✕</span>
-                <span x-show="!isOpen">🤖</span>
+            <div class="kcode-float-icon-inner" :class="{ 'is-active': isOpen }">
+                <template x-if="isOpen">
+                    <span class="text-sm font-bold">✕</span>
+                </template>
+                <template x-if="!isOpen">
+                    <svg class="kcode-drop-icon" viewBox="0 0 24 24">
+                        <path d="M12 2.69C12 2.69 6 9.5 6 14C6 17.31 8.69 20 12 20C15.31 20 18 17.31 18 14C18 9.5 12 2.69 12 2.69Z" />
+                    </svg>
+                </template>
             </div>
         </button>
     </div>
@@ -366,18 +387,20 @@
         <!-- Header -->
         <div class="kcode-float-header">
             <div class="flex items-center gap-2.5">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-r from-rose-500 to-rose-700 text-white flex items-center justify-center font-bold text-sm shadow-sm">
-                    🤖
+                <div class="rounded-full bg-gradient-to-r from-rose-500 to-rose-700 text-white flex items-center justify-center font-bold text-sm shadow-sm flex-shrink-0" style="width: 32px; height: 32px; min-width: 32px; min-height: 32px;">
+                    <svg class="kcode-drop-icon-sm" viewBox="0 0 24 24">
+                        <path d="M12 2.69C12 2.69 6 9.5 6 14C6 17.31 8.69 20 12 20C15.31 20 18 17.31 18 14C18 9.5 12 2.69 12 2.69Z" />
+                    </svg>
                 </div>
                 <div>
                     <div class="font-bold text-sm text-gray-900 dark:text-white flex items-center gap-1.5">
                         مستشار KCODE الذكي
                         <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium border border-emerald-500/20">
-                            ⚡ سريع الجيل
+                            ⚡ متصل الآن
                         </span>
                     </div>
                     <div class="text-[11px] text-gray-500 dark:text-gray-400">
-                        أي سؤال، دعم، أو موضوع عام
+                        أي سؤال عن البشرة، المنتجات، أو الداشبورد
                     </div>
                 </div>
             </div>
@@ -426,27 +449,15 @@
             @endforeach
 
             <!-- Immediate Loading Indicator -->
-            <div wire:loading wire:target="sendMessage, sendPreset" class="kcode-float-msg assistant">
+            <div wire:loading wire:target="fetchAiResponse" class="kcode-float-msg assistant">
                 <div class="kcode-float-bubble text-xs italic text-rose-500 font-medium animate-pulse flex items-center gap-1.5">
                     <span class="inline-block animate-spin">⚡</span> جاري التفكير والرد الآن...
                 </div>
             </div>
         </div>
 
-        <!-- Input & Presets -->
+        <!-- Input Area (Without preset chips) -->
         <div class="kcode-float-input-area">
-            <div class="flex gap-1 overflow-x-auto pb-1 text-[11px]">
-                <button type="button" wire:click="sendPreset('اقترح لي روتين للبشرة الدهنية')" class="px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 whitespace-nowrap hover:bg-rose-500 hover:text-white transition-all">
-                    ✨ روتين للبشرة
-                </button>
-                <button type="button" wire:click="sendPreset('كيف تزيد مبيعات متجر KCODE؟')" class="px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 whitespace-nowrap hover:bg-rose-500 hover:text-white transition-all">
-                    🚀 زيادة المبيعات
-                </button>
-                <button type="button" wire:click="sendPreset('اكتب لي كود لارافيل مفيد')" class="px-2.5 py-1 rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 whitespace-nowrap hover:bg-rose-500 hover:text-white transition-all">
-                    💻 كود Laravel
-                </button>
-            </div>
-
             <form wire:submit="sendMessage" class="kcode-float-input-wrapper">
                 <input
                     type="text"
@@ -454,11 +465,11 @@
                     placeholder="اسأل المستشار الذكي عن أي شيء..."
                     class="kcode-float-input"
                     wire:loading.attr="disabled"
-                    wire:target="sendMessage, sendPreset"
+                    wire:target="sendMessage, fetchAiResponse"
                 />
-                <button type="submit" wire:loading.attr="disabled" wire:target="sendMessage, sendPreset" class="kcode-float-send-btn">
-                    <span wire:loading.remove wire:target="sendMessage, sendPreset">إرسال 🚀</span>
-                    <span wire:loading wire:target="sendMessage, sendPreset">⚡...</span>
+                <button type="submit" wire:loading.attr="disabled" wire:target="sendMessage, fetchAiResponse" class="kcode-float-send-btn">
+                    <span wire:loading.remove wire:target="sendMessage, fetchAiResponse">إرسال 🚀</span>
+                    <span wire:loading wire:target="sendMessage, fetchAiResponse">⚡...</span>
                 </button>
             </form>
         </div>
