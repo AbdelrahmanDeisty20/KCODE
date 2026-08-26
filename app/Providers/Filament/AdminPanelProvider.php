@@ -105,21 +105,21 @@ class AdminPanelProvider extends PanelProvider
                         /* --- KCODE OFFICIAL TYPOGRAPHY SYSTEM (29LT Zarid Sans AL) --- */
                         @font-face {
                             font-family: "29LT Zarid Sans AL";
-                            src: url("/fonts/29LTZaridSansAL-Regular.woff2") format("woff2");
+                            src: url("' . asset('fonts/29LTZaridSansAL-Regular.woff2') . '") format("woff2");
                             font-weight: 400;
                             font-style: normal;
                             font-display: swap;
                         }
                         @font-face {
                             font-family: "29LT Zarid Sans AL";
-                            src: url("/fonts/29LTZaridSansAL-Medium.woff") format("woff");
+                            src: url("' . asset('fonts/29LTZaridSansAL-Medium.woff') . '") format("woff");
                             font-weight: 500;
                             font-style: normal;
                             font-display: swap;
                         }
                         @font-face {
                             font-family: "29LT Zarid Sans AL";
-                            src: url("/fonts/29LTZaridSansAL-SemiBold.woff2") format("woff2");
+                            src: url("' . asset('fonts/29LTZaridSansAL-SemiBold.woff2') . '") format("woff2");
                             font-weight: 600;
                             font-style: normal;
                             font-display: swap;
