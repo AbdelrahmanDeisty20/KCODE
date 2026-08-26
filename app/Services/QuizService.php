@@ -237,10 +237,14 @@ class QuizService
 
         // 7. Run Product Recommendation Logic using Database values
         $steps = RoutineStep::orderBy('order', 'asc')->get();
-        $candidates = [];
+        $primaryCandidates = [];
+        $supportCandidates = [];
+        $addonCandidates = [];
+
+        $skinTypeModel = SkinType::find($skinTypeId);
+        $skinTypeName = $skinTypeModel ? ($lang === 'ar' ? $skinTypeModel->name_ar : $skinTypeModel->name_en) : ($lang === 'ar' ? 'المختارة' : 'Selected');
 
         foreach ($steps as $step) {
-            // Query only best-selling products with stock > 0 for the current routine step
             $query = Product::query()
                 ->where('stock', '>', 0)
                 ->bestSeller()
@@ -271,24 +275,20 @@ class QuizService
             $scoredProducts = $eligibleProducts->map(function ($product) use ($goalId, $concernIds) {
                 $score = 0;
 
-                // Base priority score
                 if ($product->recommendationRule) {
                     $score += $product->recommendationRule->default_priority_score;
                 }
 
-                // Goal match bonus
                 if ($goalId && ($product->goals->contains('id', $goalId) || $product->goals->contains('pivot.goal_id', $goalId))) {
                     $score += 100;
                 }
 
-                // Concern match bonus (highly prioritized to treat the concerns)
                 foreach ($concernIds as $cId) {
                     if ($product->concerns->contains('id', $cId) || $product->concerns->contains('pivot.concern_id', $cId)) {
                         $score += 200;
                     }
                 }
 
-                // Rating bonus
                 $score += (int)($product->average_rating * 2);
 
                 return [
@@ -297,74 +297,122 @@ class QuizService
                 ];
             });
 
-            // Sort products by score descending
             $sorted = $scoredProducts->sortByDesc('score');
             $bestElement = $sorted->first();
             $bestMatch = $bestElement['product'];
             $highestScore = $bestElement['score'];
 
             $routineInfo = $bestMatch->routines()->where('routine_step_id', $step->id)->first();
+            $isCore = $routineInfo ? (bool)$routineInfo->is_core : in_array($step->order, [1, 3, 4, 5]);
+            $isAddon = $routineInfo ? (bool)$routineInfo->is_addon : ($step->order > 6);
 
-            $candidates[] = [
+            $candidateData = [
                 'step_id' => $step->id,
-                'step_name' => $step->name,
+                'step_name' => $lang === 'ar' ? ($step->name_ar ?? $step->name) : $step->name,
                 'step_order' => $step->order,
                 'score' => $highestScore,
                 'best_match' => $bestMatch,
                 'routine_info' => $routineInfo,
+                'is_core' => $isCore,
+                'is_addon' => $isAddon,
             ];
+
+            if ($isAddon) {
+                $addonCandidates[] = $candidateData;
+            } elseif ($isCore || count($primaryCandidates) < 5) {
+                $primaryCandidates[] = $candidateData;
+            } else {
+                $supportCandidates[] = $candidateData;
+            }
         }
 
-        // Sort candidates by score descending to get the top 5 most relevant best-selling products
-        usort($candidates, function ($a, $b) {
-            return $b['score'] <=> $a['score'];
-        });
+        // Balance primary vs support
+        if (count($primaryCandidates) < 4 && !empty($supportCandidates)) {
+            while (count($primaryCandidates) < 4 && !empty($supportCandidates)) {
+                $primaryCandidates[] = array_shift($supportCandidates);
+            }
+        }
 
-        // Limit to at most 5 products
-        $topCandidates = array_slice($candidates, 0, 5);
+        $supportCandidates = array_slice($supportCandidates, 0, 3);
+        $addonCandidates = array_slice($addonCandidates, 0, 2);
 
-        // Re-sort selected products by step_order ascending to preserve sequence flow
-        usort($topCandidates, function ($a, $b) {
-            return $a['step_order'] <=> $b['step_order'];
-        });
+        usort($primaryCandidates, fn($a, $b) => $a['step_order'] <=> $b['step_order']);
+        usort($supportCandidates, fn($a, $b) => $a['step_order'] <=> $b['step_order']);
+        usort($addonCandidates, fn($a, $b) => $a['step_order'] <=> $b['step_order']);
 
-        $recommendedProducts = [];
-        $stepIndex = 1;
-
-        foreach ($topCandidates as $cand) {
-            $bestMatch = $cand['best_match'];
+        // 1. Build Primary Routine Array
+        $primaryRoutineResponse = [];
+        $orderIndex = 1;
+        foreach ($primaryCandidates as $cand) {
+            $product = $cand['best_match'];
             $routineInfo = $cand['routine_info'];
 
-            // 8. Save recommended product in the routine_products table
             RoutineProduct::create([
                 'routine_id' => $routine->id,
-                'product_id' => $bestMatch->id,
+                'product_id' => $product->id,
                 'step' => $cand['step_order'],
-                'replaced_with_product_id' => $bestMatch->id,
+                'replaced_with_product_id' => $product->id,
                 'accepted' => true,
             ]);
 
-            $recommendedProducts[] = [
+            $morning = $routineInfo ? (bool)$routineInfo->morning : true;
+            $night = $routineInfo ? (bool)$routineInfo->night : true;
+            $useTimeText = ($morning && $night) ? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening') : ($morning ? ($lang === 'ar' ? 'صباحاً' : 'Morning') : ($lang === 'ar' ? 'مساءً' : 'Evening'));
+
+            $primaryRoutineResponse[] = [
+                'display_order' => $orderIndex++,
+                'selected_by_default' => true,
                 'step_id' => $cand['step_id'],
-                'step_name' => $cand['step_name'],
-                'step_order' => $stepIndex++,
-                'is_core' => $routineInfo ? (bool)$routineInfo->is_core : true,
-                'is_addon' => $routineInfo ? (bool)$routineInfo->is_addon : false,
-                'morning' => $routineInfo ? (bool)$routineInfo->morning : true,
-                'night' => $routineInfo ? (bool)$routineInfo->night : true,
-                'product' => [
-                    'id' => $bestMatch->id,
-                    'name' => $lang === 'ar' ? $bestMatch->name_ar : $bestMatch->name_en,
-                    'sku' => $bestMatch->sku,
-                    'price' => (float)$bestMatch->price,
-                    'image' => $bestMatch->image ? asset('uploads/products/' . $bestMatch->image) : null,
-                    'average_rating' => $bestMatch->average_rating,
-                    'num_reviews' => $bestMatch->num_reviews,
-                    'brand' => $bestMatch->brand ? [
-                        'id' => $bestMatch->brand->id,
-                        'name' => $lang === 'ar' ? $bestMatch->brand->name_ar : $bestMatch->brand->name_en,
-                    ] : null,
-                ],
+                'routine_step_ar' => $cand['step_name'],
+                'routine_step_code' => 'step_' . $cand['step_order'],
+                'use_time_ar' => $useTimeText,
+                'usage_badge_ar' => ($lang === 'ar' ? 'يومياً ' : 'Daily ') . $useTimeText,
+                'chosen_for_ar' => $lang === 'ar' 
+                    ? "تم اختياره خصيصاً للبشرة {$skinTypeName} لتوفير العناية والتوازن وتجهيز البشرة."
+                    : "Specifically chosen for {$skinTypeName} skin to deliver optimal care and balance.",
+                'product' => $product,
+            ];
+        }
+
+        // 2. Build Routine Support Array
+        $routineSupportResponse = [];
+        $orderIndex = 1;
+        foreach ($supportCandidates as $cand) {
+            $product = $cand['best_match'];
+            $routineInfo = $cand['routine_info'];
+
+            $morning = $routineInfo ? (bool)$routineInfo->morning : true;
+            $night = $routineInfo ? (bool)$routineInfo->night : true;
+            $useTimeText = ($morning && $night) ? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening') : ($morning ? ($lang === 'ar' ? 'صباحاً' : 'Morning') : ($lang === 'ar' ? 'مساءً' : 'Evening'));
+
+            $routineSupportResponse[] = [
+                'display_order' => $orderIndex++,
+                'selected_by_default' => false,
+                'step_id' => $cand['step_id'],
+                'routine_step_ar' => $cand['step_name'],
+                'routine_step_code' => 'step_' . $cand['step_order'],
+                'use_time_ar' => $useTimeText,
+                'usage_badge_ar' => ($lang === 'ar' ? '2-3 مرات أسبوعياً ' : '2-3 times weekly ') . $useTimeText,
+                'chosen_for_ar' => $lang === 'ar'
+                    ? "خطوة تكميلية مثالية لدعم نضارة البشرة {$skinTypeName} وتسريع نتائج الروتين."
+                    : "Ideal complementary step to enhance {$skinTypeName} skin radiance.",
+                'product' => $product,
+            ];
+        }
+
+        // 3. Build Cart Addons Array
+        $cartAddonsResponse = [];
+        $orderIndex = 1;
+        foreach ($addonCandidates as $cand) {
+            $product = $cand['best_match'];
+
+            $cartAddonsResponse[] = [
+                'display_order' => $orderIndex++,
+                'selected_by_default' => false,
+                'cart_note_ar' => $lang === 'ar'
+                    ? "مُقترح إضافي رائع يُوصى به في السلة لإكمال العناية المزدوجة بالبشرة."
+                    : "Great extra recommendation suggested for your cart for double care.",
+                'product' => $product,
             ];
         }
 
@@ -376,8 +424,11 @@ class QuizService
                 'routine_id'       => $routine->id,
                 'diagnosis'        => $diagnosis,
                 'questions'        => $questionsAndAnswers,
-                'routine'          => $recommendedProducts
+                'primary_routine'  => $primaryRoutineResponse,
+                'routine_support'  => $routineSupportResponse,
+                'cart_addons'       => $cartAddonsResponse,
             ]
         ];
     }
 }
+
