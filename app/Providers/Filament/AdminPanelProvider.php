@@ -105,32 +105,36 @@ class AdminPanelProvider extends PanelProvider
                         /* --- KCODE OFFICIAL TYPOGRAPHY SYSTEM (29LT Zarid Sans AL) --- */
                         @font-face {
                             font-family: "29LT Zarid Sans AL";
-                            src: url("' . asset('fonts/29LTZaridSansAL-Regular.woff2') . '") format("woff2");
+                            src: url("/fonts/29LTZaridSansAL-Regular.woff2") format("woff2"),
+                                 url("' . asset('fonts/29LTZaridSansAL-Regular.woff2') . '") format("woff2");
                             font-weight: 400;
                             font-style: normal;
                             font-display: swap;
                         }
                         @font-face {
                             font-family: "29LT Zarid Sans AL";
-                            src: url("' . asset('fonts/29LTZaridSansAL-Medium.woff') . '") format("woff");
+                            src: url("/fonts/29LTZaridSansAL-Medium.woff") format("woff"),
+                                 url("' . asset('fonts/29LTZaridSansAL-Medium.woff') . '") format("woff");
                             font-weight: 500;
                             font-style: normal;
                             font-display: swap;
                         }
                         @font-face {
                             font-family: "29LT Zarid Sans AL";
-                            src: url("' . asset('fonts/29LTZaridSansAL-SemiBold.woff2') . '") format("woff2");
+                            src: url("/fonts/29LTZaridSansAL-SemiBold.woff2") format("woff2"),
+                                 url("' . asset('fonts/29LTZaridSansAL-SemiBold.woff2') . '") format("woff2");
                             font-weight: 600;
                             font-style: normal;
                             font-display: swap;
                         }
 
-                        body, .fi-body, .fi-sidebar, .fi-topbar, .fi-main, .fi-section, .fi-ta, .fi-wi, input, select, textarea, button {
+                        :root, html, body, body *, .fi-body, .fi-sidebar, .fi-topbar, .fi-main, .fi-section, .fi-ta, .fi-wi, input, select, textarea, button, span, div, a {
+                            --font-sans: "29LT Zarid Sans AL", system-ui, -apple-system, sans-serif !important;
                             font-family: "29LT Zarid Sans AL", system-ui, -apple-system, sans-serif !important;
                         }
 
                         /* Headings & Main Buttons: SemiBold (600) */
-                        h1, h2, h3, .fi-header-heading, .fi-section-header-heading, .fi-modal-heading, .fi-btn-primary, .fi-btn-action {
+                        h1, h2, h3, h4, h5, h6, .fi-header-heading, .fi-section-header-heading, .fi-modal-heading, .fi-btn-primary, .fi-btn-action {
                             font-weight: 600 !important;
                         }
 
