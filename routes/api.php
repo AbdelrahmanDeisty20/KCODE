@@ -107,7 +107,7 @@ Route::middleware([SetLang::class])->group(function () {
     // Quiz Routes
     Route::controller(QuizController::class)->group(function () {
         Route::get('/quiz/questions', 'getQuestions');
-        Route::post('/quiz/submit-answers', 'evaluate')->middleware('auth:sanctum');
+        Route::post('/quiz/submit-answers', 'evaluate');
     });
 
     // Routine Routes
