@@ -303,8 +303,8 @@ class QuizService
             $highestScore = $bestElement['score'];
 
             $routineInfo = $bestMatch->routines()->where('routine_step_id', $step->id)->first();
-            $isCore = $routineInfo ? (bool)$routineInfo->is_core : in_array($step->order, [1, 3, 4, 5]);
-            $isAddon = $routineInfo ? (bool)$routineInfo->is_addon : ($step->order > 6);
+            $isCore = $routineInfo ? (bool)$routineInfo->is_core : in_array($step->order, [3, 9, 11, 15]); // Cleanser, Serum, Treatment, Moisturizer
+            $isAddon = $routineInfo ? (bool)$routineInfo->is_addon : ($step->order > 15 || in_array($step->order, [16, 17]));
 
             $candidateData = [
                 'step_id' => $step->id,
@@ -319,18 +319,24 @@ class QuizService
 
             if ($isAddon) {
                 $addonCandidates[] = $candidateData;
-            } elseif ($isCore || count($primaryCandidates) < 5) {
+            } elseif ($isCore && count($primaryCandidates) < 5) {
                 $primaryCandidates[] = $candidateData;
             } else {
                 $supportCandidates[] = $candidateData;
             }
         }
 
-        // Balance primary vs support
+        // If primary has less than 4, take from support
         if (count($primaryCandidates) < 4 && !empty($supportCandidates)) {
             while (count($primaryCandidates) < 4 && !empty($supportCandidates)) {
                 $primaryCandidates[] = array_shift($supportCandidates);
             }
+        }
+
+        // If primary has more than 5, move extra to support
+        if (count($primaryCandidates) > 5) {
+            $extra = array_splice($primaryCandidates, 5);
+            $supportCandidates = array_merge($extra, $supportCandidates);
         }
 
         $supportCandidates = array_slice($supportCandidates, 0, 3);
