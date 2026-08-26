@@ -102,6 +102,48 @@ class AdminPanelProvider extends PanelProvider
                             50% { transform: scale(1.08); opacity: 0.85; }
                         }
 
+                        /* --- KCODE OFFICIAL TYPOGRAPHY SYSTEM (29LT Zarid Sans AL) --- */
+                        @font-face {
+                            font-family: "29LT Zarid Sans AL";
+                            src: url("/fonts/29LTZaridSansAL-Regular.woff2") format("woff2");
+                            font-weight: 400;
+                            font-style: normal;
+                            font-display: swap;
+                        }
+                        @font-face {
+                            font-family: "29LT Zarid Sans AL";
+                            src: url("/fonts/29LTZaridSansAL-Medium.woff") format("woff");
+                            font-weight: 500;
+                            font-style: normal;
+                            font-display: swap;
+                        }
+                        @font-face {
+                            font-family: "29LT Zarid Sans AL";
+                            src: url("/fonts/29LTZaridSansAL-SemiBold.woff2") format("woff2");
+                            font-weight: 600;
+                            font-style: normal;
+                            font-display: swap;
+                        }
+
+                        body, .fi-body, .fi-sidebar, .fi-topbar, .fi-main, .fi-section, .fi-ta, .fi-wi, input, select, textarea, button {
+                            font-family: "29LT Zarid Sans AL", system-ui, -apple-system, sans-serif !important;
+                        }
+
+                        /* Headings & Main Buttons: SemiBold (600) */
+                        h1, h2, h3, .fi-header-heading, .fi-section-header-heading, .fi-modal-heading, .fi-btn-primary, .fi-btn-action {
+                            font-weight: 600 !important;
+                        }
+
+                        /* Labels, Table Headers, Badges, Navigation: Medium (500) */
+                        th, .fi-ta-header-cell, label, .fi-sidebar-item-label, .fi-badge, .fi-stat-label, .fi-breadcrumbs-item {
+                            font-weight: 500 !important;
+                        }
+
+                        /* Table Body Cells, Inputs, Helper text: Regular (400) */
+                        td, .fi-ta-cell, input, select, textarea, p, .fi-help-text {
+                            font-weight: 400 !important;
+                        }
+
                         /* Global KCODE Styling Parameters */
                         :root {
                             --kcode-rose-primary: #c25975;
