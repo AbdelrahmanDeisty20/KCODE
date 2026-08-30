@@ -437,7 +437,10 @@ class ProductSeeder extends Seeder
             if ($brandEn) {
                 $brand = Brand::updateOrCreate(
                     ['name_en' => $brandEn],
-                    ['name_ar' => $brandAr ?: $brandEn]
+                    [
+                        'name_ar' => $brandAr ?: $brandEn,
+                        'image' => \Illuminate\Support\Str::slug($brandEn) . '.jpg',
+                    ]
                 );
             }
 
