@@ -604,4 +604,54 @@ class RoutineService
         \Illuminate\Support\Facades\Artisan::call('routines:generate-preset');
         return $this->getPresetRoutines();
     }
+
+    /**
+     * Get Men's Simple Preset Routines directly from database with pagination.
+     */
+    public function getMenPresetRoutines()
+    {
+        $lang = request()->header('lang') ?? app()->getLocale();
+        $perPage = (int)request()->get('per_page', 10);
+
+        if (\App\Models\PresetRoutine::forMen()->count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
+            \Illuminate\Support\Facades\Artisan::call('routines:generate-men-preset');
+        }
+
+        $query = \App\Models\PresetRoutine::forMen()
+            ->where('status', 'active')
+            ->with(['items.product.brand']);
+
+        if (request()->boolean('random')) {
+            $query->inRandomOrder();
+        }
+
+        $paginated = $query->paginate($perPage);
+
+        $responseRoutines = [];
+        foreach ($paginated->items() as $routineModel) {
+            $responseRoutines[] = $this->formatPresetRoutine($routineModel, $lang);
+        }
+
+        return [
+            'status' => true,
+            'message' => $lang === 'ar' ? 'تم جلب روتينات الرجال المجهزة بنجاح.' : 'Men preset routines retrieved successfully.',
+            'data' => $responseRoutines,
+            'pagination' => [
+                'current_page' => $paginated->currentPage(),
+                'per_page' => $paginated->perPage(),
+                'total' => $paginated->total(),
+                'last_page' => $paginated->lastPage(),
+                'has_more_pages' => $paginated->hasMorePages(),
+            ]
+        ];
+    }
+
+    /**
+     * Generate Men's Simple Preset Routines.
+     */
+    public function generateMenPresetRoutines()
+    {
+        \Illuminate\Support\Facades\Artisan::call('routines:generate-men-preset');
+        return $this->getMenPresetRoutines();
+    }
 }

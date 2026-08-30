@@ -116,6 +116,12 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/preset-routines/generate', 'generatePresetRoutines');
         Route::post('/preset-routines/generate', 'generatePresetRoutines');
         Route::get('/preset-routines/{id}', 'getPresetRoutineDetails');
+
+        // Men Simple Routines Endpoints
+        Route::get('/men-preset-routines', 'getMenPresetRoutines');
+        Route::get('/men-preset-routines/generate', 'generateMenPresetRoutines');
+        Route::post('/men-preset-routines/generate', 'generateMenPresetRoutines');
+        Route::get('/men-preset-routines/{id}', 'getPresetRoutineDetails');
         Route::get('/routine', 'getRoutine')->middleware('auth:sanctum');
         Route::get('/routine/suggested', 'getSuggestedRoutine')->middleware('auth:sanctum');
         Route::post('/routine/confirm', 'saveFinalRoutine')->middleware('auth:sanctum');

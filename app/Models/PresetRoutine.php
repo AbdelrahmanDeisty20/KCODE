@@ -22,8 +22,19 @@ class PresetRoutine extends Model
         'goal_en',
         'skin_type_id',
         'goal_id',
+        'is_for_men',
         'status',
     ];
+
+    public function scopeForMen($query)
+    {
+        return $query->where('is_for_men', true);
+    }
+
+    public function scopeForWomen($query)
+    {
+        return $query->where('is_for_men', false);
+    }
 
     public function items()
     {

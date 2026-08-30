@@ -179,6 +179,50 @@ class RoutineController extends Controller
             return $this->error($result['message'], $code);
         }
 
-        return $this->success($result['data'], $result['message']);
+        return response()->json([
+            'status' => true,
+            'message' => $result['message'],
+            'data' => $result['data'],
+        ]);
+    }
+
+    /**
+     * Get Men's Simple Preset Routines with pagination.
+     */
+    public function getMenPresetRoutines()
+    {
+        $result = $this->routineService->getMenPresetRoutines();
+
+        if (!$result['status']) {
+            $code = $result['code'] ?? 400;
+            return $this->error($result['message'], $code);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => $result['message'],
+            'data' => $result['data'],
+            'pagination' => $result['pagination'] ?? null,
+        ]);
+    }
+
+    /**
+     * Trigger generation of fresh Men's Simple Preset Routines in DB and return them.
+     */
+    public function generateMenPresetRoutines()
+    {
+        $result = $this->routineService->generateMenPresetRoutines();
+
+        if (!$result['status']) {
+            $code = $result['code'] ?? 400;
+            return $this->error($result['message'], $code);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => $result['message'],
+            'data' => $result['data'],
+            'pagination' => $result['pagination'] ?? null,
+        ]);
     }
 }
