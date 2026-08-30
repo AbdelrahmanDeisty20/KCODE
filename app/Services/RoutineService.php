@@ -483,8 +483,10 @@ class RoutineService
         $lang = request()->header('lang') ?? app()->getLocale();
         $perPage = (int)request()->get('per_page', 10);
 
-        // Always generate & append new preset routines on every GET request call!
-        \Illuminate\Support\Facades\Artisan::call('routines:generate-preset');
+        // If database is empty or if generate/refresh parameter is requested, add 5 new preset routines!
+        if (\App\Models\PresetRoutine::count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
+            \Illuminate\Support\Facades\Artisan::call('routines:generate-preset');
+        }
 
         $query = \App\Models\PresetRoutine::where('status', 'active')
             ->with(['items.product.brand']);

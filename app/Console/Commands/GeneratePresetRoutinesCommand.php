@@ -258,7 +258,9 @@ class GeneratePresetRoutinesCommand extends Command
             ],
         ];
 
-        foreach ($allPresetsPool as $config) {
+        $selectedPresets = collect($allPresetsPool)->shuffle()->take(5);
+
+        foreach ($selectedPresets as $config) {
             $presetRoutine = PresetRoutine::create([
                 'title_ar' => $config['title_ar'],
                 'title_en' => $config['title_en'],
