@@ -568,7 +568,7 @@ class RoutineService
                     'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
                     'product' => [
                         'id' => $prod->id,
-                        'name' => $lang === 'ar' ? ($prod->display_ar_name ?: $prod->name) : ($prod->display_en_name ?: $prod->name),
+                        'name' => $prod->name_en ?? $prod->name,
                         'sku' => $prod->sku,
                         'price' => (float)$prod->price,
                         'image' => $prod->image_url,

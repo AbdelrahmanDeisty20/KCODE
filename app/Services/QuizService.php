@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Resources\API\QUIZ\QuizQuestionResource;
+use App\Http\Resources\API\PRODUCT\ProductListResource;
 use App\Models\QuizOption;
 use App\Models\QuizQuestion;
 use App\Models\Assessment;
@@ -403,7 +404,7 @@ class QuizService
                 'chosen_for_ar' => $lang === 'ar' 
                     ? "تم اختياره خصيصاً للبشرة {$skinTypeName} لتوفير العناية والتوازن وتجهيز البشرة."
                     : "Specifically chosen for {$skinTypeName} skin to deliver optimal care and balance.",
-                'product' => $product,
+                'product' => ProductListResource::make($product),
             ];
         }
 
@@ -429,7 +430,7 @@ class QuizService
                 'chosen_for_ar' => $lang === 'ar'
                     ? "خطوة تكميلية مثالية لدعم نضارة البشرة {$skinTypeName} وتسريع نتائج الروتين."
                     : "Ideal complementary step to enhance {$skinTypeName} skin radiance.",
-                'product' => $product,
+                'product' => ProductListResource::make($product),
             ];
         }
 
@@ -445,7 +446,7 @@ class QuizService
                 'cart_note_ar' => $lang === 'ar'
                     ? "مُقترح إضافي رائع يُوصى به في السلة لإكمال العناية المزدوجة بالبشرة."
                     : "Great extra recommendation suggested for your cart for double care.",
-                'product' => $product,
+                'product' => ProductListResource::make($product),
             ];
         }
 
