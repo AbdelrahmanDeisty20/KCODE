@@ -548,4 +548,13 @@ class RoutineService
             'data' => $responseRoutines
         ];
     }
+
+    /**
+     * Delete old routines, generate 4 fresh preset routines in DB and return them.
+     */
+    public function generatePresetRoutines()
+    {
+        \Illuminate\Support\Facades\Artisan::call('routines:generate-preset');
+        return $this->getPresetRoutines();
+    }
 }

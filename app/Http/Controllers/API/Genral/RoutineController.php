@@ -146,4 +146,19 @@ class RoutineController extends Controller
 
         return $this->success($result['data'], $result['message']);
     }
+
+    /**
+     * Trigger generation of 4 fresh preset routines in DB and return them.
+     */
+    public function generatePresetRoutines()
+    {
+        $result = $this->routineService->generatePresetRoutines();
+
+        if (!$result['status']) {
+            $code = $result['code'] ?? 400;
+            return $this->error($result['message'], $code);
+        }
+
+        return $this->success($result['data'], $result['message']);
+    }
 }
