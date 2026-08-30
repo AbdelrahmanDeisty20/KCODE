@@ -133,7 +133,7 @@ class RoutineController extends Controller
     }
 
     /**
-     * Get 4 preset fixed routines automatically generated from database.
+     * Get preset fixed routines automatically generated from database with pagination.
      */
     public function getPresetRoutines()
     {
@@ -144,7 +144,12 @@ class RoutineController extends Controller
             return $this->error($result['message'], $code);
         }
 
-        return $this->success($result['data'], $result['message']);
+        return response()->json([
+            'status' => true,
+            'message' => $result['message'],
+            'data' => $result['data'],
+            'pagination' => $result['pagination'] ?? null,
+        ]);
     }
 
     /**

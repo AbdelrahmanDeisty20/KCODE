@@ -29,13 +29,7 @@ class GeneratePresetRoutinesCommand extends Command
      */
     public function handle()
     {
-        $this->info('Generating 16 new preset routines in database...');
-
-        // Clear existing preset routines from DB
-        Schema::disableForeignKeyConstraints();
-        PresetRoutineProduct::truncate();
-        PresetRoutine::truncate();
-        Schema::enableForeignKeyConstraints();
+        $this->info('Generating and appending new preset routines in database...');
 
         $allPresetsPool = [
             [
