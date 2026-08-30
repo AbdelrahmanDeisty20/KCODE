@@ -499,7 +499,7 @@ class RoutineService
 
         $responseRoutines = [];
         foreach ($paginated->items() as $routineModel) {
-            $responseRoutines[] = $this->formatPresetRoutine($routineModel, $lang);
+            $responseRoutines[] = $this->formatPresetRoutine($routineModel, $lang, false);
         }
 
         return [
@@ -541,14 +541,14 @@ class RoutineService
         return [
             'status' => true,
             'message' => $lang === 'ar' ? 'تم جلب تفاصيل الروتين بنجاح.' : 'Routine details retrieved successfully.',
-            'data' => $this->formatPresetRoutine($routineModel, $lang)
+            'data' => $this->formatPresetRoutine($routineModel, $lang, true)
         ];
     }
 
     /**
      * Format a single PresetRoutine model.
      */
-    private function formatPresetRoutine($routineModel, $lang)
+    private function formatPresetRoutine($routineModel, $lang, $includeItems = false)
     {
         $items = [];
         $totalPrice = 0;
@@ -559,30 +559,32 @@ class RoutineService
 
             $totalPrice += (float)$prod->price;
 
-            $items[] = [
-                'display_order' => (int)$itemModel->display_order,
-                'step_name' => $lang === 'ar' ? ($itemModel->step_name_ar ?? "الخطوة {$itemModel->display_order}") : ($itemModel->step_name_en ?? "Step {$itemModel->display_order}"),
-                'morning' => (bool)$itemModel->morning,
-                'night' => (bool)$itemModel->night,
-                'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
-                'product' => [
-                    'id' => $prod->id,
-                    'name' => $lang === 'ar' ? ($prod->display_ar_name ?: $prod->name) : ($prod->display_en_name ?: $prod->name),
-                    'sku' => $prod->sku,
-                    'price' => (float)$prod->price,
-                    'image' => $prod->image_url,
-                    'average_rating' => (float)$prod->average_rating,
-                    'num_reviews' => (int)$prod->num_reviews,
-                    'brand' => $prod->brand ? [
-                        'id' => $prod->brand->id,
-                        'name' => $lang === 'ar' ? $prod->brand->name_ar : $prod->brand->name_en,
-                        'image' => $prod->brand->image_url ?? null,
-                    ] : null,
-                ]
-            ];
+            if ($includeItems) {
+                $items[] = [
+                    'display_order' => (int)$itemModel->display_order,
+                    'step_name' => $lang === 'ar' ? ($itemModel->step_name_ar ?? "الخطوة {$itemModel->display_order}") : ($itemModel->step_name_en ?? "Step {$itemModel->display_order}"),
+                    'morning' => (bool)$itemModel->morning,
+                    'night' => (bool)$itemModel->night,
+                    'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
+                    'product' => [
+                        'id' => $prod->id,
+                        'name' => $lang === 'ar' ? ($prod->display_ar_name ?: $prod->name) : ($prod->display_en_name ?: $prod->name),
+                        'sku' => $prod->sku,
+                        'price' => (float)$prod->price,
+                        'image' => $prod->image_url,
+                        'average_rating' => (float)$prod->average_rating,
+                        'num_reviews' => (int)$prod->num_reviews,
+                        'brand' => $prod->brand ? [
+                            'id' => $prod->brand->id,
+                            'name' => $lang === 'ar' ? $prod->brand->name_ar : $prod->brand->name_en,
+                            'image' => $prod->brand->image_url ?? null,
+                        ] : null,
+                    ]
+                ];
+            }
         }
 
-        return [
+        $res = [
             'id' => $routineModel->id,
             'routine_id' => $routineModel->id,
             'title' => $lang === 'ar' ? $routineModel->title_ar : $routineModel->title_en,
@@ -591,9 +593,14 @@ class RoutineService
             'skin_type' => $lang === 'ar' ? $routineModel->skin_type_ar : $routineModel->skin_type_en,
             'goal' => $lang === 'ar' ? $routineModel->goal_ar : $routineModel->goal_en,
             'total_price' => round($totalPrice, 2),
-            'products_count' => count($items),
-            'items' => $items,
+            'products_count' => $routineModel->items->count(),
         ];
+
+        if ($includeItems) {
+            $res['items'] = $items;
+        }
+
+        return $res;
     }
 
     /**
@@ -629,7 +636,7 @@ class RoutineService
 
         $responseRoutines = [];
         foreach ($paginated->items() as $routineModel) {
-            $responseRoutines[] = $this->formatPresetRoutine($routineModel, $lang);
+            $responseRoutines[] = $this->formatPresetRoutine($routineModel, $lang, false);
         }
 
         return [
