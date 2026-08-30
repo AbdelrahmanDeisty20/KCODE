@@ -482,9 +482,17 @@ class RoutineService
     {
         $lang = request()->header('lang') ?? app()->getLocale();
 
+        // Check if database is empty or if refresh/generate parameter is requested
         $presetModels = \App\Models\PresetRoutine::where('status', 'active')
             ->with(['items.product.brand'])
             ->get();
+
+        if ($presetModels->isEmpty() || request()->boolean('generate') || request()->boolean('refresh')) {
+            \Illuminate\Support\Facades\Artisan::call('routines:generate-preset');
+            $presetModels = \App\Models\PresetRoutine::where('status', 'active')
+                ->with(['items.product.brand'])
+                ->get();
+        }
 
         if ($presetModels->isEmpty()) {
             return [
