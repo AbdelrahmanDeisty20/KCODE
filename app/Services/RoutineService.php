@@ -476,84 +476,128 @@ class RoutineService
     }
 
     /**
-     * Get preset fixed routines directly from database (PresetRoutine model & saved items).
+     * Get preset routines directly from database with pagination.
      */
     public function getPresetRoutines()
     {
         $lang = request()->header('lang') ?? app()->getLocale();
+        $perPage = (int)request()->get('per_page', 10);
 
-        // Always generate 4 fresh dynamic routines on every GET request!
-        \Illuminate\Support\Facades\Artisan::call('routines:generate-preset');
-
-        $presetModels = \App\Models\PresetRoutine::where('status', 'active')
-            ->with(['items.product.brand'])
-            ->get();
-
-        if ($presetModels->isEmpty()) {
-            return [
-                'status' => false,
-                'message' => $lang === 'ar' ? 'لا توجد روتينات مجهزة حالياً.' : 'No preset routines found.',
-                'data' => []
-            ];
+        // If database is empty or refresh parameter passed, generate fresh ones
+        if (\App\Models\PresetRoutine::count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
+            \Illuminate\Support\Facades\Artisan::call('routines:generate-preset');
         }
 
+        $query = \App\Models\PresetRoutine::where('status', 'active')
+            ->with(['items.product.brand']);
+
+        if (request()->boolean('random')) {
+            $query->inRandomOrder();
+        }
+
+        $paginated = $query->paginate($perPage);
+
         $responseRoutines = [];
-
-        foreach ($presetModels as $routineModel) {
-            $items = [];
-            $totalPrice = 0;
-
-            foreach ($routineModel->items as $itemModel) {
-                $prod = $itemModel->product;
-                if (!$prod) continue;
-
-                $totalPrice += (float)$prod->price;
-
-                $items[] = [
-                    'display_order' => (int)$itemModel->display_order,
-                    'step_name' => $lang === 'ar' ? ($itemModel->step_name_ar ?? "الخطوة {$itemModel->display_order}") : ($itemModel->step_name_en ?? "Step {$itemModel->display_order}"),
-                    'morning' => (bool)$itemModel->morning,
-                    'night' => (bool)$itemModel->night,
-                    'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
-                    'product' => [
-                        'id' => $prod->id,
-                        'name' => $lang === 'ar' ? ($prod->display_ar_name ?: $prod->name) : ($prod->display_en_name ?: $prod->name),
-                        'sku' => $prod->sku,
-                        'price' => (float)$prod->price,
-                        'image' => $prod->image_url,
-                        'average_rating' => (float)$prod->average_rating,
-                        'num_reviews' => (int)$prod->num_reviews,
-                        'brand' => $prod->brand ? [
-                            'id' => $prod->brand->id,
-                            'name' => $lang === 'ar' ? $prod->brand->name_ar : $prod->brand->name_en,
-                            'image' => $prod->brand->image_url ?? null,
-                        ] : null,
-                    ]
-                ];
-            }
-
-            $responseRoutines[] = [
-                'id' => $routineModel->id,
-                'title' => $lang === 'ar' ? $routineModel->title_ar : $routineModel->title_en,
-                'description' => $lang === 'ar' ? $routineModel->description_ar : $routineModel->description_en,
-                'badge' => $lang === 'ar' ? $routineModel->badge_ar : $routineModel->badge_en,
-                'skin_type' => $lang === 'ar' ? $routineModel->skin_type_ar : $routineModel->skin_type_en,
-                'goal' => $lang === 'ar' ? $routineModel->goal_ar : $routineModel->goal_en,
-                'total_price' => round($totalPrice, 2),
-                'products_count' => count($items),
-                'items' => $items,
-            ];
+        foreach ($paginated->items() as $routineModel) {
+            $responseRoutines[] = $this->formatPresetRoutine($routineModel, $lang);
         }
 
         return [
             'status' => true,
             'message' => $lang === 'ar' ? 'تم جلب الروتينات المجهزة بنجاح.' : 'Preset routines retrieved successfully.',
-            'data' => $responseRoutines
+            'data' => $responseRoutines,
+            'pagination' => [
+                'current_page' => $paginated->currentPage(),
+                'per_page' => $paginated->perPage(),
+                'total' => $paginated->total(),
+                'last_page' => $paginated->lastPage(),
+                'has_more_pages' => $paginated->hasMorePages(),
+            ]
         ];
     }
 
     /**
-     * Delete old routines, generate 4 fresh preset routines in DB and return them.
+     * Get single preset routine details by ID.
+     */
+    public function getPresetRoutineDetails($routineId = null)
+    {
+        $lang = request()->header('lang') ?? app()->getLocale();
+        $id = $routineId ?: request()->get('routine_id') ?: request()->get('id');
+
+        $routineModel = \App\Models\PresetRoutine::where('status', 'active')
+            ->where('id', $id)
+            ->with(['items.product.brand'])
+            ->first();
+
+        if (!$routineModel) {
+            return [
+                'status' => false,
+                'code' => 404,
+                'message' => $lang === 'ar' ? 'الروتين المجهّز غير موجود.' : 'Preset routine not found.',
+                'data' => null
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => $lang === 'ar' ? 'تم جلب تفاصيل الروتين بنجاح.' : 'Routine details retrieved successfully.',
+            'data' => $this->formatPresetRoutine($routineModel, $lang)
+        ];
+    }
+
+    /**
+     * Format a single PresetRoutine model.
+     */
+    private function formatPresetRoutine($routineModel, $lang)
+    {
+        $items = [];
+        $totalPrice = 0;
+
+        foreach ($routineModel->items as $itemModel) {
+            $prod = $itemModel->product;
+            if (!$prod) continue;
+
+            $totalPrice += (float)$prod->price;
+
+            $items[] = [
+                'display_order' => (int)$itemModel->display_order,
+                'step_name' => $lang === 'ar' ? ($itemModel->step_name_ar ?? "الخطوة {$itemModel->display_order}") : ($itemModel->step_name_en ?? "Step {$itemModel->display_order}"),
+                'morning' => (bool)$itemModel->morning,
+                'night' => (bool)$itemModel->night,
+                'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
+                'product' => [
+                    'id' => $prod->id,
+                    'name' => $lang === 'ar' ? ($prod->display_ar_name ?: $prod->name) : ($prod->display_en_name ?: $prod->name),
+                    'sku' => $prod->sku,
+                    'price' => (float)$prod->price,
+                    'image' => $prod->image_url,
+                    'average_rating' => (float)$prod->average_rating,
+                    'num_reviews' => (int)$prod->num_reviews,
+                    'brand' => $prod->brand ? [
+                        'id' => $prod->brand->id,
+                        'name' => $lang === 'ar' ? $prod->brand->name_ar : $prod->brand->name_en,
+                        'image' => $prod->brand->image_url ?? null,
+                    ] : null,
+                ]
+            ];
+        }
+
+        return [
+            'id' => $routineModel->id,
+            'routine_id' => $routineModel->id,
+            'title' => $lang === 'ar' ? $routineModel->title_ar : $routineModel->title_en,
+            'description' => $lang === 'ar' ? $routineModel->description_ar : $routineModel->description_en,
+            'badge' => $lang === 'ar' ? $routineModel->badge_ar : $routineModel->badge_en,
+            'skin_type' => $lang === 'ar' ? $routineModel->skin_type_ar : $routineModel->skin_type_en,
+            'goal' => $lang === 'ar' ? $routineModel->goal_ar : $routineModel->goal_en,
+            'total_price' => round($totalPrice, 2),
+            'products_count' => count($items),
+            'items' => $items,
+        ];
+    }
+
+    /**
+     * Delete old routines, generate fresh preset routines in DB and return them.
      */
     public function generatePresetRoutines()
     {

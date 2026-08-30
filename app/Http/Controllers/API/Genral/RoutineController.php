@@ -148,7 +148,22 @@ class RoutineController extends Controller
     }
 
     /**
-     * Trigger generation of 4 fresh preset routines in DB and return them.
+     * Get single preset routine details by ID.
+     */
+    public function getPresetRoutineDetails($id = null)
+    {
+        $result = $this->routineService->getPresetRoutineDetails($id);
+
+        if (!$result['status']) {
+            $code = $result['code'] ?? 400;
+            return $this->error($result['message'], $code);
+        }
+
+        return $this->success($result['data'], $result['message']);
+    }
+
+    /**
+     * Trigger generation of fresh preset routines in DB and return them.
      */
     public function generatePresetRoutines()
     {
