@@ -23,8 +23,8 @@ class ImageDownloader
             File::makeDirectory($storageDir, 0755, true, true);
         }
 
-        // If file already exists, skip to save network time
-        if (File::exists($targetPath) && File::size($targetPath) > 0) {
+        // If file already exists and is a valid real image, skip to save network time
+        if (File::exists($targetPath) && File::size($targetPath) > 20000) {
             return $filename;
         }
 
