@@ -105,42 +105,13 @@ class QuizService
         $badges = [];
         $goalsSummary = [];
 
-        // Skin Type Question (Question ID 2) - Primary Badge
-        $skinQuestion = QuizQuestion::find(2);
-        if ($skinQuestion) {
-            $selectedSkinOption = QuizOption::where('quiz_question_id', 2)
-                ->where('option_type', 'skin_type')
-                ->where('mapped_id', $skinTypeId)
-                ->first();
-
-            if ($selectedSkinOption) {
-                $skinTitle = $lang === 'ar' ? $selectedSkinOption->title_ar : $selectedSkinOption->title_en;
-                $badges[] = ($lang === 'ar' ? 'بشرة ' : '') . $skinTitle . ($lang === 'en' ? ' Skin' : '');
-            }
-
-            $questionsAndAnswers[] = [
-                'question_id' => 2,
-                'question_title' => $lang === 'ar' ? $skinQuestion->title_ar : $skinQuestion->title_en,
-                'selected_options' => $selectedSkinOption ? [
-                    [
-                        'option_id' => $selectedSkinOption->id,
-                        'option_title' => $lang === 'ar' ? $selectedSkinOption->title_ar : $selectedSkinOption->title_en,
-                        'description' => $selectedSkinOption->description,
-                        'image' => $selectedSkinOption->image,
-                        'option_type' => $selectedSkinOption->option_type,
-                        'mapped_id' => $selectedSkinOption->mapped_id,
-                    ]
-                ] : []
-            ];
-        }
-
-        // Goal Question (Question ID 1)
-        $goalQuestion = QuizQuestion::find(1);
-        if ($goalQuestion) {
+        // Question 1: Primary Goal
+        $q1 = QuizQuestion::find(1);
+        if ($q1) {
             $selectedGoalOption = QuizOption::where('quiz_question_id', 1)
                 ->where('option_type', 'goal')
                 ->where('mapped_id', $goalId)
-                ->first();
+                ->first() ?? QuizOption::where('quiz_question_id', 1)->first();
 
             if ($selectedGoalOption) {
                 $goalTitle = $lang === 'ar' ? $selectedGoalOption->title_ar : $selectedGoalOption->title_en;
@@ -153,7 +124,7 @@ class QuizService
 
             $questionsAndAnswers[] = [
                 'question_id' => 1,
-                'question_title' => $lang === 'ar' ? $goalQuestion->title_ar : $goalQuestion->title_en,
+                'question_title' => $lang === 'ar' ? $q1->title_ar : $q1->title_en,
                 'selected_options' => $selectedGoalOption ? [
                     [
                         'option_id' => $selectedGoalOption->id,
@@ -167,12 +138,69 @@ class QuizService
             ];
         }
 
-        // Concern Question (Question ID 3)
-        $concernQuestion = QuizQuestion::find(3);
-        if ($concernQuestion) {
+        // Question 2: Skin Type
+        $q2 = QuizQuestion::find(2);
+        if ($q2) {
+            $selectedSkinOption = QuizOption::where('quiz_question_id', 2)
+                ->where('option_type', 'skin_type')
+                ->where('mapped_id', $skinTypeId)
+                ->first();
+
+            if ($selectedSkinOption) {
+                $skinTitle = $lang === 'ar' ? $selectedSkinOption->title_ar : $selectedSkinOption->title_en;
+                $badges[] = ($lang === 'ar' ? 'بشرة ' : '') . $skinTitle . ($lang === 'en' ? ' Skin' : '');
+            }
+
+            $questionsAndAnswers[] = [
+                'question_id' => 2,
+                'question_title' => $lang === 'ar' ? $q2->title_ar : $q2->title_en,
+                'selected_options' => $selectedSkinOption ? [
+                    [
+                        'option_id' => $selectedSkinOption->id,
+                        'option_title' => $lang === 'ar' ? $selectedSkinOption->title_ar : $selectedSkinOption->title_en,
+                        'description' => $selectedSkinOption->description,
+                        'image' => $selectedSkinOption->image,
+                        'option_type' => $selectedSkinOption->option_type,
+                        'mapped_id' => $selectedSkinOption->mapped_id,
+                    ]
+                ] : []
+            ];
+        }
+
+        // Question 3: Sensitivity (Yes/No)
+        $q3 = QuizQuestion::find(3);
+        if ($q3) {
+            $isSens = isset($data['is_sensitive']) ? (bool)$data['is_sensitive'] : false;
+            $sensOption = QuizOption::where('quiz_question_id', 3)
+                ->where('mapped_id', $isSens ? 1 : 0)
+                ->first() ?? QuizOption::where('quiz_question_id', 3)->where('title_en', 'No')->first();
+
+            if ($sensOption && $isSens) {
+                $badges[] = $lang === 'ar' ? 'بشرة حساسة سريعة التفاعل' : 'Sensitive Reactive Skin';
+            }
+
+            $questionsAndAnswers[] = [
+                'question_id' => 3,
+                'question_title' => $lang === 'ar' ? $q3->title_ar : $q3->title_en,
+                'selected_options' => $sensOption ? [
+                    [
+                        'option_id' => $sensOption->id,
+                        'option_title' => $lang === 'ar' ? $sensOption->title_ar : $sensOption->title_en,
+                        'description' => $sensOption->description,
+                        'image' => $sensOption->image,
+                        'option_type' => $sensOption->option_type,
+                        'mapped_id' => $sensOption->mapped_id,
+                    ]
+                ] : []
+            ];
+        }
+
+        // Question 4: Secondary Concerns
+        $q4 = QuizQuestion::find(4);
+        if ($q4) {
             $selectedConcernOptions = [];
             if (count($concernIds) > 0) {
-                $opts = QuizOption::where('quiz_question_id', 3)
+                $opts = QuizOption::where('quiz_question_id', 4)
                     ->where('option_type', 'concern')
                     ->whereIn('mapped_id', $concernIds)
                     ->get();
@@ -194,8 +222,7 @@ class QuizService
                     ];
                 }
             } else {
-                // "No concern" option
-                $noConcernOpt = QuizOption::where('quiz_question_id', 3)
+                $noConcernOpt = QuizOption::where('quiz_question_id', 4)
                     ->where('option_type', 'none')
                     ->first();
                 if ($noConcernOpt) {
@@ -211,8 +238,8 @@ class QuizService
             }
 
             $questionsAndAnswers[] = [
-                'question_id' => 3,
-                'question_title' => $lang === 'ar' ? $concernQuestion->title_ar : $concernQuestion->title_en,
+                'question_id' => 4,
+                'question_title' => $lang === 'ar' ? $q4->title_ar : $q4->title_en,
                 'selected_options' => $selectedConcernOptions
             ];
         }

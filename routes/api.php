@@ -112,6 +112,8 @@ Route::middleware([SetLang::class])->group(function () {
 
     // Routine Routes
     Route::controller(RoutineController::class)->group(function () {
+        Route::get('/preset-routines', 'getPresetRoutines');
+        Route::get('/routines/fixed', 'getPresetRoutines');
         Route::get('/routine', 'getRoutine')->middleware('auth:sanctum');
         Route::get('/routine/suggested', 'getSuggestedRoutine')->middleware('auth:sanctum');
         Route::post('/routine/confirm', 'saveFinalRoutine')->middleware('auth:sanctum');

@@ -131,4 +131,19 @@ class RoutineController extends Controller
 
         return $this->success([], $result['message']);
     }
+
+    /**
+     * Get 4 preset fixed routines automatically generated from database.
+     */
+    public function getPresetRoutines()
+    {
+        $result = $this->routineService->getPresetRoutines();
+
+        if (!$result['status']) {
+            $code = $result['code'] ?? 400;
+            return $this->error($result['message'], $code);
+        }
+
+        return $this->success($result['data'], $result['message']);
+    }
 }

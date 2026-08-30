@@ -474,4 +474,142 @@ class RoutineService
             'message' => __('messages.product_removed_from_routine_successfully')
         ];
     }
+
+    /**
+     * Get 4 fixed preset routines automatically generated/fetched from database.
+     */
+    public function getPresetRoutines()
+    {
+        $lang = request()->header('lang') ?? app()->getLocale();
+
+        $presetsConfig = [
+            [
+                'id' => 1,
+                'title_ar' => 'روتين النضارة والتفتيح المضاعف',
+                'title_en' => 'Ultimate Radiance & Brightening Routine',
+                'description_ar' => 'روتين كوري متكامل يركز على تفتيح البقع الداكنة وتوحيد لون البشرة وإعطاء إشراقة زجاجية فورية.',
+                'description_en' => 'A comprehensive Korean routine focused on fading dark spots, evening skin tone, and delivering a glass-skin glow.',
+                'skin_type_ar' => 'جميع أنواع البشرة',
+                'skin_type_en' => 'All Skin Types',
+                'goal_ar' => 'تفتيح وإشراقة',
+                'goal_en' => 'Brightening & Radiance',
+                'badge_ar' => 'الأكثر مبيعاً ⭐',
+                'badge_en' => 'Best Seller ⭐',
+                'skin_type_id' => 3,
+            ],
+            [
+                'id' => 2,
+                'title_ar' => 'روتين تنقية المسام والسيطرة على الحبوب',
+                'title_en' => 'Pore Purifying & Acne Control Routine',
+                'description_ar' => 'مخصص للبشرة الدهنية والمختلطة لتنظيف المسام العميقة، السيطرة على الإفرازات الزيتية وتهدئة الحبوب.',
+                'description_en' => 'Specially designed for oily and combination skin to deeply clear pores, control sebum, and soothe breakouts.',
+                'skin_type_ar' => 'البشرة الدهنية والمختلطة',
+                'skin_type_en' => 'Oily & Combination Skin',
+                'goal_ar' => 'عناية بالمسام والحبوب',
+                'goal_en' => 'Pore & Acne Care',
+                'badge_ar' => 'موصى به صيدلانياً 🌿',
+                'badge_en' => 'Dermatologist Recommended 🌿',
+                'skin_type_id' => 1,
+            ],
+            [
+                'id' => 3,
+                'title_ar' => 'روتين الترميم الفائق وتدعيم حاجز البشرة',
+                'title_en' => 'Barrier Repair & Intense Moisture Routine',
+                'description_ar' => 'تركيبة غنية بالسيراميد والبانثينول لإصلاح حاجز البشرة المتضرر والحد من التقشر والجفاف الشديد.',
+                'description_en' => 'Enriched with Ceramides and Panthenol to restore damaged skin barrier and relieve intense dryness.',
+                'skin_type_ar' => 'البشرة الجافة والحساسة',
+                'skin_type_en' => 'Dry & Sensitive Skin',
+                'goal_ar' => 'ترميم وترطيب عميق',
+                'goal_en' => 'Barrier Repair & Hydration',
+                'badge_ar' => 'ترطيب مكثف 💧',
+                'badge_en' => 'Intense Hydration 💧',
+                'skin_type_id' => 2,
+            ],
+            [
+                'id' => 4,
+                'title_ar' => 'روتين الشاب النضر والكولاجين (Glass Skin)',
+                'title_en' => 'Glass Skin & Youth Boosting Routine',
+                'description_ar' => 'روتين يعتمد على الببتيدات والكولاجين لمنح البشرة ملمساً حريرياً ناعماً ونضارة شبابية دائمة.',
+                'description_en' => 'Infused with Peptides and Collagen to firm the skin, refine texture, and achieve everlasting youthfulness.',
+                'skin_type_ar' => 'البشرة العادية والمختلطة',
+                'skin_type_en' => 'Normal & Combination Skin',
+                'goal_ar' => 'نضارة ومقاومة التجاعيد',
+                'goal_en' => 'Youth & Radiance',
+                'badge_ar' => 'روتين مميز ✨',
+                'badge_en' => 'Featured Routine ✨',
+                'skin_type_id' => 3,
+            ],
+        ];
+
+        $responseRoutines = [];
+
+        foreach ($presetsConfig as $config) {
+            $products = \App\Models\Product::where('stock', '>', 0)
+                ->bestSeller()
+                ->whereHas('skinTypes', function ($q) use ($config) {
+                    $q->where('skin_type_id', $config['skin_type_id']);
+                })
+                ->inRandomOrder()
+                ->with(['brand', 'routines'])
+                ->take(5)
+                ->get();
+
+            if ($products->count() < 4) {
+                $products = \App\Models\Product::where('stock', '>', 0)
+                    ->inRandomOrder()
+                    ->with(['brand', 'routines'])
+                    ->take(4)
+                    ->get();
+            }
+
+            $items = [];
+            $totalPrice = 0;
+            $order = 1;
+
+            foreach ($products as $prod) {
+                $totalPrice += $prod->price;
+                $routineInfo = $prod->routines->first();
+
+                $items[] = [
+                    'display_order' => $order++,
+                    'step_name' => $routineInfo ? ($lang === 'ar' ? $routineInfo->name_ar : $routineInfo->name_en) : ($lang === 'ar' ? "الخطوة {$order}" : "Step {$order}"),
+                    'morning' => $routineInfo ? (bool)$routineInfo->morning : true,
+                    'night' => $routineInfo ? (bool)$routineInfo->night : true,
+                    'use_time_ar' => $lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening',
+                    'product' => [
+                        'id' => $prod->id,
+                        'name' => $lang === 'ar' ? ($prod->display_ar_name ?: $prod->name) : ($prod->display_en_name ?: $prod->name),
+                        'sku' => $prod->sku,
+                        'price' => (float)$prod->price,
+                        'image' => $prod->image_url,
+                        'average_rating' => (float)$prod->average_rating,
+                        'num_reviews' => (int)$prod->num_reviews,
+                        'brand' => $prod->brand ? [
+                            'id' => $prod->brand->id,
+                            'name' => $lang === 'ar' ? $prod->brand->name_ar : $prod->brand->name_en,
+                            'image' => $prod->brand->image_url ?? null,
+                        ] : null,
+                    ]
+                ];
+            }
+
+            $responseRoutines[] = [
+                'id' => $config['id'],
+                'title' => $lang === 'ar' ? $config['title_ar'] : $config['title_en'],
+                'description' => $lang === 'ar' ? $config['description_ar'] : $config['description_en'],
+                'badge' => $lang === 'ar' ? $config['badge_ar'] : $config['badge_en'],
+                'skin_type' => $lang === 'ar' ? $config['skin_type_ar'] : $config['skin_type_en'],
+                'goal' => $lang === 'ar' ? $config['goal_ar'] : $config['goal_en'],
+                'total_price' => round($totalPrice, 2),
+                'products_count' => count($items),
+                'items' => $items,
+            ];
+        }
+
+        return [
+            'status' => true,
+            'message' => __('messages.preset_routines_retrieved_successfully') ?? 'Preset routines retrieved successfully.',
+            'data' => $responseRoutines
+        ];
+    }
 }

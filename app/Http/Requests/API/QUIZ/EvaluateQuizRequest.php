@@ -22,6 +22,7 @@ class EvaluateQuizRequest extends FormRequest
         return [
             'skin_type_id' => ['required', 'exists:skin_types,id'],
             'routine_goal_id' => ['required', 'exists:routine_goals,id'],
+            'is_sensitive' => ['nullable', 'boolean'],
             'concern_ids' => ['nullable', 'array'],
             'concern_ids.*' => ['exists:concerns,id'],
         ];
