@@ -476,106 +476,42 @@ class RoutineService
     }
 
     /**
-     * Get 4 fixed preset routines automatically generated/fetched from database.
+     * Get preset fixed routines directly from database (PresetRoutine model & saved items).
      */
     public function getPresetRoutines()
     {
         $lang = request()->header('lang') ?? app()->getLocale();
 
-        $presetsConfig = [
-            [
-                'id' => 1,
-                'title_ar' => 'روتين النضارة والتفتيح المضاعف',
-                'title_en' => 'Ultimate Radiance & Brightening Routine',
-                'description_ar' => 'روتين كوري متكامل يركز على تفتيح البقع الداكنة وتوحيد لون البشرة وإعطاء إشراقة زجاجية فورية.',
-                'description_en' => 'A comprehensive Korean routine focused on fading dark spots, evening skin tone, and delivering a glass-skin glow.',
-                'skin_type_ar' => 'جميع أنواع البشرة',
-                'skin_type_en' => 'All Skin Types',
-                'goal_ar' => 'تفتيح وإشراقة',
-                'goal_en' => 'Brightening & Radiance',
-                'badge_ar' => 'الأكثر مبيعاً ⭐',
-                'badge_en' => 'Best Seller ⭐',
-                'skin_type_id' => 3,
-            ],
-            [
-                'id' => 2,
-                'title_ar' => 'روتين تنقية المسام والسيطرة على الحبوب',
-                'title_en' => 'Pore Purifying & Acne Control Routine',
-                'description_ar' => 'مخصص للبشرة الدهنية والمختلطة لتنظيف المسام العميقة، السيطرة على الإفرازات الزيتية وتهدئة الحبوب.',
-                'description_en' => 'Specially designed for oily and combination skin to deeply clear pores, control sebum, and soothe breakouts.',
-                'skin_type_ar' => 'البشرة الدهنية والمختلطة',
-                'skin_type_en' => 'Oily & Combination Skin',
-                'goal_ar' => 'عناية بالمسام والحبوب',
-                'goal_en' => 'Pore & Acne Care',
-                'badge_ar' => 'موصى به صيدلانياً 🌿',
-                'badge_en' => 'Dermatologist Recommended 🌿',
-                'skin_type_id' => 1,
-            ],
-            [
-                'id' => 3,
-                'title_ar' => 'روتين الترميم الفائق وتدعيم حاجز البشرة',
-                'title_en' => 'Barrier Repair & Intense Moisture Routine',
-                'description_ar' => 'تركيبة غنية بالسيراميد والبانثينول لإصلاح حاجز البشرة المتضرر والحد من التقشر والجفاف الشديد.',
-                'description_en' => 'Enriched with Ceramides and Panthenol to restore damaged skin barrier and relieve intense dryness.',
-                'skin_type_ar' => 'البشرة الجافة والحساسة',
-                'skin_type_en' => 'Dry & Sensitive Skin',
-                'goal_ar' => 'ترميم وترطيب عميق',
-                'goal_en' => 'Barrier Repair & Hydration',
-                'badge_ar' => 'ترطيب مكثف 💧',
-                'badge_en' => 'Intense Hydration 💧',
-                'skin_type_id' => 2,
-            ],
-            [
-                'id' => 4,
-                'title_ar' => 'روتين الشاب النضر والكولاجين (Glass Skin)',
-                'title_en' => 'Glass Skin & Youth Boosting Routine',
-                'description_ar' => 'روتين يعتمد على الببتيدات والكولاجين لمنح البشرة ملمساً حريرياً ناعماً ونضارة شبابية دائمة.',
-                'description_en' => 'Infused with Peptides and Collagen to firm the skin, refine texture, and achieve everlasting youthfulness.',
-                'skin_type_ar' => 'البشرة العادية والمختلطة',
-                'skin_type_en' => 'Normal & Combination Skin',
-                'goal_ar' => 'نضارة ومقاومة التجاعيد',
-                'goal_en' => 'Youth & Radiance',
-                'badge_ar' => 'روتين مميز ✨',
-                'badge_en' => 'Featured Routine ✨',
-                'skin_type_id' => 3,
-            ],
-        ];
+        $presetModels = \App\Models\PresetRoutine::where('status', 'active')
+            ->with(['items.product.brand'])
+            ->get();
+
+        if ($presetModels->isEmpty()) {
+            return [
+                'status' => false,
+                'message' => $lang === 'ar' ? 'لا توجد روتينات مجهزة حالياً.' : 'No preset routines found.',
+                'data' => []
+            ];
+        }
 
         $responseRoutines = [];
 
-        foreach ($presetsConfig as $config) {
-            $products = \App\Models\Product::where('stock', '>', 0)
-                ->bestSeller()
-                ->whereHas('skinTypes', function ($q) use ($config) {
-                    $q->where('skin_type_id', $config['skin_type_id']);
-                })
-                ->inRandomOrder()
-                ->with(['brand', 'routines'])
-                ->take(5)
-                ->get();
-
-            if ($products->count() < 4) {
-                $products = \App\Models\Product::where('stock', '>', 0)
-                    ->inRandomOrder()
-                    ->with(['brand', 'routines'])
-                    ->take(4)
-                    ->get();
-            }
-
+        foreach ($presetModels as $routineModel) {
             $items = [];
             $totalPrice = 0;
-            $order = 1;
 
-            foreach ($products as $prod) {
-                $totalPrice += $prod->price;
-                $routineInfo = $prod->routines->first();
+            foreach ($routineModel->items as $itemModel) {
+                $prod = $itemModel->product;
+                if (!$prod) continue;
+
+                $totalPrice += (float)$prod->price;
 
                 $items[] = [
-                    'display_order' => $order++,
-                    'step_name' => $routineInfo ? ($lang === 'ar' ? $routineInfo->name_ar : $routineInfo->name_en) : ($lang === 'ar' ? "الخطوة {$order}" : "Step {$order}"),
-                    'morning' => $routineInfo ? (bool)$routineInfo->morning : true,
-                    'night' => $routineInfo ? (bool)$routineInfo->night : true,
-                    'use_time_ar' => $lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening',
+                    'display_order' => (int)$itemModel->display_order,
+                    'step_name' => $lang === 'ar' ? ($itemModel->step_name_ar ?? "الخطوة {$itemModel->display_order}") : ($itemModel->step_name_en ?? "Step {$itemModel->display_order}"),
+                    'morning' => (bool)$itemModel->morning,
+                    'night' => (bool)$itemModel->night,
+                    'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
                     'product' => [
                         'id' => $prod->id,
                         'name' => $lang === 'ar' ? ($prod->display_ar_name ?: $prod->name) : ($prod->display_en_name ?: $prod->name),
@@ -594,12 +530,12 @@ class RoutineService
             }
 
             $responseRoutines[] = [
-                'id' => $config['id'],
-                'title' => $lang === 'ar' ? $config['title_ar'] : $config['title_en'],
-                'description' => $lang === 'ar' ? $config['description_ar'] : $config['description_en'],
-                'badge' => $lang === 'ar' ? $config['badge_ar'] : $config['badge_en'],
-                'skin_type' => $lang === 'ar' ? $config['skin_type_ar'] : $config['skin_type_en'],
-                'goal' => $lang === 'ar' ? $config['goal_ar'] : $config['goal_en'],
+                'id' => $routineModel->id,
+                'title' => $lang === 'ar' ? $routineModel->title_ar : $routineModel->title_en,
+                'description' => $lang === 'ar' ? $routineModel->description_ar : $routineModel->description_en,
+                'badge' => $lang === 'ar' ? $routineModel->badge_ar : $routineModel->badge_en,
+                'skin_type' => $lang === 'ar' ? $routineModel->skin_type_ar : $routineModel->skin_type_en,
+                'goal' => $lang === 'ar' ? $routineModel->goal_ar : $routineModel->goal_en,
                 'total_price' => round($totalPrice, 2),
                 'products_count' => count($items),
                 'items' => $items,
@@ -608,7 +544,7 @@ class RoutineService
 
         return [
             'status' => true,
-            'message' => __('messages.preset_routines_retrieved_successfully') ?? 'Preset routines retrieved successfully.',
+            'message' => $lang === 'ar' ? 'تم جلب الروتينات المجهزة بنجاح.' : 'Preset routines retrieved successfully.',
             'data' => $responseRoutines
         ];
     }
