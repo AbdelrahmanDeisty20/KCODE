@@ -12,24 +12,20 @@ class ImageDownloader
     /**
      * Download an image from a URL and save it to the target public directory.
      */
-    public static function downloadAndSave(string $url, string $targetDirectory, string $filename): string
+    public static function downloadAndSave(string $url, string $targetDirectory, string $filename, bool $forceOverwrite = true): string
     {
-        // Save inside storage/app/public so Laravel's symlink exposes them via /storage/
         $storageDir = storage_path('app/public/' . $targetDirectory);
         $targetPath = $storageDir . '/' . $filename;
 
-        // Ensure directory exists
         if (!File::exists($storageDir)) {
             File::makeDirectory($storageDir, 0755, true, true);
         }
 
-        // If file already exists and is a valid real image, skip to save network time
-        if (File::exists($targetPath) && File::size($targetPath) > 20000) {
+        if (!$forceOverwrite && File::exists($targetPath) && File::size($targetPath) > 20000) {
             return $filename;
         }
 
-        // Memory cache optimization: if we already downloaded this URL in this run, copy the file
-        if (isset(self::$downloadedUrlsCache[$url])) {
+        if (isset(self::$downloadedUrlsCache[$url]) && !$forceOverwrite) {
             $cachedSourcePath = self::$downloadedUrlsCache[$url];
             if (File::exists($cachedSourcePath) && File::size($cachedSourcePath) > 0) {
                 File::copy($cachedSourcePath, $targetPath);
@@ -38,11 +34,13 @@ class ImageDownloader
         }
 
         try {
-            // Attempt to download the image with a timeout
-            $response = Http::timeout(6)->get($url);
-            if ($response->successful()) {
+            $response = Http::withHeaders([
+                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept' => 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
+            ])->timeout(12)->get($url);
+
+            if ($response->successful() && strlen($response->body()) > 200) {
                 File::put($targetPath, $response->body());
-                // Save to cache for subsequent copy operations
                 self::$downloadedUrlsCache[$url] = $targetPath;
                 return $filename;
             }
@@ -50,7 +48,6 @@ class ImageDownloader
             // Silence exception to let fallback handle it
         }
 
-        // Fallback: Create a clean mock placeholder image so system doesn't have broken links
         if (!File::exists($targetPath)) {
             self::createPlaceholder($targetPath);
         }
@@ -68,14 +65,12 @@ class ImageDownloader
             $bg = imagecolorallocate($img, 240, 242, 245);
             imagefill($img, 0, 0, $bg);
             
-            // Try to add some subtle design element
             $txtColor = imagecolorallocate($img, 140, 140, 140);
             imagestring($img, 5, 120, 190, "KCODE Skincare", $txtColor);
             
             imagejpeg($img, $path);
             imagedestroy($img);
         } else {
-            // Write a tiny 1x1 pixel white jpeg
             $tinyJpg = base64_decode('/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=');
             File::put($path, $tinyJpg);
         }
