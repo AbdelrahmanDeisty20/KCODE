@@ -133,7 +133,10 @@ Route::middleware([SetLang::class])->group(function () {
         Route::delete('/routine', 'deleteRoutine')->middleware('auth:sanctum');
         Route::post('/routine/delete', 'deleteRoutine')->middleware('auth:sanctum');
     });
-
+    Route::controller(ContactController::class)->group(function () {
+        Route::post('/contact', 'store');
+        Route::get('/contacts', 'index');
+    });
     // Loyalty Routes
     Route::controller(LoyaltyController::class)->group(function () {
         Route::get('/loyalty/profile', 'getLoyaltyProfile')->middleware('auth:sanctum');
@@ -180,10 +183,7 @@ Route::middleware([SetLang::class])->group(function () {
     Route::controller(FaqController::class)->group(function () {
         Route::get('/faqs', 'getFaqs');
     });
-    Route::controller(ContactController::class)->group(function () {
-        Route::post('/contact', 'store');
-        Route::get('/contacts', 'index');
-    });
+    
     Route::controller(PolicyController::class)->group(function () {
         Route::get('/policies/shipping', 'getShippingPolicy');
         Route::get('/policies/return', 'getReturnPolicy');
