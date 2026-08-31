@@ -74,8 +74,7 @@ class ConcernResource extends Resource
                             ->label('الصورة')
                             ->image()
                             ->directory('concerns')
-                            ->nullable()
-                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'concerns/') ? $state : 'concerns/' . ltrim($state, '/')) : null),
+                            ->nullable(),
 
                         Forms\Components\Select::make('status')
                             ->label('الحالة')

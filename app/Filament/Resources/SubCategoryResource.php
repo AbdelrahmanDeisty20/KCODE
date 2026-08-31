@@ -74,8 +74,7 @@ class SubCategoryResource extends Resource
                             ->label('صورة القسم الفرعي')
                             ->image()
                             ->directory('sub_categories')
-                            ->nullable()
-                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'sub_categories/') ? $state : 'sub_categories/' . ltrim($state, '/')) : null),
+                            ->nullable(),
                     ])
                     ->columns(2),
             ]);

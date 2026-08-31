@@ -68,8 +68,7 @@ class BrandResource extends Resource
                             ->label('شعار العلامة التجارية (Logo)')
                             ->image()
                             ->directory('brands')
-                            ->nullable()
-                            ->formatStateUsing(fn($state) => $state ? (str_starts_with($state, 'brands/') ? $state : 'brands/' . ltrim($state, '/')) : null),
+                            ->nullable(),
                     ])
                     ->columns(2),
             ]);

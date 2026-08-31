@@ -82,7 +82,7 @@ class UserResource extends Resource
                             ->label('الصورة الشخصية')
                             ->image()
                             ->directory('users')
-                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'users/') ? $state : 'users/' . ltrim($state, '/')) : null),
+                            ->nullable(),
                     ])->columns(2),
 
                 Components\Section::make('🔐 الصلاحيات والأدوار والنظام')

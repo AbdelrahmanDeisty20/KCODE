@@ -113,7 +113,7 @@ class QuizQuestionResource extends Resource
                                     ->label('صورة الخيار')
                                     ->image()
                                     ->directory('quiz_options')
-                                    ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'quiz/') ? $state : 'quiz/' . ltrim($state, '/')) : null),
+                                    ->nullable(),
 
                                 Forms\Components\Select::make('option_type')
                                     ->label('نوع الربط')

@@ -75,7 +75,7 @@ class BlogCategoryResource extends Resource
                             ->label('صورة القسم')
                             ->image()
                             ->directory('blog-categories')
-                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'blog-categories/') ? $state : 'blog-categories/' . ltrim($state, '/')) : null),
+                            ->nullable(),
                     ])->columns(2),
             ]);
     }

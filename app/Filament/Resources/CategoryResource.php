@@ -70,8 +70,7 @@ class CategoryResource extends Resource
                             ->label('صورة القسم')
                             ->image()
                             ->directory('categories')
-                            ->nullable()
-                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'categories/') ? $state : 'categories/' . ltrim($state, '/')) : null),
+                            ->nullable(),
                     ])->columns(2),
             ]);
     }

@@ -74,8 +74,7 @@ class SkinTypeResource extends Resource
                             ->label('الصورة')
                             ->image()
                             ->directory('skin_types')
-                            ->nullable()
-                            ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'skin_types/') ? $state : 'skin_types/' . ltrim($state, '/')) : null),
+                            ->nullable(),
 
                         Forms\Components\Select::make('status')
                             ->label('الحالة')

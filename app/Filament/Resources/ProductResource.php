@@ -132,8 +132,7 @@ class ProductResource extends Resource
                                     ->label('صورة المنتج')
                                     ->image()
                                     ->directory('products')
-                                    ->nullable()
-                                    ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'products/') ? $state : 'products/' . ltrim($state, '/')) : null),
+                                    ->nullable(),
                             ])->columns(2),
 
                         Components\Tabs\Tab::make('الوصف والاستخدام')
