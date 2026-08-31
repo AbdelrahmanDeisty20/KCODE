@@ -68,6 +68,7 @@ class DatabaseSeeder extends Seeder
             BlogSeeder::class,
             ChatbotSuggestionSeeder::class,
             RolesAndPermissionsSeeder::class,
+            ProductSelectionCriteriaSeeder::class,
         ]);
 
         // User::factory(10)->create();

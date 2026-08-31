@@ -2,33 +2,35 @@
 
 use App\Http\Controllers\API\AUHT\AuthController;
 use App\Http\Controllers\API\AUHT\ForgetPasswordController;
+use App\Http\Controllers\API\Blog\BlogCategoryController;
+use App\Http\Controllers\API\Blog\BlogController;
+use App\Http\Controllers\API\Blog\BlogTagController;
+use App\Http\Controllers\API\Genral\AddressController;
 use App\Http\Controllers\API\Genral\BrandController;
 use App\Http\Controllers\API\Genral\CartController;
 use App\Http\Controllers\API\Genral\CategoryController;
+use App\Http\Controllers\API\Genral\ChatbotController;
+use App\Http\Controllers\API\Genral\CheckoutController;
 use App\Http\Controllers\API\Genral\ConcernController;
+use App\Http\Controllers\API\Genral\ContactController;
 use App\Http\Controllers\API\Genral\CouponController;
+use App\Http\Controllers\API\Genral\FaqController;
 use App\Http\Controllers\API\Genral\FavouriteController;
+use App\Http\Controllers\API\Genral\LocationController;
+use App\Http\Controllers\API\Genral\LoyaltyController;
+use App\Http\Controllers\API\Genral\NewsletterController;
 use App\Http\Controllers\API\Genral\OfferController;
+use App\Http\Controllers\API\Genral\OrderController;
 use App\Http\Controllers\API\Genral\PageController;
+use App\Http\Controllers\API\Genral\PolicyController;
 use App\Http\Controllers\API\Genral\ProductController;
+use App\Http\Controllers\API\Genral\ProductSelectionCriteriaController;
 use App\Http\Controllers\API\Genral\QuizController;
 use App\Http\Controllers\API\Genral\ReviewController;
 use App\Http\Controllers\API\Genral\RoutineController;
 use App\Http\Controllers\API\Genral\RoutineGoalController;
-use App\Http\Controllers\API\Genral\SkinController;
-use App\Http\Controllers\API\Genral\LoyaltyController;
-use App\Http\Controllers\API\Genral\NewsletterController;
-use App\Http\Controllers\API\Genral\FaqController;
-use App\Http\Controllers\API\Genral\PolicyController;
-use App\Http\Controllers\API\Genral\LocationController;
-use App\Http\Controllers\API\Genral\AddressController;
-use App\Http\Controllers\API\Genral\CheckoutController;
-use App\Http\Controllers\API\Genral\OrderController;
 use App\Http\Controllers\API\Genral\SettingController;
-use App\Http\Controllers\API\Blog\BlogController;
-use App\Http\Controllers\API\Blog\BlogCategoryController;
-use App\Http\Controllers\API\Blog\BlogTagController;
-use App\Http\Controllers\API\Genral\ChatbotController;
+use App\Http\Controllers\API\Genral\SkinController;
 use App\Http\Middleware\CheckBlogAuthor;
 use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
@@ -285,6 +287,17 @@ Route::middleware([SetLang::class])->group(function () {
     });
     Route::controller(ReviewController::class)->group(function () {
         Route::get('/reviews/general', 'genralReview');
+    });
+
+    // Contact Us Routes
+    Route::controller(ContactController::class)->group(function () {
+        Route::post('/contact', 'store');
+        Route::get('/contacts', 'index');
+    });
+
+    // Product Selection Criteria Routes (كيف نراجع ونختار المنتجات)
+    Route::controller(ProductSelectionCriteriaController::class)->group(function () {
+        Route::get('/product-selection-criteria', 'index');
     });
 
     // Public Blog Routes
