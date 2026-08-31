@@ -213,7 +213,10 @@ Route::middleware([SetLang::class])->group(function () {
     Route::post('/notifications/general/{id}/read', [\App\Http\Controllers\API\Genral\AppNotificationController::class, 'markGeneralAsRead']);
     Route::delete('/notifications/general/clear-all', [\App\Http\Controllers\API\Genral\AppNotificationController::class, 'clearAllGeneral']);
     Route::delete('/notifications/general/{id}', [\App\Http\Controllers\API\Genral\AppNotificationController::class, 'destroyGeneral']);
-
+    Route::controller(ContactController::class)->group(function () {
+        Route::post('/contact', 'store');
+        Route::get('/contacts', 'index');
+    });
     // Favorites & Reviews & Notifications Routes (Protected)
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/user/fcm-token', [\App\Http\Controllers\API\Genral\FcmTokenController::class, 'storeUserToken']);
@@ -290,10 +293,7 @@ Route::middleware([SetLang::class])->group(function () {
     });
 
     // Contact Us Routes
-    Route::controller(ContactController::class)->group(function () {
-        Route::post('/contact', 'store');
-        Route::get('/contacts', 'index');
-    });
+    
 
     // Product Selection Criteria Routes (كيف نراجع ونختار المنتجات)
     Route::controller(ProductSelectionCriteriaController::class)->group(function () {
