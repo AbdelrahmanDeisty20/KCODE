@@ -138,6 +138,7 @@ class BlogResource extends Resource
                             ->label('الصورة البارزة')
                             ->image()
                             ->directory('blogs')
+                            ->nullable()
                             ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'blogs/') ? $state : 'blogs/' . ltrim($state, '/')) : null),
                     ])->columns(2),
 
@@ -190,6 +191,8 @@ class BlogResource extends Resource
                     ->sortable()
                     ->limit(40),
 
+                \App\Helpers\FilamentImageHelper::makeImageFilenameColumn('featured_image', 'اسم ملف الصورة', 'Image Filename'),
+
                 Tables\Columns\TextColumn::make('category')
                     ->label($isEn ? 'Category' : 'القسم')
                     ->getStateUsing(fn ($record) => $isEn ? ($record->category?->name_en ?: $record->category?->name_ar) : ($record->category?->name_ar ?: $record->category?->name_en))
@@ -233,6 +236,7 @@ class BlogResource extends Resource
                     ->label('المقالات المميزة'),
             ])
             ->actions([
+                \App\Helpers\FilamentImageHelper::makeUpdateImageAction('blogs', 'featured_image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])

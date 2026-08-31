@@ -74,6 +74,7 @@ class ConcernResource extends Resource
                             ->label('الصورة')
                             ->image()
                             ->directory('concerns')
+                            ->nullable()
                             ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'concerns/') ? $state : 'concerns/' . ltrim($state, '/')) : null),
 
                         Forms\Components\Select::make('status')
@@ -108,6 +109,8 @@ class ConcernResource extends Resource
                     ->searchable()
                     ->sortable(),
 
+                \App\Helpers\FilamentImageHelper::makeImageFilenameColumn('image', 'اسم ملف الصورة', 'Image Filename'),
+
                 Tables\Columns\TextColumn::make('status')
                     ->label($isEn ? 'Status' : 'الحالة')
                     ->badge()
@@ -118,8 +121,12 @@ class ConcernResource extends Resource
                     ->formatStateUsing(fn ($state) => $state === 'active' ? ($isEn ? 'Active' : 'نشط') : ($isEn ? 'Inactive' : 'غير نشط')),
             ])
             ->actions([
+                \App\Helpers\FilamentImageHelper::makeUpdateImageAction('concerns', 'image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
+            ])
+            ->headerActions([
+                \App\Helpers\FilamentImageHelper::makeBulkUploadHeaderAction('concerns', Concern::class),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([

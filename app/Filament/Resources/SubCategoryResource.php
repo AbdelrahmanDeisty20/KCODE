@@ -74,6 +74,7 @@ class SubCategoryResource extends Resource
                             ->label('صورة القسم الفرعي')
                             ->image()
                             ->directory('sub_categories')
+                            ->nullable()
                             ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'sub_categories/') ? $state : 'sub_categories/' . ltrim($state, '/')) : null),
                     ])
                     ->columns(2),
@@ -100,6 +101,9 @@ class SubCategoryResource extends Resource
                     ->getStateUsing(fn($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
                     ->searchable()
                     ->sortable(),
+
+                \App\Helpers\FilamentImageHelper::makeImageFilenameColumn('image', 'اسم ملف الصورة', 'Image Filename'),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label($isEn ? 'Created At' : 'تاريخ الإضافة')
                     ->dateTime('d/m/Y H:i')
@@ -111,8 +115,12 @@ class SubCategoryResource extends Resource
                     ->relationship('category', $isEn ? 'name_en' : 'name_ar'),
             ])
             ->actions([
+                \App\Helpers\FilamentImageHelper::makeUpdateImageAction('sub_categories', 'image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
+            ])
+            ->headerActions([
+                \App\Helpers\FilamentImageHelper::makeBulkUploadHeaderAction('sub_categories', SubCategory::class),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([

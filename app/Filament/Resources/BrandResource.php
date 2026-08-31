@@ -68,6 +68,7 @@ class BrandResource extends Resource
                             ->label('شعار العلامة التجارية (Logo)')
                             ->image()
                             ->directory('brands')
+                            ->nullable()
                             ->formatStateUsing(fn($state) => $state ? (str_starts_with($state, 'brands/') ? $state : 'brands/' . ltrim($state, '/')) : null),
                     ])
                     ->columns(2),
@@ -96,16 +97,21 @@ class BrandResource extends Resource
                     ->getStateUsing(fn($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
                     ->searchable()
                     ->sortable(),
+
+                \App\Helpers\FilamentImageHelper::makeImageFilenameColumn('image', 'اسم ملف الشعار', 'Logo Filename'),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label($isEn ? 'Created At' : 'تاريخ الإضافة')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
             ])
             ->actions([
+                \App\Helpers\FilamentImageHelper::makeUpdateImageAction('brands', 'image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->headerActions([
+                \App\Helpers\FilamentImageHelper::makeBulkUploadHeaderAction('brands', Brand::class),
                 \App\Helpers\FilamentExportHelper::makeImportHeaderAction(
                     'brands',
                     function (array $row) {

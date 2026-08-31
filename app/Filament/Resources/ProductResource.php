@@ -132,7 +132,7 @@ class ProductResource extends Resource
                                     ->label('صورة المنتج')
                                     ->image()
                                     ->directory('products')
-                                    ->required()
+                                    ->nullable()
                                     ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'products/') ? $state : 'products/' . ltrim($state, '/')) : null),
                             ])->columns(2),
 
@@ -262,6 +262,8 @@ class ProductResource extends Resource
                     ->searchable()
                     ->sortable(),
 
+                \App\Helpers\FilamentImageHelper::makeImageFilenameColumn('image', 'اسم ملف الصورة', 'Image Filename'),
+
                 Tables\Columns\TextColumn::make('category')
                     ->label($isEn ? 'Category' : 'القسم')
                     ->getStateUsing(fn ($record) => $isEn ? ($record->category?->name_en ?: $record->category?->name_ar) : ($record->category?->name_ar ?: $record->category?->name_en))
@@ -299,11 +301,13 @@ class ProductResource extends Resource
                     ->label('الأكثر مبيعاً'),
             ])
             ->actions([
+                \App\Helpers\FilamentImageHelper::makeUpdateImageAction('products', 'image'),
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->headerActions([
+                \App\Helpers\FilamentImageHelper::makeBulkUploadHeaderAction('products', Product::class),
                 \App\Helpers\FilamentExportHelper::makeImportHeaderAction(
                     'products',
                     function (array $row) {

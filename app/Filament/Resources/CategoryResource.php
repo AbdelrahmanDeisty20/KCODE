@@ -70,6 +70,7 @@ class CategoryResource extends Resource
                             ->label('صورة القسم')
                             ->image()
                             ->directory('categories')
+                            ->nullable()
                             ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'categories/') ? $state : 'categories/' . ltrim($state, '/')) : null),
                     ])->columns(2),
             ]);
@@ -99,16 +100,20 @@ class CategoryResource extends Resource
                     ->searchable()
                     ->sortable(),
 
+                \App\Helpers\FilamentImageHelper::makeImageFilenameColumn('image', 'اسم ملف الصورة', 'Image Filename'),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label($isEn ? 'Created At' : 'تاريخ الإضافة')
                     ->dateTime('d/m/Y H:i')
                     ->sortable(),
             ])
             ->actions([
+                \App\Helpers\FilamentImageHelper::makeUpdateImageAction('categories', 'image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->headerActions([
+                \App\Helpers\FilamentImageHelper::makeBulkUploadHeaderAction('categories', Category::class),
                 \App\Helpers\FilamentExportHelper::makeImportHeaderAction(
                     'categories',
                     function (array $row) {

@@ -74,6 +74,7 @@ class SkinTypeResource extends Resource
                             ->label('الصورة')
                             ->image()
                             ->directory('skin_types')
+                            ->nullable()
                             ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, 'skin_types/') ? $state : 'skin_types/' . ltrim($state, '/')) : null),
 
                         Forms\Components\Select::make('status')
@@ -104,6 +105,8 @@ class SkinTypeResource extends Resource
                     ->searchable()
                     ->sortable(),
 
+                \App\Helpers\FilamentImageHelper::makeImageFilenameColumn('image', 'اسم ملف الصورة', 'Image Filename'),
+
                 Tables\Columns\TextColumn::make('status')
                     ->label($isEn ? 'Status' : 'الحالة')
                     ->badge()
@@ -114,8 +117,12 @@ class SkinTypeResource extends Resource
                     ->formatStateUsing(fn ($state) => $state === 'active' ? ($isEn ? 'Active' : 'نشط') : ($isEn ? 'Inactive' : 'غير نشط')),
             ])
             ->actions([
+                \App\Helpers\FilamentImageHelper::makeUpdateImageAction('skin_types', 'image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
+            ])
+            ->headerActions([
+                \App\Helpers\FilamentImageHelper::makeBulkUploadHeaderAction('skin_types', SkinType::class),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
