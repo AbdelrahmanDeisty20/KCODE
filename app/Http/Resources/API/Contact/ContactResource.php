@@ -20,8 +20,6 @@ class ContactResource extends JsonResource
             'message'    => $this->message,
             'phone'      => $this->phone,
             'email'      => $this->email,
-            'user_id'    => $this->user_id,
-            'status'     => $this->status,
             'created_at' => $this->created_at?->toIso8601String(),
         ];
     }
