@@ -247,4 +247,10 @@ return [
     'notification_already_deleted' => 'Notification already deleted.',
     'notification_delete_failed' => 'Failed to delete notification.',
     'all_notifications_cleared_successfully' => 'All notifications cleared successfully.',
+
+    // Contact & Selection Criteria Messages
+    'unauthorized' => 'Unauthorized access, please login first',
+    'contact_sent_successfully' => 'Your message has been sent successfully. We will get back to you soon!',
+    'contacts_retrieved_successfully' => 'User contact history retrieved successfully',
+    'product_selection_criteria_retrieved_successfully' => 'Product selection criteria retrieved successfully',
 ];
