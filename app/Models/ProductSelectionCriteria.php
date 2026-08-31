@@ -31,20 +31,23 @@ class ProductSelectionCriteria extends Model
 
     public function getTitleAttribute(): string
     {
-        $locale = app()->getLocale();
-        return ($locale === 'en' && !empty($this->title_en)) ? $this->title_en : $this->title_ar;
+        $lang = request()->header('lang') ?? app()->getLocale();
+        $lang = strtolower(substr($lang, 0, 2));
+        return ($lang === 'en' && !empty($this->title_en)) ? $this->title_en : $this->title_ar;
     }
 
     public function getDescriptionAttribute(): string
     {
-        $locale = app()->getLocale();
-        return ($locale === 'en' && !empty($this->description_en)) ? $this->description_en : $this->description_ar;
+        $lang = request()->header('lang') ?? app()->getLocale();
+        $lang = strtolower(substr($lang, 0, 2));
+        return ($lang === 'en' && !empty($this->description_en)) ? $this->description_en : $this->description_ar;
     }
 
     public function getBadgeTextAttribute(): ?string
     {
-        $locale = app()->getLocale();
-        return ($locale === 'en' && !empty($this->badge_text_en)) ? $this->badge_text_en : $this->badge_text_ar;
+        $lang = request()->header('lang') ?? app()->getLocale();
+        $lang = strtolower(substr($lang, 0, 2));
+        return ($lang === 'en' && !empty($this->badge_text_en)) ? $this->badge_text_en : $this->badge_text_ar;
     }
 
     public function scopeActive($query)
