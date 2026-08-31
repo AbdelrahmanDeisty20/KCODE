@@ -30,7 +30,7 @@ class RoutineGoal extends Model
         $path = ltrim(preg_replace('/^routine-goals\//i', '', $path), '/');
         $path = 'routine-goals/' . $path;
 
-        return Storage::disk('public')->url($path);
+        return asset('storage/app/public/' . $path);
     }
 
     public function products()
