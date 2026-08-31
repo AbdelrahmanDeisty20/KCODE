@@ -37,7 +37,7 @@ class Concern extends Model
         $path = ltrim(preg_replace('/^concerns\//i', '', $path), '/');
         $path = 'concerns/' . $path;
 
-        return Storage::disk('public')->url($path);
+        return asset('storage/' . $path);
     }
 
     public function products()

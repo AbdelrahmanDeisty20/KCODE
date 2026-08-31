@@ -41,7 +41,7 @@ class SubCategory extends Model
         $path = ltrim(preg_replace('/^sub_categories\//i', '', $path), '/');
         $path = 'sub_categories/' . $path;
 
-        return Storage::disk('public')->url($path);
+        return asset('storage/' . $path);
     }
 
     public function getProductsCountAttribute()

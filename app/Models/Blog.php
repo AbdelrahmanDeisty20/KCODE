@@ -60,7 +60,7 @@ class Blog extends Model
         $path = ltrim(preg_replace('/^blogs\//i', '', $path), '/');
         $path = 'blogs/' . $path;
 
-        return Storage::disk('public')->url($path);
+        return asset('storage/' . $path);
     }
 
     /**

@@ -35,7 +35,7 @@ class BlogCategory extends Model
         $path = ltrim(preg_replace('/^blog-categories\//i', '', $path), '/');
         $path = 'blogs/categories/' . $path;
 
-        return Storage::disk('public')->url($path);
+        return asset('storage/' . $path);
     }
 
     /**
