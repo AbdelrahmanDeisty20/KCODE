@@ -96,12 +96,17 @@ class SkinTypeResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->state(fn ($record) => $record->image_path),
+                    ->circular(),
 
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Skin Type Name' : 'اسم نوع البشرة')
                     ->getStateUsing(fn ($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
-                    ->searchable()
+                    ->searchable(query: function ($query, string $search) {
+                        $query->where(function ($q) use ($search) {
+                            $q->where('name_ar', 'LIKE', "%{$search}%")
+                              ->orWhere('name_en', 'LIKE', "%{$search}%");
+                        });
+                    })
                     ->sortable(),
 
                 \App\Helpers\FilamentImageHelper::makeImageFilenameColumn('image', 'اسم ملف الصورة', 'Image Filename'),

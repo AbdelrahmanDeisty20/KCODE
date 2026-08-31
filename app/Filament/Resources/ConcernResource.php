@@ -96,7 +96,7 @@ class ConcernResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->state(fn ($record) => $record->image_path),
+                    ->circular(),
 
                 Tables\Columns\TextColumn::make('name_ar')
                     ->label($isEn ? 'Name (Arabic)' : 'الاسم (عربي)')

@@ -247,7 +247,6 @@ class ProductResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
-                    ->state(fn ($record) => $record->image_path)
                     ->square(),
 
                 Tables\Columns\TextColumn::make('sku')
@@ -258,7 +257,13 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Product Name' : 'اسم المنتج')
                     ->getStateUsing(fn ($record) => $isEn ? ($record->name_en ?: $record->name_ar) : ($record->name_ar ?: $record->name_en))
-                    ->searchable()
+                    ->searchable(query: function ($query, string $search) {
+                        $query->where(function ($q) use ($search) {
+                            $q->where('name_ar', 'LIKE', "%{$search}%")
+                              ->orWhere('name_en', 'LIKE', "%{$search}%")
+                              ->orWhere('sku', 'LIKE', "%{$search}%");
+                        });
+                    })
                     ->sortable(),
 
                 \App\Helpers\FilamentImageHelper::makeImageFilenameColumn('image', 'اسم ملف الصورة', 'Image Filename'),
