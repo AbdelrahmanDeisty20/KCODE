@@ -37,6 +37,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Auth Routes
+Route::get('/admin/match-folder', function (\Illuminate\Http\Request $request) {
+    $folderPath = $request->query('path', 'C:\Users\Dell\Downloads\KCODE_Homepage_Developer_V24_FINAL\KCODE_Homepage_Developer_V24_FINAL\assets');
+    $result = \App\Services\FuzzyImageMatcherService::processFolder($folderPath);
+    return response()->json($result);
+});
+
+Route::post('/admin/match-folder', function (\Illuminate\Http\Request $request) {
+    $folderPath = $request->input('path', 'C:\Users\Dell\Downloads\KCODE_Homepage_Developer_V24_FINAL\KCODE_Homepage_Developer_V24_FINAL\assets');
+    $result = \App\Services\FuzzyImageMatcherService::processFolder($folderPath);
+    return response()->json($result);
+});
+
 Route::middleware([SetLang::class])->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post('/register', 'register');

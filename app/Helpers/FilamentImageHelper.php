@@ -7,11 +7,15 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Tabs;
 use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use Database\Seeders\ImageDownloader;
 
 class FilamentImageHelper
 {
@@ -40,7 +44,7 @@ class FilamentImageHelper
     }
 
     /**
-     * Create a row action button for quick image upload/update in a modal.
+     * Create a row action button for quick image upload OR Image URL pasting in a modal.
      */
     public static function makeUpdateImageAction(
         string $directory,
@@ -58,32 +62,61 @@ class FilamentImageHelper
             ->modalSubmitActionLabel($isEn ? 'Save Image' : 'حفظ الصورة')
             ->schema([
                 FileUpload::make($imageField)
-                    ->label($isEn ? 'Upload / Select Image' : 'اختر/ارفع الصورة')
+                    ->label($isEn ? '1. Upload Image File' : '1. اختر/ارفع ملف الصورة من الجهاز')
                     ->image()
                     ->directory($directory)
                     ->nullable()
                     ->formatStateUsing(fn ($state) => $state ? (str_starts_with($state, $directory . '/') ? $state : $directory . '/' . ltrim($state, '/')) : null),
-            ])
-            ->action(function ($record, array $data) use ($imageField, $isEn) {
-                $record->update([
-                    $imageField => $data[$imageField] ?? null,
-                ]);
 
-                Notification::make()
-                    ->title($isEn ? 'Image updated successfully!' : 'تم تحديث الصورة بنجاح!')
-                    ->success()
-                    ->send();
+                TextInput::make($imageField . '_url')
+                    ->label($isEn ? '2. OR Paste Direct Image URL' : '2. أو أدخل رابط الصورة المباشر (URL)')
+                    ->placeholder('https://example.com/image.jpg')
+                    ->url()
+                    ->nullable(),
+            ])
+            ->action(function ($record, array $data) use ($directory, $imageField, $isEn) {
+                $urlInput = $data[$imageField . '_url'] ?? null;
+                $fileInput = $data[$imageField] ?? null;
+
+                $finalPath = null;
+
+                if (!empty($urlInput)) {
+                    $slug = Str::slug($record->name_en ?: $record->name_ar) ?: 'item-' . $record->id;
+                    $filename = ImageDownloader::downloadAndSave($urlInput, $directory, "{$slug}.jpg");
+                    $finalPath = "{$directory}/{$filename}";
+
+                    // Copy to downloads
+                    $src = storage_path("app/public/{$finalPath}");
+                    $dst = "C:/Users/Dell/Downloads/kcode-images/{$finalPath}";
+                    if (File::exists($src)) {
+                        File::ensureDirectoryExists(dirname($dst));
+                        File::copy($src, $dst);
+                    }
+                } elseif (!empty($fileInput)) {
+                    $finalPath = $fileInput;
+                }
+
+                if ($finalPath !== null) {
+                    $record->update([
+                        $imageField => $finalPath,
+                    ]);
+
+                    Notification::make()
+                        ->title($isEn ? 'Image updated successfully!' : 'تم تحديث الصورة بنجاح!')
+                        ->success()
+                        ->send();
+                }
             });
     }
 
     /**
-     * Create a header action for uploading multiple images at once with both Auto-Matching & Manual Mapping options.
+     * Create a header action for uploading multiple images / pasting image URLs with both Auto-Matching & Manual Mapping options.
      */
     public static function makeBulkUploadHeaderAction(
         string $directory,
         string $modelClass,
         string $imageField = 'image',
-        string $labelAr = 'رفع صور متعددة / إسناد يدوي',
+        string $labelAr = 'رفع صور / روابط / إسناد يدوي',
         string $labelEn = 'Bulk Upload & Map Images'
     ): Action {
         $isEn = app()->getLocale() === 'en';
@@ -92,30 +125,35 @@ class FilamentImageHelper
             ->label($isEn ? $labelEn : $labelAr)
             ->icon('heroicon-o-cloud-arrow-up')
             ->color('success')
-            ->modalHeading($isEn ? 'Bulk Upload & Image Assignment' : 'رفع وإسناد الصور تلقائياً أو يدوياً')
+            ->modalHeading($isEn ? 'Bulk Upload & Image Link Assignment' : 'رفع وإسناد الصور بالملفات أو الروابط (URLs)')
             ->modalDescription($isEn
-                ? 'Option 1: Auto-match filenames (e.g. toner.png). Option 2: Upload any random image (e.g. photo-1608...jpg) and manually pick the target record.'
-                : 'الخيار 1: مطابقة تلقائية باسم الملف (مثل toner.png). الخيار 2: رفع أي صورة عشوائية (مثل photo-1608...jpg) واختيار القسم أو المنتج المراد إسنادها له يدوياً.')
+                ? 'Option 1: Upload an image file OR paste a direct Image URL link for any item. Option 2: Bulk upload files for auto-matching.'
+                : 'الخيار 1: إسناد ملف صورة أو إضافة رابط صورة مباشر (URL) لأي عنصر. الخيار 2: رفع ملفات متعددة لمطابقتها تلقائياً.')
             ->modalSubmitActionLabel($isEn ? 'Save & Assign Images' : 'حفظ وإسناد الصور')
             ->schema([
                 Tabs::make('upload_mode_tabs')
                     ->tabs([
                         Tab::make('manual_mapping')
-                            ->label($isEn ? '🎯 Manual Mapping (Assign Any Image)' : '🎯 التخصيص اليدوي (إسناد أي صورة لأي عنصر)')
+                            ->label($isEn ? '🎯 Manual Mapping (Files & Links)' : '🎯 التخصيص اليدوي (ملفات أو روابط URLs)')
                             ->schema([
                                 Placeholder::make('manual_desc')
                                     ->hiddenLabel()
                                     ->content($isEn
-                                        ? 'Upload any photo (even random Unsplash/WhatsApp filenames) and select which record it belongs to.'
-                                        : 'ارفع أي صورة (حتى لو اسمها عشوائي مثل photo-1608...jpg) واختر العنصر المراد إسناد الصورة له مباشرة بدون الحاجة لتغيير اسم الملف.'),
+                                        ? 'Upload any image file OR paste a direct Image URL (e.g. Unsplash/Google image link) and select the target item.'
+                                        : 'ارفع ملف صورة أو انسخ رابط صورة مباشر (Image URL) من الإنترنت واختر العنصر المراد إسناد الصورة له بنقرة واحدة.'),
                                 Repeater::make('manual_mappings')
-                                    ->label($isEn ? 'Image to Record Mappings' : 'قائمة إسناد الصور للعناصر')
+                                    ->label($isEn ? 'Image to Record Mappings' : 'قائمة إسناد الصور والروابط للعناصر')
                                     ->schema([
                                         FileUpload::make('image')
-                                            ->label($isEn ? 'Image File' : 'ملف الصورة')
+                                            ->label($isEn ? 'Image File (Upload)' : 'ملف الصورة (رفع)')
                                             ->image()
                                             ->directory($directory)
-                                            ->required(),
+                                            ->nullable(),
+                                        TextInput::make('image_url')
+                                            ->label($isEn ? 'OR Image URL (Link)' : 'أو رابط الصورة (URL)')
+                                            ->placeholder('https://images.unsplash.com/photo-1556228720...')
+                                            ->url()
+                                            ->nullable(),
                                         Select::make('record_id')
                                             ->label($isEn ? 'Target Record' : 'العنصر المستهدف')
                                             ->options(function () use ($modelClass) {
@@ -133,10 +171,10 @@ class FilamentImageHelper
                                             ->searchable()
                                             ->required(),
                                     ])
-                                    ->columns(2)
-                                    ->addActionLabel($isEn ? '+ Add Another Image Mapping' : '+ إضافة إسناد صورة لعنصر آخر')
+                                    ->columns(3)
+                                    ->addActionLabel($isEn ? '+ Add Another Image or Link' : '+ إضافة إسناد صورة أو رابط لعنصر آخر')
                                     ->collapsible()
-                                    ->defaultItems(0),
+                                    ->defaultItems(1),
                             ]),
 
                         Tab::make('auto_match')
@@ -161,22 +199,43 @@ class FilamentImageHelper
                 $matchedCount = 0;
                 $matchedDetails = [];
 
-                // 1. Process Manual Mappings first
+                // 1. Process Manual Mappings (Files & URLs)
                 $manualMappings = $data['manual_mappings'] ?? [];
                 foreach ($manualMappings as $mapping) {
                     $recordId = $mapping['record_id'] ?? null;
                     $filePath = $mapping['image'] ?? null;
+                    $imageUrl = $mapping['image_url'] ?? null;
 
-                    if ($recordId && $filePath) {
+                    if ($recordId && (!empty($filePath) || !empty($imageUrl))) {
                         $record = $modelClass::find($recordId);
                         if ($record) {
-                            $record->update([
-                                $imageField => $filePath,
-                            ]);
-                            $matchedCount++;
-                            $recordName = $record->name_ar ?? $record->name_en ?? $record->title_ar ?? $record->id;
-                            $fileName = basename($filePath);
-                            $matchedDetails[] = "🎯 [يدوي] {$fileName} ➔ {$recordName}";
+                            $finalPath = null;
+
+                            if (!empty($imageUrl)) {
+                                $slug = Str::slug($record->name_en ?: $record->name_ar) ?: 'item-' . $record->id;
+                                $filename = ImageDownloader::downloadAndSave($imageUrl, $directory, "{$slug}.jpg");
+                                $finalPath = "{$directory}/{$filename}";
+
+                                // Copy to downloads
+                                $src = storage_path("app/public/{$finalPath}");
+                                $dst = "C:/Users/Dell/Downloads/kcode-images/{$finalPath}";
+                                if (File::exists($src)) {
+                                    File::ensureDirectoryExists(dirname($dst));
+                                    File::copy($src, $dst);
+                                }
+                            } else {
+                                $finalPath = $filePath;
+                            }
+
+                            if ($finalPath) {
+                                $record->update([
+                                    $imageField => $finalPath,
+                                ]);
+                                $matchedCount++;
+                                $recordName = $record->name_ar ?? $record->name_en ?? $record->title_ar ?? $record->id;
+                                $label = !empty($imageUrl) ? 'رابط URL' : basename($finalPath);
+                                $matchedDetails[] = "🎯 [يدوي] {$label} ➔ {$recordName}";
+                            }
                         }
                     }
                 }
