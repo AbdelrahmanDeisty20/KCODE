@@ -102,7 +102,7 @@ class Product extends Model
         $path = ltrim(preg_replace('/^products\//i', '', $path), '/');
         $path = 'products/' . $path;
 
-        return asset('storage/' . $path);
+        return Storage::disk('public')->url($path);
     }
 
     public function getNameAttribute($value)
