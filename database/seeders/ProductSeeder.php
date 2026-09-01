@@ -759,6 +759,8 @@ class ProductSeeder extends Seeder
                 $descAr = $pData['description_ar'] ?? "منتج أصلي مميز من ماركة {$brandName} للعناية بالبشرة.";
                 $descEn = "Authentic {$brandName} {$prodName} skincare product.";
 
+                $nameAr = $pData['name_ar'] ?? "{$brandName} {$prodName}" . ($size ? " ({$size})" : "");
+
                 $product = Product::updateOrCreate(
                     ['sku' => $sku ?: $slug],
                     [
@@ -766,17 +768,19 @@ class ProductSeeder extends Seeder
                         'category_id' => $category->id,
                         'sub_category_id' => $subCategory->id,
                         'name_en' => $fullEnName,
-                        'name_ar' => $pData['name_ar'] ?? "{$brandName} {$prodName}" . ($size ? " ({$size})" : ""),
-                        'name' => $fullEnName,
+                        'name_ar' => $nameAr,
+                        'short_name_en' => "{$brandName} {$prodName}",
+                        'short_name_ar' => $nameAr,
                         'sku' => $sku ?: $slug,
-                        'barcode' => $barcode,
                         'price' => rand(65, 185),
                         'stock' => rand(15, 80),
-                        'main_image' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800',
-                        'short_description_ar' => $descAr,
-                        'short_description_en' => $descEn,
+                        'image' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800',
                         'description_ar' => $descAr,
                         'description_en' => $descEn,
+                        'ingredients_ar' => $pData['ingredients_ar'] ?? $descAr,
+                        'ingredients_en' => $descEn,
+                        'how_to_use_ar' => $descAr,
+                        'how_to_use_en' => $descEn,
                         'status' => 'active',
                         'is_best_seller' => true,
                     ]
