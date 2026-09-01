@@ -478,17 +478,20 @@ class RoutineService
     /**
      * Get preset routines directly from database with pagination.
      */
+    /**
+     * Get preset routines directly from database with pagination.
+     */
     public function getPresetRoutines()
     {
         $lang = request()->header('lang') ?? app()->getLocale();
         $perPage = (int)request()->get('per_page', 10);
 
-        // If database is empty or if generate/refresh parameter is requested, add 5 new preset routines!
-        if (\App\Models\PresetRoutine::count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
-            \Illuminate\Support\Facades\Artisan::call('routines:generate-preset');
+        if (\App\Models\PresetRoutine::forWomen()->count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
+            (new \Database\Seeders\PresetRoutineSeeder())->run();
         }
 
-        $query = \App\Models\PresetRoutine::where('status', 'active')
+        $query = \App\Models\PresetRoutine::forWomen()
+            ->where('status', 'active')
             ->with(['items.product.brand']);
 
         if (request()->boolean('random')) {
@@ -551,9 +554,15 @@ class RoutineService
     private function formatPresetRoutine($routineModel, $lang, $includeItems = false)
     {
         $items = [];
+        $stepNames = [];
         $totalPrice = 0;
 
         foreach ($routineModel->items as $itemModel) {
+            $stepName = $lang === 'ar' ? ($itemModel->step_name_ar ?? "الخطوة {$itemModel->display_order}") : ($itemModel->step_name_en ?? "Step {$itemModel->display_order}");
+            if ($stepName) {
+                $stepNames[] = $stepName;
+            }
+
             $prod = $itemModel->product;
             if (!$prod) continue;
 
@@ -562,7 +571,7 @@ class RoutineService
             if ($includeItems) {
                 $items[] = [
                     'display_order' => (int)$itemModel->display_order,
-                    'step_name' => $lang === 'ar' ? ($itemModel->step_name_ar ?? "الخطوة {$itemModel->display_order}") : ($itemModel->step_name_en ?? "Step {$itemModel->display_order}"),
+                    'step_name' => $stepName,
                     'morning' => (bool)$itemModel->morning,
                     'night' => (bool)$itemModel->night,
                     'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
@@ -594,6 +603,7 @@ class RoutineService
             'goal' => $lang === 'ar' ? $routineModel->goal_ar : $routineModel->goal_en,
             'total_price' => round($totalPrice, 2),
             'products_count' => $routineModel->items->count(),
+            'steps_summary' => $stepNames,
         ];
 
         if ($includeItems) {
@@ -604,11 +614,11 @@ class RoutineService
     }
 
     /**
-     * Delete old routines, generate fresh preset routines in DB and return them.
+     * Re-run preset routine seeder and return fresh routines.
      */
     public function generatePresetRoutines()
     {
-        \Illuminate\Support\Facades\Artisan::call('routines:generate-preset');
+        (new \Database\Seeders\PresetRoutineSeeder())->run();
         return $this->getPresetRoutines();
     }
 
@@ -621,7 +631,7 @@ class RoutineService
         $perPage = (int)request()->get('per_page', 10);
 
         if (\App\Models\PresetRoutine::forMen()->count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
-            \Illuminate\Support\Facades\Artisan::call('routines:generate-men-preset');
+            (new \Database\Seeders\MenPresetRoutineSeeder())->run();
         }
 
         $query = \App\Models\PresetRoutine::forMen()
@@ -654,11 +664,11 @@ class RoutineService
     }
 
     /**
-     * Generate Men's Simple Preset Routines.
+     * Generate Men's Simple Preset Routines using seeder.
      */
     public function generateMenPresetRoutines()
     {
-        \Illuminate\Support\Facades\Artisan::call('routines:generate-men-preset');
+        (new \Database\Seeders\MenPresetRoutineSeeder())->run();
         return $this->getMenPresetRoutines();
     }
 }

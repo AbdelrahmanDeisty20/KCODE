@@ -69,6 +69,8 @@ class DatabaseSeeder extends Seeder
             ChatbotSuggestionSeeder::class,
             RolesAndPermissionsSeeder::class,
             ProductSelectionCriteriaSeeder::class,
+            PresetRoutineSeeder::class,
+            MenPresetRoutineSeeder::class,
         ]);
 
         // User::factory(10)->create();
