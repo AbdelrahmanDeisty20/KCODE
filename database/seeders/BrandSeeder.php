@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Brand;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 
 class BrandSeeder extends Seeder
 {
@@ -67,12 +68,14 @@ class BrandSeeder extends Seeder
             );
         }
 
-        // Delete any brand not in the 22 official Developer Pack list
+        // Delete any brand not in the 22 official Developer Pack list cleanly
+        Schema::disableForeignKeyConstraints();
         $oldBrands = Brand::whereNotIn('name_en', $allowedNames)->get();
         foreach ($oldBrands as $old) {
-            \App\Models\Product::where('brand_id', $old->id)->update(['brand_id' => null]);
+            \App\Models\Product::where('brand_id', $old->id)->delete();
             $old->delete();
         }
+        Schema::enableForeignKeyConstraints();
     }
 }
 
