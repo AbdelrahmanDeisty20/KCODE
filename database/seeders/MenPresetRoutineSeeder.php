@@ -32,9 +32,9 @@ class MenPresetRoutineSeeder extends Seeder
                 'skin_type_id' => 3,
                 'goal_id' => 1,
                 'steps' => [
-                    ['ar' => 'غسول', 'en' => 'Cleanser'],
-                    ['ar' => 'مرطب', 'en' => 'Moisturizer'],
-                    ['ar' => 'واقي شمس', 'en' => 'Sunscreen'],
+                    ['ar' => 'غسول', 'en' => 'Cleanser', 'sku' => 'KC0104'],
+                    ['ar' => 'مرطب', 'en' => 'Moisturizer', 'sku' => 'KC0223'],
+                    ['ar' => 'واقي شمس', 'en' => 'Sunscreen', 'sku' => 'KC0076'],
                 ],
             ],
             [
@@ -51,9 +51,9 @@ class MenPresetRoutineSeeder extends Seeder
                 'skin_type_id' => 1,
                 'goal_id' => 3,
                 'steps' => [
-                    ['ar' => 'غسول', 'en' => 'Cleanser'],
-                    ['ar' => 'مرطب', 'en' => 'Moisturizer'],
-                    ['ar' => 'واقي شمس', 'en' => 'Sunscreen'],
+                    ['ar' => 'غسول', 'en' => 'Cleanser', 'sku' => 'KC0163'],
+                    ['ar' => 'مرطب', 'en' => 'Moisturizer', 'sku' => 'KC0088'],
+                    ['ar' => 'واقي شمس', 'en' => 'Sunscreen', 'sku' => 'KC0159'],
                 ],
             ],
             [
@@ -70,9 +70,9 @@ class MenPresetRoutineSeeder extends Seeder
                 'skin_type_id' => 2,
                 'goal_id' => 5,
                 'steps' => [
-                    ['ar' => 'غسول', 'en' => 'Cleanser'],
-                    ['ar' => 'مرطب', 'en' => 'Moisturizer'],
-                    ['ar' => 'واقي شمس', 'en' => 'Sunscreen'],
+                    ['ar' => 'غسول', 'en' => 'Cleanser', 'sku' => 'KC0140'],
+                    ['ar' => 'مرطب', 'en' => 'Moisturizer', 'sku' => 'KC0009'],
+                    ['ar' => 'واقي شمس', 'en' => 'Sunscreen', 'sku' => 'KC0121'],
                 ],
             ],
             [
@@ -89,10 +89,10 @@ class MenPresetRoutineSeeder extends Seeder
                 'skin_type_id' => 3,
                 'goal_id' => 1,
                 'steps' => [
-                    ['ar' => 'غسول', 'en' => 'Cleanser'],
-                    ['ar' => 'علاج خفيف', 'en' => 'Light Treatment'],
-                    ['ar' => 'مرطب', 'en' => 'Moisturizer'],
-                    ['ar' => 'واقي شمس', 'en' => 'Sunscreen'],
+                    ['ar' => 'غسول', 'en' => 'Cleanser', 'sku' => 'KC0104'],
+                    ['ar' => 'علاج خفيف', 'en' => 'Light Treatment', 'sku' => 'KC0095'],
+                    ['ar' => 'مرطب', 'en' => 'Moisturizer', 'sku' => 'KC0223'],
+                    ['ar' => 'واقي شمس', 'en' => 'Sunscreen', 'sku' => 'KC0076'],
                 ],
             ],
             [
@@ -109,10 +109,10 @@ class MenPresetRoutineSeeder extends Seeder
                 'skin_type_id' => 4,
                 'goal_id' => 5,
                 'steps' => [
-                    ['ar' => 'غسول', 'en' => 'Cleanser'],
-                    ['ar' => 'بعد الحلاقة', 'en' => 'After Shave Care'],
-                    ['ar' => 'مرطب', 'en' => 'Moisturizer'],
-                    ['ar' => 'واقي شمس', 'en' => 'Sunscreen'],
+                    ['ar' => 'غسول', 'en' => 'Cleanser', 'sku' => 'KC0104'],
+                    ['ar' => 'بعد الحلاقة', 'en' => 'After Shave Care', 'sku' => 'KC0144'],
+                    ['ar' => 'مرطب', 'en' => 'Moisturizer', 'sku' => 'KC0223'],
+                    ['ar' => 'واقي شمس', 'en' => 'Sunscreen', 'sku' => 'KC0076'],
                 ],
             ],
         ];
@@ -135,18 +135,15 @@ class MenPresetRoutineSeeder extends Seeder
                 'status' => 'active',
             ]);
 
-            $products = Product::where('stock', '>', 0)
-                ->inRandomOrder()
-                ->take(count($config['steps']))
-                ->get();
-
-            if ($products->isEmpty()) {
-                $products = Product::inRandomOrder()->take(count($config['steps']))->get();
-            }
-
             $order = 1;
             foreach ($config['steps'] as $idx => $stepInfo) {
-                $prod = $products->get($idx) ?? $products->first();
+                $sku = $stepInfo['sku'] ?? null;
+                $prod = $sku ? Product::where('sku', $sku)->first() : null;
+
+                if (!$prod) {
+                    $prod = Product::where('stock', '>', 0)->inRandomOrder()->first();
+                }
+
                 if (!$prod) break;
 
                 PresetRoutineProduct::create([

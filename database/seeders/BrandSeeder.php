@@ -48,6 +48,12 @@ class BrandSeeder extends Seeder
             ['name_en' => 'BIODANCE', 'name_ar' => 'بيو دانس', 'image' => 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=800'],
             ['name_en' => 'Aestura', 'name_ar' => 'أستورا', 'image' => 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=800'],
             ['name_en' => 'Illiyoon', 'name_ar' => 'إليون', 'image' => 'https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=800'],
+            ['name_en' => 'ISNTREE', 'name_ar' => 'إزنتري', 'image' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800'],
+            ['name_en' => 'SOME BY MI', 'name_ar' => 'سام باي مي', 'image' => 'https://images.unsplash.com/photo-1601049676099-e7ed07d825b0?auto=format&fit=crop&q=80&w=800'],
+            ['name_en' => 'TORRIDEN', 'name_ar' => 'توريدن', 'image' => 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800'],
+            ['name_en' => 'MIXSOON', 'name_ar' => 'مكسون', 'image' => 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&q=80&w=800'],
+            ['name_en' => 'Mary&May', 'name_ar' => 'ماري أند ماي', 'image' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800'],
+            ['name_en' => 'Dr.Reju-All', 'name_ar' => 'د. ريجو أول', 'image' => 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800'],
         ];
 
         foreach ($brands as $brand) {

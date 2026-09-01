@@ -706,5 +706,116 @@ class ProductSeeder extends Seeder
         fclose($file);
 
         $this->command->info("Successfully seeded {$rowCount} products from CSV.");
+
+        // 13. Import full Developer Pack products (including ISNTREE, SOME BY MI, TORRIDEN, MIXSOON, Mary&May, Dr.Reju-All)
+        $jsonPaths = [
+            'c:/Users/Dell/Downloads/KCODE_Developer_Pack_v16.5 (2)/kcode_modern_v16_5/kcode_products.json',
+            base_path('exicel/kcode_products.json'),
+        ];
+
+        $jsonFile = null;
+        foreach ($jsonPaths as $p) {
+            if (file_exists($p)) {
+                $jsonFile = $p;
+                break;
+            }
+        }
+
+        if ($jsonFile) {
+            $jsonContent = json_decode(file_get_contents($jsonFile), true);
+            $jsonProducts = $jsonContent['products'] ?? [];
+
+            $jsonSeeded = 0;
+            foreach ($jsonProducts as $pData) {
+                $brandName = trim($pData['brand'] ?? '');
+                $prodName = trim($pData['product'] ?? '');
+                $sku = trim($pData['sku'] ?? '');
+                $barcode = trim($pData['barcode'] ?? '');
+                $size = trim($pData['size'] ?? '');
+
+                if (empty($brandName) || empty($prodName)) continue;
+
+                $fullEnName = "{$brandName} {$prodName}" . ($size ? " ({$size})" : "");
+                $slug = \Illuminate\Support\Str::slug("{$brandName}-{$prodName}-{$size}");
+
+                $brand = Brand::firstOrCreate(
+                    ['name_en' => $brandName],
+                    ['name_ar' => $brandName, 'image' => 'https://images.unsplash.com/photo-1601049676099-e7ed07d825b0?auto=format&fit=crop&q=80&w=800']
+                );
+
+                $categoryName = $pData['category'] ?? 'Skincare';
+                $category = Category::firstOrCreate(
+                    ['name_en' => $categoryName],
+                    ['name_ar' => $categoryTranslations[$categoryName] ?? $categoryName, 'image' => 'default.png']
+                );
+
+                $subCategoryName = $pData['sub_category'] ?? $categoryName;
+                $subCategory = SubCategory::firstOrCreate(
+                    ['name_en' => $subCategoryName, 'category_id' => $category->id],
+                    ['name_ar' => $subCategoryName, 'image' => 'default.png']
+                );
+
+                $descAr = $pData['description_ar'] ?? "منتج أصلي مميز من ماركة {$brandName} للعناية بالبشرة.";
+                $descEn = "Authentic {$brandName} {$prodName} skincare product.";
+
+                $product = Product::updateOrCreate(
+                    ['sku' => $sku ?: $slug],
+                    [
+                        'brand_id' => $brand->id,
+                        'category_id' => $category->id,
+                        'sub_category_id' => $subCategory->id,
+                        'name_en' => $fullEnName,
+                        'name_ar' => $pData['name_ar'] ?? "{$brandName} {$prodName}" . ($size ? " ({$size})" : ""),
+                        'name' => $fullEnName,
+                        'sku' => $sku ?: $slug,
+                        'barcode' => $barcode,
+                        'price' => rand(65, 185),
+                        'stock' => rand(15, 80),
+                        'main_image' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800',
+                        'short_description_ar' => $descAr,
+                        'short_description_en' => $descEn,
+                        'description_ar' => $descAr,
+                        'description_en' => $descEn,
+                        'status' => 'active',
+                        'is_best_seller' => true,
+                    ]
+                );
+
+                foreach (SkinType::all() as $st) {
+                    ProductSkinType::firstOrCreate([
+                        'product_id' => $product->id,
+                        'skin_type_id' => $st->id,
+                    ]);
+                }
+
+                foreach (Concern::all() as $c) {
+                    ProductConcern::firstOrCreate([
+                        'product_id' => $product->id,
+                        'concern_id' => $c->id,
+                    ]);
+                }
+
+                $stepName = $pData['category'] ?? 'Serum';
+                $mapping = $stepMapping[$stepName] ?? ['ar' => $stepName, 'en' => $stepName, 'order' => 3];
+                $routineStep = RoutineStep::firstOrCreate(
+                    ['name_en' => $stepName],
+                    ['name_ar' => $mapping['ar'], 'order' => $mapping['order']]
+                );
+
+                ProductRoutine::firstOrCreate([
+                    'product_id' => $product->id,
+                    'routine_step_id' => $routineStep->id,
+                ], [
+                    'morning' => true,
+                    'night' => true,
+                    'layer_order' => 3,
+                    'is_core' => true,
+                    'is_addon' => false,
+                ]);
+
+                $jsonSeeded++;
+            }
+            $this->command->info("Successfully imported {$jsonSeeded} products from JSON Developer Pack.");
+        }
     }
 }
