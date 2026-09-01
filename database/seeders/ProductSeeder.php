@@ -183,6 +183,9 @@ class ProductSeeder extends Seeder
                 ]
             );
 
+            $skinFit = $pData['skin_fit'] ?? [];
+            $goals = $pData['goals'] ?? [];
+
             foreach ($allSkinTypes as $st) {
                 ProductSkinType::firstOrCreate([
                     'product_id' => $product->id,
@@ -190,11 +193,42 @@ class ProductSeeder extends Seeder
                 ]);
             }
 
-            foreach ($allConcerns as $c) {
-                ProductConcern::firstOrCreate([
-                    'product_id' => $product->id,
-                    'concern_id' => $c->id,
-                ]);
+            // Map Concerns based on developer pack JSON goals dictionary scores
+            $concernKeyMap = [
+                'acne' => 'Acne & Blemishes',
+                'oil_control' => 'Pores & Blackheads',
+                'pores' => 'Pores & Blackheads',
+                'pigmentation_pih' => 'Pigmentation & Dark Spots',
+                'redness_pie' => 'Redness & Irritation',
+                'barrier' => 'Skin Barrier',
+                'lines' => 'Wrinkles & Fine Lines',
+                'hydration' => 'Dryness & Hydration',
+                'radiance' => 'Pigmentation & Dark Spots',
+            ];
+
+            $matchedConcernIds = [];
+            foreach ($concernKeyMap as $jsonKey => $dbConcernEn) {
+                $score = $goals[$jsonKey] ?? 0;
+                if ($score >= 50) {
+                    $cModel = Concern::where('name_en', $dbConcernEn)->first();
+                    if ($cModel && !in_array($cModel->id, $matchedConcernIds)) {
+                        $matchedConcernIds[] = $cModel->id;
+                        ProductConcern::firstOrCreate([
+                            'product_id' => $product->id,
+                            'concern_id' => $cModel->id,
+                        ]);
+                    }
+                }
+            }
+
+            // Fallback if no specific concern reached threshold
+            if (empty($matchedConcernIds)) {
+                foreach ($allConcerns as $c) {
+                    ProductConcern::firstOrCreate([
+                        'product_id' => $product->id,
+                        'concern_id' => $c->id,
+                    ]);
+                }
             }
 
             $stepName = $categoryName;
