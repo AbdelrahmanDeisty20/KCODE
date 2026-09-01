@@ -100,6 +100,14 @@ class ProductSeeder extends Seeder
             'Body Care' => ['ar' => 'العناية بالجسم', 'en' => 'Body Care', 'order' => 10],
         ];
 
+        if (SkinType::count() === 0) {
+            (new SkinTypeSeeder())->run();
+        }
+
+        if (Concern::count() === 0) {
+            (new ConcernSeeder())->run();
+        }
+
         $allSkinTypes = SkinType::all();
         $allConcerns = Concern::all();
 
