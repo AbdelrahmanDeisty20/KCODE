@@ -179,6 +179,7 @@ class ProductSeeder extends Seeder
                     'how_to_use_en' => $descEn,
                     'status' => 'active',
                     'is_best_seller' => true,
+                    'sales_count' => rand(150, 500),
                 ]
             );
 

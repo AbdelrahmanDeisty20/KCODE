@@ -247,7 +247,10 @@ class Product extends Model
 
     public function scopeBestSeller($query)
     {
-        return $query->where('sales_count', '>=', 100);
+        return $query->where(function ($q) {
+            $q->where('sales_count', '>=', 100)
+              ->orWhere('is_best_seller', true);
+        });
     }
 
     public function offers()
