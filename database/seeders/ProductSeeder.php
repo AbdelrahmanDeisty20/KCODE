@@ -100,10 +100,14 @@ class ProductSeeder extends Seeder
             $fullEnName = "{$brandName} {$prodName}" . ($size ? " ({$size})" : "");
             $slug = Str::slug("{$brandName}-{$prodName}-{$size}");
 
-            $brand = Brand::firstOrCreate(
-                ['name_en' => $brandName],
-                ['name_ar' => $brandName, 'image' => Str::slug($brandName) . '.png']
-            );
+            $brand = Brand::whereRaw('LOWER(name_en) = ?', [strtolower($brandName)])->first();
+            if (!$brand) {
+                $brand = Brand::create([
+                    'name_en' => $brandName,
+                    'name_ar' => $brandName,
+                    'image'   => Str::slug($brandName) . '.png',
+                ]);
+            }
 
             $categoryName = $pData['category'] ?? 'Serum';
             $category = Category::firstOrCreate(
