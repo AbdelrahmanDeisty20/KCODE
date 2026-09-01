@@ -3,70 +3,76 @@
 namespace Database\Seeders;
 
 use App\Models\Brand;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 
 class BrandSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seed the official 22 KCODE Korean skincare brands from V24 Developer Pack.
      */
     public function run(): void
     {
         $brands = [
-            ['name_en' => 'La Roche-Posay', 'name_ar' => 'لاروش بوزيه', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/La_Roche-Posay_logo.svg/800px-La_Roche-Posay_logo.svg.png'],
-            ['name_en' => 'CeraVe', 'name_ar' => 'سيرافي', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/CeraVe_logo.png/800px-CeraVe_logo.png'],
-            ['name_en' => 'The Ordinary', 'name_ar' => 'ذا أورديناري', 'image' => 'https://images.unsplash.com/photo-1601049676099-e7ed07d825b0?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Vichy', 'name_ar' => 'فيشي', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Vichy_Laboratoires_%28logo%29.jpg/800px-Vichy_Laboratoires_%28logo%29.jpg'],
-            ['name_en' => 'Bioderma', 'name_ar' => 'بيوديرما', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/Bioderma_logo.svg/800px-Bioderma_logo.svg.png'],
-            ['name_en' => 'Neutrogena', 'name_ar' => 'نيتروجينا', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Neutrogena_logo.svg/800px-Neutrogena_logo.svg.png'],
-            ['name_en' => 'Eucerin', 'name_ar' => 'يوسيرين', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Eucerin-logo.png/800px-Eucerin-logo.png'],
-            ['name_en' => 'Cetaphil', 'name_ar' => 'سيتافيل', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Cetaphil_Thailand_Logo.png/800px-Cetaphil_Thailand_Logo.png'],
-            ['name_en' => 'Laneige', 'name_ar' => 'لانيج', 'image' => 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'COSRX', 'name_ar' => 'كوزريكس', 'image' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'L\'Oréal Paris', 'name_ar' => 'لوريال باريس', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/L%27Or%C3%A9al_logo.svg/800px-L%27Or%C3%A9al_logo.svg.png'],
-            ['name_en' => 'Clinique', 'name_ar' => 'كلينيك', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Clinique_logo.svg/800px-Clinique_logo.svg.png'],
-            ['name_en' => 'Kiehl\'s', 'name_ar' => 'كيلز', 'image' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Paula\'s Choice', 'name_ar' => 'بولاز تشويس', 'image' => 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Avène', 'name_ar' => 'أفين', 'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Eau_Thermale_Av%C3%A8ne_logo.svg/800px-Eau_Thermale_Av%C3%A8ne_logo.svg.png'],
-            ['name_en' => 'Medicube', 'name_ar' => 'ميديكيوب', 'image' => 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'ANUA', 'name_ar' => 'أنوا', 'image' => 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Beauty of Joseon', 'name_ar' => 'بيوتي أوف جوسون', 'image' => 'https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'SKIN1004', 'name_ar' => 'سكِن1004', 'image' => 'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'AXIS-Y', 'name_ar' => 'أكسيس واي', 'image' => 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Dr.Melaxin', 'name_ar' => 'د. ميلاكسين', 'image' => 'https://images.unsplash.com/photo-1556227702-d1e4e7b5c232?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'K-SECRET', 'name_ar' => 'كي-سيكرت', 'image' => 'https://images.unsplash.com/photo-1615397349754-cfa2066a298e?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'VT Cosmetics', 'name_ar' => 'في تي كوزمتكس', 'image' => 'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'celimax', 'name_ar' => 'سيليماكس', 'image' => 'https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Dr. Althea', 'name_ar' => 'د. ألثيا', 'image' => 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Arencia', 'name_ar' => 'أرينسيا', 'image' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'ROUND LAB', 'name_ar' => 'راوند لاب', 'image' => 'https://images.unsplash.com/photo-1601049676099-e7ed07d825b0?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'numbuzin', 'name_ar' => 'نمبوزن', 'image' => 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Abib', 'name_ar' => 'أبيب', 'image' => 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'EQQUALBERRY', 'name_ar' => 'إيكوالبيري', 'image' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'PURITO', 'name_ar' => 'بوريتو', 'image' => 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'BIODANCE', 'name_ar' => 'بيو دانس', 'image' => 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Aestura', 'name_ar' => 'أستورا', 'image' => 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Illiyoon', 'name_ar' => 'إليون', 'image' => 'https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'ISNTREE', 'name_ar' => 'إزنتري', 'image' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'SOME BY MI', 'name_ar' => 'سام باي مي', 'image' => 'https://images.unsplash.com/photo-1601049676099-e7ed07d825b0?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'TORRIDEN', 'name_ar' => 'توريدن', 'image' => 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'MIXSOON', 'name_ar' => 'مكسون', 'image' => 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Mary&May', 'name_ar' => 'ماري أند ماي', 'image' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800'],
-            ['name_en' => 'Dr.Reju-All', 'name_ar' => 'د. ريجو أول', 'image' => 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800'],
+            ['name_en' => 'Abib', 'name_ar' => 'أبيب', 'logo' => 'abib.png'],
+            ['name_en' => 'ANUA', 'name_ar' => 'أنوا', 'logo' => 'anua.png'],
+            ['name_en' => 'Arencia', 'name_ar' => 'أرينسيا', 'logo' => 'arencia.png'],
+            ['name_en' => 'AXIS-Y', 'name_ar' => 'أكسيس واي', 'logo' => 'axis-y.png'],
+            ['name_en' => 'Beauty of Joseon', 'name_ar' => 'بيوتي أوف جوسون', 'logo' => 'beauty-of-joseon.png'],
+            ['name_en' => 'BIODANCE', 'name_ar' => 'بيو دانس', 'logo' => 'biodance.png'],
+            ['name_en' => 'celimax', 'name_ar' => 'سيليماكس', 'logo' => 'celimax.png'],
+            ['name_en' => 'COSRX', 'name_ar' => 'كوزريكس', 'logo' => 'cosrx.png'],
+            ['name_en' => 'Dr. Althea', 'name_ar' => 'د. ألثيا', 'logo' => 'dr-althea.png'],
+            ['name_en' => 'Dr.Melaxin', 'name_ar' => 'د. ميلاكسين', 'logo' => 'dr-melaxin.png'],
+            ['name_en' => 'Dr.Reju-All', 'name_ar' => 'د. ريجو أول', 'logo' => 'dr-reju-all.png'],
+            ['name_en' => 'EQQUALBERRY', 'name_ar' => 'إيكوالبيري', 'logo' => 'eqqualberry.png'],
+            ['name_en' => 'ISNTREE', 'name_ar' => 'إزنتري', 'logo' => 'isntree.png'],
+            ['name_en' => 'Mary&May', 'name_ar' => 'ماري أند ماي', 'logo' => 'mary-and-may.png'],
+            ['name_en' => 'Medicube', 'name_ar' => 'ميديكيوب', 'logo' => 'medicube.png'],
+            ['name_en' => 'MIXSOON', 'name_ar' => 'مكسون', 'logo' => 'mixsoon.png'],
+            ['name_en' => 'numbuzin', 'name_ar' => 'نمبوزن', 'logo' => 'numbuzin.png'],
+            ['name_en' => 'PURITO', 'name_ar' => 'بوريتو', 'logo' => 'purito.png'],
+            ['name_en' => 'SKIN1004', 'name_ar' => 'سكِن1004', 'logo' => 'skin1004.png'],
+            ['name_en' => 'SOME BY MI', 'name_ar' => 'سام باي مي', 'logo' => 'some-by-mi.png'],
+            ['name_en' => 'TORRIDEN', 'name_ar' => 'توريدن', 'logo' => 'torriden.png'],
+            ['name_en' => 'VT Cosmetics', 'name_ar' => 'في تي كوزمتكس', 'logo' => 'vt-cosmetics.png'],
         ];
 
+        $sourceDir = 'c:/Users/Dell/Downloads/KCODE_Homepage_Developer_V24_FINAL/KCODE_Homepage_Developer_V24_FINAL/assets/brands';
+        $targetDir = storage_path('app/public/brands');
+
+        if (!File::exists($targetDir)) {
+            File::makeDirectory($targetDir, 0755, true, true);
+        }
+
+        $allowedNames = [];
+
         foreach ($brands as $brand) {
-            $filename = \Illuminate\Support\Str::slug($brand['name_en']) . '.jpg';
-            ImageDownloader::downloadAndSave($brand['image'], 'brands', $filename);
+            $allowedNames[] = $brand['name_en'];
+
+            // Copy logo image if available in assets package
+            $srcFile = $sourceDir . '/' . $brand['logo'];
+            $destFile = $targetDir . '/' . $brand['logo'];
+
+            if (File::exists($srcFile)) {
+                File::copy($srcFile, $destFile);
+            }
 
             Brand::updateOrCreate(
                 ['name_en' => $brand['name_en']],
                 [
                     'name_ar' => $brand['name_ar'],
-                    'image' => $filename,
+                    'image' => $brand['logo'],
                 ]
             );
         }
+
+        // Delete any brand not in the 22 official Developer Pack list
+        $oldBrands = Brand::whereNotIn('name_en', $allowedNames)->get();
+        foreach ($oldBrands as $old) {
+            \App\Models\Product::where('brand_id', $old->id)->update(['brand_id' => null]);
+            $old->delete();
+        }
     }
 }
+
