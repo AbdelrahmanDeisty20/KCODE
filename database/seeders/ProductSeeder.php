@@ -58,6 +58,22 @@ class ProductSeeder extends Seeder
         $jsonContent = json_decode(file_get_contents($jsonFile), true);
         $jsonProducts = $jsonContent['products'] ?? [];
 
+        // Normalization map to strictly map all JSON categories to the 10 official Product Types
+        $categoryNormalizer = [
+            'Cleanser' => 'Cleanser',
+            'Toner' => 'Toner',
+            'Mist' => 'Toner',
+            'Essence' => 'Essence',
+            'Serum' => 'Serum',
+            'Spot Treatment' => 'Serum',
+            'Moisturizer' => 'Moisturizer',
+            'Sunscreen' => 'Sunscreen',
+            'Eye Care' => 'Eye Care',
+            'Exfoliator' => 'Exfoliator',
+            'Mask' => 'Mask',
+            'Body Care' => 'Body Care',
+        ];
+
         $categoryTranslations = [
             'Cleanser' => 'غسول',
             'Toner' => 'تونر',
@@ -100,6 +116,7 @@ class ProductSeeder extends Seeder
             $fullEnName = "{$brandName} {$prodName}" . ($size ? " ({$size})" : "");
             $slug = Str::slug("{$brandName}-{$prodName}-{$size}");
 
+            // Match Brand case-insensitively
             $brand = Brand::whereRaw('LOWER(name_en) = ?', [strtolower($brandName)])->first();
             if (!$brand) {
                 $brand = Brand::create([
@@ -109,11 +126,18 @@ class ProductSeeder extends Seeder
                 ]);
             }
 
-            $categoryName = $pData['category'] ?? 'Serum';
-            $category = Category::firstOrCreate(
-                ['name_en' => $categoryName],
-                ['name_ar' => $categoryTranslations[$categoryName] ?? $categoryName, 'image' => Str::slug($categoryName) . '.webp']
-            );
+            // Strictly normalize category to one of the 10 official Product Types
+            $rawCategory = $pData['category'] ?? 'Serum';
+            $categoryName = $categoryNormalizer[$rawCategory] ?? 'Serum';
+
+            $category = Category::where('name_en', $categoryName)->first();
+            if (!$category) {
+                $category = Category::create([
+                    'name_en' => $categoryName,
+                    'name_ar' => $categoryTranslations[$categoryName] ?? $categoryName,
+                    'image'   => Str::slug($categoryName) . '.webp',
+                ]);
+            }
 
             $subCategoryName = $pData['sub_category'] ?? $categoryName;
             $subCategory = SubCategory::firstOrCreate(
@@ -164,7 +188,7 @@ class ProductSeeder extends Seeder
                 ]);
             }
 
-            $stepName = $pData['category'] ?? 'Serum';
+            $stepName = $categoryName;
             $mapping = $stepMapping[$stepName] ?? ['ar' => $stepName, 'en' => $stepName, 'order' => 4];
             $routineStep = RoutineStep::firstOrCreate(
                 ['name_en' => $stepName],
@@ -185,6 +209,6 @@ class ProductSeeder extends Seeder
             $seededCount++;
         }
 
-        $this->command->info("Successfully seeded {$seededCount} official products from JSON Developer Pack.");
+        $this->command->info("Successfully seeded {$seededCount} official products strictly mapped to official 10 Product Types.");
     }
 }

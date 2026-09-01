@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\SubCategory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
@@ -14,6 +15,12 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
+        // Truncate existing categories to guarantee strictly 10 categories
+        Schema::disableForeignKeyConstraints();
+        SubCategory::truncate();
+        Category::truncate();
+        Schema::enableForeignKeyConstraints();
+
         $categories = [
             ['name_en' => 'Cleanser', 'name_ar' => 'غسول', 'image' => 'cleanser.webp'],
             ['name_en' => 'Toner', 'name_ar' => 'تونر', 'image' => 'toner.webp'],
@@ -34,11 +41,7 @@ class CategorySeeder extends Seeder
             File::makeDirectory($targetDir, 0755, true, true);
         }
 
-        $allowedNames = [];
-
         foreach ($categories as $cat) {
-            $allowedNames[] = $cat['name_en'];
-
             // Copy image if available in assets package
             $srcFile = $sourceDir . '/' . $cat['image'];
             $destFile = $targetDir . '/' . $cat['image'];
@@ -47,23 +50,11 @@ class CategorySeeder extends Seeder
                 File::copy($srcFile, $destFile);
             }
 
-            Category::updateOrCreate(
-                ['name_en' => $cat['name_en']],
-                [
-                    'name_ar' => $cat['name_ar'],
-                    'image' => $cat['image'],
-                ]
-            );
+            Category::create([
+                'name_en' => $cat['name_en'],
+                'name_ar' => $cat['name_ar'],
+                'image'   => $cat['image'],
+            ]);
         }
-
-        // Clean up legacy categories not in official 10 list cleanly
-        Schema::disableForeignKeyConstraints();
-        $oldCategories = Category::whereNotIn('name_en', $allowedNames)->get();
-        foreach ($oldCategories as $old) {
-            \App\Models\Product::where('category_id', $old->id)->delete();
-            $old->delete();
-        }
-        Schema::enableForeignKeyConstraints();
     }
 }
-
