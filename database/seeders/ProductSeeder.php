@@ -709,8 +709,9 @@ class ProductSeeder extends Seeder
 
         // 13. Import full Developer Pack products (including ISNTREE, SOME BY MI, TORRIDEN, MIXSOON, Mary&May, Dr.Reju-All)
         $jsonPaths = [
-            'c:/Users/Dell/Downloads/KCODE_Developer_Pack_v16.5 (2)/kcode_modern_v16_5/kcode_products.json',
             base_path('exicel/kcode_products.json'),
+            base_path('kcode_products.json'),
+            'c:/Users/Dell/Downloads/KCODE_Developer_Pack_v16.5 (2)/kcode_modern_v16_5/kcode_products.json',
         ];
 
         $jsonFile = null;
