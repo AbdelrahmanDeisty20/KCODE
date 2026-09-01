@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 
 class CategorySeeder extends Seeder
 {
@@ -55,12 +56,14 @@ class CategorySeeder extends Seeder
             );
         }
 
-        // Clean up legacy categories not in official 10 list
+        // Clean up legacy categories not in official 10 list cleanly
+        Schema::disableForeignKeyConstraints();
         $oldCategories = Category::whereNotIn('name_en', $allowedNames)->get();
         foreach ($oldCategories as $old) {
-            \App\Models\Product::where('category_id', $old->id)->update(['category_id' => null]);
+            \App\Models\Product::where('category_id', $old->id)->delete();
             $old->delete();
         }
+        Schema::enableForeignKeyConstraints();
     }
 }
 
