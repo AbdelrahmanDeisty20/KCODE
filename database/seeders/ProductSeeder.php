@@ -231,6 +231,41 @@ class ProductSeeder extends Seeder
                 }
             }
 
+            // Map Goals (ProductGoal) based on developer pack JSON goals dictionary scores
+            $goalKeyMap = [
+                'radiance' => 'Radiance & Freshness',
+                'acne' => 'Acne & Scars',
+                'oil_control' => 'Pore Care',
+                'pores' => 'Pore Care',
+                'pigmentation_pih' => 'Brightening & Evening Tone',
+                'hydration' => 'Hydration & Protection',
+                'barrier' => 'Hydration & Protection',
+            ];
+
+            $matchedGoalIds = [];
+            foreach ($goalKeyMap as $jsonKey => $dbGoalEn) {
+                $score = $goals[$jsonKey] ?? 0;
+                if ($score >= 50) {
+                    $gModel = \App\Models\RoutineGoal::where('name_en', $dbGoalEn)->first();
+                    if ($gModel && !in_array($gModel->id, $matchedGoalIds)) {
+                        $matchedGoalIds[] = $gModel->id;
+                        \App\Models\ProductGoal::firstOrCreate([
+                            'product_id' => $product->id,
+                            'goal_id' => $gModel->id,
+                        ]);
+                    }
+                }
+            }
+
+            if (empty($matchedGoalIds)) {
+                foreach (\App\Models\RoutineGoal::all() as $rg) {
+                    \App\Models\ProductGoal::firstOrCreate([
+                        'product_id' => $product->id,
+                        'goal_id' => $rg->id,
+                    ]);
+                }
+            }
+
             $stepName = $categoryName;
             $mapping = $stepMapping[$stepName] ?? ['ar' => $stepName, 'en' => $stepName, 'order' => 4];
             $routineStep = RoutineStep::firstOrCreate(

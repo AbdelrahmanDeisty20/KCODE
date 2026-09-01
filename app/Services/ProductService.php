@@ -121,7 +121,7 @@ class ProductService
         if (!empty($filters['skin_type_id'])) {
             $skinTypeIds = is_array($filters['skin_type_id']) ? $filters['skin_type_id'] : [$filters['skin_type_id']];
             $query->whereHas('skinTypes', function ($q) use ($skinTypeIds) {
-                $q->whereIn('skin_type_id', $skinTypeIds);
+                $q->whereIn('skin_types.id', $skinTypeIds);
             });
         }
 
@@ -129,7 +129,7 @@ class ProductService
         if (!empty($filters['goal_id'])) {
             $goalIds = is_array($filters['goal_id']) ? $filters['goal_id'] : [$filters['goal_id']];
             $query->whereHas('goals', function ($q) use ($goalIds) {
-                $q->whereIn('goal_id', $goalIds);
+                $q->whereIn('routine_goals.id', $goalIds);
             });
         }
 
@@ -137,7 +137,7 @@ class ProductService
         if (!empty($filters['concern_id'])) {
             $concernIds = is_array($filters['concern_id']) ? $filters['concern_id'] : [$filters['concern_id']];
             $query->whereHas('concerns', function ($q) use ($concernIds) {
-                $q->whereIn('concern_id', $concernIds);
+                $q->whereIn('concerns.id', $concernIds);
             });
         }
 
