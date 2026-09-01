@@ -554,15 +554,9 @@ class RoutineService
     private function formatPresetRoutine($routineModel, $lang, $includeItems = false)
     {
         $items = [];
-        $stepNames = [];
         $totalPrice = 0;
 
         foreach ($routineModel->items as $itemModel) {
-            $stepName = $lang === 'ar' ? ($itemModel->step_name_ar ?? "الخطوة {$itemModel->display_order}") : ($itemModel->step_name_en ?? "Step {$itemModel->display_order}");
-            if ($stepName) {
-                $stepNames[] = $stepName;
-            }
-
             $prod = $itemModel->product;
             if (!$prod) continue;
 
@@ -571,7 +565,6 @@ class RoutineService
             if ($includeItems) {
                 $items[] = [
                     'display_order' => (int)$itemModel->display_order,
-                    'step_name' => $stepName,
                     'morning' => (bool)$itemModel->morning,
                     'night' => (bool)$itemModel->night,
                     'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
@@ -603,7 +596,6 @@ class RoutineService
             'goal' => $lang === 'ar' ? $routineModel->goal_ar : $routineModel->goal_en,
             'total_price' => round($totalPrice, 2),
             'products_count' => $routineModel->items->count(),
-            'steps_summary' => $stepNames,
         ];
 
         if ($includeItems) {
