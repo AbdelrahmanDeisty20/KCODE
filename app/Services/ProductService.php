@@ -304,7 +304,7 @@ class ProductService
 
         $products = Product::where('stock', '>', 0)
         ->whereHas('skinTypes', function ($q) use ($skinTypeId) {
-            $q->where('skin_type_id', $skinTypeId);
+            $q->where('skin_types.id', $skinTypeId);
         })
         ->with(['brand', 'subCategory'])
         ->paginate(10);
