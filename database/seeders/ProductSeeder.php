@@ -186,11 +186,40 @@ class ProductSeeder extends Seeder
             $skinFit = $pData['skin_fit'] ?? [];
             $goals = $pData['goals'] ?? [];
 
-            foreach ($allSkinTypes as $st) {
-                ProductSkinType::firstOrCreate([
-                    'product_id' => $product->id,
-                    'skin_type_id' => $st->id,
-                ]);
+            // Map SkinTypes based on developer pack JSON skin_fit dictionary scores (threshold >= 50)
+            $skinFitKeyMap = [
+                'Oily' => 'oily',
+                'Dry' => 'dry',
+                'Combination' => 'combination',
+                'Normal' => 'normal',
+                'Sensitive' => 'normal',
+            ];
+
+            $matchedSkinTypeIds = [];
+            if (!empty($skinFit)) {
+                foreach ($skinFitKeyMap as $dbSkinNameEn => $jsonKey) {
+                    $fitScore = $skinFit[$jsonKey] ?? 0;
+                    if ($fitScore >= 50) {
+                        $stModel = SkinType::where('name_en', $dbSkinNameEn)->first();
+                        if ($stModel && !in_array($stModel->id, $matchedSkinTypeIds)) {
+                            $matchedSkinTypeIds[] = $stModel->id;
+                            ProductSkinType::firstOrCreate([
+                                'product_id' => $product->id,
+                                'skin_type_id' => $stModel->id,
+                            ]);
+                        }
+                    }
+                }
+            }
+
+            // Fallback if no specific skin fit was specified in JSON
+            if (empty($matchedSkinTypeIds)) {
+                foreach ($allSkinTypes as $st) {
+                    ProductSkinType::firstOrCreate([
+                        'product_id' => $product->id,
+                        'skin_type_id' => $st->id,
+                    ]);
+                }
             }
 
             // Map Concerns based on developer pack JSON goals dictionary scores

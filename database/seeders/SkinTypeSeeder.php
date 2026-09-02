@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\SkinType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
-use App\Models\SkinType;
 
 class SkinTypeSeeder extends Seeder
 {
@@ -35,6 +34,13 @@ class SkinTypeSeeder extends Seeder
                 'description_ar' => 'منطقة T (الجبهة والأنف) دهنية والوجنتين جافتين أو عاديتين',
                 'description_en' => 'Oily T-zone (forehead and nose) and dry or normal cheeks.',
                 'image' => 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&q=80&w=400',
+            ],
+            [
+                'name_ar' => 'عادية',
+                'name_en' => 'Normal',
+                'description_ar' => 'بشرة متوازنة، دون لمعان أو شدّ زائد وتتمتع بتوازن طبيعي',
+                'description_en' => 'Balanced skin, without excessive shine or tightness with natural balance.',
+                'image' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=400',
             ],
             [
                 'name_ar' => 'حساسة',
