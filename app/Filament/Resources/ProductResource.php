@@ -200,6 +200,30 @@ class ProductResource extends Resource
                                     ->required(),
                             ])->columns(2),
 
+                        Components\Tabs\Tab::make('أنواع البشرة والمشاكل والأهداف')
+                            ->schema([
+                                Forms\Components\Select::make('skinTypes')
+                                    ->label('أنواع البشرة المناسبة')
+                                    ->relationship('skinTypes', 'name_ar')
+                                    ->multiple()
+                                    ->preload()
+                                    ->searchable(),
+
+                                Forms\Components\Select::make('concerns')
+                                    ->label('مشاكل البشرة المستهدفة')
+                                    ->relationship('concerns', 'name_ar')
+                                    ->multiple()
+                                    ->preload()
+                                    ->searchable(),
+
+                                Forms\Components\Select::make('goals')
+                                    ->label('أهداف الروتين المستهدفة')
+                                    ->relationship('goals', 'name_ar')
+                                    ->multiple()
+                                    ->preload()
+                                    ->searchable(),
+                            ])->columns(2),
+
                         Components\Tabs\Tab::make('SEO ومحركات البحث')
                             ->schema([
                                 Forms\Components\TextInput::make('final_url_slug')
