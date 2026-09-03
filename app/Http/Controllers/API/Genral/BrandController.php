@@ -25,7 +25,7 @@ class BrandController extends Controller
         if (!$brands['status']) {
             return $this->error($brands['message'], 404);
         }
-        return $this->paginated(BrandResource::class, $brands['data'], __('messages.brandsGetSuccessfully'));
+        return $this->success(BrandResource::class, $brands['data'], __('messages.brandsGetSuccessfully'), 201);
     }
     public function show($id)
     {
