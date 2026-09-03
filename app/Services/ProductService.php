@@ -8,7 +8,14 @@ class ProductService
 {
     public function index() {
         $products = Product::where('stock', '>', 0)
-            ->with('brand', 'subCategory','offers','category')
+            ->with([
+                'brand',
+                'subCategory',
+                'category',
+                'offers' => function ($q) {
+                    $q->active();
+                }
+            ])
             ->paginate(10);
         if ($products->isEmpty()) {
             return [
@@ -28,7 +35,17 @@ class ProductService
         $query = $data['query'];
 
         $products = Product::where('stock', '>', 0)
-            ->with(['brand', 'subCategory', 'offers', 'category', 'concerns', 'skinTypes', 'goals'])
+            ->with([
+                'brand',
+                'subCategory',
+                'category',
+                'concerns',
+                'skinTypes',
+                'goals',
+                'offers' => function ($q) {
+                    $q->active();
+                }
+            ])
             ->where(function ($q) use ($query) {
                 $q->where('name_en', 'LIKE', '%' . $query . '%')
                   ->orWhere('name_ar', 'LIKE', '%' . $query . '%')
@@ -96,7 +113,15 @@ class ProductService
     }
 
     public function filter(array $filters = []) {
-        $query = Product::where('stock', '>', 0)->with(['brand', 'subCategory', 'reviews','offers','category']);
+        $query = Product::where('stock', '>', 0)->with([
+            'brand',
+            'subCategory',
+            'reviews',
+            'category',
+            'offers' => function ($q) {
+                $q->active();
+            }
+        ]);
 
         // 1. Category Filter
         if (!empty($filters['category_id'])) {
@@ -212,7 +237,9 @@ class ProductService
                 $query->orderBy('id', 'desc');
             }, 
             'reviews.user', 
-            'offers', 
+            'offers' => function ($q) {
+                $q->active();
+            }, 
             'category', 
             'images'
         ])->find($id);
@@ -231,7 +258,13 @@ class ProductService
     }
 
     public function alternatives($id) {
-        $product = Product::with('brand', 'subCategory','offers')->find($id);
+        $product = Product::with([
+            'brand',
+            'subCategory',
+            'offers' => function ($q) {
+                $q->active();
+            }
+        ])->find($id);
         if (!$product) {
             return [
                 'status' => false,

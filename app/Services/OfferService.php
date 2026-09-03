@@ -14,7 +14,14 @@ class OfferService
         $products = Product::whereHas('offers', function ($query) {
             $query->active();
         })
-        ->with(['brand', 'subCategory', 'offers'])
+        ->with([
+            'brand',
+            'subCategory',
+            'category',
+            'offers' => function ($query) {
+                $query->active();
+            }
+        ])
         ->paginate(10);
 
         if ($products->isEmpty()) {

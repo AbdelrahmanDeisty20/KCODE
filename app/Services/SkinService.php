@@ -43,7 +43,12 @@ class SkinService
 
         $products = Product::whereHas('skinTypes', function ($q) use ($id) {
             $q->where('skin_type_id', $id);
-        })->with(['brand', 'offers'])->paginate(10);
+        })->with([
+            'brand',
+            'offers' => function ($q) {
+                $q->active();
+            }
+        ])->paginate(10);
 
         return [
             'status'    => true,
