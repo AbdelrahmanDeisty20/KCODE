@@ -9,7 +9,7 @@ class BrandService
 {
     public function index()
     {
-        $brands = Brand::paginate(10);
+        $brands = Brand::all();
         if ($brands->isEmpty()) {
             return [
                 'status' => false,
