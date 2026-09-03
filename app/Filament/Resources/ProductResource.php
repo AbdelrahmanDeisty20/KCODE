@@ -65,20 +65,12 @@ class ProductResource extends Resource
                                     ->required()
                                     ->unique(ignoreRecord: true),
 
-                                Forms\Components\TextInput::make('name_ar')
-                                    ->label('الاسم بالعربية')
-                                    ->nullable(),
-
                                 Forms\Components\TextInput::make('name_en')
-                                    ->label('الاسم بالإنجليزية')
+                                    ->label('اسم المنتج (Product Name)')
                                     ->required(),
 
-                                Forms\Components\TextInput::make('short_name_ar')
-                                    ->label('الاسم المختصر بالعربية')
-                                    ->nullable(),
-
                                 Forms\Components\TextInput::make('short_name_en')
-                                    ->label('الاسم المختصر بالإنجليزية')
+                                    ->label('الاسم المختصر (Short Name)')
                                     ->required(),
 
                                 Forms\Components\Select::make('category_id')
@@ -137,33 +129,18 @@ class ProductResource extends Resource
 
                         Components\Tabs\Tab::make('الوصف والاستخدام')
                             ->schema([
-                                Forms\Components\Textarea::make('description_ar')
-                                    ->label('الوصف بالعربية')
-                                    ->rows(4)
-                                    ->nullable(),
-
                                 Forms\Components\Textarea::make('description_en')
-                                    ->label('الوصف بالإنجليزية')
+                                    ->label('الوصف (Description)')
                                     ->rows(4)
                                     ->required(),
-
-                                Forms\Components\Textarea::make('ingredients_ar')
-                                    ->label('المكونات بالعربية')
-                                    ->rows(3)
-                                    ->nullable(),
 
                                 Forms\Components\Textarea::make('ingredients_en')
-                                    ->label('المكونات بالإنجليزية')
+                                    ->label('المكونات (Ingredients)')
                                     ->rows(3)
                                     ->required(),
 
-                                Forms\Components\Textarea::make('how_to_use_ar')
-                                    ->label('طريقة الاستخدام بالعربية')
-                                    ->rows(3)
-                                    ->nullable(),
-
                                 Forms\Components\Textarea::make('how_to_use_en')
-                                    ->label('طريقة الاستخدام بالإنجليزية')
+                                    ->label('طريقة الاستخدام (How to use)')
                                     ->rows(3)
                                     ->required(),
                             ])->columns(2),

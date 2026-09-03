@@ -58,11 +58,8 @@ class BrandResource extends Resource
             ->components([
                 Components\Section::make('بيانات العلامة التجارية')
                     ->schema([
-                        Forms\Components\TextInput::make('name_ar')
-                            ->label('الاسم بالعربية')
-                            ->nullable(),
                         Forms\Components\TextInput::make('name_en')
-                            ->label('الاسم بالإنجليزية')
+                            ->label('اسم العلامة التجارية (Brand Name)')
                             ->required(),
                         Forms\Components\FileUpload::make('image')
                             ->label('شعار العلامة التجارية (Logo)')
