@@ -186,20 +186,19 @@ class ProductSeeder extends Seeder
             $skinFit = $pData['skin_fit'] ?? [];
             $goals = $pData['goals'] ?? [];
 
-            // Map SkinTypes based on developer pack JSON skin_fit dictionary scores (threshold >= 50)
+            // Map SkinTypes based on official developer pack JSON skin_fit dictionary scores (threshold >= 68)
             $skinFitKeyMap = [
                 'Oily' => 'oily',
                 'Dry' => 'dry',
                 'Combination' => 'combination',
                 'Normal' => 'normal',
-                'Sensitive' => 'normal',
             ];
 
             $matchedSkinTypeIds = [];
             if (!empty($skinFit)) {
                 foreach ($skinFitKeyMap as $dbSkinNameEn => $jsonKey) {
                     $fitScore = $skinFit[$jsonKey] ?? 0;
-                    if ($fitScore >= 50) {
+                    if ($fitScore >= 68) {
                         $stModel = SkinType::where('name_en', $dbSkinNameEn)->first();
                         if ($stModel && !in_array($stModel->id, $matchedSkinTypeIds)) {
                             $matchedSkinTypeIds[] = $stModel->id;
@@ -210,14 +209,35 @@ class ProductSeeder extends Seeder
                         }
                     }
                 }
+
+                // Evaluate official KCODE Sensitivity safety rules for Sensitive SkinType
+                $sensitiveModel = SkinType::where('name_en', 'Sensitive')->first();
+                if ($sensitiveModel) {
+                    $tolerance = $pData['tolerance'] ?? 0;
+                    $fragrance = strtolower(trim($pData['fragrance'] ?? ''));
+                    $severity = $pData['conflict_severity'] ?? '';
+                    $isFragranceFree = empty($fragrance) || in_array($fragrance, ['fragrance-free', 'free', 'none', 'no', 'خالي من العطور', 'بدون عطور']);
+                    $isLowConflict = !in_array($severity, ['Moderate', 'Strong']);
+
+                    if ($tolerance >= 60 && $isFragranceFree && $isLowConflict) {
+                        ProductSkinType::firstOrCreate([
+                            'product_id' => $product->id,
+                            'skin_type_id' => $sensitiveModel->id,
+                        ]);
+                    }
+                }
             }
 
-            // Fallback if no specific skin fit was specified in JSON
-            if (empty($matchedSkinTypeIds)) {
-                foreach ($allSkinTypes as $st) {
+            // Fallback: If no skin type met threshold 68, attach product to its highest scoring skin type
+            if (empty($matchedSkinTypeIds) && !empty($skinFit)) {
+                $bestFitKey = array_search(max($skinFit), $skinFit);
+                $keyMap = ['oily' => 'Oily', 'dry' => 'Dry', 'combination' => 'Combination', 'normal' => 'Normal'];
+                $bestName = $keyMap[$bestFitKey] ?? 'Normal';
+                $stModel = SkinType::where('name_en', $bestName)->first();
+                if ($stModel) {
                     ProductSkinType::firstOrCreate([
                         'product_id' => $product->id,
-                        'skin_type_id' => $st->id,
+                        'skin_type_id' => $stModel->id,
                     ]);
                 }
             }
