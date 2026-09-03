@@ -16,19 +16,23 @@ class OfferSeeder extends Seeder
         // Clear existing offers
         Offer::truncate();
 
-        // Get 10 products to add offers for
-        $products = Product::limit(10)->get();
+        // Get 20 different products to add active offers for
+        $products = Product::where('stock', '>', 0)->inRandomOrder()->limit(20)->get();
+
+        if ($products->count() < 20) {
+            $products = Product::limit(20)->get();
+        }
+
+        $discounts = [10, 15, 20, 25, 30, 35, 40, 45, 50];
 
         foreach ($products as $index => $product) {
-            // Seed a mix of active and inactive offers
-            $isActive = $index < 6; // 6 active offers
-            $discount = ($index + 1) * 5; // 5%, 10%, 15%, etc.
+            $discount = $discounts[$index % count($discounts)];
 
             Offer::create([
                 'product_id' => $product->id,
-                'discount_percentage' => $isActive ? $discount : 15.0,
-                'start_date' => now()->subDays(5),
-                'end_date' => $isActive ? now()->addDays(15) : now()->subDay(1),
+                'discount_percentage' => $discount,
+                'start_date' => now()->subDays(rand(1, 10)),
+                'end_date' => now()->addDays(rand(15, 45)),
                 'is_active' => true,
             ]);
         }
