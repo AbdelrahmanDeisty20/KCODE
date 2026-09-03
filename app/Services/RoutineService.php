@@ -15,9 +15,9 @@ class RoutineService
         $user = auth('sanctum')->user();
         if (!$user) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('auth.unauthenticated'),
-                'code'    => 401
+                'code' => 401
             ];
         }
 
@@ -38,7 +38,7 @@ class RoutineService
 
         if ($finalRoutines->isEmpty()) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('messages.no_routine_found')
             ];
         }
@@ -50,15 +50,15 @@ class RoutineService
             });
 
             return [
-                'id'    => $finalRoutine->routine_id ?? $finalRoutine->id,
+                'id' => $finalRoutine->routine_id ?? $finalRoutine->id,
                 'items' => \App\Http\Resources\API\QUIZ\FinalRoutineResource::collection($routineProducts),
             ];
         });
 
         return [
-            'status'  => true,
+            'status' => true,
             'message' => __('messages.routine_retrieved_successfully'),
-            'data'    => $finalRoutines,
+            'data' => $finalRoutines,
         ];
     }
 
@@ -70,16 +70,16 @@ class RoutineService
         $user = auth('sanctum')->user();
         if (!$user) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('auth.unauthenticated'),
-                'code'    => 401
+                'code' => 401
             ];
         }
 
         $assessment = Assessment::where('user_id', $user->id)->latest()->first();
         if (!$assessment) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('messages.no_routine_found')
             ];
         }
@@ -97,7 +97,7 @@ class RoutineService
 
         if (!$routine) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('messages.no_routine_found')
             ];
         }
@@ -109,7 +109,7 @@ class RoutineService
         });
 
         return [
-            'status'  => true,
+            'status' => true,
             'message' => __('messages.routine_retrieved_successfully'),
             'data' => [
                 'id' => $routine->id,
@@ -126,9 +126,9 @@ class RoutineService
         $user = auth('sanctum')->user();
         if (!$user) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('auth.unauthenticated'),
-                'code'    => 401
+                'code' => 401
             ];
         }
 
@@ -141,15 +141,15 @@ class RoutineService
 
         if (!$routine) {
             return [
-                'status'  => false,
+                'status' => false,
                 'message' => __('messages.no_routine_found'),
-                'code'    => 404
+                'code' => 404
             ];
         }
 
         // Create or update final routine record for this specific user AND routine_id
         $finalRoutine = \App\Models\FinalRoutine::firstOrCreate([
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
             'routine_id' => $routine->id,
         ]);
 
@@ -161,9 +161,9 @@ class RoutineService
             $finalProductId = $rp->replaced_with_product_id ?: $rp->product_id;
             \App\Models\FinalRoutineProduct::create([
                 'final_routine_id' => $finalRoutine->id,
-                'product_id'       => $finalProductId,
-                'step'             => $rp->step,
-                'routine_step_id'  => \App\Models\RoutineStep::where('order', $rp->step)->value('id'),
+                'product_id' => $finalProductId,
+                'step' => $rp->step,
+                'routine_step_id' => \App\Models\RoutineStep::where('order', $rp->step)->value('id'),
             ]);
         }
 
@@ -475,16 +475,15 @@ class RoutineService
         ];
     }
 
-    /**
-     * Get preset routines directly from database with pagination.
-     */
+    /** Get preset routines directly from database with pagination. */
+
     /**
      * Get preset routines directly from database with pagination.
      */
     public function getPresetRoutines()
     {
         $lang = request()->header('lang') ?? app()->getLocale();
-        $perPage = (int)request()->get('per_page', 10);
+        $perPage = (int) request()->get('per_page', 10);
 
         if (\App\Models\PresetRoutine::forWomen()->count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
             (new \Database\Seeders\PresetRoutineSeeder())->run();
@@ -558,27 +557,28 @@ class RoutineService
 
         foreach ($routineModel->items as $itemModel) {
             $prod = $itemModel->product;
-            if (!$prod) continue;
+            if (!$prod)
+                continue;
 
-            $totalPrice += (float)$prod->price;
+            $totalPrice += (float) $prod->price;
 
             if ($includeItems) {
                 $items[] = [
-                    'display_order' => (int)$itemModel->display_order,
-                    'morning' => (bool)$itemModel->morning,
-                    'night' => (bool)$itemModel->night,
+                    'display_order' => (int) $itemModel->display_order,
+                    'morning' => (bool) $itemModel->morning,
+                    'night' => (bool) $itemModel->night,
                     'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
                     'product' => [
                         'id' => $prod->id,
                         'name' => $prod->name_en ?? $prod->name,
                         'sku' => $prod->sku,
-                        'price' => (float)$prod->price,
+                        'price' => (float) $prod->price,
                         'image' => $prod->image_url,
-                        'average_rating' => (float)$prod->average_rating,
-                        'num_reviews' => (int)$prod->num_reviews,
+                        'average_rating' => (float) $prod->average_rating,
+                        'num_reviews' => (int) $prod->num_reviews,
                         'brand' => $prod->brand ? [
                             'id' => $prod->brand->id,
-                            'name' => $lang === 'ar' ? $prod->brand->name_ar : $prod->brand->name_en,
+                            'name' => $prod->brand->name_en,
                             'image' => $prod->brand->image_url ?? null,
                         ] : null,
                     ]
@@ -620,7 +620,7 @@ class RoutineService
     public function getMenPresetRoutines()
     {
         $lang = request()->header('lang') ?? app()->getLocale();
-        $perPage = (int)request()->get('per_page', 10);
+        $perPage = (int) request()->get('per_page', 10);
 
         if (\App\Models\PresetRoutine::forMen()->count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
             (new \Database\Seeders\MenPresetRoutineSeeder())->run();
