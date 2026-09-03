@@ -25,8 +25,9 @@ class BrandController extends Controller
         if (!$brands['status']) {
             return $this->error($brands['message'], 404);
         }
-        return $this->success(BrandResource::class, $brands['data'], __('messages.brandsGetSuccessfully'), 201);
+        return $this->success($brands['data'], $brands['message'], 200);
     }
+
     public function show($id)
     {
         $brand = $this->brandService->show($id);

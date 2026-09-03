@@ -20,7 +20,7 @@ class BrandService
         return [
             'status' => true,
             'message' => __('messages.brandsGetSuccessfully'),
-            'data' => $brands,
+            'data' => BrandResource::collection($brands),
         ];
     }
     public function show($id)
