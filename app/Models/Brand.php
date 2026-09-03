@@ -15,7 +15,10 @@ class Brand extends Model
 
     public function getNameAttribute()
     {
-        return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
+        if (app()->getLocale() == 'ar') {
+            return $this->name_ar ?: $this->name_en;
+        }
+        return $this->name_en ?: $this->name_ar;
     }
 
     public function getImagePathAttribute()

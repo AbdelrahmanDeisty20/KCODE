@@ -107,27 +107,42 @@ class Product extends Model
 
     public function getNameAttribute($value)
     {
-        return app()->getLocale() == 'ar' ? $this->name_ar : $this->name_en;
+        if (app()->getLocale() == 'ar') {
+            return $this->name_ar ?: $this->name_en;
+        }
+        return $this->name_en ?: $this->name_ar;
     }
 
     public function getDescriptionAttribute($value)
     {
-        return app()->getLocale() == 'ar' ? $this->description_ar : $this->description_en;
+        if (app()->getLocale() == 'ar') {
+            return $this->description_ar ?: $this->description_en;
+        }
+        return $this->description_en ?: $this->description_ar;
     }
 
     public function getShortNameAttribute()
     {
-        return app()->getLocale() == 'ar' ? $this->short_name_ar : $this->short_name_en;
+        if (app()->getLocale() == 'ar') {
+            return $this->short_name_ar ?: $this->short_name_en;
+        }
+        return $this->short_name_en ?: $this->short_name_ar;
     }
 
     public function getIngredientsAttribute()
     {
-        return app()->getLocale() == 'ar' ? $this->ingredients_ar : $this->ingredients_en;
+        if (app()->getLocale() == 'ar') {
+            return $this->ingredients_ar ?: $this->ingredients_en;
+        }
+        return $this->ingredients_en ?: $this->ingredients_ar;
     }
 
     public function getHowToUseAttribute()
     {
-        return app()->getLocale() == 'ar' ? $this->how_to_use_ar : $this->how_to_use_en;
+        if (app()->getLocale() == 'ar') {
+            return $this->how_to_use_ar ?: $this->how_to_use_en;
+        }
+        return $this->how_to_use_en ?: $this->how_to_use_ar;
     }
 
     public function getTextureAttribute()

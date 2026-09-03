@@ -60,7 +60,7 @@ class BrandResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('name_ar')
                             ->label('الاسم بالعربية')
-                            ->required(),
+                            ->nullable(),
                         Forms\Components\TextInput::make('name_en')
                             ->label('الاسم بالإنجليزية')
                             ->required(),

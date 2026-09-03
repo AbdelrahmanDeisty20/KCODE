@@ -67,7 +67,7 @@ class ProductResource extends Resource
 
                                 Forms\Components\TextInput::make('name_ar')
                                     ->label('الاسم بالعربية')
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\TextInput::make('name_en')
                                     ->label('الاسم بالإنجليزية')
@@ -75,7 +75,7 @@ class ProductResource extends Resource
 
                                 Forms\Components\TextInput::make('short_name_ar')
                                     ->label('الاسم المختصر بالعربية')
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\TextInput::make('short_name_en')
                                     ->label('الاسم المختصر بالإنجليزية')
@@ -140,7 +140,7 @@ class ProductResource extends Resource
                                 Forms\Components\Textarea::make('description_ar')
                                     ->label('الوصف بالعربية')
                                     ->rows(4)
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\Textarea::make('description_en')
                                     ->label('الوصف بالإنجليزية')
@@ -150,7 +150,7 @@ class ProductResource extends Resource
                                 Forms\Components\Textarea::make('ingredients_ar')
                                     ->label('المكونات بالعربية')
                                     ->rows(3)
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\Textarea::make('ingredients_en')
                                     ->label('المكونات بالإنجليزية')
@@ -160,7 +160,7 @@ class ProductResource extends Resource
                                 Forms\Components\Textarea::make('how_to_use_ar')
                                     ->label('طريقة الاستخدام بالعربية')
                                     ->rows(3)
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\Textarea::make('how_to_use_en')
                                     ->label('طريقة الاستخدام بالإنجليزية')
