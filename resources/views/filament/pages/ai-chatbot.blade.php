@@ -5,31 +5,31 @@
             flex-direction: column;
             height: calc(100vh - 170px);
             min-height: 520px;
-            background: #ffffff;
+            background: #FBFAF7;
             border-radius: 1.25rem;
-            border: 1px solid rgba(194, 89, 117, 0.2);
-            box-shadow: 0 10px 30px -5px rgba(194, 89, 117, 0.15);
+            border: 1px solid rgba(147, 37, 78, 0.2);
+            box-shadow: 0 10px 30px -5px rgba(147, 37, 78, 0.15);
             overflow: hidden;
         }
 
         html.dark .kcode-chat-container {
-            background: #18181b;
-            border-color: rgba(229, 162, 181, 0.2);
+            background: #231826;
+            border-color: rgba(226, 138, 171, 0.2);
             box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
         }
 
         .kcode-chat-header {
             padding: 1.25rem 1.5rem;
-            background: linear-gradient(135deg, rgba(194, 89, 117, 0.1) 0%, rgba(229, 162, 181, 0.03) 100%);
-            border-bottom: 1px solid rgba(194, 89, 117, 0.15);
+            background: linear-gradient(135deg, rgba(147, 37, 78, 0.1) 0%, rgba(226, 138, 171, 0.03) 100%);
+            border-bottom: 1px solid rgba(147, 37, 78, 0.15);
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
 
         html.dark .kcode-chat-header {
-            background: linear-gradient(135deg, rgba(194, 89, 117, 0.2) 0%, rgba(24, 24, 27, 0.4) 100%);
-            border-bottom-color: rgba(229, 162, 181, 0.15);
+            background: linear-gradient(135deg, rgba(147, 37, 78, 0.2) 0%, rgba(35, 24, 38, 0.4) 100%);
+            border-bottom-color: rgba(226, 138, 171, 0.15);
         }
 
         .kcode-chat-messages {
@@ -81,12 +81,12 @@
         }
 
         .kcode-avatar.ai {
-            background: linear-gradient(135deg, #c25975 0%, #aa3f5d 100%);
+            background: linear-gradient(135deg, #93254E 0%, #6B2F5F 100%);
             color: #ffffff;
         }
 
         .kcode-avatar.user {
-            background: #4b5563;
+            background: #5F565C;
             color: #ffffff;
         }
 
@@ -100,38 +100,38 @@
         }
 
         .kcode-message.assistant .kcode-bubble {
-            background: #f9fafb;
-            color: #111827;
+            background: #FBFAF7;
+            color: #2E1633;
             border-top-left-radius: 0.25rem;
             border: 1px solid rgba(0, 0, 0, 0.06);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         }
 
         html.dark .kcode-message.assistant .kcode-bubble {
-            background: #27272a;
-            color: #f3f4f6;
+            background: #2D1F31;
+            color: #F5F0F3;
             border-color: rgba(255, 255, 255, 0.08);
         }
 
         .kcode-message.user .kcode-bubble {
-            background: linear-gradient(135deg, #c25975 0%, #aa3f5d 100%);
+            background: linear-gradient(135deg, #93254E 0%, #6B2F5F 100%);
             color: #ffffff;
             border-top-right-radius: 0.25rem;
-            box-shadow: 0 4px 14px rgba(194, 89, 117, 0.3);
+            box-shadow: 0 4px 14px rgba(147, 37, 78, 0.3);
         }
 
         .kcode-chat-input-area {
             padding: 1.25rem 1.5rem;
-            background: rgba(249, 250, 251, 0.8);
-            border-top: 1px solid rgba(194, 89, 117, 0.15);
+            background: rgba(237, 232, 228, 0.8);
+            border-top: 1px solid rgba(147, 37, 78, 0.15);
             display: flex;
             flex-direction: column;
             gap: 0.75rem;
         }
 
         html.dark .kcode-chat-input-area {
-            background: rgba(24, 24, 27, 0.8);
-            border-top-color: rgba(229, 162, 181, 0.15);
+            background: rgba(35, 24, 38, 0.8);
+            border-top-color: rgba(226, 138, 171, 0.15);
         }
 
         .kcode-input-wrapper {
@@ -144,41 +144,41 @@
             flex: 1;
             padding: 0.85rem 1.25rem;
             border-radius: 9999px;
-            border: 1.5px solid rgba(194, 89, 117, 0.25);
-            background: #ffffff;
-            color: #111827;
+            border: 1.5px solid rgba(147, 37, 78, 0.25);
+            background: #FBFAF7;
+            color: #2E1633;
             font-size: 0.95rem;
             outline: none;
             transition: all 0.2s ease;
         }
 
         .kcode-input:focus {
-            border-color: #c25975;
-            box-shadow: 0 0 0 3px rgba(194, 89, 117, 0.2);
+            border-color: #93254E;
+            box-shadow: 0 0 0 3px rgba(147, 37, 78, 0.2);
         }
 
         html.dark .kcode-input {
-            background: #27272a;
-            border-color: rgba(229, 162, 181, 0.25);
-            color: #f3f4f6;
+            background: #2D1F31;
+            border-color: rgba(226, 138, 171, 0.25);
+            color: #F5F0F3;
         }
 
         .kcode-send-btn {
             padding: 0.85rem 1.75rem;
             border-radius: 9999px;
-            background: linear-gradient(135deg, #c25975 0%, #aa3f5d 100%);
+            background: linear-gradient(135deg, #93254E 0%, #6B2F5F 100%);
             color: white;
             font-weight: 600;
             font-size: 0.95rem;
             border: none;
             cursor: pointer;
-            box-shadow: 0 4px 14px rgba(194, 89, 117, 0.35);
+            box-shadow: 0 4px 14px rgba(147, 37, 78, 0.35);
             transition: all 0.2s ease;
         }
 
         .kcode-send-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(194, 89, 117, 0.45);
+            box-shadow: 0 6px 18px rgba(147, 37, 78, 0.45);
         }
 
         .kcode-presets {
@@ -191,9 +191,9 @@
         .kcode-chip {
             padding: 0.4rem 0.85rem;
             border-radius: 9999px;
-            background: rgba(194, 89, 117, 0.1);
-            color: #c25975;
-            border: 1px solid rgba(194, 89, 117, 0.2);
+            background: rgba(147, 37, 78, 0.1);
+            color: #93254E;
+            border: 1px solid rgba(147, 37, 78, 0.2);
             font-size: 0.8rem;
             font-weight: 500;
             white-space: nowrap;
@@ -202,13 +202,13 @@
         }
 
         .kcode-chip:hover {
-            background: #c25975;
+            background: #93254E;
             color: #ffffff;
             transform: translateY(-1px);
         }
 
         html.dark .kcode-chip {
-            color: #e5a2b5;
+            color: #E28AAB;
         }
     </style>
 
