@@ -16,27 +16,34 @@ class Product extends Model
         'sub_category_id',
         'brand_id',
         'price',
+        'size',
         'stock',
         'is_best_seller',
         'sales_count',
         'short_name_ar',
         'short_name_en',
+        'brief_insight_ar',
         'image',
         'sku',
+        'barcode',
+        'country_of_origin_ar',
         'ingredients_ar',
         'ingredients_en',
         'how_to_use_ar',
         'how_to_use_en',
         'status',
+        'sensitive_eligible',
         // Product Details
         'texture_ar',
         'texture_en',
         'why_kcode_ar',
         'why_kcode_en',
+        'role_ar',
         'usage_frequency_ar',
         'active_strength_level',
         'safety_notes_ar',
         'safety_notes_en',
+        'limitations_notes_ar',
         'ar_key_benefits',
         'en_key_benefits',
         // SEO Fields
@@ -59,6 +66,13 @@ class Product extends Model
         'pdp_headline_en',
         'above_fold_hook_en',
         'keywords',
+    ];
+
+    protected $casts = [
+        'sensitive_eligible' => 'boolean',
+        'is_best_seller' => 'boolean',
+        'price' => 'float',
+        'stock' => 'integer',
     ];
 
     public function marketingDetail()
