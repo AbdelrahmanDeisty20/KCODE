@@ -89,120 +89,68 @@ class ProductResource extends JsonResource
     }
 
     /**
-     * Get 5-step routine position for current product
+     * Get 5-step routine position for current product dynamically from DB
      */
     protected function getRoutinePosition(): ?array
     {
-        if (!empty($this->routine_steps_json) && is_array($this->routine_steps_json)) {
-            $steps = $this->routine_steps_json;
-            usort($steps, fn ($a, $b) => ($a['step'] ?? 0) <=> ($b['step'] ?? 0));
+        $dbSteps = $this->routine_steps_json;
 
-            return [
-                'step_number' => $this->routine_step_number ?: 3,
-                'total_steps' => count($steps) ?: 5,
-                'step_title' => $this->routine_step_title_ar ?: 'العناية بالبشرة',
-                'steps' => $steps,
-            ];
-        }
-
-        $stepNumber = $this->routine_step_number;
-
-        // 1. Direct Category ID mapping from database categories table
-        if (!$stepNumber && $this->category_id) {
-            $stepNumber = match ((int) $this->category_id) {
-                1 => 1, // غسول (Cleanser)
-                2, 3 => 2, // تونر وإسنس (Toner & Essence)
-                4 => 3, // سيروم وأمبول (Serum & Ampoule)
-                5 => 4, // مرطب (Moisturizer)
-                6 => 5, // واقي شمس (Sunscreen)
-                default => null,
-            };
-        }
-
-        // 2. RoutineStep relation mapping
-        if (!$stepNumber) {
-            $dbRoutineStep = $this->routines()->first()?->routineStep;
-            if ($dbRoutineStep) {
-                $stepName = strtolower($dbRoutineStep->name_en);
-                if (str_contains($stepName, 'cleans')) {
-                    $stepNumber = 1;
-                } elseif (str_contains($stepName, 'toner') || str_contains($stepName, 'essence') || str_contains($stepName, 'mist')) {
-                    $stepNumber = 2;
-                } elseif (str_contains($stepName, 'serum') || str_contains($stepName, 'ampoule') || str_contains($stepName, 'treatment') || str_contains($stepName, 'exfoliat') || str_contains($stepName, 'eye')) {
-                    $stepNumber = 3;
-                } elseif (str_contains($stepName, 'moistur') || str_contains($stepName, 'balm') || str_contains($stepName, 'cream')) {
-                    $stepNumber = 4;
-                } elseif (str_contains($stepName, 'sun')) {
-                    $stepNumber = 5;
-                }
-            }
-        }
-
-        if (!$stepNumber) {
-            $subCatName = strtolower($this->subCategory?->name_en ?? $this->category?->name_en ?? '');
-            $role = strtolower($this->role_ar ?? '');
-
-            if (str_contains($subCatName, 'cleans') || str_contains($role, 'cleans')) {
-                $stepNumber = 1;
-            } elseif (str_contains($subCatName, 'toner') || str_contains($subCatName, 'essence') || str_contains($role, 'toner')) {
-                $stepNumber = 2;
-            } elseif (str_contains($subCatName, 'serum') || str_contains($subCatName, 'ampoule') || str_contains($role, 'treatment') || str_contains($role, 'serum')) {
-                $stepNumber = 3;
-            } elseif (str_contains($subCatName, 'moistur') || str_contains($subCatName, 'cream') || str_contains($subCatName, 'lotion') || str_contains($role, 'moistur')) {
-                $stepNumber = 4;
-            } elseif (str_contains($subCatName, 'sun') || str_contains($role, 'sun')) {
-                $stepNumber = 5;
-            }
-        }
-
-        if (!$stepNumber) {
+        if (empty($dbSteps) || !is_array($dbSteps)) {
             return null;
         }
 
+        $stepNumber = $this->routine_step_number ?: $this->detectRoutineStepNumber();
+
+        $formattedSteps = array_map(function ($s) use ($stepNumber) {
+            $isCurrent = (int) ($s['step'] ?? 0) === (int) $stepNumber;
+            return [
+                'step' => (int) ($s['step'] ?? 1),
+                'title' => $s['title'] ?? '',
+                'subtitle' => $isCurrent ? ($s['subtitle'] ?? 'هذا المنتج') : ($s['subtitle'] ?? null),
+                'is_current' => $isCurrent,
+            ];
+        }, $dbSteps);
+
+        usort($formattedSteps, fn ($a, $b) => $a['step'] <=> $b['step']);
+
         return [
-            'step_number' => $stepNumber,
-            'total_steps' => 5,
-            'step_title' => $this->routine_step_title_ar ?: match ($stepNumber) {
-                1 => 'غسول',
-                2 => 'تونر أو إسنس',
-                3 => 'السيروم / العلاج المركز',
-                4 => 'مرطب',
-                5 => 'واقي شمس',
-                default => 'العناية بالبشرة',
-            },
-            'steps' => [
-                [
-                    'step' => 1,
-                    'title' => 'غسول',
-                    'subtitle' => null,
-                    'is_current' => $stepNumber === 1,
-                ],
-                [
-                    'step' => 2,
-                    'title' => 'تونر أو إسنس',
-                    'subtitle' => 'اختياري',
-                    'is_current' => $stepNumber === 2,
-                ],
-                [
-                    'step' => 3,
-                    'title' => 'السيروم',
-                    'subtitle' => $stepNumber === 3 ? 'هذا المنتج' : null,
-                    'is_current' => $stepNumber === 3,
-                ],
-                [
-                    'step' => 4,
-                    'title' => 'مرطب',
-                    'subtitle' => null,
-                    'is_current' => $stepNumber === 4,
-                ],
-                [
-                    'step' => 5,
-                    'title' => 'واقي شمس',
-                    'subtitle' => 'صباحاً',
-                    'is_current' => $stepNumber === 5,
-                ],
-            ],
+            'step_number' => (int) $stepNumber,
+            'total_steps' => count($formattedSteps),
+            'step_title' => $this->routine_step_title_ar ?: ($this->category?->name_ar ?? 'الروتين'),
+            'steps' => $formattedSteps,
         ];
+    }
+
+    /**
+     * Detect step number dynamically based on database category
+     */
+    protected function detectRoutineStepNumber(): int
+    {
+        if ($this->category_id) {
+            $step = match ((int) $this->category_id) {
+                1 => 1, // غسول
+                2, 3 => 2, // تونر وإسنس
+                4 => 3, // سيروم وأمبول
+                5 => 4, // مرطب
+                6 => 5, // واقي شمس
+                default => 3,
+            };
+            if ($step) {
+                return $step;
+            }
+        }
+
+        $dbRoutineStep = $this->routines()->first()?->routineStep;
+        if ($dbRoutineStep) {
+            $stepName = strtolower($dbRoutineStep->name_en);
+            if (str_contains($stepName, 'cleans')) return 1;
+            if (str_contains($stepName, 'toner') || str_contains($stepName, 'essence')) return 2;
+            if (str_contains($stepName, 'serum') || str_contains($stepName, 'ampoule')) return 3;
+            if (str_contains($stepName, 'moistur') || str_contains($stepName, 'cream')) return 4;
+            if (str_contains($stepName, 'sun')) return 5;
+        }
+
+        return 3;
     }
 
     /**
@@ -216,21 +164,7 @@ class ProductResource extends JsonResource
             ]);
         }
 
-        if (empty($this->usage_frequency_ar) && empty($this->how_to_use)) {
-            return null;
-        }
-
-        return [
-            'timing' => $this->usage_frequency_ar ?: 'استخدام يومي (صباحاً ومساءً)',
-            'timing_note' => 'بعد التدرّج في الاستخدام.',
-            'amount' => 'بضع قطرات',
-            'amount_note' => 'على المناطق المستهدفة.',
-            'application_method' => 'ربّت بلطف',
-            'application_note' => 'حتى الامتصاص، قبل المرطب.',
-            'gradual_start' => 'ابدأ تدريجيًا',
-            'gradual_start_note' => 'وزِد التكرار حسب تحمّل بشرتك.',
-            'raw_how_to_use' => $this->how_to_use,
-        ];
+        return null;
     }
 
     /**

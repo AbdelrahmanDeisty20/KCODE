@@ -147,16 +147,29 @@ class ProductResource extends Resource
 
                         Components\Tabs\Tab::make('تفاصيل KCODE الطبية والروتين')
                             ->schema([
+                                Forms\Components\TextInput::make('size')
+                                    ->label('حجم العبوة (مثال: 30ml, 150ml)'),
+
+                                Forms\Components\TextInput::make('barcode')
+                                    ->label('الباركود الدولي (Barcode)'),
+
+                                Forms\Components\TextInput::make('country_of_origin_ar')
+                                    ->label('بلد المنشأ (عربي)')
+                                    ->default('كوريا الجنوبية'),
+
+                                Forms\Components\Toggle::make('sensitive_eligible')
+                                    ->label('مناسب للبشرة الحساسة')
+                                    ->default(true),
+
+                                Forms\Components\TextInput::make('role_ar')
+                                    ->label('دور المنتج في الروتين (مثل: Daily Treatment, Cleanser)'),
+
                                 Forms\Components\TextInput::make('texture_ar')
                                     ->label('الملمس / القوام (عربي)')
                                     ->required(),
 
                                 Forms\Components\TextInput::make('texture_en')
                                     ->label('الملمس / القوام (إنجليزي)')
-                                    ->required(),
-
-                                Forms\Components\Textarea::make('why_kcode_ar')
-                                    ->label('لماذا اختار KCODE هذا المنتج؟ (عربي)')
                                     ->required(),
 
                                 Forms\Components\TextInput::make('usage_frequency_ar')
@@ -172,9 +185,27 @@ class ProductResource extends Resource
                                     ])
                                     ->required(),
 
+                                Forms\Components\Textarea::make('brief_insight_ar')
+                                    ->label('نبذة مركزة عن المنتج (عربي)')
+                                    ->rows(2),
+
+                                Forms\Components\Textarea::make('why_kcode_ar')
+                                    ->label('لماذا اختار KCODE هذا المنتج؟ (عربي)')
+                                    ->rows(2)
+                                    ->required(),
+
+                                Forms\Components\Textarea::make('ar_key_benefits')
+                                    ->label('المكونات الفعالة والفوائد (عربي)')
+                                    ->rows(2),
+
                                 Forms\Components\Textarea::make('safety_notes_ar')
                                     ->label('ملاحظات الأمان والتحذيرات')
+                                    ->rows(2)
                                     ->required(),
+
+                                Forms\Components\Textarea::make('limitations_notes_ar')
+                                    ->label('قيود وتوجيهات السلامة عند الاستخدام')
+                                    ->rows(2),
                             ])->columns(2),
 
                         Components\Tabs\Tab::make('أنواع البشرة والمشاكل والأهداف')
