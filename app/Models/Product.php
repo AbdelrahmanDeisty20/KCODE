@@ -46,6 +46,13 @@ class Product extends Model
         'limitations_notes_ar',
         'ar_key_benefits',
         'en_key_benefits',
+        // Dynamic PDP Fields
+        'routine_step_number',
+        'routine_step_title_ar',
+        'routine_steps_json',
+        'usage_instructions_json',
+        'complementary_routine_json',
+        'product_faqs_json',
         // SEO Fields
         'ar_product_title_seo',
         'en_product_title_seo',
@@ -73,6 +80,11 @@ class Product extends Model
         'is_best_seller' => 'boolean',
         'price' => 'float',
         'stock' => 'integer',
+        'routine_step_number' => 'integer',
+        'routine_steps_json' => 'array',
+        'usage_instructions_json' => 'array',
+        'complementary_routine_json' => 'array',
+        'product_faqs_json' => 'array',
     ];
 
     public function marketingDetail()

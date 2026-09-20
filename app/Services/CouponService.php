@@ -9,9 +9,9 @@ use App\Models\Setting;
 class CouponService
 {
     /**
-     * Apply and validate a coupon code against an order amount.
+     * Apply and validate a coupon code against an order amount or active cart.
      */
-    public function applyCoupon(string $code, float $orderAmount = 0, ?int $userId = null): array
+    public function applyCoupon(string $code, float $orderAmount = 0, ?int $userId = null, ?string $sessionId = null): array
     {
         $coupon = Coupon::where('code', strtoupper(trim($code)))->first();
 
@@ -73,6 +73,20 @@ class CouponService
             }
         }
 
+        // If orderAmount is not explicitly passed, compute subtotal from active user/session cart
+        $cart = null;
+        if ($userId || !empty($sessionId)) {
+            $cart = \App\Models\Cart::query()
+                ->when($userId, fn($q) => $q->where('user_id', $userId))
+                ->when(!$userId && !empty($sessionId), fn($q) => $q->where('session_id', $sessionId))
+                ->with('items')
+                ->first();
+
+            if ($cart && $orderAmount <= 0) {
+                $orderAmount = (float) $cart->items->sum('total_price');
+            }
+        }
+
         if ($orderAmount > 0 && $orderAmount < $coupon->min_order_amount) {
             $currencySetting = Setting::where('key_en', 'currency_symbol')->first();
             $currency = $currencySetting ? ($currencySetting->value_ar ?: $currencySetting->value_en) : 'ر.ع';
@@ -87,6 +101,13 @@ class CouponService
 
         $discountAmount = $coupon->calculateDiscount($orderAmount);
         $finalAmount = max(0, $orderAmount - $discountAmount);
+
+        if ($cart) {
+            $cart->update([
+                'coupon_code'     => $coupon->code,
+                'coupon_discount' => round($discountAmount, 3),
+            ]);
+        }
 
         return [
             'status'  => true,

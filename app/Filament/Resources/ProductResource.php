@@ -201,6 +201,80 @@ class ProductResource extends Resource
                                     ->searchable(),
                             ])->columns(2),
 
+                        Components\Tabs\Tab::make('إعدادات صفحة المنتج (PDP & FAQ)')
+                            ->schema([
+                                Forms\Components\Section::make('ترتيب الروتين الخماسي (Routine Position)')
+                                    ->schema([
+                                        Forms\Components\Select::make('routine_step_number')
+                                            ->label('رقم الخطوة في الروتين')
+                                            ->options([
+                                                1 => '1 - غسول (Cleanser)',
+                                                2 => '2 - تونر / إسنس (Toner)',
+                                                3 => '3 - سيروم / علاج (Serum)',
+                                                4 => '4 - مرطب (Moisturizer)',
+                                                5 => '5 - واقي شمس (Sunscreen)',
+                                            ]),
+
+                                        Forms\Components\TextInput::make('routine_step_title_ar')
+                                            ->label('عنوان الخطوة بالعربية')
+                                            ->placeholder('مثال: السيروم / العلاج المركز'),
+
+                                        Forms\Components\Repeater::make('routine_steps_json')
+                                            ->label('خطوات الروتين الخماسية التفصيلية')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('step')->numeric()->label('رقم الخطوة')->required(),
+                                                Forms\Components\TextInput::make('title')->label('اسم الخطوة')->required(),
+                                                Forms\Components\TextInput::make('subtitle')->label('ملاحظة فرعية')->nullable(),
+                                                Forms\Components\Toggle::make('is_current')->label('المنتج الحالي؟')->default(false),
+                                            ])
+                                            ->columns(4)
+                                            ->collapsible()
+                                            ->columnSpanFull(),
+                                    ])->columns(2),
+
+                                Forms\Components\Section::make('طريقة ودواعي الاستخدام التفصيلية (Usage Instructions)')
+                                    ->schema([
+                                        Forms\Components\KeyValue::make('usage_instructions_json')
+                                            ->label('تفاصيل الاستخدام (مفاتيح: timing, amount, application_method, gradual_start)')
+                                            ->keyLabel('اسم الخاصية')
+                                            ->valueLabel('القيمة الشارحة')
+                                            ->columnSpanFull(),
+                                    ]),
+
+                                Forms\Components\Section::make('المنتجات المكملة للروتين (Complementary Routine)')
+                                    ->schema([
+                                        Forms\Components\Repeater::make('complementary_routine_json')
+                                            ->label('قائمة المنتجات المكملة (أكمل روتينك)')
+                                            ->schema([
+                                                Forms\Components\Select::make('product_id')
+                                                    ->label('اختر المنتج المكمل')
+                                                    ->options(fn () => \App\Models\Product::pluck('name_en', 'id')->toArray())
+                                                    ->searchable()
+                                                    ->required(),
+                                                Forms\Components\TextInput::make('category')->label('تصنيف الخطوة (غسول/مرطب/إلخ)')->required(),
+                                                Forms\Components\TextInput::make('reason')->label('سبب التوصية في الروتين')->required(),
+                                                Forms\Components\Toggle::make('optional')->label('خطوة اختيارية؟')->default(false),
+                                            ])
+                                            ->columns(2)
+                                            ->collapsible()
+                                            ->columnSpanFull(),
+                                    ]),
+
+                                Forms\Components\Section::make('الأسئلة الشائعة الخاصة بالمنتج (Product FAQs)')
+                                    ->schema([
+                                        Forms\Components\Repeater::make('product_faqs_json')
+                                            ->label('أسئلة وأجوبة قبل أن تختار')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('id')->label('معرّف السؤال (Slug)')->required(),
+                                                Forms\Components\TextInput::make('question')->label('السؤال')->required(),
+                                                Forms\Components\Textarea::make('answer')->label('الإجابة')->rows(3)->required(),
+                                            ])
+                                            ->columns(1)
+                                            ->collapsible()
+                                            ->columnSpanFull(),
+                                    ]),
+                            ]),
+
                         Components\Tabs\Tab::make('SEO ومحركات البحث')
                             ->schema([
                                 Forms\Components\TextInput::make('final_url_slug')

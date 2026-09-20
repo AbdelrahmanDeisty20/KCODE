@@ -65,6 +65,80 @@ class KcodePdpFieldsSeeder extends Seeder
                 $strengthLevel = 'Low';
             }
 
+            $subCatName = strtolower($product->subCategory?->name_en ?? $product->category?->name_en ?? '');
+            $roleStr = strtolower($product->role_ar ?: ($jsonData['routine_role'] ?? ''));
+
+            $stepNumber = 3;
+            if (str_contains($subCatName, 'cleans') || str_contains($roleStr, 'cleans')) {
+                $stepNumber = 1;
+            } elseif (str_contains($subCatName, 'toner') || str_contains($subCatName, 'essence') || str_contains($roleStr, 'toner')) {
+                $stepNumber = 2;
+            } elseif (str_contains($subCatName, 'serum') || str_contains($subCatName, 'ampoule') || str_contains($roleStr, 'treatment') || str_contains($roleStr, 'serum')) {
+                $stepNumber = 3;
+            } elseif (str_contains($subCatName, 'moistur') || str_contains($subCatName, 'cream') || str_contains($subCatName, 'lotion') || str_contains($roleStr, 'moistur')) {
+                $stepNumber = 4;
+            } elseif (str_contains($subCatName, 'sun') || str_contains($roleStr, 'sun')) {
+                $stepNumber = 5;
+            }
+
+            $stepTitle = match ($stepNumber) {
+                1 => 'غسول',
+                2 => 'تونر أو إسنس',
+                3 => 'السيروم / العلاج المركز',
+                4 => 'مرطب',
+                5 => 'واقي شمس',
+                default => 'العناية بالبشرة',
+            };
+
+            $routineStepsJson = [
+                ['step' => 1, 'title' => 'غسول', 'subtitle' => null, 'is_current' => $stepNumber === 1],
+                ['step' => 2, 'title' => 'تونر أو إسنس', 'subtitle' => 'اختياري', 'is_current' => $stepNumber === 2],
+                ['step' => 3, 'title' => 'السيروم', 'subtitle' => $stepNumber === 3 ? 'هذا المنتج' : null, 'is_current' => $stepNumber === 3],
+                ['step' => 4, 'title' => 'مرطب', 'subtitle' => null, 'is_current' => $stepNumber === 4],
+                ['step' => 5, 'title' => 'واقي شمس', 'subtitle' => 'صباحاً', 'is_current' => $stepNumber === 5],
+            ];
+
+            $usageInstructionsJson = [
+                'timing' => $frequencyMap[$freqVal] ?? 'استخدام يومي (صباحاً ومساءً)',
+                'timing_note' => 'بعد التدرّج في الاستخدام.',
+                'amount' => 'بضع قطرات',
+                'amount_note' => 'على المناطق المستهدفة.',
+                'application_method' => 'ربّت بلطف',
+                'application_note' => 'حتى الامتصاص، قبل المرطب.',
+                'gradual_start' => 'ابدأ تدريجيًا',
+                'gradual_start_note' => 'وزِد التكرار حسب تحمّل بشرتك.',
+            ];
+
+            $complementaryRoutineJson = [
+                ['sku' => 'KC0140', 'category' => 'غسول', 'reason' => 'تنظيف لطيف قبل السيروم', 'optional' => false],
+                ['sku' => 'KC0016', 'category' => 'تونر', 'reason' => 'ترطيب خفيف قبل السيروم', 'optional' => true],
+                ['sku' => 'KC0223', 'category' => 'مرطب', 'reason' => 'ترطيب بعد السيروم', 'optional' => false],
+                ['sku' => 'KC0077', 'category' => 'واقي شمس', 'reason' => 'حماية صباحية لإكمال الروتين', 'optional' => false],
+            ];
+
+            $productFaqsJson = [
+                [
+                    'id' => 'target',
+                    'question' => 'هل يستهدف آثار الحبوب أم الحبوب نفسها؟',
+                    'answer' => 'نقيّمه أساسًا للعناية بالبقع الداكنة وتفاوت اللون، بما فيها الآثار اللونية التي تبقى بعد الحبوب. أمّا الحبوب النشطة فتحتاج عناية تستهدفها أيضًا؛ العناية بآثارها وحدها لا تعالج سبب ظهورها.',
+                ],
+                [
+                    'id' => 'pairing',
+                    'question' => 'هل يناسبني إذا كنت أستخدم منتجًا آخر للبقع؟',
+                    'answer' => 'يعتمد ذلك على مكونات المنتج الآخر وتركيزه ومدى تحمّل بشرتك. تشابه الهدف لا يكفي للحكم على ملاءمة الجمع؛ نراجع التركيبتين معًا، لأن إضافة منتج آخر قد تكرر الدور نفسه أو تزيد التهيّج.',
+                ],
+                [
+                    'id' => 'moisturizer',
+                    'question' => 'هل يغني عن المرطب؟',
+                    'answer' => 'الترطيب فيه دور مساند للعناية بالبقع. استخدم بعده مرطبًا مناسبًا لاحتياج بشرتك، بعد امتصاص السيروم.',
+                ],
+                [
+                    'id' => 'results',
+                    'question' => 'متى يمكن ملاحظة تحسّن؟',
+                    'answer' => 'تحسّن مظهر البقع تدريجي، وتختلف مدته بحسب نوع البقع وعمقها واستجابة البشرة. تابع التغيّر مع الاستخدام المنتظم والحماية اليومية من الشمس؛ لا توجد مدة واحدة تنطبق على الجميع.',
+                ],
+            ];
+
             $product->update([
                 'size'                  => ($jsonData['size'] ?? null) ?: ($product->size ?: '30ml'),
                 'barcode'               => ($jsonData['barcode'] ?? null) ?: ($product->barcode ?: ('880967077' . str_pad($product->id, 4, '0', STR_PAD_LEFT))),
@@ -96,6 +170,14 @@ class KcodePdpFieldsSeeder extends Seeder
                 'primary_keyword_ar'    => $product->primary_keyword_ar ?: 'عناية بالبشرة',
                 'primary_keyword_en'    => $product->primary_keyword_en ?: 'K-Beauty',
                 'final_url_slug'        => $product->final_url_slug ?: Str::slug($product->name_en),
+
+                // Dynamic PDP & Routine Fields
+                'routine_step_number'        => $product->routine_step_number ?: $stepNumber,
+                'routine_step_title_ar'      => $product->routine_step_title_ar ?: $stepTitle,
+                'routine_steps_json'         => $product->routine_steps_json ?: $routineStepsJson,
+                'usage_instructions_json'    => $product->usage_instructions_json ?: $usageInstructionsJson,
+                'complementary_routine_json' => $product->complementary_routine_json ?: $complementaryRoutineJson,
+                'product_faqs_json'          => $product->product_faqs_json ?: $productFaqsJson,
             ]);
         }
     }
