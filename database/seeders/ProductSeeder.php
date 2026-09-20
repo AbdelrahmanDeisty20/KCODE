@@ -180,6 +180,13 @@ class ProductSeeder extends Seeder
                     'status' => 'active',
                     'is_best_seller' => true,
                     'sales_count' => rand(150, 500),
+                    'size' => $size ?: ($pData['size'] ?? '30ml'),
+                    'barcode' => !empty($pData['barcode']) ? $pData['barcode'] : ('880967077' . rand(1000, 9999)),
+                    'sensitive_eligible' => true,
+                    'brief_insight_ar' => 'سيروم مهدئ يعزز مرونة البشرة ويقلل الاحمرار والتهيج',
+                    'country_of_origin_ar' => 'كوريا الجنوبية',
+                    'role_ar' => !empty($pData['routine_role']) ? $pData['routine_role'] : 'تهدئة التهيج وتخفيف الاحمرار وتعزيز الحاجز البشري',
+                    'limitations_notes_ar' => 'يُحفظ في مكان بارد وجاف بعيداً عن أشعة الشمس المباشرة. يُنصح بإجراء اختبار حساسية على جزء صغير قبل الاستخدام الكامل.',
                 ]
             );
 

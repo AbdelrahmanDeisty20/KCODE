@@ -71,6 +71,7 @@ class DatabaseSeeder extends Seeder
             ProductSelectionCriteriaSeeder::class,
             PresetRoutineSeeder::class,
             MenPresetRoutineSeeder::class,
+            KcodePdpFieldsSeeder::class,
         ]);
 
         // User::factory(10)->create();
