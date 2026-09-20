@@ -168,59 +168,120 @@ class ProductResource extends JsonResource
     }
 
     /**
-     * Get complementary products for completing routine from DB column
+     * Get complementary products for completing routine from DB column with brand/category smart fallback
      */
-    protected function getComplementaryRoutine(): ?array
+    protected function getComplementaryRoutine(): array
     {
         $items = $this->complementary_routine_json;
-
-        if (empty($items) || !is_array($items)) {
-            return null;
-        }
-
         $result = [];
-        foreach ($items as $item) {
-            $dbProduct = null;
-            if (!empty($item['product_id'])) {
-                $dbProduct = \App\Models\Product::find($item['product_id']);
-            } elseif (!empty($item['sku'])) {
-                $dbProduct = \App\Models\Product::where('sku', $item['sku'])->first();
+
+        if (!empty($items) && is_array($items)) {
+            foreach ($items as $item) {
+                $dbProduct = null;
+                if (!empty($item['product_id'])) {
+                    $dbProduct = \App\Models\Product::find($item['product_id']);
+                } elseif (!empty($item['sku'])) {
+                    $dbProduct = \App\Models\Product::where('sku', $item['sku'])->first();
+                }
+
+                if ($dbProduct && $dbProduct->id === $this->id) {
+                    continue; // Do not recommend product to itself
+                }
+
+                if ($dbProduct) {
+                    $result[] = [
+                        'id' => $dbProduct->id,
+                        'sku' => $dbProduct->sku,
+                        'brand' => $dbProduct->brand?->name_en ?? ($item['brand'] ?? ''),
+                        'name' => $dbProduct->name_en,
+                        'size' => $dbProduct->size ?: ($item['size'] ?? ''),
+                        'category' => $item['category'] ?? ($dbProduct->subCategory?->name_ar ?? 'منتج مكمل'),
+                        'reason' => $item['reason'] ?? '',
+                        'optional' => (bool) ($item['optional'] ?? false),
+                        'price' => (float) $dbProduct->price,
+                        'image' => $dbProduct->image_path,
+                    ];
+                } else {
+                    $result[] = [
+                        'id' => $item['product_id'] ?? null,
+                        'sku' => $item['sku'] ?? '',
+                        'brand' => $item['brand'] ?? '',
+                        'name' => $item['name'] ?? '',
+                        'size' => $item['size'] ?? '',
+                        'category' => $item['category'] ?? '',
+                        'reason' => $item['reason'] ?? '',
+                        'optional' => (bool) ($item['optional'] ?? false),
+                        'price' => (float) ($item['price'] ?? 0),
+                        'image' => $item['image'] ?? null,
+                    ];
+                }
+            }
+        }
+
+        if (!empty($result)) {
+            return $result;
+        }
+
+        // Smart Brand & Category Fallback: Generate complementary routine from same brand or active products
+        $stepsToFetch = [
+            ['cat_ids' => [1], 'keyword' => 'cleans', 'label' => 'غسول', 'reason' => 'تنظيف لطيف قبل استخدام المنتج', 'optional' => false],
+            ['cat_ids' => [2, 3], 'keyword' => 'toner', 'label' => 'تونر', 'reason' => 'ترطيب خفيف وتهيئة البشرة', 'optional' => true],
+            ['cat_ids' => [5], 'keyword' => 'moistur', 'label' => 'مرطب', 'reason' => 'حبس الرطوبة وتدعيم الحاجز الجلدي', 'optional' => false],
+            ['cat_ids' => [6], 'keyword' => 'sun', 'label' => 'واقي شمس', 'reason' => 'حماية صباحية لإكمال الروتين', 'optional' => false],
+        ];
+
+        // If current product is one of these steps (e.g. cleanser), replace that step with serum (cat_id 4)
+        $currentStep = $this->detectRoutineStepNumber();
+        if ($currentStep === 1) {
+            $stepsToFetch[0] = ['cat_ids' => [4], 'keyword' => 'serum', 'label' => 'سيروم', 'reason' => 'علاج مركز بعد التنظيف', 'optional' => false];
+        } elseif ($currentStep === 2) {
+            $stepsToFetch[1] = ['cat_ids' => [4], 'keyword' => 'serum', 'label' => 'سيروم', 'reason' => 'علاج مركز بعد التونر', 'optional' => false];
+        } elseif ($currentStep === 4) {
+            $stepsToFetch[2] = ['cat_ids' => [4], 'keyword' => 'serum', 'label' => 'سيروم', 'reason' => 'علاج مركز قبل المرطب', 'optional' => false];
+        } elseif ($currentStep === 5) {
+            $stepsToFetch[3] = ['cat_ids' => [4], 'keyword' => 'serum', 'label' => 'سيروم', 'reason' => 'علاج مركز قبل واقي الشمس', 'optional' => false];
+        }
+
+        foreach ($stepsToFetch as $config) {
+            $compProduct = null;
+            if ($this->brand_id) {
+                $compProduct = \App\Models\Product::where('id', '!=', $this->id)
+                    ->where('brand_id', $this->brand_id)
+                    ->where(function ($q) use ($config) {
+                        $q->whereIn('category_id', $config['cat_ids'])
+                          ->orWhereHas('subCategory', function ($sub) use ($config) {
+                              $sub->where('name_en', 'LIKE', '%' . $config['keyword'] . '%');
+                          });
+                    })->first();
             }
 
-            if ($dbProduct && $dbProduct->id === $this->id) {
-                continue; // Do not recommend product to itself
+            if (!$compProduct) {
+                $compProduct = \App\Models\Product::where('id', '!=', $this->id)
+                    ->where(function ($q) use ($config) {
+                        $q->whereIn('category_id', $config['cat_ids'])
+                          ->orWhereHas('subCategory', function ($sub) use ($config) {
+                              $sub->where('name_en', 'LIKE', '%' . $config['keyword'] . '%');
+                          });
+                    })->first();
             }
 
-            if ($dbProduct) {
+            if ($compProduct) {
                 $result[] = [
-                    'id' => $dbProduct->id,
-                    'sku' => $dbProduct->sku,
-                    'brand' => $dbProduct->brand?->name_en ?? ($item['brand'] ?? ''),
-                    'name' => $dbProduct->name_en,
-                    'size' => $dbProduct->size ?: ($item['size'] ?? ''),
-                    'category' => $item['category'] ?? ($dbProduct->subCategory?->name_ar ?? 'منتج مكمل'),
-                    'reason' => $item['reason'] ?? '',
-                    'optional' => (bool) ($item['optional'] ?? false),
-                    'price' => (float) $dbProduct->price,
-                    'image' => $dbProduct->image_path,
-                ];
-            } else {
-                $result[] = [
-                    'id' => $item['product_id'] ?? null,
-                    'sku' => $item['sku'] ?? '',
-                    'brand' => $item['brand'] ?? '',
-                    'name' => $item['name'] ?? '',
-                    'size' => $item['size'] ?? '',
-                    'category' => $item['category'] ?? '',
-                    'reason' => $item['reason'] ?? '',
-                    'optional' => (bool) ($item['optional'] ?? false),
-                    'price' => (float) ($item['price'] ?? 0),
-                    'image' => $item['image'] ?? null,
+                    'id' => $compProduct->id,
+                    'sku' => $compProduct->sku,
+                    'brand' => $compProduct->brand?->name_en ?? '',
+                    'name' => $compProduct->name_en,
+                    'size' => $compProduct->size ?: '',
+                    'category' => $config['label'],
+                    'reason' => $config['reason'],
+                    'optional' => $config['optional'],
+                    'price' => (float) $compProduct->price,
+                    'image' => $compProduct->image_path,
                 ];
             }
         }
 
-        return !empty($result) ? $result : null;
+        return $result;
     }
 
     /**
