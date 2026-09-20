@@ -41,6 +41,13 @@ class ProductResource extends JsonResource
             'brand' => BrandResource::make($this->whenLoaded('brand')),
             'sub_category' => SubCategoryResource::make($this->whenLoaded('subCategory')),
             // Product Details
+            'size' => $this->size,
+            'barcode' => $this->barcode,
+            'sensitive_eligible' => (bool) $this->sensitive_eligible,
+            'brief_insight_ar' => $this->brief_insight_ar,
+            'country_of_origin_ar' => $this->country_of_origin_ar,
+            'role_ar' => $this->role_ar,
+            'limitations_notes_ar' => $this->limitations_notes_ar,
             'texture' => $this->texture,
             'why_kcode' => $this->why_kcode,
             'usage_frequency_ar' => $this->usage_frequency_ar,

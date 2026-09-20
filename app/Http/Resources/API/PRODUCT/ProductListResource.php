@@ -33,6 +33,12 @@ class ProductListResource extends JsonResource
             'review_rating' => $this->average_rating,
             'num_reviews' => $this->num_reviews,
             'category' => CategoryResource::make($this->whenLoaded('category')),
+            'size' => $this->size,
+            'barcode' => $this->barcode,
+            'sensitive_eligible' => (bool) $this->sensitive_eligible,
+            'brief_insight_ar' => $this->brief_insight_ar,
+            'country_of_origin_ar' => $this->country_of_origin_ar,
+            'role_ar' => $this->role_ar,
         ];
     }
 }
