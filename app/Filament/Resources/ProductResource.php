@@ -126,23 +126,36 @@ class ProductResource extends Resource
                                 Components\Section::make('🖼️ الصورة الرئيسية للمنتج (Main Image)')
                                     ->schema([
                                         Forms\Components\Placeholder::make('main_image_preview')
-                                            ->label('معاينة الصورة الرئيسية')
+                                            ->label('الصورة الرئيسية الحالية')
                                             ->content(function ($record, $get) {
                                                 $url = $get('image') ?: ($record?->image ?? null);
                                                 if (!$url) {
                                                     return new \Illuminate\Support\HtmlString('<span style="color:#888;">لا توجد صورة رئيسية</span>');
                                                 }
                                                 $src = filter_var($url, FILTER_VALIDATE_URL) ? $url : asset('storage/' . ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $url), '/'));
-                                                return new \Illuminate\Support\HtmlString('<div style="margin-bottom:10px;"><img src="' . e($src) . '" style="max-height: 200px; border-radius: 12px; border: 3px solid #6b2f5f; box-shadow: 0 4px 12px rgba(0,0,0,0.15); object-fit: cover;" /></div>');
+                                                return new \Illuminate\Support\HtmlString('<div style="margin-bottom:10px;"><img src="' . e($src) . '" style="max-height: 220px; border-radius: 12px; border: 3px solid #6b2f5f; box-shadow: 0 4px 12px rgba(0,0,0,0.15); object-fit: cover;" /></div>');
                                             }),
 
-                                        Forms\Components\TextInput::make('image')
-                                            ->label('رابط / مسار الصورة الرئيسية (Main Image URL)')
-                                            ->placeholder('https://images.unsplash.com/...')
-                                            ->reactive()
-                                            ->helperText('رابط مباشر للصورة الرئيسية للمنتج')
+                                        Forms\Components\FileUpload::make('image_file')
+                                            ->label('رفع صورة جديدة من جهازك (Upload File)')
+                                            ->image()
+                                            ->directory('products')
+                                            ->visibility('public')
+                                            ->dehydrated(false)
+                                            ->afterStateUpdated(function ($state, callable $set) {
+                                                if ($state) {
+                                                    $set('image', $state);
+                                                }
+                                            })
                                             ->nullable(),
-                                    ]),
+
+                                        Forms\Components\TextInput::make('image')
+                                            ->label('رابط / مسار الصورة الرئيسية (Image URL or Storage Path)')
+                                            ->placeholder('https://images.unsplash.com/... أو products/image.png')
+                                            ->reactive()
+                                            ->helperText('يمكنك رفع ملف صورة من أعلى أو لصق رابط مباشر هنا لتعديل الصورة فوراً')
+                                            ->nullable(),
+                                    ])->columns(2),
 
                                 Components\Section::make('📸 معرض الصور الفرعية (Product Sub-Images)')
                                     ->schema([
@@ -161,13 +174,26 @@ class ProductResource extends Resource
                                                         return new \Illuminate\Support\HtmlString('<div style="margin-bottom:8px;"><img src="' . e($src) . '" style="max-height: 160px; max-width: 220px; border-radius: 10px; border: 2px solid #93254e; box-shadow: 0 3px 8px rgba(0,0,0,0.12); object-fit: cover;" /></div>');
                                                     }),
 
+                                                Forms\Components\FileUpload::make('sub_image_file')
+                                                    ->label('رفع صورة فرعية من الجهاز (Upload File)')
+                                                    ->image()
+                                                    ->directory('product_images')
+                                                    ->visibility('public')
+                                                    ->dehydrated(false)
+                                                    ->afterStateUpdated(function ($state, callable $set) {
+                                                        if ($state) {
+                                                            $set('images', $state);
+                                                        }
+                                                    })
+                                                    ->nullable(),
+
                                                 Forms\Components\TextInput::make('images')
                                                     ->label('رابط الصورة الفرعية (Sub-Image URL)')
                                                     ->placeholder('https://images.unsplash.com/...')
                                                     ->reactive()
                                                     ->required(),
                                             ])
-                                            ->columns(2)
+                                            ->columns(3)
                                             ->collapsible()
                                             ->columnSpanFull(),
                                     ]),
