@@ -100,6 +100,69 @@ class ProductSeeder extends Seeder
             'Body Care' => ['ar' => 'العناية بالجسم', 'en' => 'Body Care', 'order' => 10],
         ];
 
+        $categoryImagePools = [
+            'Cleanser' => [
+                'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Toner' => [
+                'https://images.unsplash.com/photo-1608248597260-6578e363cc0c?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1512290900676-26c2a4d4b51b?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Essence' => [
+                'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1608248597260-6578e363cc0c?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Serum' => [
+                'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Moisturizer' => [
+                'https://images.unsplash.com/photo-1567928269937-ae146e45b428?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1608248597260-6578e363cc0c?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Sunscreen' => [
+                'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Eye Care' => [
+                'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1567928269937-ae146e45b428?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Exfoliator' => [
+                'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1608248597260-6578e363cc0c?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Mask' => [
+                'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1567928269937-ae146e45b428?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1608248597260-6578e363cc0c?auto=format&fit=crop&q=80&w=800',
+            ],
+            'Body Care' => [
+                'https://images.unsplash.com/photo-1512290900676-26c2a4d4b51b?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800',
+                'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&q=80&w=800',
+            ],
+        ];
+
         if (SkinType::count() === 0) {
             (new SkinTypeSeeder())->run();
         }
@@ -113,7 +176,7 @@ class ProductSeeder extends Seeder
 
         $seededCount = 0;
 
-        foreach ($jsonProducts as $pData) {
+        foreach ($jsonProducts as $pIndex => $pData) {
             $brandName = trim($pData['brand'] ?? '');
             $prodName = trim($pData['product'] ?? '');
             $sku = trim($pData['sku'] ?? '');
@@ -157,6 +220,9 @@ class ProductSeeder extends Seeder
             $descEn = "Authentic {$brandName} {$prodName} Korean skincare product.";
             $nameAr = $pData['name_ar'] ?? "{$brandName} {$prodName}" . ($size ? " ({$size})" : "");
 
+            $imagePool = $categoryImagePools[$categoryName] ?? $categoryImagePools['Serum'];
+            $mainImg = $imagePool[$pIndex % count($imagePool)];
+
             $product = Product::updateOrCreate(
                 ['sku' => $sku ?: $slug],
                 [
@@ -170,7 +236,7 @@ class ProductSeeder extends Seeder
                     'sku' => $sku ?: $slug,
                     'price' => rand(65, 185),
                     'stock' => rand(15, 80),
-                    'image' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800',
+                    'image' => $mainImg,
                     'description_ar' => $descAr,
                     'description_en' => $descEn,
                     'ingredients_ar' => $pData['ingredients_ar'] ?? $descAr,
@@ -189,6 +255,15 @@ class ProductSeeder extends Seeder
                     'limitations_notes_ar' => 'يُحفظ في مكان بارد وجاف بعيداً عن أشعة الشمس المباشرة. يُنصح بإجراء اختبار حساسية على جزء صغير قبل الاستخدام الكامل.',
                 ]
             );
+
+            // Seed 3 to 4 distinct gallery images for ProductImage table
+            \App\Models\ProductImage::where('product_id', $product->id)->delete();
+            foreach ($imagePool as $galleryImg) {
+                \App\Models\ProductImage::create([
+                    'product_id' => $product->id,
+                    'images' => $galleryImg,
+                ]);
+            }
 
             $skinFit = $pData['skin_fit'] ?? [];
             $goals = $pData['goals'] ?? [];
