@@ -119,13 +119,35 @@ class ProductResource extends Resource
                                     ])
                                     ->default('active')
                                     ->required(),
-
-                                Forms\Components\FileUpload::make('image')
-                                    ->label('صورة المنتج')
-                                    ->image()
-                                    ->directory('products')
-                                    ->nullable(),
                             ])->columns(2),
+
+                        Components\Tabs\Tab::make('الصور ومعرض المنتج (Images & Gallery)')
+                            ->schema([
+                                Components\Section::make('🖼️ الصورة الرئيسية للمنتج (Main Image)')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('image')
+                                            ->label('رابط / مسار الصورة الرئيسية (Main Image URL)')
+                                            ->placeholder('https://images.unsplash.com/...')
+                                            ->helperText('رابط مباشر للصورة الرئيسية للمنتج')
+                                            ->nullable(),
+                                    ]),
+
+                                Components\Section::make('📸 معرض الصور الفرعية (Product Sub-Images)')
+                                    ->schema([
+                                        Forms\Components\Repeater::make('images')
+                                            ->relationship('images')
+                                            ->label('قائمة الصور الفرعية للمعرض')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('images')
+                                                    ->label('رابط الصورة الفرعية (Sub-Image URL)')
+                                                    ->placeholder('https://images.unsplash.com/...')
+                                                    ->required(),
+                                            ])
+                                            ->columns(1)
+                                            ->collapsible()
+                                            ->columnSpanFull(),
+                                    ]),
+                            ]),
 
                         Components\Tabs\Tab::make('الوصف والاستخدام')
                             ->schema([
@@ -352,8 +374,15 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
-                    ->label($isEn ? 'Image' : 'الصورة')
-                    ->square(),
+                    ->label($isEn ? 'Main Image' : 'الصورة الرئيسية')
+                    ->square()
+                    ->size(50),
+
+                Tables\Columns\ImageColumn::make('images.image_path')
+                    ->label($isEn ? 'Sub Images' : 'الصور الفرعية')
+                    ->circular()
+                    ->stacked()
+                    ->limit(4),
 
                 Tables\Columns\TextColumn::make('sku')
                     ->label('SKU')
