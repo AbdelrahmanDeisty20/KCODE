@@ -234,7 +234,7 @@ class ProductResource extends Resource
 
                         Components\Tabs\Tab::make('إعدادات صفحة المنتج (PDP & FAQ)')
                             ->schema([
-                                Forms\Components\Section::make('ترتيب الروتين الخماسي (Routine Position)')
+                                Components\Section::make('ترتيب الروتين الخماسي (Routine Position)')
                                     ->schema([
                                         Forms\Components\Select::make('routine_step_number')
                                             ->label('رقم الخطوة في الروتين')
@@ -263,7 +263,7 @@ class ProductResource extends Resource
                                             ->columnSpanFull(),
                                     ])->columns(2),
 
-                                Forms\Components\Section::make('طريقة ودواعي الاستخدام التفصيلية (Usage Instructions)')
+                                Components\Section::make('طريقة ودواعي الاستخدام التفصيلية (Usage Instructions)')
                                     ->schema([
                                         Forms\Components\KeyValue::make('usage_instructions_json')
                                             ->label('تفاصيل الاستخدام (مفاتيح: timing, amount, application_method, gradual_start)')
@@ -272,7 +272,7 @@ class ProductResource extends Resource
                                             ->columnSpanFull(),
                                     ]),
 
-                                Forms\Components\Section::make('المنتجات المكملة للروتين (Complementary Routine)')
+                                Components\Section::make('المنتجات المكملة للروتين (Complementary Routine)')
                                     ->schema([
                                         Forms\Components\Repeater::make('complementary_routine_json')
                                             ->label('قائمة المنتجات المكملة (أكمل روتينك)')
@@ -291,7 +291,7 @@ class ProductResource extends Resource
                                             ->columnSpanFull(),
                                     ]),
 
-                                Forms\Components\Section::make('الأسئلة الشائعة الخاصة بالمنتج (Product FAQs)')
+                                Components\Section::make('الأسئلة الشائعة الخاصة بالمنتج (Product FAQs)')
                                     ->schema([
                                         Forms\Components\Repeater::make('product_faqs_json')
                                             ->label('أسئلة وأجوبة قبل أن تختار')
