@@ -125,9 +125,21 @@ class ProductResource extends Resource
                             ->schema([
                                 Components\Section::make('🖼️ الصورة الرئيسية للمنتج (Main Image)')
                                     ->schema([
+                                        Forms\Components\Placeholder::make('main_image_preview')
+                                            ->label('معاينة الصورة الرئيسية')
+                                            ->content(function ($record, $get) {
+                                                $url = $get('image') ?: ($record?->image ?? null);
+                                                if (!$url) {
+                                                    return new \Illuminate\Support\HtmlString('<span style="color:#888;">لا توجد صورة رئيسية</span>');
+                                                }
+                                                $src = filter_var($url, FILTER_VALIDATE_URL) ? $url : asset('storage/' . ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $url), '/'));
+                                                return new \Illuminate\Support\HtmlString('<div style="margin-bottom:10px;"><img src="' . e($src) . '" style="max-height: 200px; border-radius: 12px; border: 3px solid #6b2f5f; box-shadow: 0 4px 12px rgba(0,0,0,0.15); object-fit: cover;" /></div>');
+                                            }),
+
                                         Forms\Components\TextInput::make('image')
                                             ->label('رابط / مسار الصورة الرئيسية (Main Image URL)')
                                             ->placeholder('https://images.unsplash.com/...')
+                                            ->reactive()
                                             ->helperText('رابط مباشر للصورة الرئيسية للمنتج')
                                             ->nullable(),
                                     ]),
@@ -138,12 +150,24 @@ class ProductResource extends Resource
                                             ->relationship('images')
                                             ->label('قائمة الصور الفرعية للمعرض')
                                             ->schema([
+                                                Forms\Components\Placeholder::make('sub_image_preview')
+                                                    ->label('معاينة الصورة الفرعية')
+                                                    ->content(function ($get, $record) {
+                                                        $url = $get('images') ?: ($record?->images ?? null);
+                                                        if (!$url) {
+                                                            return new \Illuminate\Support\HtmlString('<span style="color:#888;">لا توجد صورة</span>');
+                                                        }
+                                                        $src = filter_var($url, FILTER_VALIDATE_URL) ? $url : asset('storage/' . ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $url), '/'));
+                                                        return new \Illuminate\Support\HtmlString('<div style="margin-bottom:8px;"><img src="' . e($src) . '" style="max-height: 160px; max-width: 220px; border-radius: 10px; border: 2px solid #93254e; box-shadow: 0 3px 8px rgba(0,0,0,0.12); object-fit: cover;" /></div>');
+                                                    }),
+
                                                 Forms\Components\TextInput::make('images')
                                                     ->label('رابط الصورة الفرعية (Sub-Image URL)')
                                                     ->placeholder('https://images.unsplash.com/...')
+                                                    ->reactive()
                                                     ->required(),
                                             ])
-                                            ->columns(1)
+                                            ->columns(2)
                                             ->collapsible()
                                             ->columnSpanFull(),
                                     ]),
