@@ -207,8 +207,9 @@ class ProductResource extends Resource
                                     ->required(),
 
                                 Forms\Components\Textarea::make('ingredients_en')
-                                    ->label('المكونات (Ingredients)')
-                                    ->rows(3)
+                                    ->label('قائمة المكونات التفصيلية الكاملة (Full INCI Ingredients)')
+                                    ->placeholder('Water, Glycerin, Niacinamide, Tranexamic Acid...')
+                                    ->rows(4)
                                     ->required(),
 
                                 Forms\Components\Textarea::make('how_to_use_en')
@@ -216,6 +217,33 @@ class ProductResource extends Resource
                                     ->rows(3)
                                     ->required(),
                             ])->columns(2),
+
+                        Components\Tabs\Tab::make('منهجية تقييم التركيبة')
+                            ->schema([
+                                Components\Section::make('منهجية تقييم التركيبة في KCODE (Formula Evaluation Policy)')
+                                    ->description('هذه المنهجية هي سياسة شفافة تعتمدها KCODE لتقييم جميع المنتجات. يتم عرضها تلقائياً في شاشات المنتجات ويمكن تعديل نصوصها ديناميكياً من قسم الإعدادات العامة بالمتجر.')
+                                    ->schema([
+                                        Forms\Components\Placeholder::make('eval_title')
+                                            ->label('عنوان السياسة الحالية في المتجر:')
+                                            ->content(fn () => \App\Models\Setting::get('formula_eval_title', 'كيف نقيّم التركيبة في KCODE؟')),
+
+                                        Forms\Components\Placeholder::make('eval_subtitle')
+                                            ->label('المقدمة الحالية:')
+                                            ->content(fn () => \App\Models\Setting::get('formula_eval_subtitle', 'وراء كل خلاصة، مراجعة تبدأ من تركيبة المنتج نفسه.')),
+
+                                        Forms\Components\Placeholder::make('eval_step1')
+                                            ->label('الركيزة 1: نبدأ من العبوة')
+                                            ->content(fn () => \App\Models\Setting::get('formula_eval_step1_desc', 'نراجع قائمة المكونات المدوّنة على المنتج، ونقرأها كاملة لفهم ما تحتويه التركيبة فعلًا...')),
+
+                                        Forms\Components\Placeholder::make('eval_step2')
+                                            ->label('الركيزة 2: وجود المكوّن وحده لا يكفي')
+                                            ->content(fn () => \App\Models\Setting::get('formula_eval_step2_desc', 'ندرس وظيفة المكوّن وترتيبه في القائمة، ونأخذ النسب المعلنة في الحسبان...')),
+
+                                        Forms\Components\Placeholder::make('eval_step3')
+                                            ->label('الركيزة 3: نقرأ التركيبة ككل')
+                                            ->content(fn () => \App\Models\Setting::get('formula_eval_step3_desc', 'نربط المكونات ببعضها وباحتياجات البشرة، ونوازن بين ما تدعمه التركيبة...')),
+                                    ])->columns(2),
+                            ]),
 
                         Components\Tabs\Tab::make('تفاصيل KCODE الطبية والروتين')
                             ->schema([

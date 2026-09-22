@@ -223,6 +223,8 @@ class ProductSeeder extends Seeder
             $imagePool = $categoryImagePools[$categoryName] ?? $categoryImagePools['Serum'];
             $mainImg = $imagePool[$pIndex % count($imagePool)];
 
+            $inciText = 'Water, Glycerin, Niacinamide, Tranexamic Acid, Butylene Glycol, Diethoxyethyl Succinate, 1,2-Hexanediol, Arbutin, Sodium Hyaluronate, Alpha-Arbutin, Centella Asiatica Extract, Panthenol, Hyaluronic Acid, Ceramide NP, Asiaticoside, Madecassic Acid, Asiatic Acid, Xanthan Gum';
+
             $product = Product::updateOrCreate(
                 ['sku' => $sku ?: $slug],
                 [
@@ -239,8 +241,8 @@ class ProductSeeder extends Seeder
                     'image' => $mainImg,
                     'description_ar' => $descAr,
                     'description_en' => $descEn,
-                    'ingredients_ar' => $pData['ingredients_ar'] ?? $descAr,
-                    'ingredients_en' => $descEn,
+                    'ingredients_ar' => $pData['ingredients_ar'] ?? $inciText,
+                    'ingredients_en' => $pData['ingredients_en'] ?? $inciText,
                     'how_to_use_ar' => $descAr,
                     'how_to_use_en' => $descEn,
                     'status' => 'active',
