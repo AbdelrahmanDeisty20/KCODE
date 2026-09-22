@@ -10,6 +10,7 @@
     <style>
         :root {
             --kcode-primary: #2e1633;
+            --kcode-primary-hover: #43214a;
             --kcode-berry: #93254e;
             --kcode-berry-light: #e28aab;
             --kcode-canvas: #fbfaf7;
@@ -51,12 +52,16 @@
 
         /* Subtle Header Logo */
         .brand-logo {
-            margin-bottom: 2rem;
+            margin-bottom: 1.75rem;
             display: inline-block;
             transition: transform 0.2s ease;
         }
 
-        .brand-logo img, .brand-logo svg {
+        .brand-logo:hover {
+            transform: scale(1.03);
+        }
+
+        .brand-logo svg {
             width: 140px;
             height: auto;
             display: block;
@@ -102,7 +107,7 @@
             line-height: 0.95;
             color: var(--kcode-primary);
             letter-spacing: -0.04em;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             user-select: none;
         }
 
@@ -133,7 +138,7 @@
             font-weight: 800;
             color: var(--kcode-primary);
             line-height: 1.3;
-            margin-bottom: 1rem;
+            margin-bottom: 0.85rem;
         }
 
         /* Description Paragraph */
@@ -143,15 +148,81 @@
             color: var(--kcode-text-secondary);
             line-height: 1.8;
             max-width: 540px;
-            margin: 0 auto;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        /* Auto Redirect Notice */
+        .redirect-notice {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--kcode-text-secondary);
+            margin-bottom: 1.5rem;
+            background: rgba(46, 22, 51, 0.04);
+            padding: 0.4rem 1.1rem;
+            border-radius: 8px;
+        }
+
+        .countdown-number {
+            font-weight: 800;
+            color: var(--kcode-berry);
+            font-size: 1.05rem;
+        }
+
+        /* Back to Dashboard Button */
+        .btn-dashboard {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 2.2rem;
+            background-color: var(--kcode-primary);
+            color: #ffffff;
+            font-family: var(--kcode-font);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 10px;
+            box-shadow: 0 10px 24px -10px rgba(46, 22, 51, 0.45);
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-dashboard:hover {
+            background-color: var(--kcode-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px -8px rgba(46, 22, 51, 0.55);
+        }
+
+        .btn-dashboard:active {
+            transform: scale(0.98);
+        }
+
+        .btn-dashboard svg {
+            width: 19px;
+            height: 19px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-dashboard:hover svg {
+            transform: translateX(4px);
         }
 
         @media (max-width: 480px) {
             .error-container {
                 padding: 1.5rem 1rem;
             }
-            .brand-logo img, .brand-logo svg {
+            .brand-logo svg {
                 width: 115px;
+            }
+            .btn-dashboard {
+                width: 100%;
             }
         }
     </style>
@@ -159,7 +230,7 @@
 <body>
     <main class="error-container">
         <!-- Logo -->
-        <a href="/" class="brand-logo" aria-label="KCODE Homepage">
+        <a href="/admin" class="brand-logo" aria-label="KCODE Dashboard">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 506 116" role="img" aria-label="KCODE">
                 <path d="M6.3 6.3 V93.7 M6.3 52 L56 6.3 M7.3 52 L56 93.7" fill="none" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
                 <path d="M166.84 22 A40.7 43.7 0 1 0 166.84 78" fill="none" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
@@ -193,7 +264,41 @@
             <p class="error-description">
                 نعتذر، يبدو أن الرابط الذي تحاول الوصول إليه غير متوفر حالياً أو تم نقله لعنوان آخر.
             </p>
+
+            <!-- Auto Redirect Notice -->
+            <div class="redirect-notice">
+                <span>سيتم إعادة توجيهك تلقائياً للوحة التحكم خلال</span>
+                <span id="countdown" class="countdown-number">5</span>
+                <span>ثوانٍ...</span>
+            </div>
+
+            <!-- Back to Dashboard Button -->
+            <a href="/admin" class="btn-dashboard">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                <span>العودة إلى لوحة التحكم</span>
+            </a>
         </article>
     </main>
+
+    <script>
+        (function() {
+            let seconds = 5;
+            const countdownEl = document.getElementById('countdown');
+            const targetUrl = '/admin';
+
+            const timer = setInterval(function() {
+                seconds--;
+                if (countdownEl) {
+                    countdownEl.textContent = seconds;
+                }
+                if (seconds <= 0) {
+                    clearInterval(timer);
+                    window.location.href = targetUrl;
+                }
+            }, 1000);
+        })();
+    </script>
 </body>
 </html>
