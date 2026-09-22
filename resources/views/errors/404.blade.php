@@ -4,23 +4,64 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>404 — الصفحة غير موجودة | KCODE</title>
+    
+    <!-- Instant Theme Detection Script to Prevent Flash -->
+    <script>
+        (function() {
+            var theme = localStorage.getItem('theme') || localStorage.getItem('filament::theme') || localStorage.getItem('theme-mode');
+            var isDark = theme === 'dark' || (!theme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
+        /* Light Theme Tokens */
         :root {
+            --kcode-canvas: #fbfaf7;
             --kcode-primary: #2e1633;
             --kcode-primary-hover: #43214a;
-            --kcode-berry: #93254e;
-            --kcode-berry-light: #e28aab;
-            --kcode-canvas: #fbfaf7;
-            --kcode-surface: #ffffff;
             --kcode-text-primary: #2e1633;
             --kcode-text-secondary: #5f565c;
+            --kcode-berry: #93254e;
             --kcode-badge-bg: #f8edf2;
-            --kcode-border-soft: rgba(46, 22, 51, 0.12);
+            --kcode-border-badge: rgba(147, 37, 78, 0.18);
             --kcode-line-soft: rgba(147, 37, 78, 0.25);
+            --kcode-notice-bg: rgba(46, 22, 51, 0.04);
+            --kcode-btn-bg: #2e1633;
+            --kcode-btn-text: #ffffff;
+            --kcode-btn-hover: #43214a;
+            --kcode-btn-shadow: rgba(46, 22, 51, 0.45);
+            --kcode-logo-stroke: #2e1633;
+            --kcode-logo-dot: #93254e;
             --kcode-font: 'Cairo', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Dark Theme Tokens */
+        html.dark {
+            --kcode-canvas: #1a0c1d;
+            --kcode-primary: #ffffff;
+            --kcode-primary-hover: #e28aab;
+            --kcode-text-primary: #fbfaf7;
+            --kcode-text-secondary: #d4c8d2;
+            --kcode-berry: #e28aab;
+            --kcode-badge-bg: rgba(226, 138, 171, 0.12);
+            --kcode-border-badge: rgba(226, 138, 171, 0.3);
+            --kcode-line-soft: rgba(226, 138, 171, 0.35);
+            --kcode-notice-bg: rgba(255, 255, 255, 0.08);
+            --kcode-btn-bg: #93254e;
+            --kcode-btn-text: #ffffff;
+            --kcode-btn-hover: #b53265;
+            --kcode-btn-shadow: rgba(147, 37, 78, 0.55);
+            --kcode-logo-stroke: #f7f3f0;
+            --kcode-logo-dot: #e28aab;
         }
 
         *, *::before, *::after {
@@ -38,6 +79,7 @@
             text-align: center;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .error-container {
@@ -67,6 +109,16 @@
             display: block;
         }
 
+        .brand-logo path {
+            stroke: var(--kcode-logo-stroke);
+            transition: stroke 0.3s ease;
+        }
+
+        .brand-logo circle {
+            fill: var(--kcode-logo-dot);
+            transition: fill 0.3s ease;
+        }
+
         /* Card Wrap */
         .error-card {
             width: 100%;
@@ -85,11 +137,12 @@
             padding: 0.35rem 1rem;
             background-color: var(--kcode-badge-bg);
             color: var(--kcode-berry);
-            border: 1px solid rgba(147, 37, 78, 0.18);
+            border: 1px solid var(--kcode-border-badge);
             border-radius: 9999px;
             font-size: 0.875rem;
             font-weight: 600;
             margin-bottom: 1.25rem;
+            transition: all 0.3s ease;
         }
 
         .error-badge-dot {
@@ -109,6 +162,7 @@
             letter-spacing: -0.04em;
             margin-bottom: 1.25rem;
             user-select: none;
+            transition: color 0.3s ease;
         }
 
         /* Subtitle Divider */
@@ -122,6 +176,7 @@
             color: var(--kcode-berry);
             font-size: 0.9rem;
             font-weight: 600;
+            transition: color 0.3s ease;
         }
 
         .subtitle-divider::before,
@@ -130,6 +185,7 @@
             flex: 1;
             height: 1px;
             background-color: var(--kcode-line-soft);
+            transition: background-color 0.3s ease;
         }
 
         /* Main Heading */
@@ -139,6 +195,7 @@
             color: var(--kcode-primary);
             line-height: 1.3;
             margin-bottom: 0.85rem;
+            transition: color 0.3s ease;
         }
 
         /* Description Paragraph */
@@ -149,6 +206,7 @@
             line-height: 1.8;
             max-width: 540px;
             margin: 0 auto 1.5rem auto;
+            transition: color 0.3s ease;
         }
 
         /* Auto Redirect Notice */
@@ -160,9 +218,10 @@
             font-weight: 500;
             color: var(--kcode-text-secondary);
             margin-bottom: 1.5rem;
-            background: rgba(46, 22, 51, 0.04);
+            background: var(--kcode-notice-bg);
             padding: 0.4rem 1.1rem;
             border-radius: 8px;
+            transition: all 0.3s ease;
         }
 
         .countdown-number {
@@ -178,21 +237,21 @@
             justify-content: center;
             gap: 0.6rem;
             padding: 0.85rem 2.2rem;
-            background-color: var(--kcode-primary);
-            color: #ffffff;
+            background-color: var(--kcode-btn-bg);
+            color: var(--kcode-btn-text);
             font-family: var(--kcode-font);
             font-size: 1rem;
             font-weight: 600;
             text-decoration: none;
             border-radius: 10px;
-            box-shadow: 0 10px 24px -10px rgba(46, 22, 51, 0.45);
+            box-shadow: 0 10px 24px -10px var(--kcode-btn-shadow);
             transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn-dashboard:hover {
-            background-color: var(--kcode-primary-hover);
+            background-color: var(--kcode-btn-hover);
             transform: translateY(-2px);
-            box-shadow: 0 14px 28px -8px rgba(46, 22, 51, 0.55);
+            box-shadow: 0 14px 28px -8px var(--kcode-btn-shadow);
         }
 
         .btn-dashboard:active {
@@ -232,12 +291,12 @@
         <!-- Logo -->
         <a href="/admin" class="brand-logo" aria-label="KCODE Dashboard">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 506 116" role="img" aria-label="KCODE">
-                <path d="M6.3 6.3 V93.7 M6.3 52 L56 6.3 M7.3 52 L56 93.7" fill="none" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M166.84 22 A40.7 43.7 0 1 0 166.84 78" fill="none" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M248 6.3 A41.7 43.7 0 1 1 247.99 6.3 Z" fill="none" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M322.3 6.3 V93.7 M322.3 6.3 H343.6 A43.7 43.7 0 0 1 343.6 93.7 H322.3" fill="none" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M434.3 6.3 H490 M434.3 50 H480 M434.3 93.7 H490 M434.3 6.3 V93.7" fill="none" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="248" cy="50" r="11" fill="#93254E"/>
+                <path d="M6.3 6.3 V93.7 M6.3 52 L56 6.3 M7.3 52 L56 93.7" fill="none" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M166.84 22 A40.7 43.7 0 1 0 166.84 78" fill="none" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M248 6.3 A41.7 43.7 0 1 1 247.99 6.3 Z" fill="none" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M322.3 6.3 V93.7 M322.3 6.3 H343.6 A43.7 43.7 0 0 1 343.6 93.7 H322.3" fill="none" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M434.3 6.3 H490 M434.3 50 H480 M434.3 93.7 H490 M434.3 6.3 V93.7" fill="none" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="248" cy="50" r="11"/>
             </svg>
         </a>
 
