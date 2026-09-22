@@ -59,6 +59,7 @@ class ProductResource extends JsonResource
             'usage_instructions' => $this->getUsageInstructions(),
             'complementary_routine' => $this->getComplementaryRoutine(),
             'product_faqs' => $this->getProductFaqs(),
+            'formula_evaluation_info' => $this->getFormulaEvaluationInfo(),
 
             // SEO Fields
             'seo' => [
@@ -294,5 +295,31 @@ class ProductResource extends JsonResource
         }
 
         return null;
+    }
+
+    /**
+     * Get KCODE Formula Evaluation Policy section dynamically from Settings table (Filament Admin Managed)
+     */
+    protected function getFormulaEvaluationInfo(): array
+    {
+        return [
+            'title_ar' => \App\Models\Setting::get('formula_eval_title', 'كيف نقيّم التركيبة في KCODE؟'),
+            'subtitle_ar' => \App\Models\Setting::get('formula_eval_subtitle', 'وراء كل خلاصة، مراجعة تبدأ من تركيبة المنتج نفسه.'),
+            'steps' => [
+                [
+                    'title_ar' => \App\Models\Setting::get('formula_eval_step1_title', 'نبدأ من العبوة'),
+                    'text_ar'  => \App\Models\Setting::get('formula_eval_step1_desc', 'نراجع قائمة المكونات المدوّنة على المنتج، ونقرأها كاملة لفهم ما تحتويه التركيبة فعلًا، بدل الاكتفاء بالمكوّن الذي يبرزه الإعلان.'),
+                ],
+                [
+                    'title_ar' => \App\Models\Setting::get('formula_eval_step2_title', 'وجود المكوّن وحده لا يكفي'),
+                    'text_ar'  => \App\Models\Setting::get('formula_eval_step2_desc', 'ندرس وظيفة المكوّن وترتيبه في القائمة، ونأخذ النسب المعلنة في الحسبان. ثم نقيّم دوره ضمن التركيبة: هل يدعم الهدف الأساسي للمنتج، أم يؤدي دورًا مساندًا؟'),
+                ],
+                [
+                    'title_ar' => \App\Models\Setting::get('formula_eval_step3_title', 'نقرأ التركيبة ككل'),
+                    'text_ar'  => \App\Models\Setting::get('formula_eval_step3_desc', 'نربط المكونات ببعضها وباحتياجات البشرة، ونوازن بين ما تدعمه التركيبة وما يستدعي الانتباه في ملاءمتها وتحمّلها. ثم نحوّل هذه القراءة إلى خلاصة واضحة تساعدك على فهم المنتج.'),
+                ],
+            ],
+            'footer_note_ar' => \App\Models\Setting::get('formula_eval_footer_note', 'نقيّم كل منتج بمعاييرنا نفسها؛ شهرته ووجوده في المتجر لا يمنحانه توصية تلقائية.'),
+        ];
     }
 }

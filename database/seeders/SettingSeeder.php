@@ -114,6 +114,62 @@ class SettingSeeder extends Seeder
                 'value_ar' => 'كل منتج يوضع في متجرنا يتم اختياره ليحل مشكلة حقيقية ومحددة لبشرتك بناءً على تركيبته.',
                 'value_en' => 'Every product placed in our store is chosen to solve a real and specific skin problem based on its formulation.',
             ],
+
+            // KCODE Formula Evaluation Policy / كيف نقيّم التركيبة في KCODE
+            [
+                'key_ar' => 'عنوان منهجية تقييم التركيبة',
+                'key_en' => 'formula_eval_title',
+                'value_ar' => 'كيف نقيّم التركيبة في KCODE؟',
+                'value_en' => 'How We Evaluate Formulations at KCODE',
+            ],
+            [
+                'key_ar' => 'مقدمة منهجية تقييم التركيبة',
+                'key_en' => 'formula_eval_subtitle',
+                'value_ar' => 'وراء كل خلاصة، مراجعة تبدأ من تركيبة المنتج نفسه.',
+                'value_en' => 'Behind every conclusion, a review that begins with the product formula itself.',
+            ],
+            [
+                'key_ar' => 'تقييم التركيبة - الخطوة 1 (العنوان)',
+                'key_en' => 'formula_eval_step1_title',
+                'value_ar' => 'نبدأ من العبوة',
+                'value_en' => 'We start from the packaging',
+            ],
+            [
+                'key_ar' => 'تقييم التركيبة - الخطوة 1 (الشرح)',
+                'key_en' => 'formula_eval_step1_desc',
+                'value_ar' => 'نراجع قائمة المكونات المدوّنة على المنتج، ونقرأها كاملة لفهم ما تحتويه التركيبة فعلًا، بدل الاكتفاء بالمكوّن الذي يبرزه الإعلان.',
+                'value_en' => 'We review the full ingredient list printed on the product to understand what the formula actually contains, rather than relying solely on advertised key ingredients.',
+            ],
+            [
+                'key_ar' => 'تقييم التركيبة - الخطوة 2 (العنوان)',
+                'key_en' => 'formula_eval_step2_title',
+                'value_ar' => 'وجود المكوّن وحده لا يكفي',
+                'value_en' => 'Ingredient presence alone is not enough',
+            ],
+            [
+                'key_ar' => 'تقييم التركيبة - الخطوة 2 (الشرح)',
+                'key_en' => 'formula_eval_step2_desc',
+                'value_ar' => 'ندرس وظيفة المكوّن وترتيبه في القائمة، ونأخذ النسب المعلنة في الحسبان. ثم نقيّم دوره ضمن التركيبة: هل يدعم الهدف الأساسي للمنتج، أم يؤدي دورًا مساندًا؟',
+                'value_en' => 'We evaluate ingredient position, function, and concentration to judge whether it supports the primary goal or plays a secondary role.',
+            ],
+            [
+                'key_ar' => 'تقييم التركيبة - الخطوة 3 (العنوان)',
+                'key_en' => 'formula_eval_step3_title',
+                'value_ar' => 'نقرأ التركيبة ككل',
+                'value_en' => 'We read the formula as a whole',
+            ],
+            [
+                'key_ar' => 'تقييم التركيبة - الخطوة 3 (الشرح)',
+                'key_en' => 'formula_eval_step3_desc',
+                'value_ar' => 'نربط المكونات ببعضها وباحتياجات البشرة، ونوازن بين ما تدعمه التركيبة وما يستدعي الانتباه في ملاءمتها وتحمّلها. ثم نحوّل هذه القراءة إلى خلاصة واضحة تساعدك على فهم المنتج.',
+                'value_en' => 'We connect ingredients with skin needs, balancing efficacy and tolerance into a clear insight to help you understand the product.',
+            ],
+            [
+                'key_ar' => 'ملاحظة تقييم التركيبة الختامية',
+                'key_en' => 'formula_eval_footer_note',
+                'value_ar' => 'نقيّم كل منتج بمعاييرنا نفسها؛ شهرته ووجوده في المتجر لا يمنحانه توصية تلقائية.',
+                'value_en' => 'Every product is evaluated against the same criteria; fame or availability in store does not grant an automatic recommendation.',
+            ],
         ];
 
         foreach ($settings as $setting) {
