@@ -102,10 +102,13 @@ class OrderObserver
             $customerName = $order->user_name ?: ($order->user?->name ?: 'عميل');
             $totalAmount  = (float) $order->total;
 
+            $currencySymbolAr = \App\Models\Setting::get('currency_symbol', 'ر.ع');
+            $currencySymbolEn = \App\Models\Setting::get('currency_symbol', 'OMR');
+
             $titleAr   = "طلب جديد برقم #{$orderNumber} 🛒";
             $titleEn   = "New Order #{$orderNumber} 🛒";
-            $messageAr = "وصلك طلب جديد برقم #{$orderNumber} بقيمة {$totalAmount} ج.م من العميل ({$customerName})، يرجى التجهيز والمراجعة.";
-            $messageEn = "New order #{$orderNumber} received for {$totalAmount} EGP from {$customerName}.";
+            $messageAr = "وصلك طلب جديد برقم #{$orderNumber} بقيمة {$totalAmount} {$currencySymbolAr} من العميل ({$customerName})، يرجى التجهيز والمراجعة.";
+            $messageEn = "New order #{$orderNumber} received for {$totalAmount} {$currencySymbolEn} from {$customerName}.";
 
             $orderUrl = \App\Filament\Resources\OrderResource::getUrl('edit', ['record' => $order->id]);
 
@@ -114,7 +117,7 @@ class OrderObserver
                 try {
                     FilamentNotification::make()
                         ->title("طلب جديد برقم: #{$orderNumber} 🛒")
-                        ->body("تم استلام طلب جديد بمبلغ {$totalAmount} ج.م من العميل ({$customerName})")
+                        ->body("تم استلام طلب جديد بمبلغ {$totalAmount} {$currencySymbolAr} من العميل ({$customerName})")
                         ->icon('heroicon-o-shopping-bag')
                         ->iconColor('success')
                         ->actions([

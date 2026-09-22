@@ -43,7 +43,8 @@ class StatsOverviewWidget extends BaseWidget
             $revenueTrend[] = (float) Order::where('payment_status', 'paid')->whereDate('created_at', $date)->sum('total');
         }
 
-        $currency = $isEn ? 'EGP ' : ' ج.م ';
+        $currencySymbol = \App\Models\Setting::get('currency_symbol', $isEn ? 'OMR' : 'ر.ع');
+        $currency = ' ' . $currencySymbol . ' ';
 
         return [
             Stat::make(
