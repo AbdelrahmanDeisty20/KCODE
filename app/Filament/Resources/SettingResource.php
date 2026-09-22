@@ -44,7 +44,7 @@ class SettingResource extends Resource
 
     public static function canCreate(): bool
     {
-        return false;
+        return true;
     }
 
     public static function canDelete(\Illuminate\Database\Eloquent\Model $record): bool
@@ -65,12 +65,12 @@ class SettingResource extends Resource
                     ->schema([
                         Forms\Components\TextInput::make('key_en')
                             ->label('مفتاح الإعداد (Key EN)')
-                            ->disabled()
+                            ->disabled(fn (string $context): bool => $context === 'edit')
                             ->required(),
 
                         Forms\Components\TextInput::make('key_ar')
                             ->label('مفتاح الإعداد (Key AR)')
-                            ->disabled()
+                            ->disabled(fn (string $context): bool => $context === 'edit')
                             ->required(),
 
                         Forms\Components\Textarea::make('value_ar')

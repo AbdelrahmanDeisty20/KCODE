@@ -49,6 +49,48 @@ class SettingSeeder extends Seeder
                 'value_ar' => 'KCODE10',
                 'value_en' => 'KCODE10',
             ],
+            [
+                'key_ar' => 'البريد الإلكتروني للدعم',
+                'key_en' => 'support_email',
+                'value_ar' => 'care@kcodeskin.com',
+                'value_en' => 'care@kcodeskin.com',
+            ],
+            [
+                'key_ar' => 'رابط إنستغرام',
+                'key_en' => 'instagram_url',
+                'value_ar' => 'https://instagram.com/kcodeskin',
+                'value_en' => 'https://instagram.com/kcodeskin',
+            ],
+            [
+                'key_ar' => 'رابط تيك توك',
+                'key_en' => 'tiktok_url',
+                'value_ar' => 'https://tiktok.com/@kcodeskin',
+                'value_en' => 'https://tiktok.com/@kcodeskin',
+            ],
+            [
+                'key_ar' => 'نص ضمان الأصالة',
+                'key_en' => 'authenticity_info_ar',
+                'value_ar' => 'نورد منتجاتنا مباشرةً من العلامات التجارية أو موزعيها المعتمدين، ثم نفحص كل منتج وعبوته قبل اعتماده للبيع.',
+                'value_en' => 'We source our products directly from brands or authorized distributors, inspecting each item before sale.',
+            ],
+            [
+                'key_ar' => 'نص معلومات الشحن والتوصيل',
+                'key_en' => 'delivery_info_ar',
+                'value_ar' => 'نفس اليوم داخل مسقط للطلبات المؤكَّدة قبل الساعة الواحدة ظهرًا. ومن 24 إلى 48 ساعة لباقي عُمان.',
+                'value_en' => 'Same-day delivery in Muscat for orders before 1 PM. 24-48 hours for the rest of Oman.',
+            ],
+            [
+                'key_ar' => 'نص سياسة الإرجاع',
+                'key_en' => 'return_policy_info_ar',
+                'value_ar' => 'يمكنك إرجاع المنتج خلال 7 أيام من استلامه، بشرط أن يكون غير مستخدم وغير مفتوح وفي عبوته الأصلية.',
+                'value_en' => 'Returns accepted within 7 days of delivery, provided the item is unused and in original packaging.',
+            ],
+            [
+                'key_ar' => 'حقوق النشر في أسفل الموقع',
+                'key_en' => 'footer_copyright_ar',
+                'value_ar' => 'جميع الحقوق محفوظة © KCODE 2026',
+                'value_en' => 'All Rights Reserved © KCODE 2026',
+            ],
 
             // KCODE Philosophy / فلسفتنا
             [
