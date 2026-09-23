@@ -91,14 +91,14 @@ class SettingResource extends Resource
                 Tables\Columns\TextColumn::make('key')
                     ->label($isEn ? 'Setting Key' : 'مفتاح الإعداد')
                     ->getStateUsing(fn ($record) => $isEn ? ($record->key_en ?: $record->key_ar) : ($record->key_ar ?: $record->key_en))
-                    ->searchable()
-                    ->sortable(),
+                    ->searchable(['key_ar', 'key_en'])
+                    ->sortable(query: fn (\Illuminate\Database\Eloquent\Builder $query, string $direction) => $query->orderBy($isEn ? 'key_en' : 'key_ar', $direction)),
 
                 Tables\Columns\TextColumn::make('value')
                     ->label($isEn ? 'Value' : 'القيمة')
                     ->getStateUsing(fn ($record) => $isEn ? ($record->value_en ?: $record->value_ar) : ($record->value_ar ?: $record->value_en))
                     ->limit(60)
-                    ->searchable(),
+                    ->searchable(['value_ar', 'value_en']),
             ])
             ->actions([
                 Actions\EditAction::make(),
