@@ -20,6 +20,10 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
+        'https://kcodeskin.com',
+        'http://kcodeskin.com',
+        'https://www.kcodeskin.com',
+        'http://www.kcodeskin.com',
         'https://kcode-pied.vercel.app',
         'http://localhost:3000',
         'http://localhost:5173',
@@ -29,6 +33,7 @@ return [
 
     'allowed_origins_patterns' => [
         '#^https://.*\.vercel\.app$#',
+        '#^https://.*\.kcodeskin\.com$#',
     ],
 
     'allowed_headers' => ['*'],
