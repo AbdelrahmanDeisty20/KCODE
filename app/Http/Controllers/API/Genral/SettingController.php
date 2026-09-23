@@ -39,4 +39,17 @@ class SettingController extends Controller
         }
         return $this->success($result['data'], $result['message']);
     }
+
+    /**
+     * Get store assurances (Authenticity, Delivery, Return policies).
+     * GET /assurances  OR  GET /settings/assurances
+     */
+    public function getAssurances(): JsonResponse
+    {
+        $result = $this->settingService->getAssurances();
+        if (!$result['status']) {
+            return $this->error($result['message']);
+        }
+        return $this->success($result['data'], $result['message']);
+    }
 }

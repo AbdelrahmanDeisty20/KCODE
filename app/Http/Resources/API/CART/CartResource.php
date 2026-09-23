@@ -62,24 +62,6 @@ class CartResource extends JsonResource
                 'grand_total'                 => $grandTotal,
                 'has_blocked_items'           => $hasBlockedItems,
             ],
-            // Assurances from HTML prototype / policies (Filament Admin Managed)
-            'assurances' => [
-                [
-                    'title' => 'أصالة مضمونة',
-                    'icon'  => 'shield',
-                    'text'  => Setting::get('authenticity_info_ar', 'نورد منتجاتنا مباشرةً من العلامات التجارية أو موزعيها المعتمدين، ثم نفحص كل منتج وعبوته قبل اعتماده للبيع.')
-                ],
-                [
-                    'title' => 'التوصيل داخل عُمان',
-                    'icon'  => 'truck',
-                    'text'  => Setting::get('delivery_info_ar', 'نفس اليوم داخل مسقط للطلبات المؤكَّدة قبل الساعة الواحدة ظهرًا. ومن 24 إلى 48 ساعة لباقي عُمان.')
-                ],
-                [
-                    'title' => 'إرجاع خلال 7 أيام',
-                    'icon'  => 'return',
-                    'text'  => Setting::get('return_policy_info_ar', 'يمكنك إرجاع المنتج خلال 7 أيام من استلامه، بشرط أن يكون غير مستخدم وغير مفتوح وفي عبوته الأصلية.')
-                ],
-            ],
         ];
     }
 }

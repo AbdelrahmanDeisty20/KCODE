@@ -177,8 +177,10 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/pages/{type}', 'getPageByType');
     });
 
-    // Setting & Philosophy Routes
+    // Setting & Philosophy & Assurances Routes
     Route::controller(SettingController::class)->group(function () {
+        Route::get('/assurances', 'getAssurances');
+        Route::get('/settings/assurances', 'getAssurances');
         Route::get('/settings/philosophy', 'getPhilosophy');
         Route::get('/settings', 'index');
     });

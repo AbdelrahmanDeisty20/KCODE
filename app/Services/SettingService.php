@@ -71,4 +71,34 @@ class SettingService
             'data' => $settings,
         ];
     }
+
+    /**
+     * Get assurances (Authenticity, Delivery, Return policies).
+     */
+    public function getAssurances(): array
+    {
+        $assurances = [
+            [
+                'title' => Setting::get('authenticity_info_title_ar', 'أصالة مضمونة'),
+                'icon'  => 'shield',
+                'text'  => Setting::get('authenticity_info_ar', 'نورد منتجاتنا مباشرةً من العلامات التجارية أو موزعيها المعتمدين، ثم نفحص كل منتج وعبوته قبل اعتماده للبيع.')
+            ],
+            [
+                'title' => Setting::get('delivery_info_title_ar', 'التوصيل داخل عُمان'),
+                'icon'  => 'truck',
+                'text'  => Setting::get('delivery_info_ar', 'نفس اليوم داخل مسقط للطلبات المؤكَّدة قبل الساعة الواحدة ظهرًا. ومن 24 إلى 48 ساعة لباقي عُمان.')
+            ],
+            [
+                'title' => Setting::get('return_policy_info_title_ar', 'إرجاع خلال 7 أيام'),
+                'icon'  => 'return',
+                'text'  => Setting::get('return_policy_info_ar', 'يمكنك إرجاع المنتج خلال 7 أيام من استلامه، بشرط أن يكون غير مستخدم وغير مفتوح وفي عبوته الأصلية.')
+            ],
+        ];
+
+        return [
+            'status'  => true,
+            'message' => __('messages.page_retrieved_successfully'),
+            'data'    => $assurances,
+        ];
+    }
 }
