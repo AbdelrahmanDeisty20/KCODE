@@ -96,7 +96,7 @@ class PageResource extends Resource
                 Tables\Columns\TextColumn::make('key')
                     ->label($isEn ? 'Key' : 'المفتاح')
                     ->getStateUsing(fn ($record) => $isEn ? ($record->key_en ?: $record->key_ar) : ($record->key_ar ?: $record->key_en))
-                    ->searchable(),
+                    ->searchable(['key_ar', 'key_en']),
 
                 Tables\Columns\TextColumn::make('value')
                     ->label($isEn ? 'Content' : 'المحتوى')
