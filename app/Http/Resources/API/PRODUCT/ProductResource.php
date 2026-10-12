@@ -54,6 +54,29 @@ class ProductResource extends JsonResource
             'active_strength_level' => $this->active_strength_level,
             'safety_notes' => $this->safety_notes,
             'key_benefits' => $this->key_benefits,
+            // Skin Types & Concerns Compatibility
+            'skin_types' => $this->skinTypes->map(function ($s) {
+                return [
+                    'id' => $s->id,
+                    'name' => app()->getLocale() == 'ar' ? ($s->name_ar ?: $s->name_en) : ($s->name_en ?: $s->name_ar),
+                ];
+            }),
+            'concerns' => $this->concerns->map(function ($c) {
+                return [
+                    'id' => $c->id,
+                    'name' => app()->getLocale() == 'ar' ? ($c->name_ar ?: $c->name_en) : ($c->name_en ?: $c->name_ar),
+                ];
+            }),
+            // QuickView Summary (Matches Desktop Modal Specification)
+            'quick_view' => [
+                'role' => $this->role_ar ?: ($this->routine_step_title_ar ?: ($this->category?->name_ar ?? 'العناية بالبشرة')),
+                'best_for_skin_types' => $this->skinTypes->pluck('name_ar')->filter()->values()->toArray(),
+                'timing' => $this->usage_frequency_ar ?: ($this->usage_instructions_json['timing'] ?? 'استخدام يومي'),
+                'texture' => $this->texture,
+                'actives' => $this->primary_keyword_ar ?? $this->short_name,
+                'sensitive_eligible' => (bool) $this->sensitive_eligible,
+                'note' => $this->brief_insight_ar ?: $this->limitations_notes_ar,
+            ],
             // PDP Structured Sections (New)
             'routine_position' => $this->getRoutinePosition(),
             'usage_instructions' => $this->getUsageInstructions(),

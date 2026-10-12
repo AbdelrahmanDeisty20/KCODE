@@ -241,7 +241,11 @@ class ProductService
                 $q->active();
             }, 
             'category', 
-            'images'
+            'images',
+            'skinTypes',
+            'concerns',
+            'marketingDetail',
+            'recommendationRule'
         ])->find($id);
         if (!$product) {
             return [
