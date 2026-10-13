@@ -10,8 +10,15 @@ class Category extends Model
     protected $fillable = [
         'name_en',
         'name_ar',
+        'description_en',
+        'description_ar',
         'image',
     ];
+
+    public function getDescriptionAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this->description_ar : $this->description_en;
+    }
 
     public function getNameAttribute()
     {

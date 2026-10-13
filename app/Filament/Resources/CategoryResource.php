@@ -66,6 +66,16 @@ class CategoryResource extends Resource
                             ->label('الاسم بالإنجليزية')
                             ->required(),
 
+                        Forms\Components\Textarea::make('description_ar')
+                            ->label('الوصف بالعربية')
+                            ->rows(3)
+                            ->nullable(),
+
+                        Forms\Components\Textarea::make('description_en')
+                            ->label('الوصف بالإنجليزية')
+                            ->rows(3)
+                            ->nullable(),
+
                         Forms\Components\FileUpload::make('image')
                             ->label('صورة القسم')
                             ->image()
