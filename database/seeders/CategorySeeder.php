@@ -15,21 +15,21 @@ class CategorySeeder extends Seeder
      *
      * AR: copied verbatim from KCODE_Homepage_Developer_V24_FINAL/homepage.config.json → types.cards[].desc
      *     (the pack rule: "انسخ النصوص من هذا الملف. لا تُعِد كتابتها في الكود.")
-     * EN: no official English copy exists in the pack — literal translation of the AR text, pending approval.
+     * EN: translated from the official Arabic copy above.
      */
     public static function descriptions(): array
     {
         return [
-            'Cleanser'    => ['ar' => 'ينظّف الوجه ويزيل الزيوت والأوساخ', 'en' => 'Cleanses the face and removes oil and dirt'],
-            'Toner'       => ['ar' => 'يوازن البشرة بعد التنظيف ويهيّئها لما بعده', 'en' => 'Balances skin after cleansing and preps it for what comes next'],
-            'Essence'     => ['ar' => 'طبقة ترطيب خفيفة قبل السيروم', 'en' => 'A light hydrating layer before serum'],
-            'Serum'       => ['ar' => 'تركيز عالٍ لمعالجة مشكلة محدّدة', 'en' => 'High concentration to target a specific concern'],
-            'Moisturizer' => ['ar' => 'يحبس الترطيب ويحمي حاجز البشرة', 'en' => 'Locks in hydration and protects the skin barrier'],
-            'Sunscreen'   => ['ar' => 'الحماية اليومية من أشعة الشمس', 'en' => 'Daily protection from the sun'],
-            'Eye Care'    => ['ar' => 'تركيبات ألطف لمحيط العين الرقيق', 'en' => 'Gentler formulas for the delicate eye area'],
-            'Exfoliator'  => ['ar' => 'يزيل الخلايا الميتة ويحسّن الملمس', 'en' => 'Removes dead skin cells and improves texture'],
-            'Mask'        => ['ar' => 'عناية مركّزة أسبوعية', 'en' => 'Weekly intensive care'],
-            'Body Care'   => ['ar' => 'تنظيف الجسم والعناية بالحبوب والملمس', 'en' => 'Body cleansing and care for breakouts and texture'],
+            'Cleanser'    => ['ar' => 'ينظّف الوجه ويزيل الزيوت والأوساخ',                   'en' => 'Cleanses the face and removes oil and dirt'],
+            'Toner'       => ['ar' => 'يوازن البشرة بعد التنظيف ويهيّئها لما بعده',           'en' => 'Rebalances skin after cleansing and preps it for the next step'],
+            'Essence'     => ['ar' => 'طبقة ترطيب خفيفة قبل السيروم',                        'en' => 'A lightweight hydration layer before serum'],
+            'Serum'       => ['ar' => 'تركيز عالٍ لمعالجة مشكلة محدّدة',                     'en' => 'High concentration to target a specific concern'],
+            'Moisturizer' => ['ar' => 'يحبس الترطيب ويحمي حاجز البشرة',                     'en' => 'Locks in hydration and protects the skin barrier'],
+            'Sunscreen'   => ['ar' => 'الحماية اليومية من أشعة الشمس',                       'en' => 'Daily protection against the sun'],
+            'Eye Care'    => ['ar' => 'تركيبات ألطف لمحيط العين الرقيق',                     'en' => 'Gentler formulas for the delicate eye area'],
+            'Exfoliator'  => ['ar' => 'يزيل الخلايا الميتة ويحسّن الملمس',                  'en' => 'Removes dead skin cells and refines texture'],
+            'Mask'        => ['ar' => 'عناية مركّزة أسبوعية',                                'en' => 'Concentrated weekly treatment'],
+            'Body Care'   => ['ar' => 'تنظيف الجسم والعناية بالحبوب والملمس',               'en' => 'Body cleansing and care for texture and blemishes'],
         ];
     }
 

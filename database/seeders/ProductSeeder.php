@@ -250,7 +250,7 @@ class ProductSeeder extends Seeder
                     'sales_count' => rand(150, 500),
                     'size' => $size ?: ($pData['size'] ?? '30ml'),
                     'barcode' => !empty($pData['barcode']) ? $pData['barcode'] : ('880967077' . rand(1000, 9999)),
-                    'sensitive_eligible' => true,
+                    'sensitive_eligible' => false, // computed below from official rules
                     'brief_insight_ar' => 'سيروم مهدئ يعزز مرونة البشرة ويقلل الاحمرار والتهيج',
                     'country_of_origin_ar' => 'كوريا الجنوبية',
                     'role_ar' => !empty($pData['routine_role']) ? $pData['routine_role'] : 'تهدئة التهيج وتخفيف الاحمرار وتعزيز الحاجز البشري',
@@ -294,16 +294,28 @@ class ProductSeeder extends Seeder
                     }
                 }
 
-                // Evaluate official KCODE Sensitivity safety rules for Sensitive SkinType
+                // Evaluate official KCODE Sensitivity safety rules from V24 pack:
+                // homepage.config.json → filter_rules.sensitivity
                 $sensitiveModel = SkinType::where('name_en', 'Sensitive')->first();
                 if ($sensitiveModel) {
                     $tolerance = $pData['tolerance'] ?? 0;
                     $fragrance = strtolower(trim($pData['fragrance'] ?? ''));
                     $severity = $pData['conflict_severity'] ?? '';
-                    $isFragranceFree = empty($fragrance) || in_array($fragrance, ['fragrance-free', 'free', 'none', 'no', 'خالي من العطور', 'بدون عطور']);
+                    $subCat = $pData['sub_category'] ?? '';
+                    $jsonCategory = $pData['category'] ?? '';
+
+                    // Adjusted threshold with official modifiers
+                    $threshold = 60;
+                    $rinseOffSubs = ['Cleansing Foam','Cleansing Gel','Cleansing Oil','Cleansing Balm','Cleansing Bar','Cleansing Powder','Wash-off Clay Mask'];
+                    if (in_array($subCat, $rinseOffSubs)) $threshold -= 15;
+                    if ($jsonCategory === 'Eye Care')        $threshold += 8;
+                    if ($jsonCategory === 'Spot Treatment')  $threshold -= 10;
+
+                    $isFragranceFree = empty($fragrance) || in_array($fragrance, ['none', 'fragrance-free', 'free', 'no', 'خالي من العطور', 'بدون عطور']);
                     $isLowConflict = !in_array($severity, ['Moderate', 'Strong']);
 
-                    if ($tolerance >= 60 && $isFragranceFree && $isLowConflict) {
+                    if ($tolerance >= $threshold && $isFragranceFree && $isLowConflict) {
+                        $product->update(['sensitive_eligible' => true]);
                         ProductSkinType::firstOrCreate([
                             'product_id' => $product->id,
                             'skin_type_id' => $sensitiveModel->id,

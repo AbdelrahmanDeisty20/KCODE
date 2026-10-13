@@ -123,8 +123,8 @@ SELECT * FROM products
 WHERE stock > 0
   AND EXISTS (
       SELECT 1 FROM skin_types
-      INNER JOIN product_skin_type ON skin_types.id = product_skin_type.skin_type_id
-      WHERE product_skin_type.product_id = products.id
+      INNER JOIN product_skin_types ON skin_types.id = product_skin_types.skin_type_id
+      WHERE product_skin_types.product_id = products.id
         AND skin_types.id IN (1)
   )
   AND sensitive_eligible = 1

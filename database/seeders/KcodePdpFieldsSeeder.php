@@ -153,7 +153,9 @@ class KcodePdpFieldsSeeder extends Seeder
                 'ingredients_ar'        => $realInciList,
                 'size'                  => ($jsonData['size'] ?? null) ?: ($product->size ?: '30ml'),
                 'barcode'               => ($jsonData['barcode'] ?? null) ?: ($product->barcode ?: ('880967077' . str_pad($product->id, 4, '0', STR_PAD_LEFT))),
-                'sensitive_eligible'    => true,
+                // sensitive_eligible is intentionally NOT set here.
+                // It is computed in ProductSeeder using the official V24 sensitivity rules
+                // (homepage.config.json → filter_rules.sensitivity) and should not be overwritten.
                 'brief_insight_ar'      => $product->brief_insight_ar ?: 'سيروم مهدئ يعزز مرونة البشرة ويقلل الاحمرار والتهيج',
                 'country_of_origin_ar'  => $product->country_of_origin_ar ?: 'كوريا الجنوبية',
                 'role_ar'               => ($jsonData['routine_role'] ?? null) ?: ($product->role_ar ?: 'Daily Treatment'),
