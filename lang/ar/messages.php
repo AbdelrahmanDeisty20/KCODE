@@ -256,4 +256,6 @@ return [
     'contact_sent_successfully' => 'تم إرسال رسالتك بنجاح. سنتواصل معك في أقرب وقت!',
     'contacts_retrieved_successfully' => 'تم استرجاع سجل الرسائل بنجاح',
     'product_selection_criteria_retrieved_successfully' => 'تم استرجاع منهجية ومعايير اختيار المنتجات بنجاح',
+    'reviewsRetrievedSuccessfully' => 'تم استرجاع التقييمات بنجاح',
+    'noReviewsFound' => 'لا توجد تقييمات',
 ];

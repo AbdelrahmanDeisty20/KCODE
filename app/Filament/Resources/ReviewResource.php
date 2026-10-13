@@ -60,10 +60,11 @@ class ReviewResource extends Resource
                     ->schema([
                         Forms\Components\Select::make('product_id')
                             ->label('المنتج')
+                            ->helperText('اتركه فارغاً لو التقييم عام على الموقع (تجارب العملاء)')
                             ->options(Product::pluck('name_ar', 'id'))
                             ->searchable()
                             ->preload()
-                            ->required(),
+                            ->nullable(),
 
                         Forms\Components\Select::make('user_id')
                             ->label('العميل / صاحب التقييم')
@@ -88,6 +89,20 @@ class ReviewResource extends Resource
                             ->label('تعليق ورأي العميل')
                             ->rows(4)
                             ->columnSpanFull(),
+
+                        Forms\Components\TextInput::make('tag_ar')
+                            ->label('وسم التجربة (عربي)')
+                            ->placeholder('مثال: الطلب والتغليف')
+                            ->maxLength(100),
+
+                        Forms\Components\TextInput::make('tag_en')
+                            ->label('Experience Tag (EN)')
+                            ->placeholder('e.g. Order & Packaging')
+                            ->maxLength(100),
+
+                        Forms\Components\Toggle::make('featured')
+                            ->label('مميز (يظهر في الصفحة الرئيسية)')
+                            ->default(false),
                     ])->columns(2),
             ]);
     }
@@ -138,6 +153,14 @@ class ReviewResource extends Resource
                     ->searchable()
                     ->default('—'),
 
+                Tables\Columns\TextColumn::make($isEn ? 'tag_en' : 'tag_ar')
+                    ->label($isEn ? 'Tag' : 'الوسم')
+                    ->badge()
+                    ->default('—'),
+
+                Tables\Columns\ToggleColumn::make('featured')
+                    ->label($isEn ? 'Featured' : 'مميز'),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->label($isEn ? 'Date' : 'التاريخ')
                     ->dateTime('d/m/Y H:i')
@@ -154,6 +177,13 @@ class ReviewResource extends Resource
                         2 => 'نجمتان ⭐⭐',
                         1 => 'نجمة واحدة ⭐',
                     ]),
+                Tables\Filters\TernaryFilter::make('featured')
+                    ->label('مميز'),
+                Tables\Filters\TernaryFilter::make('product_id')
+                    ->label('نوع التقييم')
+                    ->nullable()
+                    ->trueLabel('تقييم منتج')
+                    ->falseLabel('تقييم عام للموقع'),
             ])
             ->actions([
                 Actions\ViewAction::make(),

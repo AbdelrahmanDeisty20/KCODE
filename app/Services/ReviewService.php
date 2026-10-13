@@ -12,21 +12,33 @@ class ReviewService
     /**
      * Store a new product review.
      */
-    public function genralReview()
+    public function genralReview(array $filters = [])
     {
-        $reviews = Review::where('product_id', null)
-            ->with('user')->paginate(10);
-        if ($reviews->isEmpty()) {
-            return [
-                'status' => false,
-                'message' => __('messages.noReviewsFound'),
-                'data' => []
-            ];
+        $query = Review::whereNull('product_id')->with('user');
+
+        // ?featured=1 → only featured reviews (for homepage section)
+        if (!empty($filters['featured'])) {
+            $query->where('featured', true);
         }
+
+        // ?limit=4 → take N reviews (no pagination)
+        $paginated = empty($filters['limit']);
+
+        if (!$paginated) {
+            $limit   = min(max((int) $filters['limit'], 1), 50);
+            $reviews = $query->orderByDesc('rating')->orderByDesc('created_at')
+                ->limit($limit)->get();
+        } else {
+            $reviews = $query->orderByDesc('created_at')->paginate(10);
+        }
+
         return [
-            'status' => true,
-            'message' => __('messages.reviewsRetrievedSuccessfully'),
-            'data' => $reviews
+            'status'    => true,
+            'paginated' => $paginated,
+            'message'   => $reviews->isEmpty()
+                ? __('messages.noReviewsFound')
+                : __('messages.reviewsRetrievedSuccessfully'),
+            'data'      => $reviews,
         ];
     }
     public function storeReview(int $userId, array $data)

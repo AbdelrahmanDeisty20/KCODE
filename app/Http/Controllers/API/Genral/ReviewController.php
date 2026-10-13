@@ -9,6 +9,7 @@ use App\Http\Requests\API\Reviews\UpdateReviewRequest;
 use App\Http\Resources\API\Reviews\ReviewResource;
 use App\Services\ReviewService;
 use App\Traits\ApiResponse;
+use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
@@ -19,9 +20,19 @@ class ReviewController extends Controller
     /**
      * Get all reviews created by the authenticated user.
      */
-    public function genralReview()
+    public function genralReview(Request $request)
     {
-        $result = $this->reviewService->genralReview();
+        $filters = $request->validate([
+            'featured' => 'nullable|boolean',
+            'limit'    => 'nullable|integer|min:1|max:50',
+        ]);
+
+        $result = $this->reviewService->genralReview($filters);
+
+        if (!$result['paginated']) {
+            return $this->success(ReviewResource::collection($result['data']), $result['message']);
+        }
+
         return $this->paginated(ReviewResource::class, $result['data'], $result['message']);
     }
     public function myReviews()

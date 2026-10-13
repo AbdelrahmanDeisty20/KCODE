@@ -17,12 +17,16 @@ class ReviewResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'user' => $this->when($this->user_id, ReviewUserResource::make($this->whenLoaded('user'))),
-            'product'=>$this->when($this->product_id, ProductListResource::make($this->whenLoaded('product'))),
-            'rating'=>$this->rating,
-            'comment'=>$this->comment,
-            'created_at'=>$this->created_at,
+            'id'         => $this->id,
+            'tag'        => $this->tag,
+            'tag_ar'     => $this->tag_ar,
+            'tag_en'     => $this->tag_en,
+            'user'       => $this->when($this->user_id, ReviewUserResource::make($this->whenLoaded('user'))),
+            'product'    => $this->when($this->product_id, ProductListResource::make($this->whenLoaded('product'))),
+            'rating'     => $this->rating,
+            'comment'    => $this->comment,
+            'city'       => $this->whenLoaded('user', fn() => $this->user?->city),
+            'created_at' => $this->created_at,
         ];
     }
 }

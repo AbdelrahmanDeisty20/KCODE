@@ -11,7 +11,19 @@ class Review extends Model
         'user_id',
         'rating',
         'comment',
+        'tag_ar',
+        'tag_en',
+        'featured',
     ];
+
+    protected $casts = [
+        'featured' => 'boolean',
+    ];
+
+    public function getTagAttribute(): ?string
+    {
+        return app()->getLocale() === 'ar' ? $this->tag_ar : $this->tag_en;
+    }
 
     public function user()
     {

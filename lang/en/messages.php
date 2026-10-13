@@ -253,4 +253,6 @@ return [
     'contact_sent_successfully' => 'Your message has been sent successfully. We will get back to you soon!',
     'contacts_retrieved_successfully' => 'User contact history retrieved successfully',
     'product_selection_criteria_retrieved_successfully' => 'Product selection criteria retrieved successfully',
+    'reviewsRetrievedSuccessfully' => 'Reviews retrieved successfully',
+    'noReviewsFound' => 'No reviews found',
 ];
