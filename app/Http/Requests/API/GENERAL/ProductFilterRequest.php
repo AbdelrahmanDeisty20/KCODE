@@ -31,6 +31,7 @@ class ProductFilterRequest extends FormRequest
             'concern_id' => ['nullable'],
             'concern_id.*' => ['exists:concerns,id'],
             'is_best_seller' => ['nullable', 'boolean'],
+            'sensitive_eligible' => ['nullable', 'boolean'],
             'min_price' => ['nullable', 'numeric', 'min:0'],
             'max_price' => ['nullable', 'numeric', 'min:0'],
             'ratings' => ['nullable', 'numeric', 'min:1', 'max:5'],

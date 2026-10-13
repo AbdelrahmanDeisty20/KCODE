@@ -166,6 +166,11 @@ class ProductService
             });
         }
 
+        // 5c. Sensitive Skin Filter (AND with skin type). Only applied when "Yes".
+        if (!empty($filters['sensitive_eligible']) && filter_var($filters['sensitive_eligible'], FILTER_VALIDATE_BOOLEAN)) {
+            $query->where('sensitive_eligible', true);
+        }
+
         // 6. Best Seller Filter
         if (isset($filters['is_best_seller'])) {
             $query->where('is_best_seller', (bool)$filters['is_best_seller']);
