@@ -100,69 +100,7 @@ class ProductSeeder extends Seeder
             'Body Care' => ['ar' => 'العناية بالجسم', 'en' => 'Body Care', 'order' => 10],
         ];
 
-        // All images: product-only (NO people/faces), 1:1 square crop via Unsplash params
-        $categoryImagePools = [
-            'Cleanser' => [
-                'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1585232004423-244e0e6904e3?auto=format&fit=crop&q=80&w=800&h=800',
-            ],
-            'Toner' => [
-                'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=800&h=800',
-            ],
-            'Essence' => [
-                'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1643185450492-6ba77dea00f6?auto=format&fit=crop&q=80&w=800&h=800',
-            ],
-            'Serum' => [
-                'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1643185450492-6ba77dea00f6?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&q=80&w=800&h=800',
-            ],
-            'Moisturizer' => [
-                'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1567928269937-ae146e45b428?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1608248597260-6578e363cc0c?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800&h=800',
-            ],
-            'Sunscreen' => [
-                'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1576426863848-c21f53c60b19?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800&h=800',
-            ],
-            'Eye Care' => [
-                'https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1643185450492-6ba77dea00f6?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1580870069867-74c57ee1bb07?auto=format&fit=crop&q=80&w=800&h=800',
-            ],
-            'Exfoliator' => [
-                'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1631729371254-42c2892f0e6e?auto=format&fit=crop&q=80&w=800&h=800',
-            ],
-            'Mask' => [
-                'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1576426863848-c21f53c60b19?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=800&h=800',
-            ],
-            'Body Care' => [
-                'https://images.unsplash.com/photo-1580870069867-74c57ee1bb07?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1567928269937-ae146e45b428?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1608248597260-6578e363cc0c?auto=format&fit=crop&q=80&w=800&h=800',
-                'https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?auto=format&fit=crop&q=80&w=800&h=800',
-            ],
-        ];
+        // No placeholder images — admin will upload real product images from the dashboard
 
         if (SkinType::count() === 0) {
             (new SkinTypeSeeder())->run();
@@ -221,8 +159,7 @@ class ProductSeeder extends Seeder
             $descEn = "Authentic {$brandName} {$prodName} Korean skincare product.";
             $nameAr = $pData['name_ar'] ?? "{$brandName} {$prodName}" . ($size ? " ({$size})" : "");
 
-            $imagePool = $categoryImagePools[$categoryName] ?? $categoryImagePools['Serum'];
-            $mainImg = $imagePool[$pIndex % count($imagePool)];
+            $mainImg = null; // Admin uploads real product images from the dashboard
 
             $inciText = 'Water, Glycerin, Niacinamide, Tranexamic Acid, Butylene Glycol, Diethoxyethyl Succinate, 1,2-Hexanediol, Arbutin, Sodium Hyaluronate, Alpha-Arbutin, Centella Asiatica Extract, Panthenol, Hyaluronic Acid, Ceramide NP, Asiaticoside, Madecassic Acid, Asiatic Acid, Xanthan Gum';
 
@@ -239,7 +176,7 @@ class ProductSeeder extends Seeder
                     'sku' => $sku ?: $slug,
                     'price' => rand(65, 185),
                     'stock' => rand(15, 80),
-                    'image' => $mainImg,
+                    'image' => $mainImg, // null — upload real image from admin dashboard
                     'description_ar' => $descAr,
                     'description_en' => $descEn,
                     'ingredients_ar' => $pData['ingredients_ar'] ?? $inciText,
@@ -259,14 +196,8 @@ class ProductSeeder extends Seeder
                 ]
             );
 
-            // Seed 3 to 4 distinct gallery images for ProductImage table
+            // Gallery images are left empty — admin uploads real product images from dashboard
             \App\Models\ProductImage::where('product_id', $product->id)->delete();
-            foreach ($imagePool as $galleryImg) {
-                \App\Models\ProductImage::create([
-                    'product_id' => $product->id,
-                    'images' => $galleryImg,
-                ]);
-            }
 
             $skinFit = $pData['skin_fit'] ?? [];
             $goals = $pData['goals'] ?? [];
