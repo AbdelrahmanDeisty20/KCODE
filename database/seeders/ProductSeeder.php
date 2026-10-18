@@ -58,6 +58,9 @@ class ProductSeeder extends Seeder
         $jsonContent = json_decode(file_get_contents($jsonFile), true);
         $jsonProducts = $jsonContent['products'] ?? [];
 
+        $imagesMapFile = database_path('seeders/product_images_map.json');
+        $imagesMap = file_exists($imagesMapFile) ? json_decode(file_get_contents($imagesMapFile), true) : [];
+
         // Normalization map to strictly map all JSON categories to the 10 official Product Types
         $categoryNormalizer = [
             'Cleanser' => 'Cleanser',
@@ -159,7 +162,9 @@ class ProductSeeder extends Seeder
             $descEn = "Authentic {$brandName} {$prodName} Korean skincare product.";
             $nameAr = $pData['name_ar'] ?? "{$brandName} {$prodName}" . ($size ? " ({$size})" : "");
 
-            $mainImg = null; // Admin uploads real product images from the dashboard
+            $imgData = $imagesMap[$sku] ?? ($imagesMap[$slug] ?? null);
+            $mainImg = $imgData['main'] ?? 'https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-global-ampoule-serum-niacinamide-10-txa-4-serum-for-brightening-and-dark-spots-1239193722.jpg?v=1779177130';
+            $subsList = $imgData['subs'] ?? [];
 
             $inciText = 'Water, Glycerin, Niacinamide, Tranexamic Acid, Butylene Glycol, Diethoxyethyl Succinate, 1,2-Hexanediol, Arbutin, Sodium Hyaluronate, Alpha-Arbutin, Centella Asiatica Extract, Panthenol, Hyaluronic Acid, Ceramide NP, Asiaticoside, Madecassic Acid, Asiatic Acid, Xanthan Gum';
 
@@ -176,7 +181,7 @@ class ProductSeeder extends Seeder
                     'sku' => $sku ?: $slug,
                     'price' => rand(65, 185),
                     'stock' => rand(15, 80),
-                    'image' => $mainImg, // null — upload real image from admin dashboard
+                    'image' => $mainImg,
                     'description_ar' => $descAr,
                     'description_en' => $descEn,
                     'ingredients_ar' => $pData['ingredients_ar'] ?? $inciText,
@@ -196,8 +201,14 @@ class ProductSeeder extends Seeder
                 ]
             );
 
-            // Gallery images are left empty — admin uploads real product images from dashboard
+            // Seed verified gallery images for ProductImage table (KC0001 has exactly 9 sub-images, others 2-4)
             \App\Models\ProductImage::where('product_id', $product->id)->delete();
+            foreach ($subsList as $subImgUrl) {
+                \App\Models\ProductImage::create([
+                    'product_id' => $product->id,
+                    'images' => $subImgUrl,
+                ]);
+            }
 
             $skinFit = $pData['skin_fit'] ?? [];
             $goals = $pData['goals'] ?? [];
