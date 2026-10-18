@@ -78,6 +78,21 @@ class UserResource extends Resource
                         Forms\Components\DatePicker::make('birth_date')
                             ->label('تاريخ الميلاد'),
 
+                        Forms\Components\TextInput::make('city')
+                            ->label('المدينة')
+                            ->nullable(),
+
+                        Forms\Components\Select::make('skin_type_id')
+                            ->label('نوع البشرة (Skin Type)')
+                            ->relationship('skin_type', 'name_ar')
+                            ->searchable()
+                            ->preload()
+                            ->nullable(),
+
+                        Forms\Components\TextInput::make('quote')
+                            ->label('نبذة العميل (Customer Quote / Bio)')
+                            ->nullable(),
+
                         Forms\Components\FileUpload::make('image')
                             ->label('الصورة الشخصية')
                             ->image()
@@ -95,6 +110,16 @@ class UserResource extends Resource
                                 'blog_author' => 'كاتب مقالات (Blog Author)',
                             ])
                             ->default('user')
+                            ->required(),
+
+                        Forms\Components\Select::make('status')
+                            ->label('حالة الحساب')
+                            ->options([
+                                'active'   => 'نشط (Active)',
+                                'inactive' => 'غير نشط (Inactive)',
+                                'blocked'  => 'محظور (Blocked)',
+                            ])
+                            ->default('active')
                             ->required(),
 
                         Forms\Components\Select::make('roles')
@@ -138,6 +163,17 @@ class UserResource extends Resource
                     ->label('رقم الهاتف')
                     ->searchable(),
 
+                Tables\Columns\TextColumn::make('city')
+                    ->label('المدينة')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('skin_type.name_ar')
+                    ->label('نوع البشرة')
+                    ->badge()
+                    ->color('info')
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('type')
                     ->label('النوع')
                     ->badge()
@@ -149,6 +185,21 @@ class UserResource extends Resource
                         'admin' => 'مدير',
                         'user' => 'عميل',
                         default => $state,
+                    }),
+
+                Tables\Columns\TextColumn::make('status')
+                    ->label('الحالة')
+                    ->badge()
+                    ->colors([
+                        'success' => 'active',
+                        'warning' => 'inactive',
+                        'danger'  => 'blocked',
+                    ])
+                    ->formatStateUsing(fn (?string $state): string => match ($state) {
+                        'active'   => 'نشط',
+                        'inactive' => 'غير نشط',
+                        'blocked'  => 'محظور',
+                        default    => $state ?? '—',
                     }),
 
                 Tables\Columns\TextColumn::make('roles.name')
@@ -168,6 +219,18 @@ class UserResource extends Resource
                         'admin' => 'مدير',
                         'user' => 'عميل',
                     ]),
+
+                Tables\Filters\SelectFilter::make('status')
+                    ->label('حالة الحساب')
+                    ->options([
+                        'active'   => 'نشط',
+                        'inactive' => 'غير نشط',
+                        'blocked'  => 'محظور',
+                    ]),
+
+                Tables\Filters\SelectFilter::make('skin_type_id')
+                    ->label('نوع البشرة')
+                    ->relationship('skin_type', 'name_ar'),
             ])
             ->actions([
                 Actions\ViewAction::make(),

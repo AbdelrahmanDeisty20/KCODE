@@ -218,6 +218,10 @@ class OrderResource extends Resource
                             ->numeric()
                             ->prefix('EGP'),
 
+                        Forms\Components\TextInput::make('coupon_code')
+                            ->label('كود الكوبون المستخدم')
+                            ->disabled(),
+
                         Forms\Components\TextInput::make('shipping_fee')
                             ->label('مبلغ الشحن')
                             ->numeric()

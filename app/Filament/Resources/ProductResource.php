@@ -66,12 +66,20 @@ class ProductResource extends Resource
                                     ->unique(ignoreRecord: true),
 
                                 Forms\Components\TextInput::make('name_en')
-                                    ->label('اسم المنتج (Product Name)')
+                                    ->label('اسم المنتج بالإنجليزية (Product Name EN)')
                                     ->required(),
 
+                                Forms\Components\TextInput::make('name_ar')
+                                    ->label('اسم المنتج بالعربية (Product Name AR)')
+                                    ->nullable(),
+
                                 Forms\Components\TextInput::make('short_name_en')
-                                    ->label('الاسم المختصر (Short Name)')
+                                    ->label('الاسم المختصر بالإنجليزية (Short Name EN)')
                                     ->required(),
+
+                                Forms\Components\TextInput::make('short_name_ar')
+                                    ->label('الاسم المختصر بالعربية (Short Name AR)')
+                                    ->nullable(),
 
                                 Forms\Components\Select::make('category_id')
                                     ->label('القسم الرئيسي')
@@ -89,7 +97,7 @@ class ProductResource extends Resource
 
                                 Forms\Components\Select::make('brand_id')
                                     ->label('العلامة التجارية')
-                                    ->relationship('brand', 'name_ar')
+                                    ->relationship('brand', 'name_en')
                                     ->searchable()
                                     ->preload()
                                     ->required(),
@@ -105,6 +113,11 @@ class ProductResource extends Resource
                                     ->numeric()
                                     ->default(0)
                                     ->required(),
+
+                                Forms\Components\TextInput::make('sales_count')
+                                    ->label('عدد المبيعات (Sales Count)')
+                                    ->numeric()
+                                    ->default(0),
 
                                 Forms\Components\Toggle::make('is_best_seller')
                                     ->label('الأكثر مبيعاً')
@@ -210,20 +223,35 @@ class ProductResource extends Resource
                         Components\Tabs\Tab::make('الوصف والاستخدام')
                             ->schema([
                                 Forms\Components\Textarea::make('description_en')
-                                    ->label('الوصف (Description)')
+                                    ->label('الوصف بالإنجليزية (Description EN)')
                                     ->rows(4)
                                     ->required(),
 
+                                Forms\Components\Textarea::make('description_ar')
+                                    ->label('الوصف بالعربية (Description AR)')
+                                    ->rows(4)
+                                    ->nullable(),
+
                                 Forms\Components\Textarea::make('ingredients_en')
-                                    ->label('قائمة المكونات التفصيلية الكاملة (Full INCI Ingredients)')
+                                    ->label('قائمة المكونات الكاملة بالإنجليزية (Full INCI Ingredients EN)')
                                     ->placeholder('Water, Glycerin, Niacinamide, Tranexamic Acid...')
                                     ->rows(4)
                                     ->required(),
 
+                                Forms\Components\Textarea::make('ingredients_ar')
+                                    ->label('قائمة المكونات بالعربية (Ingredients AR)')
+                                    ->rows(4)
+                                    ->nullable(),
+
                                 Forms\Components\Textarea::make('how_to_use_en')
-                                    ->label('طريقة الاستخدام (How to use)')
+                                    ->label('طريقة الاستخدام بالإنجليزية (How to use EN)')
                                     ->rows(3)
                                     ->required(),
+
+                                Forms\Components\Textarea::make('how_to_use_ar')
+                                    ->label('طريقة الاستخدام بالعربية (How to use AR)')
+                                    ->rows(3)
+                                    ->nullable(),
                             ])->columns(2),
 
                         Components\Tabs\Tab::make('منهجية تقييم التركيبة')
@@ -302,14 +330,29 @@ class ProductResource extends Resource
                                     ->rows(2)
                                     ->required(),
 
+                                Forms\Components\Textarea::make('why_kcode_en')
+                                    ->label('Why KCODE Selected This Product (EN)')
+                                    ->rows(2)
+                                    ->nullable(),
+
                                 Forms\Components\Textarea::make('ar_key_benefits')
                                     ->label('المكونات الفعالة والفوائد (عربي)')
                                     ->rows(2),
 
+                                Forms\Components\Textarea::make('en_key_benefits')
+                                    ->label('Key Benefits & Actives (EN)')
+                                    ->rows(2)
+                                    ->nullable(),
+
                                 Forms\Components\Textarea::make('safety_notes_ar')
-                                    ->label('ملاحظات الأمان والتحذيرات')
+                                    ->label('ملاحظات الأمان والتحذيرات (عربي)')
                                     ->rows(2)
                                     ->required(),
+
+                                Forms\Components\Textarea::make('safety_notes_en')
+                                    ->label('Safety Notes & Precautions (EN)')
+                                    ->rows(2)
+                                    ->nullable(),
 
                                 Forms\Components\Textarea::make('limitations_notes_ar')
                                     ->label('قيود وتوجيهات السلامة عند الاستخدام')
@@ -424,13 +467,81 @@ class ProductResource extends Resource
                                     ->label('عنوان SEO (عربي)')
                                     ->required(),
 
+                                Forms\Components\TextInput::make('ar_product_title_seo')
+                                    ->label('عنوان صفحة المنتج SEO (عربي)')
+                                    ->nullable(),
+
+                                Forms\Components\TextInput::make('en_product_title_seo')
+                                    ->label('Product SEO Title (EN)')
+                                    ->nullable(),
+
+                                Forms\Components\TextInput::make('en_short_hook')
+                                    ->label('Short Hook (EN)')
+                                    ->placeholder('e.g. Authentic K-Beauty Skincare')
+                                    ->nullable(),
+
+                                Forms\Components\TextInput::make('pdp_headline_en')
+                                    ->label('PDP Headline (EN)')
+                                    ->nullable(),
+
+                                Forms\Components\TextInput::make('above_fold_hook_en')
+                                    ->label('Above Fold Hook (EN)')
+                                    ->nullable(),
+
+                                Forms\Components\TextInput::make('primary_keyword_ar')
+                                    ->label('الكلمة المفتاحية الأساسية (عربي)')
+                                    ->nullable(),
+
+                                Forms\Components\TextInput::make('primary_keyword_en')
+                                    ->label('Primary Keyword (EN)')
+                                    ->nullable(),
+
+                                Forms\Components\Textarea::make('secondary_keywords_ar')
+                                    ->label('الكلمات المفتاحية الفرعية (عربي)')
+                                    ->rows(2)
+                                    ->nullable(),
+
+                                Forms\Components\Textarea::make('secondary_keywords_en')
+                                    ->label('Secondary Keywords (EN)')
+                                    ->rows(2)
+                                    ->nullable(),
+
                                 Forms\Components\Textarea::make('meta_description_ar')
                                     ->label('وصف Meta (عربي)')
+                                    ->rows(3)
                                     ->required(),
 
                                 Forms\Components\Textarea::make('meta_description_en')
                                     ->label('وصف Meta (إنجليزي)')
+                                    ->rows(3)
                                     ->required(),
+
+                                Forms\Components\TextInput::make('image_alt_ar')
+                                    ->label('النص البديل للصورة Image Alt (عربي)')
+                                    ->nullable(),
+
+                                Forms\Components\TextInput::make('image_alt_en')
+                                    ->label('Image Alt Text (EN)')
+                                    ->nullable(),
+
+                                Forms\Components\TextInput::make('og_title_ar')
+                                    ->label('عنوان المشاركة OpenGraph Title (عربي)')
+                                    ->nullable(),
+
+                                Forms\Components\Textarea::make('og_description_ar')
+                                    ->label('وصف OpenGraph (عربي)')
+                                    ->rows(2)
+                                    ->nullable(),
+
+                                Forms\Components\Textarea::make('og_description_en')
+                                    ->label('OpenGraph Description (EN)')
+                                    ->rows(2)
+                                    ->nullable(),
+
+                                Forms\Components\Textarea::make('keywords')
+                                    ->label('كلمات دلالية إضافية (Keywords)')
+                                    ->rows(2)
+                                    ->nullable(),
                             ])->columns(2),
                     ])->columnSpanFull(),
             ]);
