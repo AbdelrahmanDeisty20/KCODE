@@ -29,6 +29,16 @@ class PresetRoutineSeeder extends Seeder
         $routinesConfig = json_decode(file_get_contents($dataPath), true);
 
         foreach ($routinesConfig as $config) {
+            $skinTypeId = $config['skin_type_id'] ?? null;
+            if ($skinTypeId && !\App\Models\SkinType::where('id', $skinTypeId)->exists()) {
+                $skinTypeId = null;
+            }
+
+            $goalId = $config['goal_id'] ?? null;
+            if ($goalId && !\App\Models\RoutineGoal::where('id', $goalId)->exists()) {
+                $goalId = null;
+            }
+
             $presetRoutine = PresetRoutine::create([
                 'title_ar' => $config['title_ar'],
                 'title_en' => $config['title_en'],
@@ -40,8 +50,8 @@ class PresetRoutineSeeder extends Seeder
                 'skin_type_en' => $config['skin_type_en'],
                 'goal_ar' => $config['goal_ar'],
                 'goal_en' => $config['goal_en'],
-                'skin_type_id' => $config['skin_type_id'] ?? null,
-                'goal_id' => $config['goal_id'] ?? null,
+                'skin_type_id' => $skinTypeId,
+                'goal_id' => $goalId,
                 'is_for_men' => false,
                 'status' => 'active',
                 'benefits_json' => $config['benefits_json'] ?? [],

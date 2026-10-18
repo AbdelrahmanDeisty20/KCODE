@@ -1301,7 +1301,7 @@
     "skin_type_en": "Suitable for: جميع أنواع البشرة.",
     "goal_ar": "عناية يومية متوازنة",
     "goal_en": "Balanced Daily Care",
-    "skin_type_id": 5,
+    "skin_type_id": null,
     "goal_id": 1,
     "benefits_json": [
       "يساعد على المحافظة على ترطيب البشرة ونعومتها.",
