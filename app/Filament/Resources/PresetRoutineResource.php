@@ -115,6 +115,44 @@ class PresetRoutineResource extends Resource
                             ->required(),
                     ])->columns(2),
 
+                Components\Section::make('مميزات الروتين (البطاقة والتفاصيل)')
+                    ->schema([
+                        Forms\Components\TagsInput::make('benefits_json')
+                            ->label('نقاط مميزات الروتين (تظهر في كارت القائمة - 4 نقاط)')
+                            ->placeholder('اكتب ميزة ثم اضغط Enter')
+                            ->columnSpan(2),
+
+                        Forms\Components\TagsInput::make('what_it_offers_json')
+                            ->label('ما الذي يقدمه هذا الروتين لبشرتك؟ (الشبكة في صفحة الروتين - 6 نقاط)')
+                            ->placeholder('اكتب فائدة ثم اضغط Enter')
+                            ->columnSpan(2),
+                    ])->columns(2),
+
+                Components\Section::make('تبويبات صفحة الروتين (طريقة الاستخدام والمنتجات المكملة)')
+                    ->schema([
+                        Forms\Components\Textarea::make('how_to_use_ar')
+                            ->label('طريقة الاستخدام (بالعربية)')
+                            ->rows(4)
+                            ->columnSpan(2),
+
+                        Forms\Components\Textarea::make('how_to_use_en')
+                            ->label('طريقة الاستخدام (بالإنجليزية)')
+                            ->rows(4)
+                            ->columnSpan(2),
+
+                        Forms\Components\Repeater::make('complementary_products_json')
+                            ->label('منتجات مكملة لهذا الروتين')
+                            ->schema([
+                                Forms\Components\TextInput::make('step')->label('الخطوة (مثال: خطوة مكملة)'),
+                                Forms\Components\TextInput::make('name')->label('اسم المنتج'),
+                                Forms\Components\TextInput::make('note')->label('ملاحظة سريعة'),
+                                Forms\Components\TextInput::make('why')->label('لماذا تحتاجه؟'),
+                            ])
+                            ->columns(2)
+                            ->columnSpan(2)
+                            ->createItemButtonLabel('إضافة منتج مكمل'),
+                    ])->columns(2)->collapsed(),
+
                 Components\Section::make('منتجات وخطوات الروتين الجاهز')
                     ->schema([
                         Forms\Components\Repeater::make('items')
@@ -151,6 +189,38 @@ class PresetRoutineResource extends Resource
                                 Forms\Components\TextInput::make('use_time_ar')
                                     ->label('توقيت الاستخدام')
                                     ->placeholder('صباحاً ومساءً'),
+
+                                Forms\Components\TextInput::make('frequency_ar')
+                                    ->label('التكرار (بالعربية)')
+                                    ->placeholder('التكرار يومياً.')
+                                    ->default('التكرار يومياً.'),
+
+                                Forms\Components\TextInput::make('frequency_en')
+                                    ->label('التكرار (بالإنجليزية)')
+                                    ->placeholder('Daily frequency.'),
+
+                                Forms\Components\Textarea::make('reason_ar')
+                                    ->label('لماذا اخترناه لك؟ (بالعربية)')
+                                    ->placeholder('سيروم نياسيناميد 15% لتقليل اللمعان وتحسين مظهر المسام وتفاوت اللون.')
+                                    ->rows(2)
+                                    ->columnSpan(3),
+
+                                Forms\Components\Textarea::make('application_ar')
+                                    ->label('التطبيق - طريقة الاستخدام (بالعربية)')
+                                    ->placeholder('كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.')
+                                    ->rows(2)
+                                    ->columnSpan(3),
+
+                                Forms\Components\Textarea::make('starter_guide_ar')
+                                    ->label('طريقة البدء (بالعربية - للمقشرات والمكونات النشطة)')
+                                    ->placeholder('ابدأ مرة أو مرتين أسبوعياً. اختر وقتاً واحداً في يوم الاستخدام: صباحاً أو في ليلة دون تقشير.')
+                                    ->rows(2)
+                                    ->columnSpan(3),
+
+                                Forms\Components\Textarea::make('reason_en')
+                                    ->label('لماذا اخترناه لك؟ (بالإنجليزية)')
+                                    ->rows(2)
+                                    ->columnSpan(3),
                             ])
                             ->columns(3)
                             ->defaultItems(1)

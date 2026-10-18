@@ -554,6 +554,7 @@ class RoutineService
     {
         $items = [];
         $totalPrice = 0;
+        $previewImages = [];
 
         foreach ($routineModel->items as $itemModel) {
             $prod = $itemModel->product;
@@ -561,25 +562,42 @@ class RoutineService
                 continue;
 
             $totalPrice += (float) $prod->price;
+            $prodImage = $prod->image_path ?: $prod->image;
+            if ($prodImage) {
+                $previewImages[] = $prodImage;
+            }
 
             if ($includeItems) {
+                $brandImage = $prod->brand ? ($prod->brand->image_path ?: $prod->brand->image) : null;
                 $items[] = [
                     'display_order' => (int) $itemModel->display_order,
+                    'step_name' => $lang === 'ar' ? ($itemModel->step_name_ar ?: 'الخطوة ' . $itemModel->display_order) : ($itemModel->step_name_en ?: 'Step ' . $itemModel->display_order),
                     'morning' => (bool) $itemModel->morning,
                     'night' => (bool) $itemModel->night,
                     'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
+                    'reason' => $lang === 'ar' 
+                        ? ($itemModel->reason_ar ?: ($prod->brief_insight_ar ?: $prod->why_kcode)) 
+                        : ($itemModel->reason_en ?: ($itemModel->reason_ar ?: ($prod->brief_insight_en ?: $prod->why_kcode))),
+                    'frequency' => $lang === 'ar' 
+                        ? ($itemModel->frequency_ar ?: ($prod->usage_frequency_ar ?: 'التكرار يومياً.')) 
+                        : ($itemModel->frequency_en ?: ($itemModel->frequency_ar ?: ($prod->usage_frequency_en ?: 'Daily frequency.'))),
+                    'application' => $itemModel->application_ar ?? null,
+                    'starter_guide' => $itemModel->starter_guide_ar ?? null,
                     'product' => [
                         'id' => $prod->id,
                         'name' => $prod->name_en ?? $prod->name,
+                        'name_ar' => $prod->name_ar,
+                        'short_name' => $prod->short_name ?? $prod->name,
                         'sku' => $prod->sku,
                         'price' => (float) $prod->price,
-                        'image' => $prod->image_url,
+                        'size' => $prod->size,
+                        'image' => $prodImage,
                         'average_rating' => (float) $prod->average_rating,
                         'num_reviews' => (int) $prod->num_reviews,
                         'brand' => $prod->brand ? [
                             'id' => $prod->brand->id,
                             'name' => $prod->brand->name_en,
-                            'image' => $prod->brand->image_url ?? null,
+                            'image' => $brandImage,
                         ] : null,
                     ]
                 ];
@@ -596,9 +614,44 @@ class RoutineService
             'goal' => $lang === 'ar' ? $routineModel->goal_ar : $routineModel->goal_en,
             'total_price' => round($totalPrice, 2),
             'products_count' => $routineModel->items->count(),
+            'benefits' => $routineModel->benefits_json ?? [],
+            'preview_images' => $previewImages,
         ];
 
         if ($includeItems) {
+            $complementary = [];
+            if (!empty($routineModel->complementary_products_json)) {
+                foreach ($routineModel->complementary_products_json as $comp) {
+                    $prodModel = null;
+                    if (!empty($comp['product_id'])) {
+                        $prodModel = \App\Models\Product::with('brand')->find($comp['product_id']);
+                    } elseif (!empty($comp['sku'])) {
+                        $prodModel = \App\Models\Product::with('brand')->where('sku', $comp['sku'])->first();
+                    }
+                    if ($prodModel) {
+                        $complementary[] = [
+                            'product_id' => $prodModel->id,
+                            'sku' => $prodModel->sku,
+                            'name' => $prodModel->name_en ?? $prodModel->name,
+                            'name_ar' => $prodModel->name_ar,
+                            'brand' => $prodModel->brand?->name_en,
+                            'image' => $prodModel->image_path ?: $prodModel->image,
+                            'price' => (float) $prodModel->price,
+                            'size' => $prodModel->size,
+                            'why_selected' => $comp['why'] ?? $comp['support_copy'] ?? ($prodModel->brief_insight_ar ?: $prodModel->why_kcode),
+                            'note' => $comp['note'] ?? null,
+                            'step' => $comp['step'] ?? ($lang === 'ar' ? 'منتج مكمل' : 'Complementary Product'),
+                        ];
+                    } else {
+                        $complementary[] = $comp;
+                    }
+                }
+            }
+
+            $res['what_it_offers'] = $routineModel->what_it_offers_json ?? [];
+            $res['how_to_use'] = $lang === 'ar' ? $routineModel->how_to_use_ar : ($routineModel->how_to_use_en ?: $routineModel->how_to_use_ar);
+            $res['usage_guide'] = $routineModel->usage_guide_json ?? null;
+            $res['complementary_products'] = $complementary;
             $res['items'] = $items;
         }
 

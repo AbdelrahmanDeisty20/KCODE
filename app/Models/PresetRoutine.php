@@ -24,6 +24,20 @@ class PresetRoutine extends Model
         'goal_id',
         'is_for_men',
         'status',
+        'benefits_json',
+        'what_it_offers_json',
+        'usage_guide_json',
+        'how_to_use_ar',
+        'how_to_use_en',
+        'complementary_products_json',
+    ];
+
+    protected $casts = [
+        'is_for_men' => 'boolean',
+        'benefits_json' => 'array',
+        'what_it_offers_json' => 'array',
+        'usage_guide_json' => 'array',
+        'complementary_products_json' => 'array',
     ];
 
     public function scopeForMen($query)
