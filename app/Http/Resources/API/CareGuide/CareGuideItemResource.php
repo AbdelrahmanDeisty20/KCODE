@@ -18,7 +18,6 @@ class CareGuideItemResource extends JsonResource
             'id'          => $this->id,
             'title'       => $this->title,       // Accessor handles localization
             'description' => $this->description, // Accessor handles localization
-            'icon'        => $this->icon,
             'sort_order'  => $this->sort_order,
         ];
     }
