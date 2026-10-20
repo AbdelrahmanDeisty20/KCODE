@@ -258,4 +258,6 @@ return [
     'product_selection_criteria_retrieved_successfully' => 'تم استرجاع منهجية ومعايير اختيار المنتجات بنجاح',
     'reviewsRetrievedSuccessfully' => 'تم استرجاع التقييمات بنجاح',
     'noReviewsFound' => 'لا توجد تقييمات',
+    'care_guide_retrieved_successfully' => 'تم استرجاع دليل العناية بنجاح',
+    'care_guide_not_found' => 'دليل العناية غير موجود',
 ];

@@ -72,6 +72,7 @@ class DatabaseSeeder extends Seeder
             PresetRoutineSeeder::class,
             MenPresetRoutineSeeder::class,
             KcodePdpFieldsSeeder::class,
+            CareGuideSeeder::class,
         ]);
 
         // User::factory(10)->create();

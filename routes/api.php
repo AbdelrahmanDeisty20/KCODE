@@ -12,6 +12,7 @@ use App\Http\Controllers\API\Genral\CategoryController;
 use App\Http\Controllers\API\Genral\ChatbotController;
 use App\Http\Controllers\API\Genral\CheckoutController;
 use App\Http\Controllers\API\Genral\ConcernController;
+use App\Http\Controllers\API\Genral\CareGuideController;
 use App\Http\Controllers\API\Genral\ContactController;
 use App\Http\Controllers\API\Genral\CouponController;
 use App\Http\Controllers\API\Genral\FaqController;
@@ -308,6 +309,11 @@ Route::middleware([SetLang::class])->group(function () {
 
     // Contact Us Routes
     
+
+    // Care Guide Routes (دليل العناية)
+    Route::controller(CareGuideController::class)->group(function () {
+        Route::get('/care-guide', 'index');
+    });
 
     // Product Selection Criteria Routes (كيف نراجع ونختار المنتجات)
     Route::controller(ProductSelectionCriteriaController::class)->group(function () {

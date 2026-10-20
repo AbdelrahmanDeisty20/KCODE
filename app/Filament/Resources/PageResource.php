@@ -117,9 +117,9 @@ class PageResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPagesRecord::route('/'),
-            'create' => Pages\CreatePageRecord::route('/create'),
-            'edit' => Pages\EditPageRecord::route('/{record}/edit'),
+            'index' => Pages\ListPages::route('/'),
+            'create' => Pages\CreatePage::route('/create'),
+            'edit' => Pages\EditPage::route('/{record}/edit'),
         ];
     }
 }

@@ -6,7 +6,7 @@ use App\Filament\Resources\PageResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListPagesRecord extends ListRecords
+class ListPages extends ListRecords
 {
     protected static string $resource = PageResource::class;
 

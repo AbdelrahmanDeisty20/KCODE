@@ -255,4 +255,6 @@ return [
     'product_selection_criteria_retrieved_successfully' => 'Product selection criteria retrieved successfully',
     'reviewsRetrievedSuccessfully' => 'Reviews retrieved successfully',
     'noReviewsFound' => 'No reviews found',
+    'care_guide_retrieved_successfully' => 'Care guide retrieved successfully',
+    'care_guide_not_found' => 'Care guide not found',
 ];
