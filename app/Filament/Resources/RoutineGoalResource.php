@@ -15,7 +15,7 @@ class RoutineGoalResource extends Resource
 {
     protected static ?string $model = RoutineGoal::class;
 
-    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-flag';
+    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-s-flag';
 
     protected static ?int $navigationSort = 3;
 

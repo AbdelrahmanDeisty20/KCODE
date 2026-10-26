@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ProductReports extends Page
 {
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-arrow-down-tray';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-arrow-down-tray';
 
     protected string $view = 'filament.pages.product-reports';
 

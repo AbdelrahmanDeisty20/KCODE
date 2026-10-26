@@ -18,7 +18,7 @@ class QuizQuestionResource extends Resource
 {
     protected static ?string $model = QuizQuestion::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-quiz-questions';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-puzzle-piece';
 
     public static function getNavigationGroup(): ?string
     {

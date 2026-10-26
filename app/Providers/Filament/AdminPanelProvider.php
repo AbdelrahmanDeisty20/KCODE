@@ -427,18 +427,32 @@ class AdminPanelProvider extends PanelProvider
                             animation: pulseBadge 1.2s infinite ease-in-out !important;
                         }
 
-                        /* --- MULTI-COLOR SVG SIDEBAR ICONS --- */
+                        /* --- OFFICIAL SOLID HEROICONS (MATCHING DASHBOARD STAT CARDS) --- */
                         .fi-sidebar-item-icon,
                         .fi-sidebar-item-button svg {
-                            width: 1.35rem !important;
-                            height: 1.35rem !important;
-                            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+                            width: 1.25rem !important;
+                            height: 1.25rem !important;
+                            color: #93254E !important;
+                            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease !important;
                             vertical-align: middle !important;
                         }
                         .fi-sidebar-item:hover .fi-sidebar-item-icon,
                         .fi-sidebar-item-button:hover svg {
-                            transform: scale(1.22) rotate(3deg) !important;
-                            filter: drop-shadow(0 4px 12px rgba(147, 37, 78, 0.4)) !important;
+                            transform: scale(1.15) !important;
+                            color: #6B2F5F !important;
+                        }
+                        .fi-sidebar-item.fi-active .fi-sidebar-item-icon,
+                        .fi-sidebar-item-button[aria-current="page"] svg {
+                            color: #2E1633 !important;
+                        }
+                        html.dark .fi-sidebar-item-icon,
+                        html.dark .fi-sidebar-item-button svg {
+                            color: #E28AAB !important;
+                        }
+                        html.dark .fi-sidebar-item:hover .fi-sidebar-item-icon,
+                        html.dark .fi-sidebar-item-button:hover svg {
+                            color: #FFFFFF !important;
+                            transform: scale(1.15) !important;
                         }
                     </style>
                 ')

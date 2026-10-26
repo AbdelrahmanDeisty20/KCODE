@@ -18,7 +18,7 @@ class AssessmentResource extends Resource
 {
     protected static ?string $model = Assessment::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-assessments';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-clipboard-document-check';
 
     public static function getNavigationGroup(): ?string
     {

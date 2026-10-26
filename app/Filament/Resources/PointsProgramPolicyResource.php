@@ -15,7 +15,7 @@ class PointsProgramPolicyResource extends Resource
 {
     protected static ?string $model = PointsProgramPolicy::class;
 
-    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-document-text';
+    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-s-academic-cap';
 
     protected static ?int $navigationSort = 6;
 

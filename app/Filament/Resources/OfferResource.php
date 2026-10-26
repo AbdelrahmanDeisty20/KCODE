@@ -18,7 +18,7 @@ class OfferResource extends Resource
 {
     protected static ?string $model = Offer::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-offers';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-receipt-percent';
 
     public static function getNavigationGroup(): ?string
     {

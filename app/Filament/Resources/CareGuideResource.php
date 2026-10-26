@@ -17,7 +17,7 @@ class CareGuideResource extends Resource
 {
     protected static ?string $model = CareGuide::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-book-open';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-book-open';
 
     protected static ?int $navigationSort = 8;
 

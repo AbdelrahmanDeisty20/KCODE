@@ -18,7 +18,7 @@ class SettingResource extends Resource
 {
     protected static ?string $model = Setting::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-settings';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-cog-6-tooth';
 
     protected static ?int $navigationSort = 4;
 

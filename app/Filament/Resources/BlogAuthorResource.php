@@ -20,7 +20,7 @@ class BlogAuthorResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-blog-authors';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-identification';
 
     public static function getNavigationGroup(): ?string
     {

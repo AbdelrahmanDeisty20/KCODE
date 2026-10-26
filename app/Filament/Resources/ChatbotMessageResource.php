@@ -17,7 +17,7 @@ class ChatbotMessageResource extends Resource
 {
     protected static ?string $model = ChatbotMessage::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-chatbot-messages';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-chat-bubble-oval-left-ellipsis';
 
     protected static ?int $navigationSort = 2;
 

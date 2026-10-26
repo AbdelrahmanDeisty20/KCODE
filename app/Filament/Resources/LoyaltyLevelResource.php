@@ -18,7 +18,7 @@ class LoyaltyLevelResource extends Resource
 {
     protected static ?string $model = LoyaltyLevel::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-loyalty-levels';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-trophy';
 
     public static function getNavigationGroup(): ?string
     {

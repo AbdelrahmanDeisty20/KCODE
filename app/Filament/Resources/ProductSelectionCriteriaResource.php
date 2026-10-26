@@ -17,7 +17,7 @@ class ProductSelectionCriteriaResource extends Resource
 {
     protected static ?string $model = ProductSelectionCriteria::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-check-badge';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-check-badge';
 
     protected static ?int $navigationSort = 7;
 

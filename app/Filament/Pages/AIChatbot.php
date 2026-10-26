@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class AIChatbot extends Page
 {
-    protected static string|BackedEnum|null $navigationIcon = 'icon-chatbot-messages';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-sparkles';
 
     protected string $view = 'filament.pages.ai-chatbot';
 

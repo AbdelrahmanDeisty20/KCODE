@@ -18,7 +18,7 @@ class BrandResource extends Resource
 {
     protected static ?string $model = Brand::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-brands';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-building-storefront';
 
     protected static ?int $navigationSort = 4;
 

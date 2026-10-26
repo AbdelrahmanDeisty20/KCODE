@@ -18,7 +18,7 @@ class BlogTagResource extends Resource
 {
     protected static ?string $model = BlogTag::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-blog-tags';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-tag';
 
     public static function getNavigationGroup(): ?string
     {

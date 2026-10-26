@@ -15,7 +15,7 @@ class PresetRoutineResource extends Resource
 {
     protected static ?string $model = PresetRoutine::class;
 
-    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-o-sparkles';
+    protected static \BackedEnum|string|null $navigationIcon = 'heroicon-s-sparkles';
 
     protected static ?int $navigationSort = 4;
 

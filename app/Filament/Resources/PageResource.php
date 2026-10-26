@@ -18,7 +18,7 @@ class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-pages';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-document-duplicate';
 
     protected static ?int $navigationSort = 6;
 

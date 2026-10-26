@@ -20,7 +20,7 @@ class ReviewResource extends Resource
 {
     protected static ?string $model = Review::class;
 
-    protected static string|BackedEnum|null $navigationIcon = 'icon-reviews';
+    protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-star';
 
     public static function getNavigationGroup(): ?string
     {
