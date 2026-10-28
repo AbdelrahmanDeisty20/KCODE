@@ -157,8 +157,8 @@ Route::middleware([SetLang::class])->group(function () {
         Route::get('/loyalty/levels', 'getLoyaltyLevels');
     });
 
-    // Cart Routes
-    Route::controller(CartController::class)->middleware('auth:sanctum')->group(function () {
+    // Cart Routes (متاحة للضيف بـ session_id أو للمستخدم بالتوكن)
+    Route::controller(CartController::class)->group(function () {
         Route::get('/cart', 'getCart');
         Route::post('/cart/add', 'addSingle');
         Route::post('/cart/add-bulk', 'addBulk');
@@ -213,8 +213,14 @@ Route::middleware([SetLang::class])->group(function () {
     Route::controller(LocationController::class)->group(function () {
         Route::get('/countries', 'getCountries');
         Route::get('/countries/{countryId}/states', 'getStates');
+        Route::get('/oman/states', 'getOmanStates');
         Route::get('/states/{stateId}/cities', 'getCities');
         Route::get('/shipping', 'getShippingFees');
+    });
+
+    // Checkout (التسجيل اختياري - الضيف يبعت session_id)
+    Route::controller(CheckoutController::class)->group(function () {
+        Route::post('/checkout', 'checkout');
     });
 
     // AI Chatbot Routes
@@ -266,10 +272,6 @@ Route::middleware([SetLang::class])->group(function () {
             Route::put('/addresses/{id}', 'update');
             Route::delete('/addresses/{id}', 'destroy');
             Route::patch('/addresses/{id}/default', 'setDefault');
-        });
-
-        Route::controller(CheckoutController::class)->group(function () {
-            Route::post('/checkout', 'checkout');
         });
 
         Route::controller(OrderController::class)->group(function () {

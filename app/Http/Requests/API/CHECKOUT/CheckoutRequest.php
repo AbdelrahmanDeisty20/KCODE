@@ -33,7 +33,7 @@ class CheckoutRequest extends FormRequest
             'address_id'     => ['nullable', 'integer', 'exists:addresses,id'],
 
             // Inline Address fields (Required ONLY if address_id is missing or empty)
-            'country_id'     => [Rule::requiredIf(!$hasAddressId), 'nullable', 'integer', 'exists:countries,id'],
+            'country_id'     => ['nullable', 'integer', 'exists:countries,id'],
             'state_id'       => [
                 Rule::requiredIf(!$hasAddressId),
                 'nullable',

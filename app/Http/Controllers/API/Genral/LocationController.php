@@ -45,6 +45,14 @@ class LocationController extends Controller
     }
 
     /**
+     * Get active states (governorates) of Sultanate of Oman (country id = 1).
+     */
+    public function getOmanStates()
+    {
+        return $this->getStates(1);
+    }
+
+    /**
      * Get all active cities for a state (paginated).
      */
     public function getCities(int $stateId)

@@ -25,18 +25,22 @@ class AddressRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'phone' => 'required|string|max:255',
-            'country_id' => 'required|exists:countries,id',
+            'country_id' => 'nullable|exists:countries,id',
             'state_id' => [
                 'required',
                 Rule::exists('states', 'id')->where(function ($query) {
-                    $query->where('country_id', $this->country_id);
+                    if ($this->filled('country_id')) {
+                        $query->where('country_id', $this->country_id);
+                    }
                 }),
             ],
             'city_id' => [
                 'required',
                 Rule::exists('cities', 'id')->where(function ($query) {
-                    $query->where('state_id', $this->state_id)
-                          ->where('country_id', $this->country_id);
+                    $query->where('state_id', $this->state_id);
+                    if ($this->filled('country_id')) {
+                        $query->where('country_id', $this->country_id);
+                    }
                 }),
             ],
             'address' => 'required|string',
