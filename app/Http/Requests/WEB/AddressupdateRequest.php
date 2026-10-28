@@ -45,11 +45,14 @@ class AddressupdateRequest extends FormRequest
             ],
             'city_id' => [
                 'nullable',
-                'required_with:country_id,state_id',
                 'integer',
                 Rule::exists('cities', 'id')->where(function ($query) use ($countryId, $stateId) {
-                    $query->where('country_id', $countryId)
-                          ->where('state_id', $stateId);
+                    if ($countryId) {
+                        $query->where('country_id', $countryId);
+                    }
+                    if ($stateId) {
+                        $query->where('state_id', $stateId);
+                    }
                 }),
             ],
             'address' => 'nullable|string',

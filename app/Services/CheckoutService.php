@@ -32,9 +32,10 @@ class CheckoutService
 
             $user = $userId ? User::find($userId) : null;
 
-            // 1. Resolve user_name and phone
-            $userName = $data['user_name'] ?? ($user ? $user->name : 'عميل KCODE');
-            $phone    = $data['user_phone'] ?? $data['phone'] ?? ($user ? $user->phone : null);
+            // 1. Resolve user_name, phone and email
+            $userName  = $data['user_name'] ?? ($user ? $user->name : 'عميل KCODE');
+            $phone     = $data['user_phone'] ?? $data['phone'] ?? ($user ? $user->phone : null);
+            $userEmail = $data['user_email'] ?? $data['email'] ?? ($user ? $user->email : null);
 
             // 2. Resolve Address (from pre-existing address_id if provided)
             $address = null;
@@ -87,7 +88,7 @@ class CheckoutService
             $lang = request()->header('lang') ?? app()->getLocale();
 
             // 4. DB Transaction for atomic processing
-            return DB::transaction(function () use ($cart, $cartItems, $address, $userId, $couponCode, $notes, $userName, $phone, $data, $lang) {
+            return DB::transaction(function () use ($cart, $cartItems, $address, $userId, $couponCode, $notes, $userName, $phone, $userEmail, $data, $lang) {
                 $productIds = $cartItems->pluck('product_id')->toArray();
 
                 // Lock products for update
@@ -181,6 +182,7 @@ class CheckoutService
                     $shippingAddressSnapshot = [
                         'user_name'   => $userName,
                         'user_phone'  => $phone ?? $address->phone,
+                        'user_email'  => $userEmail,
                         'title'       => $address->title,
                         'address'     => $address->address,
                         'street'      => $data['street'] ?? $address->address,
@@ -201,6 +203,7 @@ class CheckoutService
                     $shippingAddressSnapshot = [
                         'user_name'   => $userName,
                         'user_phone'  => $phone,
+                        'user_email'  => $userEmail,
                         'address'     => $data['address'] ?? $data['street'] ?? null,
                         'city'        => $city ? $city->name : null,
                         'state'       => $state ? $state->name : null,
@@ -215,6 +218,7 @@ class CheckoutService
                     'user_id'          => $userId,
                     'user_name'        => $userName,
                     'user_phone'       => $phone,
+                    'user_email'       => $userEmail,
                     'address_id'       => $address ? $address->id : null,
                     'shipping_address' => $shippingAddressSnapshot,
                     'payment_method'   => $data['payment_method'] ?? 'cash',

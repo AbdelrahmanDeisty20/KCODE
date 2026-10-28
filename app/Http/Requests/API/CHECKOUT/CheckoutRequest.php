@@ -28,27 +28,30 @@ class CheckoutRequest extends FormRequest
             // User info
             'user_name'      => ['required', 'string', 'max:255'],
             'user_phone'     => ['required', 'string', 'max:50'],
+            'user_email'     => ['nullable', 'email', 'max:255'],
+            'email'          => ['nullable', 'email', 'max:255'],
 
             // Address ID
             'address_id'     => ['nullable', 'integer', 'exists:addresses,id'],
 
             // Inline Address fields (Required ONLY if address_id is missing or empty)
-            'country_id'     => ['nullable', 'integer', 'exists:countries,id'],
+            'country_id'     => ['nullable', 'integer', Rule::exists('countries', 'id')->where('is_active', true)],
             'state_id'       => [
                 Rule::requiredIf(!$hasAddressId),
                 'nullable',
                 'integer',
                 Rule::exists('states', 'id')->where(function ($query) {
+                    $query->where('is_active', true);
                     if ($this->filled('country_id')) {
                         $query->where('country_id', $this->country_id);
                     }
                 }),
             ],
             'city_id'        => [
-                Rule::requiredIf(!$hasAddressId),
                 'nullable',
                 'integer',
                 Rule::exists('cities', 'id')->where(function ($query) {
+                    $query->where('is_active', true);
                     if ($this->filled('state_id')) {
                         $query->where('state_id', $this->state_id);
                     }

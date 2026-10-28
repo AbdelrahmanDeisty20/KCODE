@@ -11,6 +11,7 @@ class Order extends Model
         'user_id',
         'user_name',
         'user_phone',
+        'user_email',
         'address_id',
         'shipping_address',
         'payment_method',
@@ -45,5 +46,10 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function getEmailAttribute(): ?string
+    {
+        return $this->user_email ?: $this->user?->email;
     }
 }

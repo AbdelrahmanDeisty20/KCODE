@@ -86,6 +86,10 @@ class OrderResource extends Resource
                             ->label('اسم صاحب الطلب')
                             ->disabled(),
 
+                        Forms\Components\TextInput::make('user_email')
+                            ->label('البريد الإلكتروني للتواصل')
+                            ->email(),
+
                         Forms\Components\TextInput::make('user_phone')
                             ->label('رقم الهاتف للتواصل'),
 
