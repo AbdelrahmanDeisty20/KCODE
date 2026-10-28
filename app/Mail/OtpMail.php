@@ -33,9 +33,11 @@ class OtpMail extends Mailable
      */
     public function envelope(): Envelope
     {
-        $subject = $this->type === 'reset_password' 
-            ? __('messages.reset_password_subject') 
-            : __('messages.otp_subject');
+        $subject = match ($this->type) {
+            'reset_password' => __('messages.reset_password_subject'),
+            'activation' => __('messages.activation_subject'),
+            default => __('messages.otp_subject'),
+        };
 
         return new Envelope(
             subject: $subject,

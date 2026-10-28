@@ -55,6 +55,7 @@ Route::middleware([SetLang::class])->group(function () {
         Route::post('/register', 'register');
         Route::post('/verify-otp', 'verifyOtp');
         Route::post('/resend-otp', 'resendOtp');
+        Route::post('/send-activation-otp', 'sendActivationOtp');
         Route::post('/login', 'login');
         Route::get('redirect/{provider}', 'redirectToProvider');
         Route::get('callback/{provider}', 'handleProviderCallback');

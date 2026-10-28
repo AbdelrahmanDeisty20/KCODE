@@ -38,6 +38,11 @@ class AuthController extends Controller
         $data = $request->validated();
         return $this->authService->resendOtp($data);
     }
+    public function sendActivationOtp(ResendOtpRequest $request)
+    {
+        $data = $request->validated();
+        return $this->authService->sendActivationOtp($data);
+    }
     public function profile()
     {
         return $this->authService->profile();

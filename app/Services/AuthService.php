@@ -145,10 +145,26 @@ class AuthService
         ]);
     }
 
+    /**
+     * إعادة إرسال كود التحقق أثناء عملية التسجيل (رسالة "رمز التحقق" العادية)
+     */
     public function resendOtp(array $data)
     {
+        return $this->sendRegisterOtp($data['email'], 'register', 'messages.otpResentSuccessfully');
+    }
+
+    /**
+     * إرسال كود تفعيل لحساب اتعمل قبل كده ولم يتم تفعيله (رسالة "فعّل حسابك")
+     */
+    public function sendActivationOtp(array $data)
+    {
+        return $this->sendRegisterOtp($data['email'], 'activation', 'messages.activationOtpSentSuccessfully');
+    }
+
+    private function sendRegisterOtp(string $email, string $mailType, string $successMessageKey)
+    {
         // 1. البحث عن أحدث كود تم إرساله لهذا البريد الإلكتروني ومن نوع register
-        $otp = Otp::where('email', $data['email'])
+        $otp = Otp::where('email', $email)
             ->where('type', 'register')
             ->latest()
             ->first();
@@ -162,30 +178,30 @@ class AuthService
         }
 
         // 3. جلب بيانات المستخدم
-        $user = User::where('email', $data['email'])->first();
-        if ($user->email_verified_at) {
-            return response()->json([
-                'status' => false,
-                'message' => __('messages.userAlreadyActive'),
-            ], 401);
-        }
+        $user = User::where('email', $email)->first();
         if (!$user) {
             return response()->json([
                 'status' => false,
                 'message' => __('validation.user_not_found'),
             ], 404);
         }
+        if ($user->email_verified_at) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.userAlreadyActive'),
+            ], 401);
+        }
 
         // 4. حذف الرموز السابقة لنفس المستخدم لضمان بقاء رمز واحد صالح فقط
-        Otp::where('email', $data['email'])
+        Otp::where('email', $email)
             ->where('type', 'register')
             ->delete();
 
-        // 5. إنشاء رمز جديد وإرساله
+        // 5. إنشاء رمز جديد وإرساله (يُحفظ كـ register عشان verify-otp تشتغل عادي)
         $code = random_int(100000, 999999);
         $codeHash = Hash::make((string) $code);
 
-        Mail::to($user->email)->locale(app()->getLocale())->queue(new OtpMail($code, $user->name));
+        Mail::to($user->email)->locale(app()->getLocale())->queue(new OtpMail($code, $user->name, $mailType));
 
         Otp::create([
             'user_id' => $user->id,
@@ -197,7 +213,7 @@ class AuthService
 
         return response()->json([
             'status' => true,
-            'message' => __('messages.otpResentSuccessfully'),
+            'message' => __($successMessageKey),
         ]);
     }
 

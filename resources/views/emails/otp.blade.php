@@ -110,8 +110,12 @@
 
             <!-- Body Content -->
             <div class="email-body">
-                <h1>{{ $type === 'reset_password' ? __('messages.reset_password_title') : __('messages.otp_title') }}</h1>
-                <p>{{ $type === 'reset_password' ? __('messages.reset_password_body', ['name' => $userName ?? '']) : __('messages.otp_body', ['name' => $userName ?? '']) }}</p>
+                @php
+                    $titleKey = match ($type) { 'reset_password' => 'messages.reset_password_title', 'activation' => 'messages.activation_title', default => 'messages.otp_title' };
+                    $bodyKey = match ($type) { 'reset_password' => 'messages.reset_password_body', 'activation' => 'messages.activation_body', default => 'messages.otp_body' };
+                @endphp
+                <h1>{{ __($titleKey) }}</h1>
+                <p>{{ __($bodyKey, ['name' => $userName ?? '']) }}</p>
                 
                 <div class="otp-container">
                     <div class="otp-code">{{ $otp }}</div>
