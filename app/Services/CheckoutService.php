@@ -268,8 +268,9 @@ class CheckoutService
                     );
                 }
 
-                // 11. Clear cart
+                // 11. Clear and delete cart after successful checkout
                 CartItem::where('cart_id', $cart->id)->delete();
+                $cart->delete();
 
                 return [
                     'status'  => true,

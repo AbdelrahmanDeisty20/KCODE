@@ -320,17 +320,22 @@ class CartService
         } else {
             return [
                 'status'  => false,
-                'message' => __('messages.cart_not_found'),
+                'message' => __('messages.cart_is_empty'),
                 'code'    => 404,
             ];
         }
 
-        $carts = $query->with(['items.product.brand', 'items.product.offers', 'items.routine', 'user'])->paginate(10);
+        $cart = $query->with(['items.product.brand', 'items.product.offers', 'items.routine', 'user'])->first();
 
-        if ($carts->isEmpty()) {
+        if (!$cart || $cart->items->isEmpty()) {
+            if ($cart) {
+                $cart->items()->delete();
+                $cart->delete();
+            }
+
             return [
                 'status'  => false,
-                'message' => __('messages.cart_not_found'),
+                'message' => __('messages.cart_is_empty'),
                 'code'    => 404,
             ];
         }
@@ -338,7 +343,7 @@ class CartService
         return [
             'status'  => true,
             'message' => __('messages.cart_retrieved_successfully'),
-            'data'    => $carts,
+            'data'    => $cart,
         ];
     }
 
@@ -467,17 +472,18 @@ class CartService
         if (!$cart) {
             return [
                 'status'  => false,
-                'message' => __('messages.cart_not_found'),
+                'message' => __('messages.cart_is_empty'),
                 'code'    => 404,
             ];
         }
 
         $cart->items()->delete();
+        $cart->delete();
 
         return [
             'status'  => true,
             'message' => __('messages.cart_cleared_successfully'),
-            'data'    => $cart->fresh(['items.product.brand', 'items.product.offers', 'user']),
+            'data'    => null,
         ];
     }
 

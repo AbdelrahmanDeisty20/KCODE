@@ -83,9 +83,8 @@ class CartController extends Controller
             return $this->error($result['message'], $code);
         }
 
-        return $this->paginated(
-            CartResource::class,
-            $result['data'],
+        return $this->success(
+            new CartResource($result['data']),
             $result['message']
         );
     }
@@ -130,7 +129,7 @@ class CartController extends Controller
         }
 
         return $this->success(
-            new CartResource($result['data']),
+            $result['data'] ? new CartResource($result['data']) : [],
             $result['message']
         );
     }
@@ -149,7 +148,7 @@ class CartController extends Controller
         }
 
         return $this->success(
-            new CartResource($result['data']),
+            [],
             $result['message']
         );
     }
