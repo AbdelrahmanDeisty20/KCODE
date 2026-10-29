@@ -1,0 +1,514 @@
+[
+  {
+    "id": "acne",
+    "title": "روتين الحبوب والبثور وآثار الحبوب",
+    "fit": "البشرة الدهنية والمختلطة المعرّضة للحبوب.",
+    "description": "روتين متوازن يستهدف الحبوب والاحمرار والدهون الزائدة من دون إهمال ترطيب البشرة. يساعد على العناية بانسداد المسام وآثار الحبوب لتبدو البشرة أكثر صفاءً ونعومة وتوازناً.",
+    "benefits": [
+      "يساعد على تقليل مظهر الحبوب والبثور.",
+      "يعتني بالاحمرار المصاحب للحبوب.",
+      "يساعد على تنظيم الدهون وتقليل اللمعان.",
+      "يحسّن مظهر المسام والرؤوس السوداء.",
+      "يساعد على تقليل مظهر آثار الحبوب.",
+      "يحافظ على ترطيب البشرة وتوازنها."
+    ],
+    "products": [
+      {
+        "sku": "KC0104",
+        "source_name": "SKIN1004 Madagascar Centella Ampoule Foam",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0002",
+        "source_name": "ANUA Azelaic Acid 10 Hyaluron Redness Soothing Serum",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0177",
+        "source_name": "COSRX BHA Blackhead Power Liquid",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0071",
+        "source_name": "AXIS-Y Dark Spot Correcting Glow Cream",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0159",
+        "source_name": "COSRX Ultra Light Invisible Sunscreen SPF50+ PA++++",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0219",
+        "source_name": "COSRX Low pH Niacinamide Micellar Cleansing Water",
+        "support_copy": "يساعد على إزالة الواقي الشمسي والمكياج قبل الغسول عند الحاجة.",
+        "optional": true
+      },
+      {
+        "sku": "KC0153",
+        "source_name": "COSRX Acne Pimple Master Patch",
+        "support_copy": "يُستخدم موضعياً على الحبة النشطة للمساعدة على امتصاص الإفرازات وحمايتها من اللمس.",
+        "optional": true
+      }
+    ],
+    "note": "يُستخدم COSRX BHA مساءً 2–3 مرات أسبوعياً مع التدرج، ويجب أن يعكس الموقع تكرار الاستخدام الوارد في بيانات المنتج.",
+    "group": "acne",
+    "art": [
+      "KC0104",
+      "KC0002"
+    ]
+  },
+  {
+    "id": "pores",
+    "title": "روتين المسام والرؤوس السوداء واللمعان الزائد",
+    "fit": "البشرة الدهنية والمختلطة.",
+    "description": "روتين مركز للبشرة التي تعاني من الرؤوس السوداء والمسام الواضحة واللمعان السريع. يساعد على العناية بانسداد المسام وتنظيم الدهون وتحسين ملمس البشرة لتبدو أنقى وأكثر نعومة وتوازناً.",
+    "benefits": [
+      "يساعد على تقليل مظهر المسام.",
+      "يعتني بالرؤوس السوداء وانسداد المسام.",
+      "يساعد على تنظيم الدهون الزائدة.",
+      "يقلل مظهر اللمعان خلال اليوم.",
+      "يحسّن ملمس البشرة ونعومتها.",
+      "يعتني بآثار الحبوب وتفاوت الملمس."
+    ],
+    "products": [
+      {
+        "sku": "KC0104",
+        "source_name": "SKIN1004 Madagascar Centella Ampoule Foam",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0164",
+        "source_name": "COSRX The Niacinamide 15 Serum",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0177",
+        "source_name": "COSRX BHA Blackhead Power Liquid",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0088",
+        "source_name": "Beauty of Joseon Red Bean Water Gel",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0159",
+        "source_name": "COSRX Ultra Light Invisible Sunscreen SPF50+ PA++++",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0085",
+        "source_name": "Beauty of Joseon Red Bean Refreshing Pore Mask",
+        "support_copy": "يُستخدم مرة أو مرتين أسبوعياً للمساعدة على إزالة الدهون المتراكمة وتحسين مظهر المسام.",
+        "optional": true
+      },
+      {
+        "sku": "KC0218",
+        "source_name": "Beauty of Joseon Matte Sun Stick Mugwort + Camelia SPF50+ PA++++",
+        "support_copy": "مخصص لإعادة تطبيق الحماية خلال اليوم بلمسة مطفية؛ ولا يُعرض بديلاً عن واقي الشمس الأساسي صباحاً.",
+        "optional": true
+      }
+    ],
+    "note": "يُستخدم COSRX BHA مساءً 2–3 مرات أسبوعياً مع التدرج. واقي الشمس الصلب منتج لإعادة التطبيق فقط.",
+    "group": "pores",
+    "art": [
+      "KC0164",
+      "KC0088"
+    ]
+  },
+  {
+    "id": "oily-hydration",
+    "title": "روتين البشرة الدهنية التي تشعر بالشد بعد التنظيف",
+    "fit": "البشرة الدهنية والمختلطة التي تعاني من الشعور بالشد أو نقص الترطيب.",
+    "description": "إذا كانت بشرتك تلمع لكنها تشعر بالشد بعد التنظيف، فهي لا تحتاج إلى التجفيف أكثر، بل إلى توازن أفضل بين الترطيب والدهون. يمنحها هذا الروتين ترطيباً خفيفاً وراحة أكبر، مع العناية باللمعان من دون ملمس دهني ثقيل.",
+    "benefits": [
+      "يساعد على تقليل الشعور بالشد بعد التنظيف.",
+      "يمنح البشرة ترطيباً خفيفاً من دون إثقالها.",
+      "يساعد على تنظيم اللمعان والدهون الزائدة.",
+      "يهدّئ البشرة ويحافظ على راحتها.",
+      "يدعم حاجز البشرة ويقلل فقدان الترطيب.",
+      "يمنح البشرة مظهراً أكثر نعومة وتوازناً."
+    ],
+    "products": [
+      {
+        "sku": "KC0140",
+        "source_name": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0021",
+        "source_name": "ANUA Rice 70 Glow Milky Toner",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0123",
+        "source_name": "NUMBUZIN No.1 Pantothenic B5 Active Soothing Serum",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0223",
+        "source_name": "PURITO Oat-In Calming Gel Cream",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0076",
+        "source_name": "Beauty of Joseon Relief Sun Aqua-Fresh Rice + Panthenol SPF50+ PA++++",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0219",
+        "source_name": "COSRX Low pH Niacinamide Micellar Cleansing Water",
+        "support_copy": "لإزالة الواقي الشمسي والمكياج قبل الغسول عند الحاجة، من دون إضافة خطوة تنظيف زيتية ثقيلة.",
+        "optional": true
+      },
+      {
+        "sku": "KC0207",
+        "source_name": "ABIB Rice Probiotics Overnight Mask Barrier Jelly",
+        "support_copy": "يُستخدم ليلاً مرتين أو ثلاث مرات أسبوعياً بدلاً من المرطب الليلي، لمنح البشرة عناية ترطيبية إضافية.",
+        "optional": true
+      }
+    ],
+    "note": "قناع ABIB يحل محل المرطب الليلي في ليلة استخدامه، ولا يُضاف فوقه كخطوة أخرى.",
+    "group": "hydration",
+    "art": [
+      "KC0021",
+      "KC0123"
+    ]
+  },
+  {
+    "id": "pigmentation",
+    "title": "روتين العناية بمظهر الكلف والتصبغات وتفاوت لون البشرة",
+    "fit": "البشرة الدهنية والمختلطة والعادية والجافة غير الحساسة.",
+    "description": "روتين مركز متعدد المسارات للعناية بمظهر الكلف والبقع الداكنة وتفاوت لون البشرة، بدلاً من الاعتماد على مكوّن واحد فقط. يجمع بين العناية بالتصبغات والإشراقة والملمس والخطوط الدقيقة، مع الترطيب والحماية اليومية من الشمس.",
+    "benefits": [
+      "يساعد على تقليل مظهر الكلف والتصبغات.",
+      "يعتني بالبقع الداكنة وآثار الحبوب.",
+      "يساعد على توحيد مظهر لون البشرة.",
+      "يعزز الإشراقة ويقلل مظهر البهتان.",
+      "يحسّن مظهر الملمس والخطوط الدقيقة.",
+      "يدعم حاجز البشرة ويوفر حماية يومية من الشمس."
+    ],
+    "products": [
+      {
+        "sku": "KC0104",
+        "source_name": "SKIN1004 Madagascar Centella Ampoule Foam",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0001",
+        "source_name": "ANUA Niacinamide 10 TXA 4 Serum",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0198",
+        "source_name": "Dr.Reju-All Advanced Retino-Mela Serum",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0224",
+        "source_name": "PURITO Mighty Bamboo Panthenol Cream",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0121",
+        "source_name": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0219",
+        "source_name": "COSRX Low pH Niacinamide Micellar Cleansing Water",
+        "support_copy": "يساعد على إزالة الواقي الشمسي والمكياج قبل الغسول المسائي عند الحاجة.",
+        "optional": true
+      },
+      {
+        "sku": "KC0189",
+        "source_name": "BIODANCE Radiant Vita Niacinamide Real Deep Mask",
+        "support_copy": "عناية أسبوعية إضافية لتحسين مظهر البهتان والإشراقة وتفاوت اللون، ويحل محل المرطب في ليلة استخدامه.",
+        "optional": true
+      }
+    ],
+    "note": "يعرض ANUA صباحاً أو في الليالي التي لا يُستخدم فيها Retino-Mela. يعرض Retino-Mela مساءً فقط وفق التدرج المسجل. لا يُعرض السيرومان في الجلسة نفسها. لا يُكتب أن الواقي ملوّن أو يحتوي أكاسيد الحديد أو يوفر حماية خاصة من الضوء المرئي.",
+    "group": "pigmentation",
+    "art": [
+      "KC0104",
+      "KC0001"
+    ]
+  },
+  {
+    "id": "barrier",
+    "title": "روتين تهدئة الاحمرار ودعم حاجز البشرة",
+    "fit": "البشرة الحساسة، سواء كانت دهنية أو مختلطة أو عادية أو جافة.",
+    "description": "روتين لطيف للبشرة التي يظهر عليها الاحمرار أو تشعر بالجفاف والانزعاج بسهولة. يركز على التهدئة والترطيب ودعم حاجز البشرة بخطوات مريحة تساعدها على استعادة مظهر أكثر نعومة وراحة وتوازناً.",
+    "benefits": [
+      "يساعد على تهدئة مظهر الاحمرار.",
+      "يقلل الشعور بالجفاف والانزعاج.",
+      "يمنح البشرة ترطيباً مكثفاً ومتوازناً.",
+      "يدعم حاجز البشرة ويقلل فقدان الترطيب.",
+      "يحسّن مظهر النعومة والامتلاء.",
+      "يوفر حماية يومية من الشمس بتركيبة ملائمة للبشرة الحساسة."
+    ],
+    "products": [
+      {
+        "sku": "KC0140",
+        "source_name": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0154",
+        "source_name": "COSRX Advanced Snail 96 Mucin Power Essence",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0123",
+        "source_name": "NUMBUZIN No.1 Pantothenic B5 Active Soothing Serum",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0223",
+        "source_name": "PURITO Oat-In Calming Gel Cream",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0121",
+        "source_name": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0094",
+        "source_name": "Dr.Althea Pure Grinding Cleansing Balm",
+        "support_copy": "يساعد على إزالة المكياج والواقي الشمسي مساءً قبل الغسول، عند الحاجة فقط.",
+        "optional": true
+      },
+      {
+        "sku": "KC0184",
+        "source_name": "BIODANCE Hydro Cera-nol Real Deep Mask",
+        "support_copy": "عناية أسبوعية مكثفة لدعم الترطيب وحاجز البشرة، ويُستخدم بدلاً من المرطب الليلي في ليلة استخدامه.",
+        "optional": true
+      }
+    ],
+    "note": "لا تُضاف خطوة التنظيف الزيتي إلا عند الحاجة لإزالة المكياج أو الواقي. القناع يحل محل المرطب الليلي في ليلة استخدامه.",
+    "group": "barrier",
+    "art": [
+      "KC0140",
+      "KC0123"
+    ]
+  },
+  {
+    "id": "dry-hydration",
+    "title": "روتين البشرة الجافة والباهتة للترطيب والإشراقة",
+    "fit": "البشرة الجافة والعادية المائلة إلى الجفاف.",
+    "description": "روتين غني للبشرة التي تبدو جافة أو خشنة وتفتقد إلى الحيوية والإشراقة. يساعد على تعويض الترطيب ودعم حاجز البشرة وتحسين الملمس، لتبدو أكثر نعومة وامتلاءً وإشراقاً.",
+    "benefits": [
+      "يساعد على تقليل مظهر الجفاف والخشونة.",
+      "يمنح البشرة ترطيباً غنياً ومريحاً.",
+      "يدعم حاجز البشرة ويقلل فقدان الترطيب.",
+      "يحسّن مظهر الملمس والنعومة.",
+      "يقلل مظهر البهتان ويعزز الإشراقة.",
+      "يمنح البشرة مظهراً أكثر امتلاءً وحيوية."
+    ],
+    "products": [
+      {
+        "sku": "KC0140",
+        "source_name": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0021",
+        "source_name": "ANUA Rice 70 Glow Milky Toner",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0124",
+        "source_name": "NUMBUZIN No.3 Skin Softening Serum",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0192",
+        "source_name": "BIODANCE Skin-Glow Essence Cream",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0077",
+        "source_name": "Beauty of Joseon Relief Sun Rice + Probiotics SPF50+ PA++++",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0094",
+        "source_name": "Dr.Althea Pure Grinding Cleansing Balm",
+        "support_copy": "يساعد على إزالة المكياج والواقي الشمسي مساءً قبل الغسول عند الحاجة.",
+        "optional": true
+      },
+      {
+        "sku": "KC0185",
+        "source_name": "BIODANCE Bio Collagen Real Deep Mask",
+        "support_copy": "يمنح البشرة عناية أسبوعية إضافية بالترطيب والنعومة والإشراقة، ويحل محل المرطب الليلي عند استخدامه.",
+        "optional": true
+      }
+    ],
+    "note": "القناع يحل محل المرطب الليلي في ليلة استخدامه، ولا يُعرض كطبقة إضافية فوقه.",
+    "group": "hydration",
+    "art": [
+      "KC0140",
+      "KC0021"
+    ]
+  },
+  {
+    "id": "lines",
+    "title": "روتين الخطوط الدقيقة والتجاعيد وفقدان المرونة والعناية بمحيط العين",
+    "fit": "البشرة الدهنية والمختلطة والعادية والجافة غير الحساسة.",
+    "description": "روتين متكامل للعناية بعلامات التقدم في مظهر البشرة، من الخطوط الدقيقة وفقدان المرونة إلى الهالات والانتفاخ حول العين. يجمع بين الببتيدات والعناية الليلية والترطيب ليمنح الوجه ومحيط العين مظهراً أكثر نعومة وامتلاءً وحيوية.",
+    "benefits": [
+      "يساعد على تحسين مظهر الخطوط الدقيقة والتجاعيد.",
+      "يدعم مظهر مرونة البشرة وتماسكها.",
+      "يمنح البشرة ترطيباً يساعدها على الظهور أكثر امتلاءً.",
+      "يحسّن مظهر النعومة والملمس.",
+      "يعتني بالخطوط الدقيقة حول العين.",
+      "يساعد على تحسين مظهر الهالات والانتفاخ."
+    ],
+    "products": [
+      {
+        "sku": "KC0104",
+        "source_name": "SKIN1004 Madagascar Centella Ampoule Foam",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0157",
+        "source_name": "COSRX The 6 Peptide Skin Booster Serum",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0078",
+        "source_name": "Beauty of Joseon Revive Eye Serum: Ginseng + Retinal",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0139",
+        "source_name": "TORRIDEN CELLMAZING Firming Cream",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0121",
+        "source_name": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0185",
+        "source_name": "BIODANCE Bio Collagen Real Deep Mask",
+        "support_copy": "عناية أسبوعية إضافية بالترطيب والنعومة ومظهر الامتلاء، ويحل محل المرطب الليلي عند استخدامه.",
+        "optional": true
+      },
+      {
+        "sku": "KC0173",
+        "source_name": "COSRX The Peptide Collagen Hydrogel Eye Patch",
+        "support_copy": "يُستخدم عند الحاجة لترطيب محيط العين والعناية بمظهر الهالات والانتفاخ، ويفضل في الأيام التي لا يُستخدم فيها سيروم الريتينال حول العين.",
+        "optional": true
+      }
+    ],
+    "note": "يُستخدم سيروم العين مساءً، ويبدأ مرة كل ثلاث ليالٍ وفق بيانات الماستر. تُعرض لصقات العين في الأيام التي لا يُستخدم فيها سيروم الريتينال حول العين.",
+    "group": "lines",
+    "art": [
+      "KC0104",
+      "KC0078"
+    ]
+  },
+  {
+    "id": "daily",
+    "title": "روتين العناية اليومية للحفاظ على بشرة متوازنة ومشرقة",
+    "fit": "جميع أنواع البشرة.",
+    "description": "لا تحتاج بشرتك إلى مشكلة واضحة حتى تبدأ بالاهتمام بها. يمنحك هذا الروتين أساساً يومياً متوازناً للمحافظة على الترطيب والنعومة والإشراقة، مع العناية بمظهر البقع الخفيفة وتفاوت اللون وحماية البشرة من الشمس.",
+    "benefits": [
+      "يساعد على المحافظة على ترطيب البشرة ونعومتها.",
+      "يعزز مظهر الإشراقة والحيوية.",
+      "يعتني بتفاوت اللون ومظهر البقع الخفيفة.",
+      "يدعم حاجز البشرة ويحافظ على راحتها.",
+      "يحسّن مظهر الملمس والامتلاء.",
+      "يوفر حماية يومية من أشعة الشمس."
+    ],
+    "products": [
+      {
+        "sku": "KC0104",
+        "source_name": "SKIN1004 Madagascar Centella Ampoule Foam",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0021",
+        "source_name": "ANUA Rice 70 Glow Milky Toner",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0080",
+        "source_name": "Beauty of Joseon Glow Deep Serum Rice + Alpha-Arbutin",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0155",
+        "source_name": "COSRX Advanced Snail 92 All In One Cream",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0121",
+        "source_name": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
+        "support_copy": "",
+        "optional": false
+      },
+      {
+        "sku": "KC0219",
+        "source_name": "COSRX Low pH Niacinamide Micellar Cleansing Water",
+        "support_copy": "يساعد على إزالة الواقي الشمسي والمكياج قبل الغسول مساءً عند الحاجة.",
+        "optional": true
+      },
+      {
+        "sku": "KC0189",
+        "source_name": "BIODANCE Radiant Vita Niacinamide Real Deep Mask",
+        "support_copy": "عناية أسبوعية إضافية بالإشراقة والنعومة وتفاوت اللون، ويحل محل المرطب الليلي في ليلة استخدامه.",
+        "optional": true
+      }
+    ],
+    "note": "القناع يحل محل المرطب الليلي في ليلة استخدامه. المنتج الداعم لا يُحدد أو يُضاف إلى السلة تلقائياً.",
+    "group": "daily",
+    "art": [
+      "KC0021",
+      "KC0155"
+    ]
+  }
+]

@@ -136,6 +136,17 @@ class UserResource extends Resource
                             ->dehydrated(fn ($state) => filled($state))
                             ->required(fn (string $context): bool => $context === 'create'),
                     ])->columns(2),
+
+                Components\Section::make('🎁 بيانات برنامج الولاء والنقاط')
+                    ->schema([
+                        Forms\Components\Placeholder::make('loyalty_points_balance')
+                            ->label('رصيد النقاط الحالي')
+                            ->content(fn ($record) => $record ? ($record->loyalty_points_balance . ' نقطة') : '0 نقطة'),
+
+                        Forms\Components\Placeholder::make('loyalty_level')
+                            ->label('المستوى الحالي في برنامج الولاء')
+                            ->content(fn ($record) => $record && $record->loyalty_level ? ($record->loyalty_level->name_ar ?: $record->loyalty_level->name_en) : 'لا يوجد مستوى'),
+                    ])->columns(2)->visible(fn ($record) => $record !== null),
             ]);
     }
 
@@ -173,6 +184,13 @@ class UserResource extends Resource
                     ->badge()
                     ->color('info')
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('loyalty_points_balance')
+                    ->label('نقاط الولاء')
+                    ->badge()
+                    ->color('warning')
+                    ->icon('heroicon-s-star')
+                    ->sortable(false),
 
                 Tables\Columns\TextColumn::make('type')
                     ->label('النوع')

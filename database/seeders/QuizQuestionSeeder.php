@@ -12,7 +12,7 @@ use Illuminate\Database\Seeder;
 class QuizQuestionSeeder extends Seeder
 {
     /**
-     * Run the database seeds for the 4 Approved KCODE Quiz Questions (v6.0 Spec).
+     * Run the database seeds for the 4 Approved KCODE Quiz Questions matching KCODE_R422_I_DESKTOP (2).html with full Arabic & English support.
      */
     public function run(): void
     {
@@ -23,7 +23,7 @@ class QuizQuestionSeeder extends Seeder
         \Illuminate\Support\Facades\Schema::enableForeignKeyConstraints();
 
         // -------------------------------------------------------------
-        // Question 1: Primary Goal (الهدف الأساسي)
+        // Question 1: Primary Goal (هدفك الأساسي)
         // -------------------------------------------------------------
         $q1 = QuizQuestion::create([
             'title_ar' => 'ما الذي تريد التركيز عليه أكثر من غيره؟',
@@ -40,7 +40,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'الحبوب والبثور',
                 'title_en' => 'Acne & Blemishes',
                 'description_ar' => 'علاج الحبوب النشطة وتقليل الالتهاب وتصفية البشرة',
-                'description_en' => 'Treat active acne, reduce inflammation and clarify skin',
+                'description_en' => 'Treat active breakouts, reduce inflammation and clarify skin',
                 'image' => 'acne.png',
                 'option_type' => 'goal',
                 'mapped_name' => 'Acne & Scars',
@@ -58,7 +58,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'البقع الداكنة والبهتان وتفاوت لون البشرة',
                 'title_en' => 'Dark Spots, Dullness & Uneven Tone',
                 'description_ar' => 'تفتيح البقع وآثار الحبوب وتوحيد لون البشرة وإعطاء إشراقة',
-                'description_en' => 'Fade dark spots, even skin tone and boost skin glow',
+                'description_en' => 'Fade dark spots, even skin tone and restore radiant glow',
                 'image' => 'brightening.png',
                 'option_type' => 'goal',
                 'mapped_name' => 'Brightening & Evening Tone',
@@ -67,7 +67,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'الاحمرار والتهيّج',
                 'title_en' => 'Redness & Irritation',
                 'description_ar' => 'تهدئة الاحمرار والالتهاب وتسكين البشرة سريعة الانفعال',
-                'description_en' => 'Calm redness, irritation and soothe reactive skin',
+                'description_en' => 'Calm redness, soothe inflammation and comfort reactive skin',
                 'image' => 'redness.png',
                 'option_type' => 'goal',
                 'mapped_name' => 'Hydration & Protection',
@@ -76,7 +76,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'الجفاف وضعف حاجز البشرة',
                 'title_en' => 'Dryness & Damaged Barrier',
                 'description_ar' => 'ترطيب عميق وتقوية حاجز البشرة الواقي من الجفاف',
-                'description_en' => 'Deep hydration and barrier restoration against dryness',
+                'description_en' => 'Deep hydration and barrier restoration against dryness and tightness',
                 'image' => 'hydration.png',
                 'option_type' => 'goal',
                 'mapped_name' => 'Hydration & Protection',
@@ -85,7 +85,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'الخطوط الدقيقة والتجاعيد',
                 'title_en' => 'Fine Lines & Wrinkles',
                 'description_ar' => 'تحسين مرونة البشرة ودعم الشد وتقليل علامات تقدم السن',
-                'description_en' => 'Improve skin elasticity, firming and anti-aging care',
+                'description_en' => 'Improve skin elasticity, firming support and anti-aging care',
                 'image' => 'anti_aging.png',
                 'option_type' => 'goal',
                 'mapped_name' => 'Radiance & Freshness',
@@ -94,7 +94,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'الحفاظ على بشرة صحية ومتوازنة',
                 'title_en' => 'Maintain Healthy & Balanced Skin',
                 'description_ar' => 'روتين وقائي يومي خفيف للحفاظ على نضارة وتوازن البشرة',
-                'description_en' => 'Preventative light daily routine for healthy balanced skin',
+                'description_en' => 'Preventative gentle daily routine to maintain fresh, balanced skin',
                 'image' => 'radiance.png',
                 'option_type' => 'goal',
                 'mapped_name' => 'Radiance & Freshness',
@@ -116,13 +116,13 @@ class QuizQuestionSeeder extends Seeder
         }
 
         // -------------------------------------------------------------
-        // Question 2: Skin Type (نوع البشرة)
+        // Question 2: Skin Type (نوع بشرتك)
         // -------------------------------------------------------------
         $q2 = QuizQuestion::create([
-            'title_ar' => 'كيف تصف بشرتك في نهاية اليوم؟',
-            'title_en' => 'How does your skin feel at the end of the day?',
-            'description_ar' => 'حدد إحساس بشرتك في نهاية اليوم لنتعرف على نوعها بدقة',
-            'description_en' => 'Identify your skin feeling at day end for accurate skin typing',
+            'title_ar' => 'ما نوع بشرتك؟',
+            'title_en' => 'What is your skin type?',
+            'description_ar' => 'اختر الوصف الأقرب لطبيعة بشرتك في أغلب الأيام. (الشدّ بعد الغسل أو اللمعان بعد التعرّق وحده لا يكفي لتحديد نوع بشرتك).',
+            'description_en' => 'Choose the description closest to your skin nature on most days. (Tightness after washing or shine after sweating alone is not enough to define your skin type).',
             'selection_type' => 'single',
             'step_number' => 2,
             'is_optional' => false,
@@ -132,29 +132,33 @@ class QuizQuestionSeeder extends Seeder
             [
                 'name_en' => 'Oily',
                 'title_ar' => 'دهنية',
-                'description_ar' => 'لمعان في معظم الوجه مع إفراز زيوت مستمر',
-                'description_en' => 'Shine across most of the face with excess sebum',
+                'title_en' => 'Oily',
+                'description_ar' => 'دهون ولمعان متكرّر في معظم الوجه',
+                'description_en' => 'Recurrent oiliness and shine across most of the face',
                 'image' => 'oily_skin.png',
             ],
             [
                 'name_en' => 'Combination',
                 'title_ar' => 'مختلطة',
-                'description_ar' => 'لمعان في منطقة T فقط (الجبهة والأنف والذقن)',
-                'description_en' => 'Shine in T-zone only (forehead, nose, chin)',
+                'title_en' => 'Combination',
+                'description_ar' => 'دهون ولمعان في الجبهة والأنف والذقن، مع خدّين أقل دهنية أو جافّين',
+                'description_en' => 'Oiliness and shine on forehead, nose and chin, with normal or drier cheeks',
                 'image' => 'combination_skin.png',
             ],
             [
                 'name_en' => 'Normal',
                 'title_ar' => 'عادية',
-                'description_ar' => 'متوازنة، دون لمعان أو شدّ زائد',
-                'description_en' => 'Balanced, without excessive shine or tightness',
+                'title_en' => 'Normal',
+                'description_ar' => 'متوازنة غالبًا، دون دهون زائدة أو جفاف واضح',
+                'description_en' => 'Mostly balanced, without excess oil or noticeable dryness',
                 'image' => 'normal_skin.png',
             ],
             [
                 'name_en' => 'Dry',
                 'title_ar' => 'جافة',
-                'description_ar' => 'إحساس بالشدّ أو التقشّر مع نقص الترطيب',
-                'description_en' => 'Feeling of tightness or flakiness with moisture deficit',
+                'title_en' => 'Dry',
+                'description_ar' => 'جفاف أو خشونة متكرّرة، وقد يصاحبهما شدّ أو تقشّر',
+                'description_en' => 'Recurrent dryness or roughness, often accompanied by tightness or flaking',
                 'image' => 'dry_skin.png',
             ],
         ];
@@ -164,7 +168,7 @@ class QuizQuestionSeeder extends Seeder
             QuizOption::create([
                 'quiz_question_id' => $q2->id,
                 'title_ar' => $optData['title_ar'],
-                'title_en' => $optData['name_en'],
+                'title_en' => $optData['title_en'],
                 'description_ar' => $optData['description_ar'],
                 'description_en' => $optData['description_en'],
                 'image' => $optData['image'],
@@ -174,13 +178,13 @@ class QuizQuestionSeeder extends Seeder
         }
 
         // -------------------------------------------------------------
-        // Question 3: Sensitivity Filter (الحساسية)
+        // Question 3: Sensitivity Filter (تحسّس بشرتك)
         // -------------------------------------------------------------
         $q3 = QuizQuestion::create([
-            'title_ar' => 'هل تتهيّج بشرتك بسهولة؟',
-            'title_en' => 'Does your skin irritate easily?',
-            'description_ar' => 'احمرار أو حرقة أو شدّ عند استخدام منتج جديد',
-            'description_en' => 'Redness, burning or tightness when trying new products',
+            'title_ar' => 'هل بشرتك حساسة؟',
+            'title_en' => 'Is your skin sensitive?',
+            'description_ar' => 'هل تتهيّج بسهولة مع منتجات العناية، مثل الشعور باللسع أو الحرقة أو ظهور احمرار؟',
+            'description_en' => 'Does it irritate easily with skincare products, such as stinging, burning or redness?',
             'selection_type' => 'single',
             'step_number' => 3,
             'is_optional' => false,
@@ -188,8 +192,8 @@ class QuizQuestionSeeder extends Seeder
 
         QuizOption::create([
             'quiz_question_id' => $q3->id,
-            'title_ar' => 'نعم',
-            'title_en' => 'Yes',
+            'title_ar' => 'نعم، تتهيّج بسهولة',
+            'title_en' => 'Yes, irritates easily',
             'description_ar' => 'تطبيق أعلى مستوى حماية واستبعاد الفعالات القوية والعطور',
             'description_en' => 'Apply maximum safety filter: exclude harsh actives & perfumes',
             'image' => 'sensitive_yes.png',
@@ -199,23 +203,23 @@ class QuizQuestionSeeder extends Seeder
 
         QuizOption::create([
             'quiz_question_id' => $q3->id,
-            'title_ar' => 'لا',
-            'title_en' => 'No',
+            'title_ar' => 'لا، لا تتهيّج عادةً',
+            'title_en' => 'No, usually does not irritate',
             'description_ar' => 'بشرة تتحمل المنتجات والتركيزات المختلفة بحرية',
-            'description_en' => 'Skin tolerates various active ingredients normally',
+            'description_en' => 'Skin tolerates various active ingredients and concentrations normally',
             'image' => 'sensitive_no.png',
             'option_type' => 'sensitivity',
             'mapped_id' => 0,
         ]);
 
         // -------------------------------------------------------------
-        // Question 4: Secondary Concern (المشاكل الإضافية)
+        // Question 4: Secondary Concern (مشكلة إضافية)
         // -------------------------------------------------------------
         $q4 = QuizQuestion::create([
             'title_ar' => 'هل هناك شيء آخر تودّ تحسينه؟',
             'title_en' => 'Is there anything else you would like to improve?',
-            'description_ar' => 'اختر مشكلة واحدة فقط — أو اختر «لا يوجد»',
-            'description_en' => 'Select one additional concern — or select "None"',
+            'description_ar' => 'إذا لم يكن لديك اهتمام إضافي، اختر «لا يوجد».',
+            'description_en' => 'If you have no additional concern, choose "None".',
             'selection_type' => 'single',
             'step_number' => 4,
             'is_optional' => true,
@@ -234,7 +238,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'دهون زائدة ولمعان',
                 'title_en' => 'Excess Oil & Shine',
                 'desc_ar' => 'السيطرة على الإفراز الدهني وضبط اللمعة',
-                'desc_en' => 'Control sebum secretion and balance shine',
+                'desc_en' => 'Control excess sebum and minimize shine',
                 'image' => 'excess_oil.png',
                 'concern_name' => 'Pores & Blackheads',
             ],
@@ -242,7 +246,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'آثار حبوب حمراء',
                 'title_en' => 'Red Acne Marks (PIE)',
                 'desc_ar' => 'بقع وردية أو حمراء تبقى بعد زوال الحبة',
-                'desc_en' => 'Pink or red marks remaining after acne heals',
+                'desc_en' => 'Pink or red marks remaining after acne blemishes heal',
                 'image' => 'red_marks.png',
                 'concern_name' => 'Redness & Irritation',
             ],
@@ -250,7 +254,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'بقع داكنة وتصبغات',
                 'title_en' => 'Dark Spots & Pigmentation (PIH)',
                 'desc_ar' => 'بقع بنية أو آثار داكنة تبقى بعد الحبوب أو الشمس',
-                'desc_en' => 'Brown spots or dark marks left after breakouts or sun exposure',
+                'desc_en' => 'Brown spots or dark pigmentation left after breakouts or sun exposure',
                 'image' => 'dark_spots.png',
                 'concern_name' => 'Pigmentation & Dark Spots',
             ],
@@ -258,7 +262,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'جفاف وشدّ',
                 'title_en' => 'Dryness & Tightness',
                 'desc_ar' => 'تعويض نقص الترطيب وإلغاء إحساس الانكماش',
-                'desc_en' => 'Replenish moisture deficit and eliminate tightness',
+                'desc_en' => 'Replenish moisture deficit and relieve skin tightness',
                 'image' => 'dryness.png',
                 'concern_name' => 'Dryness & Hydration',
             ],
@@ -274,7 +278,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'بهتان وشحوب',
                 'title_en' => 'Dullness & Lack of Glow',
                 'desc_ar' => 'تنشيط حيوية البشرة واستعادة الإشراقة الصحية',
-                'desc_en' => 'Revitalize skin vitality and restore healthy glow',
+                'desc_en' => 'Revitalize skin vitality and restore healthy radiant glow',
                 'image' => 'dullness.png',
                 'concern_name' => 'Pigmentation & Dark Spots',
             ],
@@ -282,7 +286,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'خطوط دقيقة',
                 'title_en' => 'Fine Lines',
                 'desc_ar' => 'تنعيم مظهر الخطوط التعبيرية المبكرة',
-                'desc_en' => 'Smooth the appearance of early fine lines',
+                'desc_en' => 'Smooth the appearance of early expression fine lines',
                 'image' => 'fine_lines.png',
                 'concern_name' => 'Wrinkles & Fine Lines',
             ],
@@ -290,7 +294,7 @@ class QuizQuestionSeeder extends Seeder
                 'title_ar' => 'مشاكل حول العين',
                 'title_en' => 'Eye Contour Concerns',
                 'desc_ar' => 'العناية بالهالات والانتفاخ والخطوط حول العين',
-                'desc_en' => 'Care for dark circles, puffiness and fine lines around eyes',
+                'desc_en' => 'Target dark circles, puffiness and fine lines around eyes',
                 'image' => 'eye_care.png',
                 'concern_name' => 'Wrinkles & Fine Lines',
             ],

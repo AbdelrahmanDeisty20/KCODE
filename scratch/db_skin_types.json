@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "name_ar": "دهنية",
+        "name_en": "Oily",
+        "description_ar": "إفراز مفرط للدهون ولمعان مع مسام واضحة ولزجة",
+        "description_en": "Excessive sebum production and shine with visible, sticky pores.",
+        "image": "oily.jpg",
+        "status": "active",
+        "created_at": "2026-07-26T11:01:03.000000Z",
+        "updated_at": "2026-09-03T07:54:42.000000Z"
+    },
+    {
+        "id": 2,
+        "name_ar": "جافة",
+        "name_en": "Dry",
+        "description_ar": "بشرة مشدودة، خشنة الملمس وتحتاج لترطيب كريمي غني",
+        "description_en": "Tight skin, rough texture, and requires rich creamy hydration.",
+        "image": "dry.jpg",
+        "status": "active",
+        "created_at": "2026-07-26T11:01:04.000000Z",
+        "updated_at": "2026-09-03T07:54:43.000000Z"
+    },
+    {
+        "id": 3,
+        "name_ar": "مختلطة",
+        "name_en": "Combination",
+        "description_ar": "منطقة T (الجبهة والأنف) دهنية والوجنتين جافتين أو عاديتين",
+        "description_en": "Oily T-zone (forehead and nose) and dry or normal cheeks.",
+        "image": "combination.jpg",
+        "status": "active",
+        "created_at": "2026-07-26T11:01:05.000000Z",
+        "updated_at": "2026-09-03T07:54:44.000000Z"
+    },
+    {
+        "id": 4,
+        "name_ar": "حساسة",
+        "name_en": "Sensitive",
+        "description_ar": "تتأثر سريعاً بالعوامل الخارجية ومعرضة للاحمرار والوخز",
+        "description_en": "Reacts quickly to external factors and is prone to redness and stinging.",
+        "image": "sensitive.jpg",
+        "status": "active",
+        "created_at": "2026-07-26T11:01:05.000000Z",
+        "updated_at": "2026-09-03T07:54:46.000000Z"
+    },
+    {
+        "id": 5,
+        "name_ar": "عادية",
+        "name_en": "Normal",
+        "description_ar": "بشرة متوازنة، دون لمعان أو شدّ زائد وتتمتع بتوازن طبيعي",
+        "description_en": "Balanced skin, without excessive shine or tightness with natural balance.",
+        "image": "normal.jpg",
+        "status": "active",
+        "created_at": "2026-09-03T07:54:45.000000Z",
+        "updated_at": "2026-09-03T07:54:45.000000Z"
+    }
+]

@@ -32,7 +32,7 @@ class Brand extends Model
         $path = ltrim(preg_replace('/^brands\//i', '', $path), '/');
         $path = 'brands/' . $path;
 
-        return asset('storage/app/public/' . $path);
+        return asset('storage/' . $path);
     }
 
     public function products()
