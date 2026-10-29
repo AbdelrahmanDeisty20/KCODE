@@ -25,7 +25,7 @@ class ProductImage extends Model
             return $value;
 
         $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $value), '/');
-        if (!str_starts_with($path, 'product_images/')) {
+        if (!str_starts_with($path, 'product_images/') && !str_starts_with($path, 'products/')) {
             $path = 'product_images/' . $path;
         }
 

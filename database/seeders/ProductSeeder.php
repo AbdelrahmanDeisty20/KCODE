@@ -163,7 +163,7 @@ class ProductSeeder extends Seeder
             $nameAr = $pData['name_ar'] ?? "{$brandName} {$prodName}" . ($size ? " ({$size})" : "");
 
             $imgData = $imagesMap[$sku] ?? ($imagesMap[$slug] ?? null);
-            $mainImg = $imgData['main'] ?? 'https://cdn.shopify.com/s/files/1/0753/1429/9158/files/anua-global-ampoule-serum-niacinamide-10-txa-4-serum-for-brightening-and-dark-spots-1239193722.jpg?v=1779177130';
+            $mainImg = $imgData['main'] ?? 'products/default_bottle.png';
             $subsList = $imgData['subs'] ?? [];
 
             $inciText = 'Water, Glycerin, Niacinamide, Tranexamic Acid, Butylene Glycol, Diethoxyethyl Succinate, 1,2-Hexanediol, Arbutin, Sodium Hyaluronate, Alpha-Arbutin, Centella Asiatica Extract, Panthenol, Hyaluronic Acid, Ceramide NP, Asiaticoside, Madecassic Acid, Asiatic Acid, Xanthan Gum';

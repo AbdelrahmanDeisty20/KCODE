@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 506 168" role="img" aria-label="KCODE — 케이 코드">
+  <path d="M6.3 6.3 V93.7 M6.3 52 L56 6.3 M7.3 52 L56 93.7" fill="none" stroke="#F7F3F0" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M166.84 22 A40.7 43.7 0 1 0 166.84 78" fill="none" stroke="#F7F3F0" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M248 6.3 A41.7 43.7 0 1 1 247.99 6.3 Z" fill="none" stroke="#F7F3F0" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M322.3 6.3 V93.7 M322.3 6.3 H343.6 A43.7 43.7 0 0 1 343.6 93.7 H322.3" fill="none" stroke="#F7F3F0" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M434.3 6.3 H490 M434.3 50 H480 M434.3 93.7 H490 M434.3 6.3 V93.7" fill="none" stroke="#F7F3F0" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="248" cy="50" r="11" fill="#E28AAB"/>
+  <text x="245" y="148" text-anchor="middle" fill="#F7F3F0" font-family="Apple SD Gothic Neo,Malgun Gothic,Noto Sans KR,Nanum Gothic,sans-serif" font-size="34" font-weight="500" letter-spacing="3">케이 코드</text>
+</svg>
