@@ -57,7 +57,8 @@ class CategorySeeder extends Seeder
             ['name_en' => 'Body Care', 'name_ar' => 'العناية بالجسم', 'image' => 'body-care.webp'],
         ];
 
-        $sourceDir = 'c:/Users/Dell/Downloads/KCODE_Homepage_Developer_V24_FINAL/KCODE_Homepage_Developer_V24_FINAL/assets/product-types';
+        // Images copied from KCODE_Homepage_Developer_V24_FINAL/assets/product-types
+        $sourceDir = database_path('seeders/assets/categories');
         $targetDir = storage_path('app/public/categories');
 
         if (!File::exists($targetDir)) {
