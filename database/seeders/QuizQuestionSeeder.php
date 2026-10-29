@@ -232,7 +232,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'تنقية المسام المسدودة وتقليل الرؤوس السوداء',
                 'desc_en' => 'Cleanse clogged pores and reduce blackheads',
                 'image' => 'blackheads.png',
-                'concern_name' => 'Pores & Blackheads',
+                'concern_name' => 'Blackheads & Visible Pores',
             ],
             [
                 'title_ar' => 'دهون زائدة ولمعان',
@@ -240,7 +240,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'السيطرة على الإفراز الدهني وضبط اللمعة',
                 'desc_en' => 'Control excess sebum and minimize shine',
                 'image' => 'excess_oil.png',
-                'concern_name' => 'Pores & Blackheads',
+                'concern_name' => 'Excess Oil & Shine',
             ],
             [
                 'title_ar' => 'آثار حبوب حمراء',
@@ -248,7 +248,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'بقع وردية أو حمراء تبقى بعد زوال الحبة',
                 'desc_en' => 'Pink or red marks remaining after acne blemishes heal',
                 'image' => 'red_marks.png',
-                'concern_name' => 'Redness & Irritation',
+                'concern_name' => 'Red Acne Marks (PIE)',
             ],
             [
                 'title_ar' => 'بقع داكنة وتصبغات',
@@ -256,7 +256,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'بقع بنية أو آثار داكنة تبقى بعد الحبوب أو الشمس',
                 'desc_en' => 'Brown spots or dark pigmentation left after breakouts or sun exposure',
                 'image' => 'dark_spots.png',
-                'concern_name' => 'Pigmentation & Dark Spots',
+                'concern_name' => 'Dark Spots & Pigmentation (PIH)',
             ],
             [
                 'title_ar' => 'جفاف وشدّ',
@@ -264,7 +264,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'تعويض نقص الترطيب وإلغاء إحساس الانكماش',
                 'desc_en' => 'Replenish moisture deficit and relieve skin tightness',
                 'image' => 'dryness.png',
-                'concern_name' => 'Dryness & Hydration',
+                'concern_name' => 'Dryness & Tightness',
             ],
             [
                 'title_ar' => 'احمرار مستمر',
@@ -272,7 +272,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'تهدئة وتخفيف الاحمرار الدائم',
                 'desc_en' => 'Calm and soothe continuous facial redness',
                 'image' => 'persistent_redness.png',
-                'concern_name' => 'Redness & Irritation',
+                'concern_name' => 'Persistent Redness',
             ],
             [
                 'title_ar' => 'بهتان وشحوب',
@@ -280,7 +280,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'تنشيط حيوية البشرة واستعادة الإشراقة الصحية',
                 'desc_en' => 'Revitalize skin vitality and restore healthy radiant glow',
                 'image' => 'dullness.png',
-                'concern_name' => 'Pigmentation & Dark Spots',
+                'concern_name' => 'Dullness & Lack of Glow',
             ],
             [
                 'title_ar' => 'خطوط دقيقة',
@@ -288,7 +288,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'تنعيم مظهر الخطوط التعبيرية المبكرة',
                 'desc_en' => 'Smooth the appearance of early expression fine lines',
                 'image' => 'fine_lines.png',
-                'concern_name' => 'Wrinkles & Fine Lines',
+                'concern_name' => 'Fine Lines',
             ],
             [
                 'title_ar' => 'مشاكل حول العين',
@@ -296,7 +296,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'العناية بالهالات والانتفاخ والخطوط حول العين',
                 'desc_en' => 'Target dark circles, puffiness and fine lines around eyes',
                 'image' => 'eye_care.png',
-                'concern_name' => 'Wrinkles & Fine Lines',
+                'concern_name' => 'Eye Contour Concerns',
             ],
             [
                 'title_ar' => 'لا يوجد',
