@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Log;
 
 class SyncClientPricesAndSettingsSeeder extends Seeder
 {
@@ -16,19 +15,18 @@ class SyncClientPricesAndSettingsSeeder extends Seeder
     {
         $this->command->info("Starting synchronization with client official prototype...");
 
-        // 1. Locate client data (from decompressed scratch or original HTML file)
-        $decompressedPath = 'C:/Users/Dell/.gemini/antigravity-ide/brain/4e67432b-ac09-4604-8b7e-2b8df6d1dafd/scratch/decompressed_client.html';
-        $originalHtmlPath = 'C:/Users/Dell/Downloads/KCODE_R422_I_DESKTOP (2).html';
+        // 1. Locate client data (Internal project JSON dataset with fallback to Downloads)
+        $jsonPath = database_path('seeders/data/client_official_prices.json');
+        $fallbackHtmlPath = 'C:/Users/Dell/Downloads/KCODE_R422_I_DESKTOP (2).html';
 
         $clientProducts = [];
 
-        if (file_exists($decompressedPath)) {
-            $json = json_decode(file_get_contents($decompressedPath), true);
-            $clientProducts = $json['products'] ?? [];
+        if (file_exists($jsonPath)) {
+            $clientProducts = json_decode(file_get_contents($jsonPath), true) ?? [];
         }
 
-        if (empty($clientProducts) && file_exists($originalHtmlPath)) {
-            $raw = file_get_contents($originalHtmlPath);
+        if (empty($clientProducts) && file_exists($fallbackHtmlPath)) {
+            $raw = file_get_contents($fallbackHtmlPath);
             if (preg_match('/<script id="kcode-payload" type="application\/json">(.*?)<\/script>/s', $raw, $matches)) {
                 $payload = json_decode($matches[1], true);
                 if (!empty($payload['boot']['inline'])) {
@@ -40,13 +38,13 @@ class SyncClientPricesAndSettingsSeeder extends Seeder
         }
 
         if (empty($clientProducts)) {
-            $this->command->error("Could not load client products from prototype file.");
+            $this->command->error("Could not load client products dataset.");
             return;
         }
 
-        $this->command->info("Found " . count($clientProducts) . " products in client prototype data.");
+        $this->command->info("Found " . count($clientProducts) . " products in client dataset.");
 
-        // 2. Synchronize Prices
+        // 2. Synchronize Product Prices & Inventory
         $updatedCount = 0;
         $skippedCount = 0;
 
@@ -61,7 +59,7 @@ class SyncClientPricesAndSettingsSeeder extends Seeder
             if ($clientPrice !== null && $clientPrice > 0) {
                 $product->price = $clientPrice;
 
-                // Sync stock if present
+                // Sync stock if available
                 if (isset($data['inventory']) && is_numeric($data['inventory'])) {
                     $product->stock = (int) $data['inventory'];
                 }
