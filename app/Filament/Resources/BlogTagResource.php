@@ -20,6 +20,8 @@ class BlogTagResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-tag';
 
+    protected static ?int $navigationSort = 3;
+
     public static function getNavigationGroup(): ?string
     {
         return __('admin.navigation.blog_group');

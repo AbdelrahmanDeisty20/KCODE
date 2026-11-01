@@ -136,21 +136,31 @@ class AdminPanelProvider extends PanelProvider
                 \Filament\Navigation\NavigationGroup::make()
                     ->label(fn () => app()->getLocale() === 'en' ? 'Project & System Settings' : 'عن المشروع وإعدادات النظام'),
                 \Filament\Navigation\NavigationGroup::make()
-                    ->label(fn () => app()->getLocale() === 'en' ? 'Users & Permissions' : 'إدارة المستخدمين والصلاحيات'),
-                \Filament\Navigation\NavigationGroup::make()
                     ->label(fn () => app()->getLocale() === 'en' ? 'Products & Catalog' : 'إدارة المنتجات والكتالوج'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Sales & Orders' : 'إدارة المبيعات والطلبات'),
                 \Filament\Navigation\NavigationGroup::make()
                     ->label(fn () => app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة'),
                 \Filament\Navigation\NavigationGroup::make()
-                    ->label(fn () => app()->getLocale() === 'en' ? 'Orders & Sales' : 'إدارة المبيعات والطلبات'),
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Routine Engine & Quiz' : 'إدارة الروتينات والـ Quiz'),
                 \Filament\Navigation\NavigationGroup::make()
-                    ->label(fn () => app()->getLocale() === 'en' ? 'Loyalty Program & Points' : 'برنامج الولاء والنقاط'),
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Loyalty Program & Settings' : 'برنامج الولاء والإعدادات'),
                 \Filament\Navigation\NavigationGroup::make()
-                    ->label(fn () => app()->getLocale() === 'en' ? 'Reviews & Ratings' : 'المراجعات والتقييمات'),
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Shipping & Locations' : 'إدارة الشحن والمواقع'),
                 \Filament\Navigation\NavigationGroup::make()
-                    ->label(fn () => app()->getLocale() === 'en' ? 'Blog & Articles' : 'المحتوى والمدونة'),
+                    ->label(fn () => __('admin.navigation.blog_group')),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Content & Static Pages' : 'المحتوى والصفحات التعريفية'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Customer Support' : 'دعم العملاء والتواصل'),
                 \Filament\Navigation\NavigationGroup::make()
                     ->label(fn () => app()->getLocale() === 'en' ? 'Reports & Exporter' : 'التقارير وتصدير البيانات'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Settings & Policies' : 'إدارة الإعدادات والسياسات'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Users & Permissions' : 'إدارة المستخدمين والصلاحيات'),
+                \Filament\Navigation\NavigationGroup::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Notifications & Messages' : 'إدارة الإشعارات والرسائل'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')

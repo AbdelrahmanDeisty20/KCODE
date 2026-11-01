@@ -20,6 +20,8 @@ class BlogCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-folder';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getNavigationGroup(): ?string
     {
         return __('admin.navigation.blog_group');

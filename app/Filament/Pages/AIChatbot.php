@@ -14,7 +14,7 @@ class AIChatbot extends Page
 
     protected string $view = 'filament.pages.ai-chatbot';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     public static function getNavigationGroup(): ?string
     {

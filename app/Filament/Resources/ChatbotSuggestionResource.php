@@ -19,7 +19,7 @@ class ChatbotSuggestionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-light-bulb';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 6;
 
     public static function getNavigationGroup(): ?string
     {

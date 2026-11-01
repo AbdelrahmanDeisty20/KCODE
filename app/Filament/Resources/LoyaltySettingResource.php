@@ -21,7 +21,7 @@ class LoyaltySettingResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return app()->getLocale() === 'en' ? 'Loyalty Program' : 'إدارة برنامج الولاء';
+        return app()->getLocale() === 'en' ? 'Loyalty Program & Settings' : 'برنامج الولاء والإعدادات';
     }
 
     public static function getNavigationLabel(): string

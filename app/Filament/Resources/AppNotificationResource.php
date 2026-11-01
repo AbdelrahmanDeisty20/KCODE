@@ -21,6 +21,8 @@ class AppNotificationResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-bell';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getNavigationGroup(): ?string
     {
         return app()->getLocale() === 'en' ? 'Notifications & Messages' : 'إدارة الإشعارات والرسائل';
@@ -28,7 +30,7 @@ class AppNotificationResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return app()->getLocale() === 'en' ? 'App Notifications' : 'إشعارات التطبيق (Push)';
+        return app()->getLocale() === 'en' ? 'App Notifications' : 'إشعارات التطبيق';
     }
 
     public static function getPluralModelLabel(): string

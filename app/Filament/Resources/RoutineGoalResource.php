@@ -17,7 +17,7 @@ class RoutineGoalResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'heroicon-s-flag';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 1;
 
     public static function getNavigationGroup(): ?string
     {

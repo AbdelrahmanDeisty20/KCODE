@@ -20,6 +20,8 @@ class AssessmentResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-clipboard-document-check';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getNavigationGroup(): ?string
     {
         return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';

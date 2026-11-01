@@ -20,6 +20,8 @@ class QuizQuestionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-puzzle-piece';
 
+    protected static ?int $navigationSort = 2;
+
     public static function getNavigationGroup(): ?string
     {
         return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';

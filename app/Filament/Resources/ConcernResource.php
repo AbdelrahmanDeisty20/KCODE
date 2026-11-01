@@ -20,6 +20,8 @@ class ConcernResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-heart';
 
+    protected static ?int $navigationSort = 4;
+
     public static function getNavigationGroup(): ?string
     {
         return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';

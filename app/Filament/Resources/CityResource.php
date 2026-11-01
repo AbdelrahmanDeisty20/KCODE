@@ -17,7 +17,7 @@ class CityResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'heroicon-s-map-pin';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 3;
 
     public static function getNavigationGroup(): ?string
     {

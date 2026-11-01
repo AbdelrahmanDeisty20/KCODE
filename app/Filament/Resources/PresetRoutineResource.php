@@ -17,7 +17,7 @@ class PresetRoutineResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'heroicon-s-sparkles';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 2;
 
     public static function getNavigationGroup(): ?string
     {

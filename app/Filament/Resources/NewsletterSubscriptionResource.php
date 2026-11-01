@@ -19,6 +19,8 @@ class NewsletterSubscriptionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-envelope-open';
 
+    protected static ?int $navigationSort = 3;
+
     public static function getNavigationGroup(): ?string
     {
         return app()->getLocale() === 'en' ? 'Content & Static Pages' : 'المحتوى والصفحات التعريفية';

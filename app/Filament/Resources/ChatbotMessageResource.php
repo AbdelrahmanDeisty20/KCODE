@@ -19,7 +19,7 @@ class ChatbotMessageResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-chat-bubble-oval-left-ellipsis';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 5;
 
     public static function getNavigationGroup(): ?string
     {

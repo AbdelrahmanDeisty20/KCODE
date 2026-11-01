@@ -20,7 +20,7 @@ class SubCategoryResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-squares-plus';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     public static function getNavigationGroup(): ?string
     {

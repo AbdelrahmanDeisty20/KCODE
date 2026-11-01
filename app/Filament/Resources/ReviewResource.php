@@ -22,9 +22,11 @@ class ReviewResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-star';
 
+    protected static ?int $navigationSort = 5;
+
     public static function getNavigationGroup(): ?string
     {
-        return app()->getLocale() === 'en' ? 'Products & Reviews' : 'محرك التقييم و Quiz البشرة';
+        return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';
     }
 
     public static function getNavigationLabel(): string

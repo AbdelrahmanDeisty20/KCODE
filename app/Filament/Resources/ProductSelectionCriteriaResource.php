@@ -19,7 +19,7 @@ class ProductSelectionCriteriaResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-check-badge';
 
-    protected static ?int $navigationSort = 7;
+    protected static ?int $navigationSort = 1;
 
     public static function getNavigationGroup(): ?string
     {

@@ -22,6 +22,8 @@ class BlogAuthorResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-s-identification';
 
+    protected static ?int $navigationSort = 3;
+
     public static function getNavigationGroup(): ?string
     {
         return app()->getLocale() === 'en' ? 'Users & Permissions' : 'إدارة المستخدمين والصلاحيات';
