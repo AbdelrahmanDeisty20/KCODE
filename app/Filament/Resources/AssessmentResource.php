@@ -200,7 +200,7 @@ class AssessmentResource extends Resource
 
                                 Forms\Components\TextInput::make('price')
                                     ->label('السعر')
-                                    ->prefix('EGP')
+                                    ->prefix('OMR')
                                     ->disabled(),
                             ])
                             ->columns(4)

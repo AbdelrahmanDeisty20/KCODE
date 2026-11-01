@@ -113,7 +113,7 @@ class CouponResource extends Resource
                         Forms\Components\Select::make('discount_type')
                             ->label('نوع الخصم')
                             ->options([
-                                'fixed'      => 'مبلغ ثابت (EGP)',
+                                'fixed'      => 'مبلغ ثابت (OMR)',
                                 'percentage' => 'نسبة مئوية (%)',
                             ])
                             ->default('percentage')
@@ -127,12 +127,12 @@ class CouponResource extends Resource
                         Forms\Components\TextInput::make('min_order_amount')
                             ->label('الحد الأدنى لقيمة الطلب')
                             ->numeric()
-                            ->prefix('EGP'),
+                            ->prefix('OMR'),
 
                         Forms\Components\TextInput::make('max_discount_amount')
                             ->label('الحد الأقصى للخصم (لـ %) ')
                             ->numeric()
-                            ->prefix('EGP'),
+                            ->prefix('OMR'),
 
                         Forms\Components\DateTimePicker::make('start_date')
                             ->label('تاريخ البداية'),
@@ -180,7 +180,7 @@ class CouponResource extends Resource
                 Tables\Columns\TextColumn::make('discount_value')
                     ->label($isEn ? 'Value' : 'القيمة')
                     ->sortable()
-                    ->formatStateUsing(fn ($state, $record) => $record->discount_type === 'percentage' ? "{$state}%" : "{$state} EGP"),
+                    ->formatStateUsing(fn ($state, $record) => $record->discount_type === 'percentage' ? "{$state}%" : "{$state} OMR"),
 
                 Tables\Columns\TextColumn::make('used_count')
                     ->label($isEn ? 'Times Used' : 'عدد الاستخدامات')

@@ -117,12 +117,12 @@ class OrderResource extends Resource
 
                                 Forms\Components\TextInput::make('unit_price')
                                     ->label('سعر القطعة')
-                                    ->prefix('EGP')
+                                    ->prefix('OMR')
                                     ->disabled(),
 
                                 Forms\Components\TextInput::make('total_price')
                                     ->label('الإجمالي')
-                                    ->prefix('EGP')
+                                    ->prefix('OMR')
                                     ->disabled(),
                             ])
                             ->columns(5)
@@ -154,13 +154,13 @@ class OrderResource extends Resource
                                 return $record?->shipping_address['country'] 
                                     ?? $record?->address?->country?->name_ar 
                                     ?? $record?->address?->country?->name_en 
-                                    ?? 'مصر (Egypt)';
+                                    ?? 'سلطنة عمان (Oman)';
                             })
                             ->formatStateUsing(function ($state, $record) {
                                 return $record?->shipping_address['country'] 
                                     ?? $record?->address?->country?->name_ar 
                                     ?? $record?->address?->country?->name_en 
-                                    ?? 'مصر (Egypt)';
+                                    ?? 'سلطنة عمان (Oman)';
                             })
                             ->disabled(),
 
@@ -215,12 +215,12 @@ class OrderResource extends Resource
                         Forms\Components\TextInput::make('subtotal')
                             ->label('المجموع الفرعي')
                             ->numeric()
-                            ->prefix('EGP'),
+                            ->prefix('OMR'),
 
                         Forms\Components\TextInput::make('discount_amount')
                             ->label('خصم الكوبون')
                             ->numeric()
-                            ->prefix('EGP'),
+                            ->prefix('OMR'),
 
                         Forms\Components\TextInput::make('coupon_code')
                             ->label('كود الكوبون المستخدم')
@@ -229,12 +229,12 @@ class OrderResource extends Resource
                         Forms\Components\TextInput::make('shipping_fee')
                             ->label('مبلغ الشحن')
                             ->numeric()
-                            ->prefix('EGP'),
+                            ->prefix('OMR'),
 
                         Forms\Components\TextInput::make('total')
                             ->label('الإجمالي النهائي')
                             ->numeric()
-                            ->prefix('EGP')
+                            ->prefix('OMR')
                             ->required(),
 
                         Forms\Components\Textarea::make('notes')
@@ -313,7 +313,7 @@ class OrderResource extends Resource
 
                 Tables\Columns\TextColumn::make('total')
                     ->label('الإجمالي')
-                    ->money('EGP')
+                    ->money('OMR')
                     ->sortable()
                     ->weight('bold'),
 

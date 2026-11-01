@@ -105,7 +105,7 @@ class ProductResource extends Resource
                                 Forms\Components\TextInput::make('price')
                                     ->label('السعر')
                                     ->numeric()
-                                    ->prefix('EGP')
+                                    ->prefix('OMR')
                                     ->required(),
 
                                 Forms\Components\TextInput::make('stock')
@@ -452,6 +452,41 @@ class ProductResource extends Resource
                                                 Forms\Components\Textarea::make('answer')->label('الإجابة')->rows(3)->required(),
                                             ])
                                             ->columns(1)
+                                            ->collapsible()
+                                            ->columnSpanFull(),
+                                    ]),
+
+                                Components\Section::make('بدائل المنتج المخصصة (Product Alternatives)')
+                                    ->description('يمكنك تحديد بدائل مخصصة لهذا المنتج مع أولوية الظهور وسبب الترشيح (تظهر للعميل في واجهة بدائل المنتجات).')
+                                    ->schema([
+                                        Forms\Components\Repeater::make('alternatives')
+                                            ->relationship('alternatives')
+                                            ->label('قائمة المنتجات البديلة')
+                                            ->schema([
+                                                Forms\Components\Select::make('alternative_id')
+                                                    ->label('المنتج البديل')
+                                                    ->relationship('alternative', 'name_ar')
+                                                    ->searchable()
+                                                    ->preload()
+                                                    ->required(),
+
+                                                Forms\Components\TextInput::make('priority')
+                                                    ->label('أولوية الظهور')
+                                                    ->numeric()
+                                                    ->default(1)
+                                                    ->required(),
+
+                                                Forms\Components\TextInput::make('reason_ar')
+                                                    ->label('سبب الترشيح كبديل (عربي)')
+                                                    ->default('بديل مناسب لنفس نوع واحتياج البشرة')
+                                                    ->required(),
+
+                                                Forms\Components\TextInput::make('reason_en')
+                                                    ->label('Alternative Reason (EN)')
+                                                    ->default('Suitable alternative for skin type and routine')
+                                                    ->required(),
+                                            ])
+                                            ->columns(2)
                                             ->collapsible()
                                             ->columnSpanFull(),
                                     ]),
