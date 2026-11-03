@@ -221,6 +221,417 @@ class Product extends Model
         return app()->getLocale() == 'ar' ? $this->og_description_ar : $this->og_description_en;
     }
 
+    public function getBriefInsightAttribute()
+    {
+        if (app()->getLocale() == 'ar') {
+            return $this->brief_insight_ar;
+        }
+        if ($this->brief_insight_ar && !preg_match('/\p{Arabic}/u', $this->brief_insight_ar)) {
+            return $this->brief_insight_ar;
+        }
+        return $this->en_key_benefits ?: ($this->description_en ?: 'Authentic Korean skincare formula designed for optimal skin compatibility.');
+    }
+
+    public function getCountryOfOriginAttribute()
+    {
+        return app()->getLocale() == 'ar' ? ($this->country_of_origin_ar ?: 'كوريا الجنوبية') : 'South Korea';
+    }
+
+    public function getRoleAttribute()
+    {
+        if (app()->getLocale() == 'ar') {
+            return $this->role_ar ?: ($this->routine_step_title_ar ?: ($this->category?->name_ar ?? 'العناية بالبشرة'));
+        }
+        if ($this->role_ar && !preg_match('/\p{Arabic}/u', $this->role_ar)) {
+            return $this->role_ar;
+        }
+        $catName = $this->category?->name_en ?: $this->subCategory?->name_en;
+        if ($catName) {
+            return "Targeted {$catName} Care";
+        }
+        return match ($this->detectRoutineStepNumber()) {
+            1 => 'Gentle Facial Cleanser',
+            2 => 'Hydrating & Balancing Toner',
+            3 => 'Targeted Treatment Serum',
+            4 => 'Barrier-Supporting Moisturizer',
+            5 => 'Daily Broad-Spectrum Sunscreen',
+            default => 'Daily Skincare Treatment',
+        };
+    }
+
+    public function getLimitationsNotesAttribute()
+    {
+        if (app()->getLocale() == 'ar') {
+            return $this->limitations_notes_ar;
+        }
+        if ($this->limitations_notes_ar && !preg_match('/\p{Arabic}/u', $this->limitations_notes_ar)) {
+            return $this->limitations_notes_ar;
+        }
+        return 'Store in a cool, dry place away from direct sunlight. A patch test on a small area is recommended before full use.';
+    }
+
+    public function getUsageFrequencyAttribute()
+    {
+        $freq = $this->usage_frequency_ar ?: ($this->usage_instructions_json['timing'] ?? null);
+        if (app()->getLocale() == 'ar') {
+            return $freq ?: 'استخدام يومي';
+        }
+        if (!$freq) {
+            return 'Daily use (Morning & Evening)';
+        }
+        if (!preg_match('/\p{Arabic}/u', $freq)) {
+            return $freq;
+        }
+        if (str_contains($freq, 'أسبوع')) {
+            return 'Weekly use (1-2 times per week)';
+        }
+        if (str_contains($freq, 'عند الحاجة') || str_contains($freq, 'موضع')) {
+            return 'As needed on targeted areas';
+        }
+        if (str_contains($freq, 'مساء')) {
+            return str_contains($freq, 'صباح') ? 'Daily use (Morning & Evening)' : 'Evening use only';
+        }
+        if (str_contains($freq, 'صباح')) {
+            return 'Morning use';
+        }
+        return 'Daily use (Morning & Evening)';
+    }
+
+    public function getSeoMetaTitleAttribute()
+    {
+        return app()->getLocale() == 'ar'
+            ? $this->seo_meta_title_ar
+            : (($this->en_product_title_seo ?: $this->name_en) . ' | KCODE');
+    }
+
+    public function getOgTitleAttribute()
+    {
+        return app()->getLocale() == 'ar'
+            ? $this->og_title_ar
+            : ($this->en_product_title_seo ?: $this->name_en);
+    }
+
+    public function detectRoutineStepNumber(): int
+    {
+        if ($this->category_id) {
+            return match ((int) $this->category_id) {
+                1 => 1,
+                2, 3 => 2,
+                4 => 3,
+                5 => 4,
+                6 => 5,
+                default => 3,
+            };
+        }
+
+        $dbRoutineStep = $this->routines()->first()?->routineStep;
+        if ($dbRoutineStep) {
+            $stepName = strtolower($dbRoutineStep->name_en);
+            if (str_contains($stepName, 'cleans')) return 1;
+            if (str_contains($stepName, 'toner') || str_contains($stepName, 'essence')) return 2;
+            if (str_contains($stepName, 'serum') || str_contains($stepName, 'ampoule')) return 3;
+            if (str_contains($stepName, 'moistur') || str_contains($stepName, 'cream')) return 4;
+            if (str_contains($stepName, 'sun')) return 5;
+        }
+
+        return 3;
+    }
+
+    public function getRoutinePositionAttribute(): ?array
+    {
+        $dbSteps = $this->routine_steps_json;
+
+        if (empty($dbSteps) || !is_array($dbSteps)) {
+            return null;
+        }
+
+        $isAr = app()->getLocale() == 'ar';
+        $stepNumber = $this->routine_step_number ?: $this->detectRoutineStepNumber();
+
+        $stepTitleEnMap = [
+            1 => 'Cleanser',
+            2 => 'Toner or Essence',
+            3 => 'Serum',
+            4 => 'Moisturizer',
+            5 => 'Sunscreen',
+        ];
+
+        $subtitleEnMap = [
+            'اختياري' => 'Optional',
+            'هذا المنتج' => 'This Product',
+            'صباحاً' => 'Morning',
+            'مساءً' => 'Evening',
+        ];
+
+        $formattedSteps = array_map(function ($s) use ($stepNumber, $isAr, $stepTitleEnMap, $subtitleEnMap) {
+            $stepIdx = (int) ($s['step'] ?? 1);
+            $isCurrent = $stepIdx === (int) $stepNumber;
+            $rawTitle = $s['title'] ?? '';
+            $rawSubtitle = $isCurrent ? ($s['subtitle'] ?? 'هذا المنتج') : ($s['subtitle'] ?? null);
+
+            return [
+                'step' => $stepIdx,
+                'title' => $isAr ? $rawTitle : ($stepTitleEnMap[$stepIdx] ?? $rawTitle),
+                'subtitle' => $isAr ? $rawSubtitle : ($rawSubtitle ? ($subtitleEnMap[$rawSubtitle] ?? $rawSubtitle) : null),
+                'is_current' => $isCurrent,
+            ];
+        }, $dbSteps);
+
+        usort($formattedSteps, fn ($a, $b) => $a['step'] <=> $b['step']);
+
+        $headerStepTitleEn = match ((int) $stepNumber) {
+            1 => 'Cleanser',
+            2 => 'Toner or Essence',
+            3 => 'Serum / Targeted Treatment',
+            4 => 'Moisturizer',
+            5 => 'Sunscreen',
+            default => $this->category?->name_en ?? 'Skincare Routine',
+        };
+
+        return [
+            'step_number' => (int) $stepNumber,
+            'total_steps' => count($formattedSteps),
+            'step_title' => $isAr
+                ? ($this->routine_step_title_ar ?: ($this->category?->name_ar ?? 'الروتين'))
+                : $headerStepTitleEn,
+            'steps' => $formattedSteps,
+        ];
+    }
+
+    public function getUsageInstructionsAttribute(): ?array
+    {
+        if (!empty($this->usage_instructions_json) && is_array($this->usage_instructions_json)) {
+            if (app()->getLocale() == 'ar') {
+                return array_merge($this->usage_instructions_json, [
+                    'raw_how_to_use' => $this->how_to_use,
+                ]);
+            }
+
+            return [
+                'timing' => $this->usage_frequency,
+                'timing_note' => 'After gradually introducing into your routine.',
+                'amount' => 'A few drops / Moderate amount',
+                'amount_note' => 'On targeted areas or entire face.',
+                'application_method' => 'Gently pat',
+                'application_note' => 'Until fully absorbed, before moisturizer.',
+                'gradual_start' => 'Start gradually',
+                'gradual_start_note' => 'Increase frequency according to your skin tolerance.',
+                'raw_how_to_use' => $this->how_to_use,
+            ];
+        }
+
+        return null;
+    }
+
+    public function getComplementaryRoutineAttribute(): array
+    {
+        $isAr = app()->getLocale() == 'ar';
+        $items = $this->complementary_routine_json;
+        $result = [];
+
+        $categoryEnMap = [
+            'غسول' => 'Cleanser',
+            'تونر' => 'Toner',
+            'إسنس' => 'Essence',
+            'سيروم' => 'Serum',
+            'سيروم وأمبول' => 'Serum',
+            'مرطب' => 'Moisturizer',
+            'واقي شمس' => 'Sunscreen',
+            'منتج مكمل' => 'Complementary Product',
+        ];
+
+        $reasonEnMap = [
+            'تنظيف لطيف قبل السيروم' => 'Gentle cleansing before serum',
+            'تنظيف لطيف قبل استخدام المنتج' => 'Gentle cleansing before applying the product',
+            'ترطيب خفيف قبل السيروم' => 'Light hydration before serum',
+            'ترطيب خفيف وتهيئة البشرة' => 'Light hydration and skin prep',
+            'ترطيب بعد السيروم' => 'Moisturizing after serum',
+            'حبس الرطوبة وتدعيم الحاجز الجلدي' => 'Locks in moisture and supports the skin barrier',
+            'حماية صباحية لإكمال الروتين' => 'Morning UV protection to complete the routine',
+            'علاج مركز بعد التنظيف' => 'Targeted treatment after cleansing',
+            'علاج مركز بعد التونر' => 'Targeted treatment after toner',
+            'علاج مركز قبل المرطب' => 'Targeted treatment before moisturizer',
+            'علاج مركز قبل واقي الشمس' => 'Targeted treatment before sunscreen',
+        ];
+
+        if (!empty($items) && is_array($items)) {
+            foreach ($items as $item) {
+                $dbProduct = null;
+                if (!empty($item['product_id'])) {
+                    $dbProduct = self::find($item['product_id']);
+                } elseif (!empty($item['sku'])) {
+                    $dbProduct = self::where('sku', $item['sku'])->first();
+                }
+
+                if ($dbProduct && $dbProduct->id === $this->id) {
+                    continue;
+                }
+
+                $rawCat = $item['category'] ?? ($dbProduct?->subCategory?->name_ar ?? 'منتج مكمل');
+                $rawReason = $item['reason'] ?? '';
+
+                $finalCat = $isAr ? $rawCat : ($categoryEnMap[$rawCat] ?? ($dbProduct?->category?->name_en ?? $rawCat));
+                $finalReason = $isAr ? $rawReason : ($reasonEnMap[$rawReason] ?? $rawReason);
+
+                if ($dbProduct) {
+                    $result[] = [
+                        'id' => $dbProduct->id,
+                        'sku' => $dbProduct->sku,
+                        'brand' => $dbProduct->brand?->name ?? ($item['brand'] ?? ''),
+                        'name' => $dbProduct->name,
+                        'size' => $dbProduct->size ?: ($item['size'] ?? ''),
+                        'category' => $finalCat,
+                        'reason' => $finalReason,
+                        'optional' => (bool) ($item['optional'] ?? false),
+                        'price' => (float) $dbProduct->price,
+                        'image' => $dbProduct->image_path,
+                    ];
+                } else {
+                    $result[] = [
+                        'id' => $item['product_id'] ?? null,
+                        'sku' => $item['sku'] ?? '',
+                        'brand' => $item['brand'] ?? '',
+                        'name' => $item['name'] ?? '',
+                        'size' => $item['size'] ?? '',
+                        'category' => $finalCat,
+                        'reason' => $finalReason,
+                        'optional' => (bool) ($item['optional'] ?? false),
+                        'price' => (float) ($item['price'] ?? 0),
+                        'image' => $item['image'] ?? null,
+                    ];
+                }
+            }
+        }
+
+        if (!empty($result)) {
+            return $result;
+        }
+
+        $stepsToFetch = [
+            ['cat_ids' => [1], 'keyword' => 'cleans', 'label' => 'غسول', 'reason' => 'تنظيف لطيف قبل استخدام المنتج', 'optional' => false],
+            ['cat_ids' => [2, 3], 'keyword' => 'toner', 'label' => 'تونر', 'reason' => 'ترطيب خفيف وتهيئة البشرة', 'optional' => true],
+            ['cat_ids' => [5], 'keyword' => 'moistur', 'label' => 'مرطب', 'reason' => 'حبس الرطوبة وتدعيم الحاجز الجلدي', 'optional' => false],
+            ['cat_ids' => [6], 'keyword' => 'sun', 'label' => 'واقي شمس', 'reason' => 'حماية صباحية لإكمال الروتين', 'optional' => false],
+        ];
+
+        $currentStep = $this->detectRoutineStepNumber();
+        if ($currentStep === 1) {
+            $stepsToFetch[0] = ['cat_ids' => [4], 'keyword' => 'serum', 'label' => 'سيروم', 'reason' => 'علاج مركز بعد التنظيف', 'optional' => false];
+        } elseif ($currentStep === 2) {
+            $stepsToFetch[1] = ['cat_ids' => [4], 'keyword' => 'serum', 'label' => 'سيروم', 'reason' => 'علاج مركز بعد التونر', 'optional' => false];
+        } elseif ($currentStep === 4) {
+            $stepsToFetch[2] = ['cat_ids' => [4], 'keyword' => 'serum', 'label' => 'سيروم', 'reason' => 'علاج مركز قبل المرطب', 'optional' => false];
+        } elseif ($currentStep === 5) {
+            $stepsToFetch[3] = ['cat_ids' => [4], 'keyword' => 'serum', 'label' => 'سيروم', 'reason' => 'علاج مركز قبل واقي الشمس', 'optional' => false];
+        }
+
+        foreach ($stepsToFetch as $config) {
+            $compProduct = null;
+            if ($this->brand_id) {
+                $compProduct = self::where('id', '!=', $this->id)
+                    ->where('brand_id', $this->brand_id)
+                    ->where(function ($q) use ($config) {
+                        $q->whereIn('category_id', $config['cat_ids'])
+                          ->orWhereHas('subCategory', function ($sub) use ($config) {
+                              $sub->where('name_en', 'LIKE', '%' . $config['keyword'] . '%');
+                          });
+                    })->first();
+            }
+
+            if (!$compProduct) {
+                $compProduct = self::where('id', '!=', $this->id)
+                    ->where(function ($q) use ($config) {
+                        $q->whereIn('category_id', $config['cat_ids'])
+                          ->orWhereHas('subCategory', function ($sub) use ($config) {
+                              $sub->where('name_en', 'LIKE', '%' . $config['keyword'] . '%');
+                          });
+                    })->first();
+            }
+
+            if ($compProduct) {
+                $result[] = [
+                    'id' => $compProduct->id,
+                    'sku' => $compProduct->sku,
+                    'brand' => $compProduct->brand?->name ?? '',
+                    'name' => $compProduct->name,
+                    'size' => $compProduct->size ?: '',
+                    'category' => $isAr ? $config['label'] : ($categoryEnMap[$config['label']] ?? $config['label']),
+                    'reason' => $isAr ? $config['reason'] : ($reasonEnMap[$config['reason']] ?? $config['reason']),
+                    'optional' => $config['optional'],
+                    'price' => (float) $compProduct->price,
+                    'image' => $compProduct->image_path,
+                ];
+            }
+        }
+
+        return $result;
+    }
+
+    public function getProductFaqsAttribute(): ?array
+    {
+        if (!empty($this->product_faqs_json) && is_array($this->product_faqs_json)) {
+            if (app()->getLocale() == 'ar') {
+                return $this->product_faqs_json;
+            }
+
+            $enFaqsMap = [
+                'target' => [
+                    'question' => 'Does it target post-acne marks or active breakouts?',
+                    'answer' => 'We primarily evaluate it for dark spots and uneven skin tone, including post-blemish marks. Active breakouts require targeted blemish care, as addressing marks alone does not treat the root cause of breakouts.',
+                ],
+                'pairing' => [
+                    'question' => 'Is it suitable if I am already using another brightening product?',
+                    'answer' => 'It depends on the other product’s active ingredients, concentration, and your skin’s tolerance. Sharing the same goal is not enough to combine two products safely, as layering similar actives may duplicate the role or increase irritation.',
+                ],
+                'moisturizer' => [
+                    'question' => 'Does it replace a moisturizer?',
+                    'answer' => 'Hydration here plays a supportive role alongside targeted care. Follow with a moisturizer suited to your skin’s needs once the product has absorbed.',
+                ],
+                'results' => [
+                    'question' => 'When can I expect visible improvement?',
+                    'answer' => 'Improvement is gradual and varies depending on concern depth and skin response. Track progress with consistent use and daily sun protection; there is no single timeline that applies to everyone.',
+                ],
+            ];
+
+            return array_map(function ($faq) use ($enFaqsMap) {
+                $faqId = $faq['id'] ?? null;
+                if ($faqId && isset($enFaqsMap[$faqId])) {
+                    return [
+                        'id' => $faqId,
+                        'question' => $enFaqsMap[$faqId]['question'],
+                        'answer' => $enFaqsMap[$faqId]['answer'],
+                    ];
+                }
+                return $faq;
+            }, $this->product_faqs_json);
+        }
+
+        return null;
+    }
+
+    public function getFormulaEvaluationInfoAttribute(): array
+    {
+        return [
+            'title_ar' => Setting::get('formula_eval_title', 'كيف نقيّم التركيبة في KCODE؟'),
+            'subtitle_ar' => Setting::get('formula_eval_subtitle', 'وراء كل خلاصة، مراجعة تبدأ من تركيبة المنتج نفسه.'),
+            'steps' => [
+                [
+                    'title_ar' => Setting::get('formula_eval_step1_title', 'نبدأ من العبوة'),
+                    'text_ar'  => Setting::get('formula_eval_step1_desc', 'نراجع قائمة المكونات المدوّنة على المنتج، ونقرأها كاملة لفهم ما تحتويه التركيبة فعلًا، بدل الاكتفاء بالمكوّن الذي يبرزه الإعلان.'),
+                ],
+                [
+                    'title_ar' => Setting::get('formula_eval_step2_title', 'وجود المكوّن وحده لا يكفي'),
+                    'text_ar'  => Setting::get('formula_eval_step2_desc', 'ندرس وظيفة المكوّن وترتيبه في القائمة، ونأخذ النسب المعلنة في الحسبان. ثم نقيّم دوره ضمن التركيبة: هل يدعم الهدف الأساسي للمنتج، أم يؤدي دورًا مساندًا؟'),
+                ],
+                [
+                    'title_ar' => Setting::get('formula_eval_step3_title', 'نقرأ التركيبة ككل'),
+                    'text_ar'  => Setting::get('formula_eval_step3_desc', 'نربط المكونات ببعضها وباحتياجات البشرة، ونوازن بين ما تدعمه التركيبة وما يستدعي الانتباه في ملاءمتها وتحمّلها. ثم نحوّل هذه القراءة إلى خلاصة واضحة تساعدك على فهم المنتج.'),
+                ],
+            ],
+            'footer_note_ar' => Setting::get('formula_eval_footer_note', 'نقيّم كل منتج بمعاييرنا نفسها؛ شهرته ووجوده في المتجر لا يمنحانه توصية تلقائية.'),
+        ];
+    }
+
     public function images()
     {
         return $this->hasMany(ProductImage::class);

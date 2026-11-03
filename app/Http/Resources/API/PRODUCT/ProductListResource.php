@@ -20,7 +20,7 @@ class ProductListResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name_en,
+            'name' => $this->name,
             'sku' => $this->sku,
             'short_name' => $this->short_name,
             'price' => $this->price,
@@ -36,9 +36,9 @@ class ProductListResource extends JsonResource
             'size' => $this->size,
             'barcode' => $this->barcode,
             'sensitive_eligible' => (bool) $this->sensitive_eligible,
-            'brief_insight_ar' => $this->brief_insight_ar,
-            'country_of_origin_ar' => $this->country_of_origin_ar,
-            'role_ar' => $this->role_ar,
+            'brief_insight_ar' => $this->brief_insight,
+            'country_of_origin_ar' => $this->country_of_origin,
+            'role_ar' => $this->role,
         ];
     }
 }
