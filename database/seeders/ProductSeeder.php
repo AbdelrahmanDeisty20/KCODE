@@ -289,9 +289,11 @@ class ProductSeeder extends Seeder
                 'pigmentation_pih' => 'Pigmentation & Dark Spots',
                 'redness_pie' => 'Redness & Irritation',
                 'barrier' => 'Skin Barrier',
-                'lines' => 'Wrinkles & Fine Lines',
                 'hydration' => 'Dryness & Hydration',
-                'radiance' => 'Pigmentation & Dark Spots',
+                'radiance' => 'Dullness & Lack of Glow',
+                'lines' => 'Wrinkles & Fine Lines',
+                'eye_dark_circles' => 'Eye Contour Concerns',
+                'eye_puffiness' => 'Eye Contour Concerns',
             ];
 
             $matchedConcernIds = [];

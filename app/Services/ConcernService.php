@@ -9,7 +9,7 @@ class ConcernService
 {
     public function index()
     {
-        $concerns = Concern::all();
+        $concerns = Concern::orderBy('id', 'asc')->get();
         if ($concerns->isEmpty()) {
             return [
                 'status' => false,

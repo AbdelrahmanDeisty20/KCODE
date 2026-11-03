@@ -232,7 +232,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'تنقية المسام المسدودة وتقليل الرؤوس السوداء',
                 'desc_en' => 'Cleanse clogged pores and reduce blackheads',
                 'image' => 'blackheads.png',
-                'concern_name' => 'Blackheads & Visible Pores',
+                'concern_name' => 'Pores & Blackheads',
             ],
             [
                 'title_ar' => 'دهون زائدة ولمعان',
@@ -240,7 +240,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'السيطرة على الإفراز الدهني وضبط اللمعة',
                 'desc_en' => 'Control excess sebum and minimize shine',
                 'image' => 'excess_oil.png',
-                'concern_name' => 'Excess Oil & Shine',
+                'concern_name' => 'Pores & Blackheads',
             ],
             [
                 'title_ar' => 'آثار حبوب حمراء',
@@ -248,7 +248,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'بقع وردية أو حمراء تبقى بعد زوال الحبة',
                 'desc_en' => 'Pink or red marks remaining after acne blemishes heal',
                 'image' => 'red_marks.png',
-                'concern_name' => 'Red Acne Marks (PIE)',
+                'concern_name' => 'Acne & Blemishes',
             ],
             [
                 'title_ar' => 'بقع داكنة وتصبغات',
@@ -256,7 +256,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'بقع بنية أو آثار داكنة تبقى بعد الحبوب أو الشمس',
                 'desc_en' => 'Brown spots or dark pigmentation left after breakouts or sun exposure',
                 'image' => 'dark_spots.png',
-                'concern_name' => 'Dark Spots & Pigmentation (PIH)',
+                'concern_name' => 'Pigmentation & Dark Spots',
             ],
             [
                 'title_ar' => 'جفاف وشدّ',
@@ -264,7 +264,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'تعويض نقص الترطيب وإلغاء إحساس الانكماش',
                 'desc_en' => 'Replenish moisture deficit and relieve skin tightness',
                 'image' => 'dryness.png',
-                'concern_name' => 'Dryness & Tightness',
+                'concern_name' => 'Dryness & Hydration',
             ],
             [
                 'title_ar' => 'احمرار مستمر',
@@ -272,7 +272,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'تهدئة وتخفيف الاحمرار الدائم',
                 'desc_en' => 'Calm and soothe continuous facial redness',
                 'image' => 'persistent_redness.png',
-                'concern_name' => 'Persistent Redness',
+                'concern_name' => 'Redness & Irritation',
             ],
             [
                 'title_ar' => 'بهتان وشحوب',
@@ -288,7 +288,7 @@ class QuizQuestionSeeder extends Seeder
                 'desc_ar' => 'تنعيم مظهر الخطوط التعبيرية المبكرة',
                 'desc_en' => 'Smooth the appearance of early expression fine lines',
                 'image' => 'fine_lines.png',
-                'concern_name' => 'Fine Lines',
+                'concern_name' => 'Wrinkles & Fine Lines',
             ],
             [
                 'title_ar' => 'مشاكل حول العين',
