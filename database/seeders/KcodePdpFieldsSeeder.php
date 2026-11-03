@@ -91,51 +91,74 @@ class KcodePdpFieldsSeeder extends Seeder
             };
 
             $routineStepsJson = [
-                ['step' => 1, 'title' => 'غسول', 'subtitle' => null, 'is_current' => $stepNumber === 1],
-                ['step' => 2, 'title' => 'تونر أو إسنس', 'subtitle' => 'اختياري', 'is_current' => $stepNumber === 2],
-                ['step' => 3, 'title' => 'السيروم', 'subtitle' => $stepNumber === 3 ? 'هذا المنتج' : null, 'is_current' => $stepNumber === 3],
-                ['step' => 4, 'title' => 'مرطب', 'subtitle' => null, 'is_current' => $stepNumber === 4],
-                ['step' => 5, 'title' => 'واقي شمس', 'subtitle' => 'صباحاً', 'is_current' => $stepNumber === 5],
+                ['step' => 1, 'title' => 'غسول', 'title_en' => 'Cleanser', 'subtitle' => null, 'subtitle_en' => null, 'is_current' => $stepNumber === 1],
+                ['step' => 2, 'title' => 'تونر أو إسنس', 'title_en' => 'Toner or Essence', 'subtitle' => 'اختياري', 'subtitle_en' => 'Optional', 'is_current' => $stepNumber === 2],
+                ['step' => 3, 'title' => 'السيروم', 'title_en' => 'Serum', 'subtitle' => $stepNumber === 3 ? 'هذا المنتج' : null, 'subtitle_en' => $stepNumber === 3 ? 'This Product' : null, 'is_current' => $stepNumber === 3],
+                ['step' => 4, 'title' => 'مرطب', 'title_en' => 'Moisturizer', 'subtitle' => null, 'subtitle_en' => null, 'is_current' => $stepNumber === 4],
+                ['step' => 5, 'title' => 'واقي شمس', 'title_en' => 'Sunscreen', 'subtitle' => 'صباحاً', 'subtitle_en' => 'Morning', 'is_current' => $stepNumber === 5],
             ];
 
             $usageInstructionsJson = [
                 'timing' => $frequencyMap[$freqVal] ?? 'استخدام يومي (صباحاً ومساءً)',
+                'timing_en' => 'Daily use (Morning & Evening)',
                 'timing_note' => 'بعد التدرّج في الاستخدام.',
+                'timing_note_en' => 'After gradually introducing into your routine.',
                 'amount' => 'بضع قطرات',
+                'amount_en' => 'A few drops',
                 'amount_note' => 'على المناطق المستهدفة.',
+                'amount_note_en' => 'On targeted areas.',
                 'application_method' => 'ربّت بلطف',
+                'application_method_en' => 'Gently pat',
                 'application_note' => 'حتى الامتصاص، قبل المرطب.',
+                'application_note_en' => 'Until absorbed, before moisturizer.',
                 'gradual_start' => 'ابدأ تدريجيًا',
+                'gradual_start_en' => 'Start gradually',
                 'gradual_start_note' => 'وزِد التكرار حسب تحمّل بشرتك.',
+                'gradual_start_note_en' => 'Increase frequency according to your skin tolerance.',
             ];
 
-            $complementaryRoutineJson = [
-                ['sku' => 'KC0140', 'category' => 'غسول', 'reason' => 'تنظيف لطيف قبل السيروم', 'optional' => false],
-                ['sku' => 'KC0016', 'category' => 'تونر', 'reason' => 'ترطيب خفيف قبل السيروم', 'optional' => true],
-                ['sku' => 'KC0223', 'category' => 'مرطب', 'reason' => 'ترطيب بعد السيروم', 'optional' => false],
-                ['sku' => 'KC0077', 'category' => 'واقي شمس', 'reason' => 'حماية صباحية لإكمال الروتين', 'optional' => false],
+            $compSkus = [
+                ['sku' => 'KC0140', 'category' => 'غسول', 'category_en' => 'Cleanser', 'reason' => 'تنظيف لطيف قبل السيروم', 'reason_en' => 'Gentle cleansing before serum', 'optional' => false],
+                ['sku' => 'KC0016', 'category' => 'تونر', 'category_en' => 'Toner', 'reason' => 'ترطيب خفيف قبل السيروم', 'reason_en' => 'Light hydration before serum', 'optional' => true],
+                ['sku' => 'KC0223', 'category' => 'مرطب', 'category_en' => 'Moisturizer', 'reason' => 'ترطيب بعد السيروم', 'reason_en' => 'Moisturizing after serum', 'optional' => false],
+                ['sku' => 'KC0077', 'category' => 'واقي شمس', 'category_en' => 'Sunscreen', 'reason' => 'حماية صباحية لإكمال الروتين', 'reason_en' => 'Morning UV protection to complete the routine', 'optional' => false],
             ];
+
+            $complementaryRoutineJson = [];
+            foreach ($compSkus as $cItem) {
+                $compProd = Product::where('sku', $cItem['sku'])->first();
+                $cItem['product_id'] = $compProd?->id;
+                $complementaryRoutineJson[] = $cItem;
+            }
 
             $productFaqsJson = [
                 [
                     'id' => 'target',
                     'question' => 'هل يستهدف آثار الحبوب أم الحبوب نفسها؟',
+                    'question_en' => 'Does it target post-acne marks or active breakouts?',
                     'answer' => 'نقيّمه أساسًا للعناية بالبقع الداكنة وتفاوت اللون، بما فيها الآثار اللونية التي تبقى بعد الحبوب. أمّا الحبوب النشطة فتحتاج عناية تستهدفها أيضًا؛ العناية بآثارها وحدها لا تعالج سبب ظهورها.',
+                    'answer_en' => 'We primarily evaluate it for dark spots and uneven skin tone, including post-blemish marks. Active breakouts require targeted blemish care, as addressing marks alone does not treat the root cause of breakouts.',
                 ],
                 [
                     'id' => 'pairing',
                     'question' => 'هل يناسبني إذا كنت أستخدم منتجًا آخر للبقع؟',
+                    'question_en' => 'Is it suitable if I am already using another brightening product?',
                     'answer' => 'يعتمد ذلك على مكونات المنتج الآخر وتركيزه ومدى تحمّل بشرتك. تشابه الهدف لا يكفي للحكم على ملاءمة الجمع؛ نراجع التركيبتين معًا، لأن إضافة منتج آخر قد تكرر الدور نفسه أو تزيد التهيّج.',
+                    'answer_en' => 'It depends on the other product’s active ingredients, concentration, and your skin’s tolerance. Sharing the same goal is not enough to combine two products safely, as layering similar actives may duplicate the role or increase irritation.',
                 ],
                 [
                     'id' => 'moisturizer',
                     'question' => 'هل يغني عن المرطب؟',
+                    'question_en' => 'Does it replace a moisturizer?',
                     'answer' => 'الترطيب فيه دور مساند للعناية بالبقع. استخدم بعده مرطبًا مناسبًا لاحتياج بشرتك، بعد امتصاص السيروم.',
+                    'answer_en' => 'Hydration here plays a supportive role alongside targeted care. Follow with a moisturizer suited to your skin’s needs once the product has absorbed.',
                 ],
                 [
                     'id' => 'results',
                     'question' => 'متى يمكن ملاحظة تحسّن؟',
+                    'question_en' => 'When can I expect visible improvement?',
                     'answer' => 'تحسّن مظهر البقع تدريجي، وتختلف مدته بحسب نوع البقع وعمقها واستجابة البشرة. تابع التغيّر مع الاستخدام المنتظم والحماية اليومية من الشمس؛ لا توجد مدة واحدة تنطبق على الجميع.',
+                    'answer_en' => 'Improvement is gradual and varies depending on concern depth and skin response. Track progress with consistent use and daily sun protection; there is no single timeline that applies to everyone.',
                 ],
             ];
 
@@ -187,10 +210,10 @@ class KcodePdpFieldsSeeder extends Seeder
                 // Dynamic PDP & Routine Fields
                 'routine_step_number'        => $product->routine_step_number ?: $stepNumber,
                 'routine_step_title_ar'      => $product->routine_step_title_ar ?: $stepTitle,
-                'routine_steps_json'         => $product->routine_steps_json ?: $routineStepsJson,
-                'usage_instructions_json'    => $product->usage_instructions_json ?: $usageInstructionsJson,
-                'complementary_routine_json' => $product->complementary_routine_json ?: $complementaryRoutineJson,
-                'product_faqs_json'          => $product->product_faqs_json ?: $productFaqsJson,
+                'routine_steps_json'         => $routineStepsJson,
+                'usage_instructions_json'    => $usageInstructionsJson,
+                'complementary_routine_json' => $complementaryRoutineJson,
+                'product_faqs_json'          => $productFaqsJson,
             ]);
         }
     }

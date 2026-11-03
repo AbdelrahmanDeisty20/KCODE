@@ -302,15 +302,18 @@ class ProductResource extends Resource
 
                                 Forms\Components\TextInput::make('texture_ar')
                                     ->label('الملمس / القوام (عربي)')
-                                    ->required(),
+                                    ->default('خفيف وقابل للامتصاص السريع')
+                                    ->nullable(),
 
                                 Forms\Components\TextInput::make('texture_en')
                                     ->label('الملمس / القوام (إنجليزي)')
-                                    ->required(),
+                                    ->default('Lightweight')
+                                    ->nullable(),
 
                                 Forms\Components\TextInput::make('usage_frequency_ar')
                                     ->label('معدل الاستخدام (عربي)')
-                                    ->required(),
+                                    ->default('استخدام يومي (صباحاً ومساءً)')
+                                    ->nullable(),
 
                                 Forms\Components\Select::make('active_strength_level')
                                     ->label('مستوى كفاءة المواد الفعالة')
@@ -319,7 +322,8 @@ class ProductResource extends Resource
                                         'Medium' => 'متوسط (Medium)',
                                         'High' => 'مرتفع (High)',
                                     ])
-                                    ->required(),
+                                    ->default('Medium')
+                                    ->nullable(),
 
                                 Forms\Components\Textarea::make('brief_insight_ar')
                                     ->label('نبذة مركزة عن المنتج (عربي)')
@@ -328,7 +332,7 @@ class ProductResource extends Resource
                                 Forms\Components\Textarea::make('why_kcode_ar')
                                     ->label('لماذا اختار KCODE هذا المنتج؟ (عربي)')
                                     ->rows(2)
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\Textarea::make('why_kcode_en')
                                     ->label('Why KCODE Selected This Product (EN)')
@@ -347,7 +351,7 @@ class ProductResource extends Resource
                                 Forms\Components\Textarea::make('safety_notes_ar')
                                     ->label('ملاحظات الأمان والتحذيرات (عربي)')
                                     ->rows(2)
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\Textarea::make('safety_notes_en')
                                     ->label('Safety Notes & Precautions (EN)')
@@ -405,23 +409,83 @@ class ProductResource extends Resource
                                             ->label('خطوات الروتين الخماسية التفصيلية')
                                             ->schema([
                                                 Forms\Components\TextInput::make('step')->numeric()->label('رقم الخطوة')->required(),
-                                                Forms\Components\TextInput::make('title')->label('اسم الخطوة')->required(),
-                                                Forms\Components\TextInput::make('subtitle')->label('ملاحظة فرعية')->nullable(),
+                                                Forms\Components\TextInput::make('title')->label('اسم الخطوة (عربي)')->required(),
+                                                Forms\Components\TextInput::make('title_en')->label('Step Title (EN)')->nullable(),
+                                                Forms\Components\TextInput::make('subtitle')->label('ملاحظة فرعية (عربي)')->nullable(),
+                                                Forms\Components\TextInput::make('subtitle_en')->label('Subtitle (EN)')->nullable(),
                                                 Forms\Components\Toggle::make('is_current')->label('المنتج الحالي؟')->default(false),
                                             ])
-                                            ->columns(4)
+                                            ->columns(3)
                                             ->collapsible()
                                             ->columnSpanFull(),
                                     ])->columns(2),
 
                                 Components\Section::make('طريقة ودواعي الاستخدام التفصيلية (Usage Instructions)')
                                     ->schema([
-                                        Forms\Components\KeyValue::make('usage_instructions_json')
-                                            ->label('تفاصيل الاستخدام (مفاتيح: timing, amount, application_method, gradual_start)')
-                                            ->keyLabel('اسم الخاصية')
-                                            ->valueLabel('القيمة الشارحة')
-                                            ->columnSpanFull(),
-                                    ]),
+                                        Forms\Components\TextInput::make('usage_instructions_json.timing')
+                                            ->label('توقيت الاستخدام (عربي)')
+                                            ->placeholder('استخدام يومي (صباحاً ومساءً)'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.timing_en')
+                                            ->label('Timing (EN)')
+                                            ->placeholder('Daily use (Morning & Evening)'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.timing_note')
+                                            ->label('ملاحظة التوقيت (عربي)')
+                                            ->placeholder('بعد التدرّج في الاستخدام.'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.timing_note_en')
+                                            ->label('Timing Note (EN)')
+                                            ->placeholder('After gradually introducing into your routine.'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.amount')
+                                            ->label('الكمية المناسبة (عربي)')
+                                            ->placeholder('بضع قطرات'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.amount_en')
+                                            ->label('Amount (EN)')
+                                            ->placeholder('A few drops'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.amount_note')
+                                            ->label('ملاحظة الكمية (عربي)')
+                                            ->placeholder('على المناطق المستهدفة.'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.amount_note_en')
+                                            ->label('Amount Note (EN)')
+                                            ->placeholder('On targeted areas.'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.application_method')
+                                            ->label('طريقة التطبيق (عربي)')
+                                            ->placeholder('ربّت بلطف'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.application_method_en')
+                                            ->label('Application Method (EN)')
+                                            ->placeholder('Gently pat'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.application_note')
+                                            ->label('ملاحظة التطبيق (عربي)')
+                                            ->placeholder('حتى الامتصاص، قبل المرطب.'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.application_note_en')
+                                            ->label('Application Note (EN)')
+                                            ->placeholder('Until absorbed, before moisturizer.'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.gradual_start')
+                                            ->label('التدرج في البدء (عربي)')
+                                            ->placeholder('ابدأ تدريجيًا'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.gradual_start_en')
+                                            ->label('Gradual Start (EN)')
+                                            ->placeholder('Start gradually'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.gradual_start_note')
+                                            ->label('ملاحظة التدرج (عربي)')
+                                            ->placeholder('وزِد التكرار حسب تحمّل بشرتك.'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.gradual_start_note_en')
+                                            ->label('Gradual Start Note (EN)')
+                                            ->placeholder('Increase frequency according to your skin tolerance.'),
+                                    ])->columns(2),
 
                                 Components\Section::make('المنتجات المكملة للروتين (Complementary Routine)')
                                     ->schema([
@@ -432,9 +496,30 @@ class ProductResource extends Resource
                                                     ->label('اختر المنتج المكمل')
                                                     ->options(fn () => \App\Models\Product::pluck('name_en', 'id')->toArray())
                                                     ->searchable()
-                                                    ->required(),
-                                                Forms\Components\TextInput::make('category')->label('تصنيف الخطوة (غسول/مرطب/إلخ)')->required(),
-                                                Forms\Components\TextInput::make('reason')->label('سبب التوصية في الروتين')->required(),
+                                                    ->formatStateUsing(function ($state, $get) {
+                                                        if ($state) {
+                                                            return $state;
+                                                        }
+                                                        $sku = $get('sku');
+                                                        if ($sku) {
+                                                            return \App\Models\Product::where('sku', $sku)->value('id');
+                                                        }
+                                                        return null;
+                                                    })
+                                                    ->afterStateUpdated(function ($state, callable $set) {
+                                                        if ($state) {
+                                                            $sku = \App\Models\Product::where('id', $state)->value('sku');
+                                                            if ($sku) {
+                                                                $set('sku', $sku);
+                                                            }
+                                                        }
+                                                    })
+                                                    ->nullable(),
+                                                Forms\Components\Hidden::make('sku'),
+                                                Forms\Components\TextInput::make('category')->label('تصنيف الخطوة (عربي - غسول/مرطب/إلخ)')->required(),
+                                                Forms\Components\TextInput::make('category_en')->label('Category Label (EN)')->nullable(),
+                                                Forms\Components\TextInput::make('reason')->label('سبب التوصية في الروتين (عربي)')->required(),
+                                                Forms\Components\TextInput::make('reason_en')->label('Recommendation Reason (EN)')->nullable(),
                                                 Forms\Components\Toggle::make('optional')->label('خطوة اختيارية؟')->default(false),
                                             ])
                                             ->columns(2)
@@ -447,11 +532,13 @@ class ProductResource extends Resource
                                         Forms\Components\Repeater::make('product_faqs_json')
                                             ->label('أسئلة وأجوبة قبل أن تختار')
                                             ->schema([
-                                                Forms\Components\TextInput::make('id')->label('معرّف السؤال (Slug)')->required(),
-                                                Forms\Components\TextInput::make('question')->label('السؤال')->required(),
-                                                Forms\Components\Textarea::make('answer')->label('الإجابة')->rows(3)->required(),
+                                                Forms\Components\TextInput::make('id')->label('معرّف السؤال (Slug)')->default('custom_faq')->required(),
+                                                Forms\Components\TextInput::make('question')->label('السؤال (عربي)')->required(),
+                                                Forms\Components\TextInput::make('question_en')->label('Question (EN)')->nullable(),
+                                                Forms\Components\Textarea::make('answer')->label('الإجابة (عربي)')->rows(3)->required(),
+                                                Forms\Components\Textarea::make('answer_en')->label('Answer (EN)')->rows(3)->nullable(),
                                             ])
-                                            ->columns(1)
+                                            ->columns(2)
                                             ->collapsible()
                                             ->columnSpanFull(),
                                     ]),
@@ -496,11 +583,11 @@ class ProductResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('final_url_slug')
                                     ->label('رابط الصفحة (Slug)')
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\TextInput::make('seo_meta_title_ar')
                                     ->label('عنوان SEO (عربي)')
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\TextInput::make('ar_product_title_seo')
                                     ->label('عنوان صفحة المنتج SEO (عربي)')
@@ -544,12 +631,12 @@ class ProductResource extends Resource
                                 Forms\Components\Textarea::make('meta_description_ar')
                                     ->label('وصف Meta (عربي)')
                                     ->rows(3)
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\Textarea::make('meta_description_en')
                                     ->label('وصف Meta (إنجليزي)')
                                     ->rows(3)
-                                    ->required(),
+                                    ->nullable(),
 
                                 Forms\Components\TextInput::make('image_alt_ar')
                                     ->label('النص البديل للصورة Image Alt (عربي)')

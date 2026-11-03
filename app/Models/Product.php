@@ -369,10 +369,15 @@ class Product extends Model
             $rawTitle = $s['title'] ?? '';
             $rawSubtitle = $isCurrent ? ($s['subtitle'] ?? 'هذا المنتج') : ($s['subtitle'] ?? null);
 
+            $enTitle = !empty($s['title_en']) ? $s['title_en'] : ($stepTitleEnMap[$stepIdx] ?? $rawTitle);
+            $enSubtitle = !empty($s['subtitle_en'])
+                ? $s['subtitle_en']
+                : ($rawSubtitle ? ($subtitleEnMap[$rawSubtitle] ?? $rawSubtitle) : null);
+
             return [
                 'step' => $stepIdx,
-                'title' => $isAr ? $rawTitle : ($stepTitleEnMap[$stepIdx] ?? $rawTitle),
-                'subtitle' => $isAr ? $rawSubtitle : ($rawSubtitle ? ($subtitleEnMap[$rawSubtitle] ?? $rawSubtitle) : null),
+                'title' => $isAr ? $rawTitle : $enTitle,
+                'subtitle' => $isAr ? $rawSubtitle : $enSubtitle,
                 'is_current' => $isCurrent,
             ];
         }, $dbSteps);
@@ -401,21 +406,31 @@ class Product extends Model
     public function getUsageInstructionsAttribute(): ?array
     {
         if (!empty($this->usage_instructions_json) && is_array($this->usage_instructions_json)) {
+            $raw = $this->usage_instructions_json;
+
             if (app()->getLocale() == 'ar') {
-                return array_merge($this->usage_instructions_json, [
+                return [
+                    'timing' => $raw['timing'] ?? $this->usage_frequency,
+                    'timing_note' => $raw['timing_note'] ?? 'بعد التدرّج في الاستخدام.',
+                    'amount' => $raw['amount'] ?? 'بضع قطرات',
+                    'amount_note' => $raw['amount_note'] ?? 'على المناطق المستهدفة.',
+                    'application_method' => $raw['application_method'] ?? 'ربّت بلطف',
+                    'application_note' => $raw['application_note'] ?? 'حتى الامتصاص، قبل المرطب.',
+                    'gradual_start' => $raw['gradual_start'] ?? 'ابدأ تدريجيًا',
+                    'gradual_start_note' => $raw['gradual_start_note'] ?? 'وزِد التكرار حسب تحمّل بشرتك.',
                     'raw_how_to_use' => $this->how_to_use,
-                ]);
+                ];
             }
 
             return [
-                'timing' => $this->usage_frequency,
-                'timing_note' => 'After gradually introducing into your routine.',
-                'amount' => 'A few drops / Moderate amount',
-                'amount_note' => 'On targeted areas or entire face.',
-                'application_method' => 'Gently pat',
-                'application_note' => 'Until fully absorbed, before moisturizer.',
-                'gradual_start' => 'Start gradually',
-                'gradual_start_note' => 'Increase frequency according to your skin tolerance.',
+                'timing' => !empty($raw['timing_en']) ? $raw['timing_en'] : $this->usage_frequency,
+                'timing_note' => !empty($raw['timing_note_en']) ? $raw['timing_note_en'] : 'After gradually introducing into your routine.',
+                'amount' => !empty($raw['amount_en']) ? $raw['amount_en'] : 'A few drops / Moderate amount',
+                'amount_note' => !empty($raw['amount_note_en']) ? $raw['amount_note_en'] : 'On targeted areas or entire face.',
+                'application_method' => !empty($raw['application_method_en']) ? $raw['application_method_en'] : 'Gently pat',
+                'application_note' => !empty($raw['application_note_en']) ? $raw['application_note_en'] : 'Until fully absorbed, before moisturizer.',
+                'gradual_start' => !empty($raw['gradual_start_en']) ? $raw['gradual_start_en'] : 'Start gradually',
+                'gradual_start_note' => !empty($raw['gradual_start_note_en']) ? $raw['gradual_start_note_en'] : 'Increase frequency according to your skin tolerance.',
                 'raw_how_to_use' => $this->how_to_use,
             ];
         }
@@ -470,8 +485,12 @@ class Product extends Model
                 $rawCat = $item['category'] ?? ($dbProduct?->subCategory?->name_ar ?? 'منتج مكمل');
                 $rawReason = $item['reason'] ?? '';
 
-                $finalCat = $isAr ? $rawCat : ($categoryEnMap[$rawCat] ?? ($dbProduct?->category?->name_en ?? $rawCat));
-                $finalReason = $isAr ? $rawReason : ($reasonEnMap[$rawReason] ?? $rawReason);
+                $finalCat = $isAr
+                    ? $rawCat
+                    : (!empty($item['category_en']) ? $item['category_en'] : ($categoryEnMap[$rawCat] ?? ($dbProduct?->category?->name_en ?? $rawCat)));
+                $finalReason = $isAr
+                    ? $rawReason
+                    : (!empty($item['reason_en']) ? $item['reason_en'] : ($reasonEnMap[$rawReason] ?? $rawReason));
 
                 if ($dbProduct) {
                     $result[] = [
@@ -570,9 +589,7 @@ class Product extends Model
     public function getProductFaqsAttribute(): ?array
     {
         if (!empty($this->product_faqs_json) && is_array($this->product_faqs_json)) {
-            if (app()->getLocale() == 'ar') {
-                return $this->product_faqs_json;
-            }
+            $isAr = app()->getLocale() == 'ar';
 
             $enFaqsMap = [
                 'target' => [
@@ -593,16 +610,27 @@ class Product extends Model
                 ],
             ];
 
-            return array_map(function ($faq) use ($enFaqsMap) {
-                $faqId = $faq['id'] ?? null;
-                if ($faqId && isset($enFaqsMap[$faqId])) {
+            return array_map(function ($faq) use ($isAr, $enFaqsMap) {
+                $faqId = $faq['id'] ?? 'custom';
+                $qAr = $faq['question'] ?? '';
+                $aAr = $faq['answer'] ?? '';
+
+                if ($isAr) {
                     return [
                         'id' => $faqId,
-                        'question' => $enFaqsMap[$faqId]['question'],
-                        'answer' => $enFaqsMap[$faqId]['answer'],
+                        'question' => $qAr,
+                        'answer' => $aAr,
                     ];
                 }
-                return $faq;
+
+                $qEn = !empty($faq['question_en']) ? $faq['question_en'] : ($enFaqsMap[$faqId]['question'] ?? $qAr);
+                $aEn = !empty($faq['answer_en']) ? $faq['answer_en'] : ($enFaqsMap[$faqId]['answer'] ?? $aAr);
+
+                return [
+                    'id' => $faqId,
+                    'question' => $qEn,
+                    'answer' => $aEn,
+                ];
             }, $this->product_faqs_json);
         }
 
