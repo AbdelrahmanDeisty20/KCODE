@@ -72,6 +72,8 @@ class ProductResource extends JsonResource
                 'actives' => $this->primary_keyword ?: $this->short_name,
                 'sensitive_eligible' => (bool) $this->sensitive_eligible,
                 'note' => $this->brief_insight ?: $this->limitations_notes,
+                'verdict' => $this->usage_instructions['verdict'] ?? null,
+                'summary_html' => $this->usage_instructions['verdict']['summary_html'] ?? null,
             ],
             // PDP Structured Sections (using Product accessors)
             'routine_position' => $this->routine_position,

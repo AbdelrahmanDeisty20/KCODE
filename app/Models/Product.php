@@ -410,27 +410,43 @@ class Product extends Model
 
             if (app()->getLocale() == 'ar') {
                 return [
+                    'timing_label' => $raw['timing_label'] ?? 'التوقيت',
                     'timing' => $raw['timing'] ?? $this->usage_frequency,
                     'timing_note' => $raw['timing_note'] ?? 'بعد التدرّج في الاستخدام.',
+                    'amount_label' => $raw['amount_label'] ?? 'الكمية',
                     'amount' => $raw['amount'] ?? 'بضع قطرات',
                     'amount_note' => $raw['amount_note'] ?? 'على المناطق المستهدفة.',
+                    'application_label' => $raw['application_label'] ?? 'طريقة الوضع',
                     'application_method' => $raw['application_method'] ?? 'ربّت بلطف',
                     'application_note' => $raw['application_note'] ?? 'حتى الامتصاص، قبل المرطب.',
+                    'gradual_start_label' => $raw['gradual_start_label'] ?? 'التدرّج',
                     'gradual_start' => $raw['gradual_start'] ?? 'ابدأ تدريجيًا',
                     'gradual_start_note' => $raw['gradual_start_note'] ?? 'وزِد التكرار حسب تحمّل بشرتك.',
+                    'caution' => $raw['caution'] ?? $this->limitations_notes,
+                    'tiles' => $raw['tiles'] ?? null,
+                    'benefits' => $raw['benefits'] ?? null,
+                    'verdict' => $raw['verdict'] ?? null,
                     'raw_how_to_use' => $this->how_to_use,
                 ];
             }
 
             return [
+                'timing_label' => 'Timing',
                 'timing' => !empty($raw['timing_en']) ? $raw['timing_en'] : $this->usage_frequency,
                 'timing_note' => !empty($raw['timing_note_en']) ? $raw['timing_note_en'] : 'After gradually introducing into your routine.',
+                'amount_label' => 'Amount',
                 'amount' => !empty($raw['amount_en']) ? $raw['amount_en'] : 'A few drops / Moderate amount',
                 'amount_note' => !empty($raw['amount_note_en']) ? $raw['amount_note_en'] : 'On targeted areas or entire face.',
+                'application_label' => 'Application',
                 'application_method' => !empty($raw['application_method_en']) ? $raw['application_method_en'] : 'Gently pat',
                 'application_note' => !empty($raw['application_note_en']) ? $raw['application_note_en'] : 'Until fully absorbed, before moisturizer.',
+                'gradual_start_label' => 'Introduction',
                 'gradual_start' => !empty($raw['gradual_start_en']) ? $raw['gradual_start_en'] : 'Start gradually',
                 'gradual_start_note' => !empty($raw['gradual_start_note_en']) ? $raw['gradual_start_note_en'] : 'Increase frequency according to your skin tolerance.',
+                'caution' => $this->limitations_notes,
+                'tiles' => $raw['tiles'] ?? null,
+                'benefits' => $raw['benefits'] ?? null,
+                'verdict' => $raw['verdict'] ?? null,
                 'raw_how_to_use' => $this->how_to_use,
             ];
         }

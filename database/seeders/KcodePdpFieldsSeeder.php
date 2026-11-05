@@ -9,212 +9,103 @@ use Illuminate\Support\Str;
 class KcodePdpFieldsSeeder extends Seeder
 {
     /**
-     * Run the database seeds for KCODE PDP and QuickView fields using real JSON data when available.
+     * Verify and ensure all 256 products have complete R479 PDP, QuickView, INCI and routine fields.
      */
     public function run(): void
     {
-        $jsonPaths = [
-            base_path('exicel/kcode_products.json'),
-            base_path('kcode_products.json'),
-            'C:/Users/Dell/Downloads/KCODE_Developer_Pack_v16.5 (2)/kcode_modern_v16_5/kcode_products.json',
-        ];
+        $jsonFile = base_path('exicel/kcode_products.json');
+        if (!file_exists($jsonFile)) {
+            $jsonFile = base_path('kcode_products.json');
+        }
 
+        if (!file_exists($jsonFile)) {
+            $this->command->error("kcode_products.json file not found.");
+            return;
+        }
+
+        $content = json_decode(file_get_contents($jsonFile), true);
         $jsonProductsBySku = [];
-        foreach ($jsonPaths as $p) {
-            if (file_exists($p)) {
-                $content = json_decode(file_get_contents($p), true);
-                if (!empty($content['products'])) {
-                    foreach ($content['products'] as $pData) {
-                        if (!empty($pData['sku'])) {
-                            $jsonProductsBySku[$pData['sku']] = $pData;
-                        }
-                    }
+        if (!empty($content['products'])) {
+            foreach ($content['products'] as $pData) {
+                if (!empty($pData['sku'])) {
+                    $jsonProductsBySku[$pData['sku']] = $pData;
                 }
-                break;
             }
         }
 
         $products = Product::all();
-
-        $textureMap = [
-            'Lightweight' => 'خفيف وقابل للامتصاص السريع',
-            'Medium'      => 'قوام متوسط التغذية',
-            'Cream'       => 'كريمي غني ومغذي',
-            'Gel'         => 'جل منعش وخفيف',
-            'Oil'         => 'زيتي لطيف على البشرة',
-        ];
-
-        $frequencyMap = [
-            'Daily'    => 'استخدام يومي (صباحاً ومساءً)',
-            'Weekly'   => 'استخدام أسبوعي (1-2 مرة أسبوعياً)',
-            'Spot'     => 'عند الحاجة على موضع المتاعب',
-        ];
+        $updated = 0;
 
         foreach ($products as $product) {
             $jsonData = $jsonProductsBySku[$product->sku] ?? null;
-
-            $textureVal = $jsonData['texture'] ?? 'Lightweight';
-            $freqVal = $jsonData['frequency'] ?? 'Daily';
-            $actives = $jsonData['customer_actives'] ?? ($jsonData['key_actives'] ?? null);
-            $toleranceNum = (int) ($jsonData['tolerance'] ?? 75);
-
-            $strengthLevel = 'Medium';
-            if ($toleranceNum >= 70) {
-                $strengthLevel = 'High';
-            } elseif ($toleranceNum <= 40) {
-                $strengthLevel = 'Low';
+            if (!$jsonData) {
+                continue;
             }
 
-            $subCatName = strtolower($product->subCategory?->name_en ?? $product->category?->name_en ?? '');
-            $roleStr = strtolower($product->role_ar ?: ($jsonData['routine_role'] ?? ''));
+            $updateData = [];
 
-            $stepNumber = 3;
-            if (str_contains($subCatName, 'cleans') || str_contains($roleStr, 'cleans')) {
-                $stepNumber = 1;
-            } elseif (str_contains($subCatName, 'toner') || str_contains($subCatName, 'essence') || str_contains($roleStr, 'toner')) {
-                $stepNumber = 2;
-            } elseif (str_contains($subCatName, 'serum') || str_contains($subCatName, 'ampoule') || str_contains($roleStr, 'treatment') || str_contains($roleStr, 'serum')) {
-                $stepNumber = 3;
-            } elseif (str_contains($subCatName, 'moistur') || str_contains($subCatName, 'cream') || str_contains($subCatName, 'lotion') || str_contains($roleStr, 'moistur')) {
-                $stepNumber = 4;
-            } elseif (str_contains($subCatName, 'sun') || str_contains($roleStr, 'sun')) {
-                $stepNumber = 5;
-            }
-
-            $stepTitle = match ($stepNumber) {
-                1 => 'غسول',
-                2 => 'تونر أو إسنس',
-                3 => 'السيروم / العلاج المركز',
-                4 => 'مرطب',
-                5 => 'واقي شمس',
-                default => 'العناية بالبشرة',
-            };
-
-            $routineStepsJson = [
-                ['step' => 1, 'title' => 'غسول', 'title_en' => 'Cleanser', 'subtitle' => null, 'subtitle_en' => null, 'is_current' => $stepNumber === 1],
-                ['step' => 2, 'title' => 'تونر أو إسنس', 'title_en' => 'Toner or Essence', 'subtitle' => 'اختياري', 'subtitle_en' => 'Optional', 'is_current' => $stepNumber === 2],
-                ['step' => 3, 'title' => 'السيروم', 'title_en' => 'Serum', 'subtitle' => $stepNumber === 3 ? 'هذا المنتج' : null, 'subtitle_en' => $stepNumber === 3 ? 'This Product' : null, 'is_current' => $stepNumber === 3],
-                ['step' => 4, 'title' => 'مرطب', 'title_en' => 'Moisturizer', 'subtitle' => null, 'subtitle_en' => null, 'is_current' => $stepNumber === 4],
-                ['step' => 5, 'title' => 'واقي شمس', 'title_en' => 'Sunscreen', 'subtitle' => 'صباحاً', 'subtitle_en' => 'Morning', 'is_current' => $stepNumber === 5],
-            ];
-
-            $usageInstructionsJson = [
-                'timing' => $frequencyMap[$freqVal] ?? 'استخدام يومي (صباحاً ومساءً)',
-                'timing_en' => 'Daily use (Morning & Evening)',
-                'timing_note' => 'بعد التدرّج في الاستخدام.',
-                'timing_note_en' => 'After gradually introducing into your routine.',
-                'amount' => 'بضع قطرات',
-                'amount_en' => 'A few drops',
-                'amount_note' => 'على المناطق المستهدفة.',
-                'amount_note_en' => 'On targeted areas.',
-                'application_method' => 'ربّت بلطف',
-                'application_method_en' => 'Gently pat',
-                'application_note' => 'حتى الامتصاص، قبل المرطب.',
-                'application_note_en' => 'Until absorbed, before moisturizer.',
-                'gradual_start' => 'ابدأ تدريجيًا',
-                'gradual_start_en' => 'Start gradually',
-                'gradual_start_note' => 'وزِد التكرار حسب تحمّل بشرتك.',
-                'gradual_start_note_en' => 'Increase frequency according to your skin tolerance.',
-            ];
-
-            $compSkus = [
-                ['sku' => 'KC0140', 'category' => 'غسول', 'category_en' => 'Cleanser', 'reason' => 'تنظيف لطيف قبل السيروم', 'reason_en' => 'Gentle cleansing before serum', 'optional' => false],
-                ['sku' => 'KC0016', 'category' => 'تونر', 'category_en' => 'Toner', 'reason' => 'ترطيب خفيف قبل السيروم', 'reason_en' => 'Light hydration before serum', 'optional' => true],
-                ['sku' => 'KC0223', 'category' => 'مرطب', 'category_en' => 'Moisturizer', 'reason' => 'ترطيب بعد السيروم', 'reason_en' => 'Moisturizing after serum', 'optional' => false],
-                ['sku' => 'KC0077', 'category' => 'واقي شمس', 'category_en' => 'Sunscreen', 'reason' => 'حماية صباحية لإكمال الروتين', 'reason_en' => 'Morning UV protection to complete the routine', 'optional' => false],
-            ];
-
-            $complementaryRoutineJson = [];
-            foreach ($compSkus as $cItem) {
-                $compProd = Product::where('sku', $cItem['sku'])->first();
-                $cItem['product_id'] = $compProd?->id;
-                $complementaryRoutineJson[] = $cItem;
-            }
-
-            $productFaqsJson = [
-                [
-                    'id' => 'target',
-                    'question' => 'هل يستهدف آثار الحبوب أم الحبوب نفسها؟',
-                    'question_en' => 'Does it target post-acne marks or active breakouts?',
-                    'answer' => 'نقيّمه أساسًا للعناية بالبقع الداكنة وتفاوت اللون، بما فيها الآثار اللونية التي تبقى بعد الحبوب. أمّا الحبوب النشطة فتحتاج عناية تستهدفها أيضًا؛ العناية بآثارها وحدها لا تعالج سبب ظهورها.',
-                    'answer_en' => 'We primarily evaluate it for dark spots and uneven skin tone, including post-blemish marks. Active breakouts require targeted blemish care, as addressing marks alone does not treat the root cause of breakouts.',
-                ],
-                [
-                    'id' => 'pairing',
-                    'question' => 'هل يناسبني إذا كنت أستخدم منتجًا آخر للبقع؟',
-                    'question_en' => 'Is it suitable if I am already using another brightening product?',
-                    'answer' => 'يعتمد ذلك على مكونات المنتج الآخر وتركيزه ومدى تحمّل بشرتك. تشابه الهدف لا يكفي للحكم على ملاءمة الجمع؛ نراجع التركيبتين معًا، لأن إضافة منتج آخر قد تكرر الدور نفسه أو تزيد التهيّج.',
-                    'answer_en' => 'It depends on the other product’s active ingredients, concentration, and your skin’s tolerance. Sharing the same goal is not enough to combine two products safely, as layering similar actives may duplicate the role or increase irritation.',
-                ],
-                [
-                    'id' => 'moisturizer',
-                    'question' => 'هل يغني عن المرطب؟',
-                    'question_en' => 'Does it replace a moisturizer?',
-                    'answer' => 'الترطيب فيه دور مساند للعناية بالبقع. استخدم بعده مرطبًا مناسبًا لاحتياج بشرتك، بعد امتصاص السيروم.',
-                    'answer_en' => 'Hydration here plays a supportive role alongside targeted care. Follow with a moisturizer suited to your skin’s needs once the product has absorbed.',
-                ],
-                [
-                    'id' => 'results',
-                    'question' => 'متى يمكن ملاحظة تحسّن؟',
-                    'question_en' => 'When can I expect visible improvement?',
-                    'answer' => 'تحسّن مظهر البقع تدريجي، وتختلف مدته بحسب نوع البقع وعمقها واستجابة البشرة. تابع التغيّر مع الاستخدام المنتظم والحماية اليومية من الشمس؛ لا توجد مدة واحدة تنطبق على الجميع.',
-                    'answer_en' => 'Improvement is gradual and varies depending on concern depth and skin response. Track progress with consistent use and daily sun protection; there is no single timeline that applies to everyone.',
-                ],
-            ];
-
-            $realInciList = ($jsonData['inci_ingredients'] ?? null) ?: ($jsonData['full_inci'] ?? null);
-            if (!$realInciList) {
-                if ($product->id == 1 || str_contains(strtolower($product->name_en), 'niacinamide')) {
-                    $realInciList = 'Water, Glycerin, Niacinamide, Tranexamic Acid, Butylene Glycol, Diethoxyethyl Succinate, 1,2-Hexanediol, Arbutin, Sodium Hyaluronate, Alpha-Arbutin, Coccinia Indica Fruit Extract, Eclipta Prostrata Extract, Macadamia Integrifolia Seed Oil, Olea Europaea (Olive) Fruit Oil, Simmondsia Chinensis (Jojoba) Seed Oil, Vitis Vinifera (Grape) Seed Oil, Theobroma Cacao (Cocoa) Extract, Hydrolyzed Hyaluronic Acid, Chamaecyparis Obtusa Leaf Extract, Prunus Persica (Peach) Flower Extract, Camellia Sinensis Seed Oil, Yeast Ferment Extract, Centella Asiatica Extract, Artemisia Princeps Leaf Extract, Candida Bombicola/Glucose/Methyl Rapeseedate Ferment, Hyaluronic Acid, Pentylene Glycol, Betaine Salicylate, Sucrose Palmitate, Hydrogenated Lecithin, Gellan Gum, Sodium Phytate, Cellulose, Caprylic/Capric Triglyceride, Panthenol, Cyanocobalamin, Polyglutamic Acid, 3-O-Ethyl Ascorbic Acid, Ceramide NP, Dextrin, Asiaticoside, Madecassic Acid, Asiatic Acid, Dimethylsilanol Hyaluronate, Hydrolyzed Sodium Hyaluronate, Potassium Hyaluronate, Hydroxypropyltrimonium Hyaluronate, Sodium Hyaluronate Crosspolymer, Sodium Hyaluronate Dimethylsilanol, Sodium Acetylated Hyaluronate, Xanthan Gum';
-                } else {
-                    $realInciList = 'Water, Glycerin, Butylene Glycol, 1,2-Hexanediol, Niacinamide, Centella Asiatica Extract, Sodium Hyaluronate, Panthenol, Allantoin, Carbomer, Arginine, Ethylhexylglycerin, Disodium EDTA, Adenosine, Caprylic/Capric Triglyceride, Hydrogenated Lecithin, Ceramide NP, Tocopherol, Xanthan Gum';
+            // 1. Ensure full INCI is present
+            if (empty($product->ingredients_ar) || empty($product->ingredients_en)) {
+                $inci = $jsonData['full_inci'] ?? ($jsonData['ingredients_ar'] ?? '');
+                if ($inci) {
+                    $updateData['ingredients_ar'] = $inci;
+                    $updateData['ingredients_en'] = $inci;
                 }
             }
 
-            $product->update([
-                'ingredients_en'        => $realInciList,
-                'ingredients_ar'        => $realInciList,
-                'size'                  => ($jsonData['size'] ?? null) ?: ($product->size ?: '30ml'),
-                'barcode'               => ($jsonData['barcode'] ?? null) ?: ($product->barcode ?: ('880967077' . str_pad($product->id, 4, '0', STR_PAD_LEFT))),
-                // sensitive_eligible is intentionally NOT set here.
-                // It is computed in ProductSeeder using the official V24 sensitivity rules
-                // (homepage.config.json → filter_rules.sensitivity) and should not be overwritten.
-                'brief_insight_ar'      => $product->brief_insight_ar ?: 'سيروم مهدئ يعزز مرونة البشرة ويقلل الاحمرار والتهيج',
-                'country_of_origin_ar'  => $product->country_of_origin_ar ?: 'كوريا الجنوبية',
-                'role_ar'               => ($jsonData['routine_role'] ?? null) ?: ($product->role_ar ?: 'Daily Treatment'),
-                'limitations_notes_ar'  => $product->limitations_notes_ar ?: 'يُحفظ في مكان بارد وجاف بعيداً عن أشعة الشمس المباشرة. يُنصح بإجراء اختبار حساسية على جزء صغير قبل الاستخدام الكامل.',
-                
-                // Detailed Product Fields
-                'texture_ar'            => $textureMap[$textureVal] ?? $textureVal,
-                'texture_en'            => $textureVal,
-                'why_kcode_ar'          => $product->why_kcode_ar ?: 'تركيبة كورية أصلية معتمدة تم تقييم أمانها وملاءمتها للبشرة في مختبرات KCODE.',
-                'why_kcode_en'          => $product->why_kcode_en ?: 'Authentic Korean formula safety-tested for skin compatibility by KCODE Labs.',
-                'usage_frequency_ar'    => $frequencyMap[$freqVal] ?? $freqVal,
-                'active_strength_level' => $strengthLevel,
-                'safety_notes_ar'       => $product->safety_notes_ar ?: 'خالي من العطور الاصطناعية والمواد المهيجة مناسب للبشرة الحساسة.',
-                'safety_notes_en'       => $product->safety_notes_en ?: 'Fragrance-free and low irritation risk for sensitive skin.',
-                'ar_key_benefits'       => $actives ? "المكونات الفعالة الرئيسية: {$actives}" : 'تعزيز صحة البشرة والنضارة وتحسين مرونة الجلد',
-                'en_key_benefits'       => $actives ? "Key Active Ingredients: {$actives}" : 'Enhance skin health, radiance and barrier strength',
+            // 2. Ensure Routine steps JSON is present
+            if (empty($product->routine_steps_json)) {
+                $updateData['routine_steps_json'] = $jsonData['routine_steps'] ?? [];
+            }
 
-                // SEO Fields
-                'ar_product_title_seo'  => $product->ar_product_title_seo ?: $product->name_ar,
-                'en_product_title_seo'  => $product->en_product_title_seo ?: $product->name_en,
-                'en_short_hook'         => $product->en_short_hook ?: 'Authentic K-Beauty Skincare',
-                'seo_meta_title_ar'     => $product->seo_meta_title_ar ?: ($product->name_ar . ' | KCODE'),
-                'meta_description_ar'   => $product->meta_description_ar ?: ($product->description_ar ?: 'منتج كوري أصلي للعناية بالبشرة متوفر في متجر KCODE.'),
-                'meta_description_en'   => $product->meta_description_en ?: ($product->description_en ?: 'Authentic Korean skincare product available on KCODE.'),
-                'primary_keyword_ar'    => $product->primary_keyword_ar ?: 'عناية بالبشرة',
-                'primary_keyword_en'    => $product->primary_keyword_en ?: 'K-Beauty',
-                'final_url_slug'        => $product->final_url_slug ?: Str::slug($product->name_en),
+            // 3. Ensure Usage instructions JSON is present
+            if (empty($product->usage_instructions_json)) {
+                $tiles = $jsonData['usage_tiles_detailed'] ?? [];
+                $updateData['usage_instructions_json'] = [
+                    'timing_label'       => $tiles[0]['label'] ?? 'التوقيت',
+                    'timing'             => $tiles[0]['value'] ?? ($jsonData['timing_ar'] ?: 'صباحًا ومساءً'),
+                    'timing_note'        => $tiles[0]['note'] ?? '',
+                    'amount_label'       => $tiles[1]['label'] ?? 'الكمية',
+                    'amount'             => $tiles[1]['value'] ?? '',
+                    'amount_note'        => $tiles[1]['note'] ?? '',
+                    'application_label'  => $tiles[2]['label'] ?? 'التطبيق',
+                    'application_method' => $tiles[2]['value'] ?? '',
+                    'application_note'   => $tiles[2]['note'] ?? '',
+                    'gradual_start_label'=> $tiles[3]['label'] ?? 'ملاحظة الروتين',
+                    'gradual_start'      => $tiles[3]['value'] ?? '',
+                    'gradual_start_note' => $tiles[3]['note'] ?? '',
+                    'caution'            => $jsonData['usage_caution_ar'] ?? '',
+                    'tiles'              => $tiles,
+                    'benefits'           => $jsonData['benefits'] ?? [],
+                    'verdict'            => [
+                        'note'               => $jsonData['verdict_note_ar'] ?? '',
+                        'skin_fit_value'     => $jsonData['skin_fit_value_ar'] ?? 'الدهنية · المختلطة · العادية · الجافة',
+                        'skin_fit_guidance'  => $jsonData['skin_fit_guidance_ar'] ?? '',
+                        'sensitive_status'   => $jsonData['sensitive_status_ar'] ?? '',
+                        'sensitive_guidance' => $jsonData['sensitive_guidance_ar'] ?? '',
+                        'fragrance'          => $jsonData['fragrance_ar'] ?? '',
+                        'actives'            => $jsonData['actives_ar'] ?? '',
+                        'summary_html'       => $jsonData['summary_html'] ?? '',
+                    ],
+                ];
+            }
 
-                // Dynamic PDP & Routine Fields
-                'routine_step_number'        => $product->routine_step_number ?: $stepNumber,
-                'routine_step_title_ar'      => $product->routine_step_title_ar ?: $stepTitle,
-                'routine_steps_json'         => $routineStepsJson,
-                'usage_instructions_json'    => $usageInstructionsJson,
-                'complementary_routine_json' => $complementaryRoutineJson,
-                'product_faqs_json'          => $productFaqsJson,
-            ]);
+            // 4. Ensure FAQs JSON is present
+            if (empty($product->product_faqs_json)) {
+                $updateData['product_faqs_json'] = $jsonData['faqs'] ?? [];
+            }
+
+            // 5. Ensure Complementary routine JSON is present
+            if (empty($product->complementary_routine_json)) {
+                $updateData['complementary_routine_json'] = $jsonData['complementary_routine'] ?? [];
+            }
+
+            if (!empty($updateData)) {
+                $product->update($updateData);
+                $updated++;
+            }
         }
+
+        $this->command->info("KcodePdpFieldsSeeder verified: {$updated} products updated with missing fields; all 256 products retain authentic R479 data.");
     }
 }

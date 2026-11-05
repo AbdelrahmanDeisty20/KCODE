@@ -1,2556 +1,3348 @@
 {
-  "KC0001": {
-    "sku": "KC0001",
-    "brand": "ANUA",
-    "name": "Niacinamide 10 TXA 4 Serum",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0001.jpg",
-    "mainImagePath": "products/KC0001.jpg",
-    "gallery": [
-      "products/KC0001_gallery_1.jpg",
-      "products/KC0001_gallery_2.jpg",
-      "products/KC0001_gallery_3.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0079": {
-    "sku": "KC0079",
-    "brand": "Beauty of Joseon",
-    "name": "Dynasty Cream",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0079.jpg",
-    "mainImagePath": "products/KC0079.jpg",
-    "gallery": [
-      "products/KC0079_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0163": {
-    "sku": "KC0163",
-    "brand": "COSRX",
-    "name": "Low pH Good Morning Gel Cleanser",
-    "size": "150ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0163.jpg",
-    "mainImagePath": "products/KC0163.jpg",
-    "gallery": [],
-    "mime": "image/jpeg"
-  },
-  "KC0007": {
-    "sku": "KC0007",
-    "brand": "ANUA",
-    "name": "Zero-cast Moisturizing Finish Sunscreen",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0007.jpg",
-    "mainImagePath": "products/KC0007.jpg",
-    "gallery": [
-      "products/KC0007_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0086": {
-    "sku": "KC0086",
-    "brand": "Beauty of Joseon",
-    "name": "Ginseng Essence Water",
-    "size": "150ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0086.jpg",
-    "mainImagePath": "products/KC0086.jpg",
-    "gallery": [
-      "products/KC0086_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0078": {
-    "sku": "KC0078",
-    "brand": "Beauty of Joseon",
-    "name": "Revive Eye Serum: Ginseng + Retinal",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0078.jpg",
-    "mainImagePath": "products/KC0078.jpg",
-    "gallery": [
-      "products/KC0078_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0155": {
-    "sku": "KC0155",
-    "brand": "COSRX",
-    "name": "Advanced Snail 92 All In One Cream",
-    "size": "100ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0155.png",
-    "mainImagePath": "products/KC0155.png",
-    "gallery": [],
-    "mime": "image/png"
-  },
-  "KC0016": {
-    "sku": "KC0016",
-    "brand": "ANUA",
-    "name": "Heartleaf 77% Soothing Toner",
-    "size": "250ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0016.jpg",
-    "mainImagePath": "products/KC0016.jpg",
-    "gallery": [
-      "products/KC0016_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0081": {
-    "sku": "KC0081",
-    "brand": "Beauty of Joseon",
-    "name": "Glow Serum: Propolis + Niacinamide",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0081.jpg",
-    "mainImagePath": "products/KC0081.jpg",
-    "gallery": [
-      "products/KC0081_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0003": {
-    "sku": "KC0003",
-    "brand": "ANUA",
-    "name": "Heartleaf Quercetinol Pore Deep Cleansing Foam",
-    "size": "150ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0003.jpg",
-    "mainImagePath": "products/KC0003.jpg",
-    "gallery": [
-      "products/KC0003_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0019": {
-    "sku": "KC0019",
-    "brand": "ANUA",
-    "name": "Rice Ceramide 7 Hydrating Barrier Serum",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0019.jpg",
-    "mainImagePath": "products/KC0019.jpg",
-    "gallery": [
-      "products/KC0019_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0088": {
-    "sku": "KC0088",
-    "brand": "Beauty of Joseon",
-    "name": "Red Bean Water Gel",
-    "size": "100ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0088.jpg",
-    "mainImagePath": "products/KC0088.jpg",
-    "gallery": [
-      "products/KC0088_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0156": {
-    "sku": "KC0156",
-    "brand": "COSRX",
-    "name": "Hyaluronic Acid Intensive Cream",
-    "size": "100ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0156.jpg",
-    "mainImagePath": "products/KC0156.jpg",
-    "gallery": [],
-    "mime": "image/jpeg"
-  },
-  "KC0083": {
-    "sku": "KC0083",
-    "brand": "Beauty of Joseon",
-    "name": "Ground Rice and Honey Glow Mask",
-    "size": "150ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0083.jpg",
-    "mainImagePath": "products/KC0083.jpg",
-    "gallery": [
-      "products/KC0083_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0104": {
-    "sku": "KC0104",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Ampoule Foam",
-    "size": "125ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0104.png",
-    "mainImagePath": "products/KC0104.png",
-    "gallery": [
-      "products/KC0104_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0002": {
-    "sku": "KC0002",
-    "brand": "ANUA",
-    "name": "Azelaic Acid 10 Hyaluron Redness Soothing Serum",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0002.jpg",
-    "mainImagePath": "products/KC0002.jpg",
-    "gallery": [
-      "products/KC0002_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0102": {
-    "sku": "KC0102",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Poremizing Light Gel Cream",
-    "size": "75ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0102.png",
-    "mainImagePath": "products/KC0102.png",
-    "gallery": [
-      "products/KC0102_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0159": {
-    "sku": "KC0159",
-    "brand": "COSRX",
-    "name": "Ultra Light Invisible Sunscreen SPF50 PA++++",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0159.jpg",
-    "mainImagePath": "products/KC0159.jpg",
-    "gallery": [],
-    "mime": "image/jpeg"
-  },
-  "KC0012": {
-    "sku": "KC0012",
-    "brand": "ANUA",
-    "name": "Heartleaf 77 Clear Pad",
-    "size": "205ml (70 Pads)",
-    "hasRealPhoto": true,
-    "mainImage": "KC0012.jpg",
-    "mainImagePath": "products/KC0012.jpg",
-    "gallery": [
-      "products/KC0012_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0154": {
-    "sku": "KC0154",
-    "brand": "COSRX",
-    "name": "Advanced Snail 96 Mucin Power Essence",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0122": {
-    "sku": "KC0122",
-    "brand": "NUMBUZIN",
-    "name": "No.3 Blue Bio-Retinol Pore Refining Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0220": {
-    "sku": "KC0220",
-    "brand": "ANUA",
-    "name": "Heartleaf Low pH Deep Cleansing Water",
-    "size": "500g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0153": {
-    "sku": "KC0153",
-    "brand": "COSRX",
-    "name": "Acne Pimple Master Patch",
-    "size": "24 Patches",
-    "hasRealPhoto": true,
-    "mainImage": "KC0153.jpg",
-    "mainImagePath": "products/KC0153.jpg",
-    "gallery": [],
-    "mime": "image/jpeg"
-  },
-  "KC0123": {
-    "sku": "KC0123",
-    "brand": "NUMBUZIN",
-    "name": "No.1 Pantothenic B5 Active Soothing Serum",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0123.jpg",
-    "mainImagePath": "products/KC0123.jpg",
-    "gallery": [],
-    "mime": "image/jpeg"
-  },
-  "KC0172": {
-    "sku": "KC0172",
-    "brand": "COSRX",
-    "name": "Hyaluronic Acid Hydra Power Essence",
-    "size": "100ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0172.jpg",
-    "mainImagePath": "products/KC0172.jpg",
-    "gallery": [],
-    "mime": "image/jpeg"
-  },
-  "KC0221": {
-    "sku": "KC0221",
-    "brand": "MIXSOON",
-    "name": "Calming Boosting Mist",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0126": {
-    "sku": "KC0126",
-    "brand": "NUMBUZIN",
-    "name": "No.5 Glutathione Vitamin Concentrated Toner Pads",
-    "size": "180ml (70 Pads)",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0173": {
-    "sku": "KC0173",
-    "brand": "COSRX",
-    "name": "The Peptide Collagen Hydrogel Eye Patch",
-    "size": "85g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0173.png",
-    "mainImagePath": "products/KC0173.png",
-    "gallery": [],
-    "mime": "image/png"
-  },
-  "KC0047": {
-    "sku": "KC0047",
-    "brand": "Medicube",
-    "name": "Zero Pore SA Clear Capsule Cleansing Foam",
-    "size": "120g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0047.jpg",
-    "mainImagePath": "products/KC0047.jpg",
-    "gallery": [
-      "products/KC0047_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0164": {
-    "sku": "KC0164",
-    "brand": "COSRX",
-    "name": "The Niacinamide 15 Serum",
-    "size": "20ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0219": {
-    "sku": "KC0219",
-    "brand": "COSRX",
-    "name": "Low pH Niacinamide Micellar Cleansing Water",
-    "size": "400ml",
-    "hasRealPhoto": false,
-    "mainImage": "KC0219_placeholder.svg",
-    "mainImagePath": "products/KC0219_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0048": {
-    "sku": "KC0048",
-    "brand": "Medicube",
-    "name": "TXA Niacinamide 15 Serum",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0048.jpg",
-    "mainImagePath": "products/KC0048.jpg",
-    "gallery": [
-      "products/KC0048_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0121": {
-    "sku": "KC0121",
-    "brand": "NUMBUZIN",
-    "name": "No.1 Clear Filter Sun Essence SPF50+ PA++++",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0089": {
-    "sku": "KC0089",
-    "brand": "Dr.Althea",
-    "name": "345 Relief Cream",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0089.jpg",
-    "mainImagePath": "products/KC0089.jpg",
-    "gallery": [
-      "products/KC0089_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0071": {
-    "sku": "KC0071",
-    "brand": "AXIS-Y",
-    "name": "Dark Spot Correcting Glow Cream",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0071.png",
-    "mainImagePath": "products/KC0071.png",
-    "gallery": [
-      "products/KC0071_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0162": {
-    "sku": "KC0162",
-    "brand": "COSRX",
-    "name": "Advanced Snail Radiance Dual Essence",
-    "size": "80ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0162.png",
-    "mainImagePath": "products/KC0162.png",
-    "gallery": [],
-    "mime": "image/png"
-  },
-  "KC0020": {
-    "sku": "KC0020",
-    "brand": "ANUA",
-    "name": "PDRN Hyaluronic Acid Hydrating Capsule Mist",
-    "size": "100ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0020.jpg",
-    "mainImagePath": "products/KC0020.jpg",
-    "gallery": [
-      "products/KC0020_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0074": {
-    "sku": "KC0074",
-    "brand": "AXIS-Y",
-    "name": "Complete No-Stress Physical Sunscreen V.3",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0074.png",
-    "mainImagePath": "products/KC0074.png",
-    "gallery": [
-      "products/KC0074_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0198": {
-    "sku": "KC0198",
-    "brand": "Dr.Reju-All",
-    "name": "Advanced Retino-Mela Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": "KC0198_placeholder.svg",
-    "mainImagePath": "products/KC0198_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0217": {
-    "sku": "KC0217",
-    "brand": "ISNTREE",
-    "name": "Hyaluronic Acid Watery Sun Gel SPF50+ PA++++",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0025": {
-    "sku": "KC0025",
-    "brand": "Medicube",
-    "name": "PDRN Pink Cica Soothing Toner",
-    "size": "250ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0025.jpg",
-    "mainImagePath": "products/KC0025.jpg",
-    "gallery": [
-      "products/KC0025_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0014": {
-    "sku": "KC0014",
-    "brand": "ANUA",
-    "name": "Niacinamide 5 TXA Brightening Pad",
-    "size": "210ml (60 Pads)",
-    "hasRealPhoto": true,
-    "mainImage": "KC0014.jpg",
-    "mainImagePath": "products/KC0014.jpg",
-    "gallery": [
-      "products/KC0014_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0150": {
-    "sku": "KC0150",
-    "brand": "EQQUALBERRY",
-    "name": "Bakuchiol Plumping Capsule Cream",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0190": {
-    "sku": "KC0190",
-    "brand": "BIODANCE",
-    "name": "Collagen Peptide Eye Patches",
-    "size": "30 Pairs",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0140": {
-    "sku": "KC0140",
-    "brand": "TORRIDEN",
-    "name": "DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
-    "size": "150ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0107": {
-    "sku": "KC0107",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Hyalu-Cica Moisture Cream",
-    "size": "75ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0107.png",
-    "mainImagePath": "products/KC0107.png",
-    "gallery": [
-      "products/KC0107_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0069": {
-    "sku": "KC0069",
-    "brand": "AXIS-Y",
-    "name": "Dark Spot Correcting Glow Toner",
-    "size": "125ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0069.png",
-    "mainImagePath": "products/KC0069.png",
-    "gallery": [
-      "products/KC0069_gallery_1.png",
-      "products/KC0069_gallery_2.png",
-      "products/KC0069_gallery_3.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0070": {
-    "sku": "KC0070",
-    "brand": "AXIS-Y",
-    "name": "TXA 2.5% Intensive Brightening Cream",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0070.png",
-    "mainImagePath": "products/KC0070.png",
-    "gallery": [
-      "products/KC0070_gallery_1.png",
-      "products/KC0070_gallery_2.png",
-      "products/KC0070_gallery_3.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0115": {
-    "sku": "KC0115",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Hyalu-Cica Water-Fit Sun Serum SPF50+ PA++++",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0115.png",
-    "mainImagePath": "products/KC0115.png",
-    "gallery": [
-      "products/KC0115_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0139": {
-    "sku": "KC0139",
-    "brand": "TORRIDEN",
-    "name": "CELLMAZING Firming Cream",
-    "size": "60ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0165": {
-    "sku": "KC0165",
-    "brand": "COSRX",
-    "name": "Advanced Snail Mucin Gel Cleanser",
-    "size": "150ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0165.png",
-    "mainImagePath": "products/KC0165.png",
-    "gallery": [],
-    "mime": "image/png"
-  },
-  "KC0213": {
-    "sku": "KC0213",
-    "brand": "VT COSMETICS",
-    "name": "CICA Reedle Shot 100",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0185": {
-    "sku": "KC0185",
-    "brand": "BIODANCE",
-    "name": "Bio Collagen Real Deep Mask",
-    "size": "34g (4EA)",
-    "hasRealPhoto": false,
-    "mainImage": "KC0185_placeholder.svg",
-    "mainImagePath": "products/KC0185_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0082": {
-    "sku": "KC0082",
-    "brand": "Beauty of Joseon",
-    "name": "Glow Replenishing Rice Milk",
-    "size": "150ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0082.jpg",
-    "mainImagePath": "products/KC0082.jpg",
-    "gallery": [
-      "products/KC0082_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0222": {
-    "sku": "KC0222",
-    "brand": "MIXSOON",
-    "name": "Bean Essence",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0202": {
-    "sku": "KC0202",
-    "brand": "ABIB",
-    "name": "Collagen Eye Patch Jericho Rose Jelly",
-    "size": "90g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0040": {
-    "sku": "KC0040",
-    "brand": "Medicube",
-    "name": "Zero Pore Blackhead Mud Mask",
-    "size": "100g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0040.jpg",
-    "mainImagePath": "products/KC0040.jpg",
-    "gallery": [
-      "products/KC0040_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0076": {
-    "sku": "KC0076",
-    "brand": "Beauty of Joseon",
-    "name": "Relief Sun Aqua-Fresh: Rice + Panthenol SPF50+ PA++++",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0076.webp",
-    "mainImagePath": "products/KC0076.webp",
-    "gallery": [
-      "products/KC0076_gallery_1.webp"
-    ],
-    "mime": "image/webp"
-  },
-  "KC0138": {
-    "sku": "KC0138",
-    "brand": "TORRIDEN",
-    "name": "DIVE IN Low Molecular Hyaluronic Acid Soothing Cream",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0145": {
-    "sku": "KC0145",
-    "brand": "EQQUALBERRY",
-    "name": "NAD+ Peptide Boosting Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0124": {
-    "sku": "KC0124",
-    "brand": "NUMBUZIN",
-    "name": "No.3 Skin Softening Serum",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0143": {
-    "sku": "KC0143",
-    "brand": "EQQUALBERRY",
-    "name": "Hyaltoin Flooding Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0077": {
-    "sku": "KC0077",
-    "brand": "Beauty of Joseon",
-    "name": "Relief Sun: Rice + Probiotics SPF50+ PA++++",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0077.png",
-    "mainImagePath": "products/KC0077.png",
-    "gallery": [
-      "products/KC0077_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0075": {
-    "sku": "KC0075",
-    "brand": "Beauty of Joseon",
-    "name": "Light On Serum: Centella + Vita C",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0075.webp",
-    "mainImagePath": "products/KC0075.webp",
-    "gallery": [
-      "products/KC0075_gallery_1.webp"
-    ],
-    "mime": "image/webp"
-  },
-  "KC0061": {
-    "sku": "KC0061",
-    "brand": "Arencia",
-    "name": "Vitamin C Booster Shot",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0061.jpg",
-    "mainImagePath": "products/KC0061.jpg",
-    "gallery": [
-      "products/KC0061_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0216": {
-    "sku": "KC0216",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Tone Brightening Tone-Up Sunscreen",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0216.png",
-    "mainImagePath": "products/KC0216.png",
-    "gallery": [],
-    "mime": "image/png"
-  },
-  "KC0049": {
-    "sku": "KC0049",
-    "brand": "Medicube",
-    "name": "Kojic Acid Turmeric Niacinamide Serum",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0049.jpg",
-    "mainImagePath": "products/KC0049.jpg",
-    "gallery": [
-      "products/KC0049_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0141": {
-    "sku": "KC0141",
-    "brand": "EQQUALBERRY",
-    "name": "Vitamin Illuminating Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0080": {
-    "sku": "KC0080",
-    "brand": "Beauty of Joseon",
-    "name": "Glow Deep Serum: Rice + Alpha-Arbutin",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0080.png",
-    "mainImagePath": "products/KC0080.png",
-    "gallery": [
-      "products/KC0080_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0064": {
-    "sku": "KC0064",
-    "brand": "Arencia",
-    "name": "Fresh Rosehip Rice Mochi Cleanser",
-    "size": "120g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0064.png",
-    "mainImagePath": "products/KC0064.png",
-    "gallery": [
-      "products/KC0064_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0192": {
-    "sku": "KC0192",
-    "brand": "BIODANCE",
-    "name": "Skin-Glow Essence Cream",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": "KC0192_placeholder.svg",
-    "mainImagePath": "products/KC0192_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0223": {
-    "sku": "KC0223",
-    "brand": "PURITO",
-    "name": "Oat-In Calming Gel Cream",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": "KC0223_placeholder.svg",
-    "mainImagePath": "products/KC0223_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0226": {
-    "sku": "KC0226",
-    "brand": "PURITO",
-    "name": "Wonder Releaf Centella Eye Cream Unscented",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0224": {
-    "sku": "KC0224",
-    "brand": "PURITO",
-    "name": "Mighty Bamboo Panthenol Cream",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": "KC0224_placeholder.svg",
-    "mainImagePath": "products/KC0224_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0225": {
-    "sku": "KC0225",
-    "brand": "PURITO",
-    "name": "Daily Soft Touch Sunscreen",
-    "size": "60ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0148": {
-    "sku": "KC0148",
-    "brand": "EQQUALBERRY",
-    "name": "Aloe PDRN Calming Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0009": {
-    "sku": "KC0009",
-    "brand": "ANUA",
-    "name": "3 Ceramide Panthenol Moisture Barrier Cream",
-    "size": "100ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0009.jpg",
-    "mainImagePath": "products/KC0009.jpg",
-    "gallery": [
-      "products/KC0009_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0101": {
-    "sku": "KC0101",
-    "brand": "celimax",
-    "name": "Dual Barrier Creamy Toner",
-    "size": "150ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0117": {
-    "sku": "KC0117",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Probio-Cica Enrich Cream",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0117.png",
-    "mainImagePath": "products/KC0117.png",
-    "gallery": [
-      "products/KC0117_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0184": {
-    "sku": "KC0184",
-    "brand": "BIODANCE",
-    "name": "Hydro Cera-nol Real Deep Mask",
-    "size": "34g (4EA)",
-    "hasRealPhoto": false,
-    "mainImage": "KC0184_placeholder.svg",
-    "mainImagePath": "products/KC0184_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0137": {
-    "sku": "KC0137",
-    "brand": "TORRIDEN",
-    "name": "DIVE IN Low Molecular Hyaluronic Acid Serum",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0021": {
-    "sku": "KC0021",
-    "brand": "ANUA",
-    "name": "Rice 70 Glow Milky Toner",
-    "size": "250ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0021.jpg",
-    "mainImagePath": "products/KC0021.jpg",
-    "gallery": [
-      "products/KC0021_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0187": {
-    "sku": "KC0187",
-    "brand": "BIODANCE",
-    "name": "Refreshing Sea Kelp Real Deep Mask",
-    "size": "34g (4EA)",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0207": {
-    "sku": "KC0207",
-    "brand": "ABIB",
-    "name": "Rice Probiotics Overnight Mask Barrier Jelly",
-    "size": "80ml",
-    "hasRealPhoto": false,
-    "mainImage": "KC0207_placeholder.svg",
-    "mainImagePath": "products/KC0207_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0168": {
-    "sku": "KC0168",
-    "brand": "COSRX",
-    "name": "The Ceramide Skin Barrier Moisturizer",
-    "size": "80ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0168.jpg",
-    "mainImagePath": "products/KC0168.jpg",
-    "gallery": [],
-    "mime": "image/jpeg"
-  },
-  "KC0142": {
-    "sku": "KC0142",
-    "brand": "EQQUALBERRY",
-    "name": "Bakuchiol Plumping Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0119": {
-    "sku": "KC0119",
-    "brand": "NUMBUZIN",
-    "name": "No.9 NAD+ Retinol Volumetox Eye Cream",
-    "size": "10ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0157": {
-    "sku": "KC0157",
-    "brand": "COSRX",
-    "name": "The 6 Peptide Skin Booster Serum",
-    "size": "150ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0065": {
-    "sku": "KC0065",
-    "brand": "Arencia",
-    "name": "Fresh Blue Hyssop Rice Mochi Cleanser",
-    "size": "120g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0065.png",
-    "mainImagePath": "products/KC0065.png",
-    "gallery": [
-      "products/KC0065_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0022": {
-    "sku": "KC0022",
-    "brand": "Medicube",
-    "name": "Collagen Jelly Cream",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0022.jpg",
-    "mainImagePath": "products/KC0022.jpg",
-    "gallery": [
-      "products/KC0022_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0055": {
-    "sku": "KC0055",
-    "brand": "Medicube",
-    "name": "Deep Vita C Pad",
-    "size": "70 Pads",
-    "hasRealPhoto": true,
-    "mainImage": "KC0055.webp",
-    "mainImagePath": "products/KC0055.webp",
-    "gallery": [
-      "products/KC0055_gallery_1.webp"
-    ],
-    "mime": "image/webp"
-  },
-  "KC0149": {
-    "sku": "KC0149",
-    "brand": "EQQUALBERRY",
-    "name": "Vitamin Illuminating Cream",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0118": {
-    "sku": "KC0118",
-    "brand": "NUMBUZIN",
-    "name": "No.9 NAD Bio Lifting-sil Essence",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0085": {
-    "sku": "KC0085",
-    "brand": "Beauty of Joseon",
-    "name": "Red Bean Refreshing Pore Mask",
-    "size": "140ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0085.jpg",
-    "mainImagePath": "products/KC0085.jpg",
-    "gallery": [
-      "products/KC0085_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0094": {
-    "sku": "KC0094",
-    "brand": "Dr.Althea",
-    "name": "Pure Grinding Cleansing Balm",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0177": {
-    "sku": "KC0177",
-    "brand": "COSRX",
-    "name": "BHA Blackhead Power Liquid",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": "KC0177_placeholder.svg",
-    "mainImagePath": "products/KC0177_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0189": {
-    "sku": "KC0189",
-    "brand": "BIODANCE",
-    "name": "Radiant Vita Niacinamide Real Deep Mask",
-    "size": "34g (4EA)",
-    "hasRealPhoto": false,
-    "mainImage": "KC0189_placeholder.svg",
-    "mainImagePath": "products/KC0189_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0218": {
-    "sku": "KC0218",
-    "brand": "Beauty of Joseon",
-    "name": "Matte Sun Stick Mugwort + Camelia SPF50+ PA++++",
-    "size": "18g",
-    "hasRealPhoto": false,
-    "mainImage": "KC0218_placeholder.svg",
-    "mainImagePath": "products/KC0218_placeholder.svg",
-    "gallery": [],
-    "mime": "image/svg+xml"
-  },
-  "KC0186": {
-    "sku": "KC0186",
-    "brand": "BIODANCE",
-    "name": "Cera-nol Gel Toner Pads",
-    "size": "60 Pads",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0095": {
-    "sku": "KC0095",
-    "brand": "Dr.Althea",
-    "name": "Vitamin C Boosting Serum RENEWED",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0068": {
-    "sku": "KC0068",
-    "brand": "AXIS-Y",
-    "name": "Vegan Collagen Eye Serum",
-    "size": "10ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0068.png",
-    "mainImagePath": "products/KC0068.png",
-    "gallery": [
-      "products/KC0068_gallery_1.png",
-      "products/KC0068_gallery_2.png",
-      "products/KC0068_gallery_3.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0004": {
-    "sku": "KC0004",
-    "brand": "ANUA",
-    "name": "PDRN Hyaluronic Acid 100 Moisturizing Cream",
-    "size": "60ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0004.jpg",
-    "mainImagePath": "products/KC0004.jpg",
-    "gallery": [
-      "products/KC0004_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0005": {
-    "sku": "KC0005",
-    "brand": "ANUA",
-    "name": "PDRN Hyaluronic Acid Capsule 100 Serum",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0005.jpg",
-    "mainImagePath": "products/KC0005.jpg",
-    "gallery": [
-      "products/KC0005_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0006": {
-    "sku": "KC0006",
-    "brand": "ANUA",
-    "name": "Heartleaf Pore Control Cleansing Oil Mild",
-    "size": "200ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0006.jpg",
-    "mainImagePath": "products/KC0006.jpg",
-    "gallery": [
-      "products/KC0006_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0008": {
-    "sku": "KC0008",
-    "brand": "ANUA",
-    "name": "Rice Enzyme Brightening Cleansing Powder",
-    "size": "40g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0008.jpg",
-    "mainImagePath": "products/KC0008.jpg",
-    "gallery": [
-      "products/KC0008_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0010": {
-    "sku": "KC0010",
-    "brand": "ANUA",
-    "name": "Heartleaf LHA Moisture Peeling Gel",
-    "size": "120ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0010.jpg",
-    "mainImagePath": "products/KC0010.jpg",
-    "gallery": [
-      "products/KC0010_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0011": {
-    "sku": "KC0011",
-    "brand": "ANUA",
-    "name": "PDRN 100 Hyaluronic Acid Glow Pad",
-    "size": "180ml (60 Pads)",
-    "hasRealPhoto": true,
-    "mainImage": "KC0011.jpg",
-    "mainImagePath": "products/KC0011.jpg",
-    "gallery": [
-      "products/KC0011_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0013": {
-    "sku": "KC0013",
-    "brand": "ANUA",
-    "name": "Heartleaf 80 Soothing Ampoule",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0013.jpg",
-    "mainImagePath": "products/KC0013.jpg",
-    "gallery": [
-      "products/KC0013_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0015": {
-    "sku": "KC0015",
-    "brand": "ANUA",
-    "name": "Heartleaf Pore Control Cleansing Oil",
-    "size": "200ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0015.jpg",
-    "mainImagePath": "products/KC0015.jpg",
-    "gallery": [
-      "products/KC0015_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0017": {
-    "sku": "KC0017",
-    "brand": "ANUA",
-    "name": "Peach 70 Niacin Serum",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0017.jpg",
-    "mainImagePath": "products/KC0017.jpg",
-    "gallery": [
-      "products/KC0017_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0018": {
-    "sku": "KC0018",
-    "brand": "ANUA",
-    "name": "Peach 77 Niacin Essence Toner",
-    "size": "250ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0018.jpg",
-    "mainImagePath": "products/KC0018.jpg",
-    "gallery": [
-      "products/KC0018_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0023": {
-    "sku": "KC0023",
-    "brand": "Medicube",
-    "name": "One Day Exosome Shot Pore Ampoule 7500",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0023.jpg",
-    "mainImagePath": "products/KC0023.jpg",
-    "gallery": [
-      "products/KC0023_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0024": {
-    "sku": "KC0024",
-    "brand": "Medicube",
-    "name": "PDRN Pink Collagen Exosome Shot 7500",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0024.jpg",
-    "mainImagePath": "products/KC0024.jpg",
-    "gallery": [
-      "products/KC0024_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0026": {
-    "sku": "KC0026",
-    "brand": "Medicube",
-    "name": "Zero Pore Pad Mild",
-    "size": "70 Pads",
-    "hasRealPhoto": true,
-    "mainImage": "KC0026.jpg",
-    "mainImagePath": "products/KC0026.jpg",
-    "gallery": [
-      "products/KC0026_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0027": {
-    "sku": "KC0027",
-    "brand": "Medicube",
-    "name": "PDRN Pink Peptide Serum",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0027.jpg",
-    "mainImagePath": "products/KC0027.jpg",
-    "gallery": [
-      "products/KC0027_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0028": {
-    "sku": "KC0028",
-    "brand": "Medicube",
-    "name": "PDRN Pink Collagen Capsule Cream",
-    "size": "55g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0028.jpg",
-    "mainImagePath": "products/KC0028.jpg",
-    "gallery": [
-      "products/KC0028_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0029": {
-    "sku": "KC0029",
-    "brand": "Medicube",
-    "name": "PDRN Pink Collagen Gel Mask (1EA)",
-    "size": "1 Sheet",
-    "hasRealPhoto": true,
-    "mainImage": "KC0029.jpg",
-    "mainImagePath": "products/KC0029.jpg",
-    "gallery": [
-      "products/KC0029_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0030": {
-    "sku": "KC0030",
-    "brand": "Medicube",
-    "name": "One Day Exosome Shot Pore Serum 2000",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0030.jpg",
-    "mainImagePath": "products/KC0030.jpg",
-    "gallery": [
-      "products/KC0030_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0031": {
-    "sku": "KC0031",
-    "brand": "Medicube",
-    "name": "Exosome Cica Calming Pad",
-    "size": "100 Pads",
-    "hasRealPhoto": true,
-    "mainImage": "KC0031.jpg",
-    "mainImagePath": "products/KC0031.jpg",
-    "gallery": [
-      "products/KC0031_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0032": {
-    "sku": "KC0032",
-    "brand": "Medicube",
-    "name": "Zero Foam Cleanser",
-    "size": "120g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0032.jpg",
-    "mainImagePath": "products/KC0032.jpg",
-    "gallery": [
-      "products/KC0032_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0033": {
-    "sku": "KC0033",
-    "brand": "Medicube",
-    "name": "PDRN Pink Hyaluronic Moisturizing Cream",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0033.jpg",
-    "mainImagePath": "products/KC0033.jpg",
-    "gallery": [
-      "products/KC0033_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0034": {
-    "sku": "KC0034",
-    "brand": "Medicube",
-    "name": "AGE-R Glutathione Glow Serum",
-    "size": "30g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0034.jpg",
-    "mainImagePath": "products/KC0034.jpg",
-    "gallery": [
-      "products/KC0034_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0035": {
-    "sku": "KC0035",
-    "brand": "Medicube",
-    "name": "Zero Pore Blackhead Deep Cleansing Oil",
-    "size": "205ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0035.jpg",
-    "mainImagePath": "products/KC0035.jpg",
-    "gallery": [
-      "products/KC0035_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0036": {
-    "sku": "KC0036",
-    "brand": "Medicube",
-    "name": "Kojic Acid Turmeric Toning Cleanser",
-    "size": "120g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0036.jpg",
-    "mainImagePath": "products/KC0036.jpg",
-    "gallery": [
-      "products/KC0036_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0037": {
-    "sku": "KC0037",
-    "brand": "Medicube",
-    "name": "AGE-R Glutathione Glow Toner",
-    "size": "140ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0037.png",
-    "mainImagePath": "products/KC0037.png",
-    "gallery": [
-      "products/KC0037_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0038": {
-    "sku": "KC0038",
-    "brand": "Medicube",
-    "name": "Deep Vita C Capsule Cream",
-    "size": "55g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0038.jpg",
-    "mainImagePath": "products/KC0038.jpg",
-    "gallery": [
-      "products/KC0038_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0039": {
-    "sku": "KC0039",
-    "brand": "Medicube",
-    "name": "AGE-R Vita C Pro Ampoule",
-    "size": "20ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0039.jpg",
-    "mainImagePath": "products/KC0039.jpg",
-    "gallery": [
-      "products/KC0039_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0041": {
-    "sku": "KC0041",
-    "brand": "Medicube",
-    "name": "Collagen Night Wrapping Mask",
-    "size": "75ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0041.jpg",
-    "mainImagePath": "products/KC0041.jpg",
-    "gallery": [
-      "products/KC0041_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0042": {
-    "sku": "KC0042",
-    "brand": "Medicube",
-    "name": "Triple Collagen Cream",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0042.png",
-    "mainImagePath": "products/KC0042.png",
-    "gallery": [
-      "products/KC0042_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0043": {
-    "sku": "KC0043",
-    "brand": "Medicube",
-    "name": "PDRN Pink Peptide Eye Cream",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0043.jpg",
-    "mainImagePath": "products/KC0043.jpg",
-    "gallery": [
-      "products/KC0043_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0045": {
-    "sku": "KC0045",
-    "brand": "Medicube",
-    "name": "PDRN Pink Caffeine Night Wrapping Mask",
-    "size": "75ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0045.jpg",
-    "mainImagePath": "products/KC0045.jpg",
-    "gallery": [
-      "products/KC0045_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0046": {
-    "sku": "KC0046",
-    "brand": "Medicube",
-    "name": "Red Succinic Acid Peeling Pad",
-    "size": "70 Pads",
-    "hasRealPhoto": true,
-    "mainImage": "KC0046.jpg",
-    "mainImagePath": "products/KC0046.jpg",
-    "gallery": [
-      "products/KC0046_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0050": {
-    "sku": "KC0050",
-    "brand": "Medicube",
-    "name": "AGE-R Glutathione Glow Capsule Cream",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0050.png",
-    "mainImagePath": "products/KC0050.png",
-    "gallery": [
-      "products/KC0050_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0051": {
-    "sku": "KC0051",
-    "brand": "Medicube",
-    "name": "Collagen Glow Booster Milk Serum",
-    "size": "15ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0051.jpg",
-    "mainImagePath": "products/KC0051.jpg",
-    "gallery": [
-      "products/KC0051_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0052": {
-    "sku": "KC0052",
-    "brand": "Medicube",
-    "name": "Kojic Acid Turmeric Resurfacing Toner",
-    "size": "250ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0052.jpg",
-    "mainImagePath": "products/KC0052.jpg",
-    "gallery": [
-      "products/KC0052_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0053": {
-    "sku": "KC0053",
-    "brand": "Medicube",
-    "name": "PDRN Hydrating Gel Cleanser",
-    "size": "200ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0053.jpg",
-    "mainImagePath": "products/KC0053.jpg",
-    "gallery": [
-      "products/KC0053_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0057": {
-    "sku": "KC0057",
-    "brand": "Medicube",
-    "name": "Deep Vita A Retinol Serum",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0057.jpg",
-    "mainImagePath": "products/KC0057.jpg",
-    "gallery": [
-      "products/KC0057_gallery_1.jpg",
-      "products/KC0057_gallery_2.png"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0058": {
-    "sku": "KC0058",
-    "brand": "Medicube",
-    "name": "Triple Collagen Serum 4.0",
-    "size": "55ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0058.webp",
-    "mainImagePath": "products/KC0058.webp",
-    "gallery": [
-      "products/KC0058_gallery_1.webp",
-      "products/KC0058_gallery_2.jpg"
-    ],
-    "mime": "image/webp"
-  },
-  "KC0059": {
-    "sku": "KC0059",
-    "brand": "Medicube",
-    "name": "Triple Collagen Toner 4.0",
-    "size": "140ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0059.jpg",
-    "mainImagePath": "products/KC0059.jpg",
-    "gallery": [
-      "products/KC0059_gallery_1.jpg",
-      "products/KC0059_gallery_2.png"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0060": {
-    "sku": "KC0060",
-    "brand": "Medicube",
-    "name": "TXA Niacinamide Capsule Cream",
-    "size": "55g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0060.jpg",
-    "mainImagePath": "products/KC0060.jpg",
-    "gallery": [
-      "products/KC0060_gallery_1.jpg",
-      "products/KC0060_gallery_2.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0062": {
-    "sku": "KC0062",
-    "brand": "Arencia",
-    "name": "Retinal Booster Shot",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0062.jpg",
-    "mainImagePath": "products/KC0062.jpg",
-    "gallery": [
-      "products/KC0062_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0063": {
-    "sku": "KC0063",
-    "brand": "Arencia",
-    "name": "Eraser Shot Glycolic Acid Booster",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0063.jpg",
-    "mainImagePath": "products/KC0063.jpg",
-    "gallery": [
-      "products/KC0063_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0066": {
-    "sku": "KC0066",
-    "brand": "Arencia",
-    "name": "Fresh Green Rice Mochi Cleanser",
-    "size": "120g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0066.png",
-    "mainImagePath": "products/KC0066.png",
-    "gallery": [
-      "products/KC0066_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0067": {
-    "sku": "KC0067",
-    "brand": "Arencia",
-    "name": "PDRN Booster Shot",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0067.jpg",
-    "mainImagePath": "products/KC0067.jpg",
-    "gallery": [
-      "products/KC0067_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0072": {
-    "sku": "KC0072",
-    "brand": "AXIS-Y",
-    "name": "Artichoke Intensive Skin Barrier Ampoule",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0072.png",
-    "mainImagePath": "products/KC0072.png",
-    "gallery": [
-      "products/KC0072_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0073": {
-    "sku": "KC0073",
-    "brand": "AXIS-Y",
-    "name": "Dark Spot Correcting Glow Serum",
-    "size": "50ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0073.png",
-    "mainImagePath": "products/KC0073.png",
-    "gallery": [
-      "products/KC0073_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0084": {
-    "sku": "KC0084",
-    "brand": "Beauty of Joseon",
-    "name": "Revive Serum: Ginseng + Snail Mucin",
-    "size": "30ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0084.jpg",
-    "mainImagePath": "products/KC0084.jpg",
-    "gallery": [
-      "products/KC0084_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0087": {
-    "sku": "KC0087",
-    "brand": "Beauty of Joseon",
-    "name": "Ginseng Cleansing Oil",
-    "size": "210ml",
-    "hasRealPhoto": true,
-    "mainImage": "KC0087.jpg",
-    "mainImagePath": "products/KC0087.jpg",
-    "gallery": [
-      "products/KC0087_gallery_1.jpg"
-    ],
-    "mime": "image/jpeg"
-  },
-  "KC0090": {
-    "sku": "KC0090",
-    "brand": "Dr.Althea",
-    "name": "345 Relief Cream Mist",
-    "size": "60ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0091": {
-    "sku": "KC0091",
-    "brand": "Dr.Althea",
-    "name": "147 Barrier Cream",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0092": {
-    "sku": "KC0092",
-    "brand": "Dr.Althea",
-    "name": "PDRN Reju 5000 Cream",
-    "size": "20g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0093": {
-    "sku": "KC0093",
-    "brand": "Dr.Althea",
-    "name": "Retinol Flat Iron Eye Roller",
-    "size": "25ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0096": {
-    "sku": "KC0096",
-    "brand": "Dr.Althea",
-    "name": "Gentle Vitamin C Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0097": {
-    "sku": "KC0097",
-    "brand": "celimax",
-    "name": "Pore+Dark Spot Brightening Cream",
-    "size": "35ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0098": {
-    "sku": "KC0098",
-    "brand": "celimax",
-    "name": "The Vita-A Retinal Shot Tightening Booster",
-    "size": "15ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0099": {
-    "sku": "KC0099",
-    "brand": "celimax",
-    "name": "The Vita-A Retinol Shot Tightening Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0100": {
-    "sku": "KC0100",
-    "brand": "celimax",
-    "name": "The Real Noni Energy Ampoule",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0103": {
-    "sku": "KC0103",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Soothing Cream",
-    "size": "75ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0105": {
-    "sku": "KC0105",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Light Cleansing Oil",
-    "size": "200ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0108": {
-    "sku": "KC0108",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Ampoule",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0109": {
-    "sku": "KC0109",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Poremizing Quick Clay Stick Mask",
-    "size": "27g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0110": {
-    "sku": "KC0110",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Cream",
-    "size": "75ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0111": {
-    "sku": "KC0111",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Probio-Cica Intensive Ampoule",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0112": {
-    "sku": "KC0112",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Tone Brightening Capsule Ampoule",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0113": {
-    "sku": "KC0113",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Poremizing Fresh Ampoule",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0114": {
-    "sku": "KC0114",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Matrixyl 10 Boosting Shot Ampoule",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0116": {
-    "sku": "KC0116",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Poremizing Deep Cleansing Foam",
-    "size": "125ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0120": {
-    "sku": "KC0120",
-    "brand": "NUMBUZIN",
-    "name": "No.9 NAD+ PDRN Glow Boosting Toner",
-    "size": "150ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0125": {
-    "sku": "KC0125",
-    "brand": "NUMBUZIN",
-    "name": "No.3 Super Glowing Essence Toner",
-    "size": "200ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0127": {
-    "sku": "KC0127",
-    "brand": "NUMBUZIN",
-    "name": "No.9 NAD Bio Lifting-sil Full Face Mask",
-    "size": "4 Sheets + Lifting Band",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0128": {
-    "sku": "KC0128",
-    "brand": "NUMBUZIN",
-    "name": "No.5+ Vitamin Glutathione Dark Spot Laser Cream",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0129": {
-    "sku": "KC0129",
-    "brand": "NUMBUZIN",
-    "name": "No.9 NAD+ Collagen Under Eye Patches",
-    "size": "5 Pairs",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0131": {
-    "sku": "KC0131",
-    "brand": "SOME BY MI",
-    "name": "Clear Spot Patch",
-    "size": "18 Patches",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0132": {
-    "sku": "KC0132",
-    "brand": "SOME BY MI",
-    "name": "AHA·BHA·PHA 30 Days Miracle Toner",
-    "size": "150ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0133": {
-    "sku": "KC0133",
-    "brand": "SOME BY MI",
-    "name": "Retinol Intense Advanced Triple Action Eye Cream",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0134": {
-    "sku": "KC0134",
-    "brand": "SOME BY MI",
-    "name": "AHA·BHA·PHA 30 Days Miracle Cream",
-    "size": "60g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0136": {
-    "sku": "KC0136",
-    "brand": "SOME BY MI",
-    "name": "Retinol Intense Reactivating Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0144": {
-    "sku": "KC0144",
-    "brand": "EQQUALBERRY",
-    "name": "Swimming Pool Ampoule",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0146": {
-    "sku": "KC0146",
-    "brand": "EQQUALBERRY",
-    "name": "NAD+ Peptide Boosting Toner",
-    "size": "150ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0147": {
-    "sku": "KC0147",
-    "brand": "EQQUALBERRY",
-    "name": "NAD+ Peptide Boosting Cream",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0151": {
-    "sku": "KC0151",
-    "brand": "EQQUALBERRY",
-    "name": "Bakuchiol Plumping Capsule Toner",
-    "size": "150ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0152": {
-    "sku": "KC0152",
-    "brand": "EQQUALBERRY",
-    "name": "Collagen Glow Up Hydrogel Mask",
-    "size": "4EA (30g each)",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0158": {
-    "sku": "KC0158",
-    "brand": "COSRX",
-    "name": "Salicylic Acid Daily Gentle Cleanser",
-    "size": "150ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0160": {
-    "sku": "KC0160",
-    "brand": "COSRX",
-    "name": "Advanced Snail Peptide Eye Cream",
-    "size": "25ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0161": {
-    "sku": "KC0161",
-    "brand": "COSRX",
-    "name": "Aloe Soothing Sun Cream SPF50+ PA+++",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0166": {
-    "sku": "KC0166",
-    "brand": "COSRX",
-    "name": "Ultimate Nourishing Rice Spa Overnight Mask",
-    "size": "50g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0167": {
-    "sku": "KC0167",
-    "brand": "COSRX",
-    "name": "Clear Fit Master Patch",
-    "size": "18 Patches",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0169": {
-    "sku": "KC0169",
-    "brand": "COSRX",
-    "name": "The Retinol 0.5 Oil",
-    "size": "20ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0170": {
-    "sku": "KC0170",
-    "brand": "COSRX",
-    "name": "The Retinol 0.1 Cream",
-    "size": "20ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0171": {
-    "sku": "KC0171",
-    "brand": "COSRX",
-    "name": "Advanced The Vitamin C 23 Serum",
-    "size": "20ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0174": {
-    "sku": "KC0174",
-    "brand": "COSRX",
-    "name": "Oil Free Ultra Moisturizing Lotion (with Birch Sap)",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0175": {
-    "sku": "KC0175",
-    "brand": "COSRX",
-    "name": "AHA/BHA Clarifying Treatment Toner",
-    "size": "150ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0176": {
-    "sku": "KC0176",
-    "brand": "COSRX",
-    "name": "Two In One Poreless Power Liquid",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0179": {
-    "sku": "KC0179",
-    "brand": "Dr.Melaxin",
-    "name": "Cemenrete Calcium Volume Multi Balm",
-    "size": "9g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0180": {
-    "sku": "KC0180",
-    "brand": "Dr.Melaxin",
-    "name": "Peel Shot Exfoliant Black Rice Ampoule",
-    "size": "80ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0181": {
-    "sku": "KC0181",
-    "brand": "Dr.Melaxin",
-    "name": "Peel Shot Exfoliant White Rice Ampoule",
-    "size": "80ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0182": {
-    "sku": "KC0182",
-    "brand": "Dr.Melaxin",
-    "name": "Cemenrete Calcium Volume Eye Patch",
-    "size": "60EA",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0183": {
-    "sku": "KC0183",
-    "brand": "Dr.Melaxin",
-    "name": "Eyephalt Retinol Eye Bag Cream",
-    "size": "10g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0188": {
-    "sku": "KC0188",
-    "brand": "BIODANCE",
-    "name": "Collagen Gel Toner Pads",
-    "size": "60 Pads",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0191": {
-    "sku": "KC0191",
-    "brand": "BIODANCE",
-    "name": "Pore Perfecting Collagen Peptide Cream",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0193": {
-    "sku": "KC0193",
-    "brand": "BIODANCE",
-    "name": "Pore Perfecting Collagen Peptide Serum",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0194": {
-    "sku": "KC0194",
-    "brand": "BIODANCE",
-    "name": "Vita Niacinamide Gel Toner Pads",
-    "size": "60 Pads",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0195": {
-    "sku": "KC0195",
-    "brand": "Dr.Reju-All",
-    "name": "Advanced PDRN Rejuvenating Cream",
-    "size": "20ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0197": {
-    "sku": "KC0197",
-    "brand": "Dr.Reju-All",
-    "name": "Advanced LC-Ceramide Barrier Cream",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0199": {
-    "sku": "KC0199",
-    "brand": "Mary&May",
-    "name": "Tranexamic Acid + Glutathione Eye Cream",
-    "size": "30g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0200": {
-    "sku": "KC0200",
-    "brand": "Mary&May",
-    "name": "Spicule Retinol PDRN Cream 2000 Shot",
-    "size": "15g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0201": {
-    "sku": "KC0201",
-    "brand": "Mary&May",
-    "name": "Spicule Collagen PDRN Cream 1000 Shot",
-    "size": "15g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0203": {
-    "sku": "KC0203",
-    "brand": "ABIB",
-    "name": "Quick Sunstick Protection Bar",
-    "size": "22g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0204": {
-    "sku": "KC0204",
-    "brand": "ABIB",
-    "name": "Airy Sunstick Smoothing Bar",
-    "size": "23g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0205": {
-    "sku": "KC0205",
-    "brand": "ABIB",
-    "name": "Collagen Eye Crème Jericho Rose Tube",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0208": {
-    "sku": "KC0208",
-    "brand": "VT COSMETICS",
-    "name": "PDRN Essence 100",
-    "size": "30ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0209": {
-    "sku": "KC0209",
-    "brand": "VT COSMETICS",
-    "name": "Reedle Shot Lifting Eye Cream",
-    "size": "15ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0210": {
-    "sku": "KC0210",
-    "brand": "VT COSMETICS",
-    "name": "PDRN Capsule Cream 100",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0211": {
-    "sku": "KC0211",
-    "brand": "VT COSMETICS",
-    "name": "PDRN Reedle Shot Firming Eye Cream",
-    "size": "15ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0212": {
-    "sku": "KC0212",
-    "brand": "VT COSMETICS",
-    "name": "PDRN Glow Ampoule",
-    "size": "100ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0214": {
-    "sku": "KC0214",
-    "brand": "VT COSMETICS",
-    "name": "CICA Reedle Shot 300",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0215": {
-    "sku": "KC0215",
-    "brand": "SKIN1004",
-    "name": "Madagascar Centella Air-Fit Suncream Light",
-    "size": "50ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0227": {
-    "sku": "KC0227",
-    "brand": "PURITO",
-    "name": "Wonder Releaf Centella Serum Unscented",
-    "size": "60ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0044": {
-    "sku": "KC0044",
-    "brand": "Medicube",
-    "name": "Red Acne Body Peeling Shot",
-    "size": "110g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0044.png",
-    "mainImagePath": "products/KC0044.png",
-    "gallery": [
-      "products/KC0044_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0054": {
-    "sku": "KC0054",
-    "brand": "Medicube",
-    "name": "Red Acne Body Wash 2.0",
-    "size": "400g",
-    "hasRealPhoto": true,
-    "mainImage": "KC0054.png",
-    "mainImagePath": "products/KC0054.png",
-    "gallery": [
-      "products/KC0054_gallery_1.png"
-    ],
-    "mime": "image/png"
-  },
-  "KC0130": {
-    "sku": "KC0130",
-    "brand": "SOME BY MI",
-    "name": "AHA·BHA·PHA 30 Days Miracle Acne Clear Body Cleanser",
-    "size": "400g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0178": {
-    "sku": "KC0178",
-    "brand": "Dr.Melaxin",
-    "name": "Peel Shot Exfoliating TX Spray",
-    "size": "200ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0196": {
-    "sku": "KC0196",
-    "brand": "Dr.Reju-All",
-    "name": "Advanced PDRN Rejuvenating Lip Serum",
-    "size": "10ml",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  },
-  "KC0206": {
-    "sku": "KC0206",
-    "brand": "ABIB",
-    "name": "PDRN Collagen Lip Mask Glazed Jelly",
-    "size": "11g",
-    "hasRealPhoto": false,
-    "mainImage": null,
-    "mainImagePath": null,
-    "gallery": []
-  }
+    "KC0001": {
+        "sku": "KC0001",
+        "brand": "ANUA",
+        "name": "Niacinamide 10 TXA 4 Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0001.webp",
+        "mainImagePath": "products/KC0001.webp",
+        "gallery": [
+            "products/KC0001_gallery_1.webp",
+            "products/KC0001_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0002": {
+        "sku": "KC0002",
+        "brand": "ANUA",
+        "name": "Azelaic Acid 10 Hyaluron Redness Soothing Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0002.webp",
+        "mainImagePath": "products/KC0002.webp",
+        "gallery": [
+            "products/KC0002_gallery_1.webp",
+            "products/KC0002_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0003": {
+        "sku": "KC0003",
+        "brand": "ANUA",
+        "name": "Heartleaf Quercetinol Pore Deep Cleansing Foam",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0003.webp",
+        "mainImagePath": "products/KC0003.webp",
+        "gallery": [
+            "products/KC0003_gallery_1.webp",
+            "products/KC0003_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0004": {
+        "sku": "KC0004",
+        "brand": "ANUA",
+        "name": "PDRN Hyaluronic Acid 100 Moisturizing Cream",
+        "size": "60ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0004.webp",
+        "mainImagePath": "products/KC0004.webp",
+        "gallery": [
+            "products/KC0004_gallery_1.webp",
+            "products/KC0004_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0005": {
+        "sku": "KC0005",
+        "brand": "ANUA",
+        "name": "PDRN Hyaluronic Acid Capsule 100 Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0005.webp",
+        "mainImagePath": "products/KC0005.webp",
+        "gallery": [
+            "products/KC0005_gallery_1.webp",
+            "products/KC0005_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0006": {
+        "sku": "KC0006",
+        "brand": "ANUA",
+        "name": "Heartleaf Pore Control Cleansing Oil Mild",
+        "size": "200ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0006.webp",
+        "mainImagePath": "products/KC0006.webp",
+        "gallery": [
+            "products/KC0006_gallery_1.webp",
+            "products/KC0006_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0007": {
+        "sku": "KC0007",
+        "brand": "ANUA",
+        "name": "Zero-cast Moisturizing Finish Sunscreen",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0007.webp",
+        "mainImagePath": "products/KC0007.webp",
+        "gallery": [
+            "products/KC0007_gallery_1.webp",
+            "products/KC0007_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0008": {
+        "sku": "KC0008",
+        "brand": "ANUA",
+        "name": "Rice Enzyme Brightening Cleansing Powder",
+        "size": "40g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0008.webp",
+        "mainImagePath": "products/KC0008.webp",
+        "gallery": [
+            "products/KC0008_gallery_1.webp",
+            "products/KC0008_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0009": {
+        "sku": "KC0009",
+        "brand": "ANUA",
+        "name": "3 Ceramide Panthenol Moisture Barrier Cream",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0009.webp",
+        "mainImagePath": "products/KC0009.webp",
+        "gallery": [
+            "products/KC0009_gallery_1.webp",
+            "products/KC0009_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0010": {
+        "sku": "KC0010",
+        "brand": "ANUA",
+        "name": "Heartleaf LHA Moisture Peeling Gel",
+        "size": "120ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0010.webp",
+        "mainImagePath": "products/KC0010.webp",
+        "gallery": [
+            "products/KC0010_gallery_1.webp",
+            "products/KC0010_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0011": {
+        "sku": "KC0011",
+        "brand": "ANUA",
+        "name": "PDRN 100 Hyaluronic Acid Glow Pad",
+        "size": "180ml (60 Pads)",
+        "hasRealPhoto": true,
+        "mainImage": "KC0011.webp",
+        "mainImagePath": "products/KC0011.webp",
+        "gallery": [
+            "products/KC0011_gallery_1.webp",
+            "products/KC0011_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0012": {
+        "sku": "KC0012",
+        "brand": "ANUA",
+        "name": "Heartleaf 77 Clear Pad",
+        "size": "205ml (70 Pads)",
+        "hasRealPhoto": true,
+        "mainImage": "KC0012.webp",
+        "mainImagePath": "products/KC0012.webp",
+        "gallery": [
+            "products/KC0012_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0013": {
+        "sku": "KC0013",
+        "brand": "ANUA",
+        "name": "Heartleaf 80 Soothing Ampoule",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0013.webp",
+        "mainImagePath": "products/KC0013.webp",
+        "gallery": [
+            "products/KC0013_gallery_1.webp",
+            "products/KC0013_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0014": {
+        "sku": "KC0014",
+        "brand": "ANUA",
+        "name": "Niacinamide 5 TXA Brightening Pad",
+        "size": "210ml (60 Pads)",
+        "hasRealPhoto": true,
+        "mainImage": "KC0014.webp",
+        "mainImagePath": "products/KC0014.webp",
+        "gallery": [
+            "products/KC0014_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0015": {
+        "sku": "KC0015",
+        "brand": "ANUA",
+        "name": "Heartleaf Pore Control Cleansing Oil",
+        "size": "200ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0015.webp",
+        "mainImagePath": "products/KC0015.webp",
+        "gallery": [
+            "products/KC0015_gallery_1.webp",
+            "products/KC0015_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0016": {
+        "sku": "KC0016",
+        "brand": "ANUA",
+        "name": "Heartleaf 77% Soothing Toner",
+        "size": "250ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0016.webp",
+        "mainImagePath": "products/KC0016.webp",
+        "gallery": [
+            "products/KC0016_gallery_1.webp",
+            "products/KC0016_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0017": {
+        "sku": "KC0017",
+        "brand": "ANUA",
+        "name": "Peach 70 Niacin Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0017.webp",
+        "mainImagePath": "products/KC0017.webp",
+        "gallery": [
+            "products/KC0017_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0018": {
+        "sku": "KC0018",
+        "brand": "ANUA",
+        "name": "Peach 77 Niacin Essence Toner",
+        "size": "250ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0018.webp",
+        "mainImagePath": "products/KC0018.webp",
+        "gallery": [
+            "products/KC0018_gallery_1.webp",
+            "products/KC0018_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0019": {
+        "sku": "KC0019",
+        "brand": "ANUA",
+        "name": "Rice Ceramide 7 Hydrating Barrier Serum",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0019.webp",
+        "mainImagePath": "products/KC0019.webp",
+        "gallery": [
+            "products/KC0019_gallery_1.webp",
+            "products/KC0019_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0020": {
+        "sku": "KC0020",
+        "brand": "ANUA",
+        "name": "PDRN Hyaluronic Acid Hydrating Capsule Mist",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0020.webp",
+        "mainImagePath": "products/KC0020.webp",
+        "gallery": [
+            "products/KC0020_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0021": {
+        "sku": "KC0021",
+        "brand": "ANUA",
+        "name": "Rice 70 Glow Milky Toner",
+        "size": "250ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0021.webp",
+        "mainImagePath": "products/KC0021.webp",
+        "gallery": [
+            "products/KC0021_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0022": {
+        "sku": "KC0022",
+        "brand": "Medicube",
+        "name": "Collagen Jelly Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0022.webp",
+        "mainImagePath": "products/KC0022.webp",
+        "gallery": [
+            "products/KC0022_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0023": {
+        "sku": "KC0023",
+        "brand": "Medicube",
+        "name": "One Day Exosome Shot Pore Ampoule 7500",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0023.webp",
+        "mainImagePath": "products/KC0023.webp",
+        "gallery": [
+            "products/KC0023_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0024": {
+        "sku": "KC0024",
+        "brand": "Medicube",
+        "name": "PDRN Pink Collagen Exosome Shot 7500",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0024.webp",
+        "mainImagePath": "products/KC0024.webp",
+        "gallery": [
+            "products/KC0024_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0025": {
+        "sku": "KC0025",
+        "brand": "Medicube",
+        "name": "PDRN Pink Cica Soothing Toner",
+        "size": "250ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0025.webp",
+        "mainImagePath": "products/KC0025.webp",
+        "gallery": [
+            "products/KC0025_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0026": {
+        "sku": "KC0026",
+        "brand": "Medicube",
+        "name": "Zero Pore Pad Mild",
+        "size": "70 Pads",
+        "hasRealPhoto": true,
+        "mainImage": "KC0026.webp",
+        "mainImagePath": "products/KC0026.webp",
+        "gallery": [
+            "products/KC0026_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0027": {
+        "sku": "KC0027",
+        "brand": "Medicube",
+        "name": "PDRN Pink Peptide Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0027.webp",
+        "mainImagePath": "products/KC0027.webp",
+        "gallery": [
+            "products/KC0027_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0028": {
+        "sku": "KC0028",
+        "brand": "Medicube",
+        "name": "PDRN Pink Collagen Capsule Cream",
+        "size": "55g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0028.webp",
+        "mainImagePath": "products/KC0028.webp",
+        "gallery": [
+            "products/KC0028_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0029": {
+        "sku": "KC0029",
+        "brand": "Medicube",
+        "name": "PDRN Pink Collagen Gel Mask (4EA)",
+        "size": "4 Sheets",
+        "hasRealPhoto": true,
+        "mainImage": "KC0029.webp",
+        "mainImagePath": "products/KC0029.webp",
+        "gallery": [
+            "products/KC0029_gallery_1.webp",
+            "products/KC0029_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0030": {
+        "sku": "KC0030",
+        "brand": "Medicube",
+        "name": "One Day Exosome Shot Pore Serum 2000",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0030.webp",
+        "mainImagePath": "products/KC0030.webp",
+        "gallery": [
+            "products/KC0030_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0031": {
+        "sku": "KC0031",
+        "brand": "Medicube",
+        "name": "Exosome Cica Calming Pad",
+        "size": "100 Pads",
+        "hasRealPhoto": true,
+        "mainImage": "KC0031.webp",
+        "mainImagePath": "products/KC0031.webp",
+        "gallery": [
+            "products/KC0031_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0032": {
+        "sku": "KC0032",
+        "brand": "Medicube",
+        "name": "Zero Foam Cleanser",
+        "size": "120g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0032.webp",
+        "mainImagePath": "products/KC0032.webp",
+        "gallery": [
+            "products/KC0032_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0033": {
+        "sku": "KC0033",
+        "brand": "Medicube",
+        "name": "PDRN Pink Hyaluronic Moisturizing Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0033.webp",
+        "mainImagePath": "products/KC0033.webp",
+        "gallery": [
+            "products/KC0033_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0034": {
+        "sku": "KC0034",
+        "brand": "Medicube",
+        "name": "AGE-R Glutathione Glow Serum",
+        "size": "30g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0034.webp",
+        "mainImagePath": "products/KC0034.webp",
+        "gallery": [
+            "products/KC0034_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0035": {
+        "sku": "KC0035",
+        "brand": "Medicube",
+        "name": "Zero Pore Blackhead Deep Cleansing Oil",
+        "size": "205ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0035.webp",
+        "mainImagePath": "products/KC0035.webp",
+        "gallery": [
+            "products/KC0035_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0036": {
+        "sku": "KC0036",
+        "brand": "Medicube",
+        "name": "Kojic Acid Turmeric Toning Cleanser",
+        "size": "120g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0036.webp",
+        "mainImagePath": "products/KC0036.webp",
+        "gallery": [
+            "products/KC0036_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0037": {
+        "sku": "KC0037",
+        "brand": "Medicube",
+        "name": "AGE-R Glutathione Glow Toner",
+        "size": "140ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0037.webp",
+        "mainImagePath": "products/KC0037.webp",
+        "gallery": [
+            "products/KC0037_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0038": {
+        "sku": "KC0038",
+        "brand": "Medicube",
+        "name": "Deep Vita C Capsule Cream",
+        "size": "55g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0038.webp",
+        "mainImagePath": "products/KC0038.webp",
+        "gallery": [
+            "products/KC0038_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0039": {
+        "sku": "KC0039",
+        "brand": "Medicube",
+        "name": "AGE-R Vita C Pro Ampoule",
+        "size": "20ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0039.webp",
+        "mainImagePath": "products/KC0039.webp",
+        "gallery": [
+            "products/KC0039_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0040": {
+        "sku": "KC0040",
+        "brand": "Medicube",
+        "name": "Zero Pore Blackhead Mud Mask",
+        "size": "100g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0040.webp",
+        "mainImagePath": "products/KC0040.webp",
+        "gallery": [
+            "products/KC0040_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0041": {
+        "sku": "KC0041",
+        "brand": "Medicube",
+        "name": "Collagen Night Wrapping Mask",
+        "size": "75ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0041.webp",
+        "mainImagePath": "products/KC0041.webp",
+        "gallery": [
+            "products/KC0041_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0042": {
+        "sku": "KC0042",
+        "brand": "Medicube",
+        "name": "Triple Collagen Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0042.webp",
+        "mainImagePath": "products/KC0042.webp",
+        "gallery": [
+            "products/KC0042_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0043": {
+        "sku": "KC0043",
+        "brand": "Medicube",
+        "name": "PDRN Pink Peptide Eye Cream",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0043.webp",
+        "mainImagePath": "products/KC0043.webp",
+        "gallery": [
+            "products/KC0043_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0044": {
+        "sku": "KC0044",
+        "brand": "Medicube",
+        "name": "Red Acne Body Peeling Shot",
+        "size": "110g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0044.webp",
+        "mainImagePath": "products/KC0044.webp",
+        "gallery": [
+            "products/KC0044_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0045": {
+        "sku": "KC0045",
+        "brand": "Medicube",
+        "name": "PDRN Pink Caffeine Night Wrapping Mask",
+        "size": "75ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0045.webp",
+        "mainImagePath": "products/KC0045.webp",
+        "gallery": [
+            "products/KC0045_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0046": {
+        "sku": "KC0046",
+        "brand": "Medicube",
+        "name": "Red Succinic Acid Peeling Pad",
+        "size": "70 Pads",
+        "hasRealPhoto": true,
+        "mainImage": "KC0046.webp",
+        "mainImagePath": "products/KC0046.webp",
+        "gallery": [
+            "products/KC0046_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0047": {
+        "sku": "KC0047",
+        "brand": "Medicube",
+        "name": "Zero Pore SA Clear Capsule Cleansing Foam",
+        "size": "120g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0047.webp",
+        "mainImagePath": "products/KC0047.webp",
+        "gallery": [
+            "products/KC0047_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0048": {
+        "sku": "KC0048",
+        "brand": "Medicube",
+        "name": "TXA Niacinamide 15 Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0048.webp",
+        "mainImagePath": "products/KC0048.webp",
+        "gallery": [
+            "products/KC0048_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0049": {
+        "sku": "KC0049",
+        "brand": "Medicube",
+        "name": "Kojic Acid Turmeric Niacinamide Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0049.webp",
+        "mainImagePath": "products/KC0049.webp",
+        "gallery": [
+            "products/KC0049_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0050": {
+        "sku": "KC0050",
+        "brand": "Medicube",
+        "name": "AGE-R Glutathione Glow Capsule Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0050.webp",
+        "mainImagePath": "products/KC0050.webp",
+        "gallery": [
+            "products/KC0050_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0051": {
+        "sku": "KC0051",
+        "brand": "Medicube",
+        "name": "Collagen Glow Booster Milk Serum",
+        "size": "15ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0051.webp",
+        "mainImagePath": "products/KC0051.webp",
+        "gallery": [
+            "products/KC0051_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0052": {
+        "sku": "KC0052",
+        "brand": "Medicube",
+        "name": "Kojic Acid Turmeric Resurfacing Toner",
+        "size": "250ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0052.webp",
+        "mainImagePath": "products/KC0052.webp",
+        "gallery": [
+            "products/KC0052_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0053": {
+        "sku": "KC0053",
+        "brand": "Medicube",
+        "name": "PDRN Hydrating Gel Cleanser",
+        "size": "200ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0053.webp",
+        "mainImagePath": "products/KC0053.webp",
+        "gallery": [
+            "products/KC0053_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0054": {
+        "sku": "KC0054",
+        "brand": "Medicube",
+        "name": "Red Acne Body Wash 2.0",
+        "size": "400g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0054.webp",
+        "mainImagePath": "products/KC0054.webp",
+        "gallery": [
+            "products/KC0054_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0055": {
+        "sku": "KC0055",
+        "brand": "Medicube",
+        "name": "Deep Vita C Pad",
+        "size": "70 Pads",
+        "hasRealPhoto": true,
+        "mainImage": "KC0055.webp",
+        "mainImagePath": "products/KC0055.webp",
+        "gallery": [
+            "products/KC0055_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0057": {
+        "sku": "KC0057",
+        "brand": "Medicube",
+        "name": "Deep Vita A Retinol Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0057.webp",
+        "mainImagePath": "products/KC0057.webp",
+        "gallery": [
+            "products/KC0057_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0058": {
+        "sku": "KC0058",
+        "brand": "Medicube",
+        "name": "Triple Collagen Serum 4.0",
+        "size": "55ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0058.webp",
+        "mainImagePath": "products/KC0058.webp",
+        "gallery": [
+            "products/KC0058_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0059": {
+        "sku": "KC0059",
+        "brand": "Medicube",
+        "name": "Triple Collagen Toner 4.0",
+        "size": "140ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0059.webp",
+        "mainImagePath": "products/KC0059.webp",
+        "gallery": [
+            "products/KC0059_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0060": {
+        "sku": "KC0060",
+        "brand": "Medicube",
+        "name": "TXA Niacinamide Capsule Cream",
+        "size": "55g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0060.webp",
+        "mainImagePath": "products/KC0060.webp",
+        "gallery": [
+            "products/KC0060_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0061": {
+        "sku": "KC0061",
+        "brand": "Arencia",
+        "name": "Vitamin C Booster Shot",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0061.webp",
+        "mainImagePath": "products/KC0061.webp",
+        "gallery": [
+            "products/KC0061_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0062": {
+        "sku": "KC0062",
+        "brand": "Arencia",
+        "name": "Retinal Booster Shot",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0062.webp",
+        "mainImagePath": "products/KC0062.webp",
+        "gallery": [
+            "products/KC0062_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0063": {
+        "sku": "KC0063",
+        "brand": "Arencia",
+        "name": "Eraser Shot Glycolic Acid Booster",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0063.webp",
+        "mainImagePath": "products/KC0063.webp",
+        "gallery": [
+            "products/KC0063_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0064": {
+        "sku": "KC0064",
+        "brand": "Arencia",
+        "name": "Fresh Rosehip Rice Mochi Cleanser",
+        "size": "120g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0064.webp",
+        "mainImagePath": "products/KC0064.webp",
+        "gallery": [
+            "products/KC0064_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0065": {
+        "sku": "KC0065",
+        "brand": "Arencia",
+        "name": "Fresh Blue Hyssop Rice Mochi Cleanser",
+        "size": "120g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0065.webp",
+        "mainImagePath": "products/KC0065.webp",
+        "gallery": [
+            "products/KC0065_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0066": {
+        "sku": "KC0066",
+        "brand": "Arencia",
+        "name": "Fresh Green Rice Mochi Cleanser",
+        "size": "120g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0066.webp",
+        "mainImagePath": "products/KC0066.webp",
+        "gallery": [
+            "products/KC0066_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0067": {
+        "sku": "KC0067",
+        "brand": "Arencia",
+        "name": "PDRN Booster Shot",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0067.webp",
+        "mainImagePath": "products/KC0067.webp",
+        "gallery": [
+            "products/KC0067_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0068": {
+        "sku": "KC0068",
+        "brand": "AXIS-Y",
+        "name": "Vegan Collagen Eye Serum",
+        "size": "10ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0068.webp",
+        "mainImagePath": "products/KC0068.webp",
+        "gallery": [
+            "products/KC0068_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0069": {
+        "sku": "KC0069",
+        "brand": "AXIS-Y",
+        "name": "Dark Spot Correcting Glow Toner",
+        "size": "125ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0069.webp",
+        "mainImagePath": "products/KC0069.webp",
+        "gallery": [
+            "products/KC0069_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0070": {
+        "sku": "KC0070",
+        "brand": "AXIS-Y",
+        "name": "TXA 2.5% Intensive Brightening Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0070.webp",
+        "mainImagePath": "products/KC0070.webp",
+        "gallery": [
+            "products/KC0070_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0071": {
+        "sku": "KC0071",
+        "brand": "AXIS-Y",
+        "name": "Dark Spot Correcting Glow Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0071.webp",
+        "mainImagePath": "products/KC0071.webp",
+        "gallery": [
+            "products/KC0071_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0072": {
+        "sku": "KC0072",
+        "brand": "AXIS-Y",
+        "name": "Artichoke Intensive Skin Barrier Ampoule",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0072.webp",
+        "mainImagePath": "products/KC0072.webp",
+        "gallery": [
+            "products/KC0072_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0073": {
+        "sku": "KC0073",
+        "brand": "AXIS-Y",
+        "name": "Dark Spot Correcting Glow Serum",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0073.webp",
+        "mainImagePath": "products/KC0073.webp",
+        "gallery": [
+            "products/KC0073_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0074": {
+        "sku": "KC0074",
+        "brand": "AXIS-Y",
+        "name": "Complete No-Stress Physical Sunscreen V.3",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0074.webp",
+        "mainImagePath": "products/KC0074.webp",
+        "gallery": [
+            "products/KC0074_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0075": {
+        "sku": "KC0075",
+        "brand": "Beauty of Joseon",
+        "name": "Light On Serum: Centella + Vita C",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0075.webp",
+        "mainImagePath": "products/KC0075.webp",
+        "gallery": [
+            "products/KC0075_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0076": {
+        "sku": "KC0076",
+        "brand": "Beauty of Joseon",
+        "name": "Relief Sun Aqua-Fresh: Rice + Panthenol SPF50+ PA++++",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0076.webp",
+        "mainImagePath": "products/KC0076.webp",
+        "gallery": [
+            "products/KC0076_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0077": {
+        "sku": "KC0077",
+        "brand": "Beauty of Joseon",
+        "name": "Relief Sun: Rice + Probiotics SPF50+ PA++++",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0077.webp",
+        "mainImagePath": "products/KC0077.webp",
+        "gallery": [
+            "products/KC0077_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0078": {
+        "sku": "KC0078",
+        "brand": "Beauty of Joseon",
+        "name": "Revive Eye Serum: Ginseng + Retinal",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0078.webp",
+        "mainImagePath": "products/KC0078.webp",
+        "gallery": [
+            "products/KC0078_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0079": {
+        "sku": "KC0079",
+        "brand": "Beauty of Joseon",
+        "name": "Dynasty Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0079.webp",
+        "mainImagePath": "products/KC0079.webp",
+        "gallery": [
+            "products/KC0079_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0080": {
+        "sku": "KC0080",
+        "brand": "Beauty of Joseon",
+        "name": "Glow Deep Serum: Rice + Alpha-Arbutin",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0080.webp",
+        "mainImagePath": "products/KC0080.webp",
+        "gallery": [
+            "products/KC0080_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0081": {
+        "sku": "KC0081",
+        "brand": "Beauty of Joseon",
+        "name": "Glow Serum: Propolis + Niacinamide",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0081.webp",
+        "mainImagePath": "products/KC0081.webp",
+        "gallery": [
+            "products/KC0081_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0082": {
+        "sku": "KC0082",
+        "brand": "Beauty of Joseon",
+        "name": "Glow Replenishing Rice Milk",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0082.webp",
+        "mainImagePath": "products/KC0082.webp",
+        "gallery": [
+            "products/KC0082_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0083": {
+        "sku": "KC0083",
+        "brand": "Beauty of Joseon",
+        "name": "Ground Rice and Honey Glow Mask",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0083.webp",
+        "mainImagePath": "products/KC0083.webp",
+        "gallery": [
+            "products/KC0083_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0084": {
+        "sku": "KC0084",
+        "brand": "Beauty of Joseon",
+        "name": "Revive Serum: Ginseng + Snail Mucin",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0084.webp",
+        "mainImagePath": "products/KC0084.webp",
+        "gallery": [
+            "products/KC0084_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0085": {
+        "sku": "KC0085",
+        "brand": "Beauty of Joseon",
+        "name": "Red Bean Refreshing Pore Mask",
+        "size": "140ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0085.webp",
+        "mainImagePath": "products/KC0085.webp",
+        "gallery": [
+            "products/KC0085_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0086": {
+        "sku": "KC0086",
+        "brand": "Beauty of Joseon",
+        "name": "Ginseng Essence Water",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0086.webp",
+        "mainImagePath": "products/KC0086.webp",
+        "gallery": [
+            "products/KC0086_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0087": {
+        "sku": "KC0087",
+        "brand": "Beauty of Joseon",
+        "name": "Ginseng Cleansing Oil",
+        "size": "210ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0087.webp",
+        "mainImagePath": "products/KC0087.webp",
+        "gallery": [
+            "products/KC0087_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0088": {
+        "sku": "KC0088",
+        "brand": "Beauty of Joseon",
+        "name": "Red Bean Water Gel",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0088.webp",
+        "mainImagePath": "products/KC0088.webp",
+        "gallery": [
+            "products/KC0088_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0089": {
+        "sku": "KC0089",
+        "brand": "Dr.Althea",
+        "name": "345 Relief Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0089.webp",
+        "mainImagePath": "products/KC0089.webp",
+        "gallery": [
+            "products/KC0089_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0090": {
+        "sku": "KC0090",
+        "brand": "Dr.Althea",
+        "name": "345 Relief Cream Mist",
+        "size": "60ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0090.webp",
+        "mainImagePath": "products/KC0090.webp",
+        "gallery": [
+            "products/KC0090_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0091": {
+        "sku": "KC0091",
+        "brand": "Dr.Althea",
+        "name": "147 Barrier Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0091.webp",
+        "mainImagePath": "products/KC0091.webp",
+        "gallery": [
+            "products/KC0091_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0092": {
+        "sku": "KC0092",
+        "brand": "Dr.Althea",
+        "name": "PDRN Reju 5000 Cream",
+        "size": "20g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0092.webp",
+        "mainImagePath": "products/KC0092.webp",
+        "gallery": [
+            "products/KC0092_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0093": {
+        "sku": "KC0093",
+        "brand": "Dr.Althea",
+        "name": "Retinol Flat Iron Eye Roller",
+        "size": "25ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0093.webp",
+        "mainImagePath": "products/KC0093.webp",
+        "gallery": [
+            "products/KC0093_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0094": {
+        "sku": "KC0094",
+        "brand": "Dr.Althea",
+        "name": "Pure Grinding Cleansing Balm",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0094.webp",
+        "mainImagePath": "products/KC0094.webp",
+        "gallery": [
+            "products/KC0094_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0095": {
+        "sku": "KC0095",
+        "brand": "Dr.Althea",
+        "name": "Vitamin C Boosting Serum RENEWED",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0095.webp",
+        "mainImagePath": "products/KC0095.webp",
+        "gallery": [
+            "products/KC0095_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0096": {
+        "sku": "KC0096",
+        "brand": "Dr.Althea",
+        "name": "Gentle Vitamin C Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0096.webp",
+        "mainImagePath": "products/KC0096.webp",
+        "gallery": [
+            "products/KC0096_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0097": {
+        "sku": "KC0097",
+        "brand": "celimax",
+        "name": "Pore+Dark Spot Brightening Cream",
+        "size": "35ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0097.webp",
+        "mainImagePath": "products/KC0097.webp",
+        "gallery": [
+            "products/KC0097_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0098": {
+        "sku": "KC0098",
+        "brand": "celimax",
+        "name": "The Vita-A Retinal Shot Tightening Booster",
+        "size": "15ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0098.webp",
+        "mainImagePath": "products/KC0098.webp",
+        "gallery": [
+            "products/KC0098_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0099": {
+        "sku": "KC0099",
+        "brand": "celimax",
+        "name": "The Vita-A Retinol Shot Tightening Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0099.webp",
+        "mainImagePath": "products/KC0099.webp",
+        "gallery": [
+            "products/KC0099_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0100": {
+        "sku": "KC0100",
+        "brand": "celimax",
+        "name": "The Real Noni Energy Ampoule",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0100.webp",
+        "mainImagePath": "products/KC0100.webp",
+        "gallery": [
+            "products/KC0100_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0101": {
+        "sku": "KC0101",
+        "brand": "celimax",
+        "name": "Dual Barrier Creamy Toner",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0101.webp",
+        "mainImagePath": "products/KC0101.webp",
+        "gallery": [
+            "products/KC0101_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0102": {
+        "sku": "KC0102",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Poremizing Light Gel Cream",
+        "size": "75ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0102.webp",
+        "mainImagePath": "products/KC0102.webp",
+        "gallery": [
+            "products/KC0102_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0103": {
+        "sku": "KC0103",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Soothing Cream",
+        "size": "75ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0103.webp",
+        "mainImagePath": "products/KC0103.webp",
+        "gallery": [
+            "products/KC0103_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0104": {
+        "sku": "KC0104",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Ampoule Foam",
+        "size": "125ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0104.webp",
+        "mainImagePath": "products/KC0104.webp",
+        "gallery": [
+            "products/KC0104_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0105": {
+        "sku": "KC0105",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Light Cleansing Oil",
+        "size": "200ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0105.webp",
+        "mainImagePath": "products/KC0105.webp",
+        "gallery": [
+            "products/KC0105_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0107": {
+        "sku": "KC0107",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Hyalu-Cica Moisture Cream",
+        "size": "75ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0107.webp",
+        "mainImagePath": "products/KC0107.webp",
+        "gallery": [
+            "products/KC0107_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0108": {
+        "sku": "KC0108",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Ampoule",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0108.webp",
+        "mainImagePath": "products/KC0108.webp",
+        "gallery": [
+            "products/KC0108_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0109": {
+        "sku": "KC0109",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Poremizing Quick Clay Stick Mask",
+        "size": "27g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0109.webp",
+        "mainImagePath": "products/KC0109.webp",
+        "gallery": [
+            "products/KC0109_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0110": {
+        "sku": "KC0110",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Cream",
+        "size": "75ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0110.webp",
+        "mainImagePath": "products/KC0110.webp",
+        "gallery": [
+            "products/KC0110_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0111": {
+        "sku": "KC0111",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Probio-Cica Intensive Ampoule",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0111.webp",
+        "mainImagePath": "products/KC0111.webp",
+        "gallery": [
+            "products/KC0111_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0112": {
+        "sku": "KC0112",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Tone Brightening Capsule Ampoule",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0112.webp",
+        "mainImagePath": "products/KC0112.webp",
+        "gallery": [
+            "products/KC0112_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0113": {
+        "sku": "KC0113",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Poremizing Fresh Ampoule",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0113.webp",
+        "mainImagePath": "products/KC0113.webp",
+        "gallery": [
+            "products/KC0113_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0114": {
+        "sku": "KC0114",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Matrixyl 10 Boosting Shot Ampoule",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0114.webp",
+        "mainImagePath": "products/KC0114.webp",
+        "gallery": [
+            "products/KC0114_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0115": {
+        "sku": "KC0115",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Hyalu-Cica Water-Fit Sun Serum SPF50+ PA++++",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0115.webp",
+        "mainImagePath": "products/KC0115.webp",
+        "gallery": [
+            "products/KC0115_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0116": {
+        "sku": "KC0116",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Poremizing Deep Cleansing Foam",
+        "size": "125ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0116.webp",
+        "mainImagePath": "products/KC0116.webp",
+        "gallery": [
+            "products/KC0116_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0117": {
+        "sku": "KC0117",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Probio-Cica Enrich Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0117.webp",
+        "mainImagePath": "products/KC0117.webp",
+        "gallery": [
+            "products/KC0117_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0118": {
+        "sku": "KC0118",
+        "brand": "NUMBUZIN",
+        "name": "No.9 NAD Bio Lifting-sil Essence",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0118.webp",
+        "mainImagePath": "products/KC0118.webp",
+        "gallery": [
+            "products/KC0118_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0119": {
+        "sku": "KC0119",
+        "brand": "NUMBUZIN",
+        "name": "No.9 NAD+ Retinol Volumetox Eye Cream",
+        "size": "10ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0119.webp",
+        "mainImagePath": "products/KC0119.webp",
+        "gallery": [
+            "products/KC0119_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0120": {
+        "sku": "KC0120",
+        "brand": "NUMBUZIN",
+        "name": "No.9 NAD+ PDRN Glow Boosting Toner",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0120.webp",
+        "mainImagePath": "products/KC0120.webp",
+        "gallery": [
+            "products/KC0120_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0121": {
+        "sku": "KC0121",
+        "brand": "NUMBUZIN",
+        "name": "No.1 Clear Filter Sun Essence SPF50+ PA++++",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0121.webp",
+        "mainImagePath": "products/KC0121.webp",
+        "gallery": [
+            "products/KC0121_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0122": {
+        "sku": "KC0122",
+        "brand": "NUMBUZIN",
+        "name": "No.3 Blue Bio-Retinol Pore Refining Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0122.webp",
+        "mainImagePath": "products/KC0122.webp",
+        "gallery": [
+            "products/KC0122_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0123": {
+        "sku": "KC0123",
+        "brand": "NUMBUZIN",
+        "name": "No.1 Pantothenic B5 Active Soothing Serum",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0123.webp",
+        "mainImagePath": "products/KC0123.webp",
+        "gallery": [
+            "products/KC0123_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0124": {
+        "sku": "KC0124",
+        "brand": "NUMBUZIN",
+        "name": "No.3 Skin Softening Serum",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0124.webp",
+        "mainImagePath": "products/KC0124.webp",
+        "gallery": [
+            "products/KC0124_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0125": {
+        "sku": "KC0125",
+        "brand": "NUMBUZIN",
+        "name": "No.3 Super Glowing Essence Toner",
+        "size": "200ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0125.webp",
+        "mainImagePath": "products/KC0125.webp",
+        "gallery": [
+            "products/KC0125_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0126": {
+        "sku": "KC0126",
+        "brand": "NUMBUZIN",
+        "name": "No.5 Glutathione Vitamin Concentrated Toner Pads",
+        "size": "180ml (70 Pads)",
+        "hasRealPhoto": true,
+        "mainImage": "KC0126.webp",
+        "mainImagePath": "products/KC0126.webp",
+        "gallery": [
+            "products/KC0126_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0127": {
+        "sku": "KC0127",
+        "brand": "NUMBUZIN",
+        "name": "No.9 NAD Bio Lifting-sil Full Face Mask",
+        "size": "4 Sheets + Lifting Band",
+        "hasRealPhoto": true,
+        "mainImage": "KC0127.webp",
+        "mainImagePath": "products/KC0127.webp",
+        "gallery": [
+            "products/KC0127_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0128": {
+        "sku": "KC0128",
+        "brand": "NUMBUZIN",
+        "name": "No.5+ Vitamin Glutathione Dark Spot Laser Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0128.webp",
+        "mainImagePath": "products/KC0128.webp",
+        "gallery": [
+            "products/KC0128_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0129": {
+        "sku": "KC0129",
+        "brand": "NUMBUZIN",
+        "name": "No.9 NAD+ Collagen Under Eye Patches",
+        "size": "5 Pairs",
+        "hasRealPhoto": true,
+        "mainImage": "KC0129.webp",
+        "mainImagePath": "products/KC0129.webp",
+        "gallery": [
+            "products/KC0129_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0130": {
+        "sku": "KC0130",
+        "brand": "SOME BY MI",
+        "name": "AHA·BHA·PHA 30 Days Miracle Acne Clear Body Cleanser",
+        "size": "400g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0130.webp",
+        "mainImagePath": "products/KC0130.webp",
+        "gallery": [
+            "products/KC0130_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0131": {
+        "sku": "KC0131",
+        "brand": "SOME BY MI",
+        "name": "Clear Spot Patch",
+        "size": "18 Patches",
+        "hasRealPhoto": true,
+        "mainImage": "KC0131.webp",
+        "mainImagePath": "products/KC0131.webp",
+        "gallery": [
+            "products/KC0131_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0132": {
+        "sku": "KC0132",
+        "brand": "SOME BY MI",
+        "name": "AHA·BHA·PHA 30 Days Miracle Toner",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0132.webp",
+        "mainImagePath": "products/KC0132.webp",
+        "gallery": [
+            "products/KC0132_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0133": {
+        "sku": "KC0133",
+        "brand": "SOME BY MI",
+        "name": "Retinol Intense Advanced Triple Action Eye Cream",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0133.webp",
+        "mainImagePath": "products/KC0133.webp",
+        "gallery": [
+            "products/KC0133_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0134": {
+        "sku": "KC0134",
+        "brand": "SOME BY MI",
+        "name": "AHA·BHA·PHA 30 Days Miracle Cream",
+        "size": "60g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0134.webp",
+        "mainImagePath": "products/KC0134.webp",
+        "gallery": [
+            "products/KC0134_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0136": {
+        "sku": "KC0136",
+        "brand": "SOME BY MI",
+        "name": "Retinol Intense Reactivating Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0136.webp",
+        "mainImagePath": "products/KC0136.webp",
+        "gallery": [
+            "products/KC0136_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0137": {
+        "sku": "KC0137",
+        "brand": "TORRIDEN",
+        "name": "DIVE IN Low Molecular Hyaluronic Acid Serum",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0137.webp",
+        "mainImagePath": "products/KC0137.webp",
+        "gallery": [
+            "products/KC0137_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0138": {
+        "sku": "KC0138",
+        "brand": "TORRIDEN",
+        "name": "DIVE IN Low Molecular Hyaluronic Acid Soothing Cream",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0138.webp",
+        "mainImagePath": "products/KC0138.webp",
+        "gallery": [
+            "products/KC0138_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0139": {
+        "sku": "KC0139",
+        "brand": "TORRIDEN",
+        "name": "CELLMAZING Firming Cream",
+        "size": "60ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0139.webp",
+        "mainImagePath": "products/KC0139.webp",
+        "gallery": [
+            "products/KC0139_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0140": {
+        "sku": "KC0140",
+        "brand": "TORRIDEN",
+        "name": "DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0140.webp",
+        "mainImagePath": "products/KC0140.webp",
+        "gallery": [
+            "products/KC0140_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0141": {
+        "sku": "KC0141",
+        "brand": "EQQUALBERRY",
+        "name": "Vitamin Illuminating Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0141.webp",
+        "mainImagePath": "products/KC0141.webp",
+        "gallery": [
+            "products/KC0141_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0142": {
+        "sku": "KC0142",
+        "brand": "EQQUALBERRY",
+        "name": "Bakuchiol Plumping Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0142.webp",
+        "mainImagePath": "products/KC0142.webp",
+        "gallery": [
+            "products/KC0142_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0143": {
+        "sku": "KC0143",
+        "brand": "EQQUALBERRY",
+        "name": "Hyaltoin Flooding Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0143.webp",
+        "mainImagePath": "products/KC0143.webp",
+        "gallery": [
+            "products/KC0143_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0144": {
+        "sku": "KC0144",
+        "brand": "EQQUALBERRY",
+        "name": "Swimming Pool Ampoule",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0144.webp",
+        "mainImagePath": "products/KC0144.webp",
+        "gallery": [
+            "products/KC0144_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0145": {
+        "sku": "KC0145",
+        "brand": "EQQUALBERRY",
+        "name": "NAD+ Peptide Boosting Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0145.webp",
+        "mainImagePath": "products/KC0145.webp",
+        "gallery": [
+            "products/KC0145_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0146": {
+        "sku": "KC0146",
+        "brand": "EQQUALBERRY",
+        "name": "NAD+ Peptide Boosting Toner",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0146.webp",
+        "mainImagePath": "products/KC0146.webp",
+        "gallery": [
+            "products/KC0146_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0147": {
+        "sku": "KC0147",
+        "brand": "EQQUALBERRY",
+        "name": "NAD+ Peptide Boosting Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0147.webp",
+        "mainImagePath": "products/KC0147.webp",
+        "gallery": [
+            "products/KC0147_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0148": {
+        "sku": "KC0148",
+        "brand": "EQQUALBERRY",
+        "name": "Aloe PDRN Calming Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0148.webp",
+        "mainImagePath": "products/KC0148.webp",
+        "gallery": [
+            "products/KC0148_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0149": {
+        "sku": "KC0149",
+        "brand": "EQQUALBERRY",
+        "name": "Vitamin Illuminating Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0149.webp",
+        "mainImagePath": "products/KC0149.webp",
+        "gallery": [
+            "products/KC0149_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0150": {
+        "sku": "KC0150",
+        "brand": "EQQUALBERRY",
+        "name": "Bakuchiol Plumping Capsule Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0150.webp",
+        "mainImagePath": "products/KC0150.webp",
+        "gallery": [
+            "products/KC0150_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0151": {
+        "sku": "KC0151",
+        "brand": "EQQUALBERRY",
+        "name": "Bakuchiol Plumping Capsule Toner",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0151.webp",
+        "mainImagePath": "products/KC0151.webp",
+        "gallery": [
+            "products/KC0151_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0152": {
+        "sku": "KC0152",
+        "brand": "EQQUALBERRY",
+        "name": "Collagen Glow Up Hydrogel Mask",
+        "size": "4EA (30g each)",
+        "hasRealPhoto": true,
+        "mainImage": "KC0152.webp",
+        "mainImagePath": "products/KC0152.webp",
+        "gallery": [
+            "products/KC0152_gallery_1.webp",
+            "products/KC0152_gallery_2.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0153": {
+        "sku": "KC0153",
+        "brand": "COSRX",
+        "name": "Acne Pimple Master Patch",
+        "size": "24 Patches",
+        "hasRealPhoto": true,
+        "mainImage": "KC0153.webp",
+        "mainImagePath": "products/KC0153.webp",
+        "gallery": [
+            "products/KC0153_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0154": {
+        "sku": "KC0154",
+        "brand": "COSRX",
+        "name": "Advanced Snail 96 Mucin Power Essence",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0154.webp",
+        "mainImagePath": "products/KC0154.webp",
+        "gallery": [
+            "products/KC0154_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0155": {
+        "sku": "KC0155",
+        "brand": "COSRX",
+        "name": "Advanced Snail 92 All In One Cream",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0155.webp",
+        "mainImagePath": "products/KC0155.webp",
+        "gallery": [
+            "products/KC0155_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0156": {
+        "sku": "KC0156",
+        "brand": "COSRX",
+        "name": "Hyaluronic Acid Intensive Cream",
+        "size": "100g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0156.webp",
+        "mainImagePath": "products/KC0156.webp",
+        "gallery": [
+            "products/KC0156_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0157": {
+        "sku": "KC0157",
+        "brand": "COSRX",
+        "name": "The 6 Peptide Skin Booster Serum",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0157.webp",
+        "mainImagePath": "products/KC0157.webp",
+        "gallery": [
+            "products/KC0157_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0158": {
+        "sku": "KC0158",
+        "brand": "COSRX",
+        "name": "Salicylic Acid Daily Gentle Cleanser",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0158.webp",
+        "mainImagePath": "products/KC0158.webp",
+        "gallery": [
+            "products/KC0158_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0159": {
+        "sku": "KC0159",
+        "brand": "COSRX",
+        "name": "Ultra Light Invisible Sunscreen SPF50 PA++++",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0159.webp",
+        "mainImagePath": "products/KC0159.webp",
+        "gallery": [
+            "products/KC0159_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0160": {
+        "sku": "KC0160",
+        "brand": "COSRX",
+        "name": "Advanced Snail Peptide Eye Cream",
+        "size": "25ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0160.webp",
+        "mainImagePath": "products/KC0160.webp",
+        "gallery": [
+            "products/KC0160_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0161": {
+        "sku": "KC0161",
+        "brand": "COSRX",
+        "name": "Aloe Soothing Sun Cream SPF50+ PA+++",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0161.webp",
+        "mainImagePath": "products/KC0161.webp",
+        "gallery": [
+            "products/KC0161_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0162": {
+        "sku": "KC0162",
+        "brand": "COSRX",
+        "name": "Advanced Snail Radiance Dual Essence",
+        "size": "80ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0162.webp",
+        "mainImagePath": "products/KC0162.webp",
+        "gallery": [
+            "products/KC0162_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0163": {
+        "sku": "KC0163",
+        "brand": "COSRX",
+        "name": "Low pH Good Morning Gel Cleanser",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0163.webp",
+        "mainImagePath": "products/KC0163.webp",
+        "gallery": [
+            "products/KC0163_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0164": {
+        "sku": "KC0164",
+        "brand": "COSRX",
+        "name": "The Niacinamide 15 Serum",
+        "size": "20ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0164.webp",
+        "mainImagePath": "products/KC0164.webp",
+        "gallery": [
+            "products/KC0164_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0165": {
+        "sku": "KC0165",
+        "brand": "COSRX",
+        "name": "Advanced Snail Mucin Gel Cleanser",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0165.webp",
+        "mainImagePath": "products/KC0165.webp",
+        "gallery": [
+            "products/KC0165_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0166": {
+        "sku": "KC0166",
+        "brand": "COSRX",
+        "name": "Ultimate Nourishing Rice Spa Overnight Mask",
+        "size": "60ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0166.webp",
+        "mainImagePath": "products/KC0166.webp",
+        "gallery": [
+            "products/KC0166_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0167": {
+        "sku": "KC0167",
+        "brand": "COSRX",
+        "name": "Clear Fit Master Patch",
+        "size": "18 Patches",
+        "hasRealPhoto": true,
+        "mainImage": "KC0167.webp",
+        "mainImagePath": "products/KC0167.webp",
+        "gallery": [
+            "products/KC0167_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0168": {
+        "sku": "KC0168",
+        "brand": "COSRX",
+        "name": "The Ceramide Skin Barrier Moisturizer",
+        "size": "80ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0168.webp",
+        "mainImagePath": "products/KC0168.webp",
+        "gallery": [
+            "products/KC0168_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0169": {
+        "sku": "KC0169",
+        "brand": "COSRX",
+        "name": "The Retinol 0.5 Oil",
+        "size": "20ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0169.webp",
+        "mainImagePath": "products/KC0169.webp",
+        "gallery": [
+            "products/KC0169_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0170": {
+        "sku": "KC0170",
+        "brand": "COSRX",
+        "name": "The Retinol 0.1 Cream",
+        "size": "20ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0170.webp",
+        "mainImagePath": "products/KC0170.webp",
+        "gallery": [
+            "products/KC0170_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0171": {
+        "sku": "KC0171",
+        "brand": "COSRX",
+        "name": "Advanced The Vitamin C 23 Serum",
+        "size": "20ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0171.webp",
+        "mainImagePath": "products/KC0171.webp",
+        "gallery": [
+            "products/KC0171_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0172": {
+        "sku": "KC0172",
+        "brand": "COSRX",
+        "name": "Hyaluronic Acid Hydra Power Essence",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0172.webp",
+        "mainImagePath": "products/KC0172.webp",
+        "gallery": [
+            "products/KC0172_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0173": {
+        "sku": "KC0173",
+        "brand": "COSRX",
+        "name": "The Peptide Collagen Hydrogel Eye Patch",
+        "size": "85g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0173.webp",
+        "mainImagePath": "products/KC0173.webp",
+        "gallery": [
+            "products/KC0173_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0174": {
+        "sku": "KC0174",
+        "brand": "COSRX",
+        "name": "Oil Free Ultra Moisturizing Lotion (with Birch Sap)",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0174.webp",
+        "mainImagePath": "products/KC0174.webp",
+        "gallery": [
+            "products/KC0174_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0175": {
+        "sku": "KC0175",
+        "brand": "COSRX",
+        "name": "AHA/BHA Clarifying Treatment Toner",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0175.webp",
+        "mainImagePath": "products/KC0175.webp",
+        "gallery": [
+            "products/KC0175_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0176": {
+        "sku": "KC0176",
+        "brand": "COSRX",
+        "name": "Two In One Poreless Power Liquid",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0176.webp",
+        "mainImagePath": "products/KC0176.webp",
+        "gallery": [
+            "products/KC0176_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0177": {
+        "sku": "KC0177",
+        "brand": "COSRX",
+        "name": "BHA Blackhead Power Liquid",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0177.webp",
+        "mainImagePath": "products/KC0177.webp",
+        "gallery": [
+            "products/KC0177_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0178": {
+        "sku": "KC0178",
+        "brand": "Dr.Melaxin",
+        "name": "Peel Shot Exfoliating TX Spray",
+        "size": "200ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0178.webp",
+        "mainImagePath": "products/KC0178.webp",
+        "gallery": [
+            "products/KC0178_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0179": {
+        "sku": "KC0179",
+        "brand": "Dr.Melaxin",
+        "name": "Cemenrete Calcium Volume Multi Balm",
+        "size": "9g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0179.webp",
+        "mainImagePath": "products/KC0179.webp",
+        "gallery": [
+            "products/KC0179_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0180": {
+        "sku": "KC0180",
+        "brand": "Dr.Melaxin",
+        "name": "Peel Shot Exfoliant Black Rice Ampoule",
+        "size": "80ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0180.webp",
+        "mainImagePath": "products/KC0180.webp",
+        "gallery": [
+            "products/KC0180_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0181": {
+        "sku": "KC0181",
+        "brand": "Dr.Melaxin",
+        "name": "Peel Shot Exfoliant White Rice Ampoule",
+        "size": "80ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0181.webp",
+        "mainImagePath": "products/KC0181.webp",
+        "gallery": [
+            "products/KC0181_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0182": {
+        "sku": "KC0182",
+        "brand": "Dr.Melaxin",
+        "name": "Cemenrete Calcium Volume Eye Patch",
+        "size": "60EA",
+        "hasRealPhoto": true,
+        "mainImage": "KC0182.webp",
+        "mainImagePath": "products/KC0182.webp",
+        "gallery": [
+            "products/KC0182_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0183": {
+        "sku": "KC0183",
+        "brand": "Dr.Melaxin",
+        "name": "Eyephalt Retinol Eye Bag Cream",
+        "size": "10g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0183.webp",
+        "mainImagePath": "products/KC0183.webp",
+        "gallery": [
+            "products/KC0183_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0184": {
+        "sku": "KC0184",
+        "brand": "BIODANCE",
+        "name": "Hydro Cera-nol Real Deep Mask",
+        "size": "34g (4EA)",
+        "hasRealPhoto": true,
+        "mainImage": "KC0184.webp",
+        "mainImagePath": "products/KC0184.webp",
+        "gallery": [
+            "products/KC0184_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0185": {
+        "sku": "KC0185",
+        "brand": "BIODANCE",
+        "name": "Bio Collagen Real Deep Mask",
+        "size": "34g (4EA)",
+        "hasRealPhoto": true,
+        "mainImage": "KC0185.webp",
+        "mainImagePath": "products/KC0185.webp",
+        "gallery": [
+            "products/KC0185_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0186": {
+        "sku": "KC0186",
+        "brand": "BIODANCE",
+        "name": "Cera-nol Gel Toner Pads",
+        "size": "60 Pads",
+        "hasRealPhoto": true,
+        "mainImage": "KC0186.webp",
+        "mainImagePath": "products/KC0186.webp",
+        "gallery": [
+            "products/KC0186_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0187": {
+        "sku": "KC0187",
+        "brand": "BIODANCE",
+        "name": "Refreshing Sea Kelp Real Deep Mask",
+        "size": "34g (4EA)",
+        "hasRealPhoto": true,
+        "mainImage": "KC0187.webp",
+        "mainImagePath": "products/KC0187.webp",
+        "gallery": [
+            "products/KC0187_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0188": {
+        "sku": "KC0188",
+        "brand": "BIODANCE",
+        "name": "Collagen Gel Toner Pads",
+        "size": "60 Pads",
+        "hasRealPhoto": true,
+        "mainImage": "KC0188.webp",
+        "mainImagePath": "products/KC0188.webp",
+        "gallery": [
+            "products/KC0188_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0189": {
+        "sku": "KC0189",
+        "brand": "BIODANCE",
+        "name": "Radiant Vita Niacinamide Real Deep Mask",
+        "size": "34g (4EA)",
+        "hasRealPhoto": true,
+        "mainImage": "KC0189.webp",
+        "mainImagePath": "products/KC0189.webp",
+        "gallery": [
+            "products/KC0189_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0190": {
+        "sku": "KC0190",
+        "brand": "BIODANCE",
+        "name": "Collagen Peptide Eye Patches",
+        "size": "30 Pairs",
+        "hasRealPhoto": true,
+        "mainImage": "KC0190.webp",
+        "mainImagePath": "products/KC0190.webp",
+        "gallery": [
+            "products/KC0190_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0191": {
+        "sku": "KC0191",
+        "brand": "BIODANCE",
+        "name": "Pore Perfecting Collagen Peptide Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0191.webp",
+        "mainImagePath": "products/KC0191.webp",
+        "gallery": [
+            "products/KC0191_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0192": {
+        "sku": "KC0192",
+        "brand": "BIODANCE",
+        "name": "Skin-Glow Essence Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0192.webp",
+        "mainImagePath": "products/KC0192.webp",
+        "gallery": [
+            "products/KC0192_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0193": {
+        "sku": "KC0193",
+        "brand": "BIODANCE",
+        "name": "Pore Perfecting Collagen Peptide Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0193.webp",
+        "mainImagePath": "products/KC0193.webp",
+        "gallery": [
+            "products/KC0193_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0194": {
+        "sku": "KC0194",
+        "brand": "BIODANCE",
+        "name": "Vita Niacinamide Gel Toner Pads",
+        "size": "60 Pads",
+        "hasRealPhoto": true,
+        "mainImage": "KC0194.webp",
+        "mainImagePath": "products/KC0194.webp",
+        "gallery": [
+            "products/KC0194_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0195": {
+        "sku": "KC0195",
+        "brand": "Dr.Reju-All",
+        "name": "Advanced PDRN Rejuvenating Cream",
+        "size": "20ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0195.webp",
+        "mainImagePath": "products/KC0195.webp",
+        "gallery": [
+            "products/KC0195_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0196": {
+        "sku": "KC0196",
+        "brand": "Dr.Reju-All",
+        "name": "Advanced PDRN Rejuvenating Lip Serum",
+        "size": "10ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0196.webp",
+        "mainImagePath": "products/KC0196.webp",
+        "gallery": [
+            "products/KC0196_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0197": {
+        "sku": "KC0197",
+        "brand": "Dr.Reju-All",
+        "name": "Advanced LC-Ceramide Barrier Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0197.webp",
+        "mainImagePath": "products/KC0197.webp",
+        "gallery": [
+            "products/KC0197_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0198": {
+        "sku": "KC0198",
+        "brand": "Dr.Reju-All",
+        "name": "Advanced Retino-Mela Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0198.webp",
+        "mainImagePath": "products/KC0198.webp",
+        "gallery": [
+            "products/KC0198_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0199": {
+        "sku": "KC0199",
+        "brand": "Mary&May",
+        "name": "Tranexamic Acid + Glutathione Eye Cream",
+        "size": "30g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0199.webp",
+        "mainImagePath": "products/KC0199.webp",
+        "gallery": [
+            "products/KC0199_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0200": {
+        "sku": "KC0200",
+        "brand": "Mary&May",
+        "name": "Spicule Retinol PDRN Cream 2000 Shot",
+        "size": "15g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0200.webp",
+        "mainImagePath": "products/KC0200.webp",
+        "gallery": [
+            "products/KC0200_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0201": {
+        "sku": "KC0201",
+        "brand": "Mary&May",
+        "name": "Spicule Collagen PDRN Cream 1000 Shot",
+        "size": "15g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0201.webp",
+        "mainImagePath": "products/KC0201.webp",
+        "gallery": [
+            "products/KC0201_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0202": {
+        "sku": "KC0202",
+        "brand": "ABIB",
+        "name": "Collagen Eye Patch Jericho Rose Jelly",
+        "size": "90g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0202.webp",
+        "mainImagePath": "products/KC0202.webp",
+        "gallery": [
+            "products/KC0202_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0203": {
+        "sku": "KC0203",
+        "brand": "ABIB",
+        "name": "Quick Sunstick Protection Bar",
+        "size": "22g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0203.webp",
+        "mainImagePath": "products/KC0203.webp",
+        "gallery": [
+            "products/KC0203_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0204": {
+        "sku": "KC0204",
+        "brand": "ABIB",
+        "name": "Airy Sunstick Smoothing Bar",
+        "size": "23g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0204.webp",
+        "mainImagePath": "products/KC0204.webp",
+        "gallery": [
+            "products/KC0204_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0205": {
+        "sku": "KC0205",
+        "brand": "ABIB",
+        "name": "Collagen Eye Crème Jericho Rose Tube",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0205.webp",
+        "mainImagePath": "products/KC0205.webp",
+        "gallery": [
+            "products/KC0205_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0206": {
+        "sku": "KC0206",
+        "brand": "ABIB",
+        "name": "PDRN Collagen Lip Mask Glazed Jelly",
+        "size": "11g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0206.webp",
+        "mainImagePath": "products/KC0206.webp",
+        "gallery": [
+            "products/KC0206_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0207": {
+        "sku": "KC0207",
+        "brand": "ABIB",
+        "name": "Rice Probiotics Overnight Mask Barrier Jelly",
+        "size": "80ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0207.webp",
+        "mainImagePath": "products/KC0207.webp",
+        "gallery": [
+            "products/KC0207_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0208": {
+        "sku": "KC0208",
+        "brand": "VT COSMETICS",
+        "name": "PDRN Essence 100",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0208.webp",
+        "mainImagePath": "products/KC0208.webp",
+        "gallery": [
+            "products/KC0208_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0209": {
+        "sku": "KC0209",
+        "brand": "VT COSMETICS",
+        "name": "Reedle Shot Lifting Eye Cream",
+        "size": "15ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0209.webp",
+        "mainImagePath": "products/KC0209.webp",
+        "gallery": [
+            "products/KC0209_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0210": {
+        "sku": "KC0210",
+        "brand": "VT COSMETICS",
+        "name": "PDRN Capsule Cream 100",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0210.webp",
+        "mainImagePath": "products/KC0210.webp",
+        "gallery": [
+            "products/KC0210_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0211": {
+        "sku": "KC0211",
+        "brand": "VT COSMETICS",
+        "name": "PDRN Reedle Shot Firming Eye Cream",
+        "size": "15ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0211.webp",
+        "mainImagePath": "products/KC0211.webp",
+        "gallery": [
+            "products/KC0211_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0212": {
+        "sku": "KC0212",
+        "brand": "VT COSMETICS",
+        "name": "PDRN Glow Ampoule",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0212.webp",
+        "mainImagePath": "products/KC0212.webp",
+        "gallery": [
+            "products/KC0212_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0213": {
+        "sku": "KC0213",
+        "brand": "VT COSMETICS",
+        "name": "CICA Reedle Shot 100",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0213.webp",
+        "mainImagePath": "products/KC0213.webp",
+        "gallery": [
+            "products/KC0213_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0214": {
+        "sku": "KC0214",
+        "brand": "VT COSMETICS",
+        "name": "CICA Reedle Shot 300",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0214.webp",
+        "mainImagePath": "products/KC0214.webp",
+        "gallery": [
+            "products/KC0214_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0215": {
+        "sku": "KC0215",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Air-Fit Suncream Light",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0215.webp",
+        "mainImagePath": "products/KC0215.webp",
+        "gallery": [
+            "products/KC0215_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0216": {
+        "sku": "KC0216",
+        "brand": "SKIN1004",
+        "name": "Madagascar Centella Tone Brightening Tone-Up Sunscreen",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0216.webp",
+        "mainImagePath": "products/KC0216.webp",
+        "gallery": [
+            "products/KC0216_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0217": {
+        "sku": "KC0217",
+        "brand": "ISNTREE",
+        "name": "Hyaluronic Acid Watery Sun Gel SPF50+ PA++++",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0217.webp",
+        "mainImagePath": "products/KC0217.webp",
+        "gallery": [
+            "products/KC0217_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0218": {
+        "sku": "KC0218",
+        "brand": "Beauty of Joseon",
+        "name": "Matte Sun Stick Mugwort + Camelia SPF50+ PA++++",
+        "size": "18g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0218.webp",
+        "mainImagePath": "products/KC0218.webp",
+        "gallery": [
+            "products/KC0218_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0219": {
+        "sku": "KC0219",
+        "brand": "COSRX",
+        "name": "Low pH Niacinamide Micellar Cleansing Water",
+        "size": "400ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0219.webp",
+        "mainImagePath": "products/KC0219.webp",
+        "gallery": [
+            "products/KC0219_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0220": {
+        "sku": "KC0220",
+        "brand": "ANUA",
+        "name": "Heartleaf Low pH Deep Cleansing Water",
+        "size": "500g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0220.webp",
+        "mainImagePath": "products/KC0220.webp",
+        "gallery": [
+            "products/KC0220_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0221": {
+        "sku": "KC0221",
+        "brand": "MIXSOON",
+        "name": "Calming Boosting Mist",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0221.webp",
+        "mainImagePath": "products/KC0221.webp",
+        "gallery": [
+            "products/KC0221_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0222": {
+        "sku": "KC0222",
+        "brand": "MIXSOON",
+        "name": "Bean Essence",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0222.webp",
+        "mainImagePath": "products/KC0222.webp",
+        "gallery": [
+            "products/KC0222_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0223": {
+        "sku": "KC0223",
+        "brand": "PURITO",
+        "name": "Oat-In Calming Gel Cream",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0223.webp",
+        "mainImagePath": "products/KC0223.webp",
+        "gallery": [
+            "products/KC0223_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0224": {
+        "sku": "KC0224",
+        "brand": "PURITO",
+        "name": "Mighty Bamboo Panthenol Cream",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0224.webp",
+        "mainImagePath": "products/KC0224.webp",
+        "gallery": [
+            "products/KC0224_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0225": {
+        "sku": "KC0225",
+        "brand": "PURITO",
+        "name": "Daily Soft Touch Sunscreen",
+        "size": "60ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0225.webp",
+        "mainImagePath": "products/KC0225.webp",
+        "gallery": [
+            "products/KC0225_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0226": {
+        "sku": "KC0226",
+        "brand": "PURITO",
+        "name": "Wonder Releaf Centella Eye Cream Unscented",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0226.webp",
+        "mainImagePath": "products/KC0226.webp",
+        "gallery": [
+            "products/KC0226_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0227": {
+        "sku": "KC0227",
+        "brand": "PURITO",
+        "name": "Wonder Releaf Centella Serum Unscented",
+        "size": "60ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0227.webp",
+        "mainImagePath": "products/KC0227.webp",
+        "gallery": [
+            "products/KC0227_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0228": {
+        "sku": "KC0228",
+        "brand": "Beauty of Joseon",
+        "name": "Revive Firming Moisturizer",
+        "size": "60ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0228.webp",
+        "mainImagePath": "products/KC0228.webp",
+        "gallery": [
+            "products/KC0228_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0229": {
+        "sku": "KC0229",
+        "brand": "Beauty of Joseon",
+        "name": "Revive Under Eye Patch Ginseng + Retinal",
+        "size": "60 patches / 30 pairs",
+        "hasRealPhoto": true,
+        "mainImage": "KC0229.webp",
+        "mainImagePath": "products/KC0229.webp",
+        "gallery": [
+            "products/KC0229_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0230": {
+        "sku": "KC0230",
+        "brand": "BIODANCE",
+        "name": "Caviar PDRN Eye Patches",
+        "size": "85g / 60 patches",
+        "hasRealPhoto": true,
+        "mainImage": "KC0230.webp",
+        "mainImagePath": "products/KC0230.webp",
+        "gallery": [
+            "products/KC0230_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0231": {
+        "sku": "KC0231",
+        "brand": "BIODANCE",
+        "name": "Collagen Peptide Jelly Serum Mist",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0231.webp",
+        "mainImagePath": "products/KC0231.webp",
+        "gallery": [
+            "products/KC0231_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0232": {
+        "sku": "KC0232",
+        "brand": "Medicube",
+        "name": "Kojic Acid Turmeric Gold Jelly Gel Mask",
+        "size": "4 × 28g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0232.webp",
+        "mainImagePath": "products/KC0232.webp",
+        "gallery": [
+            "products/KC0232_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0233": {
+        "sku": "KC0233",
+        "brand": "BIODANCE",
+        "name": "Caviar PDRN Jelly Serum Mist",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0233.webp",
+        "mainImagePath": "products/KC0233.webp",
+        "gallery": [
+            "products/KC0233_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0234": {
+        "sku": "KC0234",
+        "brand": "Medicube",
+        "name": "Collagen Glow Sunscreen — US",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0234.webp",
+        "mainImagePath": "products/KC0234.webp",
+        "gallery": [
+            "products/KC0234_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0235": {
+        "sku": "KC0235",
+        "brand": "BIODANCE",
+        "name": "Vita Niacinamide Eye Patches",
+        "size": "85g / 60 patches",
+        "hasRealPhoto": true,
+        "mainImage": "KC0235.webp",
+        "mainImagePath": "products/KC0235.webp",
+        "gallery": [
+            "products/KC0235_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0236": {
+        "sku": "KC0236",
+        "brand": "NUMBUZIN",
+        "name": "No.9 NAD+ Retinal Volumetox Eye Cream",
+        "size": "20ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0236.webp",
+        "mainImagePath": "products/KC0236.webp",
+        "gallery": [
+            "products/KC0236_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0237": {
+        "sku": "KC0237",
+        "brand": "Dr.Reju-All",
+        "name": "PD2 Advanced PDRN Copper Peptide Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0237.webp",
+        "mainImagePath": "products/KC0237.webp",
+        "gallery": [
+            "products/KC0237_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0238": {
+        "sku": "KC0238",
+        "brand": "Dr.Althea",
+        "name": "345 Relief Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0238.webp",
+        "mainImagePath": "products/KC0238.webp",
+        "gallery": [
+            "products/KC0238_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0239": {
+        "sku": "KC0239",
+        "brand": "Dr.Melaxin",
+        "name": "Cemenrete CX Calcium Intense Cream EX Volume Firming",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0239.webp",
+        "mainImagePath": "products/KC0239.webp",
+        "gallery": [
+            "products/KC0239_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0240": {
+        "sku": "KC0240",
+        "brand": "Dr.Melaxin",
+        "name": "MELA-C·E Zero Fit Dark Spot Patch",
+        "size": "72 patches",
+        "hasRealPhoto": true,
+        "mainImage": "KC0240.webp",
+        "mainImagePath": "products/KC0240.webp",
+        "gallery": [
+            "products/KC0240_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0241": {
+        "sku": "KC0241",
+        "brand": "Dr.Melaxin",
+        "name": "S-ZINC Zero Fit Blemish Spot Patch",
+        "size": "72 patches",
+        "hasRealPhoto": true,
+        "mainImage": "KC0241.webp",
+        "mainImagePath": "products/KC0241.webp",
+        "gallery": [
+            "products/KC0241_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0242": {
+        "sku": "KC0242",
+        "brand": "celimax",
+        "name": "Vita-A Retinal Shot Tightening Dual Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0242.webp",
+        "mainImagePath": "products/KC0242.webp",
+        "gallery": [
+            "products/KC0242_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0243": {
+        "sku": "KC0243",
+        "brand": "ISNTREE",
+        "name": "Hyaluronic Acid Aqua Gel Cream",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0243.webp",
+        "mainImagePath": "products/KC0243.webp",
+        "gallery": [
+            "products/KC0243_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0244": {
+        "sku": "KC0244",
+        "brand": "Medicube",
+        "name": "PDRN Pink Collagen Glow Jelly Mist Serum",
+        "size": "60ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0244.webp",
+        "mainImagePath": "products/KC0244.webp",
+        "gallery": [
+            "products/KC0244_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0245": {
+        "sku": "KC0245",
+        "brand": "ANUA",
+        "name": "Collagen Retinol Refining Gua Sha Cream",
+        "size": "80ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0245.webp",
+        "mainImagePath": "products/KC0245.webp",
+        "gallery": [
+            "products/KC0245_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0246": {
+        "sku": "KC0246",
+        "brand": "ANUA",
+        "name": "PDRN Collagen Glow Facial Serum Spray — Mini",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0246.webp",
+        "mainImagePath": "products/KC0246.webp",
+        "gallery": [
+            "products/KC0246_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0247": {
+        "sku": "KC0247",
+        "brand": "ANUA",
+        "name": "PDRN Hyaluronic Acid Moisturizing Cleansing Foam",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0247.webp",
+        "mainImagePath": "products/KC0247.webp",
+        "gallery": [
+            "products/KC0247_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0248": {
+        "sku": "KC0248",
+        "brand": "ANUA",
+        "name": "PDRN Collagen Melting Patch for Glass Skin",
+        "size": "4 × 0.05g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0248.webp",
+        "mainImagePath": "products/KC0248.webp",
+        "gallery": [
+            "products/KC0248_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0249": {
+        "sku": "KC0249",
+        "brand": "ANUA",
+        "name": "Barrier Reboot Daily Moisturizer",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0249.webp",
+        "mainImagePath": "products/KC0249.webp",
+        "gallery": [
+            "products/KC0249_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0250": {
+        "sku": "KC0250",
+        "brand": "ANUA",
+        "name": "Retinol Berry Revitalizing Eye Patch",
+        "size": "83g / 60 patches",
+        "hasRealPhoto": true,
+        "mainImage": "KC0250.webp",
+        "mainImagePath": "products/KC0250.webp",
+        "gallery": [
+            "products/KC0250_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0251": {
+        "sku": "KC0251",
+        "brand": "ANUA",
+        "name": "Barrier Reboot Intensive Cream",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0251.webp",
+        "mainImagePath": "products/KC0251.webp",
+        "gallery": [
+            "products/KC0251_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0252": {
+        "sku": "KC0252",
+        "brand": "ANUA",
+        "name": "Barrier Reboot Water Gel Cream",
+        "size": "100ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0252.webp",
+        "mainImagePath": "products/KC0252.webp",
+        "gallery": [
+            "products/KC0252_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0253": {
+        "sku": "KC0253",
+        "brand": "Medicube",
+        "name": "PDRN Collagen Gua Sha Neck Wrinkle Cream",
+        "size": "90g",
+        "hasRealPhoto": true,
+        "mainImage": "KC0253.webp",
+        "mainImagePath": "products/KC0253.webp",
+        "gallery": [
+            "products/KC0253_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0254": {
+        "sku": "KC0254",
+        "brand": "Dr.Althea",
+        "name": "Pore Refresh Grinding Cleansing Balm — Blue",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0254.webp",
+        "mainImagePath": "products/KC0254.webp",
+        "gallery": [
+            "products/KC0254_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0255": {
+        "sku": "KC0255",
+        "brand": "Dr.Althea",
+        "name": "Aqua Marine Watery Cream",
+        "size": "50ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0255.webp",
+        "mainImagePath": "products/KC0255.webp",
+        "gallery": [
+            "products/KC0255_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0256": {
+        "sku": "KC0256",
+        "brand": "Medicube",
+        "name": "Hyaluronic Multi Peptide PDRN Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0256.webp",
+        "mainImagePath": "products/KC0256.webp",
+        "gallery": [
+            "products/KC0256_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0257": {
+        "sku": "KC0257",
+        "brand": "Medicube",
+        "name": "Deep Vita C Capsule Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0257.webp",
+        "mainImagePath": "products/KC0257.webp",
+        "gallery": [
+            "products/KC0257_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0258": {
+        "sku": "KC0258",
+        "brand": "Medicube",
+        "name": "Kojic Acid Turmeric Vita Eye Gel Serum",
+        "size": "30ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0258.webp",
+        "mainImagePath": "products/KC0258.webp",
+        "gallery": [
+            "products/KC0258_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    },
+    "KC0259": {
+        "sku": "KC0259",
+        "brand": "ANUA",
+        "name": "BHA 2% Gentle Exfoliating Toner",
+        "size": "150ml",
+        "hasRealPhoto": true,
+        "mainImage": "KC0259.webp",
+        "mainImagePath": "products/KC0259.webp",
+        "gallery": [
+            "products/KC0259_gallery_1.webp"
+        ],
+        "mime": "image/webp"
+    }
 }

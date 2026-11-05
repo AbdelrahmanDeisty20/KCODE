@@ -1,1320 +1,1812 @@
 {
-  "KC0001": {
-    "main": "products/KC0001.jpg",
-    "subs": [
-      "products/KC0001_gallery_1.jpg",
-      "products/KC0001_gallery_2.jpg",
-      "products/KC0001_gallery_3.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0079": {
-    "main": "products/KC0079.jpg",
-    "subs": [
-      "products/KC0079_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0163": {
-    "main": "products/KC0163.jpg",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0007": {
-    "main": "products/KC0007.jpg",
-    "subs": [
-      "products/KC0007_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0086": {
-    "main": "products/KC0086.jpg",
-    "subs": [
-      "products/KC0086_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0078": {
-    "main": "products/KC0078.jpg",
-    "subs": [
-      "products/KC0078_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0155": {
-    "main": "products/KC0155.png",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0016": {
-    "main": "products/KC0016.jpg",
-    "subs": [
-      "products/KC0016_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0081": {
-    "main": "products/KC0081.jpg",
-    "subs": [
-      "products/KC0081_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0003": {
-    "main": "products/KC0003.jpg",
-    "subs": [
-      "products/KC0003_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0019": {
-    "main": "products/KC0019.jpg",
-    "subs": [
-      "products/KC0019_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0088": {
-    "main": "products/KC0088.jpg",
-    "subs": [
-      "products/KC0088_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0156": {
-    "main": "products/KC0156.jpg",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0083": {
-    "main": "products/KC0083.jpg",
-    "subs": [
-      "products/KC0083_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0104": {
-    "main": "products/KC0104.png",
-    "subs": [
-      "products/KC0104_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0002": {
-    "main": "products/KC0002.jpg",
-    "subs": [
-      "products/KC0002_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0102": {
-    "main": "products/KC0102.png",
-    "subs": [
-      "products/KC0102_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0159": {
-    "main": "products/KC0159.jpg",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0012": {
-    "main": "products/KC0012.jpg",
-    "subs": [
-      "products/KC0012_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0154": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0122": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0220": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0153": {
-    "main": "products/KC0153.jpg",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0123": {
-    "main": "products/KC0123.jpg",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0172": {
-    "main": "products/KC0172.jpg",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0221": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0126": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0173": {
-    "main": "products/KC0173.png",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0047": {
-    "main": "products/KC0047.jpg",
-    "subs": [
-      "products/KC0047_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0164": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0219": {
-    "main": "products/KC0219_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0048": {
-    "main": "products/KC0048.jpg",
-    "subs": [
-      "products/KC0048_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0121": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0089": {
-    "main": "products/KC0089.jpg",
-    "subs": [
-      "products/KC0089_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0071": {
-    "main": "products/KC0071.png",
-    "subs": [
-      "products/KC0071_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0162": {
-    "main": "products/KC0162.png",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0020": {
-    "main": "products/KC0020.jpg",
-    "subs": [
-      "products/KC0020_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0074": {
-    "main": "products/KC0074.png",
-    "subs": [
-      "products/KC0074_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0198": {
-    "main": "products/KC0198_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0217": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0025": {
-    "main": "products/KC0025.jpg",
-    "subs": [
-      "products/KC0025_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0014": {
-    "main": "products/KC0014.jpg",
-    "subs": [
-      "products/KC0014_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0150": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0190": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0140": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0107": {
-    "main": "products/KC0107.png",
-    "subs": [
-      "products/KC0107_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0069": {
-    "main": "products/KC0069.png",
-    "subs": [
-      "products/KC0069_gallery_1.png",
-      "products/KC0069_gallery_2.png",
-      "products/KC0069_gallery_3.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0070": {
-    "main": "products/KC0070.png",
-    "subs": [
-      "products/KC0070_gallery_1.png",
-      "products/KC0070_gallery_2.png",
-      "products/KC0070_gallery_3.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0115": {
-    "main": "products/KC0115.png",
-    "subs": [
-      "products/KC0115_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0139": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0165": {
-    "main": "products/KC0165.png",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0213": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0185": {
-    "main": "products/KC0185_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0082": {
-    "main": "products/KC0082.jpg",
-    "subs": [
-      "products/KC0082_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0222": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0202": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0040": {
-    "main": "products/KC0040.jpg",
-    "subs": [
-      "products/KC0040_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0076": {
-    "main": "products/KC0076.webp",
-    "subs": [
-      "products/KC0076_gallery_1.webp"
-    ],
-    "has_real_photo": true
-  },
-  "KC0138": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0145": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0124": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0143": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0077": {
-    "main": "products/KC0077.png",
-    "subs": [
-      "products/KC0077_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0075": {
-    "main": "products/KC0075.webp",
-    "subs": [
-      "products/KC0075_gallery_1.webp"
-    ],
-    "has_real_photo": true
-  },
-  "KC0061": {
-    "main": "products/KC0061.jpg",
-    "subs": [
-      "products/KC0061_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0216": {
-    "main": "products/KC0216.png",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0049": {
-    "main": "products/KC0049.jpg",
-    "subs": [
-      "products/KC0049_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0141": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0080": {
-    "main": "products/KC0080.png",
-    "subs": [
-      "products/KC0080_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0064": {
-    "main": "products/KC0064.png",
-    "subs": [
-      "products/KC0064_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0192": {
-    "main": "products/KC0192_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0223": {
-    "main": "products/KC0223_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0226": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0224": {
-    "main": "products/KC0224_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0225": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0148": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0009": {
-    "main": "products/KC0009.jpg",
-    "subs": [
-      "products/KC0009_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0101": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0117": {
-    "main": "products/KC0117.png",
-    "subs": [
-      "products/KC0117_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0184": {
-    "main": "products/KC0184_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0137": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0021": {
-    "main": "products/KC0021.jpg",
-    "subs": [
-      "products/KC0021_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0187": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0207": {
-    "main": "products/KC0207_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0168": {
-    "main": "products/KC0168.jpg",
-    "subs": [],
-    "has_real_photo": true
-  },
-  "KC0142": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0119": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0157": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0065": {
-    "main": "products/KC0065.png",
-    "subs": [
-      "products/KC0065_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0022": {
-    "main": "products/KC0022.jpg",
-    "subs": [
-      "products/KC0022_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0055": {
-    "main": "products/KC0055.webp",
-    "subs": [
-      "products/KC0055_gallery_1.webp"
-    ],
-    "has_real_photo": true
-  },
-  "KC0149": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0118": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0085": {
-    "main": "products/KC0085.jpg",
-    "subs": [
-      "products/KC0085_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0094": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0177": {
-    "main": "products/KC0177_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0189": {
-    "main": "products/KC0189_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0218": {
-    "main": "products/KC0218_placeholder.svg",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0186": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0095": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0068": {
-    "main": "products/KC0068.png",
-    "subs": [
-      "products/KC0068_gallery_1.png",
-      "products/KC0068_gallery_2.png",
-      "products/KC0068_gallery_3.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0004": {
-    "main": "products/KC0004.jpg",
-    "subs": [
-      "products/KC0004_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0005": {
-    "main": "products/KC0005.jpg",
-    "subs": [
-      "products/KC0005_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0006": {
-    "main": "products/KC0006.jpg",
-    "subs": [
-      "products/KC0006_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0008": {
-    "main": "products/KC0008.jpg",
-    "subs": [
-      "products/KC0008_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0010": {
-    "main": "products/KC0010.jpg",
-    "subs": [
-      "products/KC0010_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0011": {
-    "main": "products/KC0011.jpg",
-    "subs": [
-      "products/KC0011_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0013": {
-    "main": "products/KC0013.jpg",
-    "subs": [
-      "products/KC0013_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0015": {
-    "main": "products/KC0015.jpg",
-    "subs": [
-      "products/KC0015_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0017": {
-    "main": "products/KC0017.jpg",
-    "subs": [
-      "products/KC0017_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0018": {
-    "main": "products/KC0018.jpg",
-    "subs": [
-      "products/KC0018_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0023": {
-    "main": "products/KC0023.jpg",
-    "subs": [
-      "products/KC0023_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0024": {
-    "main": "products/KC0024.jpg",
-    "subs": [
-      "products/KC0024_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0026": {
-    "main": "products/KC0026.jpg",
-    "subs": [
-      "products/KC0026_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0027": {
-    "main": "products/KC0027.jpg",
-    "subs": [
-      "products/KC0027_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0028": {
-    "main": "products/KC0028.jpg",
-    "subs": [
-      "products/KC0028_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0029": {
-    "main": "products/KC0029.jpg",
-    "subs": [
-      "products/KC0029_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0030": {
-    "main": "products/KC0030.jpg",
-    "subs": [
-      "products/KC0030_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0031": {
-    "main": "products/KC0031.jpg",
-    "subs": [
-      "products/KC0031_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0032": {
-    "main": "products/KC0032.jpg",
-    "subs": [
-      "products/KC0032_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0033": {
-    "main": "products/KC0033.jpg",
-    "subs": [
-      "products/KC0033_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0034": {
-    "main": "products/KC0034.jpg",
-    "subs": [
-      "products/KC0034_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0035": {
-    "main": "products/KC0035.jpg",
-    "subs": [
-      "products/KC0035_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0036": {
-    "main": "products/KC0036.jpg",
-    "subs": [
-      "products/KC0036_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0037": {
-    "main": "products/KC0037.png",
-    "subs": [
-      "products/KC0037_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0038": {
-    "main": "products/KC0038.jpg",
-    "subs": [
-      "products/KC0038_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0039": {
-    "main": "products/KC0039.jpg",
-    "subs": [
-      "products/KC0039_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0041": {
-    "main": "products/KC0041.jpg",
-    "subs": [
-      "products/KC0041_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0042": {
-    "main": "products/KC0042.png",
-    "subs": [
-      "products/KC0042_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0043": {
-    "main": "products/KC0043.jpg",
-    "subs": [
-      "products/KC0043_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0045": {
-    "main": "products/KC0045.jpg",
-    "subs": [
-      "products/KC0045_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0046": {
-    "main": "products/KC0046.jpg",
-    "subs": [
-      "products/KC0046_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0050": {
-    "main": "products/KC0050.png",
-    "subs": [
-      "products/KC0050_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0051": {
-    "main": "products/KC0051.jpg",
-    "subs": [
-      "products/KC0051_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0052": {
-    "main": "products/KC0052.jpg",
-    "subs": [
-      "products/KC0052_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0053": {
-    "main": "products/KC0053.jpg",
-    "subs": [
-      "products/KC0053_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0057": {
-    "main": "products/KC0057.jpg",
-    "subs": [
-      "products/KC0057_gallery_1.jpg",
-      "products/KC0057_gallery_2.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0058": {
-    "main": "products/KC0058.webp",
-    "subs": [
-      "products/KC0058_gallery_1.webp",
-      "products/KC0058_gallery_2.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0059": {
-    "main": "products/KC0059.jpg",
-    "subs": [
-      "products/KC0059_gallery_1.jpg",
-      "products/KC0059_gallery_2.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0060": {
-    "main": "products/KC0060.jpg",
-    "subs": [
-      "products/KC0060_gallery_1.jpg",
-      "products/KC0060_gallery_2.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0062": {
-    "main": "products/KC0062.jpg",
-    "subs": [
-      "products/KC0062_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0063": {
-    "main": "products/KC0063.jpg",
-    "subs": [
-      "products/KC0063_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0066": {
-    "main": "products/KC0066.png",
-    "subs": [
-      "products/KC0066_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0067": {
-    "main": "products/KC0067.jpg",
-    "subs": [
-      "products/KC0067_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0072": {
-    "main": "products/KC0072.png",
-    "subs": [
-      "products/KC0072_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0073": {
-    "main": "products/KC0073.png",
-    "subs": [
-      "products/KC0073_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0084": {
-    "main": "products/KC0084.jpg",
-    "subs": [
-      "products/KC0084_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0087": {
-    "main": "products/KC0087.jpg",
-    "subs": [
-      "products/KC0087_gallery_1.jpg"
-    ],
-    "has_real_photo": true
-  },
-  "KC0090": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0091": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0092": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0093": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0096": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0097": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0098": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0099": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0100": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0103": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0105": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0108": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0109": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0110": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0111": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0112": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0113": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0114": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0116": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0120": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0125": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0127": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0128": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0129": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0131": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0132": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0133": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0134": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0136": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0144": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0146": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0147": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0151": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0152": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0158": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0160": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0161": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0166": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0167": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0169": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0170": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0171": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0174": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0175": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0176": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0179": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0180": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0181": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0182": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0183": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0188": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0191": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0193": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0194": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0195": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0197": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0199": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0200": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0201": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0203": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0204": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0205": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0208": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0209": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0210": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0211": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0212": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0214": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0215": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0227": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0044": {
-    "main": "products/KC0044.png",
-    "subs": [
-      "products/KC0044_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0054": {
-    "main": "products/KC0054.png",
-    "subs": [
-      "products/KC0054_gallery_1.png"
-    ],
-    "has_real_photo": true
-  },
-  "KC0130": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0178": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0196": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  },
-  "KC0206": {
-    "main": "products/default_bottle.png",
-    "subs": [],
-    "has_real_photo": false
-  }
+    "KC0001": {
+        "main": "products/KC0001.webp",
+        "subs": [
+            "products/KC0001_gallery_1.webp",
+            "products/KC0001_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0002": {
+        "main": "products/KC0002.webp",
+        "subs": [
+            "products/KC0002_gallery_1.webp",
+            "products/KC0002_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0003": {
+        "main": "products/KC0003.webp",
+        "subs": [
+            "products/KC0003_gallery_1.webp",
+            "products/KC0003_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0004": {
+        "main": "products/KC0004.webp",
+        "subs": [
+            "products/KC0004_gallery_1.webp",
+            "products/KC0004_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0005": {
+        "main": "products/KC0005.webp",
+        "subs": [
+            "products/KC0005_gallery_1.webp",
+            "products/KC0005_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0006": {
+        "main": "products/KC0006.webp",
+        "subs": [
+            "products/KC0006_gallery_1.webp",
+            "products/KC0006_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0007": {
+        "main": "products/KC0007.webp",
+        "subs": [
+            "products/KC0007_gallery_1.webp",
+            "products/KC0007_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0008": {
+        "main": "products/KC0008.webp",
+        "subs": [
+            "products/KC0008_gallery_1.webp",
+            "products/KC0008_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0009": {
+        "main": "products/KC0009.webp",
+        "subs": [
+            "products/KC0009_gallery_1.webp",
+            "products/KC0009_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0010": {
+        "main": "products/KC0010.webp",
+        "subs": [
+            "products/KC0010_gallery_1.webp",
+            "products/KC0010_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0011": {
+        "main": "products/KC0011.webp",
+        "subs": [
+            "products/KC0011_gallery_1.webp",
+            "products/KC0011_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0012": {
+        "main": "products/KC0012.webp",
+        "subs": [
+            "products/KC0012_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0013": {
+        "main": "products/KC0013.webp",
+        "subs": [
+            "products/KC0013_gallery_1.webp",
+            "products/KC0013_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0014": {
+        "main": "products/KC0014.webp",
+        "subs": [
+            "products/KC0014_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0015": {
+        "main": "products/KC0015.webp",
+        "subs": [
+            "products/KC0015_gallery_1.webp",
+            "products/KC0015_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0016": {
+        "main": "products/KC0016.webp",
+        "subs": [
+            "products/KC0016_gallery_1.webp",
+            "products/KC0016_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0017": {
+        "main": "products/KC0017.webp",
+        "subs": [
+            "products/KC0017_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0018": {
+        "main": "products/KC0018.webp",
+        "subs": [
+            "products/KC0018_gallery_1.webp",
+            "products/KC0018_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0019": {
+        "main": "products/KC0019.webp",
+        "subs": [
+            "products/KC0019_gallery_1.webp",
+            "products/KC0019_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0020": {
+        "main": "products/KC0020.webp",
+        "subs": [
+            "products/KC0020_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0021": {
+        "main": "products/KC0021.webp",
+        "subs": [
+            "products/KC0021_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0022": {
+        "main": "products/KC0022.webp",
+        "subs": [
+            "products/KC0022_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0023": {
+        "main": "products/KC0023.webp",
+        "subs": [
+            "products/KC0023_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0024": {
+        "main": "products/KC0024.webp",
+        "subs": [
+            "products/KC0024_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0025": {
+        "main": "products/KC0025.webp",
+        "subs": [
+            "products/KC0025_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0026": {
+        "main": "products/KC0026.webp",
+        "subs": [
+            "products/KC0026_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0027": {
+        "main": "products/KC0027.webp",
+        "subs": [
+            "products/KC0027_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0028": {
+        "main": "products/KC0028.webp",
+        "subs": [
+            "products/KC0028_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0029": {
+        "main": "products/KC0029.webp",
+        "subs": [
+            "products/KC0029_gallery_1.webp",
+            "products/KC0029_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0030": {
+        "main": "products/KC0030.webp",
+        "subs": [
+            "products/KC0030_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0031": {
+        "main": "products/KC0031.webp",
+        "subs": [
+            "products/KC0031_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0032": {
+        "main": "products/KC0032.webp",
+        "subs": [
+            "products/KC0032_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0033": {
+        "main": "products/KC0033.webp",
+        "subs": [
+            "products/KC0033_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0034": {
+        "main": "products/KC0034.webp",
+        "subs": [
+            "products/KC0034_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0035": {
+        "main": "products/KC0035.webp",
+        "subs": [
+            "products/KC0035_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0036": {
+        "main": "products/KC0036.webp",
+        "subs": [
+            "products/KC0036_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0037": {
+        "main": "products/KC0037.webp",
+        "subs": [
+            "products/KC0037_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0038": {
+        "main": "products/KC0038.webp",
+        "subs": [
+            "products/KC0038_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0039": {
+        "main": "products/KC0039.webp",
+        "subs": [
+            "products/KC0039_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0040": {
+        "main": "products/KC0040.webp",
+        "subs": [
+            "products/KC0040_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0041": {
+        "main": "products/KC0041.webp",
+        "subs": [
+            "products/KC0041_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0042": {
+        "main": "products/KC0042.webp",
+        "subs": [
+            "products/KC0042_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0043": {
+        "main": "products/KC0043.webp",
+        "subs": [
+            "products/KC0043_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0044": {
+        "main": "products/KC0044.webp",
+        "subs": [
+            "products/KC0044_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0045": {
+        "main": "products/KC0045.webp",
+        "subs": [
+            "products/KC0045_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0046": {
+        "main": "products/KC0046.webp",
+        "subs": [
+            "products/KC0046_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0047": {
+        "main": "products/KC0047.webp",
+        "subs": [
+            "products/KC0047_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0048": {
+        "main": "products/KC0048.webp",
+        "subs": [
+            "products/KC0048_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0049": {
+        "main": "products/KC0049.webp",
+        "subs": [
+            "products/KC0049_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0050": {
+        "main": "products/KC0050.webp",
+        "subs": [
+            "products/KC0050_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0051": {
+        "main": "products/KC0051.webp",
+        "subs": [
+            "products/KC0051_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0052": {
+        "main": "products/KC0052.webp",
+        "subs": [
+            "products/KC0052_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0053": {
+        "main": "products/KC0053.webp",
+        "subs": [
+            "products/KC0053_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0054": {
+        "main": "products/KC0054.webp",
+        "subs": [
+            "products/KC0054_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0055": {
+        "main": "products/KC0055.webp",
+        "subs": [
+            "products/KC0055_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0057": {
+        "main": "products/KC0057.webp",
+        "subs": [
+            "products/KC0057_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0058": {
+        "main": "products/KC0058.webp",
+        "subs": [
+            "products/KC0058_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0059": {
+        "main": "products/KC0059.webp",
+        "subs": [
+            "products/KC0059_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0060": {
+        "main": "products/KC0060.webp",
+        "subs": [
+            "products/KC0060_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0061": {
+        "main": "products/KC0061.webp",
+        "subs": [
+            "products/KC0061_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0062": {
+        "main": "products/KC0062.webp",
+        "subs": [
+            "products/KC0062_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0063": {
+        "main": "products/KC0063.webp",
+        "subs": [
+            "products/KC0063_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0064": {
+        "main": "products/KC0064.webp",
+        "subs": [
+            "products/KC0064_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0065": {
+        "main": "products/KC0065.webp",
+        "subs": [
+            "products/KC0065_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0066": {
+        "main": "products/KC0066.webp",
+        "subs": [
+            "products/KC0066_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0067": {
+        "main": "products/KC0067.webp",
+        "subs": [
+            "products/KC0067_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0068": {
+        "main": "products/KC0068.webp",
+        "subs": [
+            "products/KC0068_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0069": {
+        "main": "products/KC0069.webp",
+        "subs": [
+            "products/KC0069_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0070": {
+        "main": "products/KC0070.webp",
+        "subs": [
+            "products/KC0070_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0071": {
+        "main": "products/KC0071.webp",
+        "subs": [
+            "products/KC0071_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0072": {
+        "main": "products/KC0072.webp",
+        "subs": [
+            "products/KC0072_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0073": {
+        "main": "products/KC0073.webp",
+        "subs": [
+            "products/KC0073_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0074": {
+        "main": "products/KC0074.webp",
+        "subs": [
+            "products/KC0074_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0075": {
+        "main": "products/KC0075.webp",
+        "subs": [
+            "products/KC0075_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0076": {
+        "main": "products/KC0076.webp",
+        "subs": [
+            "products/KC0076_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0077": {
+        "main": "products/KC0077.webp",
+        "subs": [
+            "products/KC0077_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0078": {
+        "main": "products/KC0078.webp",
+        "subs": [
+            "products/KC0078_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0079": {
+        "main": "products/KC0079.webp",
+        "subs": [
+            "products/KC0079_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0080": {
+        "main": "products/KC0080.webp",
+        "subs": [
+            "products/KC0080_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0081": {
+        "main": "products/KC0081.webp",
+        "subs": [
+            "products/KC0081_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0082": {
+        "main": "products/KC0082.webp",
+        "subs": [
+            "products/KC0082_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0083": {
+        "main": "products/KC0083.webp",
+        "subs": [
+            "products/KC0083_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0084": {
+        "main": "products/KC0084.webp",
+        "subs": [
+            "products/KC0084_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0085": {
+        "main": "products/KC0085.webp",
+        "subs": [
+            "products/KC0085_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0086": {
+        "main": "products/KC0086.webp",
+        "subs": [
+            "products/KC0086_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0087": {
+        "main": "products/KC0087.webp",
+        "subs": [
+            "products/KC0087_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0088": {
+        "main": "products/KC0088.webp",
+        "subs": [
+            "products/KC0088_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0089": {
+        "main": "products/KC0089.webp",
+        "subs": [
+            "products/KC0089_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0090": {
+        "main": "products/KC0090.webp",
+        "subs": [
+            "products/KC0090_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0091": {
+        "main": "products/KC0091.webp",
+        "subs": [
+            "products/KC0091_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0092": {
+        "main": "products/KC0092.webp",
+        "subs": [
+            "products/KC0092_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0093": {
+        "main": "products/KC0093.webp",
+        "subs": [
+            "products/KC0093_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0094": {
+        "main": "products/KC0094.webp",
+        "subs": [
+            "products/KC0094_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0095": {
+        "main": "products/KC0095.webp",
+        "subs": [
+            "products/KC0095_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0096": {
+        "main": "products/KC0096.webp",
+        "subs": [
+            "products/KC0096_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0097": {
+        "main": "products/KC0097.webp",
+        "subs": [
+            "products/KC0097_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0098": {
+        "main": "products/KC0098.webp",
+        "subs": [
+            "products/KC0098_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0099": {
+        "main": "products/KC0099.webp",
+        "subs": [
+            "products/KC0099_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0100": {
+        "main": "products/KC0100.webp",
+        "subs": [
+            "products/KC0100_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0101": {
+        "main": "products/KC0101.webp",
+        "subs": [
+            "products/KC0101_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0102": {
+        "main": "products/KC0102.webp",
+        "subs": [
+            "products/KC0102_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0103": {
+        "main": "products/KC0103.webp",
+        "subs": [
+            "products/KC0103_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0104": {
+        "main": "products/KC0104.webp",
+        "subs": [
+            "products/KC0104_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0105": {
+        "main": "products/KC0105.webp",
+        "subs": [
+            "products/KC0105_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0107": {
+        "main": "products/KC0107.webp",
+        "subs": [
+            "products/KC0107_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0108": {
+        "main": "products/KC0108.webp",
+        "subs": [
+            "products/KC0108_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0109": {
+        "main": "products/KC0109.webp",
+        "subs": [
+            "products/KC0109_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0110": {
+        "main": "products/KC0110.webp",
+        "subs": [
+            "products/KC0110_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0111": {
+        "main": "products/KC0111.webp",
+        "subs": [
+            "products/KC0111_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0112": {
+        "main": "products/KC0112.webp",
+        "subs": [
+            "products/KC0112_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0113": {
+        "main": "products/KC0113.webp",
+        "subs": [
+            "products/KC0113_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0114": {
+        "main": "products/KC0114.webp",
+        "subs": [
+            "products/KC0114_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0115": {
+        "main": "products/KC0115.webp",
+        "subs": [
+            "products/KC0115_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0116": {
+        "main": "products/KC0116.webp",
+        "subs": [
+            "products/KC0116_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0117": {
+        "main": "products/KC0117.webp",
+        "subs": [
+            "products/KC0117_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0118": {
+        "main": "products/KC0118.webp",
+        "subs": [
+            "products/KC0118_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0119": {
+        "main": "products/KC0119.webp",
+        "subs": [
+            "products/KC0119_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0120": {
+        "main": "products/KC0120.webp",
+        "subs": [
+            "products/KC0120_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0121": {
+        "main": "products/KC0121.webp",
+        "subs": [
+            "products/KC0121_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0122": {
+        "main": "products/KC0122.webp",
+        "subs": [
+            "products/KC0122_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0123": {
+        "main": "products/KC0123.webp",
+        "subs": [
+            "products/KC0123_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0124": {
+        "main": "products/KC0124.webp",
+        "subs": [
+            "products/KC0124_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0125": {
+        "main": "products/KC0125.webp",
+        "subs": [
+            "products/KC0125_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0126": {
+        "main": "products/KC0126.webp",
+        "subs": [
+            "products/KC0126_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0127": {
+        "main": "products/KC0127.webp",
+        "subs": [
+            "products/KC0127_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0128": {
+        "main": "products/KC0128.webp",
+        "subs": [
+            "products/KC0128_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0129": {
+        "main": "products/KC0129.webp",
+        "subs": [
+            "products/KC0129_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0130": {
+        "main": "products/KC0130.webp",
+        "subs": [
+            "products/KC0130_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0131": {
+        "main": "products/KC0131.webp",
+        "subs": [
+            "products/KC0131_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0132": {
+        "main": "products/KC0132.webp",
+        "subs": [
+            "products/KC0132_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0133": {
+        "main": "products/KC0133.webp",
+        "subs": [
+            "products/KC0133_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0134": {
+        "main": "products/KC0134.webp",
+        "subs": [
+            "products/KC0134_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0136": {
+        "main": "products/KC0136.webp",
+        "subs": [
+            "products/KC0136_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0137": {
+        "main": "products/KC0137.webp",
+        "subs": [
+            "products/KC0137_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0138": {
+        "main": "products/KC0138.webp",
+        "subs": [
+            "products/KC0138_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0139": {
+        "main": "products/KC0139.webp",
+        "subs": [
+            "products/KC0139_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0140": {
+        "main": "products/KC0140.webp",
+        "subs": [
+            "products/KC0140_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0141": {
+        "main": "products/KC0141.webp",
+        "subs": [
+            "products/KC0141_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0142": {
+        "main": "products/KC0142.webp",
+        "subs": [
+            "products/KC0142_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0143": {
+        "main": "products/KC0143.webp",
+        "subs": [
+            "products/KC0143_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0144": {
+        "main": "products/KC0144.webp",
+        "subs": [
+            "products/KC0144_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0145": {
+        "main": "products/KC0145.webp",
+        "subs": [
+            "products/KC0145_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0146": {
+        "main": "products/KC0146.webp",
+        "subs": [
+            "products/KC0146_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0147": {
+        "main": "products/KC0147.webp",
+        "subs": [
+            "products/KC0147_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0148": {
+        "main": "products/KC0148.webp",
+        "subs": [
+            "products/KC0148_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0149": {
+        "main": "products/KC0149.webp",
+        "subs": [
+            "products/KC0149_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0150": {
+        "main": "products/KC0150.webp",
+        "subs": [
+            "products/KC0150_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0151": {
+        "main": "products/KC0151.webp",
+        "subs": [
+            "products/KC0151_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0152": {
+        "main": "products/KC0152.webp",
+        "subs": [
+            "products/KC0152_gallery_1.webp",
+            "products/KC0152_gallery_2.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0153": {
+        "main": "products/KC0153.webp",
+        "subs": [
+            "products/KC0153_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0154": {
+        "main": "products/KC0154.webp",
+        "subs": [
+            "products/KC0154_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0155": {
+        "main": "products/KC0155.webp",
+        "subs": [
+            "products/KC0155_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0156": {
+        "main": "products/KC0156.webp",
+        "subs": [
+            "products/KC0156_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0157": {
+        "main": "products/KC0157.webp",
+        "subs": [
+            "products/KC0157_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0158": {
+        "main": "products/KC0158.webp",
+        "subs": [
+            "products/KC0158_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0159": {
+        "main": "products/KC0159.webp",
+        "subs": [
+            "products/KC0159_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0160": {
+        "main": "products/KC0160.webp",
+        "subs": [
+            "products/KC0160_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0161": {
+        "main": "products/KC0161.webp",
+        "subs": [
+            "products/KC0161_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0162": {
+        "main": "products/KC0162.webp",
+        "subs": [
+            "products/KC0162_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0163": {
+        "main": "products/KC0163.webp",
+        "subs": [
+            "products/KC0163_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0164": {
+        "main": "products/KC0164.webp",
+        "subs": [
+            "products/KC0164_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0165": {
+        "main": "products/KC0165.webp",
+        "subs": [
+            "products/KC0165_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0166": {
+        "main": "products/KC0166.webp",
+        "subs": [
+            "products/KC0166_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0167": {
+        "main": "products/KC0167.webp",
+        "subs": [
+            "products/KC0167_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0168": {
+        "main": "products/KC0168.webp",
+        "subs": [
+            "products/KC0168_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0169": {
+        "main": "products/KC0169.webp",
+        "subs": [
+            "products/KC0169_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0170": {
+        "main": "products/KC0170.webp",
+        "subs": [
+            "products/KC0170_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0171": {
+        "main": "products/KC0171.webp",
+        "subs": [
+            "products/KC0171_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0172": {
+        "main": "products/KC0172.webp",
+        "subs": [
+            "products/KC0172_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0173": {
+        "main": "products/KC0173.webp",
+        "subs": [
+            "products/KC0173_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0174": {
+        "main": "products/KC0174.webp",
+        "subs": [
+            "products/KC0174_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0175": {
+        "main": "products/KC0175.webp",
+        "subs": [
+            "products/KC0175_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0176": {
+        "main": "products/KC0176.webp",
+        "subs": [
+            "products/KC0176_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0177": {
+        "main": "products/KC0177.webp",
+        "subs": [
+            "products/KC0177_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0178": {
+        "main": "products/KC0178.webp",
+        "subs": [
+            "products/KC0178_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0179": {
+        "main": "products/KC0179.webp",
+        "subs": [
+            "products/KC0179_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0180": {
+        "main": "products/KC0180.webp",
+        "subs": [
+            "products/KC0180_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0181": {
+        "main": "products/KC0181.webp",
+        "subs": [
+            "products/KC0181_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0182": {
+        "main": "products/KC0182.webp",
+        "subs": [
+            "products/KC0182_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0183": {
+        "main": "products/KC0183.webp",
+        "subs": [
+            "products/KC0183_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0184": {
+        "main": "products/KC0184.webp",
+        "subs": [
+            "products/KC0184_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0185": {
+        "main": "products/KC0185.webp",
+        "subs": [
+            "products/KC0185_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0186": {
+        "main": "products/KC0186.webp",
+        "subs": [
+            "products/KC0186_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0187": {
+        "main": "products/KC0187.webp",
+        "subs": [
+            "products/KC0187_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0188": {
+        "main": "products/KC0188.webp",
+        "subs": [
+            "products/KC0188_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0189": {
+        "main": "products/KC0189.webp",
+        "subs": [
+            "products/KC0189_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0190": {
+        "main": "products/KC0190.webp",
+        "subs": [
+            "products/KC0190_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0191": {
+        "main": "products/KC0191.webp",
+        "subs": [
+            "products/KC0191_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0192": {
+        "main": "products/KC0192.webp",
+        "subs": [
+            "products/KC0192_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0193": {
+        "main": "products/KC0193.webp",
+        "subs": [
+            "products/KC0193_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0194": {
+        "main": "products/KC0194.webp",
+        "subs": [
+            "products/KC0194_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0195": {
+        "main": "products/KC0195.webp",
+        "subs": [
+            "products/KC0195_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0196": {
+        "main": "products/KC0196.webp",
+        "subs": [
+            "products/KC0196_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0197": {
+        "main": "products/KC0197.webp",
+        "subs": [
+            "products/KC0197_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0198": {
+        "main": "products/KC0198.webp",
+        "subs": [
+            "products/KC0198_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0199": {
+        "main": "products/KC0199.webp",
+        "subs": [
+            "products/KC0199_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0200": {
+        "main": "products/KC0200.webp",
+        "subs": [
+            "products/KC0200_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0201": {
+        "main": "products/KC0201.webp",
+        "subs": [
+            "products/KC0201_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0202": {
+        "main": "products/KC0202.webp",
+        "subs": [
+            "products/KC0202_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0203": {
+        "main": "products/KC0203.webp",
+        "subs": [
+            "products/KC0203_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0204": {
+        "main": "products/KC0204.webp",
+        "subs": [
+            "products/KC0204_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0205": {
+        "main": "products/KC0205.webp",
+        "subs": [
+            "products/KC0205_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0206": {
+        "main": "products/KC0206.webp",
+        "subs": [
+            "products/KC0206_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0207": {
+        "main": "products/KC0207.webp",
+        "subs": [
+            "products/KC0207_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0208": {
+        "main": "products/KC0208.webp",
+        "subs": [
+            "products/KC0208_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0209": {
+        "main": "products/KC0209.webp",
+        "subs": [
+            "products/KC0209_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0210": {
+        "main": "products/KC0210.webp",
+        "subs": [
+            "products/KC0210_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0211": {
+        "main": "products/KC0211.webp",
+        "subs": [
+            "products/KC0211_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0212": {
+        "main": "products/KC0212.webp",
+        "subs": [
+            "products/KC0212_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0213": {
+        "main": "products/KC0213.webp",
+        "subs": [
+            "products/KC0213_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0214": {
+        "main": "products/KC0214.webp",
+        "subs": [
+            "products/KC0214_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0215": {
+        "main": "products/KC0215.webp",
+        "subs": [
+            "products/KC0215_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0216": {
+        "main": "products/KC0216.webp",
+        "subs": [
+            "products/KC0216_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0217": {
+        "main": "products/KC0217.webp",
+        "subs": [
+            "products/KC0217_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0218": {
+        "main": "products/KC0218.webp",
+        "subs": [
+            "products/KC0218_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0219": {
+        "main": "products/KC0219.webp",
+        "subs": [
+            "products/KC0219_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0220": {
+        "main": "products/KC0220.webp",
+        "subs": [
+            "products/KC0220_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0221": {
+        "main": "products/KC0221.webp",
+        "subs": [
+            "products/KC0221_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0222": {
+        "main": "products/KC0222.webp",
+        "subs": [
+            "products/KC0222_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0223": {
+        "main": "products/KC0223.webp",
+        "subs": [
+            "products/KC0223_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0224": {
+        "main": "products/KC0224.webp",
+        "subs": [
+            "products/KC0224_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0225": {
+        "main": "products/KC0225.webp",
+        "subs": [
+            "products/KC0225_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0226": {
+        "main": "products/KC0226.webp",
+        "subs": [
+            "products/KC0226_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0227": {
+        "main": "products/KC0227.webp",
+        "subs": [
+            "products/KC0227_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0228": {
+        "main": "products/KC0228.webp",
+        "subs": [
+            "products/KC0228_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0229": {
+        "main": "products/KC0229.webp",
+        "subs": [
+            "products/KC0229_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0230": {
+        "main": "products/KC0230.webp",
+        "subs": [
+            "products/KC0230_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0231": {
+        "main": "products/KC0231.webp",
+        "subs": [
+            "products/KC0231_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0232": {
+        "main": "products/KC0232.webp",
+        "subs": [
+            "products/KC0232_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0233": {
+        "main": "products/KC0233.webp",
+        "subs": [
+            "products/KC0233_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0234": {
+        "main": "products/KC0234.webp",
+        "subs": [
+            "products/KC0234_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0235": {
+        "main": "products/KC0235.webp",
+        "subs": [
+            "products/KC0235_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0236": {
+        "main": "products/KC0236.webp",
+        "subs": [
+            "products/KC0236_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0237": {
+        "main": "products/KC0237.webp",
+        "subs": [
+            "products/KC0237_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0238": {
+        "main": "products/KC0238.webp",
+        "subs": [
+            "products/KC0238_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0239": {
+        "main": "products/KC0239.webp",
+        "subs": [
+            "products/KC0239_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0240": {
+        "main": "products/KC0240.webp",
+        "subs": [
+            "products/KC0240_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0241": {
+        "main": "products/KC0241.webp",
+        "subs": [
+            "products/KC0241_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0242": {
+        "main": "products/KC0242.webp",
+        "subs": [
+            "products/KC0242_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0243": {
+        "main": "products/KC0243.webp",
+        "subs": [
+            "products/KC0243_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0244": {
+        "main": "products/KC0244.webp",
+        "subs": [
+            "products/KC0244_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0245": {
+        "main": "products/KC0245.webp",
+        "subs": [
+            "products/KC0245_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0246": {
+        "main": "products/KC0246.webp",
+        "subs": [
+            "products/KC0246_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0247": {
+        "main": "products/KC0247.webp",
+        "subs": [
+            "products/KC0247_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0248": {
+        "main": "products/KC0248.webp",
+        "subs": [
+            "products/KC0248_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0249": {
+        "main": "products/KC0249.webp",
+        "subs": [
+            "products/KC0249_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0250": {
+        "main": "products/KC0250.webp",
+        "subs": [
+            "products/KC0250_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0251": {
+        "main": "products/KC0251.webp",
+        "subs": [
+            "products/KC0251_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0252": {
+        "main": "products/KC0252.webp",
+        "subs": [
+            "products/KC0252_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0253": {
+        "main": "products/KC0253.webp",
+        "subs": [
+            "products/KC0253_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0254": {
+        "main": "products/KC0254.webp",
+        "subs": [
+            "products/KC0254_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0255": {
+        "main": "products/KC0255.webp",
+        "subs": [
+            "products/KC0255_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0256": {
+        "main": "products/KC0256.webp",
+        "subs": [
+            "products/KC0256_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0257": {
+        "main": "products/KC0257.webp",
+        "subs": [
+            "products/KC0257_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0258": {
+        "main": "products/KC0258.webp",
+        "subs": [
+            "products/KC0258_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    },
+    "KC0259": {
+        "main": "products/KC0259.webp",
+        "subs": [
+            "products/KC0259_gallery_1.webp"
+        ],
+        "has_real_photo": true
+    }
 }

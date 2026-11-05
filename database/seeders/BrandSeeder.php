@@ -39,7 +39,7 @@ class BrandSeeder extends Seeder
             ['name_en' => 'VT COSMETICS', 'name_ar' => 'في تي كوزمتكس', 'logo' => 'vt-cosmetics.png'],
         ];
 
-        $sourceDir = 'c:/Users/Dell/Downloads/KCODE_Homepage_Developer_V24_FINAL/KCODE_Homepage_Developer_V24_FINAL/assets/brands';
+        $sourceDir = database_path('seeders/assets/brands');
         $targetDir = storage_path('app/public/brands');
 
         if (!File::exists($targetDir)) {
