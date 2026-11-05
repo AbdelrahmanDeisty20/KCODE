@@ -14,6 +14,16 @@ class PresetRoutineSeeder extends Seeder
      */
     public function run(): void
     {
+        // 1. Ensure storage directory exists and copy images from tracked assets
+        $sourceDir = database_path('seeders/assets/routines');
+        $targetDir = storage_path('app/public/routines');
+        if (!\Illuminate\Support\Facades\File::exists($targetDir)) {
+            \Illuminate\Support\Facades\File::makeDirectory($targetDir, 0755, true, true);
+        }
+        if (\Illuminate\Support\Facades\File::exists($sourceDir)) {
+            \Illuminate\Support\Facades\File::copyDirectory($sourceDir, $targetDir);
+        }
+
         // Clear existing non-men routines
         $existing = PresetRoutine::forWomen()->get();
         foreach ($existing as $ex) {
