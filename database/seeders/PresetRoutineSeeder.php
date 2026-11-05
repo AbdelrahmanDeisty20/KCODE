@@ -10,11 +10,11 @@ use App\Models\Product;
 class PresetRoutineSeeder extends Seeder
 {
     /**
-     * Seed the 8 official KCODE Curated Preset Routines matching the prototype.
+     * Seed the 8 official KCODE Curated Preset Routines matching R479.
      */
     public function run(): void
     {
-        // Remove existing non-men preset routines and their items
+        // Clear existing non-men routines
         $existing = PresetRoutine::forWomen()->get();
         foreach ($existing as $ex) {
             $ex->items()->delete();
@@ -40,6 +40,7 @@ class PresetRoutineSeeder extends Seeder
             }
 
             $presetRoutine = PresetRoutine::create([
+                'slug' => $config['slug'] ?? null,
                 'title_ar' => $config['title_ar'],
                 'title_en' => $config['title_en'],
                 'description_ar' => $config['description_ar'],
@@ -54,6 +55,8 @@ class PresetRoutineSeeder extends Seeder
                 'goal_id' => $goalId,
                 'is_for_men' => false,
                 'status' => 'active',
+                'cover_image' => $config['cover_image'] ?? null,
+                'cover_json' => $config['cover_json'] ?? null,
                 'benefits_json' => $config['benefits_json'] ?? [],
                 'what_it_offers_json' => $config['what_it_offers_json'] ?? [],
                 'usage_guide_json' => $config['usage_guide_json'] ?? null,
@@ -68,17 +71,22 @@ class PresetRoutineSeeder extends Seeder
                     continue;
                 }
 
+                $stepNameAr = 'الخطوة ' . $itemData['order'];
+                if ($product->category) {
+                    $stepNameAr = $product->category->name_ar ?: $stepNameAr;
+                }
+
                 PresetRoutineProduct::create([
                     'preset_routine_id' => $presetRoutine->id,
                     'product_id' => $product->id,
                     'display_order' => $itemData['order'],
-                    'step_name_ar' => $itemData['step_name_ar'],
-                    'step_name_en' => $itemData['step_name_en'] ?? null,
-                    'morning' => (bool) $itemData['morning'],
-                    'night' => (bool) $itemData['night'],
-                    'use_time_ar' => $itemData['use_time_ar'],
-                    'reason_ar' => $itemData['reason_ar'] ?? null,
-                    'frequency_ar' => $itemData['frequency_ar'] ?? null,
+                    'step_name_ar' => $itemData['step_name_ar'] ?? $stepNameAr,
+                    'step_name_en' => $itemData['step_name_en'] ?? ('Step ' . $itemData['order']),
+                    'morning' => $itemData['morning'] ?? true,
+                    'night' => $itemData['night'] ?? true,
+                    'use_time_ar' => $itemData['use_time_ar'] ?? 'صباحاً ومساءً',
+                    'reason_ar' => $itemData['reason_ar'] ?? ($itemData['support_copy'] ?? null),
+                    'frequency_ar' => $itemData['frequency_ar'] ?? 'يومياً',
                     'application_ar' => $itemData['application_ar'] ?? null,
                     'starter_guide_ar' => $itemData['starter_guide_ar'] ?? null,
                 ]);

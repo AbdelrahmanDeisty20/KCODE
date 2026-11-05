@@ -294,8 +294,26 @@ class ProductResource extends Resource
                                     ->default('كوريا الجنوبية'),
 
                                 Forms\Components\Toggle::make('sensitive_eligible')
-                                    ->label('مناسب للبشرة الحساسة')
+                                    ->label('مؤهل للبشرة الحساسة (Eligible)')
                                     ->default(true),
+
+                                Forms\Components\Select::make('usage_instructions_json.verdict.sensitive_status')
+                                    ->label('حالة ملاءمة البشرة الحساسة (KCODE Status)')
+                                    ->options([
+                                        'مناسب للبشرة الحساسة' => 'مناسب للبشرة الحساسة',
+                                        'مناسب بشرط' => 'مناسب بشرط',
+                                        'غير مناسب للبشرة الحساسة' => 'غير مناسب للبشرة الحساسة',
+                                    ])
+                                    ->default('مناسب للبشرة الحساسة'),
+
+                                Forms\Components\Textarea::make('usage_instructions_json.verdict.sensitive_guidance')
+                                    ->label('نص الشرط / التوجيه للبشرة الحساسة')
+                                    ->placeholder('مثال: مناسب بشرط ألا يكون الجلد حول العين محمراً أو متهيجاً...')
+                                    ->rows(2),
+
+                                Forms\Components\TextInput::make('usage_instructions_json.verdict.fragrance')
+                                    ->label('العطر (Fragrance Status)')
+                                    ->default('دون عطر مضاف'),
 
                                 Forms\Components\TextInput::make('role_ar')
                                     ->label('دور المنتج في الروتين (مثل: Daily Treatment, Cleanser)'),
