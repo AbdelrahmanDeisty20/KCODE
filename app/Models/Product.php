@@ -186,6 +186,74 @@ class Product extends Model
         return app()->getLocale() == 'ar' ? $this->safety_notes_ar : $this->safety_notes_en;
     }
 
+    public function getSensitiveStatusAttribute(): string
+    {
+        if (!empty($this->usage_instructions_json['verdict']['sensitive_status'])) {
+            return (string) $this->usage_instructions_json['verdict']['sensitive_status'];
+        }
+        return $this->sensitive_eligible ? 'مناسب للبشرة الحساسة' : 'غير مناسب للبشرة الحساسة';
+    }
+
+    public function getSensitiveGuidanceAttribute(): ?string
+    {
+        if (!empty($this->usage_instructions_json['verdict']['sensitive_guidance'])) {
+            return (string) $this->usage_instructions_json['verdict']['sensitive_guidance'];
+        }
+        return null;
+    }
+
+    public function getFragranceAttribute(): ?string
+    {
+        if (!empty($this->usage_instructions_json['verdict']['fragrance'])) {
+            return (string) $this->usage_instructions_json['verdict']['fragrance'];
+        }
+        return 'دون عطر مضاف';
+    }
+
+    public function getTrustBadgesAttribute(): array
+    {
+        return [
+            [
+                'id' => 'authenticity',
+                'title' => 'أصالة مضمونة',
+                'icon' => 'shield',
+                'text' => 'نوفر منتجاتنا من العلامات التجارية ومن قنوات توريد موثوقة، ثم نفحص كل منتج وعبوته قبل اعتماده للبيع ولا نكتفي بالباركود وحده للتحقق من الأصالة.',
+            ],
+            [
+                'id' => 'delivery',
+                'title' => 'توصيل سريع',
+                'icon' => 'truck',
+                'text' => 'نفس اليوم داخل مسقط للطلبات المؤكَّدة قبل الساعة الواحدة ظهرًا بتوقيت عُمان. من 24 إلى 48 ساعة لباقي عُمان.',
+            ],
+            [
+                'id' => 'payment',
+                'title' => 'دفع مرن وآمن',
+                'icon' => 'card',
+                'text' => 'ادفع بالبطاقة أو عند الاستلام.',
+            ],
+            [
+                'id' => 'return_policy',
+                'title' => 'إرجاع خلال 7 أيام',
+                'icon' => 'return',
+                'text' => 'يمكنك إرجاع المنتج خلال 7 أيام من استلامه، بشرط أن يكون غير مستخدم وغير مفتوح وفي عبوته الأصلية.',
+            ],
+        ];
+    }
+
+    public function getSpecificationsAttribute(): array
+    {
+        return [
+            'brand' => $this->brand?->name ?? '',
+            'full_name' => $this->name,
+            'barcode' => $this->barcode,
+            'type' => $this->subCategory?->name ?? ($this->category?->name ?? $this->role),
+            'size' => $this->size,
+            'texture' => $this->texture,
+            'fragrance' => $this->fragrance,
+            'ingredients' => $this->ingredients,
+        ];
+    }
+
     public function getKeyBenefitsAttribute()
     {
         return app()->getLocale() == 'ar' ? $this->ar_key_benefits : $this->en_key_benefits;
