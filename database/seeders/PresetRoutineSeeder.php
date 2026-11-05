@@ -61,6 +61,8 @@ class PresetRoutineSeeder extends Seeder
                 'skin_type_en' => $config['skin_type_en'],
                 'goal_ar' => $config['goal_ar'],
                 'goal_en' => $config['goal_en'],
+                'card_note_ar' => $config['note_ar'] ?? null,
+                'card_note_en' => $config['note_ar'] ?? null,
                 'skin_type_id' => $skinTypeId,
                 'goal_id' => $goalId,
                 'is_for_men' => false,
