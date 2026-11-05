@@ -212,31 +212,56 @@ class Product extends Model
 
     public function getTrustBadgesAttribute(): array
     {
+        return app(\App\Services\SettingService::class)->getAssurances()['data'] ?? [];
+    }
+
+    public function getPromoCouponAttribute(): ?array
+    {
+        // 1. Check if an active general coupon is configured in Dashboard > Coupons
+        $coupon = \App\Models\Coupon::where('is_active', true)
+            ->where('is_general', true)
+            ->where(function ($q) {
+                $q->whereNull('start_date')->orWhere('start_date', '<=', now());
+            })
+            ->where(function ($q) {
+                $q->whereNull('end_date')->orWhere('end_date', '>=', now());
+            })
+            ->first();
+
+        if ($coupon) {
+            $isAr = app()->getLocale() == 'ar';
+            $defaultText = $coupon->discount_type === 'percentage'
+                ? ($isAr ? "خصم " . (int)$coupon->discount_value . "% على طلبك الأول {$coupon->code}" : "Get " . (int)$coupon->discount_value . "% off your first order {$coupon->code}")
+                : ($isAr ? "خصم {$coupon->discount_value} ر.ع على طلبك {$coupon->code}" : "Get {$coupon->discount_value} OMR off with {$coupon->code}");
+
+            return [
+                'code' => $coupon->code,
+                'text' => $coupon->title ?: $defaultText,
+                'discount_type' => $coupon->discount_type,
+                'discount_value' => (float) $coupon->discount_value,
+            ];
+        }
+
+        // 2. Check Dashboard > Settings (key: promo_coupon_code)
+        $code = \App\Models\Setting::get('promo_coupon_code');
+        if (!empty($code)) {
+            $text = \App\Models\Setting::get('promo_coupon_text', "خصم 10% على طلبك الأول {$code}");
+            return [
+                'code' => $code,
+                'text' => $text,
+            ];
+        }
+
+        // 3. Check if explicitly disabled in Dashboard
+        $enabled = \App\Models\Setting::get('promo_coupon_enabled', '1');
+        if ($enabled === '0' || $enabled === false) {
+            return null;
+        }
+
+        // 4. Default R479 fallback
         return [
-            [
-                'id' => 'authenticity',
-                'title' => 'أصالة مضمونة',
-                'icon' => 'shield',
-                'text' => 'نوفر منتجاتنا من العلامات التجارية ومن قنوات توريد موثوقة، ثم نفحص كل منتج وعبوته قبل اعتماده للبيع ولا نكتفي بالباركود وحده للتحقق من الأصالة.',
-            ],
-            [
-                'id' => 'delivery',
-                'title' => 'توصيل سريع',
-                'icon' => 'truck',
-                'text' => 'نفس اليوم داخل مسقط للطلبات المؤكَّدة قبل الساعة الواحدة ظهرًا بتوقيت عُمان. من 24 إلى 48 ساعة لباقي عُمان.',
-            ],
-            [
-                'id' => 'payment',
-                'title' => 'دفع مرن وآمن',
-                'icon' => 'card',
-                'text' => 'ادفع بالبطاقة أو عند الاستلام.',
-            ],
-            [
-                'id' => 'return_policy',
-                'title' => 'إرجاع خلال 7 أيام',
-                'icon' => 'return',
-                'text' => 'يمكنك إرجاع المنتج خلال 7 أيام من استلامه، بشرط أن يكون غير مستخدم وغير مفتوح وفي عبوته الأصلية.',
-            ],
+            'code' => 'KCODE10',
+            'text' => app()->getLocale() == 'ar' ? 'خصم 10% على طلبك الأول KCODE10' : '10% off your first order with KCODE10',
         ];
     }
 

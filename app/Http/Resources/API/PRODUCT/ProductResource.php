@@ -58,10 +58,7 @@ class ProductResource extends JsonResource
             'safety_notes' => $this->safety_notes,
             'key_benefits' => $this->key_benefits,
             'trust_badges' => $this->trust_badges,
-            'promo_coupon' => [
-                'code' => 'KCODE10',
-                'text' => 'خصم 10% على طلبك الأول KCODE10',
-            ],
+            'promo_coupon' => $this->promo_coupon,
             'specifications' => $this->specifications,
             // Skin Types & Concerns Compatibility (using SkinType & Concern accessors)
             'skin_types' => $this->skinTypes->map(fn ($s) => [
@@ -84,10 +81,7 @@ class ProductResource extends JsonResource
                 'sensitive_status' => $this->sensitive_status,
                 'sensitive_guidance' => $this->sensitive_guidance,
                 'note' => $this->brief_insight ?: $this->limitations_notes,
-                'promo_coupon' => [
-                    'code' => 'KCODE10',
-                    'text' => 'خصم 10% على طلبك الأول KCODE10',
-                ],
+                'promo_coupon' => $this->promo_coupon,
                 'trust_badges' => $this->trust_badges,
                 'verdict' => $this->usage_instructions['verdict'] ?? null,
                 'summary_html' => $this->usage_instructions['verdict']['summary_html'] ?? null,
