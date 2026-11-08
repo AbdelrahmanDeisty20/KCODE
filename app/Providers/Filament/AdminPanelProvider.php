@@ -618,7 +618,7 @@ class AdminPanelProvider extends PanelProvider
                             font-size: 0.82rem !important;
                             color: #736B69 !important;
                             margin-top: 0.35rem !important;
-                            margin-bottom: 1.25rem !important;
+                            margin-bottom: 1.75rem !important;
                             font-weight: 400 !important;
                             text-align: center !important;
                         }

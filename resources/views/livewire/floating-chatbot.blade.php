@@ -473,9 +473,9 @@
             <button @click.stop="showTooltip = false" type="button" class="kcode-chatbot-tooltip-close" title="إغلاق">
                 ✕
             </button>
-            <div style="padding-left: 1.25rem;">
-                <p class="kcode-chatbot-tooltip-title">مستشار KCODE الذكي</p>
-                <p class="kcode-chatbot-tooltip-sub">نحن هنا من أجلك لمساعدتك</p>
+            <div dir="rtl" style="padding-left: 1.25rem; text-align: right;">
+                <p class="kcode-chatbot-tooltip-title" dir="rtl" style="unicode-bidi: isolate;">مستشار <bdi>KCODE</bdi> الذكي</p>
+                <p class="kcode-chatbot-tooltip-sub" dir="rtl">نحن هنا من أجلك لمساعدتك</p>
             </div>
             <div class="kcode-chatbot-tooltip-arrow"></div>
         </div>

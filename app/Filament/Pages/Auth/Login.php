@@ -42,11 +42,7 @@ class Login extends BaseLogin
     {
         return new HtmlString('
             <div class="kcode-auth-sub-wrap">
-                <p class="kcode-auth-subtext">اختر طريقة الدخول أو إنشاء الحساب.</p>
-                <div class="kcode-auth-tabs">
-                    <button type="button" class="kcode-auth-tab">إنشاء حساب</button>
-                    <button type="button" class="kcode-auth-tab is-active">تسجيل الدخول</button>
-                </div>
+                <p class="kcode-auth-subtext">تسجيل الدخول للمتابعة إلى لوحة التحكم.</p>
             </div>
         ');
     }
