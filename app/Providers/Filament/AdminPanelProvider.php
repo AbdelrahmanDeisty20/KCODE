@@ -501,10 +501,6 @@ class AdminPanelProvider extends PanelProvider
                 ')
             )
             ->renderHook(
-                \Filament\View\PanelsRenderHook::PAGE_START,
-                fn (): string => \Illuminate\Support\Facades\Blade::render("@include('filament.hooks.animated_header_banner')")
-            )
-            ->renderHook(
                 \Filament\View\PanelsRenderHook::BODY_END,
                 fn (): string => \Illuminate\Support\Facades\Blade::render("@include('filament.hooks.floating_chatbot_widget')")
             )
