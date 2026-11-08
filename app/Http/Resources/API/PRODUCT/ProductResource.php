@@ -57,6 +57,8 @@ class ProductResource extends JsonResource
             'active_strength_level' => $this->active_strength_level,
             'safety_notes' => $this->safety_notes,
             'key_benefits' => $this->key_benefits,
+            'formula_insights' => $this->key_benefits ?: ($this->usage_instructions['benefits'] ?? []),
+            'routine_step' => $this->routine_step_number ?: $this->detectRoutineStepNumber(),
             'trust_badges' => $this->trust_badges,
             'promo_coupon' => $this->promo_coupon,
             'specifications' => $this->specifications,

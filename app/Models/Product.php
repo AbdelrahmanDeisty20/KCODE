@@ -512,23 +512,29 @@ class Product extends Model
     {
         if (!empty($this->usage_instructions_json) && is_array($this->usage_instructions_json)) {
             $raw = $this->usage_instructions_json;
+            $tiles = $raw['tiles'] ?? [];
+
+            $t0 = $tiles[0]['text'] ?? ($tiles[0]['value'] ?? ($raw['timing'] ?? $this->usage_frequency));
+            $t1 = $tiles[1]['text'] ?? ($tiles[1]['value'] ?? ($raw['amount'] ?? 'بضع قطرات'));
+            $t2 = $tiles[2]['text'] ?? ($tiles[2]['value'] ?? ($raw['application_method'] ?? 'ربّت بلطف'));
+            $t3 = $tiles[3]['text'] ?? ($tiles[3]['value'] ?? ($raw['gradual_start'] ?? 'ابدأ تدريجيًا'));
 
             if (app()->getLocale() == 'ar') {
                 return [
-                    'timing_label' => $raw['timing_label'] ?? 'التوقيت',
-                    'timing' => $raw['timing'] ?? $this->usage_frequency,
-                    'timing_note' => $raw['timing_note'] ?? 'بعد التدرّج في الاستخدام.',
-                    'amount_label' => $raw['amount_label'] ?? 'الكمية',
-                    'amount' => $raw['amount'] ?? 'بضع قطرات',
-                    'amount_note' => $raw['amount_note'] ?? 'على المناطق المستهدفة.',
-                    'application_label' => $raw['application_label'] ?? 'طريقة الوضع',
-                    'application_method' => $raw['application_method'] ?? 'ربّت بلطف',
-                    'application_note' => $raw['application_note'] ?? 'حتى الامتصاص، قبل المرطب.',
-                    'gradual_start_label' => $raw['gradual_start_label'] ?? 'التدرّج',
-                    'gradual_start' => $raw['gradual_start'] ?? 'ابدأ تدريجيًا',
-                    'gradual_start_note' => $raw['gradual_start_note'] ?? 'وزِد التكرار حسب تحمّل بشرتك.',
+                    'timing_label' => $tiles[0]['label'] ?? ($raw['timing_label'] ?? 'التوقيت'),
+                    'timing' => $t0,
+                    'timing_note' => $tiles[0]['note'] ?? ($raw['timing_note'] ?? 'بعد التدرّج في الاستخدام.'),
+                    'amount_label' => $tiles[1]['label'] ?? ($raw['amount_label'] ?? 'الكمية'),
+                    'amount' => $t1,
+                    'amount_note' => $tiles[1]['note'] ?? ($raw['amount_note'] ?? 'على المناطق المستهدفة.'),
+                    'application_label' => $tiles[2]['label'] ?? ($raw['application_label'] ?? 'طريقة الوضع'),
+                    'application_method' => $t2,
+                    'application_note' => $tiles[2]['note'] ?? ($raw['application_note'] ?? 'حتى الامتصاص، قبل المرطب.'),
+                    'gradual_start_label' => $tiles[3]['label'] ?? ($raw['gradual_start_label'] ?? 'التدرّج'),
+                    'gradual_start' => $t3,
+                    'gradual_start_note' => $tiles[3]['note'] ?? ($raw['gradual_start_note'] ?? 'وزِد التكرار حسب تحمّل بشرتك.'),
                     'caution' => $raw['caution'] ?? $this->limitations_notes,
-                    'tiles' => $raw['tiles'] ?? null,
+                    'tiles' => $tiles,
                     'benefits' => $raw['benefits'] ?? null,
                     'verdict' => $raw['verdict'] ?? null,
                     'raw_how_to_use' => $this->how_to_use,

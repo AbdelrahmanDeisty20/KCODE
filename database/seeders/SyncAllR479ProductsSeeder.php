@@ -131,18 +131,23 @@ class SyncAllR479ProductsSeeder extends Seeder
                 $usageTiles = $p['usage_tiles'] ?? [];
                 $benefits = $p['benefits'] ?? [];
 
+                $t0 = $usageTiles[0]['text'] ?? ($usageTiles[0]['value'] ?? 'صباحًا ومساءً يوميًا');
+                $t1 = $usageTiles[1]['text'] ?? ($usageTiles[1]['value'] ?? 'كمية مناسبة');
+                $t2 = $usageTiles[2]['text'] ?? ($usageTiles[2]['value'] ?? 'ربّت بلطف');
+                $t3 = $usageTiles[3]['text'] ?? ($usageTiles[3]['value'] ?? 'اتبع بمرطب وواقي شمس');
+
                 $usageInstructions = [
-                    'timing_label' => 'التوقيت',
-                    'timing' => $usageTiles[0]['value'] ?? 'يوميًا (صباحًا ومساءً)',
+                    'timing_label' => $usageTiles[0]['label'] ?? 'التوقيت',
+                    'timing' => $t0,
                     'timing_note' => $usageTiles[0]['note'] ?? '',
-                    'amount_label' => 'الكمية',
-                    'amount' => $usageTiles[1]['value'] ?? 'كمية مناسبة',
+                    'amount_label' => $usageTiles[1]['label'] ?? 'الكمية',
+                    'amount' => $t1,
                     'amount_note' => $usageTiles[1]['note'] ?? '',
-                    'application_label' => 'طريقة الوضع',
-                    'application_method' => $usageTiles[2]['value'] ?? 'ربّت بلطف',
+                    'application_label' => $usageTiles[2]['label'] ?? 'طريقة الوضع',
+                    'application_method' => $t2,
                     'application_note' => $usageTiles[2]['note'] ?? '',
-                    'gradual_start_label' => 'الحماية والتثبيت',
-                    'gradual_start' => $usageTiles[3]['value'] ?? 'اتبع بمرطب وواقي شمس',
+                    'gradual_start_label' => $usageTiles[3]['label'] ?? 'الحماية والتثبيت',
+                    'gradual_start' => $t3,
                     'gradual_start_note' => $usageTiles[3]['note'] ?? '',
                     'caution' => 'يحفظ في مكان بارد وجاف بعيدًا عن أشعة الشمس المباشرة. يُنصح بإجراء اختبار حساسية قبل الاستخدام الكامل.',
                     'tiles' => $usageTiles,
