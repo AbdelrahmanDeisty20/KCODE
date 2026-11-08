@@ -30,8 +30,28 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('KCODE')
-            ->brandLogo(asset('images/kcode-logo.svg'))
-            ->darkModeBrandLogo(asset('images/kcode-logo-dark.svg'))
+            ->brandLogo(fn () => new \Illuminate\Support\HtmlString('
+                <div style="display: flex; align-items: center; justify-content: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 506 116" style="height: 2.2rem; width: auto; max-height: 2.4rem; display: block;" fill="none" class="fi-logo-svg">
+                        <g transform="translate(0,0)">
+                            <path d="M6.3 6.3V93.7M6.3 52L56 6.3M7.3 52L56 93.7" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round" />
+                        </g>
+                        <g transform="translate(86,0)">
+                            <path d="M80.84 22A40.7 43.7 0 1 0 80.84 78" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round" />
+                        </g>
+                        <g transform="translate(200,0)">
+                            <path d="M48 6.3A41.7 43.7 0 1 1 47.99 6.3Z" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round" />
+                            <circle cx="48" cy="50" r="11" fill="#93254E" stroke="none" />
+                        </g>
+                        <g transform="translate(316,0)">
+                            <path d="M6.3 6.3V93.7M6.3 6.3H27.6A43.7 43.7 0 0 1 27.6 93.7H6.3" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round" />
+                        </g>
+                        <g transform="translate(428,0)">
+                            <path d="M6.3 6.3H62M6.3 50H52M6.3 93.7H62M6.3 6.3V93.7" stroke="#2E1633" stroke-width="12.6" stroke-linecap="round" stroke-linejoin="round" />
+                        </g>
+                    </svg>
+                </div>
+            '))
             ->brandLogoHeight('2.4rem')
             ->favicon(asset('favicon.svg'))
             ->databaseNotifications()
@@ -230,6 +250,22 @@ class AdminPanelProvider extends PanelProvider
                         /* Table Body Cells, Inputs, Helper text: Regular (400) */
                         td, .fi-ta-cell, input, select, textarea, p, .fi-help-text {
                             font-weight: 400 !important;
+                        }
+
+                        /* --- KCODE OFFICIAL INLINE LOGO STYLING --- */
+                        .fi-logo-svg path {
+                            stroke: #2E1633;
+                            transition: stroke 0.2s ease;
+                        }
+                        .fi-logo-svg circle {
+                            fill: #93254E;
+                            transition: fill 0.2s ease;
+                        }
+                        .dark .fi-logo-svg path, html.dark .fi-logo-svg path {
+                            stroke: #F5F2ED !important;
+                        }
+                        .dark .fi-logo-svg circle, html.dark .fi-logo-svg circle {
+                            fill: #E28AAB !important;
                         }
 
                         /* --- KCODE OFFICIAL DESIGN SYSTEM COLOR PALETTE --- */
