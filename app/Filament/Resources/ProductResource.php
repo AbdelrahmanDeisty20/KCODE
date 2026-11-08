@@ -256,8 +256,48 @@ class ProductResource extends Resource
 
                         Components\Tabs\Tab::make('منهجية تقييم التركيبة')
                             ->schema([
-                                Components\Section::make('منهجية تقييم التركيبة في KCODE (Formula Evaluation Policy)')
-                                    ->description('هذه المنهجية هي سياسة شفافة تعتمدها KCODE لتقييم جميع المنتجات. يتم عرضها تلقائياً في شاشات المنتجات ويمكن تعديل نصوصها ديناميكياً من قسم الإعدادات العامة بالمتجر.')
+                                Components\Section::make('قراءة KCODE لتركيبة هذا المنتج (Formulation Insights)')
+                                    ->description('هنا يمكنك إضافة وتعديل كروت قراءة التركيبة الثلاثة المخصصة لهذا المنتج بالتحديد (تظهر في صفحة المنتج في قسم قراءة KCODE للتركيبة).')
+                                    ->schema([
+                                        Forms\Components\Repeater::make('ar_key_benefits')
+                                            ->label('كروت قراءة التركيبة (عربي)')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('title')
+                                                    ->label('عنوان البطاقة / السؤال')
+                                                    ->placeholder('مثال: لماذا نرشحه للجفاف؟ أو جذب الرطوبة والاحتفاظ بها')
+                                                    ->required(),
+                                                Forms\Components\Textarea::make('text')
+                                                    ->label('تحليل وشرح التركيبة')
+                                                    ->placeholder('مثال: يجمع الغليسرين وأشكال حمض الهيالورونيك لترطيب البشرة...')
+                                                    ->required()
+                                                    ->rows(2),
+                                            ])
+                                            ->defaultItems(3)
+                                            ->maxItems(3)
+                                            ->collapsible()
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\Repeater::make('en_key_benefits')
+                                            ->label('Formulation Insights Cards (EN) - اختياري')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('title')
+                                                    ->label('Card Title')
+                                                    ->placeholder('e.g. Why We Recommend It For Dehydration'),
+                                                Forms\Components\Textarea::make('text')
+                                                    ->label('Insight Explanation')
+                                                    ->placeholder('e.g. Combines glycerin and multi-weight hyaluronic acid...')
+                                                    ->rows(2),
+                                            ])
+                                            ->defaultItems(0)
+                                            ->maxItems(3)
+                                            ->collapsible()
+                                            ->collapsed()
+                                            ->columnSpanFull(),
+                                    ]),
+
+                                Components\Section::make('سياسة KCODE العامة لتقييم التركيبة (ثابتة للمتجر كله)')
+                                    ->description('هذه المنهجية هي الركائز الثلاث العامة المعتمدة لدى KCODE وتُعرض كسياسة عامة في كل المنتجات. نصوصها العامة تُعدل من قسم الإعدادات العامة بالمتجر.')
+                                    ->collapsed()
                                     ->schema([
                                         Forms\Components\Placeholder::make('eval_title')
                                             ->label('عنوان السياسة الحالية في المتجر:')
@@ -354,15 +394,6 @@ class ProductResource extends Resource
 
                                 Forms\Components\Textarea::make('why_kcode_en')
                                     ->label('Why KCODE Selected This Product (EN)')
-                                    ->rows(2)
-                                    ->nullable(),
-
-                                Forms\Components\Textarea::make('ar_key_benefits')
-                                    ->label('المكونات الفعالة والفوائد (عربي)')
-                                    ->rows(2),
-
-                                Forms\Components\Textarea::make('en_key_benefits')
-                                    ->label('Key Benefits & Actives (EN)')
                                     ->rows(2)
                                     ->nullable(),
 
