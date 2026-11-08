@@ -85,6 +85,8 @@ class Product extends Model
         'usage_instructions_json' => 'array',
         'complementary_routine_json' => 'array',
         'product_faqs_json' => 'array',
+        'ar_key_benefits' => 'array',
+        'en_key_benefits' => 'array',
     ];
 
     public function marketingDetail()
@@ -269,11 +271,11 @@ class Product extends Model
     {
         return [
             'brand' => $this->brand?->name ?? '',
-            'full_name' => $this->name,
+            'full_name' => $this->name_en ?: $this->name,
             'barcode' => $this->barcode,
-            'type' => $this->subCategory?->name ?? ($this->category?->name ?? $this->role),
+            'type' => $this->role_ar ?: ($this->role ?: ($this->subCategory?->name ?? ($this->category?->name ?? ''))),
             'size' => $this->size,
-            'texture' => $this->texture,
+            'texture' => (app()->getLocale() == 'ar' ? ($this->texture_ar ?: $this->texture) : ($this->texture_en ?: $this->texture)),
             'fragrance' => $this->fragrance,
             'ingredients' => $this->ingredients,
         ];
@@ -281,7 +283,17 @@ class Product extends Model
 
     public function getKeyBenefitsAttribute()
     {
-        return app()->getLocale() == 'ar' ? $this->ar_key_benefits : $this->en_key_benefits;
+        $val = app()->getLocale() == 'ar' ? $this->ar_key_benefits : $this->en_key_benefits;
+        if (is_string($val)) {
+            $decoded = json_decode($val, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                return $decoded;
+            }
+        }
+        if (empty($val) && !empty($this->usage_instructions_json['benefits'])) {
+            return $this->usage_instructions_json['benefits'];
+        }
+        return $val;
     }
 
     public function getProductTitleSeoAttribute()
