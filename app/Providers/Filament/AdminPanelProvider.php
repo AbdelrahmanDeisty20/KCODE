@@ -54,6 +54,7 @@ class AdminPanelProvider extends PanelProvider
             '))
             ->brandLogoHeight('2.4rem')
             ->favicon(asset('favicon.svg'))
+            ->sidebarCollapsibleOnDesktop()
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
             ->colors([

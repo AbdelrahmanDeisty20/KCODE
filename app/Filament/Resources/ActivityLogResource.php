@@ -43,7 +43,8 @@ class ActivityLogResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-        return (string) static::getModel()::count();
+        $count = static::getModel()::count();
+        return $count > 0 ? number_format($count) : null;
     }
 
     public static function getNavigationBadgeColor(): ?string

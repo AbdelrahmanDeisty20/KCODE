@@ -57,19 +57,49 @@ class AppNotificationResource extends Resource
     {
         return $schema
             ->components([
-                Components\Section::make('📣 تفاصيل وإعدادات الإشعار')
-                    ->description('عرض وإنشاء بيانات الإشعار اللحظي للمستخدمين والتطبيق')
+                Components\Section::make('🎯 قنوات الإرسال وتحديد المستلمين')
+                    ->description('حدد وسيلة الإرسال (تطبيق / بريد إلكتروني) والجمهور المستهدف بدقة')
                     ->columnSpanFull()
                     ->schema([
+                        Forms\Components\CheckboxList::make('channels')
+                            ->label('قنوات الإرسال')
+                            ->options([
+                                'app'   => '📱 إشعار فوري داخل التطبيق والموقع (Push & In-App Notification)',
+                                'email' => '📧 رسائل بريد إلكتروني (Email Broadcast)',
+                            ])
+                            ->default(['app'])
+                            ->required()
+                            ->columns(2)
+                            ->columnSpanFull()
+                            ->helperText('يمكنك اختيار الإرسال للتطبيق والموقع فقط، أو للإيميل فقط، أو للقناتين معاً.'),
+
+                        Forms\Components\Radio::make('target_audience')
+                            ->label('الجمهور المستهدف')
+                            ->options([
+                                'all_users'     => '👥 جميع المستخدمين والعملاء المسجلين (All Users)',
+                                'specific_user' => '👤 مستخدم / عميل محدد (Specific User)',
+                                'newsletter'    => '💌 مشتركو النشرة البريدية فقط (Newsletter Subscribers)',
+                                'all_everyone'  => '🌐 الجميع (المستخدمين المسجلين + مشتركي النشرة البريدية)',
+                            ])
+                            ->default('all_users')
+                            ->reactive()
+                            ->columns(2)
+                            ->columnSpanFull(),
+
                         Forms\Components\Select::make('user_id')
-                            ->label('المستلم / المستخدم المستهدف')
+                            ->label('اختر العميل المستهدف 👤')
                             ->options(User::pluck('name', 'id'))
                             ->searchable()
                             ->preload()
-                            ->nullable()
-                            ->placeholder('📣 جميع المستخدمين والأجهزة (إرسال عام لكل التوكينات)')
+                            ->visible(fn ($get) => $get('target_audience') === 'specific_user')
+                            ->required(fn ($get) => $get('target_audience') === 'specific_user')
                             ->columnSpanFull(),
+                    ]),
 
+                Components\Section::make('📝 محتوى وبيانات الإشعار')
+                    ->description('العنوان والرسالة والروابط التفاعلية الموجهة للعملاء')
+                    ->columnSpanFull()
+                    ->schema([
                         Forms\Components\TextInput::make('title_ar')
                             ->label('عنوان الإشعار (بالعربية)')
                             ->placeholder('مثال: عرض خاص 20% خصم لفترة محدودة 🔥')
@@ -80,8 +110,8 @@ class AppNotificationResource extends Resource
                             ->placeholder('e.g. Special 20% Discount Offer 🔥'),
 
                         Forms\Components\Textarea::make('message_ar')
-                            ->label('نص الإشعار (بالعربية)')
-                            ->placeholder('اكتب نص الإشعار هنا...')
+                            ->label('نص الإشعار والرسالة (بالعربية)')
+                            ->placeholder('اكتب تفاصيل الإشعار أو نص الرسالة هنا...')
                             ->rows(3)
                             ->required(),
 
@@ -89,6 +119,12 @@ class AppNotificationResource extends Resource
                             ->label('Notification Body (English)')
                             ->placeholder('Type notification details here...')
                             ->rows(3),
+
+                        Forms\Components\TextInput::make('action_url')
+                            ->label('رابط التوجيه / الزر (اختياري)')
+                            ->placeholder('مثال: /offers أو https://kcodeskin.com/products/123')
+                            ->helperText('في حال إرسال إيميل أو إشعار، سيظهر زر تفاعلي ينقل العميل لهذا الرابط')
+                            ->columnSpan(1),
 
                         Forms\Components\Select::make('type')
                             ->label('نوع الإشعار')
@@ -101,20 +137,23 @@ class AppNotificationResource extends Resource
                                 'blog'           => 'مقالة مدونة (Blog)',
                             ])
                             ->default('general')
-                            ->required(),
+                            ->required()
+                            ->columnSpan(1),
 
                         Forms\Components\Toggle::make('is_read')
                             ->label('تم القراءة (Is Read)')
-                            ->default(false),
+                            ->default(false)
+                            ->columnSpanFull(),
                     ])->columns(2),
             ]);
     }
 
     public static function table(Table $table): Table
     {
-        $exportHeaders = ['المعرف', 'المستلم', 'العنوان بالعربي', 'نص الإشعار بالعربي', 'النوع', 'مقروء', 'تاريخ الإرسال'];
+        $exportHeaders = ['المعرف', 'الجمهور', 'المستلم', 'العنوان بالعربي', 'نص الإشعار بالعربي', 'النوع', 'مقروء', 'تاريخ الإرسال'];
         $exportRowCallback = fn ($record) => [
             $record->id,
+            $record->target_audience ?? 'all_users',
             $record->user_id ? ($record->user?->name ?? 'مستخدم') : 'جميع المستخدمين',
             $record->title_ar,
             $record->message_ar,
@@ -125,12 +164,46 @@ class AppNotificationResource extends Resource
 
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('المستلم')
-                    ->default(fn ($record) => $record->user_id ? $record->user?->name : '📣 جميع المستخدمين')
-                    ->searchable()
+                Tables\Columns\TextColumn::make('target_audience')
+                    ->label('الجمهور المستهدف')
+                    ->formatStateUsing(function ($state, $record) {
+                        return match ($state) {
+                            'all_users'     => '👥 كل المسجلين',
+                            'specific_user' => '👤 ' . ($record->user?->name ?? 'مستخدم محدد'),
+                            'newsletter'    => '💌 مشتركو النشرة',
+                            'all_everyone'  => '🌐 الجميع (الكل)',
+                            default         => $record->user_id ? ('👤 ' . ($record->user?->name ?? 'مستخدم')) : '👥 كل المسجلين',
+                        };
+                    })
                     ->badge()
-                    ->color(fn ($record) => $record->user_id ? 'info' : 'success'),
+                    ->color(function ($state, $record) {
+                        return match ($state) {
+                            'all_users'     => 'info',
+                            'specific_user' => 'gray',
+                            'newsletter'    => 'warning',
+                            'all_everyone'  => 'success',
+                            default         => $record->user_id ? 'gray' : 'info',
+                        };
+                    })
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('channels')
+                    ->label('قنوات الإرسال')
+                    ->formatStateUsing(function ($state) {
+                        if (empty($state)) {
+                            return '📱 تطبيق وموقع';
+                        }
+                        $labels = [];
+                        if (in_array('app', (array) $state)) {
+                            $labels[] = '📱 تطبيق';
+                        }
+                        if (in_array('email', (array) $state)) {
+                            $labels[] = '📧 إيميل';
+                        }
+                        return implode(' + ', $labels);
+                    })
+                    ->badge()
+                    ->color('secondary'),
 
                 Tables\Columns\TextColumn::make('title_ar')
                     ->label('العنوان')
@@ -165,6 +238,15 @@ class AppNotificationResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
+                Tables\Filters\SelectFilter::make('target_audience')
+                    ->label('الجمهور المستهدف')
+                    ->options([
+                        'all_users'     => '👥 جميع المستخدمين',
+                        'specific_user' => '👤 مستخدم محدد',
+                        'newsletter'    => '💌 مشتركو النشرة',
+                        'all_everyone'  => '🌐 الجميع (الكل)',
+                    ]),
+
                 Tables\Filters\SelectFilter::make('type')
                     ->label('نوع الإشعار')
                     ->options([

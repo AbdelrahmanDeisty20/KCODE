@@ -70,6 +70,10 @@ class AppNotificationService
                         }
                     });
                 })
+                ->where(function ($cq) {
+                    $cq->whereNull('channels')
+                       ->orWhereJsonContains('channels', 'app');
+                })
                 ->whereNotIn('id', $deletedIds)
                 ->latest()
                 ->paginate($perPage);
@@ -101,7 +105,11 @@ class AppNotificationService
     public function getPublicGeneralNotifications(?string $deviceId = null, int $perPage = 10): array
     {
         try {
-            $query = AppNotification::whereNull('user_id');
+            $query = AppNotification::whereNull('user_id')
+                ->where(function ($cq) {
+                    $cq->whereNull('channels')
+                       ->orWhereJsonContains('channels', 'app');
+                });
             $readIds = [];
 
             if (!empty($deviceId)) {

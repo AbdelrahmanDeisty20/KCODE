@@ -24,6 +24,7 @@ class AppNotificationResource extends JsonResource
             'message_ar' => $this->message_ar,
             'message_en' => $this->message_en,
             'type'       => $this->type,
+            'action_url' => $this->action_url,
             'data'       => $this->data,
             'is_read'    => (bool) $this->is_read,
             'created_at' => $this->created_at?->toIso8601String() ?? $this->created_at,
