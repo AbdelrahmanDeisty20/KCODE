@@ -55,6 +55,20 @@ class AdminPanelProvider extends PanelProvider
             ->brandLogoHeight('2.4rem')
             ->favicon(asset('favicon.svg'))
             ->sidebarCollapsibleOnDesktop()
+            ->profile(\App\Filament\Pages\Auth\EditProfile::class, isSimple: false)
+            ->userMenuItems([
+                'profile' => \Filament\Navigation\MenuItem::make()
+                    ->label(fn () => app()->getLocale() === 'en' ? 'Edit Profile' : 'تعديل الحساب والملف الشخصي')
+                    ->icon('heroicon-o-user-circle'),
+            ])
+            ->navigationItems([
+                \Filament\Navigation\NavigationItem::make(fn () => app()->getLocale() === 'en' ? 'Edit Profile' : 'تعديل الحساب')
+                    ->url(fn (): string => \App\Filament\Pages\Auth\EditProfile::getUrl())
+                    ->icon('heroicon-o-user-circle')
+                    ->group(fn () => app()->getLocale() === 'en' ? 'Users & Permissions' : 'إدارة المستخدمين والصلاحيات')
+                    ->isActiveWhen(fn (): bool => request()->is('admin/profile*'))
+                    ->sort(1),
+            ])
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
             ->colors([
