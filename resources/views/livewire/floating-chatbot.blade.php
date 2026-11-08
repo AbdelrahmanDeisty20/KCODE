@@ -1,236 +1,313 @@
-<div x-data="{ isOpen: false, showTooltip: true }" class="{{ app()->getLocale() === 'ar' ? 'is-rtl' : 'is-ltr' }}">
+<div x-data="{ isOpen: false, showTooltip: true }" class="{{ app()->getLocale() === 'ar' ? 'is-rtl' : 'is-ltr' }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
     <style>
-        @keyframes kcodePulseGlow {
-            0%, 100% {
-                box-shadow: 0 8px 25px -4px rgba(147, 37, 78, 0.45), 0 0 18px rgba(226, 138, 171, 0.35);
-                transform: scale(1);
-            }
-            50% {
-                box-shadow: 0 12px 32px -2px rgba(147, 37, 78, 0.7), 0 0 28px rgba(226, 138, 171, 0.55);
-                transform: scale(1.04);
-            }
-        }
-
-        @keyframes kcodeFloatWave {
+        @keyframes bounceTooltip {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
         }
 
-        .kcode-drop-icon {
-            width: 22px !important;
-            height: 22px !important;
-            min-width: 22px !important;
-            min-height: 22px !important;
-            max-width: 22px !important;
-            max-height: 22px !important;
-            display: inline-block !important;
-            fill: #ffffff !important;
+        @keyframes slideUpChat {
+            from { opacity: 0; transform: translateY(16px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .kcode-drop-icon-sm {
-            width: 16px !important;
-            height: 16px !important;
-            min-width: 16px !important;
-            min-height: 16px !important;
-            max-width: 16px !important;
-            max-height: 16px !important;
-            display: inline-block !important;
-            fill: #ffffff !important;
-        }
-
-        .kcode-float-btn-wrapper {
+        .kcode-chatbot-root {
             position: fixed;
-            bottom: 28px;
-            left: 28px;
+            bottom: 1.5rem;
+            left: 1.5rem;
             right: auto;
-            z-index: 9999;
+            z-index: 99999;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            align-items: flex-start;
+            font-family: "29LT Zarid Sans AL", "29LT Zarid Sans", system-ui, sans-serif;
         }
 
-        .is-ltr .kcode-float-btn-wrapper {
-            right: 28px;
+        .is-ltr .kcode-chatbot-root {
             left: auto;
+            right: 1.5rem;
+            align-items: flex-end;
         }
 
-        .kcode-float-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: #EDE8E4;
-            border: 2.5px solid rgba(147, 37, 78, 0.35);
-            animation: kcodePulseGlow 3s infinite ease-in-out;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 5px;
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        /* TOOLTIP BUBBLE (MATCHING VERCEL EXACTLY) */
+        .kcode-chatbot-tooltip {
+            background: var(--kcode-surface, #FBFAF7);
+            border: 1px solid var(--kcode-border, #DCD5D2);
+            border-radius: 8px;
+            padding: 0.85rem 1.15rem;
+            margin-bottom: 0.85rem;
             position: relative;
+            box-shadow: 0 8px 30px rgba(46, 22, 51, 0.12);
+            cursor: pointer;
+            animation: bounceTooltip 3s ease-in-out infinite;
+            text-align: right;
+            max-width: 300px;
+            box-sizing: border-box;
+            transition: opacity 0.25s ease, transform 0.25s ease;
         }
 
-        .kcode-float-btn:hover {
-            transform: scale(1.12) rotate(-6deg);
+        .is-ltr .kcode-chatbot-tooltip {
+            text-align: left;
         }
 
-        .kcode-float-icon-inner {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #93254E 0%, #6B2F5F 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.35), 0 4px 12px rgba(147, 37, 78, 0.4);
-            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        html.dark .kcode-chatbot-tooltip {
+            background: var(--kcode-surface, #231826);
+            border-color: var(--kcode-border, #3D2A43);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
         }
 
-        .kcode-float-icon-inner.is-active {
-            transform: rotate(180deg) scale(1.1);
-        }
-
-        /* TOOLTIP BUBBLE CARD */
-        .kcode-float-tooltip {
-            position: fixed;
-            bottom: 30px;
-            left: 100px;
-            right: auto;
-            z-index: 9998;
-            background: #FBFAF7;
-            border: 1px solid rgba(147, 37, 78, 0.25);
-            border-radius: 1.25rem;
-            padding: 0.75rem 1.15rem 0.75rem 1.75rem;
-            box-shadow: 0 12px 30px -5px rgba(147, 37, 78, 0.22);
-            min-width: 200px;
-            max-width: 260px;
-            animation: kcodeFloatWave 3.5s infinite ease-in-out;
-
-            opacity: 0;
-            visibility: hidden;
-            transform: translateX(-10px) scale(0.9);
-            pointer-events: none;
-            transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        visibility 0.3s step-end;
-        }
-
-        .is-ltr .kcode-float-tooltip {
-            right: 100px;
-            left: auto;
-            padding: 0.75rem 1.75rem 0.75rem 1.15rem;
-            transform: translateX(10px) scale(0.9);
-        }
-
-        .kcode-float-tooltip.is-visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(0) scale(1);
-            pointer-events: auto;
-            transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        visibility 0s step-start;
-        }
-
-        html.dark .kcode-float-tooltip {
-            background: #231826;
-            border-color: rgba(226, 138, 171, 0.25);
-            box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.6);
-        }
-
-        .kcode-float-tooltip-close {
+        .kcode-chatbot-tooltip-close {
             position: absolute;
-            top: 6px;
-            left: 8px;
+            top: 0.5rem;
+            left: 0.65rem;
             right: auto;
             background: none;
             border: none;
-            color: #7A7077;
-            font-size: 11px;
+            color: var(--kcode-text-secondary, #7A7077);
             cursor: pointer;
-            padding: 2px 4px;
-            line-height: 1;
+            padding: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
             transition: color 0.2s;
+            font-size: 13px;
+            line-height: 1;
         }
 
-        .is-ltr .kcode-float-tooltip-close {
-            right: 8px;
+        .is-ltr .kcode-chatbot-tooltip-close {
             left: auto;
+            right: 0.65rem;
         }
 
-        .kcode-float-tooltip-close:hover {
-            color: #93254E;
+        .kcode-chatbot-tooltip-close:hover {
+            color: var(--kcode-berry, #93254E);
         }
 
-        /* CHAT WINDOW POPUP DRAWER */
-        .kcode-float-modal {
-            position: fixed;
-            bottom: 98px;
-            left: 28px;
+        .kcode-chatbot-tooltip-title {
+            margin: 0;
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--kcode-text-primary, #2E1633);
+        }
+
+        html.dark .kcode-chatbot-tooltip-title {
+            color: var(--kcode-text-primary, #F5F0F3);
+        }
+
+        .kcode-chatbot-tooltip-sub {
+            margin: 0.2rem 0 0 0;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--kcode-berry, #93254E);
+        }
+
+        html.dark .kcode-chatbot-tooltip-sub {
+            color: var(--kcode-berry-light, #E28AAB);
+        }
+
+        .kcode-chatbot-tooltip-arrow {
+            position: absolute;
+            bottom: -6px;
+            left: 20px;
             right: auto;
-            width: 395px;
-            max-width: calc(100vw - 32px);
-            height: 565px;
-            max-height: calc(100vh - 120px);
-            z-index: 10000;
-            background: rgba(251, 250, 247, 0.96);
-            backdrop-filter: blur(20px);
-            border-radius: 1.6rem;
-            border: 1.5px solid rgba(147, 37, 78, 0.22);
-            box-shadow: 0 20px 45px -10px rgba(147, 37, 78, 0.35);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--kcode-surface, #FBFAF7);
+        }
+
+        .is-ltr .kcode-chatbot-tooltip-arrow {
+            left: auto;
+            right: 20px;
+        }
+
+        html.dark .kcode-chatbot-tooltip-arrow {
+            border-top-color: var(--kcode-surface, #231826);
+        }
+
+        /* TRIGGER BUTTON (MATCHING VERCEL EXACTLY) */
+        .kcode-chatbot-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--kcode-surface, #FBFAF7);
+            border: 1.5px solid var(--kcode-berry, #93254E);
+            color: var(--kcode-berry, #93254E);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(46, 22, 51, 0.16);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            outline: none;
+        }
+
+        .kcode-chatbot-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 12px 28px rgba(46, 22, 51, 0.22);
+            border-color: var(--kcode-secondary, #6B2F5F);
+        }
+
+        html.dark .kcode-chatbot-btn {
+            background: var(--kcode-surface, #231826);
+            border-color: var(--kcode-berry-light, #E28AAB);
+            color: var(--kcode-berry-light, #E28AAB);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+        }
+
+        /* CHAT WINDOW (MATCHING VERCEL EXACTLY) */
+        .kcode-chatbot-window {
+            width: 390px;
+            height: 560px;
+            max-width: calc(100vw - 2rem);
+            max-height: calc(100vh - 3.5rem);
+            background: var(--kcode-canvas, #F5F2ED);
+            border: 1px solid var(--kcode-border, #DCD5D2);
+            border-radius: 12px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
-            transform-origin: bottom left;
-
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(28px) scale(0.7) rotate(-3deg);
-            pointer-events: none;
-            transition: opacity 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        visibility 0.35s step-end;
+            box-shadow: 0 20px 50px rgba(46, 22, 51, 0.22);
+            animation: slideUpChat 0.25s ease;
+            box-sizing: border-box;
         }
 
-        .is-ltr .kcode-float-modal {
-            right: 28px;
-            left: auto;
-            transform-origin: bottom right;
-            transform: translateY(28px) scale(0.7) rotate(3deg);
+        html.dark .kcode-chatbot-window {
+            background: var(--kcode-canvas, #170F1A);
+            border-color: var(--kcode-border, #3D2A43);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
         }
 
-        .kcode-float-modal.is-open {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1) rotate(0deg);
-            pointer-events: auto;
-            transition: opacity 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        visibility 0s step-start;
-        }
-
-        html.dark .kcode-float-modal {
-            background: rgba(35, 24, 38, 0.96);
-            border-color: rgba(226, 138, 171, 0.22);
-            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.65);
-        }
-
-        .kcode-float-header {
-            padding: 1rem 1.25rem;
-            background: linear-gradient(135deg, rgba(147, 37, 78, 0.12) 0%, rgba(226, 138, 171, 0.04) 100%);
-            border-bottom: 1px solid rgba(147, 37, 78, 0.15);
+        /* HEADER */
+        .kcode-chatbot-header {
+            padding: 0.9rem 1.25rem;
+            background: var(--kcode-primary, #2E1633);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            color: #FFFFFF;
         }
 
-        html.dark .kcode-float-header {
-            background: linear-gradient(135deg, rgba(147, 37, 78, 0.22) 0%, rgba(35, 24, 38, 0.4) 100%);
-            border-bottom-color: rgba(226, 138, 171, 0.15);
+        .kcode-chatbot-avatar-wrp {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1.5px solid var(--kcode-berry-light, #E28AAB);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--kcode-berry-light, #E28AAB);
+            flex-shrink: 0;
         }
 
-        .kcode-float-messages {
+        .kcode-chatbot-online-dot {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #22C55E;
+            border: 1.5px solid var(--kcode-primary, #2E1633);
+        }
+
+        .kcode-chatbot-header-title {
+            margin: 0;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .kcode-chatbot-header-sub {
+            font-size: 0.72rem;
+            color: var(--kcode-berry-light, #E28AAB);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.1rem;
+        }
+
+        .kcode-chatbot-header-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.75);
+            cursor: pointer;
+            padding: 0.35rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .kcode-chatbot-header-btn:hover {
+            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        /* QUICK NAV BAR */
+        .kcode-chatbot-quick-nav {
+            padding: 0.5rem 0.75rem;
+            background: var(--kcode-surface, #FBFAF7);
+            border-bottom: 1px solid var(--kcode-border, #DCD5D2);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            overflow-x: auto;
+            white-space: nowrap;
+            flex-shrink: 0;
+            scrollbar-width: none;
+        }
+
+        .kcode-chatbot-quick-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        html.dark .kcode-chatbot-quick-nav {
+            background: var(--kcode-surface, #231826);
+            border-bottom-color: var(--kcode-border, #3D2A43);
+        }
+
+        .kcode-chatbot-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 9999px;
+            background: var(--kcode-surface-warm, #EDE8E4);
+            border: 1px solid var(--kcode-border, #DCD5D2);
+            color: var(--kcode-text-primary, #2E1633);
+            font-size: 0.74rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .kcode-chatbot-pill:hover {
+            background: var(--kcode-berry, #93254E);
+            color: #FFFFFF;
+            border-color: var(--kcode-berry, #93254E);
+        }
+
+        html.dark .kcode-chatbot-pill {
+            background: var(--kcode-surface-warm, #2D1F31);
+            border-color: var(--kcode-border, #3D2A43);
+            color: var(--kcode-text-primary, #F5F0F3);
+        }
+
+        html.dark .kcode-chatbot-pill:hover {
+            background: var(--kcode-berry-light, #E28AAB);
+            color: #170F1A;
+            border-color: var(--kcode-berry-light, #E28AAB);
+        }
+
+        /* MESSAGES AREA */
+        .kcode-chatbot-messages {
             flex: 1;
             overflow-y: auto;
             padding: 1rem;
@@ -239,239 +316,302 @@
             gap: 0.85rem;
         }
 
-        .kcode-float-msg {
+        .kcode-chatbot-msg {
             display: flex;
-            gap: 0.65rem;
-            max-width: 88%;
-            animation: kcodeMsgPop 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            flex-direction: column;
+            max-width: 86%;
+            animation: slideUpChat 0.25s ease forwards;
         }
 
-        @keyframes kcodeMsgPop {
-            from { opacity: 0; transform: translateY(8px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .kcode-float-msg.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-
-        .kcode-float-msg.assistant {
+        .kcode-chatbot-msg.assistant {
             align-self: flex-start;
         }
 
-        .kcode-float-bubble {
+        .kcode-chatbot-msg.user {
+            align-self: flex-end;
+        }
+
+        .kcode-chatbot-bubble {
             padding: 0.75rem 1rem;
-            border-radius: 1.15rem;
+            border-radius: 10px;
             font-size: 0.875rem;
             line-height: 1.55;
             white-space: pre-wrap;
             word-wrap: break-word;
         }
 
-        .kcode-float-msg.assistant .kcode-float-bubble {
-            background: #FBFAF7;
-            color: #2E1633;
-            border-top-right-radius: 0.2rem;
-            border: 1px solid rgba(147, 37, 78, 0.12);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        .kcode-chatbot-msg.assistant .kcode-chatbot-bubble {
+            background: var(--kcode-surface, #FBFAF7);
+            color: var(--kcode-text-primary, #2E1633);
+            border: 1px solid var(--kcode-border, #DCD5D2);
+            box-shadow: 0 2px 8px rgba(46, 22, 51, 0.04);
         }
 
-        html.dark .kcode-float-msg.assistant .kcode-float-bubble {
-            background: #2D1F31;
-            color: #F5F0F3;
-            border-color: rgba(226, 138, 171, 0.12);
+        html.dark .kcode-chatbot-msg.assistant .kcode-chatbot-bubble {
+            background: var(--kcode-surface, #231826);
+            color: var(--kcode-text-primary, #F5F0F3);
+            border-color: var(--kcode-border, #3D2A43);
         }
 
-        .kcode-float-msg.user .kcode-float-bubble {
-            background: linear-gradient(135deg, #93254E 0%, #6B2F5F 100%);
-            color: #ffffff;
-            border-top-left-radius: 0.2rem;
-            box-shadow: 0 4px 12px rgba(147, 37, 78, 0.3);
+        .kcode-chatbot-msg.user .kcode-chatbot-bubble {
+            background: var(--kcode-primary, #2E1633);
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(46, 22, 51, 0.2);
         }
 
-        .kcode-float-input-area {
-            padding: 0.85rem 1rem;
-            background: rgba(237, 232, 228, 0.85);
-            border-top: 1px solid rgba(147, 37, 78, 0.15);
+        html.dark .kcode-chatbot-msg.user .kcode-chatbot-bubble {
+            background: var(--kcode-primary, #5A2147);
+        }
+
+        /* PRODUCT CARDS IN CHAT */
+        .kcode-chat-prod-card {
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background: var(--kcode-surface-warm, #EDE8E4);
+            border: 1px solid var(--kcode-border, #DCD5D2);
+            margin-top: 0.4rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
         }
 
-        html.dark .kcode-float-input-area {
-            background: rgba(35, 24, 38, 0.85);
-            border-top-color: rgba(226, 138, 171, 0.15);
+        .kcode-chat-prod-card:hover {
+            border-color: var(--kcode-berry, #93254E);
+            box-shadow: 0 2px 8px rgba(147, 37, 78, 0.15);
         }
 
-        .kcode-float-input-wrapper {
+        html.dark .kcode-chat-prod-card {
+            background: var(--kcode-surface-warm, #2D1F31);
+            border-color: var(--kcode-border, #3D2A43);
+        }
+
+        /* INPUT AREA */
+        .kcode-chatbot-input-area {
+            padding: 0.85rem 1rem;
+            background: var(--kcode-surface, #FBFAF7);
+            border-top: 1px solid var(--kcode-border, #DCD5D2);
+        }
+
+        html.dark .kcode-chatbot-input-area {
+            background: var(--kcode-surface, #231826);
+            border-top-color: var(--kcode-border, #3D2A43);
+        }
+
+        .kcode-chatbot-form {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .kcode-float-input {
+        .kcode-chatbot-input {
             flex: 1;
-            padding: 0.65rem 1rem;
-            border-radius: 9999px;
-            border: 1px solid rgba(147, 37, 78, 0.25);
-            background: #FBFAF7;
+            padding: 0.65rem 0.95rem;
+            border-radius: 8px;
+            border: 1px solid var(--kcode-border, #DCD5D2);
+            background: var(--kcode-canvas, #F5F2ED);
             font-size: 0.85rem;
-            color: #2E1633;
+            color: var(--kcode-text-primary, #2E1633);
             outline: none;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
+            font-family: inherit;
         }
 
-        html.dark .kcode-float-input {
-            background: #2D1F31;
-            border-color: rgba(226, 138, 171, 0.25);
-            color: #F5F0F3;
+        .kcode-chatbot-input:focus {
+            border-color: var(--kcode-berry, #93254E);
+            box-shadow: 0 0 0 3px rgba(147, 37, 78, 0.15);
         }
 
-        .kcode-float-input:focus {
-            border-color: #93254E;
-            box-shadow: 0 0 0 3px rgba(147, 37, 78, 0.2);
+        html.dark .kcode-chatbot-input {
+            background: var(--kcode-surface-warm, #2D1F31);
+            border-color: var(--kcode-border, #3D2A43);
+            color: var(--kcode-text-primary, #F5F0F3);
         }
 
-        .kcode-float-send-btn {
+        .kcode-chatbot-send-btn {
             padding: 0.65rem 1.15rem;
-            border-radius: 9999px;
-            background: linear-gradient(135deg, #93254E 0%, #6B2F5F 100%);
-            color: white;
+            border-radius: 8px;
+            background: var(--kcode-berry, #93254E);
+            color: #FFFFFF;
             font-weight: 600;
             font-size: 0.85rem;
             border: none;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(147, 37, 78, 0.35);
-            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(147, 37, 78, 0.25);
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-family: inherit;
         }
 
-        .kcode-float-send-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(147, 37, 78, 0.45);
+        .kcode-chatbot-send-btn:hover {
+            background: var(--kcode-primary, #2E1633);
+            transform: translateY(-1px);
+        }
+
+        html.dark .kcode-chatbot-send-btn {
+            background: var(--kcode-berry, #B32C5E);
         }
     </style>
 
-    <!-- TOOLTIP BUBBLE CARD -->
-    <div class="kcode-float-tooltip" :class="{ 'is-visible': showTooltip && !isOpen }">
-        <button @click.stop="showTooltip = false" type="button" class="kcode-float-tooltip-close" title="إغلاق">
-            ✕
+    <div class="kcode-chatbot-root">
+        <!-- TOOLTIP BUBBLE (SHOWN ON PAGE LOAD) -->
+        <div
+            x-show="showTooltip && !isOpen"
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 transform scale-95"
+            x-transition:enter-end="opacity-100 transform scale-100"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="kcode-chatbot-tooltip"
+            @click="isOpen = true; showTooltip = false"
+        >
+            <button @click.stop="showTooltip = false" type="button" class="kcode-chatbot-tooltip-close" title="إغلاق">
+                ✕
+            </button>
+            <div style="padding-left: 1.25rem;">
+                <p class="kcode-chatbot-tooltip-title">مستشار KCODE الذكي</p>
+                <p class="kcode-chatbot-tooltip-sub">نحن هنا من أجلك لمساعدتك</p>
+            </div>
+            <div class="kcode-chatbot-tooltip-arrow"></div>
+        </div>
+
+        <!-- TRIGGER BUTTON (ELEGANT CIRCLE WITH TEARDROP ICON) -->
+        <button
+            x-show="!isOpen"
+            @click="isOpen = true; showTooltip = false"
+            type="button"
+            class="kcode-chatbot-btn"
+            title="مستشار KCODE الذكي"
+            aria-label="مستشار KCODE الذكي"
+        >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.69C12 2.69 6 9.5 6 14C6 17.31 8.69 20 12 20C15.31 20 18 17.31 18 14C18 9.5 12 2.69 12 2.69Z" />
+            </svg>
         </button>
-        <div class="font-bold text-xs sm:text-sm text-gray-900 dark:text-white flex items-center gap-1">
-            مستشار KCODE الذكي ✨
-        </div>
-        <div class="text-[11px] sm:text-xs text-rose-500 dark:text-rose-400 font-medium mt-0.5">
-            نحن هنا من أجلك لمساعدتك 💖
-        </div>
-    </div>
 
-    <!-- BUTTON TRIGGER WITH ANIMATED KCODE DROPLET ICON -->
-    <div class="kcode-float-btn-wrapper">
-        <button @click="isOpen = !isOpen; showTooltip = false" type="button" class="kcode-float-btn" title="مستشار KCODE الذكي">
-            <div class="kcode-float-icon-inner" :class="{ 'is-active': isOpen }">
-                <template x-if="isOpen">
-                    <span class="text-sm font-bold">✕</span>
-                </template>
-                <template x-if="!isOpen">
-                    <svg class="kcode-drop-icon" viewBox="0 0 24 24">
-                        <path d="M12 2.69C12 2.69 6 9.5 6 14C6 17.31 8.69 20 12 20C15.31 20 18 17.31 18 14C18 9.5 12 2.69 12 2.69Z" />
-                    </svg>
-                </template>
-            </div>
-        </button>
-    </div>
-
-    <!-- CHAT WINDOW POPUP DRAWER -->
-    <div class="kcode-float-modal" :class="{ 'is-open': isOpen }">
-
-        <!-- Header -->
-        <div class="kcode-float-header">
-            <div class="flex items-center gap-2.5">
-                <div class="rounded-full bg-gradient-to-r from-rose-500 to-rose-700 text-white flex items-center justify-center font-bold text-sm shadow-sm flex-shrink-0" style="width: 32px; height: 32px; min-width: 32px; min-height: 32px;">
-                    <svg class="kcode-drop-icon-sm" viewBox="0 0 24 24">
-                        <path d="M12 2.69C12 2.69 6 9.5 6 14C6 17.31 8.69 20 12 20C15.31 20 18 17.31 18 14C18 9.5 12 2.69 12 2.69Z" />
-                    </svg>
+        <!-- CHAT WINDOW (MODAL DRAWER) -->
+        <div
+            x-show="isOpen"
+            x-cloak
+            x-transition:enter="transition ease-out duration-250"
+            x-transition:enter-start="opacity-0 transform translate-y-4 scale-95"
+            x-transition:enter-end="opacity-100 transform translate-y-0 scale-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100 transform translate-y-0 scale-100"
+            x-transition:leave-end="opacity-0 transform translate-y-4 scale-95"
+            class="kcode-chatbot-window"
+        >
+            <!-- Header -->
+            <div class="kcode-chatbot-header">
+                <div style="display: flex; align-items: center; gap: 0.65rem;">
+                    <div class="kcode-chatbot-avatar-wrp">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.69C12 2.69 6 9.5 6 14C6 17.31 8.69 20 12 20C15.31 20 18 17.31 18 14C18 9.5 12 2.69 12 2.69Z" />
+                        </svg>
+                        <div class="kcode-chatbot-online-dot"></div>
+                    </div>
+                    <div>
+                        <h4 class="kcode-chatbot-header-title">مستشار KCODE الذكي</h4>
+                        <span class="kcode-chatbot-header-sub">🟢 متصل ومستعد للمساعدة</span>
+                    </div>
                 </div>
-                <div>
-                    <div class="font-bold text-sm text-gray-900 dark:text-white flex items-center gap-1.5">
-                        مستشار KCODE الذكي
-                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium border border-emerald-500/20">
-                            ⚡ متصل الآن
-                        </span>
-                    </div>
-                    <div class="text-[11px] text-gray-500 dark:text-gray-400">
-                        أي سؤال عن البشرة، المنتجات، أو الداشبورد
-                    </div>
+
+                <div style="display: flex; align-items: center; gap: 0.35rem;">
+                    <button wire:click="clearChat" type="button" class="kcode-chatbot-header-btn" title="مسح المحادثة">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M10 11v6M14 11v6"/>
+                        </svg>
+                    </button>
+                    <button @click="isOpen = false" type="button" class="kcode-chatbot-header-btn" title="إغلاق">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
                 </div>
             </div>
 
-            <div class="flex items-center gap-1.5">
-                <button wire:click="clearChat" type="button" class="text-xs p-1 text-gray-400 hover:text-rose-500 transition-colors" title="مسح المحادثة">
-                    🗑️
+            <!-- Quick Navigation Pills (Matching Vercel) -->
+            <div class="kcode-chatbot-quick-nav">
+                <button type="button" wire:click="sendMessage('ما هي أفضل المنتجات المتوفرة للبشرة؟')" class="kcode-chatbot-pill">
+                    🛍️ المنتجات
                 </button>
-                <button @click="isOpen = false" type="button" class="text-sm p-1 text-gray-400 hover:text-gray-700 dark:hover:text-white transition-colors" title="إغلاق">
-                    ✕
+                <button type="button" wire:click="sendMessage('كيف أبدأ ببناء روتين كوري مناسب لبشرتي؟')" class="kcode-chatbot-pill">
+                    🧴 بناء الروتين
+                </button>
+                <button type="button" wire:click="sendMessage('ما هي خطوات تحليل نوع ومشاكل البشرة؟')" class="kcode-chatbot-pill">
+                    ✨ تحليل البشرة
+                </button>
+                <button type="button" wire:click="sendMessage('أعطني أهم نصائح العناية اليومية بالبشرة')" class="kcode-chatbot-pill">
+                    💡 نصائح العناية
                 </button>
             </div>
-        </div>
 
-        <!-- Messages Area -->
-        <div class="kcode-float-messages" id="floatChatMessages">
-            @foreach ($messages as $index => $msg)
-                <div class="kcode-float-msg {{ $msg['role'] }}" wire:key="msg-{{ $index }}">
-                    <div class="kcode-float-bubble">
-                        {!! nl2br(e($msg['content'])) !!}
+            <!-- Messages Stream Area -->
+            <div class="kcode-chatbot-messages" id="floatChatMessages">
+                @foreach ($messages as $index => $msg)
+                    <div class="kcode-chatbot-msg {{ $msg['role'] }}" wire:key="msg-{{ $index }}">
+                        <div class="kcode-chatbot-bubble">
+                            {!! nl2br(e($msg['content'])) !!}
 
-                        @if (!empty($msg['products']))
-                            <div class="mt-2 text-xs font-bold text-rose-500">
-                                🛍️ المنتجات المقترحة:
-                            </div>
-                            <div class="flex flex-col gap-1.5 mt-1">
+                            @if (!empty($msg['products']))
+                                <div style="margin-top: 0.6rem; font-weight: 700; font-size: 0.78rem; color: var(--kcode-berry, #93254E);">
+                                    🛍️ المنتجات المقترحة:
+                                </div>
                                 @foreach ($msg['products'] as $prod)
-                                    <div class="flex items-center gap-2 p-1.5 rounded-lg bg-rose-500/5 border border-rose-500/10">
+                                    <div class="kcode-chat-prod-card">
                                         @if (!empty($prod['image_path']))
-                                            <img src="{{ $prod['image_path'] }}" alt="" class="w-8 h-8 object-cover rounded">
+                                            <img src="{{ $prod['image_path'] }}" alt="" style="width: 34px; height: 34px; object-fit: cover; border-radius: 6px;">
                                         @endif
-                                        <div class="text-[11px] overflow-hidden">
-                                            <div class="font-bold truncate text-gray-800 dark:text-gray-200">
+                                        <div style="flex: 1; min-width: 0;">
+                                            <div style="font-weight: 600; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                                 {{ $prod['name_ar'] ?? $prod['name_en'] ?? ($prod['name'] ?? '') }}
                                             </div>
-                                            <div class="text-rose-500 font-medium">
-                                                {{ $prod['price'] ?? 0 }} EGP
+                                            <div style="font-weight: 700; font-size: 0.75rem; color: var(--kcode-berry, #93254E);">
+                                                {{ $prod['price'] ?? 0 }} ر.ع
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
-                            </div>
-                        @endif
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+
+                <!-- Typing Indicator -->
+                <div wire:loading wire:target="fetchAiResponse" class="kcode-chatbot-msg assistant">
+                    <div class="kcode-chatbot-bubble" style="font-size: 0.8rem; font-style: italic; color: var(--kcode-berry, #93254E); display: flex; align-items: center; gap: 0.4rem;">
+                        <span style="display: inline-block; animation: spin 1s linear infinite;">⏳</span> المستشار الذكي يكتب الآن...
                     </div>
                 </div>
-            @endforeach
-
-            <!-- Immediate Loading Indicator -->
-            <div wire:loading wire:target="fetchAiResponse" class="kcode-float-msg assistant">
-                <div class="kcode-float-bubble text-xs italic text-rose-500 font-medium animate-pulse flex items-center gap-1.5">
-                    <span class="inline-block animate-spin">⚡</span> جاري التفكير والرد الآن...
-                </div>
             </div>
-        </div>
 
-        <!-- Input Area (Without preset chips) -->
-        <div class="kcode-float-input-area">
-            <form wire:submit="sendMessage" class="kcode-float-input-wrapper">
-                <input
-                    type="text"
-                    wire:model="userMessage"
-                    placeholder="اسأل المستشار الذكي عن أي شيء..."
-                    class="kcode-float-input"
-                    wire:loading.attr="disabled"
-                    wire:target="sendMessage, fetchAiResponse"
-                />
-                <button type="submit" wire:loading.attr="disabled" wire:target="sendMessage, fetchAiResponse" class="kcode-float-send-btn">
-                    <span wire:loading.remove wire:target="sendMessage, fetchAiResponse">إرسال 🚀</span>
-                    <span wire:loading wire:target="sendMessage, fetchAiResponse">⚡...</span>
-                </button>
-            </form>
+            <!-- Input Area -->
+            <div class="kcode-chatbot-input-area">
+                <form wire:submit="sendMessage" class="kcode-chatbot-form">
+                    <input
+                        type="text"
+                        wire:model="userMessage"
+                        placeholder="كتابة السؤال أو الاستفسار هنا..."
+                        class="kcode-chatbot-input"
+                        wire:loading.attr="disabled"
+                        wire:target="sendMessage, fetchAiResponse"
+                    />
+                    <button type="submit" wire:loading.attr="disabled" wire:target="sendMessage, fetchAiResponse" class="kcode-chatbot-send-btn">
+                        <span wire:loading.remove wire:target="sendMessage, fetchAiResponse">إرسال</span>
+                        <span wire:loading wire:target="sendMessage, fetchAiResponse">...</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(-45deg);">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 

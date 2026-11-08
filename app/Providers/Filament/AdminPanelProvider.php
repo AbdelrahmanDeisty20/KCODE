@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(\App\Filament\Pages\Auth\Login::class)
             ->brandName('KCODE')
             ->brandLogo(fn () => new \Illuminate\Support\HtmlString('
                 <div style="display: flex; align-items: center; justify-content: center;">
@@ -496,6 +496,314 @@ class AdminPanelProvider extends PanelProvider
                         html.dark .fi-sidebar-item-button:hover svg {
                             color: #FFFFFF !important;
                             transform: scale(1.15) !important;
+                        }
+
+                        /* ======================================================== */
+                        /* --- KCODE AUTHENTICATION / LOGIN PAGE (VERCEL THEMED) --- */
+                        /* ======================================================== */
+                        .fi-simple-layout {
+                            background-color: var(--kcode-canvas) !important;
+                            color: var(--kcode-text-primary) !important;
+                            min-height: 100vh !important;
+                            direction: rtl !important;
+                        }
+
+                        html:not(.dark) .fi-simple-layout {
+                            background: radial-gradient(circle at 50% 12%, rgba(226, 138, 171, 0.08) 0%, transparent 60%),
+                                        var(--kcode-canvas) !important;
+                        }
+
+                        html.dark .fi-simple-layout {
+                            background: radial-gradient(circle at 50% 12%, rgba(147, 37, 78, 0.15) 0%, transparent 60%),
+                                        var(--kcode-canvas) !important;
+                        }
+
+                        /* Login Main Card */
+                        .fi-simple-main {
+                            background-color: #FFFFFF !important;
+                            border: 1px solid rgba(220, 213, 210, 0.7) !important;
+                            border-radius: 16px !important;
+                            box-shadow: 0 16px 45px -8px rgba(46, 22, 51, 0.08) !important;
+                            padding: 2.25rem 2.25rem !important;
+                            max-width: 480px !important;
+                            width: 100% !important;
+                            transition: all 0.3s ease !important;
+                        }
+
+                        html.dark .fi-simple-main {
+                            background-color: #231826 !important;
+                            border-color: rgba(255, 255, 255, 0.1) !important;
+                            box-shadow: 0 16px 45px -8px rgba(0, 0, 0, 0.6) !important;
+                        }
+
+                        /* Top Bar: User Avatar & KCODE Brand */
+                        .kcode-auth-topbar {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            width: 100%;
+                            margin-bottom: 1.25rem;
+                            direction: rtl;
+                        }
+
+                        .kcode-auth-avatar {
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            border: 1px solid #D9D3CE;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            color: #2D162B;
+                            background: transparent;
+                        }
+
+                        html.dark .kcode-auth-avatar {
+                            border-color: rgba(255, 255, 255, 0.2);
+                            color: #EDE8E4;
+                        }
+
+                        .kcode-auth-brand-badge {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.35rem;
+                        }
+
+                        .kcode-auth-badge-text {
+                            color: #93254E;
+                            font-size: 0.85rem;
+                            font-weight: 600;
+                        }
+
+                        html.dark .kcode-auth-badge-text {
+                            color: #F38BA8;
+                        }
+
+                        .kcode-auth-badge-logo {
+                            font-size: 1.15rem;
+                            font-weight: 800;
+                            letter-spacing: 0.08em;
+                            color: #2D162B;
+                        }
+
+                        html.dark .kcode-auth-badge-logo {
+                            color: #FFFFFF;
+                        }
+
+                        /* Heading and Subheading */
+                        .kcode-auth-heading-wrap {
+                            text-align: center;
+                            margin-top: 0.25rem;
+                        }
+
+                        .kcode-auth-title {
+                            font-size: 1.45rem !important;
+                            font-weight: 700 !important;
+                            color: #2D162B !important;
+                            margin: 0 !important;
+                            letter-spacing: -0.01em !important;
+                            text-align: center !important;
+                        }
+
+                        html.dark .kcode-auth-title {
+                            color: #FFFFFF !important;
+                        }
+
+                        .kcode-auth-sub-wrap {
+                            text-align: center;
+                            width: 100%;
+                        }
+
+                        .kcode-auth-subtext {
+                            font-size: 0.82rem !important;
+                            color: #736B69 !important;
+                            margin-top: 0.35rem !important;
+                            margin-bottom: 1.25rem !important;
+                            font-weight: 400 !important;
+                            text-align: center !important;
+                        }
+
+                        html.dark .kcode-auth-subtext {
+                            color: rgba(255, 255, 255, 0.6) !important;
+                        }
+
+                        /* Tabs Segment (تسجيل الدخول / إنشاء حساب) */
+                        .kcode-auth-tabs {
+                            background: #F2ECE7;
+                            padding: 4px;
+                            border-radius: 8px;
+                            display: flex;
+                            align-items: center;
+                            gap: 4px;
+                            margin-bottom: 1.25rem;
+                            width: 100%;
+                            box-sizing: border-box;
+                            direction: rtl;
+                        }
+
+                        html.dark .kcode-auth-tabs {
+                            background: rgba(255, 255, 255, 0.06);
+                        }
+
+                        .kcode-auth-tab {
+                            flex: 1;
+                            padding: 0.55rem 0.75rem;
+                            font-size: 0.85rem;
+                            border-radius: 6px;
+                            border: none;
+                            background: transparent;
+                            color: #7A7471;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                            text-align: center;
+                        }
+
+                        .kcode-auth-tab.is-active {
+                            background: #FFFFFF;
+                            color: #2D162B;
+                            font-weight: 600;
+                            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+                        }
+
+                        html.dark .kcode-auth-tab.is-active {
+                            background: #2C1929;
+                            color: #FFFFFF;
+                        }
+
+                        /* Form Labels */
+                        .fi-simple-main .fi-fo-field-label,
+                        .fi-simple-main .fi-fo-field-label-content {
+                            font-size: 0.85rem !important;
+                            font-weight: 600 !important;
+                            color: #2D162B !important;
+                            text-align: right !important;
+                        }
+
+                        html.dark .fi-simple-main .fi-fo-field-label,
+                        html.dark .fi-simple-main .fi-fo-field-label-content {
+                            color: #EDE8E4 !important;
+                        }
+
+                        .fi-simple-main .fi-fo-field-label-required-mark {
+                            display: none !important;
+                        }
+
+                        /* Inputs: Soft pastel background tint matching Vercel */
+                        .fi-simple-main .fi-input-wrp {
+                            background-color: #EDF2FE !important;
+                            border: 1px solid #DCD5D2 !important;
+                            border-radius: 8px !important;
+                            min-height: 46px !important;
+                            box-shadow: none !important;
+                            transition: all 0.2s ease !important;
+                        }
+
+                        html.dark .fi-simple-main .fi-input-wrp {
+                            background-color: #2D1F31 !important;
+                            border-color: rgba(255, 255, 255, 0.15) !important;
+                        }
+
+                        .fi-simple-main .fi-input-wrp:focus-within {
+                            border-color: #2D162B !important;
+                            box-shadow: 0 0 0 2px rgba(45, 22, 43, 0.12) !important;
+                        }
+
+                        html.dark .fi-simple-main .fi-input-wrp:focus-within {
+                            border-color: #FFFFFF !important;
+                            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
+                        }
+
+                        .fi-simple-main .fi-input-wrp input {
+                            font-size: 0.88rem !important;
+                            color: #2D162B !important;
+                            background-color: transparent !important;
+                            padding: 0.65rem 0.85rem !important;
+                        }
+
+                        html.dark .fi-simple-main .fi-input-wrp input {
+                            color: #FFFFFF !important;
+                        }
+
+                        /* Password Eye Reveal Icon (Lucide Style) */
+                        .fi-simple-main .fi-input-wrp button,
+                        .fi-simple-main .fi-input-wrp .fi-icon-btn,
+                        .fi-simple-main .fi-input-wrp-suffix-action {
+                            color: #8C8480 !important;
+                            cursor: pointer !important;
+                            transition: color 0.2s ease !important;
+                        }
+
+                        .fi-simple-main .fi-input-wrp button:hover,
+                        .fi-simple-main .fi-input-wrp .fi-icon-btn:hover,
+                        .fi-simple-main .fi-input-wrp-suffix-action:hover {
+                            color: #2D162B !important;
+                        }
+
+                        html.dark .fi-simple-main .fi-input-wrp button:hover {
+                            color: #FFFFFF !important;
+                        }
+
+                        /* Checkbox & Labels */
+                        .fi-simple-main input[type="checkbox"] {
+                            accent-color: #93254E !important;
+                            width: 16px !important;
+                            height: 16px !important;
+                            border-radius: 4px !important;
+                            cursor: pointer !important;
+                        }
+
+                        .fi-simple-main .fi-checkbox-label,
+                        .fi-simple-main label {
+                            color: #736B69 !important;
+                            font-size: 0.82rem !important;
+                        }
+
+                        html.dark .fi-simple-main label {
+                            color: rgba(255, 255, 255, 0.6) !important;
+                        }
+
+                        /* Submit Button (Vercel Style) */
+                        .fi-simple-main button[type="submit"],
+                        .fi-simple-main .fi-btn-primary,
+                        .fi-simple-main .kcode-auth-submit-btn {
+                            background: #2D162B !important;
+                            color: #FFFFFF !important;
+                            border: none !important;
+                            border-radius: 8px !important;
+                            min-height: 46px !important;
+                            font-size: 0.92rem !important;
+                            font-weight: 600 !important;
+                            letter-spacing: 0.01em !important;
+                            box-shadow: 0 4px 14px rgba(45, 22, 43, 0.25) !important;
+                            transition: all 0.22s ease !important;
+                            width: 100% !important;
+                            cursor: pointer !important;
+                            display: flex !important;
+                            align-items: center !important;
+                            justify-content: center !important;
+                            gap: 0.5rem !important;
+                        }
+
+                        .fi-simple-main button[type="submit"]:hover,
+                        .fi-simple-main .fi-btn-primary:hover,
+                        .fi-simple-main .kcode-auth-submit-btn:hover {
+                            background: #3D1E3A !important;
+                            transform: translateY(-1px) !important;
+                            box-shadow: 0 6px 18px rgba(45, 22, 43, 0.35) !important;
+                        }
+
+                        .fi-simple-main button[type="submit"]:active {
+                            transform: translateY(0) scale(0.99) !important;
+                        }
+
+                        html.dark .fi-simple-main button[type="submit"] {
+                            background: #93254E !important;
+                            color: #FFFFFF !important;
+                        }
+
+                        html.dark .fi-simple-main button[type="submit"]:hover {
+                            background: #B32C5E !important;
                         }
                     </style>
                 ')

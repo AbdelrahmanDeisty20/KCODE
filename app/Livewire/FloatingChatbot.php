@@ -20,8 +20,8 @@ class FloatingChatbot extends Component
     {
         $isAr = app()->getLocale() === 'ar';
         $welcomeText = $isAr
-            ? "مرحباً بك! أنا 'مستشار KCODE الذكي'. يمكنك سؤالي عن أي موضوع بدون قيود! 💖"
-            : "Welcome! I am 'KCODE AI Assistant'. Ask me anything without restrictions! 💖";
+            ? "أهلاً بك في مستشار KCODE الذكي! 🌸 يسعدنا تقديم المساعدة في اختيار أفضل روتين ومنتجات لبشرتك وتوجيهك داخل الموقع."
+            : "Welcome to KCODE Smart Assistant! Happy to help you choose the best routine and products for your skin.";
 
         $this->messages = [
             [
