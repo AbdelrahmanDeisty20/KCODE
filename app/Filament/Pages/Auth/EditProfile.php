@@ -63,13 +63,22 @@ class EditProfile extends BaseEditProfile
                             ->email()
                             ->required()
                             ->maxLength(255)
-                            ->unique(ignoreRecord: true),
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => 'البريد الإلكتروني هذا مسجل بالفعل لحساب آخر، يرجى كتابة بريد آخر.',
+                            ])
+                            ->live(debounce: 500),
 
                         Forms\Components\TextInput::make('phone')
                             ->label('رقم الهاتف')
                             ->tel()
                             ->maxLength(25)
-                            ->placeholder('+968 9000 0000'),
+                            ->placeholder('+968 9000 0000')
+                            ->unique(ignoreRecord: true)
+                            ->validationMessages([
+                                'unique' => 'رقم الهاتف هذا مسجل بالفعل لحساب آخر، يرجى كتابة رقم آخر.',
+                            ])
+                            ->live(debounce: 500),
 
                         Forms\Components\TextInput::make('city')
                             ->label('المدينة / المنطقة')
@@ -110,6 +119,30 @@ class EditProfile extends BaseEditProfile
                             ->dehydrated(false),
                     ])->columns(2),
             ]);
+    }
+
+    public function save(): void
+    {
+        try {
+            parent::save();
+        } catch (\Illuminate\Database\UniqueConstraintViolationException | \Illuminate\Database\QueryException $exception) {
+            $msg = $exception->getMessage();
+            $field = 'البيانات';
+
+            if (str_contains($msg, 'users_phone_unique') || str_contains($msg, 'phone')) {
+                $field = 'رقم الهاتف';
+                $this->addError('data.phone', 'رقم الهاتف هذا مسجل بالفعل بحساب مستخدم آخر.');
+            } elseif (str_contains($msg, 'users_email_unique') || str_contains($msg, 'email')) {
+                $field = 'البريد الإلكتروني';
+                $this->addError('data.email', 'البريد الإلكتروني هذا مسجل بالفعل بحساب مستخدم آخر.');
+            }
+
+            \Filament\Notifications\Notification::make()
+                ->title('تنبيه: قيمة مكررة مسجلة مسبقاً ⚠️')
+                ->body("{$field} الذي أدخلته موجود ومسجل بالفعل في النظام لحساب آخر. يرجى إدخال قيمة مختلفة.")
+                ->danger()
+                ->send();
+        }
     }
 }
 
