@@ -166,8 +166,18 @@ class QuizQuestionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('step_number')
-                    ->label($isEn ? 'Step / Order' : 'الترتيب')
+                    ->label($isEn ? 'Step' : 'الترتيب')
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('key')
+                    ->label($isEn ? 'Key' : 'المعرف البرمجي')
+                    ->badge()
+                    ->color('info')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('step_label_ar')
+                    ->label($isEn ? 'Step Label' : 'عنوان الخطوة')
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('title_ar')
                     ->label($isEn ? 'Question (Arabic)' : 'السؤال (عربي)')

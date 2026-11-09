@@ -186,6 +186,7 @@ class AssessmentResource extends Resource
                                 return $products->map(function ($prod, $index) {
                                     return [
                                         'step'         => 'الخطوة ' . ($index + 1),
+                                        'sku'          => $prod->sku,
                                         'product_name' => $prod->name_ar ?: $prod->name_en,
                                         'price'        => $prod->price,
                                     ];
@@ -197,6 +198,7 @@ class AssessmentResource extends Resource
                                 return $products->map(function ($prod, $index) {
                                     return [
                                         'step'         => 'الخطوة ' . ($index + 1),
+                                        'sku'          => $prod->sku,
                                         'product_name' => $prod->name_ar ?: $prod->name_en,
                                         'price'        => $prod->price,
                                     ];
@@ -205,7 +207,13 @@ class AssessmentResource extends Resource
                             ->schema([
                                 Forms\Components\TextInput::make('step')
                                     ->label('الخطوة / المرحلة')
-                                    ->disabled(),
+                                    ->disabled()
+                                    ->columnSpan(1),
+
+                                Forms\Components\TextInput::make('sku')
+                                    ->label('كود المنتج (SKU)')
+                                    ->disabled()
+                                    ->columnSpan(1),
 
                                 Forms\Components\TextInput::make('product_name')
                                     ->label('اسم المنتج المقترح')
@@ -215,9 +223,10 @@ class AssessmentResource extends Resource
                                 Forms\Components\TextInput::make('price')
                                     ->label('السعر')
                                     ->prefix('OMR')
-                                    ->disabled(),
+                                    ->disabled()
+                                    ->columnSpan(1),
                             ])
-                            ->columns(4)
+                            ->columns(5)
                             ->addable(false)
                             ->deletable(false)
                             ->reorderable(false)
@@ -254,10 +263,10 @@ class AssessmentResource extends Resource
                     ->boolean(),
 
                 Tables\Columns\TextColumn::make('scenario_key')
-                    ->label($isEn ? 'Scenario Key' : 'كود السيناريو')
+                    ->label($isEn ? 'Scenario Key' : 'كود السيناريو R479')
                     ->badge()
-                    ->color('gray')
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->color('primary')
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('concerns_summary')
                     ->label($isEn ? 'Skin Concerns' : 'مشاكل البشرة')

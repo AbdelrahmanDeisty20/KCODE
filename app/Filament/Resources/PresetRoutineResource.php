@@ -17,11 +17,11 @@ class PresetRoutineResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'heroicon-s-sparkles';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 6;
 
     public static function getNavigationGroup(): ?string
     {
-        return app()->getLocale() === 'en' ? 'Routine Engine & Quiz' : 'محرك الروتينات والـ Quiz';
+        return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';
     }
 
     public static function getNavigationLabel(): string

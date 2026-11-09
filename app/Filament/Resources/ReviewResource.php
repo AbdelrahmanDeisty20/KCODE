@@ -26,7 +26,7 @@ class ReviewResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';
+        return app()->getLocale() === 'en' ? 'Products & Catalog' : 'إدارة المنتجات والكتالوج';
     }
 
     public static function getNavigationLabel(): string

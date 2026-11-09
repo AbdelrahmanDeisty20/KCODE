@@ -17,11 +17,11 @@ class RoutineGoalResource extends Resource
 
     protected static \BackedEnum|string|null $navigationIcon = 'heroicon-s-flag';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 4;
 
     public static function getNavigationGroup(): ?string
     {
-        return app()->getLocale() === 'en' ? 'Routine Engine & Quiz' : 'إدارة الروتينات والـ Quiz';
+        return app()->getLocale() === 'en' ? 'Skin Quiz & Assessment Engine' : 'محرك التقييم و Quiz البشرة';
     }
 
     public static function getNavigationLabel(): string
