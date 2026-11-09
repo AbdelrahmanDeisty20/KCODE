@@ -28,12 +28,14 @@ class QuizOption extends Model
 
     public function getTitleAttribute()
     {
-        return $this->{'title_' . app()->getLocale()};
+        $locale = app()->getLocale();
+        return $this->{'title_' . $locale} ?: ($this->title_ar ?: $this->title_en);
     }
 
     public function getDescriptionAttribute()
     {
-        return $this->{'description_' . app()->getLocale()};
+        $locale = app()->getLocale();
+        return $this->{'description_' . $locale} ?: ($this->description_ar ?: $this->description_en);
     }
 
     public function getImagePathAttribute()

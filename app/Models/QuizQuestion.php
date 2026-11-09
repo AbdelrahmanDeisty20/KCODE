@@ -31,21 +31,25 @@ class QuizQuestion extends Model
 
     public function getTitleAttribute()
     {
-        return $this->{'title_' . app()->getLocale()} ?: $this->title_ar;
+        $locale = app()->getLocale();
+        return $this->{'title_' . $locale} ?: ($this->title_ar ?: $this->title_en);
     }
 
     public function getDescriptionAttribute()
     {
-        return $this->{'description_' . app()->getLocale()} ?: $this->description_ar;
+        $locale = app()->getLocale();
+        return $this->{'description_' . $locale} ?: ($this->description_ar ?: $this->description_en);
     }
 
     public function getStepLabelAttribute()
     {
-        return $this->{'step_label_' . app()->getLocale()} ?: $this->step_label_ar;
+        $locale = app()->getLocale();
+        return $this->{'step_label_' . $locale} ?: ($this->step_label_ar ?: $this->step_label_en);
     }
 
     public function getHelperAttribute()
     {
-        return $this->{'helper_' . app()->getLocale()} ?: $this->helper_ar;
+        $locale = app()->getLocale();
+        return $this->{'helper_' . $locale} ?: ($this->helper_ar ?: $this->helper_en);
     }
 }
