@@ -1,0 +1,98 @@
+[
+  {
+    "primary": "dryness",
+    "secondary": "pores",
+    "skin": "oily",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "pores",
+    "skin": "combination",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "pores",
+    "skin": "normal",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "pores",
+    "skin": "dry",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dark_spots",
+    "skin": "oily",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dark_spots",
+    "skin": "combination",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dark_spots",
+    "skin": "normal",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dark_spots",
+    "skin": "dry",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dullness",
+    "skin": "oily",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dullness",
+    "skin": "oily",
+    "sensitive": true
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dullness",
+    "skin": "combination",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dullness",
+    "skin": "combination",
+    "sensitive": true
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dullness",
+    "skin": "normal",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dullness",
+    "skin": "normal",
+    "sensitive": true
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dullness",
+    "skin": "dry",
+    "sensitive": false
+  },
+  {
+    "primary": "dryness",
+    "secondary": "dullness",
+    "skin": "dry",
+    "sensitive": true
+  }
+]

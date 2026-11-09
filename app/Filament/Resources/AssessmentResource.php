@@ -77,12 +77,24 @@ class AssessmentResource extends Resource
                             ->formatStateUsing(fn ($state, $record) => $record?->skinType?->name_ar ?: ($record?->skinType?->name_en ?? 'غير محدد'))
                             ->disabled(),
 
+                        Forms\Components\TextInput::make('sensitivity_status')
+                            ->label('حساسية البشرة')
+                            ->default(fn ($record) => $record?->is_sensitive ? 'بشرة حساسة (نعم)' : 'غير حساسة (لا)')
+                            ->formatStateUsing(fn ($state, $record) => $record?->is_sensitive ? 'بشرة حساسة (نعم)' : 'غير حساسة (لا)')
+                            ->disabled(),
+
+                        Forms\Components\TextInput::make('scenario_key_display')
+                            ->label('كود السيناريو (R479)')
+                            ->default(fn ($record) => $record?->scenario_key ?? '—')
+                            ->formatStateUsing(fn ($state, $record) => $record?->scenario_key ?? '—')
+                            ->disabled(),
+
                         Forms\Components\TextInput::make('assessment_date')
                             ->label('تاريخ إجراء الاختبار')
                             ->default(fn ($record) => $record?->created_at?->format('Y-m-d H:i') ?? '—')
                             ->formatStateUsing(fn ($state, $record) => $record?->created_at?->format('Y-m-d H:i') ?? '—')
                             ->disabled(),
-                    ])->columns(4)->columnSpanFull(),
+                    ])->columns(3)->columnSpanFull(),
 
                 // Section 2: Skin Concerns & Goals
                 Components\Section::make('🎯 مشاكل البشرة وأهداف العناية المحددة')
@@ -131,8 +143,8 @@ class AssessmentResource extends Resource
                                 if (!$record) return [];
                                 return $record->answers()->with(['question', 'answer'])->get()->map(function ($ans) {
                                     return [
-                                        'question_text' => $ans->question?->question_ar ?: ($ans->question?->question_en ?? 'سؤال غير معنون'),
-                                        'answer_text'   => $ans->answer?->option_text_ar ?: ($ans->answer?->option_text_en ?? 'إجابة غير معنونة'),
+                                        'question_text' => $ans->question?->title_ar ?: ($ans->question?->question_ar ?: ($ans->question?->title_en ?? 'سؤال غير معنون')),
+                                        'answer_text'   => $ans->answer?->title_ar ?: ($ans->answer?->option_text_ar ?: ($ans->answer?->title_en ?? 'إجابة غير معنونة')),
                                     ];
                                 })->toArray();
                             })
@@ -140,8 +152,8 @@ class AssessmentResource extends Resource
                                 if (!$record) return [];
                                 return $record->answers()->with(['question', 'answer'])->get()->map(function ($ans) {
                                     return [
-                                        'question_text' => $ans->question?->question_ar ?: ($ans->question?->question_en ?? 'سؤال غير معنون'),
-                                        'answer_text'   => $ans->answer?->option_text_ar ?: ($ans->answer?->option_text_en ?? 'إجابة غير معنونة'),
+                                        'question_text' => $ans->question?->title_ar ?: ($ans->question?->question_ar ?: ($ans->question?->title_en ?? 'سؤال غير معنون')),
+                                        'answer_text'   => $ans->answer?->title_ar ?: ($ans->answer?->option_text_ar ?: ($ans->answer?->title_en ?? 'إجابة غير معنونة')),
                                     ];
                                 })->toArray();
                             })
@@ -236,6 +248,16 @@ class AssessmentResource extends Resource
                     ->badge()
                     ->color('info')
                     ->searchable(),
+
+                Tables\Columns\IconColumn::make('is_sensitive')
+                    ->label($isEn ? 'Sensitive' : 'بشرة حساسة')
+                    ->boolean(),
+
+                Tables\Columns\TextColumn::make('scenario_key')
+                    ->label($isEn ? 'Scenario Key' : 'كود السيناريو')
+                    ->badge()
+                    ->color('gray')
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('concerns_summary')
                     ->label($isEn ? 'Skin Concerns' : 'مشاكل البشرة')

@@ -16,15 +16,42 @@ class EvaluateQuizRequest extends FormRequest
 
     /**
      * Get the validation rules that apply to the request.
+     * Supports both legacy DB ID payloads and R479 direct contract codes.
      */
     public function rules(): array
     {
         return [
-            'skin_type_id' => ['required', 'exists:skin_types,id'],
-            'routine_goal_id' => ['required', 'exists:routine_goals,id'],
-            'is_sensitive' => ['nullable', 'boolean'],
-            'concern_ids' => ['nullable', 'array'],
-            'concern_ids.*' => ['exists:concerns,id'],
+            // Legacy ID fields
+            'skin_type_id'          => ['nullable', 'integer'],
+            'routine_goal_id'       => ['nullable', 'integer'],
+            'is_sensitive'          => ['nullable'],
+            'concern_ids'           => ['nullable', 'array'],
+            'concern_ids.*'         => ['nullable'],
+
+            // R479 Direct Contract fields
+            'primary'               => ['nullable', 'string'],
+            'secondary'             => ['nullable'],
+            'skin'                  => ['nullable', 'string'],
+            'sensitive'             => ['nullable'],
+
+            // R479 UI State fields
+            'q1'                    => ['nullable', 'string'],
+            'q4'                    => ['nullable'],
+            'skin_type'             => ['nullable', 'string'],
+            'sensitivity'           => ['nullable'],
+
+            // Option ID fields
+            'primary_option_id'     => ['nullable', 'integer'],
+            'secondary_option_id'   => ['nullable', 'integer'],
+            'skin_option_id'        => ['nullable', 'integer'],
+            'sensitivity_option_id' => ['nullable', 'integer'],
+
+            // Nested answers object
+            'answers'               => ['nullable', 'array'],
+            'answers.primary'       => ['nullable', 'string'],
+            'answers.secondary'     => ['nullable'],
+            'answers.skin'          => ['nullable', 'string'],
+            'answers.sensitive'     => ['nullable'],
         ];
     }
 
@@ -34,24 +61,9 @@ class EvaluateQuizRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'skin_type_id.required' => __('messages.skin_type_required'),
-            'skin_type_id.exists' => __('messages.invalid_skin_type'),
-            'routine_goal_id.required' => __('messages.routine_goal_required'),
+            'skin_type_id.exists'    => __('messages.invalid_skin_type'),
             'routine_goal_id.exists' => __('messages.invalid_routine_goal'),
-            'concern_ids.array' => __('messages.concerns_must_be_array'),
-            'concern_ids.*.exists' => __('messages.invalid_concern'),
-        ];
-    }
-
-    /**
-     * Get custom attributes for validator errors.
-     */
-    public function attributes(): array
-    {
-        return [
-            'skin_type_id' => __('messages.skin_type'),
-            'routine_goal_id' => __('messages.routine_goal'),
-            'concern_ids' => __('messages.concerns'),
+            'concern_ids.array'      => __('messages.concerns_must_be_array'),
         ];
     }
 }

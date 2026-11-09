@@ -1,0 +1,6830 @@
+[
+  {
+    "sku": "KC0001",
+    "brand": "ANUA",
+    "name": "Niacinamide 10 TXA 4 Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 88.0,
+      "normal": 94.0,
+      "dry": 90.0
+    },
+    "tolerance": 74.0,
+    "scores": {
+      "Acne": 70.0,
+      "Pores": 76.0,
+      "Pigmentation PIH": 100.0,
+      "Radiance": 95.0,
+      "Redness PIE": 78.0,
+      "Barrier": 72.0,
+      "Hydration": 92.0,
+      "Lines": 48.0,
+      "Oil Control": 85.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0002",
+    "brand": "ANUA",
+    "name": "Azelaic Acid 10 Hyaluron Redness Soothing Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 93.0,
+      "normal": 90.0,
+      "dry": 80.0
+    },
+    "tolerance": 76.0,
+    "scores": {
+      "Acne": 92.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 84.0,
+      "Radiance": 64.0,
+      "Redness PIE": 100.0,
+      "Barrier": 72.0,
+      "Hydration": 89.0,
+      "Lines": 35.0,
+      "Oil Control": 67.0,
+      "Eye Dark Circles": 30.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0003",
+    "brand": "ANUA",
+    "name": "Heartleaf Quercetinol Pore Deep Cleansing Foam",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 88.0,
+      "normal": 78.0,
+      "dry": 58.0
+    },
+    "tolerance": 58.0,
+    "scores": {
+      "Acne": 62.0,
+      "Pores": 72.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 50.0,
+      "Redness PIE": 62.0,
+      "Barrier": 65.0,
+      "Hydration": 55.0,
+      "Lines": 22.0,
+      "Oil Control": 70.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0004",
+    "brand": "ANUA",
+    "name": "PDRN Hyaluronic Acid 100 Moisturizing Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 85.0,
+      "normal": 88.0,
+      "dry": 80.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 48.0,
+      "Radiance": 52.0,
+      "Redness PIE": 62.0,
+      "Barrier": 68.0,
+      "Hydration": 82.0,
+      "Lines": 42.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0005",
+    "brand": "ANUA",
+    "name": "PDRN Hyaluronic Acid Capsule 100 Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 84.0,
+      "combination": 90.0,
+      "normal": 92.0,
+      "dry": 88.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 25.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 48.0,
+      "Redness PIE": 38.0,
+      "Barrier": 52.0,
+      "Hydration": 78.0,
+      "Lines": 32.0,
+      "Oil Control": 22.0,
+      "Eye Dark Circles": 35.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0006",
+    "brand": "ANUA",
+    "name": "Heartleaf Pore Control Cleansing Oil Mild",
+    "roles": [],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 82.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 60.0,
+      "Pores": 72.0,
+      "Pigmentation PIH": 22.0,
+      "Radiance": 45.0,
+      "Redness PIE": 50.0,
+      "Barrier": 76.0,
+      "Hydration": 62.0,
+      "Lines": 22.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0007",
+    "brand": "ANUA",
+    "name": "Zero-cast Moisturizing Finish Sunscreen",
+    "roles": [],
+    "fit": {
+      "oily": 60.0,
+      "combination": 78.0,
+      "normal": 85.0,
+      "dry": 85.0
+    },
+    "tolerance": 72.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 50.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 52.0,
+      "Redness PIE": 55.0,
+      "Barrier": 60.0,
+      "Hydration": 70.0,
+      "Lines": 42.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0008",
+    "brand": "ANUA",
+    "name": "Rice Enzyme Brightening Cleansing Powder",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 85.0,
+      "normal": 72.0,
+      "dry": 50.0
+    },
+    "tolerance": 66.0,
+    "scores": {
+      "Acne": 60.0,
+      "Pores": 74.0,
+      "Pigmentation PIH": 38.0,
+      "Radiance": 66.0,
+      "Redness PIE": 48.0,
+      "Barrier": 52.0,
+      "Hydration": 45.0,
+      "Lines": 25.0,
+      "Oil Control": 72.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0009",
+    "brand": "ANUA",
+    "name": "3 Ceramide Panthenol Moisture Barrier Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 45.0,
+      "combination": 68.0,
+      "normal": 88.0,
+      "dry": 95.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 32.0,
+      "Pigmentation PIH": 30.0,
+      "Radiance": 45.0,
+      "Redness PIE": 82.0,
+      "Barrier": 92.0,
+      "Hydration": 90.0,
+      "Lines": 38.0,
+      "Oil Control": 30.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0010",
+    "brand": "ANUA",
+    "name": "Heartleaf LHA Moisture Peeling Gel",
+    "roles": [],
+    "fit": {
+      "oily": 78.0,
+      "combination": 82.0,
+      "normal": 82.0,
+      "dry": 68.0
+    },
+    "tolerance": 74.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 60.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 66.0,
+      "Redness PIE": 55.0,
+      "Barrier": 55.0,
+      "Hydration": 50.0,
+      "Lines": 32.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0011",
+    "brand": "ANUA",
+    "name": "PDRN 100 Hyaluronic Acid Glow Pad",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 78.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 68.0,
+      "Redness PIE": 52.0,
+      "Barrier": 48.0,
+      "Hydration": 76.0,
+      "Lines": 45.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0012",
+    "brand": "ANUA",
+    "name": "Heartleaf 77 Clear Pad",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 88.0,
+      "normal": 80.0,
+      "dry": 60.0
+    },
+    "tolerance": 74.0,
+    "scores": {
+      "Acne": 66.0,
+      "Pores": 72.0,
+      "Pigmentation PIH": 38.0,
+      "Radiance": 62.0,
+      "Redness PIE": 78.0,
+      "Barrier": 55.0,
+      "Hydration": 66.0,
+      "Lines": 30.0,
+      "Oil Control": 76.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0013",
+    "brand": "ANUA",
+    "name": "Heartleaf 80 Soothing Ampoule",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 92.0,
+      "normal": 92.0,
+      "dry": 86.0
+    },
+    "tolerance": 92.0,
+    "scores": {
+      "Acne": 38.0,
+      "Pores": 35.0,
+      "Pigmentation PIH": 18.0,
+      "Radiance": 35.0,
+      "Redness PIE": 62.0,
+      "Barrier": 55.0,
+      "Hydration": 84.0,
+      "Lines": 15.0,
+      "Oil Control": 32.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0014",
+    "brand": "ANUA",
+    "name": "Niacinamide 5 TXA Brightening Pad",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 82.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 70.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 76.0,
+      "Radiance": 76.0,
+      "Redness PIE": 58.0,
+      "Barrier": 52.0,
+      "Hydration": 62.0,
+      "Lines": 45.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 68.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0015",
+    "brand": "ANUA",
+    "name": "Heartleaf Pore Control Cleansing Oil",
+    "roles": [],
+    "fit": {
+      "oily": 65.0,
+      "combination": 80.0,
+      "normal": 85.0,
+      "dry": 85.0
+    },
+    "tolerance": 52.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 70.0,
+      "Pigmentation PIH": 22.0,
+      "Radiance": 45.0,
+      "Redness PIE": 45.0,
+      "Barrier": 70.0,
+      "Hydration": 60.0,
+      "Lines": 22.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0016",
+    "brand": "ANUA",
+    "name": "Heartleaf 77% Soothing Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 68.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 30.0,
+      "Radiance": 40.0,
+      "Redness PIE": 76.0,
+      "Barrier": 48.0,
+      "Hydration": 74.0,
+      "Lines": 25.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0017",
+    "brand": "ANUA",
+    "name": "Peach 70 Niacin Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 90.0,
+      "dry": 82.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 65.0,
+      "Pigmentation PIH": 84.0,
+      "Radiance": 82.0,
+      "Redness PIE": 52.0,
+      "Barrier": 48.0,
+      "Hydration": 86.0,
+      "Lines": 38.0,
+      "Oil Control": 72.0,
+      "Eye Dark Circles": 35.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0018",
+    "brand": "ANUA",
+    "name": "Peach 77 Niacin Essence Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 75.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 78.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 72.0,
+      "Redness PIE": 60.0,
+      "Barrier": 62.0,
+      "Hydration": 76.0,
+      "Lines": 42.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0019",
+    "brand": "ANUA",
+    "name": "Rice Ceramide 7 Hydrating Barrier Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 90.0,
+      "normal": 94.0,
+      "dry": 94.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 32.0,
+      "Pores": 35.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 62.0,
+      "Redness PIE": 45.0,
+      "Barrier": 68.0,
+      "Hydration": 94.0,
+      "Lines": 30.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0020",
+    "brand": "ANUA",
+    "name": "PDRN Hyaluronic Acid Hydrating Capsule Mist",
+    "roles": [],
+    "fit": {
+      "oily": 60.0,
+      "combination": 78.0,
+      "normal": 85.0,
+      "dry": 85.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 42.0,
+      "Pigmentation PIH": 38.0,
+      "Radiance": 70.0,
+      "Redness PIE": 60.0,
+      "Barrier": 66.0,
+      "Hydration": 76.0,
+      "Lines": 50.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0021",
+    "brand": "ANUA",
+    "name": "Rice 70 Glow Milky Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 75.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 64.0,
+      "Radiance": 66.0,
+      "Redness PIE": 55.0,
+      "Barrier": 58.0,
+      "Hydration": 80.0,
+      "Lines": 42.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0022",
+    "brand": "Medicube",
+    "name": "Collagen Jelly Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 88.0,
+      "normal": 80.0,
+      "dry": 60.0
+    },
+    "tolerance": 58.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 66.0,
+      "Redness PIE": 58.0,
+      "Barrier": 42.0,
+      "Hydration": 84.0,
+      "Lines": 45.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0023",
+    "brand": "Medicube",
+    "name": "One Day Exosome Shot Pore Ampoule 7500",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 76.0,
+      "normal": 70.0,
+      "dry": 35.0
+    },
+    "tolerance": 8.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 42.0,
+      "Radiance": 40.0,
+      "Redness PIE": 15.0,
+      "Barrier": 25.0,
+      "Hydration": 35.0,
+      "Lines": 28.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 20.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0024",
+    "brand": "Medicube",
+    "name": "PDRN Pink Collagen Exosome Shot 7500",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 72.0,
+      "normal": 66.0,
+      "dry": 30.0
+    },
+    "tolerance": 6.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 48.0,
+      "Radiance": 42.0,
+      "Redness PIE": 12.0,
+      "Barrier": 30.0,
+      "Hydration": 32.0,
+      "Lines": 35.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0025",
+    "brand": "Medicube",
+    "name": "PDRN Pink Cica Soothing Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 68.0
+    },
+    "tolerance": 76.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 72.0,
+      "Radiance": 72.0,
+      "Redness PIE": 68.0,
+      "Barrier": 48.0,
+      "Hydration": 66.0,
+      "Lines": 52.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0026",
+    "brand": "Medicube",
+    "name": "Zero Pore Pad Mild",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 88.0,
+      "normal": 82.0,
+      "dry": 60.0
+    },
+    "tolerance": 78.0,
+    "scores": {
+      "Acne": 60.0,
+      "Pores": 70.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 58.0,
+      "Redness PIE": 70.0,
+      "Barrier": 50.0,
+      "Hydration": 68.0,
+      "Lines": 30.0,
+      "Oil Control": 68.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0027",
+    "brand": "Medicube",
+    "name": "PDRN Pink Peptide Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 70.0,
+      "combination": 82.0,
+      "normal": 86.0,
+      "dry": 78.0
+    },
+    "tolerance": 58.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 66.0,
+      "Redness PIE": 58.0,
+      "Barrier": 72.0,
+      "Hydration": 68.0,
+      "Lines": 52.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 45.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0028",
+    "brand": "Medicube",
+    "name": "PDRN Pink Collagen Capsule Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 75.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 78.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 74.0,
+      "Radiance": 74.0,
+      "Redness PIE": 55.0,
+      "Barrier": 60.0,
+      "Hydration": 82.0,
+      "Lines": 45.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0029",
+    "brand": "Medicube",
+    "name": "PDRN Pink Collagen Gel Mask (4EA)",
+    "roles": [],
+    "fit": {
+      "oily": 60.0,
+      "combination": 78.0,
+      "normal": 80.0,
+      "dry": 78.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 60.0,
+      "Redness PIE": 48.0,
+      "Barrier": 58.0,
+      "Hydration": 76.0,
+      "Lines": 55.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0030",
+    "brand": "Medicube",
+    "name": "One Day Exosome Shot Pore Serum 2000",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 74.0,
+      "combination": 78.0,
+      "normal": 72.0,
+      "dry": 38.0
+    },
+    "tolerance": 14.0,
+    "scores": {
+      "Acne": 43.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 42.0,
+      "Radiance": 40.0,
+      "Redness PIE": 18.0,
+      "Barrier": 28.0,
+      "Hydration": 36.0,
+      "Lines": 26.0,
+      "Oil Control": 56.0,
+      "Eye Dark Circles": 20.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0031",
+    "brand": "Medicube",
+    "name": "Exosome Cica Calming Pad",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 60.0,
+      "Redness PIE": 64.0,
+      "Barrier": 50.0,
+      "Hydration": 70.0,
+      "Lines": 35.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0032",
+    "brand": "Medicube",
+    "name": "Zero Foam Cleanser",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 62.0,
+      "normal": 45.0,
+      "dry": 28.0
+    },
+    "tolerance": 26.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 66.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 45.0,
+      "Redness PIE": 32.0,
+      "Barrier": 34.0,
+      "Hydration": 40.0,
+      "Lines": 20.0,
+      "Oil Control": 72.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0033",
+    "brand": "Medicube",
+    "name": "PDRN Pink Hyaluronic Moisturizing Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 84.0,
+      "normal": 84.0,
+      "dry": 74.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 68.0,
+      "Redness PIE": 58.0,
+      "Barrier": 68.0,
+      "Hydration": 68.0,
+      "Lines": 52.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0034",
+    "brand": "Medicube",
+    "name": "AGE-R Glutathione Glow Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 88.0,
+      "normal": 90.0,
+      "dry": 84.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 72.0,
+      "Redness PIE": 48.0,
+      "Barrier": 66.0,
+      "Hydration": 78.0,
+      "Lines": 38.0,
+      "Oil Control": 70.0,
+      "Eye Dark Circles": 40.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0035",
+    "brand": "Medicube",
+    "name": "Zero Pore Blackhead Deep Cleansing Oil",
+    "roles": [],
+    "fit": {
+      "oily": 62.0,
+      "combination": 75.0,
+      "normal": 78.0,
+      "dry": 75.0
+    },
+    "tolerance": 38.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 72.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 45.0,
+      "Redness PIE": 35.0,
+      "Barrier": 58.0,
+      "Hydration": 60.0,
+      "Lines": 20.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0036",
+    "brand": "Medicube",
+    "name": "Kojic Acid Turmeric Toning Cleanser",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 60.0,
+      "normal": 42.0,
+      "dry": 25.0
+    },
+    "tolerance": 26.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 45.0,
+      "Radiance": 55.0,
+      "Redness PIE": 30.0,
+      "Barrier": 32.0,
+      "Hydration": 40.0,
+      "Lines": 22.0,
+      "Oil Control": 74.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0037",
+    "brand": "Medicube",
+    "name": "AGE-R Glutathione Glow Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 78.0,
+      "normal": 82.0,
+      "dry": 78.0
+    },
+    "tolerance": 52.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 68.0,
+      "Redness PIE": 48.0,
+      "Barrier": 60.0,
+      "Hydration": 68.0,
+      "Lines": 45.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0038",
+    "brand": "Medicube",
+    "name": "Deep Vita C Capsule Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 70.0,
+      "combination": 82.0,
+      "normal": 84.0,
+      "dry": 74.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 68.0,
+      "Redness PIE": 48.0,
+      "Barrier": 62.0,
+      "Hydration": 78.0,
+      "Lines": 42.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0039",
+    "brand": "Medicube",
+    "name": "AGE-R Vita C Pro Ampoule",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 74.0,
+      "normal": 72.0,
+      "dry": 48.0
+    },
+    "tolerance": 18.0,
+    "scores": {
+      "Acne": 25.0,
+      "Pores": 24.0,
+      "Pigmentation PIH": 96.0,
+      "Radiance": 100.0,
+      "Redness PIE": 32.0,
+      "Barrier": 28.0,
+      "Hydration": 35.0,
+      "Lines": 62.0,
+      "Oil Control": 22.0,
+      "Eye Dark Circles": 55.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0040",
+    "brand": "Medicube",
+    "name": "Zero Pore Blackhead Mud Mask",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 72.0,
+      "normal": 60.0,
+      "dry": 30.0
+    },
+    "tolerance": 40.0,
+    "scores": {
+      "Acne": 66.0,
+      "Pores": 78.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 55.0,
+      "Redness PIE": 35.0,
+      "Barrier": 40.0,
+      "Hydration": 45.0,
+      "Lines": 30.0,
+      "Oil Control": 82.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0041",
+    "brand": "Medicube",
+    "name": "Collagen Night Wrapping Mask",
+    "roles": [],
+    "fit": {
+      "oily": 62.0,
+      "combination": 78.0,
+      "normal": 82.0,
+      "dry": 78.0
+    },
+    "tolerance": 74.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 60.0,
+      "Redness PIE": 50.0,
+      "Barrier": 62.0,
+      "Hydration": 78.0,
+      "Lines": 62.0,
+      "Oil Control": 50.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0042",
+    "brand": "Medicube",
+    "name": "Triple Collagen Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 45.0,
+      "combination": 68.0,
+      "normal": 85.0,
+      "dry": 88.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 50.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 60.0,
+      "Redness PIE": 55.0,
+      "Barrier": 62.0,
+      "Hydration": 78.0,
+      "Lines": 50.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0043",
+    "brand": "Medicube",
+    "name": "PDRN Pink Peptide Eye Cream",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 60.0,
+      "combination": 72.0,
+      "normal": 88.0,
+      "dry": 90.0
+    },
+    "tolerance": 62.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 68.0,
+      "Radiance": 60.0,
+      "Redness PIE": 48.0,
+      "Barrier": 62.0,
+      "Hydration": 74.0,
+      "Lines": 52.0,
+      "Oil Control": 25.0,
+      "Eye Dark Circles": 72.0,
+      "Eye Puffiness": 25.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0045",
+    "brand": "Medicube",
+    "name": "PDRN Pink Caffeine Night Wrapping Mask",
+    "roles": [],
+    "fit": {
+      "oily": 62.0,
+      "combination": 78.0,
+      "normal": 80.0,
+      "dry": 72.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 68.0,
+      "Redness PIE": 48.0,
+      "Barrier": 58.0,
+      "Hydration": 78.0,
+      "Lines": 60.0,
+      "Oil Control": 50.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0046",
+    "brand": "Medicube",
+    "name": "Red Succinic Acid Peeling Pad",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 82.0,
+      "combination": 70.0,
+      "normal": 60.0,
+      "dry": 28.0
+    },
+    "tolerance": 34.0,
+    "scores": {
+      "Acne": 72.0,
+      "Pores": 68.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 62.0,
+      "Redness PIE": 32.0,
+      "Barrier": 32.0,
+      "Hydration": 45.0,
+      "Lines": 40.0,
+      "Oil Control": 70.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0047",
+    "brand": "Medicube",
+    "name": "Zero Pore SA Clear Capsule Cleansing Foam",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 85.0,
+      "normal": 72.0,
+      "dry": 52.0
+    },
+    "tolerance": 56.0,
+    "scores": {
+      "Acne": 68.0,
+      "Pores": 76.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 66.0,
+      "Redness PIE": 48.0,
+      "Barrier": 66.0,
+      "Hydration": 55.0,
+      "Lines": 22.0,
+      "Oil Control": 70.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0048",
+    "brand": "Medicube",
+    "name": "TXA Niacinamide 15 Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 93.0,
+      "combination": 94.0,
+      "normal": 92.0,
+      "dry": 80.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 72.0,
+      "Pores": 78.0,
+      "Pigmentation PIH": 100.0,
+      "Radiance": 96.0,
+      "Redness PIE": 80.0,
+      "Barrier": 68.0,
+      "Hydration": 76.0,
+      "Lines": 45.0,
+      "Oil Control": 87.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0049",
+    "brand": "Medicube",
+    "name": "Kojic Acid Turmeric Niacinamide Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 86.0,
+      "combination": 90.0,
+      "normal": 88.0,
+      "dry": 72.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 62.0,
+      "Pores": 68.0,
+      "Pigmentation PIH": 88.0,
+      "Radiance": 82.0,
+      "Redness PIE": 68.0,
+      "Barrier": 52.0,
+      "Hydration": 48.0,
+      "Lines": 42.0,
+      "Oil Control": 76.0,
+      "Eye Dark Circles": 38.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0050",
+    "brand": "Medicube",
+    "name": "AGE-R Glutathione Glow Capsule Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 85.0,
+      "normal": 82.0,
+      "dry": 60.0
+    },
+    "tolerance": 55.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 70.0,
+      "Redness PIE": 45.0,
+      "Barrier": 52.0,
+      "Hydration": 76.0,
+      "Lines": 42.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0051",
+    "brand": "Medicube",
+    "name": "Collagen Glow Booster Milk Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 76.0,
+      "normal": 80.0,
+      "dry": 74.0
+    },
+    "tolerance": 42.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 66.0,
+      "Redness PIE": 45.0,
+      "Barrier": 58.0,
+      "Hydration": 74.0,
+      "Lines": 42.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 38.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0052",
+    "brand": "Medicube",
+    "name": "Kojic Acid Turmeric Resurfacing Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 82.0,
+      "combination": 78.0,
+      "normal": 62.0,
+      "dry": 38.0
+    },
+    "tolerance": 38.0,
+    "scores": {
+      "Acne": 60.0,
+      "Pores": 70.0,
+      "Pigmentation PIH": 78.0,
+      "Radiance": 78.0,
+      "Redness PIE": 38.0,
+      "Barrier": 35.0,
+      "Hydration": 58.0,
+      "Lines": 48.0,
+      "Oil Control": 65.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0053",
+    "brand": "Medicube",
+    "name": "PDRN Hydrating Gel Cleanser",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 75.0,
+      "combination": 85.0,
+      "normal": 82.0,
+      "dry": 70.0
+    },
+    "tolerance": 52.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 60.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 45.0,
+      "Redness PIE": 42.0,
+      "Barrier": 64.0,
+      "Hydration": 58.0,
+      "Lines": 22.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0055",
+    "brand": "Medicube",
+    "name": "Deep Vita C Pad",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 85.0,
+      "normal": 80.0,
+      "dry": 62.0
+    },
+    "tolerance": 48.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 68.0,
+      "Redness PIE": 45.0,
+      "Barrier": 48.0,
+      "Hydration": 76.0,
+      "Lines": 42.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0057",
+    "brand": "Medicube",
+    "name": "Deep Vita A Retinol Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 70.0,
+      "combination": 80.0,
+      "normal": 82.0,
+      "dry": 74.0
+    },
+    "tolerance": 52.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 55.0,
+      "Redness PIE": 45.0,
+      "Barrier": 74.0,
+      "Hydration": 62.0,
+      "Lines": 68.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 40.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0058",
+    "brand": "Medicube",
+    "name": "Triple Collagen Serum 4.0",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 76.0,
+      "combination": 84.0,
+      "normal": 86.0,
+      "dry": 72.0
+    },
+    "tolerance": 38.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 42.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 62.0,
+      "Redness PIE": 32.0,
+      "Barrier": 45.0,
+      "Hydration": 72.0,
+      "Lines": 35.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 30.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0059",
+    "brand": "Medicube",
+    "name": "Triple Collagen Toner 4.0",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 70.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 64.0,
+      "Radiance": 64.0,
+      "Redness PIE": 45.0,
+      "Barrier": 45.0,
+      "Hydration": 76.0,
+      "Lines": 42.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0060",
+    "brand": "Medicube",
+    "name": "TXA Niacinamide Capsule Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 58.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 72.0,
+      "Radiance": 72.0,
+      "Redness PIE": 52.0,
+      "Barrier": 58.0,
+      "Hydration": 78.0,
+      "Lines": 42.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0061",
+    "brand": "Arencia",
+    "name": "Vitamin C Booster Shot",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 86.0,
+      "normal": 88.0,
+      "dry": 78.0
+    },
+    "tolerance": 78.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 84.0,
+      "Radiance": 88.0,
+      "Redness PIE": 42.0,
+      "Barrier": 45.0,
+      "Hydration": 52.0,
+      "Lines": 48.0,
+      "Oil Control": 40.0,
+      "Eye Dark Circles": 72.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0062",
+    "brand": "Arencia",
+    "name": "Retinal Booster Shot",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 76.0,
+      "combination": 84.0,
+      "normal": 86.0,
+      "dry": 80.0
+    },
+    "tolerance": 58.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 68.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 58.0,
+      "Redness PIE": 55.0,
+      "Barrier": 82.0,
+      "Hydration": 65.0,
+      "Lines": 68.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 75.0,
+      "Eye Puffiness": 45.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0063",
+    "brand": "Arencia",
+    "name": "Eraser Shot Glycolic Acid Booster",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 82.0,
+      "normal": 75.0,
+      "dry": 60.0
+    },
+    "tolerance": 56.0,
+    "scores": {
+      "Acne": 62.0,
+      "Pores": 68.0,
+      "Pigmentation PIH": 70.0,
+      "Radiance": 74.0,
+      "Redness PIE": 50.0,
+      "Barrier": 55.0,
+      "Hydration": 55.0,
+      "Lines": 55.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0064",
+    "brand": "Arencia",
+    "name": "Fresh Rosehip Rice Mochi Cleanser",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 82.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 58.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 55.0,
+      "Redness PIE": 60.0,
+      "Barrier": 66.0,
+      "Hydration": 62.0,
+      "Lines": 22.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0065",
+    "brand": "Arencia",
+    "name": "Fresh Blue Hyssop Rice Mochi Cleanser",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 85.0,
+      "combination": 82.0,
+      "normal": 68.0,
+      "dry": 45.0
+    },
+    "tolerance": 50.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 74.0,
+      "Pigmentation PIH": 26.0,
+      "Radiance": 62.0,
+      "Redness PIE": 42.0,
+      "Barrier": 62.0,
+      "Hydration": 58.0,
+      "Lines": 22.0,
+      "Oil Control": 70.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0066",
+    "brand": "Arencia",
+    "name": "Fresh Green Rice Mochi Cleanser",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 82.0,
+      "combination": 82.0,
+      "normal": 70.0,
+      "dry": 50.0
+    },
+    "tolerance": 48.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 74.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 62.0,
+      "Redness PIE": 42.0,
+      "Barrier": 60.0,
+      "Hydration": 58.0,
+      "Lines": 22.0,
+      "Oil Control": 68.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0067",
+    "brand": "Arencia",
+    "name": "PDRN Booster Shot",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 82.0,
+      "combination": 88.0,
+      "normal": 90.0,
+      "dry": 86.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 58.0,
+      "Redness PIE": 62.0,
+      "Barrier": 72.0,
+      "Hydration": 74.0,
+      "Lines": 45.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0068",
+    "brand": "AXIS-Y",
+    "name": "Vegan Collagen Eye Serum",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 90.0,
+      "dry": 86.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 35.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 58.0,
+      "Redness PIE": 45.0,
+      "Barrier": 58.0,
+      "Hydration": 72.0,
+      "Lines": 55.0,
+      "Oil Control": 30.0,
+      "Eye Dark Circles": 68.0,
+      "Eye Puffiness": 30.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0069",
+    "brand": "AXIS-Y",
+    "name": "Dark Spot Correcting Glow Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 82.0,
+      "normal": 86.0,
+      "dry": 82.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 74.0,
+      "Radiance": 74.0,
+      "Redness PIE": 58.0,
+      "Barrier": 66.0,
+      "Hydration": 72.0,
+      "Lines": 42.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0070",
+    "brand": "AXIS-Y",
+    "name": "TXA 2.5% Intensive Brightening Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 45.0,
+      "combination": 68.0,
+      "normal": 88.0,
+      "dry": 92.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 84.0,
+      "Radiance": 76.0,
+      "Redness PIE": 66.0,
+      "Barrier": 76.0,
+      "Hydration": 82.0,
+      "Lines": 38.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 30.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0071",
+    "brand": "AXIS-Y",
+    "name": "Dark Spot Correcting Glow Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 82.0,
+      "combination": 90.0,
+      "normal": 86.0,
+      "dry": 72.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 65.0,
+      "Pigmentation PIH": 86.0,
+      "Radiance": 78.0,
+      "Redness PIE": 74.0,
+      "Barrier": 70.0,
+      "Hydration": 80.0,
+      "Lines": 42.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 32.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0072",
+    "brand": "AXIS-Y",
+    "name": "Artichoke Intensive Skin Barrier Ampoule",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 86.0,
+      "combination": 90.0,
+      "normal": 92.0,
+      "dry": 88.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 48.0,
+      "Radiance": 55.0,
+      "Redness PIE": 76.0,
+      "Barrier": 48.0,
+      "Hydration": 82.0,
+      "Lines": 32.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 35.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0073",
+    "brand": "AXIS-Y",
+    "name": "Dark Spot Correcting Glow Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 92.0,
+      "normal": 92.0,
+      "dry": 84.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 62.0,
+      "Pores": 70.0,
+      "Pigmentation PIH": 86.0,
+      "Radiance": 84.0,
+      "Redness PIE": 58.0,
+      "Barrier": 70.0,
+      "Hydration": 76.0,
+      "Lines": 42.0,
+      "Oil Control": 78.0,
+      "Eye Dark Circles": 40.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0074",
+    "brand": "AXIS-Y",
+    "name": "Complete No-Stress Physical Sunscreen V.3",
+    "roles": [
+      "sunscreen"
+    ],
+    "fit": {
+      "oily": 70.0,
+      "combination": 80.0,
+      "normal": 82.0,
+      "dry": 72.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 60.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 52.0,
+      "Redness PIE": 74.0,
+      "Barrier": 58.0,
+      "Hydration": 55.0,
+      "Lines": 45.0,
+      "Oil Control": 65.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0075",
+    "brand": "Beauty of Joseon",
+    "name": "Light On Serum: Centella + Vita C",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 82.0,
+      "combination": 88.0,
+      "normal": 88.0,
+      "dry": 80.0
+    },
+    "tolerance": 74.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 88.0,
+      "Radiance": 86.0,
+      "Redness PIE": 72.0,
+      "Barrier": 62.0,
+      "Hydration": 68.0,
+      "Lines": 48.0,
+      "Oil Control": 42.0,
+      "Eye Dark Circles": 45.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0076",
+    "brand": "Beauty of Joseon",
+    "name": "Relief Sun Aqua-Fresh: Rice + Panthenol SPF50+ PA++++",
+    "roles": [
+      "sunscreen"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 55.0,
+      "Redness PIE": 68.0,
+      "Barrier": 60.0,
+      "Hydration": 66.0,
+      "Lines": 45.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0077",
+    "brand": "Beauty of Joseon",
+    "name": "Relief Sun: Rice + Probiotics SPF50+ PA++++",
+    "roles": [
+      "sunscreen"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 82.0,
+      "normal": 88.0,
+      "dry": 85.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 62.0,
+      "Redness PIE": 58.0,
+      "Barrier": 62.0,
+      "Hydration": 62.0,
+      "Lines": 45.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0078",
+    "brand": "Beauty of Joseon",
+    "name": "Revive Eye Serum: Ginseng + Retinal",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 82.0,
+      "normal": 88.0,
+      "dry": 86.0
+    },
+    "tolerance": 62.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 52.0,
+      "Redness PIE": 42.0,
+      "Barrier": 76.0,
+      "Hydration": 72.0,
+      "Lines": 68.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 62.0,
+      "Eye Puffiness": 32.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0079",
+    "brand": "Beauty of Joseon",
+    "name": "Dynasty Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 85.0,
+      "normal": 88.0,
+      "dry": 80.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 50.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 62.0,
+      "Redness PIE": 62.0,
+      "Barrier": 70.0,
+      "Hydration": 84.0,
+      "Lines": 42.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0080",
+    "brand": "Beauty of Joseon",
+    "name": "Glow Deep Serum: Rice + Alpha-Arbutin",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 84.0,
+      "combination": 90.0,
+      "normal": 92.0,
+      "dry": 88.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 42.0,
+      "Pigmentation PIH": 84.0,
+      "Radiance": 72.0,
+      "Redness PIE": 58.0,
+      "Barrier": 60.0,
+      "Hydration": 80.0,
+      "Lines": 32.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 38.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0081",
+    "brand": "Beauty of Joseon",
+    "name": "Glow Serum: Propolis + Niacinamide",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 84.0,
+      "combination": 90.0,
+      "normal": 88.0,
+      "dry": 78.0
+    },
+    "tolerance": 70.0,
+    "scores": {
+      "Acne": 65.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 58.0,
+      "Redness PIE": 78.0,
+      "Barrier": 64.0,
+      "Hydration": 80.0,
+      "Lines": 38.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 35.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0082",
+    "brand": "Beauty of Joseon",
+    "name": "Glow Replenishing Rice Milk",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 88.0,
+      "normal": 78.0,
+      "dry": 48.0
+    },
+    "tolerance": 68.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 70.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 50.0,
+      "Redness PIE": 64.0,
+      "Barrier": 50.0,
+      "Hydration": 72.0,
+      "Lines": 28.0,
+      "Oil Control": 80.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0083",
+    "brand": "Beauty of Joseon",
+    "name": "Ground Rice and Honey Glow Mask",
+    "roles": [],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 82.0,
+      "dry": 70.0
+    },
+    "tolerance": 78.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 68.0,
+      "Pigmentation PIH": 38.0,
+      "Radiance": 72.0,
+      "Redness PIE": 58.0,
+      "Barrier": 62.0,
+      "Hydration": 62.0,
+      "Lines": 30.0,
+      "Oil Control": 68.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0084",
+    "brand": "Beauty of Joseon",
+    "name": "Revive Serum: Ginseng + Snail Mucin",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 90.0,
+      "dry": 88.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 60.0,
+      "Redness PIE": 68.0,
+      "Barrier": 62.0,
+      "Hydration": 80.0,
+      "Lines": 38.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 38.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0085",
+    "brand": "Beauty of Joseon",
+    "name": "Red Bean Refreshing Pore Mask",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 85.0,
+      "normal": 75.0,
+      "dry": 58.0
+    },
+    "tolerance": 76.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 72.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 62.0,
+      "Redness PIE": 55.0,
+      "Barrier": 55.0,
+      "Hydration": 55.0,
+      "Lines": 28.0,
+      "Oil Control": 74.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0086",
+    "brand": "Beauty of Joseon",
+    "name": "Ginseng Essence Water",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 88.0,
+      "dry": 72.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 58.0,
+      "Redness PIE": 62.0,
+      "Barrier": 50.0,
+      "Hydration": 74.0,
+      "Lines": 52.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0087",
+    "brand": "Beauty of Joseon",
+    "name": "Ginseng Cleansing Oil",
+    "roles": [],
+    "fit": {
+      "oily": 62.0,
+      "combination": 78.0,
+      "normal": 82.0,
+      "dry": 80.0
+    },
+    "tolerance": 45.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 70.0,
+      "Pigmentation PIH": 22.0,
+      "Radiance": 45.0,
+      "Redness PIE": 42.0,
+      "Barrier": 66.0,
+      "Hydration": 60.0,
+      "Lines": 20.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0088",
+    "brand": "Beauty of Joseon",
+    "name": "Red Bean Water Gel",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 92.0,
+      "combination": 88.0,
+      "normal": 78.0,
+      "dry": 45.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 68.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 45.0,
+      "Redness PIE": 68.0,
+      "Barrier": 45.0,
+      "Hydration": 78.0,
+      "Lines": 35.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0089",
+    "brand": "Dr.Althea",
+    "name": "345 Relief Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 85.0,
+      "combination": 90.0,
+      "normal": 88.0,
+      "dry": 72.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 68.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 52.0,
+      "Redness PIE": 82.0,
+      "Barrier": 60.0,
+      "Hydration": 74.0,
+      "Lines": 35.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0090",
+    "brand": "Dr.Althea",
+    "name": "345 Relief Cream Mist",
+    "roles": [],
+    "fit": {
+      "oily": 48.0,
+      "combination": 72.0,
+      "normal": 85.0,
+      "dry": 88.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 42.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 55.0,
+      "Redness PIE": 76.0,
+      "Barrier": 72.0,
+      "Hydration": 74.0,
+      "Lines": 45.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0091",
+    "brand": "Dr.Althea",
+    "name": "147 Barrier Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 48.0,
+      "combination": 70.0,
+      "normal": 88.0,
+      "dry": 90.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 38.0,
+      "Pores": 38.0,
+      "Pigmentation PIH": 30.0,
+      "Radiance": 45.0,
+      "Redness PIE": 74.0,
+      "Barrier": 78.0,
+      "Hydration": 80.0,
+      "Lines": 35.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0092",
+    "brand": "Dr.Althea",
+    "name": "PDRN Reju 5000 Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 75.0,
+      "combination": 85.0,
+      "normal": 82.0,
+      "dry": 72.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 45.0,
+      "Redness PIE": 76.0,
+      "Barrier": 62.0,
+      "Hydration": 80.0,
+      "Lines": 48.0,
+      "Oil Control": 50.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0093",
+    "brand": "Dr.Althea",
+    "name": "Retinol Flat Iron Eye Roller",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 76.0,
+      "combination": 84.0,
+      "normal": 86.0,
+      "dry": 82.0
+    },
+    "tolerance": 60.0,
+    "scores": {
+      "Acne": 38.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 40.0,
+      "Redness PIE": 52.0,
+      "Barrier": 66.0,
+      "Hydration": 68.0,
+      "Lines": 66.0,
+      "Oil Control": 42.0,
+      "Eye Dark Circles": 35.0,
+      "Eye Puffiness": 50.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0094",
+    "brand": "Dr.Althea",
+    "name": "Pure Grinding Cleansing Balm",
+    "roles": [],
+    "fit": {
+      "oily": 68.0,
+      "combination": 82.0,
+      "normal": 88.0,
+      "dry": 85.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 72.0,
+      "Pigmentation PIH": 22.0,
+      "Radiance": 45.0,
+      "Redness PIE": 55.0,
+      "Barrier": 74.0,
+      "Hydration": 62.0,
+      "Lines": 22.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0095",
+    "brand": "Dr.Althea",
+    "name": "Vitamin C Boosting Serum RENEWED",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 84.0,
+      "combination": 90.0,
+      "normal": 90.0,
+      "dry": 84.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 86.0,
+      "Radiance": 78.0,
+      "Redness PIE": 72.0,
+      "Barrier": 66.0,
+      "Hydration": 74.0,
+      "Lines": 45.0,
+      "Oil Control": 68.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0096",
+    "brand": "Dr.Althea",
+    "name": "Gentle Vitamin C Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 86.0,
+      "combination": 90.0,
+      "normal": 90.0,
+      "dry": 80.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 60.0,
+      "Pigmentation PIH": 78.0,
+      "Radiance": 72.0,
+      "Redness PIE": 66.0,
+      "Barrier": 58.0,
+      "Hydration": 62.0,
+      "Lines": 42.0,
+      "Oil Control": 70.0,
+      "Eye Dark Circles": 40.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0097",
+    "brand": "celimax",
+    "name": "Pore+Dark Spot Brightening Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 82.0,
+      "normal": 86.0,
+      "dry": 78.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 68.0,
+      "Pigmentation PIH": 90.0,
+      "Radiance": 80.0,
+      "Redness PIE": 60.0,
+      "Barrier": 68.0,
+      "Hydration": 76.0,
+      "Lines": 42.0,
+      "Oil Control": 65.0,
+      "Eye Dark Circles": 32.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0098",
+    "brand": "celimax",
+    "name": "The Vita-A Retinal Shot Tightening Booster",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 78.0,
+      "normal": 74.0,
+      "dry": 45.0
+    },
+    "tolerance": 22.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 84.0,
+      "Pigmentation PIH": 68.0,
+      "Radiance": 65.0,
+      "Redness PIE": 25.0,
+      "Barrier": 55.0,
+      "Hydration": 52.0,
+      "Lines": 82.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0099",
+    "brand": "celimax",
+    "name": "The Vita-A Retinol Shot Tightening Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 74.0,
+      "combination": 80.0,
+      "normal": 78.0,
+      "dry": 60.0
+    },
+    "tolerance": 38.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 76.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 55.0,
+      "Redness PIE": 22.0,
+      "Barrier": 52.0,
+      "Hydration": 55.0,
+      "Lines": 68.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0100",
+    "brand": "celimax",
+    "name": "The Real Noni Energy Ampoule",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 35.0,
+      "combination": 62.0,
+      "normal": 78.0,
+      "dry": 95.0
+    },
+    "tolerance": 58.0,
+    "scores": {
+      "Acne": 32.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 48.0,
+      "Redness PIE": 62.0,
+      "Barrier": 58.0,
+      "Hydration": 76.0,
+      "Lines": 42.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 38.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0101",
+    "brand": "celimax",
+    "name": "Dual Barrier Creamy Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 45.0,
+      "combination": 70.0,
+      "normal": 88.0,
+      "dry": 92.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 38.0,
+      "Pigmentation PIH": 30.0,
+      "Radiance": 45.0,
+      "Redness PIE": 70.0,
+      "Barrier": 82.0,
+      "Hydration": 82.0,
+      "Lines": 45.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0102",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Poremizing Light Gel Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 90.0,
+      "normal": 78.0,
+      "dry": 48.0
+    },
+    "tolerance": 78.0,
+    "scores": {
+      "Acne": 60.0,
+      "Pores": 72.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 55.0,
+      "Redness PIE": 78.0,
+      "Barrier": 45.0,
+      "Hydration": 78.0,
+      "Lines": 38.0,
+      "Oil Control": 72.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0103",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Soothing Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 75.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 68.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 50.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 42.0,
+      "Redness PIE": 70.0,
+      "Barrier": 58.0,
+      "Hydration": 78.0,
+      "Lines": 32.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0104",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Ampoule Foam",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 48.0,
+      "Redness PIE": 62.0,
+      "Barrier": 72.0,
+      "Hydration": 55.0,
+      "Lines": 20.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0105",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Light Cleansing Oil",
+    "roles": [],
+    "fit": {
+      "oily": 62.0,
+      "combination": 75.0,
+      "normal": 78.0,
+      "dry": 70.0
+    },
+    "tolerance": 38.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 68.0,
+      "Pigmentation PIH": 22.0,
+      "Radiance": 45.0,
+      "Redness PIE": 35.0,
+      "Barrier": 62.0,
+      "Hydration": 55.0,
+      "Lines": 20.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0107",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Hyalu-Cica Moisture Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 82.0,
+      "normal": 88.0,
+      "dry": 84.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 60.0,
+      "Redness PIE": 72.0,
+      "Barrier": 62.0,
+      "Hydration": 78.0,
+      "Lines": 42.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0108",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Ampoule",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 92.0,
+      "normal": 92.0,
+      "dry": 82.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 42.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 42.0,
+      "Redness PIE": 80.0,
+      "Barrier": 60.0,
+      "Hydration": 70.0,
+      "Lines": 32.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 35.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0109",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Poremizing Quick Clay Stick Mask",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 82.0,
+      "normal": 70.0,
+      "dry": 48.0
+    },
+    "tolerance": 70.0,
+    "scores": {
+      "Acne": 60.0,
+      "Pores": 72.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 58.0,
+      "Redness PIE": 62.0,
+      "Barrier": 50.0,
+      "Hydration": 52.0,
+      "Lines": 28.0,
+      "Oil Control": 76.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0110",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 60.0,
+      "combination": 72.0,
+      "normal": 86.0,
+      "dry": 88.0
+    },
+    "tolerance": 48.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 55.0,
+      "Redness PIE": 58.0,
+      "Barrier": 74.0,
+      "Hydration": 78.0,
+      "Lines": 40.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0111",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Probio-Cica Intensive Ampoule",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 76.0,
+      "combination": 86.0,
+      "normal": 90.0,
+      "dry": 88.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 58.0,
+      "Redness PIE": 82.0,
+      "Barrier": 80.0,
+      "Hydration": 78.0,
+      "Lines": 40.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 38.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0112",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Tone Brightening Capsule Ampoule",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 84.0,
+      "combination": 90.0,
+      "normal": 92.0,
+      "dry": 86.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 82.0,
+      "Radiance": 76.0,
+      "Redness PIE": 72.0,
+      "Barrier": 65.0,
+      "Hydration": 74.0,
+      "Lines": 38.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 40.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0113",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Poremizing Fresh Ampoule",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 92.0,
+      "normal": 92.0,
+      "dry": 84.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 42.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 45.0,
+      "Redness PIE": 72.0,
+      "Barrier": 58.0,
+      "Hydration": 76.0,
+      "Lines": 38.0,
+      "Oil Control": 42.0,
+      "Eye Dark Circles": 35.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0114",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Matrixyl 10 Boosting Shot Ampoule",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 70.0,
+      "combination": 78.0,
+      "normal": 80.0,
+      "dry": 68.0
+    },
+    "tolerance": 32.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 45.0,
+      "Redness PIE": 42.0,
+      "Barrier": 45.0,
+      "Hydration": 58.0,
+      "Lines": 48.0,
+      "Oil Control": 38.0,
+      "Eye Dark Circles": 32.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0115",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Hyalu-Cica Water-Fit Sun Serum SPF50+ PA++++",
+    "roles": [
+      "sunscreen"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 82.0,
+      "normal": 88.0,
+      "dry": 85.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 62.0,
+      "Redness PIE": 64.0,
+      "Barrier": 60.0,
+      "Hydration": 60.0,
+      "Lines": 46.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0116",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Poremizing Deep Cleansing Foam",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 58.0,
+      "normal": 40.0,
+      "dry": 20.0
+    },
+    "tolerance": 25.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 68.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 45.0,
+      "Redness PIE": 30.0,
+      "Barrier": 28.0,
+      "Hydration": 35.0,
+      "Lines": 20.0,
+      "Oil Control": 76.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0117",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Probio-Cica Enrich Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 30.0,
+      "combination": 60.0,
+      "normal": 85.0,
+      "dry": 92.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 32.0,
+      "Pores": 32.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 55.0,
+      "Redness PIE": 78.0,
+      "Barrier": 78.0,
+      "Hydration": 82.0,
+      "Lines": 42.0,
+      "Oil Control": 30.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0118",
+    "brand": "NUMBUZIN",
+    "name": "No.9 NAD Bio Lifting-sil Essence",
+    "roles": [],
+    "fit": {
+      "oily": 38.0,
+      "combination": 65.0,
+      "normal": 82.0,
+      "dry": 88.0
+    },
+    "tolerance": 78.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 62.0,
+      "Redness PIE": 55.0,
+      "Barrier": 76.0,
+      "Hydration": 78.0,
+      "Lines": 55.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0119",
+    "brand": "NUMBUZIN",
+    "name": "No.9 NAD+ Retinol Volumetox Eye Cream",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 28.0,
+      "combination": 60.0,
+      "normal": 82.0,
+      "dry": 92.0
+    },
+    "tolerance": 48.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 32.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 58.0,
+      "Redness PIE": 45.0,
+      "Barrier": 66.0,
+      "Hydration": 82.0,
+      "Lines": 58.0,
+      "Oil Control": 25.0,
+      "Eye Dark Circles": 70.0,
+      "Eye Puffiness": 42.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0120",
+    "brand": "NUMBUZIN",
+    "name": "No.9 NAD+ PDRN Glow Boosting Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 74.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 60.0,
+      "Pigmentation PIH": 68.0,
+      "Radiance": 70.0,
+      "Redness PIE": 52.0,
+      "Barrier": 55.0,
+      "Hydration": 78.0,
+      "Lines": 45.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0121",
+    "brand": "NUMBUZIN",
+    "name": "No.1 Clear Filter Sun Essence SPF50+ PA++++",
+    "roles": [
+      "sunscreen"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 75.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 58.0,
+      "Redness PIE": 74.0,
+      "Barrier": 62.0,
+      "Hydration": 62.0,
+      "Lines": 45.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0122",
+    "brand": "NUMBUZIN",
+    "name": "No.3 Blue Bio-Retinol Pore Refining Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 92.0,
+      "normal": 88.0,
+      "dry": 68.0
+    },
+    "tolerance": 60.0,
+    "scores": {
+      "Acne": 76.0,
+      "Pores": 86.0,
+      "Pigmentation PIH": 82.0,
+      "Radiance": 78.0,
+      "Redness PIE": 60.0,
+      "Barrier": 62.0,
+      "Hydration": 62.0,
+      "Lines": 52.0,
+      "Oil Control": 88.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0123",
+    "brand": "NUMBUZIN",
+    "name": "No.1 Pantothenic B5 Active Soothing Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 94.0,
+      "normal": 94.0,
+      "dry": 90.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 78.0,
+      "Pores": 70.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 65.0,
+      "Redness PIE": 86.0,
+      "Barrier": 84.0,
+      "Hydration": 82.0,
+      "Lines": 38.0,
+      "Oil Control": 82.0,
+      "Eye Dark Circles": 40.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0124",
+    "brand": "NUMBUZIN",
+    "name": "No.3 Skin Softening Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 84.0,
+      "combination": 90.0,
+      "normal": 92.0,
+      "dry": 86.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 68.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 78.0,
+      "Redness PIE": 66.0,
+      "Barrier": 70.0,
+      "Hydration": 80.0,
+      "Lines": 45.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0125",
+    "brand": "NUMBUZIN",
+    "name": "No.3 Super Glowing Essence Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 82.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 70.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 70.0,
+      "Redness PIE": 55.0,
+      "Barrier": 48.0,
+      "Hydration": 76.0,
+      "Lines": 42.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0126",
+    "brand": "NUMBUZIN",
+    "name": "No.5 Glutathione Vitamin Concentrated Toner Pads",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 82.0,
+      "dry": 62.0
+    },
+    "tolerance": 70.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 64.0,
+      "Pigmentation PIH": 76.0,
+      "Radiance": 76.0,
+      "Redness PIE": 50.0,
+      "Barrier": 48.0,
+      "Hydration": 70.0,
+      "Lines": 40.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0127",
+    "brand": "NUMBUZIN",
+    "name": "No.9 NAD Bio Lifting-sil Full Face Mask",
+    "roles": [],
+    "fit": {
+      "oily": 60.0,
+      "combination": 78.0,
+      "normal": 85.0,
+      "dry": 82.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 64.0,
+      "Radiance": 62.0,
+      "Redness PIE": 58.0,
+      "Barrier": 62.0,
+      "Hydration": 74.0,
+      "Lines": 55.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0128",
+    "brand": "NUMBUZIN",
+    "name": "No.5+ Vitamin Glutathione Dark Spot Laser Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 80.0,
+      "normal": 86.0,
+      "dry": 82.0
+    },
+    "tolerance": 76.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 68.0,
+      "Radiance": 68.0,
+      "Redness PIE": 66.0,
+      "Barrier": 70.0,
+      "Hydration": 78.0,
+      "Lines": 42.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0129",
+    "brand": "NUMBUZIN",
+    "name": "No.9 NAD+ Collagen Under Eye Patches",
+    "roles": [],
+    "fit": {
+      "oily": 78.0,
+      "combination": 86.0,
+      "normal": 88.0,
+      "dry": 84.0
+    },
+    "tolerance": 52.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 42.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 60.0,
+      "Redness PIE": 55.0,
+      "Barrier": 45.0,
+      "Hydration": 88.0,
+      "Lines": 48.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 72.0,
+      "Eye Puffiness": 48.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0131",
+    "brand": "SOME BY MI",
+    "name": "Clear Spot Patch",
+    "roles": [],
+    "fit": {
+      "oily": 88.0,
+      "combination": 85.0,
+      "normal": 82.0,
+      "dry": 78.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 74.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 25.0,
+      "Redness PIE": 60.0,
+      "Barrier": 55.0,
+      "Hydration": 25.0,
+      "Lines": 20.0,
+      "Oil Control": 25.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0132",
+    "brand": "SOME BY MI",
+    "name": "AHA·BHA·PHA 30 Days Miracle Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 82.0,
+      "dry": 62.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 62.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 52.0,
+      "Redness PIE": 62.0,
+      "Barrier": 52.0,
+      "Hydration": 68.0,
+      "Lines": 38.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0133",
+    "brand": "SOME BY MI",
+    "name": "Retinol Intense Advanced Triple Action Eye Cream",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 74.0,
+      "combination": 82.0,
+      "normal": 84.0,
+      "dry": 80.0
+    },
+    "tolerance": 45.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 50.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 62.0,
+      "Redness PIE": 62.0,
+      "Barrier": 55.0,
+      "Hydration": 70.0,
+      "Lines": 66.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 68.0,
+      "Eye Puffiness": 25.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0134",
+    "brand": "SOME BY MI",
+    "name": "AHA·BHA·PHA 30 Days Miracle Cream",
+    "roles": [],
+    "fit": {
+      "oily": 72.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 70.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 66.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 55.0,
+      "Redness PIE": 82.0,
+      "Barrier": 62.0,
+      "Hydration": 76.0,
+      "Lines": 38.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0136",
+    "brand": "SOME BY MI",
+    "name": "Retinol Intense Reactivating Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 76.0,
+      "combination": 84.0,
+      "normal": 84.0,
+      "dry": 80.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 65.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 55.0,
+      "Redness PIE": 62.0,
+      "Barrier": 72.0,
+      "Hydration": 65.0,
+      "Lines": 78.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 45.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0137",
+    "brand": "TORRIDEN",
+    "name": "DIVE IN Low Molecular Hyaluronic Acid Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 86.0,
+      "combination": 92.0,
+      "normal": 94.0,
+      "dry": 95.0
+    },
+    "tolerance": 92.0,
+    "scores": {
+      "Acne": 28.0,
+      "Pores": 35.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 45.0,
+      "Redness PIE": 68.0,
+      "Barrier": 76.0,
+      "Hydration": 96.0,
+      "Lines": 32.0,
+      "Oil Control": 22.0,
+      "Eye Dark Circles": 35.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0138",
+    "brand": "TORRIDEN",
+    "name": "DIVE IN Low Molecular Hyaluronic Acid Soothing Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 92.0,
+      "normal": 90.0,
+      "dry": 72.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 45.0,
+      "Redness PIE": 76.0,
+      "Barrier": 58.0,
+      "Hydration": 92.0,
+      "Lines": 30.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0139",
+    "brand": "TORRIDEN",
+    "name": "CELLMAZING Firming Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 82.0,
+      "normal": 86.0,
+      "dry": 82.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 66.0,
+      "Pigmentation PIH": 64.0,
+      "Radiance": 66.0,
+      "Redness PIE": 60.0,
+      "Barrier": 62.0,
+      "Hydration": 88.0,
+      "Lines": 58.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0140",
+    "brand": "TORRIDEN",
+    "name": "DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 82.0,
+      "normal": 88.0,
+      "dry": 85.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 50.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 45.0,
+      "Redness PIE": 58.0,
+      "Barrier": 76.0,
+      "Hydration": 66.0,
+      "Lines": 22.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0141",
+    "brand": "EQQUALBERRY",
+    "name": "Vitamin Illuminating Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 76.0,
+      "combination": 86.0,
+      "normal": 90.0,
+      "dry": 88.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 85.0,
+      "Radiance": 74.0,
+      "Redness PIE": 65.0,
+      "Barrier": 74.0,
+      "Hydration": 82.0,
+      "Lines": 42.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0142",
+    "brand": "EQQUALBERRY",
+    "name": "Bakuchiol Plumping Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 80.0,
+      "normal": 84.0,
+      "dry": 90.0
+    },
+    "tolerance": 48.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 58.0,
+      "Redness PIE": 58.0,
+      "Barrier": 86.0,
+      "Hydration": 84.0,
+      "Lines": 62.0,
+      "Oil Control": 65.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0143",
+    "brand": "EQQUALBERRY",
+    "name": "Hyaltoin Flooding Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 74.0,
+      "combination": 88.0,
+      "normal": 92.0,
+      "dry": 96.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 55.0,
+      "Redness PIE": 74.0,
+      "Barrier": 88.0,
+      "Hydration": 97.0,
+      "Lines": 42.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 40.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0144",
+    "brand": "EQQUALBERRY",
+    "name": "Swimming Pool Ampoule",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 92.0,
+      "normal": 92.0,
+      "dry": 88.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 45.0,
+      "Redness PIE": 80.0,
+      "Barrier": 62.0,
+      "Hydration": 88.0,
+      "Lines": 38.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 35.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0145",
+    "brand": "EQQUALBERRY",
+    "name": "NAD+ Peptide Boosting Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 74.0,
+      "combination": 86.0,
+      "normal": 90.0,
+      "dry": 90.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 58.0,
+      "Redness PIE": 60.0,
+      "Barrier": 78.0,
+      "Hydration": 80.0,
+      "Lines": 74.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0146",
+    "brand": "EQQUALBERRY",
+    "name": "NAD+ Peptide Boosting Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 74.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 66.0,
+      "Redness PIE": 58.0,
+      "Barrier": 58.0,
+      "Hydration": 76.0,
+      "Lines": 45.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0147",
+    "brand": "EQQUALBERRY",
+    "name": "NAD+ Peptide Boosting Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 82.0,
+      "normal": 86.0,
+      "dry": 78.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 60.0,
+      "Redness PIE": 55.0,
+      "Barrier": 64.0,
+      "Hydration": 80.0,
+      "Lines": 40.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0148",
+    "brand": "EQQUALBERRY",
+    "name": "Aloe PDRN Calming Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 88.0,
+      "normal": 92.0,
+      "dry": 90.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 55.0,
+      "Redness PIE": 88.0,
+      "Barrier": 86.0,
+      "Hydration": 86.0,
+      "Lines": 45.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0149",
+    "brand": "EQQUALBERRY",
+    "name": "Vitamin Illuminating Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 85.0,
+      "normal": 86.0,
+      "dry": 76.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 60.0,
+      "Pigmentation PIH": 82.0,
+      "Radiance": 76.0,
+      "Redness PIE": 66.0,
+      "Barrier": 68.0,
+      "Hydration": 82.0,
+      "Lines": 42.0,
+      "Oil Control": 65.0,
+      "Eye Dark Circles": 30.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0150",
+    "brand": "EQQUALBERRY",
+    "name": "Bakuchiol Plumping Capsule Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 60.0,
+      "combination": 75.0,
+      "normal": 85.0,
+      "dry": 85.0
+    },
+    "tolerance": 50.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 62.0,
+      "Redness PIE": 48.0,
+      "Barrier": 72.0,
+      "Hydration": 80.0,
+      "Lines": 68.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0151",
+    "brand": "EQQUALBERRY",
+    "name": "Bakuchiol Plumping Capsule Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 75.0,
+      "normal": 80.0,
+      "dry": 72.0
+    },
+    "tolerance": 42.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 64.0,
+      "Radiance": 62.0,
+      "Redness PIE": 42.0,
+      "Barrier": 55.0,
+      "Hydration": 74.0,
+      "Lines": 48.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0152",
+    "brand": "EQQUALBERRY",
+    "name": "Collagen Glow Up Hydrogel Mask",
+    "roles": [],
+    "fit": {
+      "oily": 42.0,
+      "combination": 65.0,
+      "normal": 82.0,
+      "dry": 85.0
+    },
+    "tolerance": 72.0,
+    "scores": {
+      "Acne": 30.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 76.0,
+      "Radiance": 72.0,
+      "Redness PIE": 62.0,
+      "Barrier": 66.0,
+      "Hydration": 80.0,
+      "Lines": 55.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0153",
+    "brand": "COSRX",
+    "name": "Acne Pimple Master Patch",
+    "roles": [],
+    "fit": {
+      "oily": 88.0,
+      "combination": 85.0,
+      "normal": 82.0,
+      "dry": 78.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 78.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 25.0,
+      "Redness PIE": 62.0,
+      "Barrier": 55.0,
+      "Hydration": 25.0,
+      "Lines": 20.0,
+      "Oil Control": 25.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0154",
+    "brand": "COSRX",
+    "name": "Advanced Snail 96 Mucin Power Essence",
+    "roles": [],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 88.0,
+      "dry": 85.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 62.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 42.0,
+      "Radiance": 68.0,
+      "Redness PIE": 76.0,
+      "Barrier": 80.0,
+      "Hydration": 84.0,
+      "Lines": 55.0,
+      "Oil Control": 50.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0155",
+    "brand": "COSRX",
+    "name": "Advanced Snail 92 All In One Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 85.0,
+      "normal": 88.0,
+      "dry": 82.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 55.0,
+      "Redness PIE": 78.0,
+      "Barrier": 70.0,
+      "Hydration": 90.0,
+      "Lines": 45.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0156",
+    "brand": "COSRX",
+    "name": "Hyaluronic Acid Intensive Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 60.0,
+      "combination": 75.0,
+      "normal": 88.0,
+      "dry": 90.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 38.0,
+      "Pores": 40.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 45.0,
+      "Redness PIE": 68.0,
+      "Barrier": 72.0,
+      "Hydration": 88.0,
+      "Lines": 32.0,
+      "Oil Control": 38.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0157",
+    "brand": "COSRX",
+    "name": "The 6 Peptide Skin Booster Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 84.0,
+      "combination": 90.0,
+      "normal": 92.0,
+      "dry": 84.0
+    },
+    "tolerance": 78.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 60.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 68.0,
+      "Redness PIE": 58.0,
+      "Barrier": 72.0,
+      "Hydration": 78.0,
+      "Lines": 74.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 48.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0158",
+    "brand": "COSRX",
+    "name": "Salicylic Acid Daily Gentle Cleanser",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 65.0,
+      "normal": 45.0,
+      "dry": 25.0
+    },
+    "tolerance": 32.0,
+    "scores": {
+      "Acne": 62.0,
+      "Pores": 60.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 45.0,
+      "Redness PIE": 32.0,
+      "Barrier": 32.0,
+      "Hydration": 38.0,
+      "Lines": 20.0,
+      "Oil Control": 72.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0159",
+    "brand": "COSRX",
+    "name": "Ultra Light Invisible Sunscreen SPF50 PA++++",
+    "roles": [
+      "sunscreen"
+    ],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 82.0,
+      "dry": 65.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 68.0,
+      "Radiance": 62.0,
+      "Redness PIE": 64.0,
+      "Barrier": 55.0,
+      "Hydration": 60.0,
+      "Lines": 48.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0160",
+    "brand": "COSRX",
+    "name": "Advanced Snail Peptide Eye Cream",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 86.0,
+      "normal": 90.0,
+      "dry": 88.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 58.0,
+      "Redness PIE": 62.0,
+      "Barrier": 66.0,
+      "Hydration": 86.0,
+      "Lines": 52.0,
+      "Oil Control": 42.0,
+      "Eye Dark Circles": 68.0,
+      "Eye Puffiness": 28.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0161",
+    "brand": "COSRX",
+    "name": "Aloe Soothing Sun Cream SPF50+ PA+++",
+    "roles": [],
+    "fit": {
+      "oily": 78.0,
+      "combination": 75.0,
+      "normal": 65.0,
+      "dry": 60.0
+    },
+    "tolerance": 42.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 48.0,
+      "Radiance": 48.0,
+      "Redness PIE": 40.0,
+      "Barrier": 50.0,
+      "Hydration": 55.0,
+      "Lines": 40.0,
+      "Oil Control": 65.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0162",
+    "brand": "COSRX",
+    "name": "Advanced Snail Radiance Dual Essence",
+    "roles": [],
+    "fit": {
+      "oily": 62.0,
+      "combination": 82.0,
+      "normal": 88.0,
+      "dry": 88.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 76.0,
+      "Radiance": 74.0,
+      "Redness PIE": 72.0,
+      "Barrier": 82.0,
+      "Hydration": 84.0,
+      "Lines": 58.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0163",
+    "brand": "COSRX",
+    "name": "Low pH Good Morning Gel Cleanser",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 68.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 60.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 45.0,
+      "Redness PIE": 62.0,
+      "Barrier": 65.0,
+      "Hydration": 55.0,
+      "Lines": 20.0,
+      "Oil Control": 65.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0164",
+    "brand": "COSRX",
+    "name": "The Niacinamide 15 Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 95.0,
+      "combination": 92.0,
+      "normal": 88.0,
+      "dry": 60.0
+    },
+    "tolerance": 55.0,
+    "scores": {
+      "Acne": 82.0,
+      "Pores": 94.0,
+      "Pigmentation PIH": 88.0,
+      "Radiance": 82.0,
+      "Redness PIE": 68.0,
+      "Barrier": 62.0,
+      "Hydration": 48.0,
+      "Lines": 42.0,
+      "Oil Control": 96.0,
+      "Eye Dark Circles": 38.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0165",
+    "brand": "COSRX",
+    "name": "Advanced Snail Mucin Gel Cleanser",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 82.0,
+      "normal": 88.0,
+      "dry": 82.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 50.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 48.0,
+      "Redness PIE": 62.0,
+      "Barrier": 70.0,
+      "Hydration": 62.0,
+      "Lines": 22.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0166",
+    "brand": "COSRX",
+    "name": "Ultimate Nourishing Rice Spa Overnight Mask",
+    "roles": [],
+    "fit": {
+      "oily": 45.0,
+      "combination": 70.0,
+      "normal": 85.0,
+      "dry": 88.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 38.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 64.0,
+      "Radiance": 62.0,
+      "Redness PIE": 55.0,
+      "Barrier": 72.0,
+      "Hydration": 78.0,
+      "Lines": 50.0,
+      "Oil Control": 42.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0167",
+    "brand": "COSRX",
+    "name": "Clear Fit Master Patch",
+    "roles": [],
+    "fit": {
+      "oily": 88.0,
+      "combination": 85.0,
+      "normal": 82.0,
+      "dry": 78.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 76.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 25.0,
+      "Redness PIE": 62.0,
+      "Barrier": 55.0,
+      "Hydration": 25.0,
+      "Lines": 20.0,
+      "Oil Control": 25.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0168",
+    "brand": "COSRX",
+    "name": "The Ceramide Skin Barrier Moisturizer",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 35.0,
+      "combination": 60.0,
+      "normal": 85.0,
+      "dry": 96.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 30.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 40.0,
+      "Redness PIE": 62.0,
+      "Barrier": 94.0,
+      "Hydration": 86.0,
+      "Lines": 32.0,
+      "Oil Control": 25.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0169",
+    "brand": "COSRX",
+    "name": "The Retinol 0.5 Oil",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 45.0,
+      "combination": 60.0,
+      "normal": 58.0,
+      "dry": 52.0
+    },
+    "tolerance": 12.0,
+    "scores": {
+      "Acne": 78.0,
+      "Pores": 80.0,
+      "Pigmentation PIH": 73.0,
+      "Radiance": 62.0,
+      "Redness PIE": 20.0,
+      "Barrier": 66.0,
+      "Hydration": 48.0,
+      "Lines": 96.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 45.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0170",
+    "brand": "COSRX",
+    "name": "The Retinol 0.1 Cream",
+    "roles": [],
+    "fit": {
+      "oily": 60.0,
+      "combination": 72.0,
+      "normal": 85.0,
+      "dry": 88.0
+    },
+    "tolerance": 62.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 58.0,
+      "Redness PIE": 52.0,
+      "Barrier": 68.0,
+      "Hydration": 76.0,
+      "Lines": 72.0,
+      "Oil Control": 50.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0171",
+    "brand": "COSRX",
+    "name": "Advanced The Vitamin C 23 Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 72.0,
+      "normal": 70.0,
+      "dry": 48.0
+    },
+    "tolerance": 26.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 32.0,
+      "Pigmentation PIH": 97.0,
+      "Radiance": 98.0,
+      "Redness PIE": 25.0,
+      "Barrier": 42.0,
+      "Hydration": 45.0,
+      "Lines": 62.0,
+      "Oil Control": 25.0,
+      "Eye Dark Circles": 60.0,
+      "Eye Puffiness": 35.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0172",
+    "brand": "COSRX",
+    "name": "Hyaluronic Acid Hydra Power Essence",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 62.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 50.0,
+      "Redness PIE": 60.0,
+      "Barrier": 66.0,
+      "Hydration": 82.0,
+      "Lines": 50.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0173",
+    "brand": "COSRX",
+    "name": "The Peptide Collagen Hydrogel Eye Patch",
+    "roles": [],
+    "fit": {
+      "oily": 82.0,
+      "combination": 88.0,
+      "normal": 90.0,
+      "dry": 86.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 64.0,
+      "Radiance": 60.0,
+      "Redness PIE": 55.0,
+      "Barrier": 45.0,
+      "Hydration": 86.0,
+      "Lines": 55.0,
+      "Oil Control": 40.0,
+      "Eye Dark Circles": 74.0,
+      "Eye Puffiness": 62.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0174",
+    "brand": "COSRX",
+    "name": "Oil Free Ultra Moisturizing Lotion (with Birch Sap)",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 88.0,
+      "normal": 78.0,
+      "dry": 60.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 32.0,
+      "Radiance": 45.0,
+      "Redness PIE": 68.0,
+      "Barrier": 50.0,
+      "Hydration": 82.0,
+      "Lines": 28.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0175",
+    "brand": "COSRX",
+    "name": "AHA/BHA Clarifying Treatment Toner",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 82.0,
+      "normal": 65.0,
+      "dry": 40.0
+    },
+    "tolerance": 52.0,
+    "scores": {
+      "Acne": 70.0,
+      "Pores": 72.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 62.0,
+      "Redness PIE": 42.0,
+      "Barrier": 35.0,
+      "Hydration": 50.0,
+      "Lines": 32.0,
+      "Oil Control": 68.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0176",
+    "brand": "COSRX",
+    "name": "Two In One Poreless Power Liquid",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 85.0,
+      "normal": 72.0,
+      "dry": 48.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 42.0,
+      "Redness PIE": 52.0,
+      "Barrier": 48.0,
+      "Hydration": 62.0,
+      "Lines": 25.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0177",
+    "brand": "COSRX",
+    "name": "BHA Blackhead Power Liquid",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 92.0,
+      "combination": 85.0,
+      "normal": 68.0,
+      "dry": 42.0
+    },
+    "tolerance": 58.0,
+    "scores": {
+      "Acne": 76.0,
+      "Pores": 84.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 70.0,
+      "Redness PIE": 50.0,
+      "Barrier": 48.0,
+      "Hydration": 52.0,
+      "Lines": 42.0,
+      "Oil Control": 78.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0179",
+    "brand": "Dr.Melaxin",
+    "name": "Cemenrete Calcium Volume Multi Balm",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 38.0,
+      "combination": 60.0,
+      "normal": 78.0,
+      "dry": 88.0
+    },
+    "tolerance": 66.0,
+    "scores": {
+      "Acne": 30.0,
+      "Pores": 28.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 48.0,
+      "Redness PIE": 55.0,
+      "Barrier": 68.0,
+      "Hydration": 76.0,
+      "Lines": 52.0,
+      "Oil Control": 20.0,
+      "Eye Dark Circles": 30.0,
+      "Eye Puffiness": 25.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0180",
+    "brand": "Dr.Melaxin",
+    "name": "Peel Shot Exfoliant Black Rice Ampoule",
+    "roles": [],
+    "fit": {
+      "oily": 78.0,
+      "combination": 82.0,
+      "normal": 78.0,
+      "dry": 62.0
+    },
+    "tolerance": 50.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 42.0,
+      "Radiance": 66.0,
+      "Redness PIE": 45.0,
+      "Barrier": 50.0,
+      "Hydration": 58.0,
+      "Lines": 32.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0181",
+    "brand": "Dr.Melaxin",
+    "name": "Peel Shot Exfoliant White Rice Ampoule",
+    "roles": [],
+    "fit": {
+      "oily": 75.0,
+      "combination": 82.0,
+      "normal": 80.0,
+      "dry": 64.0
+    },
+    "tolerance": 52.0,
+    "scores": {
+      "Acne": 46.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 42.0,
+      "Radiance": 66.0,
+      "Redness PIE": 48.0,
+      "Barrier": 50.0,
+      "Hydration": 58.0,
+      "Lines": 32.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0182",
+    "brand": "Dr.Melaxin",
+    "name": "Cemenrete Calcium Volume Eye Patch",
+    "roles": [],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 90.0,
+      "dry": 86.0
+    },
+    "tolerance": 46.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 42.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 58.0,
+      "Redness PIE": 52.0,
+      "Barrier": 48.0,
+      "Hydration": 84.0,
+      "Lines": 48.0,
+      "Oil Control": 38.0,
+      "Eye Dark Circles": 72.0,
+      "Eye Puffiness": 35.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0183",
+    "brand": "Dr.Melaxin",
+    "name": "Eyephalt Retinol Eye Bag Cream",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 74.0,
+      "normal": 80.0,
+      "dry": 78.0
+    },
+    "tolerance": 38.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 58.0,
+      "Redness PIE": 40.0,
+      "Barrier": 55.0,
+      "Hydration": 62.0,
+      "Lines": 60.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 68.0,
+      "Eye Puffiness": 55.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0184",
+    "brand": "BIODANCE",
+    "name": "Hydro Cera-nol Real Deep Mask",
+    "roles": [],
+    "fit": {
+      "oily": 42.0,
+      "combination": 70.0,
+      "normal": 88.0,
+      "dry": 95.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 64.0,
+      "Radiance": 64.0,
+      "Redness PIE": 70.0,
+      "Barrier": 82.0,
+      "Hydration": 86.0,
+      "Lines": 62.0,
+      "Oil Control": 42.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0185",
+    "brand": "BIODANCE",
+    "name": "Bio Collagen Real Deep Mask",
+    "roles": [],
+    "fit": {
+      "oily": 60.0,
+      "combination": 78.0,
+      "normal": 88.0,
+      "dry": 92.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 60.0,
+      "Pigmentation PIH": 70.0,
+      "Radiance": 72.0,
+      "Redness PIE": 62.0,
+      "Barrier": 76.0,
+      "Hydration": 88.0,
+      "Lines": 68.0,
+      "Oil Control": 48.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0186",
+    "brand": "BIODANCE",
+    "name": "Cera-nol Gel Toner Pads",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 82.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 40.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 42.0,
+      "Redness PIE": 74.0,
+      "Barrier": 45.0,
+      "Hydration": 74.0,
+      "Lines": 25.0,
+      "Oil Control": 42.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0187",
+    "brand": "BIODANCE",
+    "name": "Refreshing Sea Kelp Real Deep Mask",
+    "roles": [],
+    "fit": {
+      "oily": 82.0,
+      "combination": 85.0,
+      "normal": 78.0,
+      "dry": 62.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 52.0,
+      "Pigmentation PIH": 38.0,
+      "Radiance": 55.0,
+      "Redness PIE": 72.0,
+      "Barrier": 62.0,
+      "Hydration": 80.0,
+      "Lines": 42.0,
+      "Oil Control": 58.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0188",
+    "brand": "BIODANCE",
+    "name": "Collagen Gel Toner Pads",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 70.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 38.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 30.0,
+      "Radiance": 60.0,
+      "Redness PIE": 66.0,
+      "Barrier": 42.0,
+      "Hydration": 76.0,
+      "Lines": 42.0,
+      "Oil Control": 40.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0189",
+    "brand": "BIODANCE",
+    "name": "Radiant Vita Niacinamide Real Deep Mask",
+    "roles": [],
+    "fit": {
+      "oily": 75.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 70.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 58.0,
+      "Pigmentation PIH": 74.0,
+      "Radiance": 74.0,
+      "Redness PIE": 60.0,
+      "Barrier": 62.0,
+      "Hydration": 80.0,
+      "Lines": 55.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0190",
+    "brand": "BIODANCE",
+    "name": "Collagen Peptide Eye Patches",
+    "roles": [],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 92.0,
+      "dry": 88.0
+    },
+    "tolerance": 72.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 60.0,
+      "Redness PIE": 55.0,
+      "Barrier": 50.0,
+      "Hydration": 90.0,
+      "Lines": 50.0,
+      "Oil Control": 38.0,
+      "Eye Dark Circles": 72.0,
+      "Eye Puffiness": 45.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0191",
+    "brand": "BIODANCE",
+    "name": "Pore Perfecting Collagen Peptide Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 82.0,
+      "dry": 62.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 66.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 64.0,
+      "Redness PIE": 50.0,
+      "Barrier": 45.0,
+      "Hydration": 80.0,
+      "Lines": 48.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0192",
+    "brand": "BIODANCE",
+    "name": "Skin-Glow Essence Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 40.0,
+      "combination": 65.0,
+      "normal": 85.0,
+      "dry": 92.0
+    },
+    "tolerance": 86.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 62.0,
+      "Redness PIE": 68.0,
+      "Barrier": 86.0,
+      "Hydration": 86.0,
+      "Lines": 45.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0193",
+    "brand": "BIODANCE",
+    "name": "Pore Perfecting Collagen Peptide Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 82.0,
+      "combination": 88.0,
+      "normal": 90.0,
+      "dry": 86.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 58.0,
+      "Redness PIE": 55.0,
+      "Barrier": 58.0,
+      "Hydration": 80.0,
+      "Lines": 48.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 42.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0194",
+    "brand": "BIODANCE",
+    "name": "Vita Niacinamide Gel Toner Pads",
+    "roles": [
+      "toner"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 72.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 64.0,
+      "Radiance": 66.0,
+      "Redness PIE": 66.0,
+      "Barrier": 45.0,
+      "Hydration": 74.0,
+      "Lines": 35.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0195",
+    "brand": "Dr.Reju-All",
+    "name": "Advanced PDRN Rejuvenating Cream",
+    "roles": [],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 82.0,
+      "dry": 68.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 62.0,
+      "Redness PIE": 58.0,
+      "Barrier": 58.0,
+      "Hydration": 84.0,
+      "Lines": 48.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0197",
+    "brand": "Dr.Reju-All",
+    "name": "Advanced LC-Ceramide Barrier Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 80.0,
+      "normal": 88.0,
+      "dry": 86.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 50.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 60.0,
+      "Redness PIE": 70.0,
+      "Barrier": 76.0,
+      "Hydration": 84.0,
+      "Lines": 45.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 30.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0198",
+    "brand": "Dr.Reju-All",
+    "name": "Advanced Retino-Mela Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 86.0,
+      "combination": 90.0,
+      "normal": 88.0,
+      "dry": 80.0
+    },
+    "tolerance": 68.0,
+    "scores": {
+      "Acne": 70.0,
+      "Pores": 78.0,
+      "Pigmentation PIH": 94.0,
+      "Radiance": 88.0,
+      "Redness PIE": 74.0,
+      "Barrier": 68.0,
+      "Hydration": 72.0,
+      "Lines": 66.0,
+      "Oil Control": 82.0,
+      "Eye Dark Circles": 50.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0199",
+    "brand": "Mary&May",
+    "name": "Tranexamic Acid + Glutathione Eye Cream",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 76.0,
+      "combination": 84.0,
+      "normal": 86.0,
+      "dry": 82.0
+    },
+    "tolerance": 58.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 58.0,
+      "Redness PIE": 45.0,
+      "Barrier": 60.0,
+      "Hydration": 74.0,
+      "Lines": 48.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 62.0,
+      "Eye Puffiness": 25.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0200",
+    "brand": "Mary&May",
+    "name": "Spicule Retinol PDRN Cream 2000 Shot",
+    "roles": [],
+    "fit": {
+      "oily": 72.0,
+      "combination": 82.0,
+      "normal": 78.0,
+      "dry": 62.0
+    },
+    "tolerance": 42.0,
+    "scores": {
+      "Acne": 62.0,
+      "Pores": 76.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 62.0,
+      "Redness PIE": 48.0,
+      "Barrier": 74.0,
+      "Hydration": 76.0,
+      "Lines": 76.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0201",
+    "brand": "Mary&May",
+    "name": "Spicule Collagen PDRN Cream 1000 Shot",
+    "roles": [],
+    "fit": {
+      "oily": 68.0,
+      "combination": 80.0,
+      "normal": 80.0,
+      "dry": 70.0
+    },
+    "tolerance": 59.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 55.0,
+      "Redness PIE": 55.0,
+      "Barrier": 74.0,
+      "Hydration": 80.0,
+      "Lines": 58.0,
+      "Oil Control": 50.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0202",
+    "brand": "ABIB",
+    "name": "Collagen Eye Patch Jericho Rose Jelly",
+    "roles": [],
+    "fit": {
+      "oily": 80.0,
+      "combination": 88.0,
+      "normal": 92.0,
+      "dry": 90.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 62.0,
+      "Redness PIE": 58.0,
+      "Barrier": 62.0,
+      "Hydration": 88.0,
+      "Lines": 50.0,
+      "Oil Control": 40.0,
+      "Eye Dark Circles": 74.0,
+      "Eye Puffiness": 42.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0203",
+    "brand": "ABIB",
+    "name": "Quick Sunstick Protection Bar",
+    "roles": [],
+    "fit": {
+      "oily": 60.0,
+      "combination": 70.0,
+      "normal": 80.0,
+      "dry": 82.0
+    },
+    "tolerance": 70.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 48.0,
+      "Radiance": 50.0,
+      "Redness PIE": 62.0,
+      "Barrier": 58.0,
+      "Hydration": 62.0,
+      "Lines": 42.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0204",
+    "brand": "ABIB",
+    "name": "Airy Sunstick Smoothing Bar",
+    "roles": [],
+    "fit": {
+      "oily": 80.0,
+      "combination": 82.0,
+      "normal": 70.0,
+      "dry": 60.0
+    },
+    "tolerance": 68.0,
+    "scores": {
+      "Acne": 38.0,
+      "Pores": 62.0,
+      "Pigmentation PIH": 42.0,
+      "Radiance": 45.0,
+      "Redness PIE": 48.0,
+      "Barrier": 52.0,
+      "Hydration": 45.0,
+      "Lines": 40.0,
+      "Oil Control": 74.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0205",
+    "brand": "ABIB",
+    "name": "Collagen Eye Crème Jericho Rose Tube",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 86.0,
+      "normal": 90.0,
+      "dry": 88.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 70.0,
+      "Radiance": 66.0,
+      "Redness PIE": 58.0,
+      "Barrier": 68.0,
+      "Hydration": 82.0,
+      "Lines": 52.0,
+      "Oil Control": 42.0,
+      "Eye Dark Circles": 76.0,
+      "Eye Puffiness": 30.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0207",
+    "brand": "ABIB",
+    "name": "Rice Probiotics Overnight Mask Barrier Jelly",
+    "roles": [],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 75.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 38.0,
+      "Radiance": 52.0,
+      "Redness PIE": 62.0,
+      "Barrier": 64.0,
+      "Hydration": 82.0,
+      "Lines": 55.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0208",
+    "brand": "VT COSMETICS",
+    "name": "PDRN Essence 100",
+    "roles": [],
+    "fit": {
+      "oily": 32.0,
+      "combination": 60.0,
+      "normal": 80.0,
+      "dry": 85.0
+    },
+    "tolerance": 68.0,
+    "scores": {
+      "Acne": 22.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 52.0,
+      "Redness PIE": 62.0,
+      "Barrier": 74.0,
+      "Hydration": 74.0,
+      "Lines": 50.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0209",
+    "brand": "VT COSMETICS",
+    "name": "Reedle Shot Lifting Eye Cream",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 76.0,
+      "normal": 84.0,
+      "dry": 84.0
+    },
+    "tolerance": 52.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 60.0,
+      "Redness PIE": 60.0,
+      "Barrier": 66.0,
+      "Hydration": 78.0,
+      "Lines": 58.0,
+      "Oil Control": 40.0,
+      "Eye Dark Circles": 66.0,
+      "Eye Puffiness": 45.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0210",
+    "brand": "VT COSMETICS",
+    "name": "PDRN Capsule Cream 100",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 60.0,
+      "combination": 75.0,
+      "normal": 85.0,
+      "dry": 85.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 50.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 64.0,
+      "Redness PIE": 62.0,
+      "Barrier": 70.0,
+      "Hydration": 82.0,
+      "Lines": 48.0,
+      "Oil Control": 50.0,
+      "Eye Dark Circles": 25.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0211",
+    "brand": "VT COSMETICS",
+    "name": "PDRN Reedle Shot Firming Eye Cream",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 76.0,
+      "normal": 84.0,
+      "dry": 84.0
+    },
+    "tolerance": 50.0,
+    "scores": {
+      "Acne": 42.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 62.0,
+      "Radiance": 64.0,
+      "Redness PIE": 50.0,
+      "Barrier": 62.0,
+      "Hydration": 78.0,
+      "Lines": 55.0,
+      "Oil Control": 42.0,
+      "Eye Dark Circles": 68.0,
+      "Eye Puffiness": 45.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0212",
+    "brand": "VT COSMETICS",
+    "name": "PDRN Glow Ampoule",
+    "roles": [],
+    "fit": {
+      "oily": 72.0,
+      "combination": 82.0,
+      "normal": 85.0,
+      "dry": 80.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 50.0,
+      "Radiance": 66.0,
+      "Redness PIE": 60.0,
+      "Barrier": 74.0,
+      "Hydration": 80.0,
+      "Lines": 45.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0213",
+    "brand": "VT COSMETICS",
+    "name": "CICA Reedle Shot 100",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 70.0,
+      "combination": 80.0,
+      "normal": 84.0,
+      "dry": 78.0
+    },
+    "tolerance": 42.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 72.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 65.0,
+      "Redness PIE": 55.0,
+      "Barrier": 50.0,
+      "Hydration": 62.0,
+      "Lines": 42.0,
+      "Oil Control": 68.0,
+      "Eye Dark Circles": 30.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0214",
+    "brand": "VT COSMETICS",
+    "name": "CICA Reedle Shot 300",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 68.0,
+      "combination": 78.0,
+      "normal": 80.0,
+      "dry": 72.0
+    },
+    "tolerance": 26.0,
+    "scores": {
+      "Acne": 60.0,
+      "Pores": 82.0,
+      "Pigmentation PIH": 58.0,
+      "Radiance": 70.0,
+      "Redness PIE": 42.0,
+      "Barrier": 45.0,
+      "Hydration": 58.0,
+      "Lines": 48.0,
+      "Oil Control": 70.0,
+      "Eye Dark Circles": 28.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0215",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Air-Fit Suncream Light",
+    "roles": [],
+    "fit": {
+      "oily": 78.0,
+      "combination": 82.0,
+      "normal": 78.0,
+      "dry": 62.0
+    },
+    "tolerance": 84.0,
+    "scores": {
+      "Acne": 58.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 50.0,
+      "Redness PIE": 76.0,
+      "Barrier": 62.0,
+      "Hydration": 58.0,
+      "Lines": 42.0,
+      "Oil Control": 62.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0216",
+    "brand": "SKIN1004",
+    "name": "Madagascar Centella Tone Brightening Tone-Up Sunscreen",
+    "roles": [
+      "sunscreen"
+    ],
+    "fit": {
+      "oily": 65.0,
+      "combination": 78.0,
+      "normal": 82.0,
+      "dry": 75.0
+    },
+    "tolerance": 82.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 68.0,
+      "Radiance": 76.0,
+      "Redness PIE": 62.0,
+      "Barrier": 55.0,
+      "Hydration": 55.0,
+      "Lines": 45.0,
+      "Oil Control": 52.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0217",
+    "brand": "ISNTREE",
+    "name": "Hyaluronic Acid Watery Sun Gel SPF50+ PA++++",
+    "roles": [
+      "sunscreen"
+    ],
+    "fit": {
+      "oily": 75.0,
+      "combination": 85.0,
+      "normal": 85.0,
+      "dry": 75.0
+    },
+    "tolerance": 78.0,
+    "scores": {
+      "Acne": 48.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 66.0,
+      "Radiance": 58.0,
+      "Redness PIE": 64.0,
+      "Barrier": 64.0,
+      "Hydration": 70.0,
+      "Lines": 46.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0218",
+    "brand": "Beauty of Joseon",
+    "name": "Matte Sun Stick Mugwort + Camelia SPF50+ PA++++",
+    "roles": [],
+    "fit": {
+      "oily": 78.0,
+      "combination": 82.0,
+      "normal": 65.0,
+      "dry": 45.0
+    },
+    "tolerance": 72.0,
+    "scores": {
+      "Acne": 32.0,
+      "Pores": 66.0,
+      "Pigmentation PIH": 42.0,
+      "Radiance": 48.0,
+      "Redness PIE": 45.0,
+      "Barrier": 48.0,
+      "Hydration": 45.0,
+      "Lines": 40.0,
+      "Oil Control": 78.0,
+      "Eye Dark Circles": 22.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0219",
+    "brand": "COSRX",
+    "name": "Low pH Niacinamide Micellar Cleansing Water",
+    "roles": [],
+    "fit": {
+      "oily": 88.0,
+      "combination": 88.0,
+      "normal": 85.0,
+      "dry": 78.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 28.0,
+      "Radiance": 35.0,
+      "Redness PIE": 70.0,
+      "Barrier": 62.0,
+      "Hydration": 60.0,
+      "Lines": 20.0,
+      "Oil Control": 68.0,
+      "Eye Dark Circles": 15.0,
+      "Eye Puffiness": 12.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0220",
+    "brand": "ANUA",
+    "name": "Heartleaf Low pH Deep Cleansing Water",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 88.0,
+      "dry": 82.0
+    },
+    "tolerance": 92.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 30.0,
+      "Redness PIE": 72.0,
+      "Barrier": 58.0,
+      "Hydration": 55.0,
+      "Lines": 15.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 12.0,
+      "Eye Puffiness": 10.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0221",
+    "brand": "MIXSOON",
+    "name": "Calming Boosting Mist",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 88.0,
+      "dry": 82.0
+    },
+    "tolerance": 92.0,
+    "scores": {
+      "Acne": 55.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 30.0,
+      "Redness PIE": 88.0,
+      "Barrier": 70.0,
+      "Hydration": 68.0,
+      "Lines": 20.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 15.0,
+      "Eye Puffiness": 12.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0222",
+    "brand": "MIXSOON",
+    "name": "Bean Essence",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 88.0,
+      "dry": 82.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 50.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 74.0,
+      "Redness PIE": 62.0,
+      "Barrier": 62.0,
+      "Hydration": 72.0,
+      "Lines": 30.0,
+      "Oil Control": 40.0,
+      "Eye Dark Circles": 18.0,
+      "Eye Puffiness": 15.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0223",
+    "brand": "PURITO",
+    "name": "Oat-In Calming Gel Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 85.0,
+      "combination": 88.0,
+      "normal": 88.0,
+      "dry": 80.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 40.0,
+      "Redness PIE": 80.0,
+      "Barrier": 78.0,
+      "Hydration": 82.0,
+      "Lines": 25.0,
+      "Oil Control": 55.0,
+      "Eye Dark Circles": 15.0,
+      "Eye Puffiness": 12.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0224",
+    "brand": "PURITO",
+    "name": "Mighty Bamboo Panthenol Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 78.0,
+      "combination": 85.0,
+      "normal": 88.0,
+      "dry": 86.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 45.0,
+      "Pores": 40.0,
+      "Pigmentation PIH": 48.0,
+      "Radiance": 45.0,
+      "Redness PIE": 84.0,
+      "Barrier": 82.0,
+      "Hydration": 80.0,
+      "Lines": 35.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 20.0,
+      "Eye Puffiness": 15.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0225",
+    "brand": "PURITO",
+    "name": "Daily Soft Touch Sunscreen",
+    "roles": [
+      "sunscreen"
+    ],
+    "fit": {
+      "oily": 62.0,
+      "combination": 78.0,
+      "normal": 88.0,
+      "dry": 90.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 45.0,
+      "Redness PIE": 78.0,
+      "Barrier": 80.0,
+      "Hydration": 74.0,
+      "Lines": 30.0,
+      "Oil Control": 30.0,
+      "Eye Dark Circles": 15.0,
+      "Eye Puffiness": 12.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0226",
+    "brand": "PURITO",
+    "name": "Wonder Releaf Centella Eye Cream Unscented",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 72.0,
+      "combination": 80.0,
+      "normal": 86.0,
+      "dry": 86.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 30.0,
+      "Pores": 25.0,
+      "Pigmentation PIH": 45.0,
+      "Radiance": 42.0,
+      "Redness PIE": 82.0,
+      "Barrier": 72.0,
+      "Hydration": 74.0,
+      "Lines": 58.0,
+      "Oil Control": 25.0,
+      "Eye Dark Circles": 68.0,
+      "Eye Puffiness": 62.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0227",
+    "brand": "PURITO",
+    "name": "Wonder Releaf Centella Serum Unscented",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 88.0,
+      "combination": 92.0,
+      "normal": 92.0,
+      "dry": 80.0
+    },
+    "tolerance": 88.0,
+    "scores": {
+      "Acne": 52.0,
+      "Pores": 48.0,
+      "Pigmentation PIH": 52.0,
+      "Radiance": 55.0,
+      "Redness PIE": 84.0,
+      "Barrier": 68.0,
+      "Hydration": 84.0,
+      "Lines": 42.0,
+      "Oil Control": 50.0,
+      "Eye Dark Circles": 35.0,
+      "Eye Puffiness": 20.0,
+      "Blackheads": 0.0
+    }
+  },
+  {
+    "sku": "KC0259",
+    "brand": "ANUA",
+    "name": "BHA 2% Gentle Exfoliating Toner",
+    "roles": [
+      "blackheads_treatment",
+      "toner"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 90.0,
+      "normal": 80.0,
+      "dry": 60.0
+    },
+    "tolerance": 60.0,
+    "scores": {
+      "Acne": 75.0,
+      "Pores": 75.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 65.0,
+      "Redness PIE": 15.0,
+      "Barrier": 45.0,
+      "Hydration": 60.0,
+      "Lines": 15.0,
+      "Oil Control": 60.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 85.0
+    }
+  },
+  {
+    "sku": "KC0228",
+    "brand": "Beauty of Joseon",
+    "name": "Revive Firming Moisturizer",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 70.0,
+      "combination": 80.0,
+      "normal": 90.0,
+      "dry": 85.0
+    },
+    "tolerance": 65.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 55.0,
+      "Pigmentation PIH": 45.0,
+      "Radiance": 55.0,
+      "Redness PIE": 30.0,
+      "Barrier": 75.0,
+      "Hydration": 85.0,
+      "Lines": 65.0,
+      "Oil Control": 40.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": [
+      "lines"
+    ]
+  },
+  {
+    "sku": "KC0229",
+    "brand": "Beauty of Joseon",
+    "name": "Revive Under Eye Patch Ginseng + Retinal",
+    "roles": [],
+    "fit": {
+      "oily": 80.0,
+      "combination": 85.0,
+      "normal": 90.0,
+      "dry": 85.0
+    },
+    "tolerance": 65.0,
+    "scores": {
+      "Acne": 0.0,
+      "Pores": 0.0,
+      "Pigmentation PIH": 45.0,
+      "Radiance": 50.0,
+      "Redness PIE": 35.0,
+      "Barrier": 55.0,
+      "Hydration": 85.0,
+      "Lines": 55.0,
+      "Oil Control": 0.0,
+      "Eye Dark Circles": 60.0,
+      "Eye Puffiness": 45.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0230",
+    "brand": "BIODANCE",
+    "name": "Caviar PDRN Eye Patches",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 85.0,
+      "normal": 90.0,
+      "dry": 90.0
+    },
+    "tolerance": 75.0,
+    "scores": {
+      "Acne": 0.0,
+      "Pores": 0.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 50.0,
+      "Redness PIE": 45.0,
+      "Barrier": 55.0,
+      "Hydration": 90.0,
+      "Lines": 45.0,
+      "Oil Control": 0.0,
+      "Eye Dark Circles": 65.0,
+      "Eye Puffiness": 60.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0235",
+    "brand": "BIODANCE",
+    "name": "Vita Niacinamide Eye Patches",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 90.0,
+      "normal": 90.0,
+      "dry": 90.0
+    },
+    "tolerance": 75.0,
+    "scores": {
+      "Acne": 0.0,
+      "Pores": 0.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 60.0,
+      "Redness PIE": 40.0,
+      "Barrier": 50.0,
+      "Hydration": 85.0,
+      "Lines": 40.0,
+      "Oil Control": 0.0,
+      "Eye Dark Circles": 70.0,
+      "Eye Puffiness": 50.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0236",
+    "brand": "NUMBUZIN",
+    "name": "No.9 NAD+ Retinal Volumetox Eye Cream",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 75.0,
+      "combination": 80.0,
+      "normal": 90.0,
+      "dry": 90.0
+    },
+    "tolerance": 60.0,
+    "scores": {
+      "Acne": 0.0,
+      "Pores": 0.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 55.0,
+      "Redness PIE": 30.0,
+      "Barrier": 60.0,
+      "Hydration": 85.0,
+      "Lines": 70.0,
+      "Oil Control": 0.0,
+      "Eye Dark Circles": 70.0,
+      "Eye Puffiness": 45.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": [
+      "eyes"
+    ]
+  },
+  {
+    "sku": "KC0237",
+    "brand": "Dr.Reju-All",
+    "name": "PD2 Advanced PDRN Copper Peptide Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 85.0,
+      "normal": 90.0,
+      "dry": 85.0
+    },
+    "tolerance": 55.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 35.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 55.0,
+      "Redness PIE": 50.0,
+      "Barrier": 70.0,
+      "Hydration": 80.0,
+      "Lines": 55.0,
+      "Oil Control": 30.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": [
+      "redness",
+      "dryness",
+      "dark_spots",
+      "lines"
+    ]
+  },
+  {
+    "sku": "KC0238",
+    "brand": "Dr.Althea",
+    "name": "345 Relief Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 90.0,
+      "normal": 90.0,
+      "dry": 85.0
+    },
+    "tolerance": 85.0,
+    "scores": {
+      "Acne": 50.0,
+      "Pores": 40.0,
+      "Pigmentation PIH": 40.0,
+      "Radiance": 50.0,
+      "Redness PIE": 85.0,
+      "Barrier": 85.0,
+      "Hydration": 85.0,
+      "Lines": 35.0,
+      "Oil Control": 40.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": [
+      "redness",
+      "dryness",
+      "dark_spots",
+      "lines"
+    ]
+  },
+  {
+    "sku": "KC0239",
+    "brand": "Dr.Melaxin",
+    "name": "Cemenrete CX Calcium Intense Cream EX Volume Firming",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 55.0,
+      "combination": 65.0,
+      "normal": 85.0,
+      "dry": 95.0
+    },
+    "tolerance": 75.0,
+    "scores": {
+      "Acne": 25.0,
+      "Pores": 25.0,
+      "Pigmentation PIH": 35.0,
+      "Radiance": 45.0,
+      "Redness PIE": 50.0,
+      "Barrier": 75.0,
+      "Hydration": 85.0,
+      "Lines": 45.0,
+      "Oil Control": 20.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0242",
+    "brand": "celimax",
+    "name": "Vita-A Retinal Shot Tightening Dual Cream",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 70.0,
+      "combination": 80.0,
+      "normal": 85.0,
+      "dry": 80.0
+    },
+    "tolerance": 65.0,
+    "scores": {
+      "Acne": 60.0,
+      "Pores": 65.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 60.0,
+      "Redness PIE": 25.0,
+      "Barrier": 75.0,
+      "Hydration": 85.0,
+      "Lines": 80.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": [
+      "lines"
+    ]
+  },
+  {
+    "sku": "KC0243",
+    "brand": "ISNTREE",
+    "name": "Hyaluronic Acid Aqua Gel Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 90.0,
+      "normal": 85.0,
+      "dry": 65.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 45.0,
+      "Redness PIE": 65.0,
+      "Barrier": 65.0,
+      "Hydration": 90.0,
+      "Lines": 30.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0247",
+    "brand": "ANUA",
+    "name": "PDRN Hyaluronic Acid Moisturizing Cleansing Foam",
+    "roles": [
+      "cleanser"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 85.0,
+      "normal": 88.0,
+      "dry": 85.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 40.0,
+      "Pigmentation PIH": 20.0,
+      "Radiance": 35.0,
+      "Redness PIE": 45.0,
+      "Barrier": 75.0,
+      "Hydration": 70.0,
+      "Lines": 15.0,
+      "Oil Control": 45.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0249",
+    "brand": "ANUA",
+    "name": "Barrier Reboot Daily Moisturizer",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 85.0,
+      "normal": 90.0,
+      "dry": 90.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 35.0,
+      "Pigmentation PIH": 40.0,
+      "Radiance": 50.0,
+      "Redness PIE": 75.0,
+      "Barrier": 85.0,
+      "Hydration": 90.0,
+      "Lines": 35.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0250",
+    "brand": "ANUA",
+    "name": "Retinol Berry Revitalizing Eye Patch",
+    "roles": [],
+    "fit": {
+      "oily": 85.0,
+      "combination": 90.0,
+      "normal": 90.0,
+      "dry": 85.0
+    },
+    "tolerance": 75.0,
+    "scores": {
+      "Acne": 0.0,
+      "Pores": 0.0,
+      "Pigmentation PIH": 50.0,
+      "Radiance": 55.0,
+      "Redness PIE": 30.0,
+      "Barrier": 55.0,
+      "Hydration": 85.0,
+      "Lines": 55.0,
+      "Oil Control": 0.0,
+      "Eye Dark Circles": 70.0,
+      "Eye Puffiness": 55.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0251",
+    "brand": "ANUA",
+    "name": "Barrier Reboot Intensive Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 70.0,
+      "combination": 80.0,
+      "normal": 85.0,
+      "dry": 95.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 25.0,
+      "Pores": 25.0,
+      "Pigmentation PIH": 20.0,
+      "Radiance": 40.0,
+      "Redness PIE": 75.0,
+      "Barrier": 90.0,
+      "Hydration": 90.0,
+      "Lines": 35.0,
+      "Oil Control": 20.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0252",
+    "brand": "ANUA",
+    "name": "Barrier Reboot Water Gel Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 90.0,
+      "normal": 90.0,
+      "dry": 75.0
+    },
+    "tolerance": 90.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 20.0,
+      "Radiance": 40.0,
+      "Redness PIE": 75.0,
+      "Barrier": 85.0,
+      "Hydration": 85.0,
+      "Lines": 30.0,
+      "Oil Control": 35.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0255",
+    "brand": "Dr.Althea",
+    "name": "Aqua Marine Watery Cream",
+    "roles": [
+      "moisturizer"
+    ],
+    "fit": {
+      "oily": 90.0,
+      "combination": 90.0,
+      "normal": 85.0,
+      "dry": 65.0
+    },
+    "tolerance": 80.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 30.0,
+      "Pigmentation PIH": 25.0,
+      "Radiance": 45.0,
+      "Redness PIE": 70.0,
+      "Barrier": 70.0,
+      "Hydration": 90.0,
+      "Lines": 30.0,
+      "Oil Control": 30.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": []
+  },
+  {
+    "sku": "KC0256",
+    "brand": "Medicube",
+    "name": "Hyaluronic Multi Peptide PDRN Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 75.0,
+      "combination": 85.0,
+      "normal": 90.0,
+      "dry": 90.0
+    },
+    "tolerance": 55.0,
+    "scores": {
+      "Acne": 35.0,
+      "Pores": 40.0,
+      "Pigmentation PIH": 55.0,
+      "Radiance": 60.0,
+      "Redness PIE": 35.0,
+      "Barrier": 65.0,
+      "Hydration": 90.0,
+      "Lines": 45.0,
+      "Oil Control": 40.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": [
+      "redness",
+      "dryness",
+      "dark_spots",
+      "lines"
+    ]
+  },
+  {
+    "sku": "KC0257",
+    "brand": "Medicube",
+    "name": "Deep Vita C Capsule Serum",
+    "roles": [
+      "face_treatment"
+    ],
+    "fit": {
+      "oily": 80.0,
+      "combination": 85.0,
+      "normal": 90.0,
+      "dry": 85.0
+    },
+    "tolerance": 55.0,
+    "scores": {
+      "Acne": 40.0,
+      "Pores": 45.0,
+      "Pigmentation PIH": 85.0,
+      "Radiance": 85.0,
+      "Redness PIE": 25.0,
+      "Barrier": 45.0,
+      "Hydration": 65.0,
+      "Lines": 40.0,
+      "Oil Control": 65.0,
+      "Eye Dark Circles": 0.0,
+      "Eye Puffiness": 0.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": [
+      "dark_spots",
+      "dullness"
+    ]
+  },
+  {
+    "sku": "KC0258",
+    "brand": "Medicube",
+    "name": "Kojic Acid Turmeric Vita Eye Gel Serum",
+    "roles": [
+      "eye_treatment"
+    ],
+    "fit": {
+      "oily": 85.0,
+      "combination": 90.0,
+      "normal": 90.0,
+      "dry": 85.0
+    },
+    "tolerance": 60.0,
+    "scores": {
+      "Acne": 0.0,
+      "Pores": 0.0,
+      "Pigmentation PIH": 60.0,
+      "Radiance": 60.0,
+      "Redness PIE": 30.0,
+      "Barrier": 45.0,
+      "Hydration": 75.0,
+      "Lines": 60.0,
+      "Oil Control": 0.0,
+      "Eye Dark Circles": 75.0,
+      "Eye Puffiness": 55.0,
+      "Blackheads": 0.0
+    },
+    "allowed_goals": [
+      "eyes"
+    ]
+  }
+]

@@ -18,8 +18,11 @@ class QuizQuestionResource extends JsonResource
 
         return [
             'id' => $this->id,
+            'key' => $this->key,
+            'step_label' => $this->step_label,
             'title' => $this->title,
             'description' => $this->description,
+            'helper' => $this->helper,
             'selection_type' => $this->selection_type,
             'step_number' => $this->step_number,
             'is_optional' => (bool)$this->is_optional,

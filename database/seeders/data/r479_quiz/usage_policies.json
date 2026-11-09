@@ -1,0 +1,390 @@
+{
+  "KC0003": {
+    "family": "daily",
+    "period": "both",
+    "order": 0,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0259": {
+    "family": "exfoliant",
+    "period": "evening",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "ليالٍ منفصلة بالتدرج"
+  },
+  "KC0002": {
+    "family": "gradual",
+    "period": "both",
+    "order": 40,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يبدأ تدريجيًا"
+  },
+  "KC0088": {
+    "family": "daily",
+    "period": "both",
+    "order": 60,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0159": {
+    "family": "daily",
+    "period": "morning",
+    "order": 90,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0185": {
+    "family": "weekly",
+    "period": "evening",
+    "order": 55,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "مرة إلى مرتين أسبوعيًا"
+  },
+  "KC0153": {
+    "family": "daily",
+    "period": "both",
+    "order": 10,
+    "application_zone": "Spot",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0104": {
+    "family": "daily",
+    "period": "both",
+    "order": 0,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0138": {
+    "family": "daily",
+    "period": "both",
+    "order": 60,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0121": {
+    "family": "daily",
+    "period": "morning",
+    "order": 90,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0140": {
+    "family": "daily",
+    "period": "both",
+    "order": 0,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0225": {
+    "family": "daily",
+    "period": "morning",
+    "order": 90,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0168": {
+    "family": "daily",
+    "period": "both",
+    "order": 60,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0164": {
+    "family": "daily",
+    "period": "both",
+    "order": 40,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0122": {
+    "family": "retinoid",
+    "period": "evening",
+    "order": 40,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "مساءً بالتدرج"
+  },
+  "KC0001": {
+    "family": "daily",
+    "period": "both",
+    "order": 40,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0189": {
+    "family": "weekly",
+    "period": "evening",
+    "order": 55,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "مرة إلى مرتين أسبوعيًا"
+  },
+  "KC0162": {
+    "family": "daily",
+    "period": "both",
+    "order": 30,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0152": {
+    "family": "weekly",
+    "period": "evening",
+    "order": 70,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "مرة إلى مرتين أسبوعيًا"
+  },
+  "KC0039": {
+    "family": "gradual",
+    "period": "morning",
+    "order": 40,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يبدأ تدريجيًا"
+  },
+  "KC0222": {
+    "family": "daily",
+    "period": "both",
+    "order": 30,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "hydrating_pat",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0048": {
+    "family": "daily",
+    "period": "both",
+    "order": 40,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0187": {
+    "family": "weekly",
+    "period": "evening",
+    "order": 55,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "مرة إلى مرتين أسبوعيًا"
+  },
+  "KC0221": {
+    "family": "daily",
+    "period": "both",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0143": {
+    "family": "daily",
+    "period": "both",
+    "order": 40,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0184": {
+    "family": "weekly",
+    "period": "evening",
+    "order": 55,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "مرة إلى مرتين أسبوعيًا"
+  },
+  "KC0098": {
+    "family": "retinoid",
+    "period": "evening",
+    "order": 40,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "مساءً بالتدرج"
+  },
+  "KC0173": {
+    "family": "daily",
+    "period": "both",
+    "order": 35,
+    "application_zone": "Eye",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0242": {
+    "family": "retinoid",
+    "period": "evening",
+    "order": 60,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "مساءً بالتدرج"
+  },
+  "KC0169": {
+    "family": "retinoid",
+    "period": "evening",
+    "order": 40,
+    "application_zone": "Face",
+    "requires_prior_tolerance": true,
+    "method": "approved",
+    "label": "مساءً بالتدرج",
+    "prior_tolerance_disposition": "retained_with_prominent_notice_by_owner_decision"
+  },
+  "KC0205": {
+    "family": "daily",
+    "period": "both",
+    "order": 50,
+    "application_zone": "Eye",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0145": {
+    "family": "daily",
+    "period": "both",
+    "order": 40,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0118": {
+    "family": "daily",
+    "period": "both",
+    "order": 30,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0052": {
+    "family": "exfoliant",
+    "period": "evening",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "ليالٍ منفصلة بالتدرج"
+  },
+  "KC0126": {
+    "family": "exfoliant",
+    "period": "evening",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "ليالٍ منفصلة بالتدرج"
+  },
+  "KC0014": {
+    "family": "exfoliant",
+    "period": "evening",
+    "order": 20,
+    "application_zone": "Face + Eye",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "ليالٍ منفصلة بالتدرج"
+  },
+  "KC0012": {
+    "family": "exfoliant",
+    "period": "evening",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "ليالٍ منفصلة بالتدرج"
+  },
+  "KC0069": {
+    "family": "daily",
+    "period": "morning",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0101": {
+    "family": "daily",
+    "period": "morning",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0086": {
+    "family": "daily",
+    "period": "morning",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0025": {
+    "family": "daily",
+    "period": "morning",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0021": {
+    "family": "daily",
+    "period": "morning",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  },
+  "KC0082": {
+    "family": "daily",
+    "period": "morning",
+    "order": 20,
+    "application_zone": "Face",
+    "requires_prior_tolerance": false,
+    "method": "approved",
+    "label": "يومي بحسب التعليمات"
+  }
+}

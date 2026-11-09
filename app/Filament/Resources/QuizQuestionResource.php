@@ -64,6 +64,18 @@ class QuizQuestionResource extends Resource
                             ->default(1)
                             ->required(),
 
+                        Forms\Components\TextInput::make('key')
+                            ->label('مفتاح السؤال (Key)')
+                            ->placeholder('q1, skin_type, sensitivity, q4'),
+
+                        Forms\Components\TextInput::make('step_label_ar')
+                            ->label('عنوان الخطوة المختصر (عربي)')
+                            ->placeholder('مثال: هدفك الأساسي'),
+
+                        Forms\Components\TextInput::make('step_label_en')
+                            ->label('عنوان الخطوة المختصر (إنجليزي)')
+                            ->placeholder('e.g. Primary Goal'),
+
                         Forms\Components\Select::make('selection_type')
                             ->label('نوع الاختيار')
                             ->options([
@@ -72,6 +84,10 @@ class QuizQuestionResource extends Resource
                             ])
                             ->default('single')
                             ->required(),
+
+                        Forms\Components\Toggle::make('is_optional')
+                            ->label('سؤال اختياري')
+                            ->default(false),
 
                         Forms\Components\TextInput::make('title_ar')
                             ->label('السؤال بالعربية')
@@ -87,9 +103,11 @@ class QuizQuestionResource extends Resource
                         Forms\Components\Textarea::make('description_en')
                             ->label('الوصف التوضيحي (إنجليزي)'),
 
-                        Forms\Components\Toggle::make('is_optional')
-                            ->label('سؤال اختياري')
-                            ->default(false),
+                        Forms\Components\Textarea::make('helper_ar')
+                            ->label('نص المساعدة الإضافي (Helper عربي)'),
+
+                        Forms\Components\Textarea::make('helper_en')
+                            ->label('نص المساعدة الإضافي (Helper إنجليزي)'),
                     ])->columns(2),
 
                 Components\Section::make('خيارات الإجابة')
@@ -97,6 +115,22 @@ class QuizQuestionResource extends Resource
                         Forms\Components\Repeater::make('options')
                             ->relationship('options')
                             ->schema([
+                                Forms\Components\TextInput::make('code')
+                                    ->label('الكود البرمجي المعتمد (R479 Code)')
+                                    ->placeholder('acne, pores, oily, yes, none...'),
+
+                                Forms\Components\Select::make('option_type')
+                                    ->label('نوع الربط')
+                                    ->options([
+                                        'none' => 'عام / لا يوجد (None)',
+                                        'goal' => 'هدف روتين أساسي (Routine Goal)',
+                                        'skin_type' => 'نوع بشرة (Skin Type)',
+                                        'sensitivity' => 'حساسية البشرة (Sensitivity)',
+                                        'concern' => 'مشكلة بشرة إضافية (Concern)',
+                                    ])
+                                    ->default('none')
+                                    ->required(),
+
                                 Forms\Components\TextInput::make('title_ar')
                                     ->label('نص الخيار (عربي)')
                                     ->required(),
@@ -116,17 +150,6 @@ class QuizQuestionResource extends Resource
                                     ->image()
                                     ->directory('quiz_options')
                                     ->nullable(),
-
-                                Forms\Components\Select::make('option_type')
-                                    ->label('نوع الربط')
-                                    ->options([
-                                        'none' => 'عام (غير مرتبط)',
-                                        'skin_type' => 'نوع بشرة (Skin Type)',
-                                        'concern' => 'مشكلة بشرة (Concern)',
-                                        'goal' => 'هدف روتين (Routine Goal)',
-                                    ])
-                                    ->default('none')
-                                    ->required(),
 
                                 Forms\Components\TextInput::make('mapped_id')
                                     ->label('معرّف الربط (Mapped ID)')

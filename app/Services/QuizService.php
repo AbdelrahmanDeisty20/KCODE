@@ -2,467 +2,701 @@
 
 namespace App\Services;
 
-use App\Http\Resources\API\QUIZ\QuizQuestionResource;
 use App\Http\Resources\API\PRODUCT\ProductListResource;
+use App\Http\Resources\API\QUIZ\QuizQuestionResource;
+use App\Models\Assessment;
+use App\Models\AssessmentAnswer;
+use App\Models\AssessmentConcern;
+use App\Models\AssessmentGoal;
+use App\Models\Concern;
+use App\Models\Product;
 use App\Models\QuizOption;
 use App\Models\QuizQuestion;
-use App\Models\Assessment;
-use App\Models\AssessmentGoal;
-use App\Models\AssessmentConcern;
-use App\Models\SkinType;
-use App\Models\Concern;
-use App\Models\RoutineGoal;
-use App\Models\RoutineStep;
-use App\Models\Product;
-use App\Models\ProductAlternative;
 use App\Models\Routine;
+use App\Models\RoutineGoal;
 use App\Models\RoutineProduct;
-use Illuminate\Support\Facades\Auth;
+use App\Models\RoutineStep;
+use App\Models\Setting;
+use App\Models\SkinType;
 
 class QuizService
 {
-    /**
-     * Get all questions with options.
-     */
-    public function getquestions()
+    protected R479EngineService $r479Engine;
+
+    public function __construct(?R479EngineService $r479Engine = null)
     {
-        $questions = QuizQuestion::with('options')->get();
+        $this->r479Engine = $r479Engine ?? new R479EngineService();
+    }
+
+    /**
+     * Get all questions with options ordered by step_number.
+     */
+    public function getquestions(): array
+    {
+        $questions = QuizQuestion::with('options')->orderBy('step_number', 'asc')->get();
         if ($questions->isEmpty()) {
             return [
                 'status' => false,
                 'message' => __('messages.no_questions_available'),
-                'data' => []
+                'data' => [],
             ];
         }
-        
+
         return [
             'status' => true,
             'message' => __('messages.questions_fetched_successfully'),
-            'data' => QuizQuestionResource::collection($questions)
+            'data' => QuizQuestionResource::collection($questions),
         ];
     }
 
     /**
-     * Save Assessment and recommended Routine products to the database (At most 5 Best Sellers, prioritizing concern treatments).
+     * Normalize incoming request payload (supports R479 codes, Option IDs, or Legacy DB IDs)
+     * into the canonical R479 4-answer contract + DB foreign keys.
      */
-    public function saveAssessment(array $data)
-    { 
+    public function resolveAnswers(array $data): array
+    {
+        $nested = is_array($data['answers'] ?? null) ? $data['answers'] : [];
+
+        $primaryOption = null;
+        $skinOption = null;
+        $sensOption = null;
+        $secondaryOption = null;
+
+        // If 'answers' is a sequential list of option IDs or answer objects, e.g. [1, 5, 8, 12] or [['option_id' => 1], ...]
+        $extractedOptionIds = [];
+        if (!empty($nested) && array_is_list($nested)) {
+            foreach ($nested as $item) {
+                if (is_numeric($item)) {
+                    $extractedOptionIds[] = (int) $item;
+                } elseif (is_array($item)) {
+                    if (!empty($item['option_id'])) {
+                        $extractedOptionIds[] = (int) $item['option_id'];
+                    } elseif (!empty($item['id'])) {
+                        $extractedOptionIds[] = (int) $item['id'];
+                    }
+                }
+            }
+        }
+
+        if (!empty($extractedOptionIds)) {
+            $optionsById = QuizOption::with('question')->whereIn('id', $extractedOptionIds)->get();
+            foreach ($optionsById as $opt) {
+                $step = (int) ($opt->question?->step_number ?? 0);
+                $qKey = $opt->question?->key ?? '';
+                if ($step === 1 || $qKey === 'q1') {
+                    $primaryOption = $primaryOption ?? $opt;
+                } elseif ($step === 2 || $qKey === 'skin_type') {
+                    $skinOption = $skinOption ?? $opt;
+                } elseif ($step === 3 || $qKey === 'sensitivity') {
+                    $sensOption = $sensOption ?? $opt;
+                } elseif ($step === 4 || $qKey === 'q4') {
+                    $secondaryOption = $secondaryOption ?? $opt;
+                }
+            }
+        }
+
+        // 1. Resolve Primary Goal ('acne', 'pores', 'blackheads', 'dark_spots', 'dullness', 'redness', 'dryness', 'lines', 'maintain')
+        $primaryCode = $nested['primary'] ?? $data['primary'] ?? $data['q1'] ?? null;
+        $goalId = $data['routine_goal_id'] ?? null;
+
+        if (!empty($data['primary_option_id'])) {
+            $primaryOption = QuizOption::find($data['primary_option_id']);
+        }
+        if (!$primaryOption && $primaryCode) {
+            $primaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 1))
+                ->where('code', $primaryCode)
+                ->first();
+        }
+        if (!$primaryOption && $goalId) {
+            // Check if $goalId matches mapped_id or option id on Q1
+            $primaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 1))
+                ->where(fn ($q) => $q->where('mapped_id', $goalId)->orWhere('id', $goalId))
+                ->first();
+        }
+
+        if ($primaryOption) {
+            $primaryCode = $primaryCode ?: $primaryOption->code;
+            $goalId = $goalId ?: $primaryOption->mapped_id;
+        }
+
+        if (!$primaryCode && $goalId) {
+            $goalModel = RoutineGoal::find($goalId);
+            if ($goalModel) {
+                $primaryCode = $this->mapGoalModelToCode($goalModel->name_en);
+            }
+        }
+
+        // 2. Resolve Skin Type ('oily', 'combination', 'normal', 'dry')
+        $skinCode = $nested['skin'] ?? $data['skin'] ?? $data['skin_type'] ?? null;
+        $skinTypeId = $data['skin_type_id'] ?? null;
+
+        if (!empty($data['skin_option_id'])) {
+            $skinOption = QuizOption::find($data['skin_option_id']);
+        }
+        if (!$skinOption && $skinCode) {
+            $skinOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 2))
+                ->where('code', strtolower((string) $skinCode))
+                ->first();
+        }
+        if (!$skinOption && $skinTypeId) {
+            $skinOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 2))
+                ->where(fn ($q) => $q->where('mapped_id', $skinTypeId)->orWhere('id', $skinTypeId))
+                ->first();
+        }
+
+        if ($skinOption) {
+            $skinCode = $skinCode ?: $skinOption->code;
+            $skinTypeId = $skinTypeId ?: $skinOption->mapped_id;
+        }
+
+        if (!$skinCode && $skinTypeId) {
+            $skinModel = SkinType::find($skinTypeId);
+            if ($skinModel) {
+                $skinCode = $this->mapSkinModelToCode($skinModel->name_en);
+            }
+        }
+        if ($skinCode && !$skinTypeId) {
+            $skinModel = SkinType::whereRaw('LOWER(name_en) = ?', [strtolower($skinCode)])->first();
+            $skinTypeId = $skinModel?->id;
+        }
+
+        // 3. Resolve Sensitivity (boolean true / false)
+        $rawSens = $nested['sensitive'] ?? $data['sensitive'] ?? $data['sensitivity'] ?? $data['is_sensitive'] ?? null;
+        if (!empty($data['sensitivity_option_id'])) {
+            $sensOption = QuizOption::find($data['sensitivity_option_id']);
+        }
+        if ($sensOption && $rawSens === null) {
+            $rawSens = $sensOption->code === 'yes' || (int) $sensOption->mapped_id === 1;
+        }
+        $isSensitive = $this->parseSensitivityBoolean($rawSens);
+        if (!$sensOption) {
+            $sensOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 3))
+                ->where('code', $isSensitive ? 'yes' : 'no')
+                ->first();
+        }
+
+        // 4. Resolve Secondary Concern ('acne', 'pores', 'blackheads', 'dark_spots', 'dullness', 'redness', 'dryness', 'lines', 'oil', 'eyes', or null)
+        $rawSecondary = $nested['secondary'] ?? $data['secondary'] ?? $data['q4'] ?? null;
+        if (is_array($rawSecondary)) {
+            $rawSecondary = $rawSecondary[0] ?? null;
+        }
+        $concernIds = $data['concern_ids'] ?? [];
+        $secondaryCode = $secondaryOption?->code;
+
+        if (!empty($data['secondary_option_id'])) {
+            $secondaryOption = QuizOption::find($data['secondary_option_id']);
+            $secondaryCode = $secondaryOption?->code;
+        }
+
+        if ($rawSecondary !== null && $rawSecondary !== '' && $rawSecondary !== 'none' && $rawSecondary !== 'null') {
+            $secondaryCode = strtolower((string) $rawSecondary);
+            if (!$secondaryOption) {
+                $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 4))
+                    ->where('code', $secondaryCode)
+                    ->first();
+            }
+        } elseif (!$secondaryOption && !empty($concernIds)) {
+            foreach ($concernIds as $cid) {
+                if ($cid === null || $cid === '' || $cid === 'none') {
+                    continue;
+                }
+                $opt = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 4))
+                    ->where(function ($q) use ($cid) {
+                        if (is_numeric($cid)) {
+                            $q->where('mapped_id', (int) $cid)->orWhere('id', (int) $cid);
+                        } else {
+                            $q->where('code', strtolower((string) $cid));
+                        }
+                    })
+                    ->first();
+
+                if ($opt && $opt->code !== 'none' && $opt->code !== $primaryCode) {
+                    $secondaryOption = $opt;
+                    $secondaryCode = $opt->code;
+                    break;
+                }
+
+                if (is_numeric($cid)) {
+                    $cModel = Concern::find((int) $cid);
+                    if ($cModel) {
+                        $mappedCode = $this->mapConcernModelToCode($cModel->name_en);
+                        if ($mappedCode && $mappedCode !== $primaryCode) {
+                            $secondaryCode = $mappedCode;
+                            $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 4))
+                                ->where('code', $secondaryCode)
+                                ->first();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($secondaryOption && $secondaryOption->code && $secondaryOption->code !== 'none') {
+            $secondaryCode = $secondaryOption->code;
+            if ($secondaryOption->mapped_id && empty($concernIds)) {
+                $concernIds = [$secondaryOption->mapped_id];
+            }
+        }
+
+        if ($secondaryCode === 'none' || $secondaryCode === '') {
+            $secondaryCode = null;
+        }
+
+        // Check if secondary equals primary
+        $explicitSecondaryConflict = ($rawSecondary !== null && $rawSecondary !== 'none' && $secondaryCode === $primaryCode);
+        if (!$explicitSecondaryConflict && $secondaryCode === $primaryCode) {
+            // If resolved from legacy concern_ids array, automatically clear duplicate primary
+            $secondaryCode = null;
+        }
+
+        if (!$secondaryOption) {
+            $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 4))
+                ->where('code', $secondaryCode ?? 'none')
+                ->first();
+        }
+
+        return [
+            'answers' => [
+                'primary' => $primaryCode,
+                'secondary' => $secondaryCode,
+                'skin' => $skinCode ? strtolower((string) $skinCode) : null,
+                'sensitive' => $isSensitive,
+            ],
+            'explicit_secondary_conflict' => $explicitSecondaryConflict,
+            'skin_type_id' => $skinTypeId,
+            'routine_goal_id' => $goalId,
+            'concern_ids' => array_values(array_filter($concernIds, 'is_numeric')),
+            'options' => [
+                1 => $primaryOption,
+                2 => $skinOption,
+                3 => $sensOption,
+                4 => $secondaryOption,
+            ],
+        ];
+    }
+
+    /**
+     * Save Assessment and recommend custom skincare routine using the canonical R479 Engine.
+     */
+    public function saveAssessment(array $data): array
+    {
         $user = auth('sanctum')->user();
         $lang = request()->header('lang') ?? app()->getLocale();
-        
-        // 1. Resolve directly from request parameters
-        $skinTypeId = $data['skin_type_id'] ?? null;
-        $goalId = $data['routine_goal_id'] ?? null;
-        $concernIds = $data['concern_ids'] ?? [];
 
-        // Check if skin type is provided
+        $resolved = $this->resolveAnswers($data);
+        $r479Answers = $resolved['answers'];
+
+        if (empty($r479Answers['skin'])) {
+            return [
+                'status' => false,
+                'message' => __('messages.skin_type_required'),
+            ];
+        }
+
+        if (empty($r479Answers['primary'])) {
+            return [
+                'status' => false,
+                'message' => __('messages.routine_goal_required'),
+            ];
+        }
+
+        if ($resolved['explicit_secondary_conflict']) {
+            return [
+                'status' => false,
+                'message' => $lang === 'ar'
+                    ? 'لا يمكن اختيار نفس الهدف الأساسي كمشكلة إضافية.'
+                    : 'Secondary concern cannot be identical to the primary goal.',
+            ];
+        }
+
+        try {
+            $this->r479Engine->validateAnswers($r479Answers);
+        } catch (\InvalidArgumentException $e) {
+            return [
+                'status' => false,
+                'message' => $lang === 'ar'
+                    ? 'يرجى التأكد من صحة إجابات تحليل البشرة.'
+                    : 'Invalid quiz answers provided.',
+            ];
+        }
+
+        // Ensure skin_type_id exists in DB for foreign key
+        $skinTypeId = $resolved['skin_type_id'];
         if (!$skinTypeId) {
-            return [
-                'status' => false,
-                'message' => __('messages.skin_type_required')
-            ];
+            $skinModel = SkinType::whereRaw('LOWER(name_en) = ?', [$r479Answers['skin']])->first() ?? SkinType::first();
+            $skinTypeId = $skinModel?->id;
         }
 
-        // Check if routine goal is provided
-        if (!$goalId) {
-            return [
-                'status' => false,
-                'message' => __('messages.routine_goal_required')
-            ];
-        }
-
-        // 1. Process quiz assessment and create a new Routine record for each submission
-        if ($user) {
+        if ($user && $skinTypeId) {
             $user->update(['skin_type_id' => $skinTypeId]);
         }
 
+        $scenarioKey = implode('|', [
+            $r479Answers['primary'],
+            $r479Answers['secondary'] ?? 'none',
+            $r479Answers['skin'],
+            $r479Answers['sensitive'] ? 'yes' : 'no',
+        ]);
+
+        // 1. Save Assessment
         $assessment = Assessment::create([
-            'user_id'      => $user ? $user->id : null,
-            'skin_type_id' => $skinTypeId,
+            'user_id'             => $user ? $user->id : null,
+            'skin_type_id'        => $skinTypeId,
+            'primary_goal_code'   => $r479Answers['primary'],
+            'secondary_goal_code' => $r479Answers['secondary'],
+            'is_sensitive'        => $r479Answers['sensitive'],
+            'scenario_key'        => $scenarioKey,
         ]);
 
         $routine = Routine::create([
             'assessment_id' => $assessment->id,
         ]);
 
-        // 3. Save Goal
-        if ($goalId) {
+        if (!empty($resolved['routine_goal_id'])) {
             AssessmentGoal::create([
                 'assessment_id' => $assessment->id,
-                'goal_id' => $goalId,
+                'goal_id'       => $resolved['routine_goal_id'],
             ]);
         }
 
-        // 4. Save Concerns
-        foreach ($concernIds as $concernId) {
-            AssessmentConcern::create([
-                'assessment_id' => $assessment->id,
-                'concern_id' => $concernId,
-            ]);
+        foreach ($resolved['concern_ids'] as $concernId) {
+            if (Concern::where('id', $concernId)->exists()) {
+                AssessmentConcern::create([
+                    'assessment_id' => $assessment->id,
+                    'concern_id'    => $concernId,
+                ]);
+            }
         }
 
-        // 6. Resolve Quiz Questions and Answers to return in response & Build Diagnosis
+        // Save 4 Question Answers to assessment_answers & format questions array for API response
         $questionsAndAnswers = [];
-        $badges = [];
-        $goalsSummary = [];
+        $questionsByStep = QuizQuestion::with('options')->orderBy('step_number', 'asc')->get()->keyBy('step_number');
 
-        // Question 1: Primary Goal
-        $q1 = QuizQuestion::find(1);
-        if ($q1) {
-            $selectedGoalOption = QuizOption::where('quiz_question_id', 1)
-                ->where('option_type', 'goal')
-                ->where('mapped_id', $goalId)
-                ->first() ?? QuizOption::where('quiz_question_id', 1)->first();
+        foreach ([1, 2, 3, 4] as $stepNum) {
+            $qModel = $questionsByStep->get($stepNum);
+            $optModel = $resolved['options'][$stepNum] ?? null;
 
-            if ($selectedGoalOption) {
-                $goalTitle = $lang === 'ar' ? $selectedGoalOption->title_ar : $selectedGoalOption->title_en;
-                $badges[] = $goalTitle;
-
-                if ($selectedGoalOption->description) {
-                    $goalsSummary[] = $selectedGoalOption->description;
-                }
+            if ($qModel && $optModel) {
+                AssessmentAnswer::create([
+                    'assessment_id' => $assessment->id,
+                    'question_id'   => $qModel->id,
+                    'answer_id'     => $optModel->id,
+                ]);
             }
 
-            $questionsAndAnswers[] = [
-                'question_id' => 1,
-                'question_title' => $lang === 'ar' ? $q1->title_ar : $q1->title_en,
-                'selected_options' => $selectedGoalOption ? [
-                    [
-                        'option_id' => $selectedGoalOption->id,
-                        'option_title' => $lang === 'ar' ? $selectedGoalOption->title_ar : $selectedGoalOption->title_en,
-                        'description' => $selectedGoalOption->description,
-                        'image' => $selectedGoalOption->image,
-                        'option_type' => $selectedGoalOption->option_type,
-                        'mapped_id' => $selectedGoalOption->mapped_id,
-                    ]
-                ] : []
-            ];
+            if ($qModel) {
+                $questionsAndAnswers[] = [
+                    'question_id'      => $qModel->id,
+                    'question_key'     => $qModel->key,
+                    'question_title'   => $lang === 'ar' ? $qModel->title_ar : $qModel->title_en,
+                    'selected_options' => $optModel ? [
+                        [
+                            'option_id'    => $optModel->id,
+                            'code'         => $optModel->code,
+                            'option_title' => $lang === 'ar' ? $optModel->title_ar : $optModel->title_en,
+                            'description'  => $optModel->description,
+                            'image'        => $optModel->image,
+                            'option_type'  => $optModel->option_type,
+                            'mapped_id'    => $optModel->mapped_id,
+                        ],
+                    ] : [],
+                ];
+            }
         }
 
-        // Question 2: Skin Type
-        $q2 = QuizQuestion::find(2);
-        if ($q2) {
-            $selectedSkinOption = QuizOption::where('quiz_question_id', 2)
-                ->where('option_type', 'skin_type')
-                ->where('mapped_id', $skinTypeId)
-                ->first();
+        // 2. Query live out-of-stock SKUs from DB for R479 dynamic stock fallback
+        $unavailableSkus = Product::where('stock', '<=', 0)
+            ->whereNotNull('sku')
+            ->pluck('sku')
+            ->toArray();
 
-            if ($selectedSkinOption) {
-                $skinTitle = $lang === 'ar' ? $selectedSkinOption->title_ar : $selectedSkinOption->title_en;
-                $badges[] = ($lang === 'ar' ? 'بشرة ' : '') . $skinTitle . ($lang === 'en' ? ' Skin' : '');
-            }
+        // 3. Run R479 Recommendation Engine
+        $engineResult = $this->r479Engine->recommend($r479Answers, $unavailableSkus);
 
-            $questionsAndAnswers[] = [
-                'question_id' => 2,
-                'question_title' => $lang === 'ar' ? $q2->title_ar : $q2->title_en,
-                'selected_options' => $selectedSkinOption ? [
-                    [
-                        'option_id' => $selectedSkinOption->id,
-                        'option_title' => $lang === 'ar' ? $selectedSkinOption->title_ar : $selectedSkinOption->title_en,
-                        'description' => $selectedSkinOption->description,
-                        'image' => $selectedSkinOption->image,
-                        'option_type' => $selectedSkinOption->option_type,
-                        'mapped_id' => $selectedSkinOption->mapped_id,
-                    ]
-                ] : []
-            ];
-        }
+        // Preload Eloquent Product models for all recommended SKUs
+        $allSkus = array_values(array_unique(array_merge(
+            array_column($engineResult['core'], 'sku'),
+            array_column($engineResult['supplements'], 'sku')
+        )));
 
-        // Question 3: Sensitivity (Yes/No)
-        $q3 = QuizQuestion::find(3);
-        if ($q3) {
-            $isSens = isset($data['is_sensitive']) ? (bool)$data['is_sensitive'] : false;
-            $sensOption = QuizOption::where('quiz_question_id', 3)
-                ->where('mapped_id', $isSens ? 1 : 0)
-                ->first() ?? QuizOption::where('quiz_question_id', 3)->where('title_en', 'No')->first();
+        $productsBySku = Product::with([
+            'brand',
+            'category',
+            'subCategory',
+            'marketingDetail',
+            'recommendationRule',
+            'reviews',
+            'goals',
+            'concerns',
+            'images',
+        ])->whereIn('sku', $allSkus)->get()->keyBy('sku');
 
-            if ($sensOption && $isSens) {
-                $badges[] = $lang === 'ar' ? 'بشرة حساسة سريعة التفاعل' : 'Sensitive Reactive Skin';
-            }
+        $stepsByOrder = RoutineStep::orderBy('order', 'asc')->get()->keyBy('order');
 
-            $questionsAndAnswers[] = [
-                'question_id' => 3,
-                'question_title' => $lang === 'ar' ? $q3->title_ar : $q3->title_en,
-                'selected_options' => $sensOption ? [
-                    [
-                        'option_id' => $sensOption->id,
-                        'option_title' => $lang === 'ar' ? $sensOption->title_ar : $sensOption->title_en,
-                        'description' => $sensOption->description,
-                        'image' => $sensOption->image,
-                        'option_type' => $sensOption->option_type,
-                        'mapped_id' => $sensOption->mapped_id,
-                    ]
-                ] : []
-            ];
-        }
-
-        // Question 4: Secondary Concerns
-        $q4 = QuizQuestion::find(4);
-        if ($q4) {
-            $selectedConcernOptions = [];
-            if (count($concernIds) > 0) {
-                $opts = QuizOption::where('quiz_question_id', 4)
-                    ->where('option_type', 'concern')
-                    ->whereIn('mapped_id', $concernIds)
-                    ->get();
-                foreach ($opts as $opt) {
-                    $cTitle = $lang === 'ar' ? $opt->title_ar : $opt->title_en;
-                    $badges[] = $cTitle;
-
-                    if ($opt->description) {
-                        $goalsSummary[] = $opt->description;
-                    }
-
-                    $selectedConcernOptions[] = [
-                        'option_id' => $opt->id,
-                        'option_title' => $cTitle,
-                        'description' => $opt->description,
-                        'image' => $opt->image,
-                        'option_type' => $opt->option_type,
-                        'mapped_id' => $opt->mapped_id,
-                    ];
-                }
-            } else {
-                $noConcernOpt = QuizOption::where('quiz_question_id', 4)
-                    ->where('option_type', 'none')
-                    ->first();
-                if ($noConcernOpt) {
-                    $selectedConcernOptions[] = [
-                        'option_id' => $noConcernOpt->id,
-                        'option_title' => $lang === 'ar' ? $noConcernOpt->title_ar : $noConcernOpt->title_en,
-                        'description' => $noConcernOpt->description,
-                        'image' => $noConcernOpt->image,
-                        'option_type' => $noConcernOpt->option_type,
-                        'mapped_id' => $noConcernOpt->mapped_id,
-                    ];
-                }
-            }
-
-            $questionsAndAnswers[] = [
-                'question_id' => 4,
-                'question_title' => $lang === 'ar' ? $q4->title_ar : $q4->title_en,
-                'selected_options' => $selectedConcernOptions
-            ];
-        }
-
-        // Fetch WhatsApp number dynamically from settings table
-        $whatsappSetting = \App\Models\Setting::whereIn('key_en', ['whatsapp_number', 'whatsapp', 'phone'])->first();
-        $whatsappNumber = $whatsappSetting ? ($whatsappSetting->value_en ?: $whatsappSetting->value_ar) : '966500000000';
-        $cleanPhone = preg_replace('/[^0-9]/', '', $whatsappNumber);
-        $whatsappLink = str_starts_with($whatsappNumber, 'http') 
-            ? $whatsappNumber 
-            : 'https://wa.me/' . ($cleanPhone ?: '966500000000');
-
-        $diagnosis = [
-            'title' => $lang === 'ar' ? 'تشخيص بشرتك' : 'Your Skin Diagnosis',
-            'badges' => array_values(array_unique($badges)),
-            'goals_summary' => array_values(array_filter($goalsSummary)),
-            'consultation' => [
-                'title' => $lang === 'ar' ? 'هل تودين استشارة خبيرة؟' : 'Would you like expert consultation?',
-                'description' => $lang === 'ar' ? 'صيدلانيات كود متواجدات للإجابة على استفساراتك وتخصيص الروتين أكثر.' : 'KCODE pharmacists are available to answer your questions and further customize your routine.',
-            ]
-        ];
-
-        // 7. Run Product Recommendation Logic using Database values
-        $steps = RoutineStep::orderBy('order', 'asc')->get();
-        $primaryCandidates = [];
-        $supportCandidates = [];
-        $addonCandidates = [];
-
-        $skinTypeModel = SkinType::find($skinTypeId);
-        $skinTypeName = $skinTypeModel ? ($lang === 'ar' ? $skinTypeModel->name_ar : $skinTypeModel->name_en) : ($lang === 'ar' ? 'المختارة' : 'Selected');
-
-        foreach ($steps as $step) {
-            $query = Product::query()
-                ->where('stock', '>', 0)
-                ->bestSeller()
-                ->whereHas('routines', function ($q) use ($step) {
-                    $q->where('routine_step_id', $step->id);
-                });
-
-            if ($skinTypeId) {
-                $query->whereHas('skinTypes', function ($q) use ($skinTypeId) {
-                    $q->where('skin_type_id', $skinTypeId);
-                });
-            }
-
-            $eligibleProducts = $query->with([
-                'brand',
-                'marketingDetail',
-                'recommendationRule',
-                'reviews',
-                'goals',
-                'concerns'
-            ])->get();
-
-            if ($eligibleProducts->isEmpty()) {
+        // 4. Build Primary Routine Response & save RoutineProduct records
+        $primaryRoutineResponse = [];
+        $orderIndex = 1;
+        foreach ($engineResult['core'] as $card) {
+            $sku = $card['sku'];
+            $product = $productsBySku->get($sku);
+            if (!$product) {
                 continue;
             }
 
-            // Score each product
-            $scoredProducts = $eligibleProducts->map(function ($product) use ($goalId, $concernIds) {
-                $score = 0;
-
-                if ($product->recommendationRule) {
-                    $score += $product->recommendationRule->default_priority_score;
-                }
-
-                if ($goalId && ($product->goals->contains('id', $goalId) || $product->goals->contains('pivot.goal_id', $goalId))) {
-                    $score += 100;
-                }
-
-                foreach ($concernIds as $cId) {
-                    if ($product->concerns->contains('id', $cId) || $product->concerns->contains('pivot.concern_id', $cId)) {
-                        $score += 200;
-                    }
-                }
-
-                $score += (int)($product->average_rating * 2);
-
-                return [
-                    'product' => $product,
-                    'score' => $score
-                ];
-            });
-
-            $sorted = $scoredProducts->sortByDesc('score');
-            $bestElement = $sorted->first();
-            $bestMatch = $bestElement['product'];
-            $highestScore = $bestElement['score'];
-
-            $routineInfo = $bestMatch->routines()->where('routine_step_id', $step->id)->first();
-            $isCore = $routineInfo ? (bool)$routineInfo->is_core : in_array($step->order, [3, 9, 11, 15]); // Cleanser, Serum, Treatment, Moisturizer
-            $isAddon = $routineInfo ? (bool)$routineInfo->is_addon : ($step->order > 15 || in_array($step->order, [16, 17]));
-
-            $candidateData = [
-                'step_id' => $step->id,
-                'step_name' => $lang === 'ar' ? ($step->name_ar ?? $step->name) : $step->name,
-                'step_order' => $step->order,
-                'score' => $highestScore,
-                'best_match' => $bestMatch,
-                'routine_info' => $routineInfo,
-                'is_core' => $isCore,
-                'is_addon' => $isAddon,
-            ];
-
-            if ($isAddon) {
-                $addonCandidates[] = $candidateData;
-            } elseif ($isCore && count($primaryCandidates) < 5) {
-                $primaryCandidates[] = $candidateData;
-            } else {
-                $supportCandidates[] = $candidateData;
-            }
-        }
-
-        // If primary has less than 4, take from support
-        if (count($primaryCandidates) < 4 && !empty($supportCandidates)) {
-            while (count($primaryCandidates) < 4 && !empty($supportCandidates)) {
-                $primaryCandidates[] = array_shift($supportCandidates);
-            }
-        }
-
-        // If primary has more than 5, move extra to support
-        if (count($primaryCandidates) > 5) {
-            $extra = array_splice($primaryCandidates, 5);
-            $supportCandidates = array_merge($extra, $supportCandidates);
-        }
-
-        $supportCandidates = array_slice($supportCandidates, 0, 3);
-        $addonCandidates = array_slice($addonCandidates, 0, 2);
-
-        usort($primaryCandidates, fn($a, $b) => $a['step_order'] <=> $b['step_order']);
-        usort($supportCandidates, fn($a, $b) => $a['step_order'] <=> $b['step_order']);
-        usort($addonCandidates, fn($a, $b) => $a['step_order'] <=> $b['step_order']);
-
-        // 1. Build Primary Routine Array
-        $primaryRoutineResponse = [];
-        $orderIndex = 1;
-        foreach ($primaryCandidates as $cand) {
-            $product = $cand['best_match'];
-            $routineInfo = $cand['routine_info'];
+            $stepOrder = $this->mapRoleToStepOrder($card['routine_step_code'] ?? ($card['roles'][0] ?? 'cleanser'));
+            $stepModel = $stepsByOrder->get($stepOrder);
 
             RoutineProduct::create([
-                'routine_id' => $routine->id,
-                'product_id' => $product->id,
-                'step' => $cand['step_order'],
+                'routine_id'               => $routine->id,
+                'product_id'               => $product->id,
+                'step'                     => $stepOrder,
                 'replaced_with_product_id' => $product->id,
-                'accepted' => true,
+                'accepted'                 => true,
             ]);
 
-            $morning = $routineInfo ? (bool)$routineInfo->morning : true;
-            $night = $routineInfo ? (bool)$routineInfo->night : true;
-            $useTimeText = ($morning && $night) ? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening') : ($morning ? ($lang === 'ar' ? 'صباحاً' : 'Morning') : ($lang === 'ar' ? 'مساءً' : 'Evening'));
+            $useTimeAr = $this->mapPeriodToArabic($card['usage_policy']['period'] ?? 'both', $lang);
+            $badgeAr = $this->mapBadgeLabel($card['usage_policy'] ?? [], $lang);
 
             $primaryRoutineResponse[] = [
-                'display_order' => $orderIndex++,
+                'display_order'       => $orderIndex++,
                 'selected_by_default' => true,
-                'step_id' => $cand['step_id'],
-                'routine_step_ar' => $cand['step_name'],
-                'routine_step_code' => 'step_' . $cand['step_order'],
-                'use_time_ar' => $useTimeText,
-                'usage_badge_ar' => ($lang === 'ar' ? 'يومياً ' : 'Daily ') . $useTimeText,
-                'chosen_for_ar' => $lang === 'ar' 
-                    ? "تم اختياره خصيصاً للبشرة {$skinTypeName} لتوفير العناية والتوازن وتجهيز البشرة."
-                    : "Specifically chosen for {$skinTypeName} skin to deliver optimal care and balance.",
-                'product' => ProductListResource::make($product),
+                'step_id'             => $stepModel?->id ?? $orderIndex,
+                'sku'                 => $sku,
+                'roles'               => $card['roles'],
+                'display_role_ar'     => $card['display_role_ar'],
+                'routine_step_ar'     => $card['display_role_ar'],
+                'routine_step_code'   => $card['routine_step_code'],
+                'use_time_ar'         => $useTimeAr,
+                'usage_badge_ar'      => $badgeAr,
+                'chosen_for_ar'       => $card['chosen_for_ar'],
+                'usage_short_ar'      => $card['usage_short_ar'] ?? '',
+                'usage_text_ar'       => $card['usage_text_ar'] ?? '',
+                'usage_tiles'         => $card['usage'] ?? [],
+                'usage_policy'        => $card['usage_policy'] ?? null,
+                'usage_notice_ar'     => $card['usage_notice_ar'] ?? '',
+                'product'             => ProductListResource::make($product),
             ];
         }
 
-        // 2. Build Routine Support Array
+        // 5. Build Routine Support Response (up to 3 supplements)
         $routineSupportResponse = [];
         $orderIndex = 1;
-        foreach ($supportCandidates as $cand) {
-            $product = $cand['best_match'];
-            $routineInfo = $cand['routine_info'];
+        foreach ($engineResult['supplements'] as $card) {
+            $sku = $card['sku'];
+            $product = $productsBySku->get($sku);
+            if (!$product) {
+                continue;
+            }
 
-            $morning = $routineInfo ? (bool)$routineInfo->morning : true;
-            $night = $routineInfo ? (bool)$routineInfo->night : true;
-            $useTimeText = ($morning && $night) ? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening') : ($morning ? ($lang === 'ar' ? 'صباحاً' : 'Morning') : ($lang === 'ar' ? 'مساءً' : 'Evening'));
+            $useTimeAr = $this->mapPeriodToArabic($card['usage_policy']['period'] ?? 'evening', $lang);
+            $badgeAr = $this->mapBadgeLabel($card['usage_policy'] ?? [], $lang);
 
             $routineSupportResponse[] = [
-                'display_order' => $orderIndex++,
+                'display_order'       => $orderIndex++,
                 'selected_by_default' => false,
-                'step_id' => $cand['step_id'],
-                'routine_step_ar' => $cand['step_name'],
-                'routine_step_code' => 'step_' . $cand['step_order'],
-                'use_time_ar' => $useTimeText,
-                'usage_badge_ar' => ($lang === 'ar' ? '2-3 مرات أسبوعياً ' : '2-3 times weekly ') . $useTimeText,
-                'chosen_for_ar' => $lang === 'ar'
-                    ? "خطوة تكميلية مثالية لدعم نضارة البشرة {$skinTypeName} وتسريع نتائج الروتين."
-                    : "Ideal complementary step to enhance {$skinTypeName} skin radiance.",
-                'product' => ProductListResource::make($product),
+                'step_id'             => null,
+                'sku'                 => $sku,
+                'kind'                => $card['kind'] ?? 'supplement',
+                'roles'               => ['supplement'],
+                'display_role_ar'     => 'عناية مكمّلة',
+                'routine_step_ar'     => 'عناية مكمّلة',
+                'routine_step_code'   => 'supplement',
+                'use_time_ar'         => $useTimeAr,
+                'usage_badge_ar'      => $badgeAr,
+                'chosen_for_ar'       => $card['chosen_for_ar'],
+                'reason_ar'           => $card['reason_ar'] ?? '',
+                'usage_short_ar'      => $card['usage_short_ar'] ?? '',
+                'usage_text_ar'       => $card['usage_text_ar'] ?? '',
+                'usage_tiles'         => $card['usage'] ?? [],
+                'usage_policy'        => $card['usage_policy'] ?? null,
+                'usage_notice_ar'     => $card['usage_notice_ar'] ?? '',
+                'product'             => ProductListResource::make($product),
             ];
         }
 
-        // 3. Build Cart Addons Array
-        $cartAddonsResponse = [];
-        $orderIndex = 1;
-        foreach ($addonCandidates as $cand) {
-            $product = $cand['best_match'];
-
-            $cartAddonsResponse[] = [
-                'display_order' => $orderIndex++,
-                'selected_by_default' => false,
-                'cart_note_ar' => $lang === 'ar'
-                    ? "مُقترح إضافي رائع يُوصى به في السلة لإكمال العناية المزدوجة بالبشرة."
-                    : "Great extra recommendation suggested for your cart for double care.",
-                'product' => ProductListResource::make($product),
-            ];
-        }
+        // 6. Build Diagnosis Summary matching R479 presentation.js profile()
+        $diagnosis = $this->buildDiagnosis($r479Answers, $resolved['options'], $lang);
 
         return [
             'status' => true,
             'message' => __('messages.routine_recommended_successfully'),
             'data' => [
-                'is_routine_added' => true,
-                'routine_id'       => $routine->id,
-                'diagnosis'        => $diagnosis,
-                'questions'        => $questionsAndAnswers,
-                'primary_routine'  => $primaryRoutineResponse,
-                'routine_support'  => $routineSupportResponse,
-                'cart_addons'       => $cartAddonsResponse,
-            ]
+                'is_routine_added'   => true,
+                'routine_id'         => $routine->id,
+                'rules_version'      => R479EngineService::VERSION,
+                'scenario_key'       => $scenarioKey,
+                'selection_complete' => $engineResult['selection_complete'],
+                'missing_roles'      => $engineResult['missing_roles'],
+                'diagnosis'          => $diagnosis,
+                'questions'          => $questionsAndAnswers,
+                'primary_routine'    => $primaryRoutineResponse,
+                'routine_support'    => $routineSupportResponse,
+                'cart_addons'        => [],
+                'usage_schedule'     => $engineResult['usage_schedule'],
+            ],
         ];
     }
-}
 
+    protected function buildDiagnosis(array $answers, array $options, string $lang): array
+    {
+        $skinArMap = [
+            'oily'        => 'دهنية',
+            'combination' => 'مختلطة',
+            'normal'      => 'عادية',
+            'dry'         => 'جافة',
+        ];
+        $skinAr = $skinArMap[$answers['skin']] ?? 'متوازنة';
+        $sensPhraseAr = $answers['sensitive'] ? 'وتميل إلى التحسّس.' : 'ولا تتحسّس بسهولة.';
+
+        $primaryLabelAr = $options[1]?->title_ar ?? (R479EngineService::GOAL_LABELS_AR[$answers['primary']] ?? $answers['primary']);
+        $secondaryLabelAr = ($answers['secondary'] && isset($options[4]))
+            ? $options[4]->title_ar
+            : '';
+
+        $skinSummaryAr = "بحسب إجاباتك، بشرتك {$skinAr}، {$sensPhraseAr}";
+
+        $badges = [];
+        if ($options[1]) {
+            $badges[] = $lang === 'ar' ? $options[1]->title_ar : $options[1]->title_en;
+        }
+        if ($options[2]) {
+            $skinTitle = $lang === 'ar' ? $options[2]->title_ar : $options[2]->title_en;
+            $badges[] = ($lang === 'ar' ? 'بشرة ' : '') . $skinTitle . ($lang === 'en' ? ' Skin' : '');
+        }
+        if ($answers['sensitive']) {
+            $badges[] = $lang === 'ar' ? 'تتهيّج بسهولة' : 'Sensitive Skin';
+        }
+        if ($answers['secondary'] && $options[4] && $options[4]->code !== 'none') {
+            $badges[] = $lang === 'ar' ? $options[4]->title_ar : $options[4]->title_en;
+        }
+
+        $goalsSummary = array_values(array_filter([
+            $skinSummaryAr,
+            $options[1]?->description_ar,
+            ($answers['secondary'] && $options[4] && $options[4]->code !== 'none') ? $options[4]->description_ar : null,
+        ]));
+
+        return [
+            'title'          => $lang === 'ar' ? 'روتينك المقترح' : 'Your Suggested Routine',
+            'skin_summary'   => $skinSummaryAr,
+            'focus_goal'     => $primaryLabelAr,
+            'extra_concern'  => $secondaryLabelAr ?: null,
+            'badges'         => array_values(array_unique($badges)),
+            'goals_summary'  => $goalsSummary,
+            'consultation'   => [
+                'title'       => $lang === 'ar' ? 'هل تودين استشارة خبيرة؟' : 'Would you like expert consultation?',
+                'description' => $lang === 'ar'
+                    ? 'مستشارو KCODE متواجدون للإجابة على استفساراتك وتخصيص الروتين أكثر.'
+                    : 'KCODE advisors are available to answer your questions and further customize your routine.',
+            ],
+        ];
+    }
+
+    protected function parseSensitivityBoolean(mixed $value): bool
+    {
+        if (is_bool($value)) {
+            return $value;
+        }
+        if (is_numeric($value)) {
+            return (int) $value === 1;
+        }
+        if (is_string($value)) {
+            return in_array(strtolower(trim($value)), ['1', 'true', 'yes', 'نعم'], true);
+        }
+        return false;
+    }
+
+    protected function mapGoalModelToCode(string $nameEn): string
+    {
+        $lower = strtolower($nameEn);
+        return match (true) {
+            str_contains($lower, 'acne') => 'acne',
+            str_contains($lower, 'blackhead') => 'blackheads',
+            str_contains($lower, 'pore') => 'pores',
+            str_contains($lower, 'brighten') || str_contains($lower, 'dark') || str_contains($lower, 'spot') => 'dark_spots',
+            str_contains($lower, 'redness') || str_contains($lower, 'sooth') => 'redness',
+            str_contains($lower, 'hydrat') || str_contains($lower, 'dry') => 'dryness',
+            str_contains($lower, 'line') || str_contains($lower, 'wrinkle') => 'lines',
+            str_contains($lower, 'maintain') => 'maintain',
+            default => 'dullness',
+        };
+    }
+
+    protected function mapSkinModelToCode(string $nameEn): string
+    {
+        $lower = strtolower($nameEn);
+        return match (true) {
+            str_contains($lower, 'oily') => 'oily',
+            str_contains($lower, 'comb') => 'combination',
+            str_contains($lower, 'dry') => 'dry',
+            default => 'normal',
+        };
+    }
+
+    protected function mapConcernModelToCode(string $nameEn): ?string
+    {
+        $lower = strtolower($nameEn);
+        return match (true) {
+            str_contains($lower, 'acne') => 'acne',
+            str_contains($lower, 'blackhead') => 'blackheads',
+            str_contains($lower, 'oil') && !str_contains($lower, 'pore') => 'oil',
+            str_contains($lower, 'pore') => 'pores',
+            str_contains($lower, 'pigment') || str_contains($lower, 'dark') => 'dark_spots',
+            str_contains($lower, 'redness') || str_contains($lower, 'irritat') => 'redness',
+            str_contains($lower, 'dry') || str_contains($lower, 'barrier') || str_contains($lower, 'hydrat') => 'dryness',
+            str_contains($lower, 'dull') || str_contains($lower, 'glow') => 'dullness',
+            str_contains($lower, 'wrinkle') || str_contains($lower, 'line') => 'lines',
+            str_contains($lower, 'eye') => 'eyes',
+            default => null,
+        };
+    }
+
+    protected function mapRoleToStepOrder(string $roleCode): int
+    {
+        return match ($roleCode) {
+            'cleanser'   => 3,
+            'toner'      => 5,
+            'treatment1' => 9,
+            'treatment2' => 11,
+            'moisturizer'=> 15,
+            'sunscreen'  => 18,
+            default      => 10,
+        };
+    }
+
+    protected function mapPeriodToArabic(string $period, string $lang): string
+    {
+        if ($lang === 'en') {
+            return match ($period) {
+                'morning' => 'Morning',
+                'evening' => 'Evening',
+                default   => 'Morning & Evening',
+            };
+        }
+        return match ($period) {
+            'morning' => 'صباحًا',
+            'evening' => 'مساءً',
+            default   => 'صباحًا ومساءً',
+        };
+    }
+
+    protected function mapBadgeLabel(array $policy, string $lang): string
+    {
+        $original = $policy['label'] ?? '';
+        $family = $policy['family'] ?? 'daily';
+        $gradual = in_array($family, ['retinoid', 'exfoliant', 'gradual'], true);
+
+        if ($lang === 'en') {
+            return $gradual ? 'Start gradually' : 'Daily use';
+        }
+
+        if ($gradual) {
+            return 'يُبدأ بالتدرّج';
+        }
+        if ($original === 'يومي بحسب التعليمات' || empty($original)) {
+            return 'استخدام يومي';
+        }
+        return $original;
+    }
+}

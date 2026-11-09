@@ -1,0 +1,428 @@
+[
+  {
+    "sku": "KC0010",
+    "kind": "exfoliator",
+    "goals": [
+      "pores",
+      "dullness"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0020",
+    "kind": "mist",
+    "goals": [
+      "dryness",
+      "dullness",
+      "redness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0029",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "dullness",
+      "dark_spots",
+      "lines",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0040",
+    "kind": "mask",
+    "goals": [
+      "pores",
+      "oil"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0041",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "dullness",
+      "dark_spots",
+      "lines",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0045",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "dullness",
+      "dark_spots",
+      "lines",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0083",
+    "kind": "mask",
+    "goals": [
+      "pores",
+      "oil",
+      "dullness"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0085",
+    "kind": "mask",
+    "goals": [
+      "pores",
+      "oil",
+      "dullness"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0090",
+    "kind": "mist",
+    "goals": [
+      "dryness",
+      "redness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0109",
+    "kind": "mask",
+    "goals": [
+      "pores",
+      "oil"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0118",
+    "kind": "essence",
+    "goals": [
+      "dryness",
+      "dullness",
+      "dark_spots",
+      "lines",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0127",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "dullness",
+      "dark_spots",
+      "lines",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0129",
+    "kind": "eye_patch",
+    "goals": [
+      "lines",
+      "eyes"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0131",
+    "kind": "acne_patch",
+    "goals": [
+      "acne"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0152",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "dullness",
+      "dark_spots",
+      "lines",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0153",
+    "kind": "acne_patch",
+    "goals": [
+      "acne"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0154",
+    "kind": "essence",
+    "goals": [
+      "dryness",
+      "redness",
+      "dullness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0162",
+    "kind": "essence",
+    "goals": [
+      "dryness",
+      "redness",
+      "dullness",
+      "dark_spots",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0166",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "dullness",
+      "dark_spots",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0167",
+    "kind": "acne_patch",
+    "goals": [
+      "acne"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0172",
+    "kind": "essence",
+    "goals": [
+      "dryness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0173",
+    "kind": "eye_patch",
+    "goals": [
+      "lines",
+      "eyes"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0180",
+    "kind": "exfoliator",
+    "goals": [
+      "dullness"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0181",
+    "kind": "exfoliator",
+    "goals": [
+      "dullness"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0182",
+    "kind": "eye_patch",
+    "goals": [
+      "lines",
+      "eyes"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0184",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "redness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0185",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "dullness",
+      "dark_spots",
+      "lines",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0187",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "redness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0189",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "dullness",
+      "dark_spots",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0190",
+    "kind": "eye_patch",
+    "goals": [
+      "lines",
+      "eyes"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0202",
+    "kind": "eye_patch",
+    "goals": [
+      "lines",
+      "eyes"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0207",
+    "kind": "mask",
+    "goals": [
+      "dryness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0208",
+    "kind": "essence",
+    "goals": [
+      "dryness",
+      "redness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0212",
+    "kind": "mist",
+    "goals": [
+      "dryness",
+      "dullness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0221",
+    "kind": "mist",
+    "goals": [
+      "dryness",
+      "redness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0222",
+    "kind": "essence",
+    "goals": [
+      "dryness",
+      "dullness",
+      "maintain"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0229",
+    "kind": "eye_patch",
+    "goals": [
+      "lines",
+      "eyes"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0230",
+    "kind": "eye_patch",
+    "goals": [
+      "lines",
+      "eyes"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0235",
+    "kind": "eye_patch",
+    "goals": [
+      "lines",
+      "eyes"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0250",
+    "kind": "eye_patch",
+    "goals": [
+      "lines",
+      "eyes"
+    ],
+    "source": "Existing reviewed purpose map; eyes uses explicitly approved eye policy"
+  },
+  {
+    "sku": "KC0046",
+    "kind": "exfoliator",
+    "goals": [
+      "acne",
+      "pores",
+      "dark_spots",
+      "dullness"
+    ],
+    "source": "Existing reviewed purpose map; dual core/addon eligibility, no score edits"
+  },
+  {
+    "sku": "KC0063",
+    "kind": "exfoliator",
+    "goals": [
+      "dark_spots",
+      "dullness",
+      "pores"
+    ],
+    "source": "Existing reviewed purpose map; dual core/addon eligibility, no score edits"
+  },
+  {
+    "sku": "KC0177",
+    "kind": "exfoliator",
+    "goals": [
+      "pores",
+      "acne"
+    ],
+    "source": "Existing reviewed purpose map; dual core/addon eligibility, no score edits"
+  }
+]

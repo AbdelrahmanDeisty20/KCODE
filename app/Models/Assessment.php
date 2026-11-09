@@ -9,6 +9,14 @@ class Assessment extends Model
     protected $fillable = [
         'user_id',
         'skin_type_id',
+        'primary_goal_code',
+        'secondary_goal_code',
+        'is_sensitive',
+        'scenario_key',
+    ];
+
+    protected $casts = [
+        'is_sensitive' => 'boolean',
     ];
 
     public function user()

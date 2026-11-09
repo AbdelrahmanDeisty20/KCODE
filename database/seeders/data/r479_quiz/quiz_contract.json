@@ -1,0 +1,46 @@
+{
+  "version": "quiz-eyes-dark-circles-2026-10-30",
+  "primary": [
+    "acne",
+    "pores",
+    "blackheads",
+    "dark_spots",
+    "dullness",
+    "redness",
+    "dryness",
+    "lines",
+    "maintain"
+  ],
+  "secondary": [
+    "acne",
+    "pores",
+    "blackheads",
+    "dark_spots",
+    "dullness",
+    "redness",
+    "dryness",
+    "lines",
+    "oil",
+    "eyes"
+  ],
+  "skin": [
+    "oily",
+    "combination",
+    "normal",
+    "dry"
+  ],
+  "labels": {
+    "acne": "الحبوب والبثور",
+    "pores": "مظهر المسام",
+    "blackheads": "الرؤوس السوداء وانسداد المسام",
+    "dark_spots": "البقع الداكنة والتصبغات",
+    "dullness": "البهتان",
+    "redness": "الاحمرار",
+    "dryness": "الجفاف",
+    "lines": "الخطوط الدقيقة والتجاعيد",
+    "maintain": "الحفاظ على بشرة صحية",
+    "oil": "الدهون الزائدة واللمعان",
+    "eyes": "الهالات تحت العين"
+  },
+  "label_status": "semantic labels, production wording not verified"
+}
