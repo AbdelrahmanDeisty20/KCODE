@@ -10,6 +10,7 @@ use App\Models\RoutineProduct;
 use App\Models\FinalRoutine;
 use App\Models\FinalRoutineProduct;
 use App\Models\Assessment;
+use App\Services\ActivityLogger;
 use Illuminate\Support\Facades\DB;
 
 class CartService
@@ -189,6 +190,33 @@ class CartService
                         'price_after_discount' => $priceAfterDiscount,
                         'total_price'          => $totalPrice,
                     ]
+                );
+            }
+
+            $user = auth('sanctum')->user() ?? auth()->user();
+            $clientName = $user?->name ?? 'زائر المتجر';
+            if (!empty($routineId)) {
+                $count = count($productIds);
+                ActivityLogger::log(
+                    event: 'cart_added',
+                    description: "قام العميل/الزائر [{$clientName}] بإضافة روتين كامل ({$count} منتجات) إلى سلة التسوق",
+                    subjectType: 'Cart',
+                    subjectId: $cart->id,
+                    newValues: ['routine_id' => $routineId, 'items_count' => $count],
+                    userId: $user?->id,
+                    userName: $clientName
+                );
+            } else {
+                $firstProd = Product::find($productIds[0] ?? null);
+                $pName = $firstProd?->name_ar ?: ($firstProd?->name_en ?: 'منتج');
+                ActivityLogger::log(
+                    event: 'cart_added',
+                    description: "قام العميل/الزائر [{$clientName}] بإضافة المنتج [{$pName}] (كمية: {$addQuantity}) إلى سلة التسوق",
+                    subjectType: 'Cart',
+                    subjectId: $cart->id,
+                    newValues: ['product_id' => $firstProd?->id, 'sku' => $firstProd?->sku, 'quantity' => $addQuantity],
+                    userId: $user?->id,
+                    userName: $clientName
                 );
             }
 
@@ -420,6 +448,18 @@ class CartService
             'total_price'          => $totalPrice,
         ]);
 
+        $user = auth('sanctum')->user() ?? auth()->user();
+        $clientName = $user?->name ?? 'زائر المتجر';
+        ActivityLogger::log(
+            event: 'cart_updated',
+            description: "قام العميل/الزائر [{$clientName}] بتعديل كمية المنتج [{$productName}] في السلة إلى ({$quantity})",
+            subjectType: 'Cart',
+            subjectId: $cart->id,
+            newValues: ['product_id' => $productId, 'quantity' => $quantity],
+            userId: $user?->id,
+            userName: $clientName
+        );
+
         return [
             'status'  => true,
             'message' => __('messages.cart_item_updated_successfully'),
@@ -452,7 +492,21 @@ class CartService
             ];
         }
 
+        $product = $cartItem->product;
+        $productName = $product?->name_ar ?: ($product?->name_en ?: 'منتج');
         $cartItem->delete();
+
+        $user = auth('sanctum')->user() ?? auth()->user();
+        $clientName = $user?->name ?? 'زائر المتجر';
+        ActivityLogger::log(
+            event: 'cart_removed',
+            description: "قام العميل/الزائر [{$clientName}] بحذف المنتج [{$productName}] من سلة التسوق",
+            subjectType: 'Cart',
+            subjectId: $cart->id,
+            oldValues: ['product_id' => $productId],
+            userId: $user?->id,
+            userName: $clientName
+        );
 
         return [
             'status'  => true,
@@ -476,6 +530,17 @@ class CartService
                 'code'    => 404,
             ];
         }
+
+        $user = auth('sanctum')->user() ?? auth()->user();
+        $clientName = $user?->name ?? 'زائر المتجر';
+        ActivityLogger::log(
+            event: 'cart_cleared',
+            description: "قام العميل/الزائر [{$clientName}] بإفراغ سلة التسوق بالكامل",
+            subjectType: 'Cart',
+            subjectId: $cart->id,
+            userId: $user?->id,
+            userName: $clientName
+        );
 
         $cart->items()->delete();
         $cart->delete();

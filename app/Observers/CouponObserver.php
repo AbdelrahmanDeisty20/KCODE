@@ -6,6 +6,7 @@ use App\Models\Coupon;
 use App\Models\User;
 use App\Models\NewsletterSubscription;
 use App\Models\AppNotification;
+use App\Services\ActivityLogger;
 use App\Services\FirebaseNotificationService;
 use App\Mail\CouponMail;
 use Illuminate\Support\Facades\Mail;
@@ -18,6 +19,27 @@ class CouponObserver
      */
     public function created(Coupon $coupon): void
     {
+        try {
+            $discountText = $coupon->discount_type === 'percentage'
+                ? "{$coupon->discount_value}%"
+                : "{$coupon->discount_value} ج.م";
+
+            ActivityLogger::log(
+                event: 'created',
+                description: "تم إنشاء كوبون خصم جديد [{$coupon->code}] بقيمة ({$discountText}) حتى تاريخ " . ($coupon->end_date ?? 'غير محدد'),
+                subjectType: 'Coupon',
+                subjectId: $coupon->id,
+                newValues: [
+                    'code'           => $coupon->code,
+                    'discount_value' => $coupon->discount_value,
+                    'discount_type'  => $coupon->discount_type,
+                    'end_date'       => $coupon->end_date,
+                ]
+            );
+        } catch (\Throwable $e) {
+            Log::warning("CouponObserver created log failed: " . $e->getMessage());
+        }
+
         $this->processCouponNotification($coupon);
     }
 
@@ -26,8 +48,49 @@ class CouponObserver
      */
     public function updated(Coupon $coupon): void
     {
+        try {
+            if ($coupon->wasChanged('is_active') && !$coupon->is_active) {
+                ActivityLogger::log(
+                    event: 'offer_expired',
+                    description: "تم إيقاف / انتهاء صلاحية كوبون الخصم [{$coupon->code}]",
+                    subjectType: 'Coupon',
+                    subjectId: $coupon->id,
+                    oldValues: ['is_active' => true],
+                    newValues: ['is_active' => false]
+                );
+            } elseif ($coupon->wasChanged()) {
+                ActivityLogger::log(
+                    event: 'updated',
+                    description: "تم تحديث بيانات كوبون الخصم [{$coupon->code}]",
+                    subjectType: 'Coupon',
+                    subjectId: $coupon->id,
+                    oldValues: array_intersect_key($coupon->getOriginal(), $coupon->getChanges()),
+                    newValues: $coupon->getChanges()
+                );
+            }
+        } catch (\Throwable $e) {
+            Log::warning("CouponObserver updated log failed: " . $e->getMessage());
+        }
+
         if ($coupon->wasChanged('is_active') && $coupon->is_active) {
             $this->processCouponNotification($coupon);
+        }
+    }
+
+    /**
+     * Handle the Coupon "deleted" event.
+     */
+    public function deleted(Coupon $coupon): void
+    {
+        try {
+            ActivityLogger::log(
+                event: 'deleted',
+                description: "تم حذف كوبون الخصم [{$coupon->code}]",
+                subjectType: 'Coupon',
+                subjectId: $coupon->id
+            );
+        } catch (\Throwable $e) {
+            Log::warning("CouponObserver deleted log failed: " . $e->getMessage());
         }
     }
 

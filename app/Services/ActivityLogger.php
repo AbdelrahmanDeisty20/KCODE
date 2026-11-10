@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
 class ActivityLogger
@@ -17,21 +18,34 @@ class ActivityLogger
         ?string $subjectType = null,
         mixed $subjectId = null,
         ?array $oldValues = null,
-        ?array $newValues = null
-    ): ActivityLog {
-        $user = Auth::user();
+        ?array $newValues = null,
+        ?int $userId = null,
+        ?string $userName = null
+    ): ?ActivityLog {
+        try {
+            $user = Auth::user() ?? auth('sanctum')->user();
 
-        return ActivityLog::create([
-            'user_id'      => $user?->id,
-            'user_name'    => $user?->name ?? 'زائر / نظام',
-            'event'        => $event,
-            'subject_type' => $subjectType,
-            'subject_id'   => $subjectId ? (string) $subjectId : null,
-            'description'  => $description,
-            'old_values'   => $oldValues,
-            'new_values'   => $newValues,
-            'ip_address'   => Request::ip(),
-            'user_agent'   => Request::header('User-Agent'),
-        ]);
+            $finalUserId   = $userId ?? $user?->id;
+            $finalUserName = $userName ?? ($user?->name ?? 'زائر / نظام');
+
+            return ActivityLog::create([
+                'user_id'      => $finalUserId,
+                'user_name'    => $finalUserName,
+                'event'        => $event,
+                'subject_type' => $subjectType,
+                'subject_id'   => $subjectId ? (string) $subjectId : null,
+                'description'  => $description,
+                'old_values'   => $oldValues,
+                'new_values'   => $newValues,
+                'ip_address'   => Request::ip() ?? '127.0.0.1',
+                'user_agent'   => Request::header('User-Agent'),
+            ]);
+        } catch (\Throwable $e) {
+            Log::warning("ActivityLogger failed: " . $e->getMessage(), [
+                'event' => $event,
+                'description' => $description,
+            ]);
+            return null;
+        }
     }
 }

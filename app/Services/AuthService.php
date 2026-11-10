@@ -13,6 +13,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Socialite;
 use Auth;
+use App\Services\ActivityLogger;
 
 class AuthService
 {
@@ -37,6 +38,17 @@ class AuthService
             'token' => hash('sha256', $refreshToken),
             'expires_at' => Carbon::now()->addDays(7),
         ]);
+
+        ActivityLogger::log(
+            event: 'login',
+            description: "قام العميل [{$user->name}] ({$user->email}) بتسجيل الدخول إلى حسابه بنجاح",
+            subjectType: 'User',
+            subjectId: $user->id,
+            newValues: ['login_method' => 'email_password'],
+            userId: $user->id,
+            userName: $user->name
+        );
+
         return response()->json([
             'status' => true,
             'message' => __('messages.loginSuccessFully'),
@@ -230,7 +242,17 @@ class AuthService
     public function logout()
     {
         $user = Auth::user();
-        $user->currentAccessToken()->delete();
+        if ($user) {
+            ActivityLogger::log(
+                event: 'logout',
+                description: "قام العميل [{$user->name}] بتسجيل الخروج من حسابه",
+                subjectType: 'User',
+                subjectId: $user->id,
+                userId: $user->id,
+                userName: $user->name
+            );
+            $user->currentAccessToken()->delete();
+        }
         return response()->json([
             'status' => true,
             'message' => __('messages.logoutSuccessFully'),
@@ -240,7 +262,17 @@ class AuthService
     public function logoutAllDevice()
     {
         $user = Auth::user();
-        $user->tokens()->delete();
+        if ($user) {
+            ActivityLogger::log(
+                event: 'logout',
+                description: "قام العميل [{$user->name}] بتسجيل الخروج من كافة أجهزته",
+                subjectType: 'User',
+                subjectId: $user->id,
+                userId: $user->id,
+                userName: $user->name
+            );
+            $user->tokens()->delete();
+        }
         return response()->json([
             'status' => true,
             'message' => __('messages.logoutSuccessFully'),
@@ -348,6 +380,17 @@ class AuthService
             $token = $newUser->createToken('auth_token')->plainTextToken;
             $userResource = new UserResource($newUser);
         }
+
+        $activeUser = $existingUser ?? $newUser;
+        ActivityLogger::log(
+            event: 'login',
+            description: "قام العميل [{$activeUser->name}] ({$activeUser->email}) بتسجيل الدخول عبر حساب {$provider}",
+            subjectType: 'User',
+            subjectId: $activeUser->id,
+            newValues: ['provider' => $provider],
+            userId: $activeUser->id,
+            userName: $activeUser->name
+        );
 
         $query = http_build_query([
             'token' => $token,

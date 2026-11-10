@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Product;
+use App\Services\ActivityLogger;
+use Illuminate\Support\Facades\Cache;
 
 class ProductService
 {
@@ -33,6 +35,20 @@ class ProductService
 
     public function search(array $data) {
         $query = $data['query'];
+
+        if (!empty($query)) {
+            $user = auth('sanctum')->user() ?? auth()->user();
+            $clientName = $user?->name ?? 'زائر المتجر';
+            ActivityLogger::log(
+                event: 'search',
+                description: "قام العميل/الزائر [{$clientName}] بالبحث في المتجر عن: \"{$query}\"",
+                subjectType: 'Search',
+                subjectId: null,
+                newValues: ['query' => $query],
+                userId: $user?->id,
+                userName: $clientName
+            );
+        }
 
         $products = Product::where('stock', '>', 0)
             ->with([
@@ -259,6 +275,32 @@ class ProductService
                 'data' => [],
             ];
         }
+
+        // Log product view with 15-minute throttle per user/IP
+        try {
+            $user = auth('sanctum')->user() ?? auth()->user();
+            $clientName = $user?->name ?? 'زائر المتجر';
+            $userIp = request()->ip() ?? 'unknown';
+            $identifier = $user ? "u_{$user->id}" : "ip_" . md5($userIp);
+            $cacheKey = "view_p_{$product->id}_{$identifier}";
+
+            if (!Cache::has($cacheKey)) {
+                Cache::put($cacheKey, true, now()->addMinutes(15));
+                $pName = $product->name_ar ?: ($product->name_en ?: 'منتج');
+                ActivityLogger::log(
+                    event: 'product_view',
+                    description: "قام العميل/الزائر [{$clientName}] بمشاهدة المنتج [{$pName}] ({$product->sku})",
+                    subjectType: 'Product',
+                    subjectId: $product->id,
+                    newValues: ['sku' => $product->sku, 'price' => $product->price],
+                    userId: $user?->id,
+                    userName: $clientName
+                );
+            }
+        } catch (\Throwable $e) {
+            // Silently fail view log to never block response
+        }
+
         return [
             'status' => true,
             'message' => __('messages.product_retrieved_successfully'),

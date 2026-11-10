@@ -11,3 +11,6 @@ Schedule::command('queue:work --stop-when-empty --max-time=55')
 // تنظيف التوكنات
 Schedule::command('auth:clear-resets')->hourly();
 Schedule::command('sanctum:prune-expired --hours=24')->daily();
+
+// فحص وإيقاف العروض والكوبونات المنتهية وتسجيلها في سجل النشاطات
+Schedule::command('kcode:check-expired-offers')->hourly();

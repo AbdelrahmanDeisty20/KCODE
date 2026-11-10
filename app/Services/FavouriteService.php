@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Favourite;
 use App\Models\Product;
+use App\Models\User;
+use App\Services\ActivityLogger;
 use Illuminate\Support\Facades\Log;
 
 class FavouriteService
@@ -62,12 +64,24 @@ class FavouriteService
             if ($favourite) {
                 $favourite->update(['is_active' => true]);
             } else {
-                Favourite::create([
+                $favourite = Favourite::create([
                     'user_id' => $userId,
                     'product_id' => $productId,
                     'is_active' => true
                 ]);
             }
+
+            $user = User::find($userId);
+            $productName = $product->name_ar ?: ($product->name_en ?: 'منتج');
+            ActivityLogger::log(
+                event: 'favourite_added',
+                description: "قام العميل [{$user?->name}] بإضافة المنتج [{$productName}] إلى المفضلة",
+                subjectType: 'Favourite',
+                subjectId: $favourite->id,
+                newValues: ['product_id' => $productId, 'sku' => $product->sku],
+                userId: $userId,
+                userName: $user?->name
+            );
 
             return [
                 'status' => true,
@@ -109,6 +123,18 @@ class FavouriteService
             }
 
             $favourite->update(['is_active' => false]);
+
+            $user = User::find($userId);
+            $productName = $product->name_ar ?: ($product->name_en ?: 'منتج');
+            ActivityLogger::log(
+                event: 'favourite_removed',
+                description: "قام العميل [{$user?->name}] بإزالة المنتج [{$productName}] من المفضلة",
+                subjectType: 'Favourite',
+                subjectId: $favourite->id,
+                oldValues: ['product_id' => $productId, 'sku' => $product->sku],
+                userId: $userId,
+                userName: $user?->name
+            );
 
             return [
                 'status' => true,

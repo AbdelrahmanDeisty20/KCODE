@@ -7,6 +7,7 @@ use App\Models\AppNotification;
 use App\Models\Cart;
 use App\Models\Favourite;
 use App\Models\UserFcmToken;
+use App\Services\ActivityLogger;
 use App\Services\FirebaseNotificationService;
 use Illuminate\Support\Facades\Log;
 
@@ -17,6 +18,25 @@ class OfferObserver
      */
     public function created(Offer $offer): void
     {
+        try {
+            $offer->loadMissing('product');
+            $pName = $offer->product?->name_ar ?: ($offer->product?->name_en ?: 'منتج');
+            ActivityLogger::log(
+                event: 'offer_created',
+                description: "تم إنشاء عرض ترويجي جديد على المنتج [{$pName}] بخصم {$offer->discount_percentage}% (ينتهي: " . ($offer->end_date ?? 'غير محدد') . ")",
+                subjectType: 'Offer',
+                subjectId: $offer->id,
+                newValues: [
+                    'product_id' => $offer->product_id,
+                    'discount_percentage' => $offer->discount_percentage,
+                    'start_date' => $offer->start_date,
+                    'end_date' => $offer->end_date,
+                ]
+            );
+        } catch (\Throwable $e) {
+            Log::warning("OfferObserver created log failed: " . $e->getMessage());
+        }
+
         $this->sendOfferNotification($offer);
     }
 
@@ -25,10 +45,56 @@ class OfferObserver
      */
     public function updated(Offer $offer): void
     {
+        try {
+            $offer->loadMissing('product');
+            $pName = $offer->product?->name_ar ?: ($offer->product?->name_en ?: 'منتج');
+
+            if ($offer->wasChanged('is_active') && !$offer->is_active) {
+                ActivityLogger::log(
+                    event: 'offer_expired',
+                    description: "انتهى / تم إيقاف العرض الترويجي على المنتج [{$pName}] (خصم سابق: {$offer->discount_percentage}%)",
+                    subjectType: 'Offer',
+                    subjectId: $offer->id,
+                    oldValues: ['is_active' => true],
+                    newValues: ['is_active' => false]
+                );
+            } elseif ($offer->wasChanged()) {
+                ActivityLogger::log(
+                    event: 'offer_updated',
+                    description: "تم تحديث بيانات العرض الترويجي للمنتج [{$pName}] (خصم: {$offer->discount_percentage}%)",
+                    subjectType: 'Offer',
+                    subjectId: $offer->id,
+                    oldValues: array_intersect_key($offer->getOriginal(), $offer->getChanges()),
+                    newValues: $offer->getChanges()
+                );
+            }
+        } catch (\Throwable $e) {
+            Log::warning("OfferObserver updated log failed: " . $e->getMessage());
+        }
+
         if ($offer->wasChanged('is_active') && $offer->is_active) {
             $this->sendOfferNotification($offer);
         } elseif ($offer->is_active && $offer->wasChanged('discount_percentage')) {
             $this->sendOfferNotification($offer);
+        }
+    }
+
+    /**
+     * Handle the Offer "deleted" event.
+     */
+    public function deleted(Offer $offer): void
+    {
+        try {
+            $offer->loadMissing('product');
+            $pName = $offer->product?->name_ar ?: ($offer->product?->name_en ?: 'منتج');
+            ActivityLogger::log(
+                event: 'offer_deleted',
+                description: "تم حذف / إلغاء العرض الترويجي للمنتج [{$pName}] (خصم: {$offer->discount_percentage}%)",
+                subjectType: 'Offer',
+                subjectId: $offer->id
+            );
+        } catch (\Throwable $e) {
+            Log::warning("OfferObserver deleted log failed: " . $e->getMessage());
         }
     }
 

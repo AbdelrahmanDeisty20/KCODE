@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\Setting;
+use App\Services\ActivityLogger;
 
 class CouponService
 {
@@ -108,6 +109,22 @@ class CouponService
                 'coupon_discount' => round($discountAmount, 3),
             ]);
         }
+
+        $user = auth('sanctum')->user() ?? auth()->user();
+        $clientName = $user?->name ?? 'زائر المتجر';
+        ActivityLogger::log(
+            event: 'coupon_applied',
+            description: "قام العميل/الزائر [{$clientName}] بتطبيق كوبون الخصم [{$coupon->code}] (خصم: " . round($discountAmount, 2) . ")",
+            subjectType: 'Coupon',
+            subjectId: $coupon->id,
+            newValues: [
+                'coupon_code'     => $coupon->code,
+                'discount_amount' => round($discountAmount, 2),
+                'order_amount'    => round($orderAmount, 2),
+            ],
+            userId: $user?->id,
+            userName: $clientName
+        );
 
         return [
             'status'  => true,

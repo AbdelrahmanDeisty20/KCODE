@@ -18,6 +18,7 @@ use App\Models\RoutineProduct;
 use App\Models\RoutineStep;
 use App\Models\Setting;
 use App\Models\SkinType;
+use App\Services\ActivityLogger;
 
 class QuizService
 {
@@ -517,6 +518,20 @@ class QuizService
 
         // 6. Build Diagnosis Summary matching R479 presentation.js profile()
         $diagnosis = $this->buildDiagnosis($r479Answers, $resolved['options'], $lang);
+
+        $clientName = $user?->name ?? 'زائر المتجر';
+        ActivityLogger::log(
+            event: 'quiz_completed',
+            description: "قام العميل/الزائر [{$clientName}] بإجراء تحليل البشرة والحصول على روتين مخصص (الحالة: {$scenarioKey})",
+            subjectType: 'Assessment',
+            subjectId: $assessment->id,
+            newValues: [
+                'scenario_key' => $scenarioKey,
+                'routine_id'   => $routine->id,
+            ],
+            userId: $user?->id,
+            userName: $clientName
+        );
 
         return [
             'status' => true,
