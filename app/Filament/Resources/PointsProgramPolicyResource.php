@@ -43,7 +43,7 @@ class PointsProgramPolicyResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('تفاصيل سياسة برنامج النقاط')
                     ->schema([
                         Forms\Components\TextInput::make('title_ar')
                             ->label('عنوان السياسة (بالعربية)')

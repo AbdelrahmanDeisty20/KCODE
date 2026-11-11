@@ -48,7 +48,7 @@ class RoutineGoalResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('بيانات هدف الروتين')
                     ->schema([
                         Forms\Components\TextInput::make('name_ar')
                             ->label('الاسم بالعربية')

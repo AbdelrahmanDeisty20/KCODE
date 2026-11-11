@@ -43,7 +43,7 @@ class PrivacyPolicyResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('تفاصيل سياسة الخصوصية')
                     ->schema([
                         Forms\Components\TextInput::make('title_ar')
                             ->label('عنوان السياسة (بالعربية)')

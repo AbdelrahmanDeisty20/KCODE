@@ -43,7 +43,7 @@ class CityResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('بيانات المدينة')
                     ->schema([
                         Forms\Components\Select::make('country_id')
                             ->label('الدولة')

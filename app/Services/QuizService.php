@@ -84,33 +84,33 @@ class QuizService
             foreach ($optionsById as $opt) {
                 $step = (int) ($opt->question?->step_number ?? 0);
                 $qKey = $opt->question?->key ?? '';
-                if ($step === 1 || $qKey === 'q1') {
+                if ($qKey === 'q1' || $step === 1) {
                     $primaryOption = $primaryOption ?? $opt;
-                } elseif ($step === 2 || $qKey === 'skin_type') {
+                } elseif ($qKey === 'skin_type') {
                     $skinOption = $skinOption ?? $opt;
-                } elseif ($step === 3 || $qKey === 'sensitivity') {
+                } elseif ($qKey === 'sensitivity') {
                     $sensOption = $sensOption ?? $opt;
-                } elseif ($step === 4 || $qKey === 'q4') {
+                } elseif ($qKey === 'q4') {
                     $secondaryOption = $secondaryOption ?? $opt;
                 }
             }
         }
 
         // 1. Resolve Primary Goal ('acne', 'pores', 'blackheads', 'dark_spots', 'dullness', 'redness', 'dryness', 'lines', 'maintain')
-        $primaryCode = $nested['primary'] ?? $data['primary'] ?? $data['q1'] ?? null;
+        $primaryCode = $nested['primary'] ?? $nested['q1'] ?? $data['primary'] ?? $data['q1'] ?? null;
         $goalId = $data['routine_goal_id'] ?? null;
 
         if (!empty($data['primary_option_id'])) {
             $primaryOption = QuizOption::find($data['primary_option_id']);
         }
         if (!$primaryOption && $primaryCode) {
-            $primaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 1))
+            $primaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q1')->orWhere('step_number', 1))
                 ->where('code', $primaryCode)
                 ->first();
         }
         if (!$primaryOption && $goalId) {
             // Check if $goalId matches mapped_id or option id on Q1
-            $primaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 1))
+            $primaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q1')->orWhere('step_number', 1))
                 ->where(fn ($q) => $q->where('mapped_id', $goalId)->orWhere('id', $goalId))
                 ->first();
         }
@@ -128,19 +128,19 @@ class QuizService
         }
 
         // 2. Resolve Skin Type ('oily', 'combination', 'normal', 'dry')
-        $skinCode = $nested['skin'] ?? $data['skin'] ?? $data['skin_type'] ?? null;
+        $skinCode = $nested['skin'] ?? $nested['skin_type'] ?? $data['skin'] ?? $data['skin_type'] ?? null;
         $skinTypeId = $data['skin_type_id'] ?? null;
 
         if (!empty($data['skin_option_id'])) {
             $skinOption = QuizOption::find($data['skin_option_id']);
         }
         if (!$skinOption && $skinCode) {
-            $skinOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 2))
+            $skinOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'skin_type'))
                 ->where('code', strtolower((string) $skinCode))
                 ->first();
         }
         if (!$skinOption && $skinTypeId) {
-            $skinOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 2))
+            $skinOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'skin_type'))
                 ->where(fn ($q) => $q->where('mapped_id', $skinTypeId)->orWhere('id', $skinTypeId))
                 ->first();
         }
@@ -162,7 +162,7 @@ class QuizService
         }
 
         // 3. Resolve Sensitivity (boolean true / false)
-        $rawSens = $nested['sensitive'] ?? $data['sensitive'] ?? $data['sensitivity'] ?? $data['is_sensitive'] ?? null;
+        $rawSens = $nested['sensitive'] ?? $nested['sensitivity'] ?? $data['sensitive'] ?? $data['sensitivity'] ?? $data['is_sensitive'] ?? null;
         if (!empty($data['sensitivity_option_id'])) {
             $sensOption = QuizOption::find($data['sensitivity_option_id']);
         }
@@ -171,13 +171,13 @@ class QuizService
         }
         $isSensitive = $this->parseSensitivityBoolean($rawSens);
         if (!$sensOption) {
-            $sensOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 3))
+            $sensOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'sensitivity'))
                 ->where('code', $isSensitive ? 'yes' : 'no')
                 ->first();
         }
 
         // 4. Resolve Secondary Concern ('acne', 'pores', 'blackheads', 'dark_spots', 'dullness', 'redness', 'dryness', 'lines', 'oil', 'eyes', or null)
-        $rawSecondary = $nested['secondary'] ?? $data['secondary'] ?? $data['q4'] ?? null;
+        $rawSecondary = $nested['secondary'] ?? $nested['q4'] ?? $data['secondary'] ?? $data['q4'] ?? null;
         if (is_array($rawSecondary)) {
             $rawSecondary = $rawSecondary[0] ?? null;
         }
@@ -192,7 +192,7 @@ class QuizService
         if ($rawSecondary !== null && $rawSecondary !== '' && $rawSecondary !== 'none' && $rawSecondary !== 'null') {
             $secondaryCode = strtolower((string) $rawSecondary);
             if (!$secondaryOption) {
-                $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 4))
+                $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q4'))
                     ->where('code', $secondaryCode)
                     ->first();
             }
@@ -201,7 +201,7 @@ class QuizService
                 if ($cid === null || $cid === '' || $cid === 'none') {
                     continue;
                 }
-                $opt = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 4))
+                $opt = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q4'))
                     ->where(function ($q) use ($cid) {
                         if (is_numeric($cid)) {
                             $q->where('mapped_id', (int) $cid)->orWhere('id', (int) $cid);
@@ -223,7 +223,7 @@ class QuizService
                         $mappedCode = $this->mapConcernModelToCode($cModel->name_en);
                         if ($mappedCode && $mappedCode !== $primaryCode) {
                             $secondaryCode = $mappedCode;
-                            $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 4))
+                            $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q4'))
                                 ->where('code', $secondaryCode)
                                 ->first();
                             break;

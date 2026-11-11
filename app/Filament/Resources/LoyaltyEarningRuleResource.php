@@ -43,7 +43,7 @@ class LoyaltyEarningRuleResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('قواعد احتساب النقاط')
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->label('اسم القاعدة (الحدث / المناسبة)')

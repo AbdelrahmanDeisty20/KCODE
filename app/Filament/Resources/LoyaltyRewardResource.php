@@ -43,7 +43,7 @@ class LoyaltyRewardResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('تفاصيل المكافأة')
                     ->schema([
                         Forms\Components\TextInput::make('name_ar')
                             ->label('اسم المكافأة (بالعربية)')

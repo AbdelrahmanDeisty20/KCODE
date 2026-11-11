@@ -48,7 +48,7 @@ class PresetRoutineResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('البيانات الأساسية للروتين')
                     ->schema([
                         Forms\Components\TextInput::make('slug')
                             ->label('المعرف البرمجي (Slug)')

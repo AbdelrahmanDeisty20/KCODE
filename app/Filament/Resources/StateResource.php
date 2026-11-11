@@ -43,7 +43,7 @@ class StateResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('بيانات المنطقة / المحافظة')
                     ->schema([
                         Forms\Components\Select::make('country_id')
                             ->label('الدولة')

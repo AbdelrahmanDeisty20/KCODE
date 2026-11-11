@@ -43,7 +43,7 @@ class TermsOfUseResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('تفاصيل شروط الاستخدام')
                     ->schema([
                         Forms\Components\TextInput::make('title_ar')
                             ->label('عنوان السياسة (بالعربية)')

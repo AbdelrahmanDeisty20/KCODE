@@ -43,7 +43,7 @@ class LoyaltySettingResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('إعدادات نقاط الولاء')
                     ->schema([
                         Forms\Components\TextInput::make('key')
                             ->label('المفتاح البرمجي (Key)')

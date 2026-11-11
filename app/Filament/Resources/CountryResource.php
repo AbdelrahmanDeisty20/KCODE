@@ -43,7 +43,7 @@ class CountryResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('بيانات الدولة')
                     ->schema([
                         Forms\Components\TextInput::make('name_ar')
                             ->label('اسم الدولة (بالعربية)')

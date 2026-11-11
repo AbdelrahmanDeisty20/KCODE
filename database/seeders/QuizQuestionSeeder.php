@@ -261,9 +261,55 @@ class QuizQuestionSeeder extends Seeder
         }
 
         // -------------------------------------------------------------
-        // Question 2: Skin Type (نوع بشرتك - skin_type)
+        // Question 2: Secondary Concern (مشكلة إضافية - q4)
         // -------------------------------------------------------------
         $q2 = QuizQuestion::create([
+            'key' => 'q4',
+            'step_label_ar' => 'مشكلة إضافية',
+            'step_label_en' => 'Additional Concern',
+            'title_ar' => 'هل هناك شيء آخر تودّ تحسينه؟',
+            'title_en' => 'Is there anything else you would like to improve?',
+            'description_ar' => 'إذا لم يكن لديك اهتمام إضافي، اختر «لا يوجد».',
+            'description_en' => 'If you have no additional concern, choose "None".',
+            'helper_ar' => null,
+            'helper_en' => null,
+            'selection_type' => 'single',
+            'step_number' => 2,
+            'is_optional' => true,
+        ]);
+
+        // First option: "none" (لا يوجد) matching R479 presentation.js order
+        QuizOption::create([
+            'quiz_question_id' => $q2->id,
+            'code' => 'none',
+            'title_ar' => 'لا يوجد',
+            'title_en' => 'None',
+            'description_ar' => 'التركيز الكامل على الهدف الأساسي فقط',
+            'description_en' => 'Focus solely on the primary goal',
+            'image' => 'none.png',
+            'option_type' => 'none',
+            'mapped_id' => null,
+        ]);
+
+        foreach ($secondaryConcernsCatalog as $code => $optData) {
+            $mapped = $concernModelsByCode[$code] ?? null;
+            QuizOption::create([
+                'quiz_question_id' => $q2->id,
+                'code' => $code,
+                'title_ar' => $optData['title_ar'],
+                'title_en' => $optData['title_en'],
+                'description_ar' => $optData['description_ar'],
+                'description_en' => $optData['description_en'],
+                'image' => $optData['image'],
+                'option_type' => 'concern',
+                'mapped_id' => $mapped ? $mapped->id : null,
+            ]);
+        }
+
+        // -------------------------------------------------------------
+        // Question 3: Skin Type (نوع بشرتك - skin_type)
+        // -------------------------------------------------------------
+        $q3 = QuizQuestion::create([
             'key' => 'skin_type',
             'step_label_ar' => 'نوع بشرتك',
             'step_label_en' => 'Your Skin Type',
@@ -274,11 +320,11 @@ class QuizQuestionSeeder extends Seeder
             'helper_ar' => 'الشدّ بعد الغسل أو اللمعان بعد التعرّق وحده لا يكفي لتحديد نوع بشرتك.',
             'helper_en' => 'Tightness after washing or shine after sweating alone is not enough to determine your skin type.',
             'selection_type' => 'single',
-            'step_number' => 2,
+            'step_number' => 3,
             'is_optional' => false,
         ]);
 
-        $q2Options = [
+        $q3Options = [
             [
                 'code' => 'oily',
                 'name_en' => 'Oily',
@@ -317,7 +363,7 @@ class QuizQuestionSeeder extends Seeder
             ],
         ];
 
-        foreach ($q2Options as $optData) {
+        foreach ($q3Options as $optData) {
             $mapped = SkinType::firstOrCreate(
                 ['name_en' => $optData['name_en']],
                 [
@@ -329,7 +375,7 @@ class QuizQuestionSeeder extends Seeder
                 ]
             );
             QuizOption::create([
-                'quiz_question_id' => $q2->id,
+                'quiz_question_id' => $q3->id,
                 'code' => $optData['code'],
                 'title_ar' => $optData['title_ar'],
                 'title_en' => $optData['title_en'],
@@ -342,9 +388,9 @@ class QuizQuestionSeeder extends Seeder
         }
 
         // -------------------------------------------------------------
-        // Question 3: Sensitivity Filter (تحسّس بشرتك - sensitivity)
+        // Question 4: Sensitivity Filter (تحسّس بشرتك - sensitivity)
         // -------------------------------------------------------------
-        $q3 = QuizQuestion::create([
+        $q4 = QuizQuestion::create([
             'key' => 'sensitivity',
             'step_label_ar' => 'تحسّس بشرتك',
             'step_label_en' => 'Skin Sensitivity',
@@ -355,12 +401,12 @@ class QuizQuestionSeeder extends Seeder
             'helper_ar' => null,
             'helper_en' => null,
             'selection_type' => 'single',
-            'step_number' => 3,
+            'step_number' => 4,
             'is_optional' => false,
         ]);
 
         QuizOption::create([
-            'quiz_question_id' => $q3->id,
+            'quiz_question_id' => $q4->id,
             'code' => 'yes',
             'title_ar' => 'نعم، تتهيّج بسهولة',
             'title_en' => 'Yes, irritates easily',
@@ -372,7 +418,7 @@ class QuizQuestionSeeder extends Seeder
         ]);
 
         QuizOption::create([
-            'quiz_question_id' => $q3->id,
+            'quiz_question_id' => $q4->id,
             'code' => 'no',
             'title_ar' => 'لا، لا تتهيّج عادةً',
             'title_en' => 'No, usually does not irritate',
@@ -382,51 +428,5 @@ class QuizQuestionSeeder extends Seeder
             'option_type' => 'sensitivity',
             'mapped_id' => 0,
         ]);
-
-        // -------------------------------------------------------------
-        // Question 4: Secondary Concern (مشكلة إضافية - q4)
-        // -------------------------------------------------------------
-        $q4 = QuizQuestion::create([
-            'key' => 'q4',
-            'step_label_ar' => 'مشكلة إضافية',
-            'step_label_en' => 'Additional Concern',
-            'title_ar' => 'هل هناك شيء آخر تودّ تحسينه؟',
-            'title_en' => 'Is there anything else you would like to improve?',
-            'description_ar' => 'إذا لم يكن لديك اهتمام إضافي، اختر «لا يوجد».',
-            'description_en' => 'If you have no additional concern, choose "None".',
-            'helper_ar' => null,
-            'helper_en' => null,
-            'selection_type' => 'single',
-            'step_number' => 4,
-            'is_optional' => true,
-        ]);
-
-        // First option: "none" (لا يوجد) matching R479 presentation.js order
-        QuizOption::create([
-            'quiz_question_id' => $q4->id,
-            'code' => 'none',
-            'title_ar' => 'لا يوجد',
-            'title_en' => 'None',
-            'description_ar' => 'التركيز الكامل على الهدف الأساسي فقط',
-            'description_en' => 'Focus solely on the primary goal',
-            'image' => 'none.png',
-            'option_type' => 'none',
-            'mapped_id' => null,
-        ]);
-
-        foreach ($secondaryConcernsCatalog as $code => $optData) {
-            $mapped = $concernModelsByCode[$code] ?? null;
-            QuizOption::create([
-                'quiz_question_id' => $q4->id,
-                'code' => $code,
-                'title_ar' => $optData['title_ar'],
-                'title_en' => $optData['title_en'],
-                'description_ar' => $optData['description_ar'],
-                'description_en' => $optData['description_en'],
-                'image' => $optData['image'],
-                'option_type' => 'concern',
-                'mapped_id' => $mapped ? $mapped->id : null,
-            ]);
-        }
     }
 }

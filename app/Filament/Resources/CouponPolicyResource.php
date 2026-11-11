@@ -43,7 +43,7 @@ class CouponPolicyResource extends Resource
     {
         return $schema
             ->components([
-                Components\Card::make()
+                Components\Section::make('تفاصيل سياسة الكوبونات')
                     ->schema([
                         Forms\Components\TextInput::make('title_ar')
                             ->label('عنوان السياسة (بالعربية)')
