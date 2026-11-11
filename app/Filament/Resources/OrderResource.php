@@ -57,193 +57,198 @@ class OrderResource extends Resource
     {
         return $schema
             ->components([
-                // Section 1: Customer & Order Overview (Full Width)
-                Components\Section::make('👤 بيانات الطلب والعميل')
-                    ->schema([
-                        Forms\Components\TextInput::make('order_number')
-                            ->label('رقم الطلب')
-                            ->disabled(),
-
-                        Forms\Components\Select::make('order_status')
-                            ->label('حالة الطلب')
-                            ->options([
-                                'pending'   => 'قيد الانتظار',
-                                'accepted'  => 'مقبول',
-                                'delivered' => 'تم التسليم',
-                                'cancelled' => 'ملغي',
-                            ])
-                            ->required(),
-
-                        Forms\Components\Select::make('payment_status')
-                            ->label('حالة الدفع')
-                            ->options([
-                                'pending' => 'معلق',
-                                'paid' => 'مدفوع',
-                                'failed' => 'فشل الدفع',
-                                'refunded' => 'مسترجع',
-                            ])
-                            ->required(),
-
-                        Forms\Components\TextInput::make('user_name')
-                            ->label('اسم صاحب الطلب')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('user_email')
-                            ->label('البريد الإلكتروني للتواصل')
-                            ->email(),
-
-                        Forms\Components\TextInput::make('user_phone')
-                            ->label('رقم الهاتف للتواصل'),
-
-                        Forms\Components\TextInput::make('payment_method')
-                            ->label('طريقة الدفع'),
-                    ])
-                    ->columns(3)
-                    ->columnSpanFull(),
-
-                // Section 2: Order Items (Full Width Repeater)
-                Components\Section::make('🛍️ المنتجات المطلوبة والكميات (Order Items)')
-                    ->schema([
-                        Forms\Components\Repeater::make('items')
-                            ->label('عناصر الطلب')
-                            ->relationship('items')
+                Components\Tabs::make('تفاصيل الطلب')
+                    ->tabs([
+                        Components\Tabs\Tab::make('البيانات الأساسية والعميل')
                             ->schema([
-                                Forms\Components\TextInput::make('product_name')
-                                    ->label('اسم المنتج')
-                                    ->disabled()
-                                    ->columnSpan(2),
-
-                                Forms\Components\TextInput::make('quantity')
-                                    ->label('الكمية')
+                                Forms\Components\TextInput::make('order_number')
+                                    ->label('رقم الطلب')
                                     ->disabled(),
 
-                                Forms\Components\TextInput::make('unit_price')
-                                    ->label('سعر القطعة')
-                                    ->prefix('OMR')
+                                Forms\Components\TextInput::make('created_at')
+                                    ->label('تاريخ إنشاء الطلب')
+                                    ->formatStateUsing(fn ($record) => $record?->created_at?->format('Y-m-d H:i') ?? '—')
                                     ->disabled(),
 
-                                Forms\Components\TextInput::make('total_price')
-                                    ->label('الإجمالي')
-                                    ->prefix('OMR')
+                                Forms\Components\Select::make('order_status')
+                                    ->label('حالة الطلب')
+                                    ->options([
+                                        'pending'   => 'قيد الانتظار',
+                                        'accepted'  => 'مقبول',
+                                        'delivered' => 'تم التسليم',
+                                        'cancelled' => 'ملغي',
+                                    ])
+                                    ->required(),
+
+                                Forms\Components\Select::make('payment_status')
+                                    ->label('حالة الدفع')
+                                    ->options([
+                                        'pending'  => 'معلق',
+                                        'paid'     => 'مدفوع',
+                                        'failed'   => 'فشل الدفع',
+                                        'refunded' => 'مسترجع',
+                                    ])
+                                    ->required(),
+
+                                Forms\Components\TextInput::make('user_name')
+                                    ->label('اسم صاحب الطلب')
                                     ->disabled(),
+
+                                Forms\Components\TextInput::make('user_email')
+                                    ->label('البريد الإلكتروني للتواصل')
+                                    ->email(),
+
+                                Forms\Components\TextInput::make('user_phone')
+                                    ->label('رقم الهاتف للتواصل'),
+
+                                Forms\Components\TextInput::make('payment_method')
+                                    ->label('طريقة الدفع'),
                             ])
-                            ->columns(5)
-                            ->addable(false)
-                            ->deletable(false)
-                            ->reorderable(false)
-                            ->columnSpanFull(),
+                            ->columns(2),
+
+                        Components\Tabs\Tab::make('المنتجات المطلوبة والكميات (Order Items)')
+                            ->badge(fn ($record) => $record?->items?->count())
+                            ->schema([
+                                Forms\Components\Repeater::make('items')
+                                    ->label('عناصر الطلب')
+                                    ->relationship('items')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('product_name')
+                                            ->label('اسم المنتج')
+                                            ->disabled()
+                                            ->columnSpan(2),
+
+                                        Forms\Components\TextInput::make('quantity')
+                                            ->label('الكمية')
+                                            ->disabled(),
+
+                                        Forms\Components\TextInput::make('unit_price')
+                                            ->label('سعر القطعة')
+                                            ->prefix('OMR')
+                                            ->disabled(),
+
+                                        Forms\Components\TextInput::make('total_price')
+                                            ->label('الإجمالي')
+                                            ->prefix('OMR')
+                                            ->disabled(),
+                                    ])
+                                    ->columns(5)
+                                    ->addable(false)
+                                    ->deletable(false)
+                                    ->reorderable(false)
+                                    ->columnSpanFull(),
+                            ]),
+
+                        Components\Tabs\Tab::make('بيانات التوصيل والعنوان التفصيلي')
+                            ->schema([
+                                Forms\Components\TextInput::make('recipient_name')
+                                    ->label('اسم المستلم')
+                                    ->default(fn ($record) => $record?->shipping_address['user_name'] ?? $record?->address?->user?->name ?? $record?->user_name ?? '—')
+                                    ->formatStateUsing(fn ($state, $record) => $record?->shipping_address['user_name'] ?? $record?->address?->user?->name ?? $record?->user_name ?? '—')
+                                    ->disabled(),
+
+                                Forms\Components\TextInput::make('recipient_phone')
+                                    ->label('هاتف المستلم')
+                                    ->default(fn ($record) => $record?->shipping_address['user_phone'] ?? $record?->address?->phone ?? $record?->user_phone ?? '—')
+                                    ->formatStateUsing(fn ($state, $record) => $record?->shipping_address['user_phone'] ?? $record?->address?->phone ?? $record?->user_phone ?? '—')
+                                    ->disabled(),
+
+                                Forms\Components\TextInput::make('recipient_country')
+                                    ->label('الدولة')
+                                    ->default(function ($record) {
+                                        return $record?->shipping_address['country'] 
+                                            ?? $record?->address?->country?->name_ar 
+                                            ?? $record?->address?->country?->name_en 
+                                            ?? 'سلطنة عمان (Oman)';
+                                    })
+                                    ->formatStateUsing(function ($state, $record) {
+                                        return $record?->shipping_address['country'] 
+                                            ?? $record?->address?->country?->name_ar 
+                                            ?? $record?->address?->country?->name_en 
+                                            ?? 'سلطنة عمان (Oman)';
+                                    })
+                                    ->disabled(),
+
+                                Forms\Components\TextInput::make('recipient_state')
+                                    ->label('المحافظة')
+                                    ->default(function ($record) {
+                                        return $record?->shipping_address['state'] 
+                                            ?? $record?->address?->state?->name_ar 
+                                            ?? $record?->address?->state?->name_en 
+                                            ?? '—';
+                                    })
+                                    ->formatStateUsing(function ($state, $record) {
+                                        return $record?->shipping_address['state'] 
+                                            ?? $record?->address?->state?->name_ar 
+                                            ?? $record?->address?->state?->name_en 
+                                            ?? '—';
+                                    })
+                                    ->disabled(),
+
+                                Forms\Components\TextInput::make('recipient_city')
+                                    ->label('المدينة')
+                                    ->default(function ($record) {
+                                        return $record?->shipping_address['city'] 
+                                            ?? $record?->address?->city?->name_ar 
+                                            ?? $record?->address?->city?->name_en 
+                                            ?? '—';
+                                    })
+                                    ->formatStateUsing(function ($state, $record) {
+                                        return $record?->shipping_address['city'] 
+                                            ?? $record?->address?->city?->name_ar 
+                                            ?? $record?->address?->city?->name_en 
+                                            ?? '—';
+                                    })
+                                    ->disabled(),
+
+                                Forms\Components\TextInput::make('recipient_address')
+                                    ->label('العنوان التفصيلي')
+                                    ->default(function ($record) {
+                                        return $record?->shipping_address['address'] ?? $record?->address?->address ?? '—';
+                                    })
+                                    ->formatStateUsing(function ($state, $record) {
+                                        return $record?->shipping_address['address'] ?? $record?->address?->address ?? '—';
+                                    })
+                                    ->disabled()
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(2),
+
+                        Components\Tabs\Tab::make('الملخص المالي والإجماليات')
+                            ->schema([
+                                Forms\Components\TextInput::make('subtotal')
+                                    ->label('المجموع الفرعي')
+                                    ->numeric()
+                                    ->prefix('OMR'),
+
+                                Forms\Components\TextInput::make('shipping_fee')
+                                    ->label('مبلغ الشحن')
+                                    ->numeric()
+                                    ->prefix('OMR'),
+
+                                Forms\Components\TextInput::make('coupon_code')
+                                    ->label('كود الكوبون المستخدم')
+                                    ->disabled(),
+
+                                Forms\Components\TextInput::make('discount_amount')
+                                    ->label('خصم الكوبون')
+                                    ->numeric()
+                                    ->prefix('OMR'),
+
+                                Forms\Components\TextInput::make('total')
+                                    ->label('الإجمالي النهائي')
+                                    ->numeric()
+                                    ->prefix('OMR')
+                                    ->required()
+                                    ->columnSpanFull(),
+
+                                Forms\Components\Textarea::make('notes')
+                                    ->label('ملاحظات الطلب')
+                                    ->rows(3)
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(2),
                     ])
-                    ->columnSpanFull(),
-
-                // Section 3: Delivery Address Details (Full Width with Country, State, City)
-                Components\Section::make('🚚 بيانات التوصيل والعنوان التفصيلي')
-                    ->schema([
-                        Forms\Components\TextInput::make('recipient_name')
-                            ->label('اسم المستلم')
-                            ->default(fn ($record) => $record?->shipping_address['user_name'] ?? $record?->address?->user?->name ?? $record?->user_name ?? '—')
-                            ->formatStateUsing(fn ($state, $record) => $record?->shipping_address['user_name'] ?? $record?->address?->user?->name ?? $record?->user_name ?? '—')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('recipient_phone')
-                            ->label('هاتف المستلم')
-                            ->default(fn ($record) => $record?->shipping_address['user_phone'] ?? $record?->address?->phone ?? $record?->user_phone ?? '—')
-                            ->formatStateUsing(fn ($state, $record) => $record?->shipping_address['user_phone'] ?? $record?->address?->phone ?? $record?->user_phone ?? '—')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('recipient_country')
-                            ->label('الدولة')
-                            ->default(function ($record) {
-                                return $record?->shipping_address['country'] 
-                                    ?? $record?->address?->country?->name_ar 
-                                    ?? $record?->address?->country?->name_en 
-                                    ?? 'سلطنة عمان (Oman)';
-                            })
-                            ->formatStateUsing(function ($state, $record) {
-                                return $record?->shipping_address['country'] 
-                                    ?? $record?->address?->country?->name_ar 
-                                    ?? $record?->address?->country?->name_en 
-                                    ?? 'سلطنة عمان (Oman)';
-                            })
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('recipient_state')
-                            ->label('المحافظة')
-                            ->default(function ($record) {
-                                return $record?->shipping_address['state'] 
-                                    ?? $record?->address?->state?->name_ar 
-                                    ?? $record?->address?->state?->name_en 
-                                    ?? '—';
-                            })
-                            ->formatStateUsing(function ($state, $record) {
-                                return $record?->shipping_address['state'] 
-                                    ?? $record?->address?->state?->name_ar 
-                                    ?? $record?->address?->state?->name_en 
-                                    ?? '—';
-                            })
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('recipient_city')
-                            ->label('المدينة')
-                            ->default(function ($record) {
-                                return $record?->shipping_address['city'] 
-                                    ?? $record?->address?->city?->name_ar 
-                                    ?? $record?->address?->city?->name_en 
-                                    ?? '—';
-                            })
-                            ->formatStateUsing(function ($state, $record) {
-                                return $record?->shipping_address['city'] 
-                                    ?? $record?->address?->city?->name_ar 
-                                    ?? $record?->address?->city?->name_en 
-                                    ?? '—';
-                            })
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('recipient_address')
-                            ->label('العنوان التفصيلي')
-                            ->default(function ($record) {
-                                return $record?->shipping_address['address'] ?? $record?->address?->address ?? '—';
-                            })
-                            ->formatStateUsing(function ($state, $record) {
-                                return $record?->shipping_address['address'] ?? $record?->address?->address ?? '—';
-                            })
-                            ->disabled(),
-                    ])
-                    ->columns(3)
-                    ->columnSpanFull(),
-
-                // Section 4: Financial Summary (Full Width)
-                Components\Section::make('💳 الملخص المالي والإجماليات')
-                    ->schema([
-                        Forms\Components\TextInput::make('subtotal')
-                            ->label('المجموع الفرعي')
-                            ->numeric()
-                            ->prefix('OMR'),
-
-                        Forms\Components\TextInput::make('discount_amount')
-                            ->label('خصم الكوبون')
-                            ->numeric()
-                            ->prefix('OMR'),
-
-                        Forms\Components\TextInput::make('coupon_code')
-                            ->label('كود الكوبون المستخدم')
-                            ->disabled(),
-
-                        Forms\Components\TextInput::make('shipping_fee')
-                            ->label('مبلغ الشحن')
-                            ->numeric()
-                            ->prefix('OMR'),
-
-                        Forms\Components\TextInput::make('total')
-                            ->label('الإجمالي النهائي')
-                            ->numeric()
-                            ->prefix('OMR')
-                            ->required(),
-
-                        Forms\Components\Textarea::make('notes')
-                            ->label('ملاحظات الطلب')
-                            ->columnSpanFull(),
-                    ])
-                    ->columns(4)
                     ->columnSpanFull(),
             ]);
     }
