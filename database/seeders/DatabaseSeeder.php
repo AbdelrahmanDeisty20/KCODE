@@ -72,6 +72,7 @@ class DatabaseSeeder extends Seeder
             PresetRoutineSeeder::class,
             MenPresetRoutineSeeder::class,
             KcodePdpFieldsSeeder::class,
+            SeedMissingR479ProductsSeeder::class,
             SyncAllR479ProductsSeeder::class,
             CareGuideSeeder::class,
         ]);
