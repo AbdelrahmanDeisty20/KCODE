@@ -43,7 +43,7 @@ class CouponPolicyResource extends Resource
     {
         return $schema
             ->components([
-                Components\Section::make('تفاصيل سياسة الكوبونات')
+                Components\Section::make('معلومات السياسة')
                     ->schema([
                         Forms\Components\TextInput::make('title_ar')
                             ->label('عنوان السياسة (بالعربية)')
@@ -53,18 +53,56 @@ class CouponPolicyResource extends Resource
                             ->label('عنوان السياسة (بالإنجليزية)')
                             ->required(),
 
-                        Forms\Components\RichEditor::make('content_ar')
-                            ->label('محتوى السياسة (بالعربية)')
-                            ->required(),
-
-                        Forms\Components\RichEditor::make('content_en')
-                            ->label('محتوى السياسة (بالإنجليزية)')
-                            ->required(),
-
                         Forms\Components\Toggle::make('is_active')
                             ->label('نشطة / مفعّلة')
                             ->default(true),
-                    ])->columns(1),
+                    ])->columns(2),
+
+                Components\Section::make('محتوى سياسة الكوبونات (بالعربية)')
+                    ->schema([
+                        Forms\Components\TextInput::make('content_ar.header_card.title')
+                            ->label('عنوان بطاقة الترويج (عربي)'),
+                        Forms\Components\TextInput::make('content_ar.header_card.subtitle')
+                            ->label('وصف بطاقة الترويج (عربي)'),
+
+                        Forms\Components\Repeater::make('content_ar.sections')
+                            ->label('بنود سياسة الكوبونات')
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->label('عنوان البند')
+                                    ->required(),
+                                Forms\Components\Textarea::make('paragraph')
+                                    ->label('تفاصيل البند')
+                                    ->rows(3)
+                                    ->required(),
+                            ])
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                            ->addActionLabel('إضافة بند جديد (بالعربية)'),
+                    ]),
+
+                Components\Section::make('Coupon Policy Content (English)')
+                    ->schema([
+                        Forms\Components\TextInput::make('content_en.header_card.title')
+                            ->label('Promo Card Title (English)'),
+                        Forms\Components\TextInput::make('content_en.header_card.subtitle')
+                            ->label('Promo Card Subtitle (English)'),
+
+                        Forms\Components\Repeater::make('content_en.sections')
+                            ->label('Coupon Policy Sections')
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->label('Section Title')
+                                    ->required(),
+                                Forms\Components\Textarea::make('paragraph')
+                                    ->label('Section Details')
+                                    ->rows(3)
+                                    ->required(),
+                            ])
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                            ->addActionLabel('Add New Section (English)'),
+                    ]),
             ]);
     }
 

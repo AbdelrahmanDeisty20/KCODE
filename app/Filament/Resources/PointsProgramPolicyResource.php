@@ -43,7 +43,7 @@ class PointsProgramPolicyResource extends Resource
     {
         return $schema
             ->components([
-                Components\Section::make('تفاصيل سياسة برنامج النقاط')
+                Components\Section::make('معلومات السياسة')
                     ->schema([
                         Forms\Components\TextInput::make('title_ar')
                             ->label('عنوان السياسة (بالعربية)')
@@ -53,18 +53,46 @@ class PointsProgramPolicyResource extends Resource
                             ->label('عنوان السياسة (بالإنجليزية)')
                             ->required(),
 
-                        Forms\Components\RichEditor::make('content_ar')
-                            ->label('محتوى السياسة (بالعربية)')
-                            ->required(),
-
-                        Forms\Components\RichEditor::make('content_en')
-                            ->label('محتوى السياسة (بالإنجليزية)')
-                            ->required(),
-
                         Forms\Components\Toggle::make('is_active')
                             ->label('نشطة / مفعّلة')
                             ->default(true),
-                    ])->columns(1),
+                    ])->columns(2),
+
+                Components\Section::make('بنود سياسة برنامج النقاط (بالعربية)')
+                    ->schema([
+                        Forms\Components\Repeater::make('content_ar.sections')
+                            ->label('البنود والشروط')
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->label('عنوان البند')
+                                    ->required(),
+                                Forms\Components\Textarea::make('paragraph')
+                                    ->label('تفاصيل البند')
+                                    ->rows(3)
+                                    ->required(),
+                            ])
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                            ->addActionLabel('إضافة بند جديد (بالعربية)'),
+                    ]),
+
+                Components\Section::make('Points Program Policy Sections (English)')
+                    ->schema([
+                        Forms\Components\Repeater::make('content_en.sections')
+                            ->label('Points Program Sections')
+                            ->schema([
+                                Forms\Components\TextInput::make('title')
+                                    ->label('Section Title')
+                                    ->required(),
+                                Forms\Components\Textarea::make('paragraph')
+                                    ->label('Section Details')
+                                    ->rows(3)
+                                    ->required(),
+                            ])
+                            ->collapsible()
+                            ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                            ->addActionLabel('Add New Section (English)'),
+                    ]),
             ]);
     }
 

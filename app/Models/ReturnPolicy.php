@@ -18,6 +18,8 @@ class ReturnPolicy extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'content_ar' => 'array',
+        'content_en' => 'array',
     ];
 
     public function getTitleAttribute(): string
@@ -25,7 +27,7 @@ class ReturnPolicy extends Model
         return app()->getLocale() === 'ar' ? $this->title_ar : $this->title_en;
     }
 
-    public function getContentAttribute(): string
+    public function getContentAttribute(): array|string|null
     {
         return app()->getLocale() === 'ar' ? $this->content_ar : $this->content_en;
     }
