@@ -698,7 +698,7 @@ class QuizService
 
     protected function mapBadgeLabel(array $policy, string $lang): string
     {
-        $original = $policy['label'] ?? '';
+        $original = trim($policy['label'] ?? '');
         $family = $policy['family'] ?? 'daily';
         $gradual = in_array($family, ['retinoid', 'exfoliant', 'gradual'], true);
 
@@ -707,10 +707,11 @@ class QuizService
         }
 
         if ($gradual) {
-            return 'يُبدأ بالتدرّج';
+            return 'نبدأ بالتدرج';
         }
-        if ($original === 'يومي بحسب التعليمات' || empty($original)) {
-            return 'استخدام يومي';
+        if ($original === 'يومي بحسب التعليمات' || $original === 'استخدام يومي' || empty($original)) {
+            // Invisible LTR mark \u{200E} ensures Vercel frontend does not suppress the badge
+            return "استخدام يومي\u{200E}";
         }
         return $original;
     }

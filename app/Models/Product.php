@@ -151,10 +151,18 @@ class Product extends Model
 
     public function getShortNameAttribute()
     {
-        if (app()->getLocale() == 'ar') {
-            return $this->short_name_ar ?: $this->short_name_en;
+        if (!empty($this->short_name_en)) {
+            return $this->short_name_en;
         }
-        return $this->short_name_en ?: $this->short_name_ar;
+
+        if (!empty($this->short_name_ar)
+            && $this->short_name_ar !== $this->brief_insight_ar
+            && $this->short_name_ar !== $this->description_ar
+            && mb_strlen($this->short_name_ar) < 60) {
+            return $this->short_name_ar;
+        }
+
+        return $this->name_en ?: ($this->name_ar ?: '');
     }
 
     public function getIngredientsAttribute()

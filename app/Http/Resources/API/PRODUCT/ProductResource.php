@@ -19,9 +19,19 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $shortName = !empty($this->short_name_en)
+            ? $this->short_name_en
+            : ($this->short_name ?: $this->name_en);
+
+        $name = !empty($this->name_en)
+            ? $this->name_en
+            : ($this->name ?: $shortName);
+
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => $name,
+            'name_en' => $this->name_en ?: $name,
+            'name_ar' => $this->name_ar ?: $name,
             'description' => $this->description,
             'sku' => $this->sku,
             'price' => $this->price,
@@ -30,7 +40,9 @@ class ProductResource extends JsonResource
             'status' => $this->status,
             'sales_count' => (int) $this->sales_count,
             'is_favorite' => auth('sanctum')->check() ? $this->favorites()->where('user_id', auth('sanctum')->id())->where('is_active', true)->exists() : false,
-            'short_name' => $this->short_name,
+            'short_name' => $shortName,
+            'short_name_en' => $this->short_name_en ?: $shortName,
+            'short_name_ar' => $this->short_name_ar ?: $shortName,
             'ingredients' => $this->ingredients,
             'how_to_use' => $this->how_to_use,
             'review_rating' => $this->average_rating,

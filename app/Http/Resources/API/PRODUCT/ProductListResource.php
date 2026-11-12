@@ -18,11 +18,23 @@ class ProductListResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $shortName = !empty($this->short_name_en)
+            ? $this->short_name_en
+            : ($this->short_name ?: $this->name_en);
+
+        $name = !empty($this->name_en)
+            ? $this->name_en
+            : ($this->name ?: $shortName);
+
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => $name,
             'sku' => $this->sku,
-            'short_name' => $this->short_name,
+            'short_name' => $shortName,
+            'name_en' => $this->name_en ?: $name,
+            'name_ar' => $this->name_ar ?: $name,
+            'short_name_en' => $this->short_name_en ?: $shortName,
+            'short_name_ar' => $this->short_name_ar ?: $shortName,
             'price' => $this->price,
             'image' => $this->image_path,
             'brand' => BrandResource::make($this->whenLoaded('brand')),

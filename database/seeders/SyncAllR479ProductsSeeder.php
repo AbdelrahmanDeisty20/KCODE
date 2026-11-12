@@ -167,7 +167,7 @@ class SyncAllR479ProductsSeeder extends Seeder
                 $product->name_en = $nameClean;
                 $product->name_ar = $nameClean;
                 $product->short_name_en = $nameClean;
-                $product->short_name_ar = $briefClean;
+                $product->short_name_ar = $nameClean;
                 $product->brief_insight_ar = $briefClean;
                 $product->description_ar = $descClean;
                 $product->description_en = $descClean;
