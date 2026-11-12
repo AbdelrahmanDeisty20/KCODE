@@ -145,7 +145,7 @@ class ProductResource extends Resource
                                                 if (!$url) {
                                                     return new \Illuminate\Support\HtmlString('<span style="color:#888;">لا توجد صورة رئيسية</span>');
                                                 }
-                                                $src = filter_var($url, FILTER_VALIDATE_URL) ? $url : asset('storage/' . ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $url), '/'));
+                                                $src = filter_var($url, FILTER_VALIDATE_URL) ? $url : \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $url), '/'));
                                                 return new \Illuminate\Support\HtmlString('<div style="margin-bottom:10px;"><img src="' . e($src) . '" style="max-height: 220px; border-radius: 12px; border: 3px solid #6b2f5f; box-shadow: 0 4px 12px rgba(0,0,0,0.15); object-fit: cover;" /></div>');
                                             }),
 
@@ -187,7 +187,7 @@ class ProductResource extends Resource
                                                         if (!$url) {
                                                             return new \Illuminate\Support\HtmlString('<span style="color:#888;">لا توجد صورة</span>');
                                                         }
-                                                        $src = filter_var($url, FILTER_VALIDATE_URL) ? $url : asset('storage/' . ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $url), '/'));
+                                                        $src = filter_var($url, FILTER_VALIDATE_URL) ? $url : \Illuminate\Support\Facades\Storage::disk('public')->url(ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $url), '/'));
                                                         return new \Illuminate\Support\HtmlString('<div style="margin-bottom:8px;"><img src="' . e($src) . '" style="max-height: 160px; max-width: 220px; border-radius: 10px; border: 2px solid #93254e; box-shadow: 0 3px 8px rgba(0,0,0,0.12); object-fit: cover;" /></div>');
                                                     }),
 
@@ -746,7 +746,7 @@ class ProductResource extends Resource
                     ->square()
                     ->size(50),
 
-                Tables\Columns\ImageColumn::make('images.image_path')
+                Tables\Columns\ImageColumn::make('images.images')
                     ->label($isEn ? 'Sub Images' : 'الصور الفرعية')
                     ->circular()
                     ->stacked()

@@ -29,6 +29,6 @@ class ProductImage extends Model
             $path = 'product_images/' . $path;
         }
 
-        return asset('storage/' . $path);
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($path);
     }
 }

@@ -36,6 +36,6 @@ class Category extends Model
         $path = ltrim(preg_replace('/^categories\//i', '', $path), '/');
         $path = 'categories/' . $path;
 
-        return asset('storage/' . $path);
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($path);
     }
 }
