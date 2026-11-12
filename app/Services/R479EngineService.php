@@ -845,7 +845,7 @@ class R479EngineService
             'usage_notice_ar' => $p['usage_notice_ar'] ?? '',
             'order' => $p['usage_policy']['order'] ?? 0,
             'family' => $p['usage_policy']['family'] ?? 'daily',
-            'label' => $p['usage_policy']['label'] ?? '',
+            'label' => '', // Empty per canonical R479 spec so redundant inline badge is not rendered in usage view
         ];
 
         return [
