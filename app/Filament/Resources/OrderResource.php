@@ -113,6 +113,43 @@ class OrderResource extends Resource
                                     ->label('عناصر الطلب')
                                     ->relationship('items')
                                     ->schema([
+                                        Forms\Components\Placeholder::make('product_image')
+                                            ->label('صورة المنتج')
+                                            ->content(function ($record, $get) {
+                                                $img = $record?->product_image ?? $record?->product?->image_path;
+                                                $productId = $record?->product_id ?? $get('product_id');
+
+                                                if (!$img && $productId) {
+                                                    $img = \App\Models\Product::find($productId)?->image_path;
+                                                }
+
+                                                if (!$img && ($productName = $record?->product_name ?? $get('product_name'))) {
+                                                    $img = \App\Models\Product::where('name_ar', $productName)
+                                                        ->orWhere('name_en', $productName)
+                                                        ->first()?->image_path;
+                                                }
+
+                                                if (!$img) {
+                                                    return new \Illuminate\Support\HtmlString('
+                                                        <div style="width: 56px; height: 56px; background: #faf5f8; border: 1.5px dashed #c08497; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #93254e; text-align: center; font-weight: 600;">
+                                                            بدون صورة
+                                                        </div>
+                                                    ');
+                                                }
+
+                                                $productUrl = $productId ? url('/admin/products/' . $productId) : '#';
+
+                                                return new \Illuminate\Support\HtmlString('
+                                                    <a href="' . e($productUrl) . '" target="_blank" title="عرض صفحة المنتج" style="display: inline-block; text-decoration: none;">
+                                                        <img src="' . e($img) . '" 
+                                                             alt="' . e($record?->product_name ?? 'Product') . '" 
+                                                             style="width: 56px; height: 56px; object-fit: cover; border-radius: 10px; border: 2px solid rgba(147, 37, 78, 0.25); box-shadow: 0 2px 6px rgba(0,0,0,0.08); display: block;" 
+                                                             onerror="this.onerror=null; this.src=\'/images/default-product.png\';" />
+                                                    </a>
+                                                ');
+                                            })
+                                            ->columnSpan(1),
+
                                         Forms\Components\TextInput::make('product_name')
                                             ->label('اسم المنتج')
                                             ->disabled()
@@ -120,19 +157,22 @@ class OrderResource extends Resource
 
                                         Forms\Components\TextInput::make('quantity')
                                             ->label('الكمية')
-                                            ->disabled(),
+                                            ->disabled()
+                                            ->columnSpan(1),
 
                                         Forms\Components\TextInput::make('unit_price')
                                             ->label('سعر القطعة')
                                             ->prefix('OMR')
-                                            ->disabled(),
+                                            ->disabled()
+                                            ->columnSpan(1),
 
                                         Forms\Components\TextInput::make('total_price')
                                             ->label('الإجمالي')
                                             ->prefix('OMR')
-                                            ->disabled(),
+                                            ->disabled()
+                                            ->columnSpan(1),
                                     ])
-                                    ->columns(5)
+                                    ->columns(6)
                                     ->addable(false)
                                     ->deletable(false)
                                     ->reorderable(false)

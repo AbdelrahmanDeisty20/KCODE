@@ -32,4 +32,23 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getProductImageAttribute(): ?string
+    {
+        if ($this->relationLoaded('product') && $this->product) {
+            return $this->product->image_path;
+        }
+
+        if ($this->product_id) {
+            return $this->product?->image_path;
+        }
+
+        if ($this->product_name) {
+            return Product::where('name_ar', $this->product_name)
+                ->orWhere('name_en', $this->product_name)
+                ->first()?->image_path;
+        }
+
+        return null;
+    }
 }
