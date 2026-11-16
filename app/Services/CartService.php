@@ -92,20 +92,8 @@ class CartService
                     ];
                 }
 
-                // Check if ALL products from this routine already exist in cart
+                // F07: Idempotent routine handling - clicking add routine again does not fail or duplicate
                 $uniqueRoutineProductIds = array_unique($routineProductIds);
-                $existingCount = CartItem::where('cart_id', $cart->id)
-                    ->whereIn('product_id', $uniqueRoutineProductIds)
-                    ->count();
-
-                if ($existingCount > 0 && $existingCount === count($uniqueRoutineProductIds)) {
-                    return [
-                        'status'  => false,
-                        'message' => __('messages.routine_already_in_cart'),
-                        'data'    => [],
-                    ];
-                }
-
                 $productIds = array_unique(array_merge($productIds, $routineProductIds));
             }
 
@@ -143,7 +131,8 @@ class CartService
 
                 $existingItem = CartItem::where('cart_id', $cart->id)->where('product_id', $product->id)->first();
                 $currentCartQuantity = $existingItem ? (int)$existingItem->quantity : 0;
-                $targetQuantity = $currentCartQuantity > 0 ? ($currentCartQuantity + $addQuantity) : $addQuantity;
+                // F07: Idempotent addition for routines and bulk sets (R479 spec: Math.max(existing, 1))
+                $targetQuantity = $currentCartQuantity > 0 ? max($currentCartQuantity, $addQuantity) : $addQuantity;
 
                 if ($targetQuantity > $product->stock) {
                     return [

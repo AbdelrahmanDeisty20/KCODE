@@ -13,8 +13,15 @@ class SitemapService
      */
     public function generateSitemap()
     {
-        $blogs = Blog::published()->select(['slug', 'updated_at', 'created_at'])->latest('updated_at')->get();
+        $blogs = Blog::published()
+            ->where('slug', 'not like', '%test%')
+            ->select(['slug', 'updated_at', 'created_at'])
+            ->latest('updated_at')
+            ->get();
         $categories = BlogCategory::select(['slug', 'updated_at', 'created_at'])->latest('updated_at')->get();
+        $products = \App\Models\Product::where('status', 'active')->select(['id', 'sku', 'updated_at'])->get();
+        $routines = \App\Models\PresetRoutine::where('status', 'active')->select(['id', 'slug', 'updated_at'])->get();
+
         $baseUrl = rtrim(config('app.url', url('/')), '/');
         if (empty($baseUrl) || $baseUrl === 'http://localhost') {
             $baseUrl = rtrim(url('/'), '/');
@@ -29,6 +36,33 @@ class SitemapService
         $xml .= '    <changefreq>daily</changefreq>' . PHP_EOL;
         $xml .= '    <priority>1.0</priority>' . PHP_EOL;
         $xml .= '  </url>' . PHP_EOL;
+
+        // Products
+        foreach ($products as $product) {
+            $date = $product->updated_at ?? now();
+            $lastMod = is_string($date) ? date('c', strtotime($date)) : $date->toAtomString();
+
+            $xml .= '  <url>' . PHP_EOL;
+            $xml .= '    <loc>' . htmlspecialchars($baseUrl . '/product/' . $product->id) . '</loc>' . PHP_EOL;
+            $xml .= '    <lastmod>' . $lastMod . '</lastmod>' . PHP_EOL;
+            $xml .= '    <changefreq>weekly</changefreq>' . PHP_EOL;
+            $xml .= '    <priority>0.9</priority>' . PHP_EOL;
+            $xml .= '  </url>' . PHP_EOL;
+        }
+
+        // Preset Routines
+        foreach ($routines as $routine) {
+            $date = $routine->updated_at ?? now();
+            $lastMod = is_string($date) ? date('c', strtotime($date)) : $date->toAtomString();
+            $slugOrId = $routine->slug ?: $routine->id;
+
+            $xml .= '  <url>' . PHP_EOL;
+            $xml .= '    <loc>' . htmlspecialchars($baseUrl . '/preset-routines/' . $slugOrId) . '</loc>' . PHP_EOL;
+            $xml .= '    <lastmod>' . $lastMod . '</lastmod>' . PHP_EOL;
+            $xml .= '    <changefreq>weekly</changefreq>' . PHP_EOL;
+            $xml .= '    <priority>0.8</priority>' . PHP_EOL;
+            $xml .= '  </url>' . PHP_EOL;
+        }
 
         // Blogs
         foreach ($blogs as $blog) {

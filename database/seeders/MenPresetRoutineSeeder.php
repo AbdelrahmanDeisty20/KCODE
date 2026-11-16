@@ -66,6 +66,7 @@ class MenPresetRoutineSeeder extends Seeder
                 'cover_json' => $config['cover_json'] ?? null,
                 'benefits_json' => $config['benefits_json'] ?? [],
                 'what_it_offers_json' => $config['what_it_offers_json'] ?? [],
+                'usage_guide_json' => $config['usage_guide_json'] ?? null,
             ]);
 
             foreach ($config['steps'] as $step) {

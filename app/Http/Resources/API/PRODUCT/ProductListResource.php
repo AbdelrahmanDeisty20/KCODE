@@ -26,6 +26,23 @@ class ProductListResource extends JsonResource
             ? $this->name_en
             : ($this->name ?: $shortName);
 
+        $isFavorite = false;
+        if (auth('sanctum')->check()) {
+            if ($this->relationLoaded('favorites')) {
+                $isFavorite = $this->favorites->where('user_id', auth('sanctum')->id())->where('is_active', true)->isNotEmpty();
+            } else {
+                static $userFavoriteProductIds = null;
+                if ($userFavoriteProductIds === null) {
+                    $userFavoriteProductIds = \App\Models\Favourite::where('user_id', auth('sanctum')->id())
+                        ->where('is_active', true)
+                        ->pluck('product_id')
+                        ->flip()
+                        ->all();
+                }
+                $isFavorite = isset($userFavoriteProductIds[$this->id]);
+            }
+        }
+
         return [
             'id' => $this->id,
             'name' => $name,
@@ -40,7 +57,7 @@ class ProductListResource extends JsonResource
             'brand' => BrandResource::make($this->whenLoaded('brand')),
             'sub_category' => SubCategoryResource::make($this->whenLoaded('subCategory')),
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
-            'is_favorite' => auth('sanctum')->check() ? $this->favorites()->where('user_id', auth('sanctum')->id())->where('is_active', true)->exists() : false,
+            'is_favorite' => $isFavorite,
             'sales_count' => (int) $this->sales_count,
             'review_rating' => $this->average_rating,
             'num_reviews' => $this->num_reviews,

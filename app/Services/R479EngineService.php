@@ -636,7 +636,7 @@ class R479EngineService
     /**
      * Exact port of runtime/service.py::recommend() + UI enrichment & usage schedule
      */
-    public function recommend(array $answers, array $unavailable = []): array
+    public function recommend(array $answers, array $unavailable = [], array $selectedSupplements = []): array
     {
         $this->loadData();
         $this->validateAnswers($answers);
@@ -707,6 +707,7 @@ class R479EngineService
         }
 
         $additions = [];
+        $masks = ['KC0184', 'KC0185', 'KC0189', 'KC0207'];
         foreach ($supplements['addons'] as $x) {
             $item = $buildCard($x['sku'], ['supplement']);
             $item['kind'] = $x['kind'];
@@ -714,12 +715,31 @@ class R479EngineService
             $item['optional'] = true;
             $item['conditional_puffiness'] = $x['conditional_puffiness'];
             $item['general_support'] = $x['general_support'];
-            $item['display_role_ar'] = 'عناية مكمّلة';
+
+            $roleAr = 'عناية مكمّلة';
+            if (in_array($x['sku'], $masks, true)) {
+                $roleAr = 'القناع';
+            } elseif ($x['sku'] === 'KC0173') {
+                $roleAr = 'لصقات العين';
+            } elseif ($x['sku'] === 'KC0153') {
+                $roleAr = 'لصقات الحبوب';
+            }
+            $item['display_role_ar'] = $roleAr;
             $item['routine_step_code'] = 'supplement';
             $additions[] = $item;
         }
 
-        $schedule = $this->buildUsageSchedule($cards);
+        // Support dynamic supplement schedule recalculation (F04)
+        $scheduleItems = $cards;
+        if (!empty($selectedSupplements)) {
+            foreach ($additions as $addition) {
+                if (in_array($addition['sku'], $selectedSupplements, true)) {
+                    $scheduleItems[] = $addition;
+                }
+            }
+        }
+
+        $schedule = $this->buildUsageSchedule($scheduleItems);
 
         return [
             'schema_version' => '1',
@@ -863,6 +883,58 @@ class R479EngineService
             ],
             'separate_nights_warning' => $eveningNote ?: null,
         ];
+    }
+
+    /**
+     * Build usage schedule directly from an arbitrary list of SKUs (core + supplements).
+     */
+    public function buildScheduleFromSkus(array $skus): array
+    {
+        $this->loadData();
+        $items = [];
+        $masks = ['KC0184', 'KC0185', 'KC0189', 'KC0207'];
+
+        foreach ($skus as $sku) {
+            $sku = strtoupper(trim($sku));
+            $p = $this->masterBySku[$sku] ?? [];
+            $c = $this->productsContent[$sku] ?? [];
+            $policy = $this->usagePolicies[$sku] ?? null;
+            $shortAr = $this->usageShort[$sku] ?? null;
+
+            $displayRole = 'العناية';
+            if (in_array($sku, $masks, true)) {
+                $displayRole = 'القناع';
+            } elseif ($sku === 'KC0173') {
+                $displayRole = 'لصقات العين';
+            } elseif ($sku === 'KC0078') {
+                $displayRole = 'سيروم العين';
+            } elseif ($sku === 'KC0153') {
+                $displayRole = 'لصقات الحبوب';
+            } elseif ($sku === 'KC0094' || $sku === 'KC0219') {
+                $displayRole = 'بلسم التنظيف';
+            } elseif (!empty($p['Category'])) {
+                $rolesMap = [
+                    'Cleanser' => 'الغسول',
+                    'Toner' => 'التونر',
+                    'Serum' => 'السيروم',
+                    'Moisturizer' => 'المرطب',
+                    'Sunscreen' => 'واقي الشمس'
+                ];
+                $displayRole = $rolesMap[$p['Category']] ?? $p['Category'];
+            }
+
+            $items[] = [
+                'sku' => $sku,
+                'brand' => $c['brand'] ?? ($p['Brand'] ?? ''),
+                'name' => $c['name'] ?? ($p['Product'] ?? ''),
+                'display_role_ar' => $displayRole,
+                'usage_short_ar' => $shortAr ?? ($c['usage'] ?? ''),
+                'usage_notice_ar' => $c['usage_notice_ar'] ?? '',
+                'usage_policy' => $policy,
+            ];
+        }
+
+        return $this->buildUsageSchedule($items);
     }
 }
 

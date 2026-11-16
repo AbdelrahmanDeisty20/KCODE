@@ -18,8 +18,8 @@ class ReturnPolicySeeder extends Seeder
             'cards' => [
                 [
                     'icon'     => 'check',
-                    'title'    => 'مهلة 14 يوماً',
-                    'subtitle' => 'يمكنك طلب الاسترجاع خلال 14 يوماً من استلام الطلب.'
+                    'title'    => 'مهلة 7 أيام',
+                    'subtitle' => 'يمكنك طلب الاسترجاع خلال 7 أيام من استلام الطلب.'
                 ],
                 [
                     'icon'     => 'shield',
@@ -47,8 +47,8 @@ class ReturnPolicySeeder extends Seeder
             'cards' => [
                 [
                     'icon'     => 'check',
-                    'title'    => '14-Day Window',
-                    'subtitle' => 'You can request a return within 14 days of receiving the order.'
+                    'title'    => '7-Day Window',
+                    'subtitle' => 'You can request a return within 7 days of receiving the order.'
                 ],
                 [
                     'icon'     => 'shield',

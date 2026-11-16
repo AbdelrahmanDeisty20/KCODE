@@ -46,6 +46,20 @@ class EvaluateQuizRequest extends FormRequest
             'skin_option_id'        => ['nullable', 'integer'],
             'sensitivity_option_id' => ['nullable', 'integer'],
 
+            // Option IDs list (sent by frontend & audit suite)
+            'option_ids'            => ['nullable', 'array'],
+            'option_ids.*'          => ['nullable', 'integer'],
+            'options'               => ['nullable', 'array'],
+            'options.*'             => ['nullable'],
+            'selected_options'      => ['nullable', 'array'],
+            'selected_options.*'    => ['nullable', 'integer'],
+
+            // Selected supplements for dynamic schedule calculation (F04)
+            'selected_supplements'   => ['nullable', 'array'],
+            'selected_supplements.*' => ['nullable', 'string'],
+            'supplement_skus'        => ['nullable', 'array'],
+            'supplement_skus.*'      => ['nullable', 'string'],
+
             // Nested answers object
             'answers'               => ['nullable', 'array'],
             'answers.primary'       => ['nullable', 'string'],

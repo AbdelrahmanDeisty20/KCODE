@@ -527,7 +527,13 @@ class RoutineService
         $id = $routineId ?: request()->get('routine_id') ?: request()->get('id');
 
         $routineModel = \App\Models\PresetRoutine::where('status', 'active')
-            ->where('id', $id)
+            ->where(function ($q) use ($id) {
+                if (is_numeric($id)) {
+                    $q->where('id', $id)->orWhere('slug', (string) $id);
+                } else {
+                    $q->where('slug', $id);
+                }
+            })
             ->with(['items.product.brand'])
             ->first();
 
@@ -646,9 +652,9 @@ class RoutineService
                             'image' => $prodModel->image_path ?: $prodModel->image,
                             'price' => (float) $prodModel->price,
                             'size' => $prodModel->size,
-                            'why_selected' => $comp['why'] ?? $comp['support_copy'] ?? ($prodModel->brief_insight_ar ?: $prodModel->why_kcode),
+                            'why_selected' => $comp['why'] ?? $comp['reason'] ?? $comp['support_copy'] ?? ($prodModel->brief_insight_ar ?: $prodModel->why_kcode),
                             'note' => $comp['note'] ?? null,
-                            'step' => $comp['step'] ?? ($lang === 'ar' ? 'منتج مكمل' : 'Complementary Product'),
+                            'step' => $comp['step'] ?? ($prodModel->role_ar ?: ($lang === 'ar' ? 'منتج مكمل' : 'Complementary Product')),
                         ];
                     } else {
                         $complementary[] = $comp;
@@ -656,9 +662,34 @@ class RoutineService
                 }
             }
 
+            $usageGuide = $routineModel->usage_guide_json;
+            if (empty($usageGuide) && !empty($routineModel->slug)) {
+                static $staticRoutinesGuides = null;
+                if ($staticRoutinesGuides === null) {
+                    $staticRoutinesGuides = [];
+                    $pPath = database_path('seeders/data/preset_routines_data.json');
+                    if (file_exists($pPath)) {
+                        foreach (json_decode(file_get_contents($pPath), true) ?: [] as $pr) {
+                            if (!empty($pr['slug']) && !empty($pr['usage_guide_json'])) {
+                                $staticRoutinesGuides[$pr['slug']] = $pr['usage_guide_json'];
+                            }
+                        }
+                    }
+                    $mPath = database_path('seeders/data/men_routines_data.json');
+                    if (file_exists($mPath)) {
+                        foreach (json_decode(file_get_contents($mPath), true) ?: [] as $mr) {
+                            if (!empty($mr['slug']) && !empty($mr['usage_guide_json'])) {
+                                $staticRoutinesGuides[$mr['slug']] = $mr['usage_guide_json'];
+                            }
+                        }
+                    }
+                }
+                $usageGuide = $staticRoutinesGuides[$routineModel->slug] ?? null;
+            }
+
             $res['what_it_offers'] = $routineModel->what_it_offers_json ?? [];
             $res['how_to_use'] = $lang === 'ar' ? $routineModel->how_to_use_ar : ($routineModel->how_to_use_en ?: $routineModel->how_to_use_ar);
-            $res['usage_guide'] = $routineModel->usage_guide_json ?? null;
+            $res['usage_guide'] = $usageGuide;
             $res['complementary_products'] = $complementary;
             $res['items'] = $items;
         }

@@ -14,9 +14,15 @@ class UserBlogResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $name = $this->name;
+        if (empty($name) || $name === 'Blog Author') {
+            $isEn = (app()->getLocale() === 'en' || request()->header('lang') === 'en');
+            $name = $isEn ? 'KCODE Editorial' : 'فريق KCODE';
+        }
+
         return [
             'id' => $this->id,
-            'name' => $this->name,
+            'name' => $name,
             'email' => $this->email,
             'image' => $this->image_path,
             'type' => $this->type,

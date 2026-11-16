@@ -8,8 +8,12 @@ use Illuminate\Support\Facades\Cache;
 
 class ProductService
 {
-    public function index() {
+    public function index(?string $searchTerm = null) {
+        $searchTerm = $searchTerm ?? request('search') ?? request('q');
+
         $products = Product::where('stock', '>', 0)
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rating')
             ->with([
                 'brand',
                 'subCategory',
@@ -18,14 +22,16 @@ class ProductService
                     $q->active();
                 }
             ])
+            ->when(!empty($searchTerm), function ($q) use ($searchTerm) {
+                $q->where(function ($sub) use ($searchTerm) {
+                    $sub->where('name_en', 'LIKE', "%{$searchTerm}%")
+                        ->orWhere('name_ar', 'LIKE', "%{$searchTerm}%")
+                        ->orWhere('sku', 'LIKE', "%{$searchTerm}%")
+                        ->orWhereHas('brand', fn($b) => $b->where('name', 'LIKE', "%{$searchTerm}%"));
+                });
+            })
             ->paginate(10);
-        if ($products->isEmpty()) {
-            return [
-                'status' => false,
-                'message' => __('messages.products_not_found'),
-                'data' => [],
-            ];
-        }
+
         return [
             'status' => true,
             'message' => __('messages.products_retrieved_successfully'),
@@ -51,6 +57,8 @@ class ProductService
         }
 
         $products = Product::where('stock', '>', 0)
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rating')
             ->with([
                 'brand',
                 'subCategory',
@@ -113,31 +121,26 @@ class ProductService
             })
             ->paginate(10);
 
-        if ($products->isEmpty()) {
-            return [
-                'status' => false,
-                'message' => __('messages.products_not_found'),
-                'data' => $products,
-            ];
-        }
-
         return [
             'status' => true,
-            'message' => __('messages.products_retrieved_successfully'),
+            'message' => $products->isEmpty() ? __('messages.products_not_found') : __('messages.products_retrieved_successfully'),
             'data' => $products,
         ];
     }
 
     public function filter(array $filters = []) {
-        $query = Product::where('stock', '>', 0)->with([
-            'brand',
-            'subCategory',
-            'reviews',
-            'category',
-            'offers' => function ($q) {
-                $q->active();
-            }
-        ]);
+        $query = Product::where('stock', '>', 0)
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rating')
+            ->with([
+                'brand',
+                'subCategory',
+                'reviews',
+                'category',
+                'offers' => function ($q) {
+                    $q->active();
+                }
+            ]);
 
         // 1. Category Filter
         if (!empty($filters['category_id'])) {
@@ -236,17 +239,9 @@ class ProductService
         $perPage = $filters['per_page'] ?? 10;
         $products = $query->paginate($perPage);
 
-        if ($products->isEmpty()) {
-            return [
-                'status' => false,
-                'message' => __('messages.products_not_found'),
-                'data' => $products,
-            ];
-        }
-
         return [
             'status' => true,
-            'message' => __('messages.products_retrieved_successfully'),
+            'message' => $products->isEmpty() ? __('messages.products_not_found') : __('messages.products_retrieved_successfully'),
             'data' => $products,
         ];
     }
@@ -357,7 +352,9 @@ class ProductService
     public function bestSellers() {
         $products = Product::where('stock', '>', 0)
             ->bestSeller()
-            ->with(['brand', 'subCategory'])
+            ->withCount('reviews')
+            ->withAvg('reviews', 'rating')
+            ->with(['brand', 'subCategory', 'category'])
             ->orderBy('sales_count', 'desc')
             ->paginate(10);
 
@@ -390,7 +387,9 @@ class ProductService
         ->whereHas('skinTypes', function ($q) use ($skinTypeId) {
             $q->where('skin_types.id', $skinTypeId);
         })
-        ->with(['brand', 'subCategory'])
+        ->withCount('reviews')
+        ->withAvg('reviews', 'rating')
+        ->with(['brand', 'subCategory', 'category'])
         ->paginate(10);
 
         if ($products->isEmpty()) {
@@ -422,7 +421,9 @@ class ProductService
         ->whereHas('goals', function ($q) use ($goalId) {
             $q->where('goal_id', $goalId);
         })
-        ->with(['brand', 'subCategory'])
+        ->withCount('reviews')
+        ->withAvg('reviews', 'rating')
+        ->with(['brand', 'subCategory', 'category'])
         ->paginate(10);
 
         if ($products->isEmpty()) {

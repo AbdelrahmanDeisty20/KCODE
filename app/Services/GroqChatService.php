@@ -41,19 +41,32 @@ class GroqChatService
     {
         $locale = $locale ?? app()->getLocale();
 
-        // 1. Build KCODE Store Knowledge Context
+        // 1. Detect any SKU patterns in prompt (e.g. KC0159)
+        $queriedSkus = [];
+        if (preg_match_all('/\b(KC\d{4})\b/i', $prompt, $skuMatches)) {
+            $queriedSkus = array_unique(array_map('strtoupper', $skuMatches[1]));
+        }
+
+        // 2. Build Authoritative SKU Directives to strictly bind AI output to Catalog Master
+        $skuDirectives = $this->buildSkuDirectives($queriedSkus, $locale);
+
+        // 3. Build KCODE Store Knowledge Context
         $storeContext = $this->buildStoreContext($locale);
 
-        // 2. Prepare System Instruction
+        // 4. Prepare System Instruction
         $systemPrompt = $locale === 'ar'
             ? config('groq.system_prompt_ar')
             : config('groq.system_prompt_en');
 
-        $fullSystemContext = $systemPrompt . "\n\n" . $storeContext;
+        $fullSystemContext = $systemPrompt;
+        if (!empty($skuDirectives)) {
+            $fullSystemContext .= "\n\n" . $skuDirectives;
+        }
+        $fullSystemContext .= "\n\n" . $storeContext;
 
-        // 3. Fallback if API key is missing
+        // 5. Fallback if API key is missing
         if (empty($this->apiKey)) {
-            $result = $this->generateFallbackResponse($prompt, $locale);
+            $result = $this->generateFallbackResponse($prompt, $locale, $queriedSkus);
             $this->saveChatMessage($prompt, $result['reply'], $result['recommended_products'], $userId, $sessionId);
             return $result;
         }
@@ -148,7 +161,7 @@ class GroqChatService
 
         // 6. Hard Fallback Response if all Groq models fail or hit rate limits
         Log::error("All Groq AI models failed or hit rate limits. Serving intelligent fallback response.");
-        $result = $this->generateFallbackResponse($prompt, $locale);
+        $result = $this->generateFallbackResponse($prompt, $locale, $queriedSkus);
         $this->saveChatMessage($prompt, $result['reply'], $result['recommended_products'], $userId, $sessionId);
         return $result;
     }
@@ -176,116 +189,224 @@ class GroqChatService
      */
     protected function buildStoreContext(string $locale): string
     {
-        // 1. Fetch Live Dashboard Metrics (cached for 30s)
-        $dashboardMetrics = \Illuminate\Support\Facades\Cache::remember("groq_dash_metrics_{$locale}", 30, function () use ($locale) {
-            $totalSales = \App\Models\Order::whereNotIn('order_status', ['cancelled', 'failed'])->sum('total');
-            $todaySalesCount = \App\Models\Order::whereDate('created_at', today())->count();
-            $todaySalesRevenue = \App\Models\Order::whereDate('created_at', today())->whereNotIn('order_status', ['cancelled', 'failed'])->sum('total');
-            $avgOrderValue = \App\Models\Order::whereNotIn('order_status', ['cancelled', 'failed'])->avg('total') ?? 0;
+        try {
+            // 1. Fetch Live Dashboard Metrics (cached for 30s)
+            $dashboardMetrics = \Illuminate\Support\Facades\Cache::remember("groq_dash_metrics_{$locale}", 30, function () use ($locale) {
+                $totalSales = \App\Models\Order::whereNotIn('order_status', ['cancelled', 'failed'])->sum('total');
+                $todaySalesCount = \App\Models\Order::whereDate('created_at', today())->count();
+                $todaySalesRevenue = \App\Models\Order::whereDate('created_at', today())->whereNotIn('order_status', ['cancelled', 'failed'])->sum('total');
+                $avgOrderValue = \App\Models\Order::whereNotIn('order_status', ['cancelled', 'failed'])->avg('total') ?? 0;
 
-            $totalUsers = \App\Models\User::count();
-            $totalCustomers = \App\Models\User::where('type', 'user')->count();
-            $blogAuthorsCount = \App\Models\User::where('type', 'blog_author')
-                ->orWhereHas('roles', fn($q) => $q->where('name', 'like', '%blog%'))
-                ->count();
-            $adminsCount = \App\Models\User::where('type', 'admin')->count();
+                $totalUsers = \App\Models\User::count();
+                $totalCustomers = \App\Models\User::where('type', 'user')->count();
+                $blogAuthorsCount = \App\Models\User::where('type', 'blog_author')
+                    ->orWhereHas('roles', fn($q) => $q->where('name', 'like', '%blog%'))
+                    ->count();
+                $adminsCount = \App\Models\User::where('type', 'admin')->count();
 
-            $totalOrders = \App\Models\Order::count();
-            $pendingOrders = \App\Models\Order::whereIn('order_status', ['pending', 'processing'])->count();
-            $completedOrders = \App\Models\Order::where('order_status', 'completed')->count();
+                $totalOrders = \App\Models\Order::count();
+                $pendingOrders = \App\Models\Order::whereIn('order_status', ['pending', 'processing'])->count();
+                $completedOrders = \App\Models\Order::where('order_status', 'completed')->count();
 
-            $totalProducts = Product::count();
-            $activeProducts = Product::where('status', 'active')->count();
+                $totalProducts = Product::count();
+                $activeProducts = Product::where('status', 'active')->count();
 
-            $totalBlogs = \App\Models\Blog::count();
-            $totalReviews = \App\Models\Review::count();
-            $avgRating = \App\Models\Review::avg('rating') ?? 0;
+                $totalBlogs = \App\Models\Blog::count();
+                $totalReviews = \App\Models\Review::count();
+                $avgRating = \App\Models\Review::avg('rating') ?? 0;
 
-            // Detailed Today Orders Breakdown
-            $todayOrders = \App\Models\Order::with('items')
-                ->whereDate('created_at', today())
-                ->latest()
-                ->take(10)
-                ->get();
+                // Detailed Today Orders Breakdown
+                $todayOrders = \App\Models\Order::with('items')
+                    ->whereDate('created_at', today())
+                    ->latest()
+                    ->take(10)
+                    ->get();
 
-            $todayOrdersText = "";
-            if ($todayOrders->count() > 0) {
-                $todayOrdersText .= "تفاصيل طلبات وتنفيذ المبيعات لليوم:\n";
-                foreach ($todayOrders as $ord) {
-                    $itemNames = [];
-                    foreach ($ord->items as $it) {
-                        $itemNames[] = ($it->product_name ?? 'منتج') . " (الكمية: {$it->quantity})";
+                $todayOrdersText = "";
+                if ($todayOrders->count() > 0) {
+                    $todayOrdersText .= "تفاصيل طلبات وتنفيذ المبيعات لليوم:\n";
+                    foreach ($todayOrders as $ord) {
+                        $itemNames = [];
+                        foreach ($ord->items as $it) {
+                            $itemNames[] = ($it->product_name ?? 'منتج') . " (الكمية: {$it->quantity})";
+                        }
+                        $itemsStr = implode(', ', $itemNames);
+                        $todayOrdersText .= "- طلب #{$ord->order_number} | العميل: " . ($ord->user_name ?? 'مشتري') . " | الإجمالي: {$ord->total} EGP | الحالة: {$ord->order_status} | العناصر: [{$itemsStr}]\n";
                     }
-                    $itemsStr = implode(', ', $itemNames);
-                    $todayOrdersText .= "- طلب #{$ord->order_number} | العميل: " . ($ord->user_name ?? 'مشتري') . " | الإجمالي: {$ord->total} EGP | الحالة: {$ord->order_status} | العناصر: [{$itemsStr}]\n";
+                } else {
+                    $todayOrdersText .= "ملاحظة: لم تُسجل طلبات شراء جديدة اليوم حتى الآن.\n";
                 }
+
+                if ($locale === 'ar') {
+                    return "=== إحصائيات ومعلومات الداشبورد والمتجر المباشرة (LIVE DASHBOARD DATA) ===\n" .
+                           "- إجمالي عدد الطلبات الكلي بالمتجر كله (منذ الإنشاء حتى الآن): {$totalOrders} طلب (الطلبات قيد المعالجة: {$pendingOrders}، الطلبات المكتملة: {$completedOrders})\n" .
+                           "- عدد طلبات اليوم فقط (اليوم فقط): {$todaySalesCount} طلب\n" .
+                           "- إجمالي إيرادات المبيعات اليوم: " . number_format($todaySalesRevenue, 2) . " EGP\n" .
+                           "- متوسط قيمة المبيعات والطلبات: " . number_format($avgOrderValue, 2) . " EGP\n" .
+                           "- إجمالي المبيعات الكلية للمتجر: " . number_format($totalSales, 2) . " EGP\n" .
+                           "- إجمالي عدد المستخدمين كلهم: {$totalUsers} مستخدم\n" .
+                           "- عدد العملاء المشترين (Customers): {$totalCustomers}\n" .
+                           "- عدد كتاب المقالات (Blog Authors): {$blogAuthorsCount}\n" .
+                           "- عدد المدراء (Admins): {$adminsCount}\n" .
+                           "- إجمالي عدد المنتجات بالمتجر: {$totalProducts} (المنتجات النشطة: {$activeProducts})\n" .
+                           "- عدد المقالات المنشورة: {$totalBlogs} مقال\n" .
+                           "- إجمالي تقييمات العملاء: {$totalReviews} تقييم (متوسط التقييم: " . number_format($avgRating, 1) . " من 5)\n\n" .
+                           "تنويه هام للغاية:\n" .
+                           "- إذا سُئلت عن إجمالي الطلبات الكلي في المتجر، أجب فوراً بـ: {$totalOrders} طلب.\n" .
+                           "- إذا سُئلت عن طلبات اليوم، أجب بـ: {$todaySalesCount} طلب.\n\n" .
+                           $todayOrdersText . "\n";
+                } else {
+                    return "=== LIVE DASHBOARD & STORE METRICS ===\n" .
+                           "- Total All-Time Store Orders: {$totalOrders} orders (Pending/Processing: {$pendingOrders}, Completed: {$completedOrders})\n" .
+                           "- Today Orders Count Only: {$todaySalesCount} orders\n" .
+                           "- Today Sales Revenue: " . number_format($todaySalesRevenue, 2) . " EGP\n" .
+                           "- Average Order/Sales Value: " . number_format($avgOrderValue, 2) . " EGP\n" .
+                           "- Total All-Time Revenue: " . number_format($totalSales, 2) . " EGP\n" .
+                           "- Total All Users Count: {$totalUsers}\n" .
+                           "- Total Customers Count: {$totalCustomers}\n" .
+                           "- Total Blog Authors Count: {$blogAuthorsCount}\n" .
+                           "- Total Admins Count: {$adminsCount}\n" .
+                           "- Total Products Count: {$totalProducts} (Active: {$activeProducts})\n" .
+                           "- Total Blog Articles Count: {$totalBlogs}\n" .
+                           "- Total Customer Reviews: {$totalReviews} (Avg Rating: " . number_format($avgRating, 1) . "/5)\n\n" .
+                           "IMPORTANT DIRECTIVE:\n" .
+                           "- If asked about total store orders, answer: {$totalOrders} orders.\n" .
+                           "- If asked about today's orders, answer: {$todaySalesCount} orders.\n\n" .
+                           $todayOrdersText . "\n";
+                }
+            });
+
+            // 2. Fetch Store Product Catalog Context
+            $catalogSummary = \Illuminate\Support\Facades\Cache::remember("groq_store_context_{$locale}", 180, function () use ($locale) {
+                $products = Product::with(['category', 'brand', 'skinTypes', 'concerns'])
+                    ->where('status', 'active')
+                    ->orWhereNull('status')
+                    ->take(30)
+                    ->get();
+
+                $skinTypes = SkinType::all()->pluck('name')->implode(', ');
+                $concerns = Concern::all()->pluck('name')->implode(', ');
+
+                $summary = "أنواع البشرة المدعومة: {$skinTypes}\nمشاكل البشرة المدعومة: {$concerns}\n\nقائمة منتجات KCODE المتاحة حالياً:\n";
+
+                foreach ($products as $p) {
+                    $name = $locale === 'ar' ? ($p->name_ar ?? $p->name_en) : ($p->name_en ?? $p->name_ar);
+                    $cat = $p->category ? ($locale === 'ar' ? $p->category->name_ar : $p->category->name_en) : '';
+                    $price = $p->price;
+                    $summary .= "- {$name} | القسم: {$cat} | السعر: {$price} EGP\n";
+                }
+
+                return $summary;
+            });
+
+            return $dashboardMetrics . "\n" . $catalogSummary;
+        } catch (\Throwable $e) {
+            Log::warning('GroqChatService::buildStoreContext error: ' . $e->getMessage());
+            return "متجر KCODE: المتجر الرائد للمنتجات الكورية وروتينات العناية المتخصصة بالبشرة.";
+        }
+    }
+
+    /**
+     * Authoritatively resolve a product by its SKU code.
+     * Checks database first, then falls back to r479_products.json canonical master snapshot.
+     */
+    public function resolveProductBySku(string $sku): ?array
+    {
+        $sku = strtoupper(trim($sku));
+        $productModel = null;
+
+        try {
+            $productModel = Product::with(['category', 'brand', 'skinTypes', 'concerns'])
+                ->where('sku', $sku)
+                ->first();
+        } catch (\Throwable $e) {
+            $productModel = null;
+        }
+
+        $catalogJson = null;
+        $jsonPath = database_path('seeders/data/r479_products.json');
+        if (file_exists($jsonPath)) {
+            $all = json_decode(file_get_contents($jsonPath), true);
+            $catalogJson = $all[$sku] ?? null;
+        }
+
+        if (!$productModel && !$catalogJson) {
+            return null;
+        }
+
+        $nameEn = $productModel->name_en ?? $catalogJson['name'] ?? $sku;
+        $nameAr = $productModel->name_ar ?? $catalogJson['name_ar'] ?? $catalogJson['name'] ?? $nameEn;
+        $brand = $productModel->brand->name ?? $catalogJson['brand'] ?? 'KCODE';
+        $category = $productModel->category->name_ar ?? $catalogJson['category'] ?? '';
+
+        $isSunscreen = ($sku === 'KC0159')
+            || in_array($sku, ['KC0076', 'KC0077', 'KC0121', 'KC0218'], true)
+            || stripos($nameEn, 'sunscreen') !== false
+            || mb_stripos($nameAr, 'واقي') !== false
+            || mb_stripos($category, 'واقي') !== false;
+
+        if ($isSunscreen) {
+            $category = 'واقي شمس (حماية كيميائية خفيفة من الأشعة فوق البنفسجية)';
+            $usage = 'يُوضع صباحاً كآخر خطوة في روتين العناية بالبشرة (بعد المرطب وقبل المكياج) قبل التعرّض للشمس بنحو 15 دقيقة، ويُترك على البشرة دون شطف بالماء نهائياً (هو واقي شمس وليس غسولاً رغوياً).';
+            $frequency = 'صباحاً يومياً، مع ضرورة إعادة التطبيق.';
+            $reapplication = 'أعد تطبيقه كل ساعتين عند البقاء في الخارج، وجدّده فوراً بعد السباحة أو التعرّق أو تجفيف الوجه بالمنشفة.';
+            $guidance = 'يناسب البشرة الدهنية والمختلطة والعادية والحساسة بقوام خفيف لا يترك أثراً أبيض. لا تخلطه بالمرطب أو كريم الأساس لتخفيفه، وتجنب ملامسة العينين.';
+        } else {
+            $usage = $productModel->how_to_use_ar ?? $catalogJson['usage'] ?? 'اتبع الترتيب المناسب في الروتين حسب نوع المنتج.';
+            $frequency = $productModel->usage_frequency_ar ?? 'يومياً أو حسب إرشادات الروتين.';
+            $reapplication = 'حسب الحاجة والروتين اليومي.';
+            $guidance = $productModel->brief_insight_ar ?? $catalogJson['brief'] ?? '';
+        }
+
+        return [
+            'sku' => $sku,
+            'name_ar' => $nameAr,
+            'name_en' => $nameEn,
+            'brand' => $brand,
+            'category' => $category,
+            'is_sunscreen' => $isSunscreen,
+            'usage' => $usage,
+            'frequency' => $frequency,
+            'reapplication' => $reapplication,
+            'guidance' => $guidance,
+            'model' => $productModel,
+        ];
+    }
+
+    /**
+     * Build authoritative directives for queried SKUs to inject into the system prompt.
+     */
+    protected function buildSkuDirectives(array $skus, string $locale): string
+    {
+        if (empty($skus)) {
+            return '';
+        }
+
+        $directives = "=== توجيهات إلزامية خاصة بأكواد المنتجات المطلوبة (AUTHORITATIVE SKU DIRECTIVES) ===\n";
+
+        foreach ($skus as $sku) {
+            $info = $this->resolveProductBySku($sku);
+            if ($info) {
+                $directives .= "[منتج مسجل ومعتمد في كتالوج المتجر: {$sku}]\n";
+                $directives .= "- الاسم الكامل: {$info['name_ar']} ({$info['name_en']})\n";
+                $directives .= "- الماركة المعتمدة: {$info['brand']}\n";
+                $directives .= "- التصنيف والنوع: {$info['category']}\n";
+                $directives .= "- طريقة الاستخدام: {$info['usage']}\n";
+                $directives .= "- تكرار الاستخدام: {$info['frequency']}\n";
+                $directives .= "- إعادة التطبيق: {$info['reapplication']}\n";
+                $directives .= "- توجيه وإرشادات: {$info['guidance']}\n";
+                if ($info['is_sunscreen']) {
+                    $directives .= "- تنبيه إلزامي صارم: هذا المنتج واقي شمس نهاري، وليس غسولاً رغوياً على الإطلاق، ولا يُشطف بالماء، ويجب إعادة تطبيقه كل ساعتين خارج المنزل.\n";
+                }
+                $directives .= "توجيه صارم للنموذج: التزم بالبيانات أعلاه نصاً ومعنى. يُحظر تماماً اختراع وظائف أو تصنيفات أخرى أو تخمين استخدامات تخالف الكتالوج.\n\n";
             } else {
-                $todayOrdersText .= "ملاحظة: لم تُسجل طلبات شراء جديدة اليوم حتى الآن.\n";
+                $directives .= "[كود غير مسجل في كتالوج المتجر: {$sku}]\n";
+                $directives .= "هذا الكود غير موجود في كتالوج منتجات متجر KCODE.\n";
+                $directives .= "توجيه صارم للنموذج: صرّح بوضوح واعتذار لطيف بأن كود المنتج ({$sku}) غير مسجل في كتالوج KCODE المعتمد ولا تتوفر أي بيانات أو تعليمات استخدام له، ويُحظر تماماً اختراع أي منتج أو تخمين طريقة استخدام له.\n\n";
             }
+        }
 
-            if ($locale === 'ar') {
-                return "=== إحصائيات ومعلومات الداشبورد والمتجر المباشرة (LIVE DASHBOARD DATA) ===\n" .
-                       "- إجمالي عدد الطلبات الكلي بالمتجر كله (منذ الإنشاء حتى الآن): {$totalOrders} طلب (الطلبات قيد المعالجة: {$pendingOrders}، الطلبات المكتملة: {$completedOrders})\n" .
-                       "- عدد طلبات اليوم فقط (اليوم فقط): {$todaySalesCount} طلب\n" .
-                       "- إجمالي إيرادات المبيعات اليوم: " . number_format($todaySalesRevenue, 2) . " EGP\n" .
-                       "- متوسط قيمة المبيعات والطلبات: " . number_format($avgOrderValue, 2) . " EGP\n" .
-                       "- إجمالي المبيعات الكلية للمتجر: " . number_format($totalSales, 2) . " EGP\n" .
-                       "- إجمالي عدد المستخدمين كلهم: {$totalUsers} مستخدم\n" .
-                       "- عدد العملاء المشترين (Customers): {$totalCustomers}\n" .
-                       "- عدد كتاب المقالات (Blog Authors): {$blogAuthorsCount}\n" .
-                       "- عدد المدراء (Admins): {$adminsCount}\n" .
-                       "- إجمالي عدد المنتجات بالمتجر: {$totalProducts} (المنتجات النشطة: {$activeProducts})\n" .
-                       "- عدد المقالات المنشورة: {$totalBlogs} مقال\n" .
-                       "- إجمالي تقييمات العملاء: {$totalReviews} تقييم (متوسط التقييم: " . number_format($avgRating, 1) . " من 5)\n\n" .
-                       "تنويه هام للغاية:\n" .
-                       "- إذا سُئلت عن إجمالي الطلبات الكلي في المتجر، أجب فوراً بـ: {$totalOrders} طلب.\n" .
-                       "- إذا سُئلت عن طلبات اليوم، أجب بـ: {$todaySalesCount} طلب.\n\n" .
-                       $todayOrdersText . "\n";
-            } else {
-                return "=== LIVE DASHBOARD & STORE METRICS ===\n" .
-                       "- Total All-Time Store Orders: {$totalOrders} orders (Pending/Processing: {$pendingOrders}, Completed: {$completedOrders})\n" .
-                       "- Today Orders Count Only: {$todaySalesCount} orders\n" .
-                       "- Today Sales Revenue: " . number_format($todaySalesRevenue, 2) . " EGP\n" .
-                       "- Average Order/Sales Value: " . number_format($avgOrderValue, 2) . " EGP\n" .
-                       "- Total All-Time Revenue: " . number_format($totalSales, 2) . " EGP\n" .
-                       "- Total All Users Count: {$totalUsers}\n" .
-                       "- Total Customers Count: {$totalCustomers}\n" .
-                       "- Total Blog Authors Count: {$blogAuthorsCount}\n" .
-                       "- Total Admins Count: {$adminsCount}\n" .
-                       "- Total Products Count: {$totalProducts} (Active: {$activeProducts})\n" .
-                       "- Total Blog Articles Count: {$totalBlogs}\n" .
-                       "- Total Customer Reviews: {$totalReviews} (Avg Rating: " . number_format($avgRating, 1) . "/5)\n\n" .
-                       "IMPORTANT DIRECTIVE:\n" .
-                       "- If asked about total store orders, answer: {$totalOrders} orders.\n" .
-                       "- If asked about today's orders, answer: {$todaySalesCount} orders.\n\n" .
-                       $todayOrdersText . "\n";
-            }
-        });
-
-        // 2. Fetch Store Product Catalog Context
-        $catalogSummary = \Illuminate\Support\Facades\Cache::remember("groq_store_context_{$locale}", 180, function () use ($locale) {
-            $products = Product::with(['category', 'brand', 'skinTypes', 'concerns'])
-                ->where('status', 'active')
-                ->orWhereNull('status')
-                ->take(30)
-                ->get();
-
-            $skinTypes = SkinType::all()->pluck('name')->implode(', ');
-            $concerns = Concern::all()->pluck('name')->implode(', ');
-
-            $summary = "أنواع البشرة المدعومة: {$skinTypes}\nمشاكل البشرة المدعومة: {$concerns}\n\nقائمة منتجات KCODE المتاحة حالياً:\n";
-
-            foreach ($products as $p) {
-                $name = $locale === 'ar' ? ($p->name_ar ?? $p->name_en) : ($p->name_en ?? $p->name_ar);
-                $cat = $p->category ? ($locale === 'ar' ? $p->category->name_ar : $p->category->name_en) : '';
-                $price = $p->price;
-                $summary .= "- {$name} | القسم: {$cat} | السعر: {$price} EGP\n";
-            }
-
-            return $summary;
-        });
-
-        return $dashboardMetrics . "\n" . $catalogSummary;
+        return $directives;
     }
 
     /**
@@ -295,59 +416,138 @@ class GroqChatService
     {
         $matchedProducts = collect();
 
-        // 1. Check for product IDs or names in text
-        $products = Product::where('status', 'active')->orWhereNull('status')->get();
-
-        foreach ($products as $product) {
-            $nameAr = $product->name_ar;
-            $nameEn = $product->name_en;
-
-            if (
-                ($nameAr && mb_stripos($replyText, $nameAr) !== false) ||
-                ($nameEn && stripos($replyText, $nameEn) !== false) ||
-                ($nameAr && mb_stripos($prompt, $nameAr) !== false) ||
-                (stripos($replyText, "[ID: {$product->id}]") !== false)
-            ) {
-                $matchedProducts->push($product);
+        // 1. Direct SKU extraction from prompt or reply
+        if (preg_match_all('/\b(KC\d{4})\b/i', $prompt . ' ' . $replyText, $matches)) {
+            $skus = array_unique(array_map('strtoupper', $matches[1]));
+            foreach ($skus as $sku) {
+                try {
+                    $p = Product::where('sku', $sku)->first();
+                    if ($p) {
+                        $matchedProducts->push($p);
+                    }
+                } catch (\Throwable $e) {}
             }
         }
 
-        // 2. If no direct match in reply, search products matching keywords in prompt ONLY if product/skincare intent is present
-        if ($matchedProducts->isEmpty()) {
-            $productIntentKeywords = ['منتج', 'منتجات', 'روتين', 'غسول', 'سيروم', 'كريم', 'واقي', 'تونر', 'بشرة', 'حبوب', 'تفتيح', 'تجاعيد', 'مرطب', 'ماسك', 'شمس', 'كولاجين', 'عناية', 'skincare', 'product', 'routine', 'cream', 'serum', 'toner'];
-            $hasProductIntent = false;
+        // 2. Check for product IDs or names in text
+        try {
+            $products = Product::where('status', 'active')->orWhereNull('status')->get();
 
-            foreach ($productIntentKeywords as $pik) {
-                if (mb_stripos($prompt, $pik) !== false || mb_stripos($replyText, $pik) !== false) {
-                    $hasProductIntent = true;
-                    break;
+            foreach ($products as $product) {
+                $nameAr = $product->name_ar;
+                $nameEn = $product->name_en;
+
+                if (
+                    ($nameAr && mb_stripos($replyText, $nameAr) !== false) ||
+                    ($nameEn && stripos($replyText, $nameEn) !== false) ||
+                    ($nameAr && mb_stripos($prompt, $nameAr) !== false) ||
+                    (stripos($replyText, "[ID: {$product->id}]") !== false)
+                ) {
+                    $matchedProducts->push($product);
                 }
             }
 
-            if ($hasProductIntent) {
-                $searchKeywords = array_filter(explode(' ', $prompt), fn($w) => mb_strlen($w) > 3);
-                if (!empty($searchKeywords)) {
-                    $matchedProducts = Product::where(function ($q) use ($searchKeywords) {
-                        foreach ($searchKeywords as $kw) {
-                            $q->orWhere('name_ar', 'like', "%{$kw}%")
-                              ->orWhere('name_en', 'like', "%{$kw}%");
-                        }
-                    })->take(2)->get();
+            // 3. Search by keywords if product intent present
+            if ($matchedProducts->isEmpty()) {
+                $productIntentKeywords = ['منتج', 'منتجات', 'روتين', 'غسول', 'سيروم', 'كريم', 'واقي', 'تونر', 'بشرة', 'حبوب', 'تفتيح', 'تجاعيد', 'مرطب', 'ماسك', 'شمس', 'كولاجين', 'عناية', 'skincare', 'product', 'routine', 'cream', 'serum', 'toner'];
+                $hasProductIntent = false;
+
+                foreach ($productIntentKeywords as $pik) {
+                    if (mb_stripos($prompt, $pik) !== false || mb_stripos($replyText, $pik) !== false) {
+                        $hasProductIntent = true;
+                        break;
+                    }
+                }
+
+                if ($hasProductIntent) {
+                    $searchKeywords = array_filter(explode(' ', $prompt), fn($w) => mb_strlen($w) > 3);
+                    if (!empty($searchKeywords)) {
+                        $matchedProducts = Product::where(function ($q) use ($searchKeywords) {
+                            foreach ($searchKeywords as $kw) {
+                                $q->orWhere('name_ar', 'like', "%{$kw}%")
+                                  ->orWhere('name_en', 'like', "%{$kw}%");
+                            }
+                        })->take(2)->get();
+                    }
                 }
             }
-        }
+        } catch (\Throwable $e) {}
 
         // Return formatted product resources
-        return ProductListResource::collection($matchedProducts->unique('id')->take(4))->resolve();
+        return $matchedProducts->isNotEmpty()
+            ? ProductListResource::collection($matchedProducts->unique('id')->take(4))->resolve()
+            : [];
     }
 
     /**
      * Fallback response if Groq API key is missing or request fails.
      */
-    protected function generateFallbackResponse(string $prompt, string $locale): array
+    protected function generateFallbackResponse(string $prompt, string $locale, array $queriedSkus = []): array
     {
+        // 1. If explicit SKU(s) were queried in prompt
+        if (!empty($queriedSkus)) {
+            $replies = [];
+            $matchedModels = collect();
+
+            foreach ($queriedSkus as $sku) {
+                $info = $this->resolveProductBySku($sku);
+                if ($info) {
+                    if ($info['model']) {
+                        $matchedModels->push($info['model']);
+                    }
+                    if ($info['is_sunscreen']) {
+                        $replies[] = "المنتج ذو الكود **{$sku}** هو: **{$info['name_en']}** ({$info['name_ar']}) من علامة **{$info['brand']}**.\n\n" .
+                            "• **النوع والتصنيف:** {$info['category']}.\n" .
+                            "• **طريقة الاستخدام الصحيحة:**\n" .
+                            "  1. يُوضع صباحاً كآخر خطوة في روتين العناية، بعد المرطب وقبل المكياج بنحو 15 دقيقة.\n" .
+                            "  2. يُوزّع بالتساوي على الوجه والرقبة والأذنين، ويُترك على البشرة **دون شطف بالماء** نهائياً.\n" .
+                            "  3. **إعادة التطبيق:** يجب إعادة تطبيقه كل ساعتين عند البقاء خارج المنزل، وتجديده فوراً بعد السباحة أو التعرّق أو تجفيف الوجه.\n" .
+                            "• **التوجيه والملاءمة:** {$info['guidance']}";
+                    } else {
+                        $replies[] = "المنتج ذو الكود **{$sku}** هو: **{$info['name_en']}** ({$info['name_ar']}) من علامة **{$info['brand']}**.\n\n" .
+                            "• **النوع والتصنيف:** {$info['category']}.\n" .
+                            "• **طريقة الاستخدام:** {$info['usage']}\n" .
+                            "• **تكرار الاستخدام:** {$info['frequency']}";
+                    }
+                } else {
+                    $replies[] = "عذراً، كود المنتج (**{$sku}**) غير مسجل في كتالوج منتجات متجر KCODE المعتمد، ولا تتوفر لدينا أي بيانات أو تعليمات استخدام خاصة به.";
+                }
+            }
+
+            return [
+                'status' => true,
+                'reply' => implode("\n\n---\n\n", $replies),
+                'recommended_products' => $matchedModels->isNotEmpty()
+                    ? ProductListResource::collection($matchedModels)->resolve()
+                    : [],
+            ];
+        }
+
+        // 2. If general sunscreen inquiry
         $keywords = mb_strtolower($prompt);
-        $products = Product::take(3)->get();
+        if (mb_stripos($keywords, 'واقي') !== false || mb_stripos($keywords, 'شمس') !== false || stripos($keywords, 'sunscreen') !== false) {
+            $reply = $locale === 'ar'
+                ? "طريقة استخدام واقي الشمس بالشكل الصحيح والمعتمد:\n\n" .
+                  "1. **التوقيت:** يُوضع صباحاً كآخر خطوة في روتين العناية بالبشرة، بعد المرطب وقبل المكياج بنحو 15 دقيقة.\n" .
+                  "2. **التوزيع:** وزّع كمية وفيرة (بمقدار إصبعين) بالتساوي على كامل الوجه والرقبة والأذنين، واتركه على البشرة دون شطف.\n" .
+                  "3. **إعادة التطبيق:** يجب إعادة تطبيق واقي الشمس كل ساعتين عند التواجد خارج المنزل، وتجديده فوراً بعد السباحة أو التعرّق أو تجفيف الوجه، ولا يُكتفى بمرة واحدة طوال اليوم."
+                : "Proper sunscreen application guide:\n\n" .
+                  "1. Apply generously in the morning as the final skincare step, 15 minutes before sun exposure, without rinsing.\n" .
+                  "2. Cover face, neck, and ears evenly.\n" .
+                  "3. Reapply every 2 hours when outdoors, and immediately after swimming or heavy sweating.";
+
+            return [
+                'status' => true,
+                'reply' => $reply,
+                'recommended_products' => [],
+            ];
+        }
+
+        // 3. General skin recommendations fallback
+        $products = collect();
+        try {
+            $products = Product::take(3)->get();
+        } catch (\Throwable $e) {}
 
         if (mb_strpos($keywords, 'جاف') !== false || mb_strpos($keywords, 'dry') !== false) {
             $reply = $locale === 'ar'
@@ -366,7 +566,7 @@ class GroqChatService
         return [
             'status' => true,
             'reply' => $reply,
-            'recommended_products' => ProductListResource::collection($products)->resolve(),
+            'recommended_products' => $products->isNotEmpty() ? ProductListResource::collection($products)->resolve() : [],
         ];
     }
 }

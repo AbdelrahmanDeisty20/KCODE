@@ -16,7 +16,7 @@ class BlogAuthorSeeder extends Seeder
         User::updateOrCreate(
             ['email' => 'author@kcode.com'],
             [
-                'name' => 'Blog Author',
+                'name' => 'فريق KCODE',
                 'password' => Hash::make('A11223344'),
                 'phone' => '01000000000',
                 'type' => 'blog_author',

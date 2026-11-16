@@ -42,7 +42,15 @@
         "source_name": "SKIN1004 Madagascar Centella Ampoule Foam",
         "support_copy": "",
         "optional": false,
-        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر."
+        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "الغسول",
+        "step_name_en": "Cleanser"
       },
       {
         "sku": "KC0002",
@@ -50,7 +58,15 @@
         "source_name": "ANUA Azelaic Acid 10 Hyaluron Redness Soothing Serum",
         "support_copy": "",
         "optional": false,
-        "application_ar": "ابدأ بقطرة إلى قطرتين في كل استخدام، بعد التونر وقبل المرطب."
+        "application_ar": "ابدأ بقطرة إلى قطرتين في كل استخدام، بعد التونر وقبل المرطب.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "ابدأ مرة أو مرتين أسبوعيًا.",
+        "starter_guide_ar": "ابدأ بقطرة إلى قطرتين في كل استخدام بعد التونر وقبل المرطب.",
+        "step_name_ar": "السيروم",
+        "step_name_en": "Serum"
       },
       {
         "sku": "KC0177",
@@ -58,7 +74,15 @@
         "source_name": "COSRX BHA Blackhead Power Liquid",
         "support_copy": "",
         "optional": false,
-        "application_ar": "استخدمه بعد الغسول على بشرة جافة، واتركه حتى تمتصّه البشرة قبل الانتقال إلى المرطب."
+        "application_ar": "استخدمه بعد الغسول على بشرة جافة، واتركه حتى تمتصّه البشرة قبل الانتقال إلى المرطب.",
+        "morning": false,
+        "night": true,
+        "use_time_ar": "مساءً فقط",
+        "use_time_en": "Evening only",
+        "frequency_ar": "مساءً، مرتين إلى ثلاث مرات أسبوعيًا مع التدرّج.",
+        "starter_guide_ar": "ابدأ استخدامه مرة واحدة أسبوعياً مساءً لملاحظة استجابة البشرة، ثم زد التكرار تدريجياً حتى 2–3 مرات أسبوعياً.",
+        "step_name_ar": "المقشّر (BHA)",
+        "step_name_en": "Exfoliator (BHA)"
       },
       {
         "sku": "KC0071",
@@ -66,7 +90,15 @@
         "source_name": "AXIS-Y Dark Spot Correcting Glow Cream",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّعه بالتساوي في خطوة الترطيب، ثم ربّت بلطف حتى تمتصّه البشرة."
+        "application_ar": "وزّعه بالتساوي في خطوة الترطيب، ثم ربّت بلطف حتى تمتصّه البشرة.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "المرطب",
+        "step_name_en": "Moisturizer"
       },
       {
         "sku": "KC0159",
@@ -74,7 +106,15 @@
         "source_name": "COSRX Ultra Light Invisible Sunscreen SPF50+ PA++++",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة."
+        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+        "morning": true,
+        "night": false,
+        "use_time_ar": "صباحاً فقط",
+        "use_time_en": "Morning only",
+        "frequency_ar": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+        "starter_guide_ar": "",
+        "step_name_ar": "واقي الشمس",
+        "step_name_en": "Sunscreen"
       }
     ],
     "complementary_products_json": [
@@ -90,7 +130,119 @@
         "reason": "يُستخدم موضعياً على الحبة النشطة للمساعدة على امتصاص الإفرازات وحمايتها من اللمس.",
         "application": "نظّف الحبة وجففها جيدًا، ثم ضع اللصقة مباشرةً عليها؛ استبدلها عندما تصبح بيضاء."
       }
-    ]
+    ],
+    "how_to_use_ar": "اتبع ترتيب الخطوات المحدد لكل فترة. في الصباح: التزم بالترتيب واختم دائماً بواقي الشمس. في المساء: اعتمد ليلة العناية المعتادة، أو اختر الليلة المخصصة في أيامها المحددة. ملاحظة هامة: يُستخدم COSRX BHA مساءً 2–3 مرات أسبوعياً مع التدرج، ويجب أن يعكس الموقع تكرار الاستخدام الوارد في بيانات المنتج.",
+    "how_to_use_en": "Follow the steps in order. In the morning, always finish with sunscreen. In the evening, focus on hydration and follow the dedicated night schedule.",
+    "usage_guide_json": {
+      "am_title": "خطوات الصباح",
+      "am_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0104",
+          "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0002",
+          "name_ar": "ANUA Azelaic Acid 10 Hyaluron Redness Soothing Serum",
+          "role": "السيروم",
+          "application": "ابدأ بقطرة إلى قطرتين في كل استخدام، بعد التونر وقبل المرطب.",
+          "frequency": "ابدأ مرة أو مرتين أسبوعيًا.",
+          "starter_guide": "ابدأ بقطرة إلى قطرتين في كل استخدام بعد التونر وقبل المرطب."
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0071",
+          "name_ar": "AXIS-Y Dark Spot Correcting Glow Cream",
+          "role": "المرطب",
+          "application": "وزّعه بالتساوي في خطوة الترطيب، ثم ربّت بلطف حتى تمتصّه البشرة.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0159",
+          "name_ar": "COSRX Ultra Light Invisible Sunscreen SPF50+ PA++++",
+          "role": "واقي الشمس",
+          "application": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+          "frequency": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_title": "خطوات المساء",
+      "pm_standard_label": "ليلة العناية المعتادة",
+      "pm_standard_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0104",
+          "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0002",
+          "name_ar": "ANUA Azelaic Acid 10 Hyaluron Redness Soothing Serum",
+          "role": "السيروم",
+          "application": "ابدأ بقطرة إلى قطرتين في كل استخدام، بعد التونر وقبل المرطب.",
+          "frequency": "ابدأ مرة أو مرتين أسبوعيًا.",
+          "starter_guide": "ابدأ بقطرة إلى قطرتين في كل استخدام بعد التونر وقبل المرطب."
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0071",
+          "name_ar": "AXIS-Y Dark Spot Correcting Glow Cream",
+          "role": "المرطب",
+          "application": "وزّعه بالتساوي في خطوة الترطيب، ثم ربّت بلطف حتى تمتصّه البشرة.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_variants": [
+        {
+          "id": "exfoliate",
+          "label": "ليلة التقشير",
+          "badge": "2–3 مرات أسبوعياً بالتدرج",
+          "note": "في ليلة التقشير، يحلّ مقشر BHA محل السيروم العادي بعد الغسول وقبل المرطب. لا تخلط السيروم الفعال مع المقشر في الليلة نفسها.",
+          "steps": [
+            {
+              "step_number": 1,
+              "sku": "KC0104",
+              "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+              "role": "الغسول",
+              "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+              "frequency": "يوميًا.",
+              "starter_guide": ""
+            },
+            {
+              "step_number": 2,
+              "sku": "KC0177",
+              "name_ar": "COSRX BHA Blackhead Power Liquid",
+              "role": "المقشّر",
+              "application": "استخدمه بعد الغسول على بشرة جافة، واتركه حتى تمتصّه البشرة قبل الانتقال إلى المرطب.",
+              "frequency": "مساءً، مرتين إلى ثلاث مرات أسبوعيًا مع التدرّج.",
+              "starter_guide": "ابدأ استخدامه مرة واحدة أسبوعياً مساءً لملاحظة استجابة البشرة، ثم زد التكرار تدريجياً حتى 2–3 مرات أسبوعياً."
+            },
+            {
+              "step_number": 3,
+              "sku": "KC0071",
+              "name_ar": "AXIS-Y Dark Spot Correcting Glow Cream",
+              "role": "المرطب",
+              "application": "وزّعه بالتساوي في خطوة الترطيب، ثم ربّت بلطف حتى تمتصّه البشرة.",
+              "frequency": "يوميًا.",
+              "starter_guide": ""
+            }
+          ]
+        }
+      ],
+      "night_notes": "يُستخدم COSRX BHA مساءً 2–3 مرات أسبوعياً مع التدرج، ويجب أن يعكس الموقع تكرار الاستخدام الوارد في بيانات المنتج."
+    }
   },
   {
     "slug": "pores",
@@ -135,7 +287,15 @@
         "source_name": "SKIN1004 Madagascar Centella Ampoule Foam",
         "support_copy": "",
         "optional": false,
-        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر."
+        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "الغسول",
+        "step_name_en": "Cleanser"
       },
       {
         "sku": "KC0164",
@@ -143,7 +303,15 @@
         "source_name": "COSRX The Niacinamide 15 Serum",
         "support_copy": "",
         "optional": false,
-        "application_ar": "بعد التنظيف والتونر إن استخدمته، ضع بضع قطرات ووزّعها بلطف، ثم اتبع بالمرطب."
+        "application_ar": "بعد التنظيف والتونر إن استخدمته، ضع بضع قطرات ووزّعها بلطف، ثم اتبع بالمرطب.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "السيروم",
+        "step_name_en": "Serum"
       },
       {
         "sku": "KC0177",
@@ -151,7 +319,15 @@
         "source_name": "COSRX BHA Blackhead Power Liquid",
         "support_copy": "",
         "optional": false,
-        "application_ar": "استخدمه بعد الغسول على بشرة جافة، واتركه حتى تمتصّه البشرة قبل الانتقال إلى المرطب."
+        "application_ar": "استخدمه بعد الغسول على بشرة جافة، واتركه حتى تمتصّه البشرة قبل الانتقال إلى المرطب.",
+        "morning": false,
+        "night": true,
+        "use_time_ar": "مساءً فقط",
+        "use_time_en": "Evening only",
+        "frequency_ar": "مساءً، مرتين إلى ثلاث مرات أسبوعيًا مع التدرّج.",
+        "starter_guide_ar": "ابدأ استخدامه مرة واحدة أسبوعياً مساءً لملاحظة استجابة البشرة، ثم زد التكرار تدريجياً حتى 2–3 مرات أسبوعياً.",
+        "step_name_ar": "المقشّر (BHA)",
+        "step_name_en": "Exfoliator (BHA)"
       },
       {
         "sku": "KC0088",
@@ -159,7 +335,15 @@
         "source_name": "Beauty of Joseon Red Bean Water Gel",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّع كمية بحجم قطعة نقدية صغيرة على الوجه في خطوة الترطيب، ثم ربّت بلطف حتى الامتصاص."
+        "application_ar": "وزّع كمية بحجم قطعة نقدية صغيرة على الوجه في خطوة الترطيب، ثم ربّت بلطف حتى الامتصاص.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "المرطب الخفيف",
+        "step_name_en": "Gel Moisturizer"
       },
       {
         "sku": "KC0159",
@@ -167,7 +351,15 @@
         "source_name": "COSRX Ultra Light Invisible Sunscreen SPF50+ PA++++",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة."
+        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+        "morning": true,
+        "night": false,
+        "use_time_ar": "صباحاً فقط",
+        "use_time_en": "Morning only",
+        "frequency_ar": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+        "starter_guide_ar": "",
+        "step_name_ar": "واقي الشمس",
+        "step_name_en": "Sunscreen"
       }
     ],
     "complementary_products_json": [
@@ -183,7 +375,119 @@
         "reason": "مخصص لإعادة تطبيق الحماية خلال اليوم بلمسة مطفية؛ ولا يُعرض بديلاً عن واقي الشمس الأساسي صباحاً.",
         "application": "لتجديد الحماية خلال اليوم، مرّر الستيك أربع مرات ذهابًا وإيابًا على كل منطقة، ثم وزّع الطبقة برفق بالتساوي. غطّ الوجه والرقبة والأذنين وتجنّب العينين؛ التغطية الكافية قد تحرّك المكياج."
       }
-    ]
+    ],
+    "how_to_use_ar": "اتبع ترتيب الخطوات المحدد لكل فترة. في الصباح: التزم بالترتيب واختم دائماً بواقي الشمس. في المساء: اعتمد ليلة العناية المعتادة، أو اختر الليلة المخصصة في أيامها المحددة. ملاحظة هامة: يُستخدم COSRX BHA مساءً 2–3 مرات أسبوعياً مع التدرج. واقي الشمس الصلب منتج لإعادة التطبيق فقط.",
+    "how_to_use_en": "Follow the steps in order. In the morning, always finish with sunscreen. In the evening, focus on hydration and follow the dedicated night schedule.",
+    "usage_guide_json": {
+      "am_title": "خطوات الصباح",
+      "am_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0104",
+          "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0164",
+          "name_ar": "COSRX The Niacinamide 15 Serum",
+          "role": "السيروم",
+          "application": "بعد التنظيف والتونر إن استخدمته، ضع بضع قطرات ووزّعها بلطف، ثم اتبع بالمرطب.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0088",
+          "name_ar": "Beauty of Joseon Red Bean Water Gel",
+          "role": "المرطب",
+          "application": "وزّع كمية بحجم قطعة نقدية صغيرة على الوجه في خطوة الترطيب، ثم ربّت بلطف حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0159",
+          "name_ar": "COSRX Ultra Light Invisible Sunscreen SPF50+ PA++++",
+          "role": "واقي الشمس",
+          "application": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+          "frequency": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_title": "خطوات المساء",
+      "pm_standard_label": "ليلة العناية المعتادة",
+      "pm_standard_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0104",
+          "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0164",
+          "name_ar": "COSRX The Niacinamide 15 Serum",
+          "role": "السيروم",
+          "application": "بعد التنظيف والتونر إن استخدمته، ضع بضع قطرات ووزّعها بلطف، ثم اتبع بالمرطب.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0088",
+          "name_ar": "Beauty of Joseon Red Bean Water Gel",
+          "role": "المرطب",
+          "application": "وزّع كمية بحجم قطعة نقدية صغيرة على الوجه في خطوة الترطيب، ثم ربّت بلطف حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_variants": [
+        {
+          "id": "exfoliate",
+          "label": "ليلة التقشير",
+          "badge": "2–3 مرات أسبوعياً بالتدرج",
+          "note": "في ليلة التقشير، يحلّ مقشر BHA محل السيروم العادي بعد الغسول وقبل المرطب. لا تخلط السيروم الفعال مع المقشر في الليلة نفسها.",
+          "steps": [
+            {
+              "step_number": 1,
+              "sku": "KC0104",
+              "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+              "role": "الغسول",
+              "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+              "frequency": "يوميًا.",
+              "starter_guide": ""
+            },
+            {
+              "step_number": 2,
+              "sku": "KC0177",
+              "name_ar": "COSRX BHA Blackhead Power Liquid",
+              "role": "المقشّر",
+              "application": "استخدمه بعد الغسول على بشرة جافة، واتركه حتى تمتصّه البشرة قبل الانتقال إلى المرطب.",
+              "frequency": "مساءً، مرتين إلى ثلاث مرات أسبوعيًا مع التدرّج.",
+              "starter_guide": "ابدأ استخدامه مرة واحدة أسبوعياً مساءً لملاحظة استجابة البشرة، ثم زد التكرار تدريجياً حتى 2–3 مرات أسبوعياً."
+            },
+            {
+              "step_number": 3,
+              "sku": "KC0088",
+              "name_ar": "Beauty of Joseon Red Bean Water Gel",
+              "role": "المرطب",
+              "application": "وزّع كمية بحجم قطعة نقدية صغيرة على الوجه في خطوة الترطيب، ثم ربّت بلطف حتى الامتصاص.",
+              "frequency": "يوميًا.",
+              "starter_guide": ""
+            }
+          ]
+        }
+      ],
+      "night_notes": "يُستخدم COSRX BHA مساءً 2–3 مرات أسبوعياً مع التدرج. واقي الشمس الصلب منتج لإعادة التطبيق فقط."
+    }
   },
   {
     "slug": "oily-hydration",
@@ -228,7 +532,15 @@
         "source_name": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
         "support_copy": "",
         "optional": false,
-        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر."
+        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "الغسول",
+        "step_name_en": "Cleanser"
       },
       {
         "sku": "KC0021",
@@ -236,7 +548,15 @@
         "source_name": "ANUA Rice 70 Glow Milky Toner",
         "support_copy": "",
         "optional": false,
-        "application_ar": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص."
+        "application_ar": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "التونر",
+        "step_name_en": "Toner"
       },
       {
         "sku": "KC0123",
@@ -244,7 +564,15 @@
         "source_name": "NUMBUZIN No.1 Pantothenic B5 Active Soothing Serum",
         "support_copy": "",
         "optional": false,
-        "application_ar": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب."
+        "application_ar": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "سيروم التهدئة",
+        "step_name_en": "Soothing Serum"
       },
       {
         "sku": "KC0223",
@@ -252,7 +580,15 @@
         "source_name": "PURITO Oat-In Calming Gel Cream",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص."
+        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "صباحًا ومساءً، في خطوة الترطيب.",
+        "starter_guide_ar": "",
+        "step_name_ar": "المرطب المهدئ",
+        "step_name_en": "Calming Moisturizer"
       },
       {
         "sku": "KC0076",
@@ -260,7 +596,15 @@
         "source_name": "Beauty of Joseon Relief Sun Aqua-Fresh Rice + Panthenol SPF50+ PA++++",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة."
+        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+        "morning": true,
+        "night": false,
+        "use_time_ar": "صباحاً فقط",
+        "use_time_en": "Morning only",
+        "frequency_ar": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+        "starter_guide_ar": "",
+        "step_name_ar": "واقي الشمس المائي",
+        "step_name_en": "Aqua Sunscreen"
       }
     ],
     "complementary_products_json": [
@@ -276,7 +620,101 @@
         "reason": "يُستخدم ليلاً مرتين أو ثلاث مرات أسبوعياً بدلاً من المرطب الليلي، لمنح البشرة عناية ترطيبية إضافية.",
         "application": "بعد الخطوات المائية مساءً، ضع طبقة مناسبة بدل المرطب الليلي، واتركها طوال الليل ثم اغسل الوجه صباحًا."
       }
-    ]
+    ],
+    "how_to_use_ar": "اتبع ترتيب الخطوات المحدد لكل فترة. في الصباح: التزم بالترتيب واختم دائماً بواقي الشمس. في المساء: اعتمد ليلة العناية المعتادة، أو اختر الليلة المخصصة في أيامها المحددة. ملاحظة هامة: قناع ABIB يحل محل المرطب الليلي في ليلة استخدامه، ولا يُضاف فوقه كخطوة أخرى.",
+    "how_to_use_en": "Follow the steps in order. In the morning, always finish with sunscreen. In the evening, focus on hydration and follow the dedicated night schedule.",
+    "usage_guide_json": {
+      "am_title": "خطوات الصباح",
+      "am_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0140",
+          "name_ar": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0021",
+          "name_ar": "ANUA Rice 70 Glow Milky Toner",
+          "role": "التونر",
+          "application": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0123",
+          "name_ar": "NUMBUZIN No.1 Pantothenic B5 Active Soothing Serum",
+          "role": "السيروم",
+          "application": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0223",
+          "name_ar": "PURITO Oat-In Calming Gel Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "صباحًا ومساءً، في خطوة الترطيب.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 5,
+          "sku": "KC0076",
+          "name_ar": "Beauty of Joseon Relief Sun Aqua-Fresh Rice + Panthenol SPF50+ PA++++",
+          "role": "واقي الشمس",
+          "application": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+          "frequency": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_title": "خطوات المساء",
+      "pm_standard_label": "ليلة العناية المعتادة",
+      "pm_standard_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0140",
+          "name_ar": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0021",
+          "name_ar": "ANUA Rice 70 Glow Milky Toner",
+          "role": "التونر",
+          "application": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0123",
+          "name_ar": "NUMBUZIN No.1 Pantothenic B5 Active Soothing Serum",
+          "role": "السيروم",
+          "application": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0223",
+          "name_ar": "PURITO Oat-In Calming Gel Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "صباحًا ومساءً، في خطوة الترطيب.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_variants": [],
+      "night_notes": "قناع ABIB يحل محل المرطب الليلي في ليلة استخدامه، ولا يُضاف فوقه كخطوة أخرى."
+    }
   },
   {
     "slug": "pigmentation",
@@ -321,7 +759,15 @@
         "source_name": "SKIN1004 Madagascar Centella Ampoule Foam",
         "support_copy": "",
         "optional": false,
-        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر."
+        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "الغسول",
+        "step_name_en": "Cleanser"
       },
       {
         "sku": "KC0001",
@@ -329,7 +775,15 @@
         "source_name": "ANUA Niacinamide 10 TXA 4 Serum",
         "support_copy": "",
         "optional": false,
-        "application_ar": "بعد التونر، ضع قطرتين إلى ثلاث قطرات وربّت حتى الامتصاص. استخدمه صباحًا أو في ليلة لا تستخدم فيها Retino-Mela."
+        "application_ar": "بعد التونر، ضع قطرتين إلى ثلاث قطرات وربّت حتى الامتصاص. استخدمه صباحًا أو في ليلة لا تستخدم فيها Retino-Mela.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "السيروم",
+        "step_name_en": "Serum"
       },
       {
         "sku": "KC0198",
@@ -337,7 +791,15 @@
         "source_name": "Dr.Reju-All Advanced Retino-Mela Serum",
         "support_copy": "",
         "optional": false,
-        "application_ar": "مساءً وعلى بشرة جافة، ضع كمية صغيرة بعد التونر وقبل المرطب، مع تجنّب محيط العين والشفاه."
+        "application_ar": "مساءً وعلى بشرة جافة، ضع كمية صغيرة بعد التونر وقبل المرطب، مع تجنّب محيط العين والشفاه.",
+        "morning": false,
+        "night": true,
+        "use_time_ar": "مساءً فقط",
+        "use_time_en": "Evening only",
+        "frequency_ar": "ابدأ ليلة بعد ليلة، ثم يوميًا بعد التدرّج.",
+        "starter_guide_ar": "ابدأ ليلة بعد ليلة بكمية بحجم حبة البازلاء مساءً فقط، ثم تدرج إلى الاستخدام اليومي بعد التأقلم.",
+        "step_name_ar": "سيروم التجديد والتفتيح",
+        "step_name_en": "Active Treatment Serum"
       },
       {
         "sku": "KC0224",
@@ -345,7 +807,15 @@
         "source_name": "PURITO Mighty Bamboo Panthenol Cream",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص."
+        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "صباحًا ومساءً، في خطوة الترطيب.",
+        "starter_guide_ar": "",
+        "step_name_ar": "المرطب الداعم للحاجز",
+        "step_name_en": "Barrier Cream"
       },
       {
         "sku": "KC0121",
@@ -353,7 +823,15 @@
         "source_name": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة."
+        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+        "morning": true,
+        "night": false,
+        "use_time_ar": "صباحاً فقط",
+        "use_time_en": "Morning only",
+        "frequency_ar": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+        "starter_guide_ar": "",
+        "step_name_ar": "واقي الشمس الشفاف",
+        "step_name_en": "Clear Sun Essence"
       }
     ],
     "complementary_products_json": [
@@ -369,7 +847,119 @@
         "reason": "عناية أسبوعية إضافية لتحسين مظهر البهتان والإشراقة وتفاوت اللون، ويحل محل المرطب في ليلة استخدامه.",
         "application": "بعد التنظيف والتونر أو السيروم، ثبّت جزأي الماسك على الوجه. يمكنك تركه طوال الليل؛ وللاستخدام نهارًا اتركه من 3 إلى 4 ساعات أو حتى يصبح شفافًا. أزله وأضف مرطبًا إذا بقي الجفاف، واستخدم واقي الشمس صباحًا. أزله فورًا إذا سبّب حكة أو لسعًا."
       }
-    ]
+    ],
+    "how_to_use_ar": "اتبع ترتيب الخطوات المحدد لكل فترة. في الصباح: التزم بالترتيب واختم دائماً بواقي الشمس. في المساء: اعتمد ليلة العناية المعتادة، أو اختر الليلة المخصصة في أيامها المحددة. ملاحظة هامة: يعرض ANUA صباحاً أو في الليالي التي لا يُستخدم فيها Retino-Mela. يعرض Retino-Mela مساءً فقط وفق التدرج المسجل. لا يُعرض السيرومان في الجلسة نفسها. لا يُكتب أن الواقي ملوّن أو يحتوي أكاسيد الحديد أو يوفر حماية خاصة من الضوء المرئي.",
+    "how_to_use_en": "Follow the steps in order. In the morning, always finish with sunscreen. In the evening, focus on hydration and follow the dedicated night schedule.",
+    "usage_guide_json": {
+      "am_title": "خطوات الصباح",
+      "am_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0104",
+          "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0001",
+          "name_ar": "ANUA Niacinamide 10 TXA 4 Serum",
+          "role": "السيروم",
+          "application": "بعد التونر، ضع قطرتين إلى ثلاث قطرات وربّت حتى الامتصاص. استخدمه صباحًا أو في ليلة لا تستخدم فيها Retino-Mela.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0224",
+          "name_ar": "PURITO Mighty Bamboo Panthenol Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "صباحًا ومساءً، في خطوة الترطيب.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0121",
+          "name_ar": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
+          "role": "واقي الشمس",
+          "application": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+          "frequency": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_title": "خطوات المساء",
+      "pm_standard_label": "ليلة العناية المعتادة",
+      "pm_standard_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0104",
+          "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0001",
+          "name_ar": "ANUA Niacinamide 10 TXA 4 Serum",
+          "role": "السيروم",
+          "application": "بعد التونر، ضع قطرتين إلى ثلاث قطرات وربّت حتى الامتصاص. استخدمه صباحًا أو في ليلة لا تستخدم فيها Retino-Mela.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0224",
+          "name_ar": "PURITO Mighty Bamboo Panthenol Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "صباحًا ومساءً، في خطوة الترطيب.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_variants": [
+        {
+          "id": "retino",
+          "label": "ليلة Retino-Mela",
+          "badge": "ليلة بعد ليلة ثم يومياً بالتدرج",
+          "note": "يعرض سيروم Retino-Mela مساءً فقط وفق التدرج المعتمد. يحل محل سيروم فيتامين C في هذه الليلة، ولا يُعرض السيرومان في الجلسة نفسها.",
+          "steps": [
+            {
+              "step_number": 1,
+              "sku": "KC0104",
+              "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+              "role": "الغسول",
+              "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+              "frequency": "يوميًا.",
+              "starter_guide": ""
+            },
+            {
+              "step_number": 2,
+              "sku": "KC0198",
+              "name_ar": "Dr.Reju-All Advanced Retino-Mela Serum",
+              "role": "السيروم",
+              "application": "مساءً وعلى بشرة جافة، ضع كمية صغيرة بعد التونر وقبل المرطب، مع تجنّب محيط العين والشفاه.",
+              "frequency": "ابدأ ليلة بعد ليلة، ثم يوميًا بعد التدرّج.",
+              "starter_guide": "ابدأ ليلة بعد ليلة بكمية بحجم حبة البازلاء مساءً فقط، ثم تدرج إلى الاستخدام اليومي بعد التأقلم."
+            },
+            {
+              "step_number": 3,
+              "sku": "KC0224",
+              "name_ar": "PURITO Mighty Bamboo Panthenol Cream",
+              "role": "المرطب",
+              "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+              "frequency": "صباحًا ومساءً، في خطوة الترطيب.",
+              "starter_guide": ""
+            }
+          ]
+        }
+      ],
+      "night_notes": "يعرض ANUA صباحاً أو في الليالي التي لا يُستخدم فيها Retino-Mela. يعرض Retino-Mela مساءً فقط وفق التدرج المسجل. لا يُعرض السيرومان في الجلسة نفسها. لا يُكتب أن الواقي ملوّن أو يحتوي أكاسيد الحديد أو يوفر حماية خاصة من الضوء المرئي."
+    }
   },
   {
     "slug": "barrier",
@@ -414,7 +1004,15 @@
         "source_name": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
         "support_copy": "",
         "optional": false,
-        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر."
+        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "الغسول",
+        "step_name_en": "Cleanser"
       },
       {
         "sku": "KC0154",
@@ -422,7 +1020,15 @@
         "source_name": "COSRX Advanced Snail 96 Mucin Power Essence",
         "support_copy": "",
         "optional": false,
-        "application_ar": "بعد الغسول والتونر إن استخدمته، وزّع كمية صغيرة، نحو ضغطتين إلى ثلاث، على الوجه وربّت بلطف حتى الامتصاص؛ تجنّب منطقة العينين."
+        "application_ar": "بعد الغسول والتونر إن استخدمته، وزّع كمية صغيرة، نحو ضغطتين إلى ثلاث، على الوجه وربّت بلطف حتى الامتصاص؛ تجنّب منطقة العينين.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "صباحًا ومساءً.",
+        "starter_guide_ar": "",
+        "step_name_ar": "الخلاصة المرطبة",
+        "step_name_en": "Essence"
       },
       {
         "sku": "KC0123",
@@ -430,7 +1036,15 @@
         "source_name": "NUMBUZIN No.1 Pantothenic B5 Active Soothing Serum",
         "support_copy": "",
         "optional": false,
-        "application_ar": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب."
+        "application_ar": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "سيروم التهدئة",
+        "step_name_en": "Soothing Serum"
       },
       {
         "sku": "KC0223",
@@ -438,7 +1052,15 @@
         "source_name": "PURITO Oat-In Calming Gel Cream",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص."
+        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "صباحًا ومساءً، في خطوة الترطيب.",
+        "starter_guide_ar": "",
+        "step_name_ar": "المرطب المهدئ",
+        "step_name_en": "Calming Moisturizer"
       },
       {
         "sku": "KC0121",
@@ -446,7 +1068,15 @@
         "source_name": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة."
+        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+        "morning": true,
+        "night": false,
+        "use_time_ar": "صباحاً فقط",
+        "use_time_en": "Morning only",
+        "frequency_ar": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+        "starter_guide_ar": "",
+        "step_name_ar": "واقي الشمس الشفاف",
+        "step_name_en": "Clear Sun Essence"
       }
     ],
     "complementary_products_json": [
@@ -462,7 +1092,101 @@
         "reason": "عناية أسبوعية مكثفة لدعم الترطيب وحاجز البشرة، ويُستخدم بدلاً من المرطب الليلي في ليلة استخدامه.",
         "application": "بعد التنظيف والتونر أو السيروم، ثبّت جزأي الماسك على الوجه. يمكنك تركه طوال الليل؛ وللاستخدام نهارًا اتركه من 3 إلى 4 ساعات أو حتى يصبح شفافًا. أزله وأضف مرطبًا إذا بقي الجفاف، واستخدم واقي الشمس صباحًا. أزله فورًا إذا سبّب حكة أو لسعًا."
       }
-    ]
+    ],
+    "how_to_use_ar": "اتبع ترتيب الخطوات المحدد لكل فترة. في الصباح: التزم بالترتيب واختم دائماً بواقي الشمس. في المساء: اعتمد ليلة العناية المعتادة، أو اختر الليلة المخصصة في أيامها المحددة. ملاحظة هامة: لا تُضاف خطوة التنظيف الزيتي إلا عند الحاجة لإزالة المكياج أو الواقي. القناع يحل محل المرطب الليلي في ليلة استخدامه.",
+    "how_to_use_en": "Follow the steps in order. In the morning, always finish with sunscreen. In the evening, focus on hydration and follow the dedicated night schedule.",
+    "usage_guide_json": {
+      "am_title": "خطوات الصباح",
+      "am_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0140",
+          "name_ar": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0154",
+          "name_ar": "COSRX Advanced Snail 96 Mucin Power Essence",
+          "role": "الإسنس",
+          "application": "بعد الغسول والتونر إن استخدمته، وزّع كمية صغيرة، نحو ضغطتين إلى ثلاث، على الوجه وربّت بلطف حتى الامتصاص؛ تجنّب منطقة العينين.",
+          "frequency": "صباحًا ومساءً.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0123",
+          "name_ar": "NUMBUZIN No.1 Pantothenic B5 Active Soothing Serum",
+          "role": "السيروم",
+          "application": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0223",
+          "name_ar": "PURITO Oat-In Calming Gel Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "صباحًا ومساءً، في خطوة الترطيب.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 5,
+          "sku": "KC0121",
+          "name_ar": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
+          "role": "واقي الشمس",
+          "application": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+          "frequency": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_title": "خطوات المساء",
+      "pm_standard_label": "ليلة العناية المعتادة",
+      "pm_standard_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0140",
+          "name_ar": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0154",
+          "name_ar": "COSRX Advanced Snail 96 Mucin Power Essence",
+          "role": "الإسنس",
+          "application": "بعد الغسول والتونر إن استخدمته، وزّع كمية صغيرة، نحو ضغطتين إلى ثلاث، على الوجه وربّت بلطف حتى الامتصاص؛ تجنّب منطقة العينين.",
+          "frequency": "صباحًا ومساءً.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0123",
+          "name_ar": "NUMBUZIN No.1 Pantothenic B5 Active Soothing Serum",
+          "role": "السيروم",
+          "application": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0223",
+          "name_ar": "PURITO Oat-In Calming Gel Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "صباحًا ومساءً، في خطوة الترطيب.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_variants": [],
+      "night_notes": "لا تُضاف خطوة التنظيف الزيتي إلا عند الحاجة لإزالة المكياج أو الواقي. القناع يحل محل المرطب الليلي في ليلة استخدامه."
+    }
   },
   {
     "slug": "dry-hydration",
@@ -507,7 +1231,15 @@
         "source_name": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
         "support_copy": "",
         "optional": false,
-        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر."
+        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "الغسول",
+        "step_name_en": "Cleanser"
       },
       {
         "sku": "KC0021",
@@ -515,7 +1247,15 @@
         "source_name": "ANUA Rice 70 Glow Milky Toner",
         "support_copy": "",
         "optional": false,
-        "application_ar": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص."
+        "application_ar": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "التونر",
+        "step_name_en": "Toner"
       },
       {
         "sku": "KC0124",
@@ -523,7 +1263,15 @@
         "source_name": "NUMBUZIN No.3 Skin Softening Serum",
         "support_copy": "",
         "optional": false,
-        "application_ar": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب."
+        "application_ar": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "سيروم التنعيم",
+        "step_name_en": "Softening Serum"
       },
       {
         "sku": "KC0192",
@@ -531,7 +1279,15 @@
         "source_name": "BIODANCE Skin-Glow Essence Cream",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص."
+        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "المرطب الغني",
+        "step_name_en": "Rich Cream"
       },
       {
         "sku": "KC0077",
@@ -539,7 +1295,15 @@
         "source_name": "Beauty of Joseon Relief Sun Rice + Probiotics SPF50+ PA++++",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة."
+        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+        "morning": true,
+        "night": false,
+        "use_time_ar": "صباحاً فقط",
+        "use_time_en": "Morning only",
+        "frequency_ar": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+        "starter_guide_ar": "",
+        "step_name_ar": "واقي الشمس المغذي",
+        "step_name_en": "Relief Sunscreen"
       }
     ],
     "complementary_products_json": [
@@ -555,7 +1319,101 @@
         "reason": "يمنح البشرة عناية أسبوعية إضافية بالترطيب والنعومة والإشراقة، ويحل محل المرطب الليلي عند استخدامه.",
         "application": "بعد التنظيف والتونر أو السيروم، ثبّت جزأي الماسك على الوجه. يمكنك تركه طوال الليل؛ وللاستخدام نهارًا اتركه من 3 إلى 4 ساعات أو حتى يصبح شفافًا. أزله وأضف مرطبًا إذا بقي الجفاف، واستخدم واقي الشمس صباحًا. أزله فورًا إذا سبّب حكة أو لسعًا."
       }
-    ]
+    ],
+    "how_to_use_ar": "اتبع ترتيب الخطوات المحدد لكل فترة. في الصباح: التزم بالترتيب واختم دائماً بواقي الشمس. في المساء: اعتمد ليلة العناية المعتادة، أو اختر الليلة المخصصة في أيامها المحددة. ملاحظة هامة: القناع يحل محل المرطب الليلي في ليلة استخدامه، ولا يُعرض كطبقة إضافية فوقه.",
+    "how_to_use_en": "Follow the steps in order. In the morning, always finish with sunscreen. In the evening, focus on hydration and follow the dedicated night schedule.",
+    "usage_guide_json": {
+      "am_title": "خطوات الصباح",
+      "am_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0140",
+          "name_ar": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0021",
+          "name_ar": "ANUA Rice 70 Glow Milky Toner",
+          "role": "التونر",
+          "application": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0124",
+          "name_ar": "NUMBUZIN No.3 Skin Softening Serum",
+          "role": "السيروم",
+          "application": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0192",
+          "name_ar": "BIODANCE Skin-Glow Essence Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 5,
+          "sku": "KC0077",
+          "name_ar": "Beauty of Joseon Relief Sun Rice + Probiotics SPF50+ PA++++",
+          "role": "واقي الشمس",
+          "application": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+          "frequency": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_title": "خطوات المساء",
+      "pm_standard_label": "ليلة العناية المعتادة",
+      "pm_standard_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0140",
+          "name_ar": "TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Cleansing Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0021",
+          "name_ar": "ANUA Rice 70 Glow Milky Toner",
+          "role": "التونر",
+          "application": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0124",
+          "name_ar": "NUMBUZIN No.3 Skin Softening Serum",
+          "role": "السيروم",
+          "application": "بعد التنظيف والتونر إن استخدمته، وزّع كمية مناسبة على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0192",
+          "name_ar": "BIODANCE Skin-Glow Essence Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_variants": [],
+      "night_notes": "القناع يحل محل المرطب الليلي في ليلة استخدامه، ولا يُعرض كطبقة إضافية فوقه."
+    }
   },
   {
     "slug": "lines",
@@ -600,7 +1458,15 @@
         "source_name": "SKIN1004 Madagascar Centella Ampoule Foam",
         "support_copy": "",
         "optional": false,
-        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر."
+        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "الغسول",
+        "step_name_en": "Cleanser"
       },
       {
         "sku": "KC0157",
@@ -608,7 +1474,15 @@
         "source_name": "COSRX The 6 Peptide Skin Booster Serum",
         "support_copy": "",
         "optional": false,
-        "application_ar": "بعد التنظيف مباشرةً، وزّع مضختين إلى ثلاث مضخات على الوجه وربّت حتى الامتصاص، ثم أكمل بقية الروتين."
+        "application_ar": "بعد التنظيف مباشرةً، وزّع مضختين إلى ثلاث مضخات على الوجه وربّت حتى الامتصاص، ثم أكمل بقية الروتين.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "السيروم التمهيدي",
+        "step_name_en": "Booster Serum"
       },
       {
         "sku": "KC0078",
@@ -616,7 +1490,15 @@
         "source_name": "Beauty of Joseon Revive Eye Serum: Ginseng + Retinal",
         "support_copy": "",
         "optional": false,
-        "application_ar": "مساءً، استخدم ضغطة إلى ضغطتين، وابدأ بكمية أقل للبشرة الحساسة. ربّت برفق تحت العينين وحولهما بعد التنظيف والتونر إن استخدمته، ثم ضع المرطب. للبشرة الجافة أو الحساسة، ضع مرطبًا لطيفًا قبله. تجنّب ملامسة العينين."
+        "application_ar": "مساءً، استخدم ضغطة إلى ضغطتين، وابدأ بكمية أقل للبشرة الحساسة. ربّت برفق تحت العينين وحولهما بعد التنظيف والتونر إن استخدمته، ثم ضع المرطب. للبشرة الجافة أو الحساسة، ضع مرطبًا لطيفًا قبله. تجنّب ملامسة العينين.",
+        "morning": false,
+        "night": true,
+        "use_time_ar": "مساءً فقط",
+        "use_time_en": "Evening only",
+        "frequency_ar": "لمحيط العين: ابدأ مرة كل ثلاث ليالٍ.",
+        "starter_guide_ar": "لمحيط العين: ابدأ مرة كل 3 ليالٍ مساءً، ثم زد التكرار إلى ليلة بعد ليلة حسب التحمل.",
+        "step_name_ar": "سيروم العين بالريتينال",
+        "step_name_en": "Eye Retinal Serum"
       },
       {
         "sku": "KC0139",
@@ -624,7 +1506,15 @@
         "source_name": "TORRIDEN CELLMAZING Firming Cream",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص."
+        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "كريم شد البشرة",
+        "step_name_en": "Firming Cream"
       },
       {
         "sku": "KC0121",
@@ -632,7 +1522,15 @@
         "source_name": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة."
+        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+        "morning": true,
+        "night": false,
+        "use_time_ar": "صباحاً فقط",
+        "use_time_en": "Morning only",
+        "frequency_ar": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+        "starter_guide_ar": "",
+        "step_name_ar": "واقي الشمس الشفاف",
+        "step_name_en": "Clear Sun Essence"
       }
     ],
     "complementary_products_json": [
@@ -648,7 +1546,128 @@
         "reason": "يُستخدم عند الحاجة لترطيب محيط العين والعناية بمظهر الهالات والانتفاخ، ويفضل في الأيام التي لا يُستخدم فيها سيروم الريتينال حول العين.",
         "application": "بعد التنظيف والتونر إن استخدمته، ضع لصقة تحت كل عين لمدة 10–20 دقيقة، ثم أزلها وربّت ما تبقّى من الخلاصة. تجنّب حافة الجفن ولا تنم باللصقات."
       }
-    ]
+    ],
+    "how_to_use_ar": "اتبع ترتيب الخطوات المحدد لكل فترة. في الصباح: التزم بالترتيب واختم دائماً بواقي الشمس. في المساء: اعتمد ليلة العناية المعتادة، أو اختر الليلة المخصصة في أيامها المحددة. ملاحظة هامة: يُستخدم سيروم العين مساءً، ويبدأ مرة كل ثلاث ليالٍ. استخدم لصقات العين في الأيام التي لا تستخدم فيها سيروم الريتينال حول العين.",
+    "how_to_use_en": "Follow the steps in order. In the morning, always finish with sunscreen. In the evening, focus on hydration and follow the dedicated night schedule.",
+    "usage_guide_json": {
+      "am_title": "خطوات الصباح",
+      "am_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0104",
+          "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0157",
+          "name_ar": "COSRX The 6 Peptide Skin Booster Serum",
+          "role": "السيروم",
+          "application": "بعد التنظيف مباشرةً، وزّع مضختين إلى ثلاث مضخات على الوجه وربّت حتى الامتصاص، ثم أكمل بقية الروتين.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0139",
+          "name_ar": "TORRIDEN CELLMAZING Firming Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0121",
+          "name_ar": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
+          "role": "واقي الشمس",
+          "application": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+          "frequency": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_title": "خطوات المساء",
+      "pm_standard_label": "ليلة العناية المعتادة",
+      "pm_standard_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0104",
+          "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0157",
+          "name_ar": "COSRX The 6 Peptide Skin Booster Serum",
+          "role": "السيروم",
+          "application": "بعد التنظيف مباشرةً، وزّع مضختين إلى ثلاث مضخات على الوجه وربّت حتى الامتصاص، ثم أكمل بقية الروتين.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0139",
+          "name_ar": "TORRIDEN CELLMAZING Firming Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_variants": [
+        {
+          "id": "retinal",
+          "label": "ليلة سيروم العين",
+          "badge": "لمحيط العين: ابدأ مرة كل 3 ليالٍ",
+          "note": "يُستخدم سيروم الريتينال لمحيط العين مساءً، ويبدأ مرة كل ثلاث ليالٍ بعد التنظيف والتونر، ثم يُتبع بالمرطب.",
+          "steps": [
+            {
+              "step_number": 1,
+              "sku": "KC0104",
+              "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+              "role": "الغسول",
+              "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+              "frequency": "يوميًا.",
+              "starter_guide": ""
+            },
+            {
+              "step_number": 2,
+              "sku": "KC0157",
+              "name_ar": "COSRX The 6 Peptide Skin Booster Serum",
+              "role": "السيروم",
+              "application": "بعد التنظيف مباشرةً، وزّع مضختين إلى ثلاث مضخات على الوجه وربّت حتى الامتصاص، ثم أكمل بقية الروتين.",
+              "frequency": "يوميًا.",
+              "starter_guide": ""
+            },
+            {
+              "step_number": 3,
+              "sku": "KC0078",
+              "name_ar": "Beauty of Joseon Revive Eye Serum: Ginseng + Retinal",
+              "role": "سيروم العين",
+              "application": "مساءً، استخدم ضغطة إلى ضغطتين، وابدأ بكمية أقل للبشرة الحساسة. ربّت برفق تحت العينين وحولهما بعد التنظيف والتونر إن استخدمته، ثم ضع المرطب. للبشرة الجافة أو الحساسة، ضع مرطبًا لطيفًا قبله. تجنّب ملامسة العينين.",
+              "frequency": "لمحيط العين: ابدأ مرة كل ثلاث ليالٍ.",
+              "starter_guide": "لمحيط العين: ابدأ مرة كل 3 ليالٍ مساءً، ثم زد التكرار إلى ليلة بعد ليلة حسب التحمل."
+            },
+            {
+              "step_number": 4,
+              "sku": "KC0139",
+              "name_ar": "TORRIDEN CELLMAZING Firming Cream",
+              "role": "المرطب",
+              "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+              "frequency": "يوميًا.",
+              "starter_guide": ""
+            }
+          ]
+        }
+      ],
+      "night_notes": "يُستخدم سيروم العين مساءً، ويبدأ مرة كل ثلاث ليالٍ. استخدم لصقات العين في الأيام التي لا تستخدم فيها سيروم الريتينال حول العين."
+    }
   },
   {
     "slug": "daily",
@@ -693,7 +1712,15 @@
         "source_name": "SKIN1004 Madagascar Centella Ampoule Foam",
         "support_copy": "",
         "optional": false,
-        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر."
+        "application_ar": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "الغسول",
+        "step_name_en": "Cleanser"
       },
       {
         "sku": "KC0021",
@@ -701,7 +1728,15 @@
         "source_name": "ANUA Rice 70 Glow Milky Toner",
         "support_copy": "",
         "optional": false,
-        "application_ar": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص."
+        "application_ar": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "التونر",
+        "step_name_en": "Toner"
       },
       {
         "sku": "KC0080",
@@ -709,7 +1744,15 @@
         "source_name": "Beauty of Joseon Glow Deep Serum Rice + Alpha-Arbutin",
         "support_copy": "",
         "optional": false,
-        "application_ar": "مساءً فقط، بعد التنظيف والتونر إن استخدمته، ضع بضع قطرات على يدين نظيفتين ووزّعها على الوجه وربّت بلطف، ثم اتبع بالمرطب."
+        "application_ar": "مساءً فقط، بعد التنظيف والتونر إن استخدمته، ضع بضع قطرات على يدين نظيفتين ووزّعها على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "سيروم النضارة",
+        "step_name_en": "Glow Serum"
       },
       {
         "sku": "KC0155",
@@ -717,7 +1760,15 @@
         "source_name": "COSRX Advanced Snail 92 All In One Cream",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص."
+        "application_ar": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+        "morning": true,
+        "night": true,
+        "use_time_ar": "صباحاً ومساءً",
+        "use_time_en": "Morning & Evening",
+        "frequency_ar": "يوميًا.",
+        "starter_guide_ar": "",
+        "step_name_ar": "المرطب الشامل",
+        "step_name_en": "All-In-One Cream"
       },
       {
         "sku": "KC0121",
@@ -725,7 +1776,15 @@
         "source_name": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
         "support_copy": "",
         "optional": false,
-        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة."
+        "application_ar": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+        "morning": true,
+        "night": false,
+        "use_time_ar": "صباحاً فقط",
+        "use_time_en": "Morning only",
+        "frequency_ar": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+        "starter_guide_ar": "",
+        "step_name_ar": "واقي الشمس الشفاف",
+        "step_name_en": "Clear Sun Essence"
       }
     ],
     "complementary_products_json": [
@@ -741,6 +1800,100 @@
         "reason": "عناية أسبوعية إضافية بالإشراقة والنعومة وتفاوت اللون، ويحل محل المرطب الليلي في ليلة استخدامه.",
         "application": "بعد التنظيف والتونر أو السيروم، ثبّت جزأي الماسك على الوجه. يمكنك تركه طوال الليل؛ وللاستخدام نهارًا اتركه من 3 إلى 4 ساعات أو حتى يصبح شفافًا. أزله وأضف مرطبًا إذا بقي الجفاف، واستخدم واقي الشمس صباحًا. أزله فورًا إذا سبّب حكة أو لسعًا."
       }
-    ]
+    ],
+    "how_to_use_ar": "اتبع ترتيب الخطوات المحدد لكل فترة. في الصباح: التزم بالترتيب واختم دائماً بواقي الشمس. في المساء: اعتمد ليلة العناية المعتادة، أو اختر الليلة المخصصة في أيامها المحددة. ملاحظة هامة: القناع يحل محل المرطب الليلي في ليلة استخدامه. المنتج الداعم لا يُحدد أو يُضاف إلى السلة تلقائياً.",
+    "how_to_use_en": "Follow the steps in order. In the morning, always finish with sunscreen. In the evening, focus on hydration and follow the dedicated night schedule.",
+    "usage_guide_json": {
+      "am_title": "خطوات الصباح",
+      "am_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0104",
+          "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0021",
+          "name_ar": "ANUA Rice 70 Glow Milky Toner",
+          "role": "التونر",
+          "application": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0080",
+          "name_ar": "Beauty of Joseon Glow Deep Serum Rice + Alpha-Arbutin",
+          "role": "السيروم",
+          "application": "مساءً فقط، بعد التنظيف والتونر إن استخدمته، ضع بضع قطرات على يدين نظيفتين ووزّعها على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0155",
+          "name_ar": "COSRX Advanced Snail 92 All In One Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 5,
+          "sku": "KC0121",
+          "name_ar": "NUMBUZIN No.1 Clear Filter Sun Essence SPF50+ PA++++",
+          "role": "واقي الشمس",
+          "application": "وزّعه على الوجه والرقبة والأجزاء المكشوفة قبل الخروج بنحو 15 دقيقة.",
+          "frequency": "صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_title": "خطوات المساء",
+      "pm_standard_label": "ليلة العناية المعتادة",
+      "pm_standard_steps": [
+        {
+          "step_number": 1,
+          "sku": "KC0104",
+          "name_ar": "SKIN1004 Madagascar Centella Ampoule Foam",
+          "role": "الغسول",
+          "application": "كوّن رغوة بكمية مناسبة بين كفّين مبلّلتين، دلّك الوجه بلطف، ثم اشطفه بالماء الفاتر.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 2,
+          "sku": "KC0021",
+          "name_ar": "ANUA Rice 70 Glow Milky Toner",
+          "role": "التونر",
+          "application": "بعد الغسول، وزّعه براحة اليد أو بقطعة قطن، ثم ربّت بلطف حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 3,
+          "sku": "KC0080",
+          "name_ar": "Beauty of Joseon Glow Deep Serum Rice + Alpha-Arbutin",
+          "role": "السيروم",
+          "application": "مساءً فقط، بعد التنظيف والتونر إن استخدمته، ضع بضع قطرات على يدين نظيفتين ووزّعها على الوجه وربّت بلطف، ثم اتبع بالمرطب.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        },
+        {
+          "step_number": 4,
+          "sku": "KC0155",
+          "name_ar": "COSRX Advanced Snail 92 All In One Cream",
+          "role": "المرطب",
+          "application": "وزّع كمية مناسبة على الوجه في خطوة الترطيب صباحًا ومساءً، ثم ربّت حتى الامتصاص.",
+          "frequency": "يوميًا.",
+          "starter_guide": ""
+        }
+      ],
+      "pm_variants": [],
+      "night_notes": "القناع يحل محل المرطب الليلي في ليلة استخدامه. المنتج الداعم لا يُحدد أو يُضاف إلى السلة تلقائياً."
+    }
   }
 ]

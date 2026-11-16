@@ -80,7 +80,46 @@
         "application_ar": "ضع طبقة متساوية من واقي الشمس.",
         "use_time_ar": "صباحاً"
       }
-    ]
+    ],
+    "usage_guide_json": {
+      "morning_steps": [
+        {
+          "step_number": 1,
+          "role_ar": "غسول",
+          "sku": "KC0104",
+          "instruction_ar": "اغسل وجهك بالغسول."
+        },
+        {
+          "step_number": 2,
+          "role_ar": "واقي شمس",
+          "sku": "KC0076",
+          "instruction_ar": "ضع طبقة متساوية من واقي الشمس."
+        }
+      ],
+      "evening_variants": [
+        {
+          "id": "default",
+          "label_ar": "الليالي العادية",
+          "steps": [
+            {
+              "step_number": 1,
+              "role_ar": "غسول",
+              "sku": "KC0104",
+              "instruction_ar": "اغسل وجهك بالغسول."
+            },
+            {
+              "step_number": 2,
+              "role_ar": "مرطب",
+              "sku": "KC0223",
+              "instruction_ar": "ضع المرطب الجل."
+            }
+          ]
+        }
+      ],
+      "notes_ar": [
+        "ترطيب صباحي عند الحاجة، قبل واقي الشمس."
+      ]
+    }
   },
   {
     "slug": "shine",
@@ -163,7 +202,46 @@
         "application_ar": "ضع طبقة متساوية من واقي الشمس.",
         "use_time_ar": "صباحاً"
       }
-    ]
+    ],
+    "usage_guide_json": {
+      "morning_steps": [
+        {
+          "step_number": 1,
+          "role_ar": "غسول",
+          "sku": "KC0163",
+          "instruction_ar": "اغسل وجهك بالغسول."
+        },
+        {
+          "step_number": 2,
+          "role_ar": "واقي شمس",
+          "sku": "KC0159",
+          "instruction_ar": "ضع طبقة متساوية من واقي الشمس."
+        }
+      ],
+      "evening_variants": [
+        {
+          "id": "default",
+          "label_ar": "الليالي العادية",
+          "steps": [
+            {
+              "step_number": 1,
+              "role_ar": "غسول",
+              "sku": "KC0163",
+              "instruction_ar": "اغسل وجهك بالغسول."
+            },
+            {
+              "step_number": 2,
+              "role_ar": "مرطب",
+              "sku": "KC0088",
+              "instruction_ar": "ضع المرطب الجل."
+            }
+          ]
+        }
+      ],
+      "notes_ar": [
+        "يساعد على توازن مظهر اللمعان مع الاستمرار."
+      ]
+    }
   },
   {
     "slug": "tightness",
@@ -246,7 +324,52 @@
         "application_ar": "ضع واقي الشمس بعد امتصاص المرطب.",
         "use_time_ar": "صباحاً"
       }
-    ]
+    ],
+    "usage_guide_json": {
+      "morning_steps": [
+        {
+          "step_number": 1,
+          "role_ar": "غسول",
+          "sku": "KC0140",
+          "instruction_ar": "اغسل وجهك بالغسول."
+        },
+        {
+          "step_number": 2,
+          "role_ar": "مرطب",
+          "sku": "KC0009",
+          "instruction_ar": "ضع كمية خفيفة من المرطب."
+        },
+        {
+          "step_number": 3,
+          "role_ar": "واقي شمس",
+          "sku": "KC0121",
+          "instruction_ar": "ضع واقي الشمس بعد امتصاص المرطب."
+        }
+      ],
+      "evening_variants": [
+        {
+          "id": "default",
+          "label_ar": "الليالي العادية",
+          "steps": [
+            {
+              "step_number": 1,
+              "role_ar": "غسول",
+              "sku": "KC0140",
+              "instruction_ar": "اغسل وجهك بالغسول."
+            },
+            {
+              "step_number": 2,
+              "role_ar": "مرطب",
+              "sku": "KC0009",
+              "instruction_ar": "ضع المرطب."
+            }
+          ]
+        }
+      ],
+      "notes_ar": [
+        "مرطب صباحًا ومساءً، ثم واقي الشمس صباحًا."
+      ]
+    }
   },
   {
     "slug": "dullness",
@@ -341,7 +464,52 @@
         "application_ar": "ضع طبقة متساوية من واقي الشمس.",
         "use_time_ar": "صباحاً"
       }
-    ]
+    ],
+    "usage_guide_json": {
+      "morning_steps": [
+        {
+          "step_number": 1,
+          "role_ar": "غسول",
+          "sku": "KC0104",
+          "instruction_ar": "اغسل وجهك بالغسول."
+        },
+        {
+          "step_number": 2,
+          "role_ar": "واقي شمس",
+          "sku": "KC0076",
+          "instruction_ar": "ضع طبقة متساوية من واقي الشمس."
+        }
+      ],
+      "evening_variants": [
+        {
+          "id": "default",
+          "label_ar": "الليالي العادية",
+          "steps": [
+            {
+              "step_number": 1,
+              "role_ar": "غسول",
+              "sku": "KC0104",
+              "instruction_ar": "اغسل وجهك بالغسول."
+            },
+            {
+              "step_number": 2,
+              "role_ar": "علاج خفيف",
+              "sku": "KC0095",
+              "instruction_ar": "ضع 2–3 قطرات من السيروم."
+            },
+            {
+              "step_number": 3,
+              "role_ar": "مرطب",
+              "sku": "KC0223",
+              "instruction_ar": "ضع المرطب بعد امتصاص السيروم."
+            }
+          ]
+        }
+      ],
+      "notes_ar": [
+        "ابدأ بالسيروم كل يومين خلال الأسبوع الأول."
+      ]
+    }
   },
   {
     "slug": "shaving",
@@ -436,6 +604,52 @@
         "application_ar": "ضع واقي الشمس بعد امتصاص الأمبول.",
         "use_time_ar": "صباحاً"
       }
-    ]
+    ],
+    "usage_guide_json": {
+      "morning_steps": [
+        {
+          "step_number": 1,
+          "role_ar": "غسول",
+          "sku": "KC0104",
+          "instruction_ar": "اغسل وجهك، ثم احلق باتجاه نمو الشعر باستخدام كريم أو جل حلاقة، دون شدّ الجلد."
+        },
+        {
+          "step_number": 2,
+          "role_ar": "بعد الحلاقة",
+          "sku": "KC0144",
+          "instruction_ar": "ضع الأمبول بعد الحلاقة."
+        },
+        {
+          "step_number": 3,
+          "role_ar": "واقي شمس",
+          "sku": "KC0076",
+          "instruction_ar": "ضع واقي الشمس بعد امتصاص الأمبول."
+        }
+      ],
+      "evening_variants": [
+        {
+          "id": "default",
+          "label_ar": "الليالي العادية",
+          "steps": [
+            {
+              "step_number": 1,
+              "role_ar": "غسول",
+              "sku": "KC0104",
+              "instruction_ar": "اغسل وجهك بالغسول."
+            },
+            {
+              "step_number": 2,
+              "role_ar": "مرطب",
+              "sku": "KC0223",
+              "instruction_ar": "ضع المرطب."
+            }
+          ]
+        }
+      ],
+      "notes_ar": [
+        "إذا كانت الحلاقة مساءً، ضع الأمبول بعد الحلاقة وقبل المرطب. لا يوضع الأمبول على جرح مفتوح.",
+        "إذا كنت تستخدم ريتينول أو مقشرًا، لا تستخدمه مباشرة بعد الحلاقة."
+      ]
+    }
   }
 ]

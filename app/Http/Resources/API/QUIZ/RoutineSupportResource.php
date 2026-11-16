@@ -18,7 +18,7 @@ class RoutineSupportResource extends JsonResource
 
         return [
             'display_order'       => $this['display_order'] ?? 1,
-            'selected_by_default' => false,
+            'selected_by_default' => (bool) ($this['selected_by_default'] ?? false),
             'step_id'             => $this['step_id'] ?? null,
             'sku'                 => $this['sku'] ?? ($productModel->sku ?? ($productData['sku'] ?? null)),
             'kind'                => $this['kind'] ?? null,
@@ -35,6 +35,8 @@ class RoutineSupportResource extends JsonResource
             'usage_tiles'         => $this['usage_tiles'] ?? [],
             'usage_policy'        => $this['usage_policy'] ?? null,
             'usage_notice_ar'     => $this['usage_notice_ar'] ?? '',
+            'usage_schedule_step' => $this['usage_schedule_step'] ?? null,
+            'night_variant'       => $this['night_variant'] ?? null,
             'product'             => $productModel ? new ProductListResource($productModel) : $productData,
         ];
     }

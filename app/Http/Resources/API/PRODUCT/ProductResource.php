@@ -27,6 +27,23 @@ class ProductResource extends JsonResource
             ? $this->name_en
             : ($this->name ?: $shortName);
 
+        $isFavorite = false;
+        if (auth('sanctum')->check()) {
+            if ($this->relationLoaded('favorites')) {
+                $isFavorite = $this->favorites->where('user_id', auth('sanctum')->id())->where('is_active', true)->isNotEmpty();
+            } else {
+                static $userFavoriteProductIds = null;
+                if ($userFavoriteProductIds === null) {
+                    $userFavoriteProductIds = \App\Models\Favourite::where('user_id', auth('sanctum')->id())
+                        ->where('is_active', true)
+                        ->pluck('product_id')
+                        ->flip()
+                        ->all();
+                }
+                $isFavorite = isset($userFavoriteProductIds[$this->id]);
+            }
+        }
+
         return [
             'id' => $this->id,
             'name' => $name,
@@ -39,7 +56,7 @@ class ProductResource extends JsonResource
             'image' => $this->image_path,
             'status' => $this->status,
             'sales_count' => (int) $this->sales_count,
-            'is_favorite' => auth('sanctum')->check() ? $this->favorites()->where('user_id', auth('sanctum')->id())->where('is_active', true)->exists() : false,
+            'is_favorite' => $isFavorite,
             'short_name' => $shortName,
             'short_name_en' => $this->short_name_en ?: $shortName,
             'short_name_ar' => $this->short_name_ar ?: $shortName,
@@ -131,7 +148,12 @@ class ProductResource extends JsonResource
             'audit' => ProductAuditResource::make($this->whenLoaded('audit')),
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'category' => CategoryResource::make($this->whenLoaded('category')),
-            'product_images' => ProductImagesResource::collection($this->whenLoaded('images')),
+            'images' => ProductImagesResource::collection($this->whenLoaded('images', function () {
+                return $this->images->unique('image_path')->values();
+            })),
+            'product_images' => ProductImagesResource::collection($this->whenLoaded('images', function () {
+                return $this->images->unique('image_path')->values();
+            })),
         ];
     }
 }

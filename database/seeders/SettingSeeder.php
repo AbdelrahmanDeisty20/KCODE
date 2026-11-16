@@ -52,8 +52,8 @@ class SettingSeeder extends Seeder
             [
                 'key_ar' => 'البريد الإلكتروني للدعم',
                 'key_en' => 'support_email',
-                'value_ar' => 'care@kcodeskin.com',
-                'value_en' => 'care@kcodeskin.com',
+                'value_ar' => 'hello@kcodeskin.com',
+                'value_en' => 'hello@kcodeskin.com',
             ],
             [
                 'key_ar' => 'رابط إنستغرام',

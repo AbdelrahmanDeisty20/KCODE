@@ -63,21 +63,29 @@ class QuizService
         $sensOption = null;
         $secondaryOption = null;
 
-        // If 'answers' is a sequential list of option IDs or answer objects, e.g. [1, 5, 8, 12] or [['option_id' => 1], ...]
+        // 0. Extract raw option IDs from option_ids, options, selected_options or nested answers list
         $extractedOptionIds = [];
-        if (!empty($nested) && array_is_list($nested)) {
+        $rawOptionList = $data['option_ids'] ?? $data['options'] ?? $data['selected_options'] ?? null;
+        if (!empty($rawOptionList)) {
+            $rawOptionList = is_array($rawOptionList) ? $rawOptionList : [$rawOptionList];
+            foreach ($rawOptionList as $item) {
+                if (is_numeric($item)) {
+                    $extractedOptionIds[] = (int) $item;
+                } elseif (is_array($item)) {
+                    $extractedOptionIds[] = (int) ($item['option_id'] ?? $item['id'] ?? 0);
+                }
+            }
+        }
+        if (empty($extractedOptionIds) && !empty($nested) && array_is_list($nested)) {
             foreach ($nested as $item) {
                 if (is_numeric($item)) {
                     $extractedOptionIds[] = (int) $item;
                 } elseif (is_array($item)) {
-                    if (!empty($item['option_id'])) {
-                        $extractedOptionIds[] = (int) $item['option_id'];
-                    } elseif (!empty($item['id'])) {
-                        $extractedOptionIds[] = (int) $item['id'];
-                    }
+                    $extractedOptionIds[] = (int) ($item['option_id'] ?? $item['id'] ?? 0);
                 }
             }
         }
+        $extractedOptionIds = array_values(array_filter($extractedOptionIds));
 
         if (!empty($extractedOptionIds)) {
             $optionsById = QuizOption::with('question')->whereIn('id', $extractedOptionIds)->get();
@@ -86,12 +94,12 @@ class QuizService
                 $qKey = $opt->question?->key ?? '';
                 if ($qKey === 'q1' || $step === 1) {
                     $primaryOption = $primaryOption ?? $opt;
-                } elseif ($qKey === 'skin_type') {
-                    $skinOption = $skinOption ?? $opt;
-                } elseif ($qKey === 'sensitivity') {
-                    $sensOption = $sensOption ?? $opt;
-                } elseif ($qKey === 'q4') {
+                } elseif ($qKey === 'q4' || $step === 2) {
                     $secondaryOption = $secondaryOption ?? $opt;
+                } elseif ($qKey === 'skin_type' || $step === 3) {
+                    $skinOption = $skinOption ?? $opt;
+                } elseif ($qKey === 'sensitivity' || $step === 4) {
+                    $sensOption = $sensOption ?? $opt;
                 }
             }
         }
@@ -109,15 +117,15 @@ class QuizService
                 ->first();
         }
         if (!$primaryOption && $goalId) {
-            // Check if $goalId matches mapped_id or option id on Q1
+            // Match against mapped_id (RoutineGoal foreign key), NEVER against quiz_options.id
             $primaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q1')->orWhere('step_number', 1))
-                ->where(fn ($q) => $q->where('mapped_id', $goalId)->orWhere('id', $goalId))
+                ->where('mapped_id', $goalId)
                 ->first();
         }
 
         if ($primaryOption) {
-            $primaryCode = $primaryCode ?: $primaryOption->code;
-            $goalId = $goalId ?: $primaryOption->mapped_id;
+            $primaryCode = $primaryOption->code;
+            $goalId = $primaryOption->mapped_id ?? $goalId;
         }
 
         if (!$primaryCode && $goalId) {
@@ -135,19 +143,19 @@ class QuizService
             $skinOption = QuizOption::find($data['skin_option_id']);
         }
         if (!$skinOption && $skinCode) {
-            $skinOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'skin_type'))
+            $skinOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'skin_type')->orWhere('step_number', 3))
                 ->where('code', strtolower((string) $skinCode))
                 ->first();
         }
         if (!$skinOption && $skinTypeId) {
-            $skinOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'skin_type'))
-                ->where(fn ($q) => $q->where('mapped_id', $skinTypeId)->orWhere('id', $skinTypeId))
+            $skinOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'skin_type')->orWhere('step_number', 3))
+                ->where('mapped_id', $skinTypeId)
                 ->first();
         }
 
         if ($skinOption) {
-            $skinCode = $skinCode ?: $skinOption->code;
-            $skinTypeId = $skinTypeId ?: $skinOption->mapped_id;
+            $skinCode = $skinOption->code;
+            $skinTypeId = $skinOption->mapped_id ?? $skinTypeId;
         }
 
         if (!$skinCode && $skinTypeId) {
@@ -171,7 +179,7 @@ class QuizService
         }
         $isSensitive = $this->parseSensitivityBoolean($rawSens);
         if (!$sensOption) {
-            $sensOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'sensitivity'))
+            $sensOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'sensitivity')->orWhere('step_number', 4))
                 ->where('code', $isSensitive ? 'yes' : 'no')
                 ->first();
         }
@@ -182,6 +190,9 @@ class QuizService
             $rawSecondary = $rawSecondary[0] ?? null;
         }
         $concernIds = $data['concern_ids'] ?? [];
+        if (!is_array($concernIds)) {
+            $concernIds = [$concernIds];
+        }
         $secondaryCode = $secondaryOption?->code;
 
         if (!empty($data['secondary_option_id'])) {
@@ -192,7 +203,7 @@ class QuizService
         if ($rawSecondary !== null && $rawSecondary !== '' && $rawSecondary !== 'none' && $rawSecondary !== 'null') {
             $secondaryCode = strtolower((string) $rawSecondary);
             if (!$secondaryOption) {
-                $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q4'))
+                $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q4')->orWhere('step_number', 2))
                     ->where('code', $secondaryCode)
                     ->first();
             }
@@ -201,10 +212,10 @@ class QuizService
                 if ($cid === null || $cid === '' || $cid === 'none') {
                     continue;
                 }
-                $opt = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q4'))
+                $opt = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q4')->orWhere('step_number', 2))
                     ->where(function ($q) use ($cid) {
                         if (is_numeric($cid)) {
-                            $q->where('mapped_id', (int) $cid)->orWhere('id', (int) $cid);
+                            $q->where('mapped_id', (int) $cid);
                         } else {
                             $q->where('code', strtolower((string) $cid));
                         }
@@ -223,7 +234,7 @@ class QuizService
                         $mappedCode = $this->mapConcernModelToCode($cModel->name_en);
                         if ($mappedCode && $mappedCode !== $primaryCode) {
                             $secondaryCode = $mappedCode;
-                            $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q4'))
+                            $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q4')->orWhere('step_number', 2))
                                 ->where('code', $secondaryCode)
                                 ->first();
                             break;
@@ -252,7 +263,7 @@ class QuizService
         }
 
         if (!$secondaryOption) {
-            $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('step_number', 4))
+            $secondaryOption = QuizOption::whereHas('question', fn ($q) => $q->where('key', 'q4')->orWhere('step_number', 2))
                 ->where('code', $secondaryCode ?? 'none')
                 ->first();
         }
@@ -412,8 +423,13 @@ class QuizService
             ->pluck('sku')
             ->toArray();
 
+        $selectedSupplements = $data['selected_supplements'] ?? $data['supplement_skus'] ?? [];
+        if (!is_array($selectedSupplements)) {
+            $selectedSupplements = [];
+        }
+
         // 3. Run R479 Recommendation Engine
-        $engineResult = $this->r479Engine->recommend($r479Answers, $unavailableSkus);
+        $engineResult = $this->r479Engine->recommend($r479Answers, $unavailableSkus, $selectedSupplements);
 
         // Preload Eloquent Product models for all recommended SKUs
         $allSkus = array_values(array_unique(array_merge(
@@ -493,15 +509,47 @@ class QuizService
             $useTimeAr = $this->mapPeriodToArabic($card['usage_policy']['period'] ?? 'evening', $lang);
             $badgeAr = $this->mapBadgeLabel($card['usage_policy'] ?? [], $lang);
 
+            $masks = ['KC0184', 'KC0185', 'KC0189', 'KC0207'];
+            $isMask = in_array($sku, $masks, true);
+            $nightVariant = $isMask ? [
+                'id' => 'mask:' . $sku,
+                'label' => 'ليلة القناع بدل المرطب',
+                'badge' => 'مرة إلى مرتين أسبوعيًا',
+                'note' => 'في ليلة القناع، يحلّ الماسك محل المرطب بعد السيروم.'
+            ] : ($sku === 'KC0085' ? [
+                'id' => 'wash-mask',
+                'label' => 'ليلة قناع المسام',
+                'badge' => 'مرة إلى مرتين أسبوعيًا',
+                'note' => 'يُستخدم بعد الغسول وقبل التونر.'
+            ] : ($sku === 'KC0173' ? [
+                'id' => 'eye-patch',
+                'label' => 'ليلة لصقات العين',
+                'badge' => '2–3 مرات أسبوعيًا',
+                'note' => 'تُوضع تحت العينين لمدة 10–20 دقيقة بعد التنظيف.'
+            ] : null));
+
+            $scheduleStep = [
+                'sku' => $sku,
+                'brand' => $card['brand'] ?? ($product->brand->name ?? ''),
+                'name' => $card['name'] ?? ($product->name_ar ?? $product->name_en),
+                'display_role_ar' => $card['display_role_ar'] ?? 'عناية مكمّلة',
+                'usage_short_ar' => $card['usage_short_ar'] ?? ($card['usage_text_ar'] ?? ''),
+                'usage_notice_ar' => $card['usage_notice_ar'] ?? '',
+                'order' => $card['usage_policy']['order'] ?? 55,
+                'family' => $card['usage_policy']['family'] ?? 'weekly',
+                'label' => $card['usage_policy']['label'] ?? '',
+                'period' => $card['usage_policy']['period'] ?? 'evening',
+            ];
+
             $routineSupportResponse[] = [
                 'display_order'       => $orderIndex++,
-                'selected_by_default' => false,
+                'selected_by_default' => in_array($sku, $selectedSupplements, true),
                 'step_id'             => null,
                 'sku'                 => $sku,
                 'kind'                => $card['kind'] ?? 'supplement',
                 'roles'               => ['supplement'],
-                'display_role_ar'     => 'عناية مكمّلة',
-                'routine_step_ar'     => 'عناية مكمّلة',
+                'display_role_ar'     => $card['display_role_ar'] ?? 'عناية مكمّلة',
+                'routine_step_ar'     => $card['display_role_ar'] ?? 'عناية مكمّلة',
                 'routine_step_code'   => 'supplement',
                 'use_time_ar'         => $useTimeAr,
                 'usage_badge_ar'      => $badgeAr,
@@ -512,6 +560,8 @@ class QuizService
                 'usage_tiles'         => $card['usage'] ?? [],
                 'usage_policy'        => $card['usage_policy'] ?? null,
                 'usage_notice_ar'     => $card['usage_notice_ar'] ?? '',
+                'usage_schedule_step' => $scheduleStep,
+                'night_variant'       => $nightVariant,
                 'product'             => ProductListResource::make($product),
             ];
         }
@@ -629,11 +679,12 @@ class QuizService
             str_contains($lower, 'acne') => 'acne',
             str_contains($lower, 'blackhead') => 'blackheads',
             str_contains($lower, 'pore') => 'pores',
-            str_contains($lower, 'brighten') || str_contains($lower, 'dark') || str_contains($lower, 'spot') => 'dark_spots',
+            str_contains($lower, 'brighten') || str_contains($lower, 'dark') || str_contains($lower, 'spot') || str_contains($lower, 'pigment') => 'dark_spots',
             str_contains($lower, 'redness') || str_contains($lower, 'sooth') => 'redness',
             str_contains($lower, 'hydrat') || str_contains($lower, 'dry') => 'dryness',
             str_contains($lower, 'line') || str_contains($lower, 'wrinkle') => 'lines',
             str_contains($lower, 'maintain') => 'maintain',
+            str_contains($lower, 'radian') || str_contains($lower, 'fresh') || str_contains($lower, 'glow') || str_contains($lower, 'dull') => 'dullness',
             default => 'dullness',
         };
     }
@@ -654,15 +705,15 @@ class QuizService
         $lower = strtolower($nameEn);
         return match (true) {
             str_contains($lower, 'acne') => 'acne',
-            str_contains($lower, 'blackhead') => 'blackheads',
-            str_contains($lower, 'oil') && !str_contains($lower, 'pore') => 'oil',
-            str_contains($lower, 'pore') => 'pores',
-            str_contains($lower, 'pigment') || str_contains($lower, 'dark') => 'dark_spots',
-            str_contains($lower, 'redness') || str_contains($lower, 'irritat') => 'redness',
+            str_contains($lower, 'pore') && !str_contains($lower, 'clogged') => 'pores',
+            str_contains($lower, 'blackhead') || str_contains($lower, 'clogged') => 'blackheads',
+            str_contains($lower, 'oil') || str_contains($lower, 'sebum') || str_contains($lower, 'shine') => 'oil',
+            str_contains($lower, 'pigment') || str_contains($lower, 'dark') || str_contains($lower, 'spot') => 'dark_spots',
+            str_contains($lower, 'redness') || str_contains($lower, 'irritat') || str_contains($lower, 'sooth') => 'redness',
             str_contains($lower, 'dry') || str_contains($lower, 'barrier') || str_contains($lower, 'hydrat') => 'dryness',
-            str_contains($lower, 'dull') || str_contains($lower, 'glow') => 'dullness',
-            str_contains($lower, 'wrinkle') || str_contains($lower, 'line') => 'lines',
-            str_contains($lower, 'eye') => 'eyes',
+            str_contains($lower, 'dull') || str_contains($lower, 'glow') || str_contains($lower, 'radian') => 'dullness',
+            str_contains($lower, 'wrinkle') || str_contains($lower, 'line') || str_contains($lower, 'aging') => 'lines',
+            str_contains($lower, 'eye') || str_contains($lower, 'circle') => 'eyes',
             default => null,
         };
     }
@@ -714,5 +765,13 @@ class QuizService
             return "استخدام يومي\u{200E}";
         }
         return $original;
+    }
+
+    /**
+     * Recalculate usage schedule dynamically when supplements are added or removed (F04).
+     */
+    public function recalculateSchedule(array $skus): array
+    {
+        return $this->r479Engine->buildScheduleFromSkus($skus);
     }
 }

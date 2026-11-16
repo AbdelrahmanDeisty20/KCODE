@@ -42,42 +42,12 @@ class ReviewSeeder extends Seeder
             ]
         );
 
-        // 2. Fetch products
-        $products = Product::all();
+        // 2. Remove any previously seeded dummy product-specific reviews to ensure clean ratings
+        Review::whereNotNull('product_id')
+            ->whereIn('user_id', [$user1->id, $user2->id, $user3->id])
+            ->delete();
 
-        // 3. Seed product-specific reviews if products exist
-        if ($products->isNotEmpty()) {
-            $productReviews = [
-                [
-                    'user_id' => $user1->id,
-                    'rating' => 5,
-                    'comment' => 'منتج رائع جداً، أنصح باستخدامه بشكل يومي!',
-                ],
-                [
-                    'user_id' => $user2->id,
-                    'rating' => 4,
-                    'comment' => 'جميل ومناسب للبشرة الحساسة، لكن يستغرق بعض الوقت لتظهر النتائج.',
-                ],
-                [
-                    'user_id' => $user3->id,
-                    'rating' => 3,
-                    'comment' => 'It is okay, but I expected better hydration for my dry skin.',
-                ],
-            ];
-
-            foreach ($products as $product) {
-                foreach ($productReviews as $reviewData) {
-                    Review::create([
-                        'product_id' => $product->id,
-                        'user_id' => $reviewData['user_id'],
-                        'rating' => $reviewData['rating'],
-                        'comment' => $reviewData['comment'],
-                    ]);
-                }
-            }
-        }
-
-        // 4. Seed general store/website reviews (product_id = null)
+        // 3. Seed general store/website reviews (product_id = null)
         $generalReviews = [
             [
                 'product_id' => null,
@@ -100,7 +70,13 @@ class ReviewSeeder extends Seeder
         ];
 
         foreach ($generalReviews as $generalReview) {
-            Review::create($generalReview);
+            Review::firstOrCreate([
+                'product_id' => null,
+                'user_id' => $generalReview['user_id'],
+            ], [
+                'rating' => $generalReview['rating'],
+                'comment' => $generalReview['comment'],
+            ]);
         }
     }
 }

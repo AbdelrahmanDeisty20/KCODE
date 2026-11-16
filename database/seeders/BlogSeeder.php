@@ -17,11 +17,21 @@ class BlogSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Ensure Blog Author exists
+        // 0. Ensure storage directory exists and copy images from tracked assets
+        $sourceDir = database_path('seeders/assets/blogs');
+        $targetDir = storage_path('app/public/blogs');
+        if (!\Illuminate\Support\Facades\File::exists($targetDir)) {
+            \Illuminate\Support\Facades\File::makeDirectory($targetDir, 0755, true, true);
+        }
+        if (\Illuminate\Support\Facades\File::exists($sourceDir)) {
+            \Illuminate\Support\Facades\File::copyDirectory($sourceDir, $targetDir);
+        }
+
+        // 1. Ensure Blog Author exists and has the official KCODE team name
         $author = User::where('type', 'blog_author')->first();
         if (!$author) {
             $author = User::create([
-                'name' => 'د. سارة أحمد - خبيرة العناية بالبشرة',
+                'name' => 'فريق KCODE',
                 'email' => 'author@kcode.com',
                 'password' => bcrypt('A11223344'),
                 'phone' => '01000000000',
@@ -29,6 +39,8 @@ class BlogSeeder extends Seeder
                 'status' => 'active',
                 'email_verified_at' => now(),
             ]);
+        } else {
+            $author->update(['name' => 'فريق KCODE']);
         }
 
         // 2. Create Blog Categories with downloadable images
@@ -156,7 +168,7 @@ class BlogSeeder extends Seeder
                 'slug' => 'benefits-of-vitamin-c-serum-and-how-to-use-it',
                 'excerpt_ar' => 'فيتامين سي هو سر النضارة وإشراقة البشرة والتخلص من التصبغات. تعرفي على طريقة دمجه في روتينك اليومي.',
                 'excerpt_en' => 'Vitamin C is the key to radiant skin and even tone. Learn how to integrate it safely into your daily skincare routine.',
-                'content_ar' => '<p>يعتبر سيروم فيتامين سي من أقوى مضادات الأكسدة التي تعالج التصبغات وتحارب الشوارد حرة الناتجة عن التلوث والشمس.</p><h3>فوائد سيروم فيتامين سي الرئيسية:</h3><ul><li>تحفيز إنتاج الكولاجين وتحسين مرونة الجلد.</li><li>تفتيح التصبغات والبقع الداكنة وآثار حب الشباب.</li><li>حماية البشرة من الأكسدة وأشعة الشمس الضارة عند دمجه مع واقي الشمس.</li></ul><h3>متى وكيف يوضع فيتامين سي؟</h3><p>يُفضل استخدامه صباحاً بعد غسل الوجه وتجفيفه، وتُوضع بضع قطرات على الوجه والرقبة قبل المرطب وواقي الشمس.</p>',
+                'content_ar' => '<p>يعتبر سيروم فيتامين سي من أقوى مضادات الأكسدة التي تعالج التصبغات وتحارب الشوارد الحرة الناتجة عن التلوث والشمس.</p><h3>فوائد سيروم فيتامين سي الرئيسية:</h3><ul><li>تحفيز إنتاج الكولاجين وتحسين مرونة الجلد.</li><li>تفتيح التصبغات والبقع الداكنة وآثار حب الشباب.</li><li>حماية البشرة من الأكسدة وأشعة الشمس الضارة عند دمجه مع واقي الشمس.</li></ul><h3>متى وكيف يوضع فيتامين سي؟</h3><p>يُفضل استخدامه صباحاً بعد غسل الوجه وتجفيفه، وتُوضع بضع قطرات على الوجه والرقبة قبل المرطب وواقي الشمس.</p>',
                 'content_en' => '<p>Vitamin C serum is a powerhouse antioxidant that brightens skin, reduces hyperpigmentation, and boosts collagen.</p><h3>Key Benefits of Vitamin C:</h3><ul><li>Boosts natural collagen synthesis for firmer skin.</li><li>Fades dark spots, acne scars, and uneven hyperpigmentation.</li><li>Protects against environmental oxidation when paired with sunscreen.</li></ul><h3>How and When to Apply?</h3><p>Best applied in the morning after cleansing. Apply a few drops to face and neck before moisturizer and SPF.</p>',
                 'image_url' => 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=1000',
                 'filename' => 'vitamin-c-guide.jpg',
@@ -224,7 +236,7 @@ class BlogSeeder extends Seeder
                 'slug' => 'common-sunscreen-mistakes-that-cause-pigmentation',
                 'excerpt_ar' => 'هل تضعين واقي الشمس ولكن لا تحصلين على الحماية الكافية؟ اكتشفي الأخطاء الشائعة وكيفية تجنبها للحصول على أقصى حماية.',
                 'excerpt_en' => 'Are you applying sunscreen but still suffering from dark spots or tan? Discover common mistakes and solutions.',
-                'content_ar' => '<p>الوقاية من الشمس هي الخطوة الأولى والأهم في أي روتين عناية بالبشرة، إلا أن الكثيرين يرتكبون أخطاءً تفقد واقي الشمس فاعليته.</p><h3>أبرز الأخطاء الشائعة:</h3><ul><li><strong>وضع كمية غير كافية:</strong> الكمية الموصى بها طبياً هي مقدار إصبعين كاملين للوجه والرقبة.</li><li><strong>عدم إعادات التطبيق:</strong> يفقد واقي الشمس مفعوله بعد ساعتين من التعرض للشمس ويجب إعادة تطبيقه.</li><li><strong>تجاهل استخدامه داخل المنزل أو في الشتاء:</strong> الأشعة البنفسجية UVA تخترق زجاج النوافذ والغيوم.</li><li><strong>عدم انتماء واقي الشمس لنوع بشرتك:</strong> اختيار تركيبة غير مناسبة يسبب انسداد المسام أو الجفاف.</li></ul>',
+                'content_ar' => '<p>الوقاية من الشمس هي الخطوة الأولى والأهم في أي روتين عناية بالبشرة، إلا أن الكثيرين يرتكبون أخطاءً تفقد واقي الشمس فاعليته.</p><h3>أبرز الأخطاء الشائعة:</h3><ul><li><strong>وضع كمية غير كافية:</strong> الكمية الموصى بها طبياً هي مقدار إصبعين كاملين للوجه والرقبة.</li><li><strong>عدم إعادة التطبيق:</strong> يفقد واقي الشمس مفعوله بعد ساعتين من التعرض للشمس ويجب إعادة تطبيقه.</li><li><strong>تجاهل استخدامه داخل المنزل أو في الشتاء:</strong> الأشعة البنفسجية UVA تخترق زجاج النوافذ والغيوم.</li><li><strong>عدم انتماء واقي الشمس لنوع بشرتك:</strong> اختيار تركيبة غير مناسبة يسبب انسداد المسام أو الجفاف.</li></ul>',
                 'content_en' => '<p>Sun protection is the single most effective anti-aging product, yet improper application undermines its benefits.</p><h3>Most Common Sunscreen Errors:</h3><ul><li><strong>Using Insufficient Amount:</strong> Apply the two-finger rule to cover face and neck adequately.</li><li><strong>Not Reapplying Every 2 Hours:</strong> Sunscreen filters break down after continuous UV exposure.</li><li><strong>Ignoring Indoors & Cloud Cover:</strong> UVA rays penetrate window glass and cloud layers easily.</li><li><strong>Choosing Wrong Formulation:</strong> Match sunscreen texture (fluid, gel, cream) with your skin type.</li></ul>',
                 'image_url' => 'https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&q=80&w=1000',
                 'filename' => 'sunscreen-mistakes.jpg',
@@ -258,7 +270,7 @@ class BlogSeeder extends Seeder
                 'slug' => 'how-to-manage-oily-skin-and-prevent-acne',
                 'excerpt_ar' => 'البشرة الدهنية تتطلب توازناً دقيقاً بين تقليل الافرازات الزهمية والترطيب الخفيف لمنع انسداد المسام.',
                 'excerpt_en' => 'Oily skin requires a smart balance between oil control and light hydration to avoid clogged pores and acne.',
-                'content_ar' => '<p>إفراز الزهم المفرط يسبب لمعان البشرة وانسداد المسام وظهور الرؤوس السوداء وحب الشباب. إليك الحلول الطبية الفعالة.</p><h3>أهم المكونات الفعالة للبشرة الدهنية:</h3><ul><li><strong>حمض الساليسيليك (BHA):</strong> يخترق الدهون داخل المسام وينظفها بفيزياء عميقة.</li><li><strong>النياسيناميد (Niacinamide):</strong> ينظم إفراز الدهون ويقلل حجم المسام الواسعة ويهدئ الاحمرار.</li><li><strong>المرطبات المائية خفيفة الوزن (Gel-based):</strong> تمنح البشرة الترطيب بدون إثقال المسام.</li></ul>',
+                'content_ar' => '<p>إفراز الزهم المفرط يسبب لمعان البشرة وانسداد المسام وظهور الرؤوس السوداء وحب الشباب. إليك الحلول الطبية الفعالة.</p><h3>أهم المكونات الفعالة للبشرة الدهنية:</h3><ul><li><strong>حمض الساليسيليك (BHA):</strong> يخترق الدهون داخل المسام وينظفها بفاعلية عميقة.</li><li><strong>النياسيناميد (Niacinamide):</strong> ينظم إفراز الدهون ويقلل حجم المسام الواسعة ويهدئ الاحمرار.</li><li><strong>المرطبات المائية خفيفة الوزن (Gel-based):</strong> تمنح البشرة الترطيب بدون إثقال المسام.</li></ul>',
                 'content_en' => '<p>Excess sebum causes shininess, enlarged pores, blackheads, and breakouts. Here is the dermatologist-recommended guide.</p><h3>Best Ingredients for Oily Skin:</h3><ul><li><strong>Salicylic Acid (BHA):</strong> Soluble in oil, penetrates deep into pores to dissolve debris.</li><li><strong>Niacinamide (Vitamin B3):</strong> Regulates sebum production, minimizes pores, and reduces redness.</li><li><strong>Oil-Free Gel Moisturizers:</strong> Provides hydration without clogging pores or adding grease.</li></ul>',
                 'image_url' => 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=1000',
                 'filename' => 'oily-skin-acne.jpg',

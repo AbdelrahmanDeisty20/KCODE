@@ -1,0 +1,42 @@
+(function(root){'use strict';
+const roles={'Cleanser':'الغسول','Toner':'التونر','Essence':'الإسنس','Serum':'السيروم','Moisturizer':'المرطب','Sunscreen':'واقي الشمس','Exfoliator':'المقشّر','Eye Care':'العناية بالعين','Mask':'القناع','Cleansing Balm':'بلسم التنظيف'};
+const frequencies={
+ 'Daily':'يوميًا.', 'Start 1-2x weekly':'ابدأ مرة أو مرتين أسبوعيًا.',
+ 'Every other night · eye area every third night':'لمحيط العين: ابدأ مرة كل ثلاث ليالٍ.',
+ '2-3x weekly · build up gradually':'مساءً، مرتين إلى ثلاث مرات أسبوعيًا مع التدرّج.',
+ 'Every other night then daily':'ابدأ ليلة بعد ليلة، ثم يوميًا بعد التدرّج.',
+ 'Daily AM and PM':'صباحًا ومساءً.', 'Morning and evening as the moisturiser.':'صباحًا ومساءً، في خطوة الترطيب.',
+ 'Daily AM · reapply every 2-3h outdoors':'صباحًا؛ أعد التطبيق كل ساعتين عند البقاء خارج المنزل، وبعد السباحة أو التعرّق.',
+ '1-2x weekly · rinse off':'مرة أو مرتين أسبوعيًا، ويُشطف بالماء.',
+ 'Daily · PM after makeup or sunscreen':'مساءً قبل الغسول، عند الحاجة إلى إزالة المكياج أو واقي الشمس.',
+ 'Before your wash on days you wear make-up or sunscreen':'قبل الغسول في أيام استخدام المكياج أو واقي الشمس.',
+ 'On an active spot · replace when white':'على الحبة النشطة؛ تُستبدل عندما تصبح بيضاء.',
+ 'Daily or as needed':'يوميًا أو عند الحاجة.',
+ '1-2x weekly · replaces night moisturizer':'مرة أو مرتين أسبوعيًا، بدل المرطب الليلي.',
+ '2-3x weekly PM · REPLACES night moisturizer':'مساءً، مرتين إلى ثلاث مرات أسبوعيًا، بدل المرطب الليلي.',
+ 'Reapplication over makeup · not a primary sunscreen':'لإعادة التطبيق خلال اليوم؛ لا يحلّ محل واقي الشمس الأساسي صباحًا.'
+};
+const masks=new Set(['KC0184','KC0185','KC0189','KC0207']);
+function core(r){return r.products.filter(p=>!p.optional).map(p=>p.sku)}
+function options(r){return r.products.filter(p=>p.optional).map(p=>p.sku)}
+function role(p){if(p.sku==='KC0078')return 'سيروم العين';if(p.sku==='KC0173')return 'لصقات العين';if(p.sku==='KC0153')return 'لصقات الحبوب';if(p.sku==='KC0219')return 'إزالة المكياج والواقي';if(p.sku==='KC0094')return 'بلسم التنظيف';return roles[p.category]||p.category}
+function frequency(p){return frequencies[p.frequency]||''}
+function initial(r){return new Set(core(r))}
+function total(selected,products){return [...selected].reduce((n,k)=>n+(products[k]?.baisa||0),0)}
+function variants(r,selected){const c=core(r);const out=[{id:'daily',label:'ليلة العناية المعتادة'}];if(c.includes('KC0177'))out.push({id:'exfoliate',label:'ليلة التقشير'});if(c.includes('KC0198'))out.push({id:'retino',label:'ليلة Retino-Mela'});if(c.includes('KC0078'))out.push({id:'retinal',label:'ليلة سيروم العين'});for(const k of options(r)){if(!selected.has(k))continue;if(masks.has(k))out.push({id:'mask:'+k,label:'ليلة القناع بدل المرطب'});if(k==='KC0085')out.push({id:'wash-mask',label:'ليلة قناع المسام'});if(k==='KC0173')out.push({id:'eye-patch',label:'ليلة لصقات العين'});}return out}
+function schedule(r,products,selected,variant='daily',removeMakeup=false){
+ const c=core(r);if(!variants(r,selected).some(v=>v.id===variant))variant='daily';
+ const am=c.filter(k=>products[k].zone!=='PM');
+ let pm=c.filter(k=>products[k].zone!=='AM'&&!['KC0177','KC0198','KC0078'].includes(k));
+ const strong=variant==='exfoliate'?'KC0177':variant==='retino'?'KC0198':variant==='retinal'?'KC0078':null;
+ if(strong){if(['exfoliate','retino'].includes(variant))pm=pm.filter(k=>!['KC0002','KC0164','KC0001'].includes(k));const moisturizer=pm.findIndex(k=>products[k].category==='Moisturizer');pm.splice(moisturizer<0?pm.length:moisturizer,0,strong);}
+ if(variant.startsWith('mask:'))pm=pm.map(k=>products[k].category==='Moisturizer'?variant.slice(5):k);
+ if(variant==='wash-mask')pm.splice(1,0,'KC0085');
+ if(variant==='eye-patch'){const idx=pm.findIndex(k=>products[k].category==='Moisturizer');pm.splice(idx<0?pm.length:idx,0,'KC0173');}
+ if(removeMakeup){const cleanser=options(r).find(k=>['KC0219','KC0094'].includes(k)&&selected.has(k));if(cleanser)pm.unshift(cleanser)}
+ return {am,pm,variant};
+}
+function cleanCart(raw,products){const cart={};if(!raw||typeof raw!=='object'||Array.isArray(raw))return cart;for(const [k,v] of Object.entries(raw))if(products[k]&&Number.isSafeInteger(v)&&v>0)cart[k]=Math.min(99,v);return cart}
+function add(cart,selected,products){const next=cleanCart(cart,products);for(const k of selected)if(products[k])next[k]=Math.max(next[k]||0,1);return next}
+const api={core,options,role,frequency,initial,total,variants,schedule,cleanCart,add,masks};root.KcodeCuratedModel=api;if(typeof module==='object'&&module.exports)module.exports=api;
+})(typeof window==='undefined'?globalThis:window);
