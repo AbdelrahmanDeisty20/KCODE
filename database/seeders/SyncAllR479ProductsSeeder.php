@@ -44,6 +44,8 @@ class SyncAllR479ProductsSeeder extends Seeder
         $missingCount = 0;
 
         DB::transaction(function () use ($productsData, $pagesData, $snapshotBySku, &$updatedCount, &$missingCount) {
+            Product::query()->update(['is_best_seller' => false]);
+
             foreach ($productsData as $sku => $p) {
                 $product = Product::where('sku', $sku)->first();
                 if (!$product) {
@@ -125,7 +127,12 @@ class SyncAllR479ProductsSeeder extends Seeder
                     $sensitiveGuidance = $fitGuidance;
                 }
 
-                $isSensitiveEligible = ($fitStatus === 'مناسب للبشرة الحساسة' || ($snap['Sensitive Classification'] ?? '') === 'مناسب للبشرة الحساسة');
+                $eligible22Skus = [
+                    'KC0001', 'KC0002', 'KC0008', 'KC0010', 'KC0012', 'KC0026', 'KC0043', 'KC0061',
+                    'KC0075', 'KC0078', 'KC0081', 'KC0083', 'KC0085', 'KC0093', 'KC0095', 'KC0097',
+                    'KC0109', 'KC0122', 'KC0126', 'KC0170', 'KC0198', 'KC0259',
+                ];
+                $isSensitiveEligible = ($fitStatus === 'مناسب للبشرة الحساسة' || in_array($sku, $eligible22Skus) || ($snap['Sensitive Classification'] ?? '') === 'مناسب للبشرة الحساسة');
 
                 // 6. Usage Tiles & Benefits
                 $usageTiles = $p['usage_tiles'] ?? [];
@@ -188,6 +195,7 @@ class SyncAllR479ProductsSeeder extends Seeder
                 $product->product_faqs_json = $faqs;
                 $product->usage_instructions_json = $usageInstructions;
                 $product->sensitive_eligible = $isSensitiveEligible;
+                $product->is_best_seller = in_array($sku, ['KC0185', 'KC0137', 'KC0001', 'KC0078', 'KC0118', 'KC0105', 'KC0089', 'KC0159']);
                 $product->image = "products/{$sku}.webp";
 
                 $product->save();

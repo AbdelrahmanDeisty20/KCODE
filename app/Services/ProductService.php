@@ -10,6 +10,9 @@ class ProductService
 {
     public function index(?string $searchTerm = null) {
         $searchTerm = $searchTerm ?? request('search') ?? request('q');
+        $perPage = (int) request('per_page', 10);
+        if ($perPage < 1) $perPage = 10;
+        if ($perPage > 500) $perPage = 500;
 
         $products = Product::where('stock', '>', 0)
             ->withCount('reviews')
@@ -22,15 +25,37 @@ class ProductService
                     $q->active();
                 }
             ])
+            ->when(request()->filled('skus'), function ($q) {
+                $skus = array_filter(array_map('trim', explode(',', request('skus'))));
+                if (!empty($skus)) {
+                    $q->whereIn('sku', $skus);
+                    $skuList = "'" . implode("','", $skus) . "'";
+                    $q->orderByRaw("FIELD(sku, {$skuList})");
+                }
+            })
+            ->when(request()->boolean('picks') || request()->has('picks'), function ($q) {
+                $picks = ['KC0185', 'KC0137', 'KC0001', 'KC0078', 'KC0118', 'KC0105', 'KC0089', 'KC0159'];
+                $q->whereIn('sku', $picks);
+                $skuList = "'" . implode("','", $picks) . "'";
+                $q->orderByRaw("FIELD(sku, {$skuList})");
+            })
             ->when(!empty($searchTerm), function ($q) use ($searchTerm) {
-                $q->where(function ($sub) use ($searchTerm) {
-                    $sub->where('name_en', 'LIKE', "%{$searchTerm}%")
-                        ->orWhere('name_ar', 'LIKE', "%{$searchTerm}%")
-                        ->orWhere('sku', 'LIKE', "%{$searchTerm}%")
-                        ->orWhereHas('brand', fn($b) => $b->where('name', 'LIKE', "%{$searchTerm}%"));
+                $terms = [$searchTerm];
+                if (str_contains($searchTerm, 'دكتور') || str_contains($searchTerm, 'د.')) {
+                    $terms[] = 'Dr.';
+                    $terms[] = 'Dr';
+                    $terms[] = 'Doctor';
+                }
+                $q->where(function ($sub) use ($terms) {
+                    foreach ($terms as $term) {
+                        $sub->orWhere('name_en', 'LIKE', "%{$term}%")
+                            ->orWhere('name_ar', 'LIKE', "%{$term}%")
+                            ->orWhere('sku', 'LIKE', "%{$term}%")
+                            ->orWhereHas('brand', fn($b) => $b->where('name', 'LIKE', "%{$term}%")->orWhere('name_ar', 'LIKE', "%{$term}%")->orWhere('name_en', 'LIKE', "%{$term}%"));
+                    }
                 });
             })
-            ->paginate(10);
+            ->paginate($perPage);
 
         return [
             'status' => true,
@@ -56,7 +81,14 @@ class ProductService
             );
         }
 
-        $products = Product::where('stock', '>', 0)
+            $terms = [$query];
+            if (str_contains($query, 'دكتور') || str_contains($query, 'د.')) {
+                $terms[] = 'Dr.';
+                $terms[] = 'Dr';
+                $terms[] = 'Doctor';
+            }
+
+            $products = Product::where('stock', '>', 0)
             ->withCount('reviews')
             ->withAvg('reviews', 'rating')
             ->with([
@@ -70,42 +102,47 @@ class ProductService
                     $q->active();
                 }
             ])
-            ->where(function ($q) use ($query) {
-                $q->where('name_en', 'LIKE', '%' . $query . '%')
-                  ->orWhere('name_ar', 'LIKE', '%' . $query . '%')
-                  ->orWhere('sku', 'LIKE', '%' . $query . '%')
-                  ->orWhere('description_en', 'LIKE', '%' . $query . '%')
-                  ->orWhere('description_ar', 'LIKE', '%' . $query . '%')
-                  ->orWhere('short_name_en', 'LIKE', '%' . $query . '%')
-                  ->orWhere('short_name_ar', 'LIKE', '%' . $query . '%')
-                  ->orWhereHas('brand', function ($q) use ($query) {
-                      $q->where('name_en', 'LIKE', '%' . $query . '%')
-                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%');
-                  })
-                  ->orWhereHas('category', function ($q) use ($query) {
-                      $q->where('name_en', 'LIKE', '%' . $query . '%')
-                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%');
-                  })
-                  ->orWhereHas('subCategory', function ($q) use ($query) {
-                      $q->where('name_en', 'LIKE', '%' . $query . '%')
-                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%');
-                  })
-                  ->orWhereHas('concerns', function ($q) use ($query) {
-                      $q->where('name_en', 'LIKE', '%' . $query . '%')
-                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%')
-                        ->orWhere('description_en', 'LIKE', '%' . $query . '%')
-                        ->orWhere('description_ar', 'LIKE', '%' . $query . '%');
-                  })
-                  ->orWhereHas('skinTypes', function ($q) use ($query) {
-                      $q->where('name_en', 'LIKE', '%' . $query . '%')
-                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%')
-                        ->orWhere('description_en', 'LIKE', '%' . $query . '%')
-                        ->orWhere('description_ar', 'LIKE', '%' . $query . '%');
-                  })
-                  ->orWhereHas('goals', function ($q) use ($query) {
-                      $q->where('name_en', 'LIKE', '%' . $query . '%')
-                        ->orWhere('name_ar', 'LIKE', '%' . $query . '%');
-                  });
+            ->where(function ($q) use ($terms) {
+                foreach ($terms as $term) {
+                    $q->orWhere(function ($sub) use ($term) {
+                        $sub->where('name_en', 'LIKE', '%' . $term . '%')
+                          ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
+                          ->orWhere('sku', 'LIKE', '%' . $term . '%')
+                          ->orWhere('description_en', 'LIKE', '%' . $term . '%')
+                          ->orWhere('description_ar', 'LIKE', '%' . $term . '%')
+                          ->orWhere('short_name_en', 'LIKE', '%' . $term . '%')
+                          ->orWhere('short_name_ar', 'LIKE', '%' . $term . '%')
+                          ->orWhereHas('brand', function ($b) use ($term) {
+                              $b->where('name_en', 'LIKE', '%' . $term . '%')
+                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
+                                ->orWhere('name', 'LIKE', '%' . $term . '%');
+                          })
+                          ->orWhereHas('category', function ($c) use ($term) {
+                              $c->where('name_en', 'LIKE', '%' . $term . '%')
+                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%');
+                          })
+                          ->orWhereHas('subCategory', function ($sc) use ($term) {
+                              $sc->where('name_en', 'LIKE', '%' . $term . '%')
+                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%');
+                          })
+                          ->orWhereHas('concerns', function ($cn) use ($term) {
+                              $cn->where('name_en', 'LIKE', '%' . $term . '%')
+                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
+                                ->orWhere('description_en', 'LIKE', '%' . $term . '%')
+                                ->orWhere('description_ar', 'LIKE', '%' . $term . '%');
+                          })
+                          ->orWhereHas('skinTypes', function ($st) use ($term) {
+                              $st->where('name_en', 'LIKE', '%' . $term . '%')
+                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
+                                ->orWhere('description_en', 'LIKE', '%' . $term . '%')
+                                ->orWhere('description_ar', 'LIKE', '%' . $term . '%');
+                          })
+                          ->orWhereHas('goals', function ($g) use ($term) {
+                              $g->where('name_en', 'LIKE', '%' . $term . '%')
+                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%');
+                          });
+                    });
+                }
             })
             ->when(!empty($data['skin_type_id']), function ($q) use ($data) {
                 $skinTypeIds = is_array($data['skin_type_id']) ? $data['skin_type_id'] : [$data['skin_type_id']];
@@ -350,13 +387,57 @@ class ProductService
     }
 
     public function bestSellers() {
+        $approvedSkus = [
+            'KC0185', // BIODANCE Bio Collagen Real Deep Mask
+            'KC0137', // TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Serum
+            'KC0001', // ANUA Niacinamide 10 TXA 4 Serum
+            'KC0078', // MEDICUBE Zero Pore Pad 2.0
+            'KC0118', // BEAUTY OF JOSEON Relief Sun Rice Probiotics SPF50+ PA++++
+            'KC0105', // SKIN1004 Madagascar Centella Light Cleansing Oil
+            'KC0089', // Dr.Althea 345 Relief Cream
+            'KC0159', // COSRX Ultra Light Invisible Sunscreen SPF50 PA++++
+        ];
+
+        $skuOrderList = "'" . implode("','", $approvedSkus) . "'";
+        $perPage = (int) request('per_page', 8);
+        if ($perPage < 1) $perPage = 8;
+        if ($perPage > 50) $perPage = 50;
+
         $products = Product::where('stock', '>', 0)
-            ->bestSeller()
+            ->where(function ($q) use ($approvedSkus) {
+                $q->whereIn('sku', $approvedSkus)
+                  ->orWhere('is_best_seller', true);
+            })
             ->withCount('reviews')
             ->withAvg('reviews', 'rating')
-            ->with(['brand', 'subCategory', 'category'])
+            ->with([
+                'brand',
+                'subCategory',
+                'category',
+                'offers' => function ($q) {
+                    $q->active();
+                }
+            ])
+            ->orderByRaw("CASE WHEN sku IN ({$skuOrderList}) THEN FIELD(sku, {$skuOrderList}) ELSE 99 END")
             ->orderBy('sales_count', 'desc')
-            ->paginate(10);
+            ->paginate($perPage);
+
+        if ($products->isEmpty()) {
+            $products = Product::where('stock', '>', 0)
+                ->bestSeller()
+                ->withCount('reviews')
+                ->withAvg('reviews', 'rating')
+                ->with([
+                    'brand',
+                    'subCategory',
+                    'category',
+                    'offers' => function ($q) {
+                        $q->active();
+                    }
+                ])
+                ->orderBy('sales_count', 'desc')
+                ->paginate(10);
+        }
 
         if ($products->isEmpty()) {
             return [

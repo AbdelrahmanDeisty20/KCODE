@@ -86,22 +86,39 @@ trait HasProductPresentation
     {
         $type = $this->role_ar ?: ($this->role ?: ($this->subCategory?->name ?? ($this->category?->name ?? '')));
         if (app()->getLocale() === 'ar' || request()->header('lang') === 'ar') {
-            $typeMap = [
-                'sunscreen' => 'واقي شمس',
-                'serum' => 'سيروم',
-                'toner' => 'تونر',
-                'cleanser' => 'غسول',
-                'moisturizer' => 'مرطب',
-                'cream' => 'كريم مرطب',
-                'mask' => 'قناع / ماسك',
-                'cleansing balm' => 'بلسم تنظيف',
-                'eye care' => 'عناية بالعين',
-                'exfoliator' => 'مقشّر',
-                'mist' => 'ميست مرطب',
+            $sunscreenDetailedTypes = [
+                'KC0007' => 'واقي شمس للوجه SPF 50',
+                'KC0159' => 'واقي شمس كيميائي SPF50 وPA++++',
+                'KC0161' => 'واقي شمس بفلاتر فيزيائية وكيميائية SPF50+ وPA+++',
+                'KC0203' => 'واقي شمس كيميائي ستيك SPF 50+',
+                'KC0204' => 'واقي شمس كيميائي ستيك SPF 50+',
+                'KC0215' => 'واقي شمس فيزيائي SPF 30 PA++++',
+                'KC0216' => 'واقي شمس بفلاتر فيزيائية وكيميائية SPF 50+ PA++++',
+                'KC0217' => 'واقي شمس كيميائي SPF 50+ PA++++',
+                'KC0218' => 'واقي شمس كيميائي ستيك SPF 50+ PA++++',
+                'KC0225' => 'واقي شمس كيميائي SPF 50+ PA++++',
             ];
-            $lower = strtolower(trim((string) $type));
-            if (isset($typeMap[$lower])) {
-                $type = $typeMap[$lower];
+
+            if ($this->sku && isset($sunscreenDetailedTypes[$this->sku])) {
+                $type = $sunscreenDetailedTypes[$this->sku];
+            } else {
+                $typeMap = [
+                    'sunscreen' => 'واقي شمس',
+                    'serum' => 'سيروم',
+                    'toner' => 'تونر',
+                    'cleanser' => 'غسول',
+                    'moisturizer' => 'مرطب',
+                    'cream' => 'كريم مرطب',
+                    'mask' => 'قناع / ماسك',
+                    'cleansing balm' => 'بلسم تنظيف',
+                    'eye care' => 'عناية بالعين',
+                    'exfoliator' => 'مقشّر',
+                    'mist' => 'ميست مرطب',
+                ];
+                $lower = strtolower(trim((string) $type));
+                if (isset($typeMap[$lower])) {
+                    $type = $typeMap[$lower];
+                }
             }
         }
 
@@ -111,7 +128,9 @@ trait HasProductPresentation
         }
 
         $texture = (app()->getLocale() == 'ar' ? ($this->texture_ar ?: $this->texture) : ($this->texture_en ?: $this->texture));
-        if (empty($texture)) {
+        if (in_array($this->sku, ['KC0196', 'KC0206'])) {
+            $texture = '';
+        } elseif (empty($texture)) {
             $texture = 'خفيف وسريع الامتصاص';
         }
 

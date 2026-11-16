@@ -1,0 +1,1260 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KCODE — النتيجة النهائية لاختبار الموقع ومقارنة R479 (16 نوفمبر 2026)</title>
+<style>
+:root {
+  --plum: #2E1633;
+  --berry: #8C224B;
+  --rose: #F3E4EA;
+  --paper: #FAF7F2;
+  --card: #FFFFFF;
+  --line: #E4DCE0;
+  --muted: #6C5B69;
+  --good-bg: #E6F6EE;
+  --good-fg: #146442;
+  --warn-bg: #FFF4E0;
+  --warn-fg: #9A5B00;
+  --bad-bg: #FDE8EC;
+  --bad-fg: #9F1D35;
+  --tech-bg: #EFEBF5;
+  --tech-fg: #4B2E73;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--plum);
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  line-height: 1.75;
+  font-size: 15px;
+}
+main { max-width: 1280px; margin: 0 auto; padding: 24px; }
+header.hero {
+  background: linear-gradient(135deg, #2E1633 0%, #522044 60%, #8C224B 100%);
+  color: #fff;
+  border-radius: 20px;
+  padding: 34px 36px;
+  box-shadow: 0 10px 30px rgba(46,22,51,.14);
+}
+header.hero .eyebrow {
+  font-size: 12px;
+  letter-spacing: .06em;
+  opacity: .85;
+  direction: ltr;
+  text-align: right;
+}
+header.hero h1 { margin: 8px 0 10px; font-size: 30px; line-height: 1.35; }
+header.hero p { margin: 6px 0; color: #F5E8EE; max-width: 920px; }
+header.hero code { background: rgba(255,255,255,.15); color: #fff; padding: 2px 7px; border-radius: 5px; }
+header.hero a { color: #FFD7E7; }
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin: 20px 0;
+}
+.kpi {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
+}
+.kpi b { display: block; font-size: 28px; color: var(--berry); line-height: 1.2; }
+.kpi.kpi-good b { color: var(--good-fg); }
+.kpi.kpi-warn b { color: var(--warn-fg); }
+.kpi.kpi-bad b { color: var(--bad-fg); }
+.kpi span { font-size: 13px; color: var(--muted); }
+.progress-wrap {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px 22px;
+  margin-bottom: 22px;
+}
+.bar {
+  display: flex;
+  height: 18px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #eee;
+  margin: 10px 0;
+}
+.bar-fixed { background: #1E8458; }
+.bar-partial { background: #D98218; }
+.bar-broken { background: #B9233D; }
+.split-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 18px 0 28px;
+}
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+}
+.panel h3 { margin: 0 0 12px; font-size: 18px; border-bottom: 2px solid var(--rose); padding-bottom: 8px; }
+.panel ul { margin: 0; padding-right: 18px; }
+.panel li { margin: 7px 0; font-size: 14px; }
+h2.sec-title {
+  font-size: 22px;
+  margin: 34px 0 14px;
+  border-bottom: 2px solid var(--rose);
+  padding-bottom: 8px;
+}
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 18px;
+  align-items: center;
+}
+.toolbar input {
+  flex: 1;
+  min-width: 220px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  border: 1px solid #C9BAC2;
+  font: inherit;
+}
+.filter-btn {
+  border: 1px solid #C9BAC2;
+  background: #fff;
+  color: var(--plum);
+  padding: 8px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+}
+.filter-btn.active {
+  background: var(--plum);
+  color: #fff;
+  border-color: var(--plum);
+}
+.table-wrap { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: right; }
+th { background: #EFE6EC; white-space: nowrap; font-weight: 700; }
+tr:last-child td { border-bottom: none; }
+.id-pill {
+  display: inline-block;
+  font-family: ui-monospace, monospace;
+  font-weight: 700;
+  font-size: 12.5px;
+  background: var(--plum);
+  color: #fff;
+  padding: 2px 9px;
+  border-radius: 7px;
+  text-decoration: none;
+}
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.st-fixed { background: var(--good-bg); color: var(--good-fg); }
+.st-partial { background: var(--warn-bg); color: var(--warn-fg); }
+.st-broken { background: var(--bad-bg); color: var(--bad-fg); }
+.sev-p0 { background: #FADADD; color: #8D1328; }
+.sev-p1 { background: #FDE9D2; color: #8A4A06; }
+.sev-p2 { background: #ECE5F2; color: #54376D; }
+.sev-tech { background: var(--tech-bg); color: var(--tech-fg); }
+.owner-tag {
+  display: inline-block;
+  font-size: 11.5px;
+  background: #F4EFF2;
+  color: #4D3B49;
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid #E2D8DE;
+}
+.cards-grid { display: grid; gap: 16px; margin-top: 16px; }
+.item-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  border-right: 6px solid var(--line);
+}
+.item-card.fixed { border-right-color: #1E8458; }
+.item-card.partial { border-right-color: #D98218; }
+.item-card.broken { border-right-color: #B9233D; }
+.item-badges { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 8px; }
+.item-card h3 { margin: 4px 0 8px; font-size: 18px; }
+.req-line { margin: 0 0 12px; font-size: 13.5px; color: var(--muted); }
+.item-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.col-box { border-radius: 12px; padding: 14px 16px; font-size: 13.5px; }
+.col-done { background: #F5FBF8; border: 1px solid #CFEAD9; }
+.col-miss { background: #FFF9F3; border: 1px solid #F2DFC7; }
+.item-card.broken .col-miss { background: #FFF5F7; border-color: #F4CDD5; }
+.col-box h4 { margin: 0 0 8px; font-size: 14px; }
+.col-box ul { margin: 0; padding-right: 18px; }
+.col-box li { margin: 5px 0; }
+.good-txt { color: var(--good-fg); }
+.muted { color: var(--muted); }
+code, .ltr { direction: ltr; unicode-bidi: isolate; font-family: ui-monospace, Consolas, monospace; font-size: 12px; }
+code { background: #F2ECF0; padding: 1px 5px; border-radius: 4px; }
+details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin: 12px 0; }
+summary { cursor: pointer; font-weight: 700; font-size: 15.5px; }
+.alert-new {
+  background: #FFF8E6;
+  border: 1px solid #F0D290;
+  border-right: 5px solid #D98218;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 18px 0;
+}
+.hidden { display: none !important; }
+.small-note { font-size: 12px; max-width: 280px; }
+@media (max-width: 900px) {
+  .kpis { grid-template-columns: repeat(3, 1fr); }
+  .split-grid, .item-cols { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+  main { padding: 12px; }
+}
+</style>
+</head>
+<body>
+<main>
+<header class="hero">
+  <div class="eyebrow">KCODE LIVE RETEST &amp; R479 COMPARISON · 2026-11-16</div>
+  <h1>النتيجة النهائية لفحص الموقع الحي مقارنةً بتقرير 13 نوفمبر (R479)</h1>
+  <p>فحص شامل للواجهة الحية في Chrome + اختبارات الباك إند والـ API الكاملة لـ <a href="https://kcode-pied.vercel.app/" target="_blank">kcode-pied.vercel.app</a> (نسخة البناء <code>index-png-Ln14.js</code> ← الـ API <code>https://kcodeskin.com/api</code>) مقابل حزمة التعليمات <code>KCODE_Developer_2026-11-13</code>.</p>
+</header>
+
+<section class="kpis">
+  <div class="kpi kpi-good"><b>13</b><span>تم إصلاحه بالكامل (من 27)</span></div>
+  <div class="kpi kpi-warn"><b>10</b><span>مُصلح جزئيًا</span></div>
+  <div class="kpi kpi-bad"><b>4</b><span>ما زال معطلاً / ناقصًا</span></div>
+  <div class="kpi kpi-good"><b>728/728</b><span>نجاح تحليل البشرة (F01)</span></div>
+  <div class="kpi kpi-good"><b>256/256</b><span>تطابق المعارض وusage_tiles</span></div>
+  <div class="kpi kpi-good"><b>13/13</b><span>تطابق توقيت الروتينات</span></div>
+</section>
+
+<section class="progress-wrap">
+  <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:14px;">
+    <strong>نسبة التقدم الإجمالية على البنود الـ 27:</strong>
+    <span>✅ 13 مكتمل (48%) &nbsp;|&nbsp; 🟡 10 جزئي (37%) &nbsp;|&nbsp; 🔴 4 معطل (15%)</span>
+  </div>
+  <div class="bar">
+    <div class="bar-fixed" style="width:48.15%"></div>
+    <div class="bar-partial" style="width:37.04%"></div>
+    <div class="bar-broken" style="width:14.81%"></div>
+  </div>
+  <div class="muted" style="font-size:13px;">الخلاصة التنفيذية: <strong>أكبر العقبات التقنية (تحليل الـ 728 حالة، السلة والكوبون، مسار الضيف، المعاينة السريعة، المعارض، وحسابات N01) تم إصلاحها بنجاح ممتاز.</strong> يتبقى حاجز إطلاق واحد (<strong>F03 المستشار الذكي</strong>) وبعض النواقص المحددة في الباك إند والفرونت إند كما هو مفصل أدناه.</div>
+</section>
+
+<section class="split-grid">
+  <div class="panel">
+    <h3>✅ ما تم إصلاحه وموجود حاليًا</h3>
+    <ul>
+      <li><strong>F01 (728/728):</strong> كل حالات تحليل البشرة تطابق R479 بدقة 100% في الواجهة والباك إند.</li>
+      <li><strong>F04 &amp; F22:</strong> جدول المكمّلات المختارة يتحدث فورًا في المساء، وأزراره تحمل <code>aria-pressed</code> ونصّي إضافة/ضمن اختياراتك.</li>
+      <li><strong>F05 &amp; F06 &amp; F07:</strong> الكوبون كضيف يحفظ السلة، زر الإتمام يفتح <code>/checkout</code> مباشرة، وتكرار إضافة الروتين لا يضاعف الكميات.</li>
+      <li><strong>F08 &amp; F14 &amp; F17:</strong> المعاينة السريعة بلا بيانات قديمة، عناوين <code>usage_tiles</code> مطابقة 256/256، والمعارض بلا تكرار (238×1 و18×2).</li>
+      <li><strong>F21 &amp; F24 &amp; F25 &amp; N01:</strong> نصوص المكمّلات الـ 16 مطابقة، قائمة الموبايل تُغلق بـ <code>Escape</code>، بطاقات الرجال تعرض <code>skinLabel</code>، وحسابات السلة والعروض سليمة.</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h3>🛠️ الناقص المطلوب من الباك إند (Backend)</h3>
+    <ul>
+      <li><strong>F03 (حاجب P0):</strong> ربط <code>POST /api/chatbot/chat</code> ببيانات Product Master الفعلية ليتعرف على <code>KC0159</code> كواقي شمس ويرفض اختراع تعليمات لأكواد غير موجودة مثل <code>KC9999</code>.</li>
+      <li><strong>F02 / F26 (روابط الصور):</strong> إرجاع روابط <code>featured_image</code> للمقالات و<code>image</code> للروتينات بمسار <code>/storage/app/public/...</code> (أو تفعيل symlink لـ <code>public/storage</code>) + استبدال صورتي المقال #7 و#25 (2.4KB).</li>
+      <li><strong>F02 (تنظيف الملاحظات):</strong> إزالة تعليمات المطور الداخلية من <code>card_note</code> / <code>night_notes</code> (خاصة في روتيني #215 و#218)، وإضافة <code>pm_variants</code> للماسك إن لزم.</li>
+      <li><strong>F09:</strong> دعم البحث العربي بكلمة <code>«دكتور»</code> ليُظهر منتجات Dr.Althea وDr.Melaxin وDr.Reju-All.</li>
+      <li><strong>F10:</strong> حذف التقييمات التجريبية المتبقية (3 على المنتجات: <code>KC0107, KC0122, KC0137</code> + سجلات <code>S aeed</code> و<code>John Doe</code> و<code>أحمد محمد</code> في <code>/api/reviews/general</code>).</li>
+      <li><strong>F15:</strong> تصحيح <code>sensitive_eligible = true</code> للـ 22 منتجًا (ليرجع الفلتر 159 بدل 137).</li>
+      <li><strong>F16:</strong> إعادة أنواع الواقيات الـ 10 المفصلة، حذف قوام «خفيف» عن <code>KC0196/KC0206</code>، وضبط <code>skin_types</code> لـ 10 منتجات خارج المحرك.</li>
+      <li><strong>F12 / F19 / F23:</strong> إضافة <code>/api/policies/cookies</code>، توفير <code>/sitemap.xml</code> فعلي على الباك إند، واستكمال/فصل بيانات الإنجليزية <code>Accept-Language: en</code>.</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h3>🎨 الناقص المطلوب من الفرونت إند والمالك</h3>
+    <ul>
+      <li><strong>F12 / F20 (فرونت — عاجل):</strong> إصلاح <code>PolicyModal-CwseEmx-.js</code> ليقرأ <code>e.paragraph</code> و<code>cards</code> بدل إظهار العناوين فقط، وإنشاء صفحة مستقلة لمسار <code>/privacy-policy</code> بدل التحويل إلى <code>/</code>.</li>
+      <li><strong>F13 (فرونت + باك):</strong> استبدال استدعاء <code>/api/products/best-sellers</code> بقائمة المختارات الثمانية المعتمدة في <code>home.txt</code>، وتحديث الأسئلة الستة في <code>/api/faqs</code>.</li>
+      <li><strong>F26 / الهوم (فرونت):</strong> تمرير صور المقالات وصور الروتينات عبر مكوّن الصورة المصحّح للمسار (أو لحين إصلاح الباك إند).</li>
+      <li><strong>F18 (فرونت):</strong> إضافة <code>aria-label</code> لأزرار مصغّرات المعرض وتوحيد <code>alt</code> في <code>sticky-thumb</code>.</li>
+      <li><strong>F19 (فرونت):</strong> تحديث <code>sitemap.xml</code> و<code>robots.txt</code> على Vercel لتشمل الـ 256 منتجًا والروتينات وتوحيد الدومين، وإزالة تكرار <code>| KCODE | KCODE</code> في العنوان.</li>
+      <li><strong>F11 / F12 / F23 / F26 (المالك):</strong> تزويد بيانات التواصل والسجل والضريبة للفوتر، حسم ادعاءات «من نحن» ومعايير الاختيار، حسم نطاق الإنجليزية، والاعتماد التحريري للمقالات.</li>
+    </ul>
+  </div>
+</section>
+
+<div class="alert-new">
+  <strong>ملاحظات وأعطال إضافية رُصدت أثناء الفحص الحي (2026-11-16):</strong>
+  <ul style="margin:8px 0 0;padding-right:18px;font-size:14px;">
+    <li><strong>تعطل عرض نصوص السياسات (<code>PolicyModal</code>):</strong> رغم أن الـ API يرجع النصوص كاملة داخل <code>sections[].paragraph</code> و<code>cards</code>، إلا أن نافذة السياسات في الواجهة تعرض العناوين المرقّمة فقط دون فقرات!</li>
+    <li><strong>سبب فشل صور المقالات والروتينات (<code>ERR_BLOCKED_BY_ORB</code>):</strong> الخادم يحفظ الصور في <code>/storage/app/public/blogs/</code> و<code>/storage/app/public/routines/</code> (حيث تعمل بـ HTTP 200)، بينما API يُرجعها بدون <code>/app/public/</code> فتعطي <strong>404 HTML</strong> وتُحجب في المتصفح!</li>
+    <li><strong>تغيّر معرّفات الروتينات:</strong> الروابط القديمة <code>/preset-routines/189</code> و<code>192</code> تعطي 404 بعد إعادة الترقيم إلى <code>215–227</code>.</li>
+    <li><strong>تسرب نصوص المطور للمستخدم:</strong> <code>card_note</code> في روتيني 215 و218 يطبع ملاحظات موجهة للمطور على واجهة العميل.</li>
+  </ul>
+</div>
+
+<h2 class="sec-title">ملخص سريع لجميع البنود (27 بندًا)</h2>
+<div class="toolbar">
+  <input id="qSearch" type="search" placeholder="ابحث برقم البند (F01) أو اسم الميزة أو كود منتج (KC0159)...">
+  <button class="filter-btn active" data-filter="all">الكل (27)</button>
+  <button class="filter-btn" data-filter="fixed">✅ تم الإصلاح (13)</button>
+  <button class="filter-btn" data-filter="partial">🟡 مُصلح جزئيًا (10)</button>
+  <button class="filter-btn" data-filter="broken">🔴 معطل / ناقص (4)</button>
+  <button class="filter-btn" data-filter="P0">🔥 حواجز P0 (3)</button>
+  <button class="filter-btn" data-filter="be">🛠️ يخص الباك إند</button>
+  <button class="filter-btn" data-filter="fe">🎨 يخص الفرونت إند</button>
+</div>
+
+<div class="table-wrap">
+  <table id="summaryTable">
+    <thead>
+      <tr>
+        <th>البند</th>
+        <th>الأولوية</th>
+        <th>الموضوع</th>
+        <th>الحالة الحالية</th>
+        <th>المسؤولية</th>
+        <th>أبرز ما تم إصلاحه</th>
+        <th>أبرز ما تبقى ناقصًا</th>
+      </tr>
+    </thead>
+    <tbody>
+      
+    <tr data-status="fixed" data-sev="P0" data-be="true" data-fe="true">
+      <td><a href="#F01" class="id-pill">F01</a></td>
+      <td><span class="badge sev-p0">حاجب إطلاق P0</span></td>
+      <td><strong>تفسير إجابات تحليل البشرة (728 حالة)</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">باك + فرونت</span></td>
+      <td>اجتازت المصفوفة الكاملة 728/728 (100%) مطابقة تامة للمفتاح scenario_key، المنتجات الأساسية والمكمّلة، الترتيب، جدول AM/PM، وعدم التكرار أو النقص.</td>
+      <td>ملاحظة بسيطة غير معطّلة: حقل display_role_ar للمكمّلات يُرجع الدور التخصصي (مثل «القناع») بدل كلمة «عناية مكمّلة» في 898 موضعًا.</td>
+    </tr>
+    <tr data-status="partial" data-sev="P0" data-be="true" data-fe="true">
+      <td><a href="#F02" class="id-pill">F02</a></td>
+      <td><span class="badge sev-p0">حاجب إطلاق P0</span></td>
+      <td><strong>جداول الروتينات العامة وأوضاع الليالي</strong></td>
+      <td><span class="badge st-partial">مُصلح جزئيًا</span></td>
+      <td><span class="owner-tag">باك + فرونت</span></td>
+      <td>الـ 13 روتينًا (8 عامة #215–#222 + 5 رجال #223–#227) تطابق R479 بنسبة 13/13 في المنتجات الأساسية والمكمّلات و0 مخالفات توقيت AM/PM.</td>
+      <td>تسرّب تعليمات المطور للمستخدم النهائي: حقل card_note / night_notes يظهر داخل بنر الليلة في الواجهة بنصوص موجهة للمطور مثل «ويجب أن يعكس الموقع تكرار الاستخدام...» (#215) و«لا يُكتب أن الواقي ملوّن أو يحتوي أكاسيد الحديد...» (#218).</td>
+    </tr>
+    <tr data-status="broken" data-sev="P0" data-be="true" data-fe="true">
+      <td><a href="#F03" class="id-pill">F03</a></td>
+      <td><span class="badge sev-p0">حاجب إطلاق P0</span></td>
+      <td><strong>تعليمات المستشار الذكي والربط بسجل SKU</strong></td>
+      <td><span class="badge st-broken">ما زال معطلاً</span></td>
+      <td><span class="owner-tag">باك + فرونت</span></td>
+      <td>السؤال العام حول طريقة استخدام واقي الشمس أعطى إرشادًا صحيحًا (قبل 15 دقيقة، إعادة التطبيق كل ساعتين بالخارج).</td>
+      <td>حاجز إطلاق مستمر (الباك إند POST /api/chatbot/chat): عند السؤال عن KC0159 قال أولاً إنه يُستخدم «مرتين يومياً (صباحاً ومساءً، بعد التنظيف)»، ثم عند تحديد بشرة دهنية قال إنه «يساعد على التحكم بالدهون وتقليل إفراز الزيوت» ولم يذكر اسمه ولا تعليماته من الكتالوج!</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P1" data-be="false" data-fe="true">
+      <td><a href="#F04" class="id-pill">F04</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>تحديث جدول طريقة الاستخدام عند اختيار المكمّلات</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">فرونت إند</span></td>
+      <td>في الاختبار الحي على Chrome (حالات البهتان والحبوب)، إضافة KC0189 أو KC0185 أدرجت خطوة «القناع» فورًا في تبويب «المساء» بتعليماته ودوره الصحيحين، وإزالته حذفته فورًا من الجدول.</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P1" data-be="true" data-fe="true">
+      <td><a href="#F05" class="id-pill">F05</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>تطبيق الكوبون لا يفرغ سلة الضيف</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">فرونت + باك</span></td>
+      <td>الفرونت إند استثنى /api/coupons/apply من تسجيل الخروج التلقائي على 401.</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P1" data-be="false" data-fe="true">
+      <td><a href="#F06" class="id-pill">F06</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>إتمام الشراء كضيف دون حلقة تسجيل الدخول</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">فرونت إند</span></td>
+      <td>الضغط على «إتمام الطلب ←» كضيف ينقل مباشرة إلى /checkout («دون الحاجة إلى إنشاء حساب») مع نموذج الشحن الكامل، اختيار الدفع عند الاستلام، وملخص السلة.</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P1" data-be="false" data-fe="true">
+      <td><a href="#F07" class="id-pill">F07</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>عدم مضاعفة الكميات عند تكرار إضافة الروتين</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">فرونت إند</span></td>
+      <td>النقرة الأولى تضيف 5 قطع والزر يتحول إلى «تمت إضافة المنتجات المحددة إلى السلة» والشارة تصبح 5.</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P1" data-be="false" data-fe="true">
+      <td><a href="#F08" class="id-pill">F08</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>إزالة البيانات القديمة في المعاينة السريعة</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">فرونت إند</span></td>
+      <td>أزيل placeholderData من useProductDetail-D4OFtw8c.js.</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    <tr data-status="partial" data-sev="P1" data-be="true" data-fe="false">
+      <td><a href="#F09" class="id-pill">F09</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>نتائج البحث وحالة «لا نتائج» ومرادفات العلامات</strong></td>
+      <td><span class="badge st-partial">مُصلح جزئيًا</span></td>
+      <td><span class="owner-tag">باك إند</span></td>
+      <td>البحث بعبارة عشوائية (zzzzNONEXISTENT98371) يعيد 0 نتائج ورسالة «لم نجد نتائج مطابقة» بدون fallback لقائمة ANUA.</td>
+      <td>البحث بالكلمة العربية «دكتور» (/api/products/search?query=دكتور) ما زال يعيد 0 نتائج، ويحتاج ربط مرادفات ليشمل منتجات Dr.Althea وDr.Melaxin وDr.Reju-All.</td>
+    </tr>
+    <tr data-status="partial" data-sev="P1" data-be="true" data-fe="false">
+      <td><a href="#F10" class="id-pill">F10</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>التقييمات المتكررة والتجريبية</strong></td>
+      <td><span class="badge st-partial">مُصلح جزئيًا</span></td>
+      <td><span class="owner-tag">باك إند</span></td>
+      <td>حُذفت 2,928 مراجعة مكررة (John Doe / سارة علي / أحمد محمد) من صفحات الـ 122 منتجًا (KC0003 أصبحت 0 تقييمات).</td>
+      <td>تبقّت 3 تقييمات اختبارية على المنتجات: KC0107 («فريق KCODE»: «35t45t53tt»)، KC0137 («Abdelrahman Eldeisty Hamed»: «فففففففف»)، KC0122 («فريق KCODE»: «Good»).</td>
+    </tr>
+    <tr data-status="partial" data-sev="P1" data-be="true" data-fe="false">
+      <td><a href="#F11" class="id-pill">F11</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>هوية الشركة والادعاءات غير المعتمدة</strong></td>
+      <td><span class="badge st-partial">مُصلح جزئيًا</span></td>
+      <td><span class="owner-tag">باك + المالك</span></td>
+      <td>أُزيلت الأصفار الوهمية (+968 9000 0000، 0000000، OM0000000000) من الفوتر وصفحة التواصل (/contact).</td>
+      <td>الفوتر يكتفي حاليًا بالبريد hello@kcodeskin.com بلا رقم هاتف معتمد أو سجل تجاري أو رقم ضريبي.</td>
+    </tr>
+    <tr data-status="partial" data-sev="P1" data-be="true" data-fe="true">
+      <td><a href="#F12" class="id-pill">F12</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>توحيد سياسات الشحن والاسترجاع وعرضها</strong></td>
+      <td><span class="badge st-partial">مُصلح جزئيًا</span></td>
+      <td><span class="owner-tag">فرونت + باك + المالك</span></td>
+      <td>توحدت مهلة الاسترجاع في البيانات (/api/policies/return والمنتجات والسلة) إلى 7 أيام بدل 14 يومًا.</td>
+      <td>عطل واجهة في PolicyModal-CwseEmx-.js: عند فتح سياسات الشحن أو الإرجاع أو الخصوصية أو الشروط من الفوتر، يتجاهل المكوّن حقل paragraph وcards ويعرض العناوين المرقّمة فقط بلا أي نص!</td>
+    </tr>
+    <tr data-status="broken" data-sev="P2" data-be="true" data-fe="true">
+      <td><a href="#F13" class="id-pill">F13</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>مختارات الهوم والأسئلة الشائعة المعتمدة</strong></td>
+      <td><span class="badge st-broken">ما زال معطلاً</span></td>
+      <td><span class="owner-tag">فرونت + باك</span></td>
+      <td>لا يوجد إصلاح مرصود بعد</td>
+      <td>الهوم (HomePage-A7tPTqgX.js) ما زال يستدعي /api/products/best-sellers ويعرض KC0001..KC0008 (جميعها ANUA) بدل قائمة R479 المعتمدة: KC0185, KC0137, KC0001, KC0078, KC0118, KC0105, KC0089, KC0159.</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P2" data-be="true" data-fe="true">
+      <td><a href="#F14" class="id-pill">F14</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>عناوين طريقة الاستخدام الخاصة بكل منتج (256 منتجًا)</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">فرونت + باك</span></td>
+      <td>مطابقة 256/256 في API وusage_instructions.tiles.</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    <tr data-status="broken" data-sev="P2" data-be="true" data-fe="false">
+      <td><a href="#F15" class="id-pill">F15</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>أهلية الحساسية (sensitive_eligible) في 22 منتجًا</strong></td>
+      <td><span class="badge st-broken">ما زال معطلاً</span></td>
+      <td><span class="owner-tag">باك إند</span></td>
+      <td>فلتر الباك إند يتطابق مع قيم البيانات الحالية (137/137)، والنص التحذيري الشرطي محفوظ.</td>
+      <td>نفس الـ 22 منتجًا (KC0001, KC0002, KC0008, KC0010, KC0012, KC0026, KC0043, KC0061, KC0075, KC0078, KC0081, KC0083, KC0085, KC0093, KC0095, KC0097, KC0109, KC0122, KC0126, KC0170, KC0198, KC0259) ما زالت قيمتها sensitive_eligible = false في الباك إند، لذا يعيد الفلتر 137 بدل 159.</td>
+    </tr>
+    <tr data-status="partial" data-sev="P2" data-be="true" data-fe="false">
+      <td><a href="#F16" class="id-pill">F16</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>فروق المواصفات وملاحظات INCI وتصنيف البشرة</strong></td>
+      <td><span class="badge st-partial">مُصلح جزئيًا</span></td>
+      <td><span class="owner-tag">باك إند</span></td>
+      <td>ملاحظات INCI الثلاث (KC0166, KC0180, KC0181) تم استرجاعها وتطابق المرجع 256/256.</td>
+      <td>أنواع الواقيات الـ 10 (KC0007, KC0159, KC0161, KC0203, KC0204, KC0215, KC0216, KC0217, KC0218, KC0225) ما زالت تعرض «واقي شمس» عامًا بدل التفاصيل المعتمدة (مثل: واقي شمس كيميائي SPF50 وPA++++).</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P2" data-be="true" data-fe="true">
+      <td><a href="#F17" class="id-pill">F17</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>إزالة تكرار الصورة الرئيسية من معرض المنتجات</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">باك + فرونت</span></td>
+      <td>تم تنظيف product_images في الباك إند وتأكيد عدم التكرار في ProductPage (238 منتجًا بصورة واحدة، و18 منتجًا بصورتين؛ KC0003 يعرض 01/02 وKC0012 يعرض 01/01).</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    <tr data-status="partial" data-sev="P2" data-be="false" data-fe="true">
+      <td><a href="#F18" class="id-pill">F18</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>النص البديل للصور (ALT) وتسمية أزرار المعرض</strong></td>
+      <td><span class="badge st-partial">مُصلح جزئيًا</span></td>
+      <td><span class="owner-tag">فرونت إند</span></td>
+      <td>بيانات seo.image_alt متطابقة 256/256، والصورة الأساسية في صفحة المنتج والبطاقات ونافذة التكبير تستخدم الآن seo.image_alt.</td>
+      <td>أزرار المصغرات في المعرض (ProductPage-DUCw4fTO.js) ما زالت بلا aria-label، وصور المصغرات بداخلها alt=&quot;&quot;، فتبقى الأزرار بلا اسم وصفي.</td>
+    </tr>
+    <tr data-status="partial" data-sev="P1" data-be="true" data-fe="true">
+      <td><a href="#F19" class="id-pill">F19</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>SEO وخريطة الموقع وrobots.txt</strong></td>
+      <td><span class="badge st-partial">مُصلح جزئيًا</span></td>
+      <td><span class="owner-tag">فرونت + باك</span></td>
+      <td>صفحة المنتج (/product/3) والصفحات العامة (/shop, /about, /faq) تحدث العنوان وcanonical وog:url وProduct JSON-LD دون توريث عنوان الصفحة السابقة.</td>
+      <td>ملف robots.txt على Vercel يشير إلى https://kcodeskin.com/sitemap.xml الذي ما زال يعيد HTTP 404 (صفحة خطأ HTML).</td>
+    </tr>
+    <tr data-status="partial" data-sev="P2" data-be="false" data-fe="true">
+      <td><a href="#F20" class="id-pill">F20</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>رابط سياسة الخصوصية (/privacy-policy)</strong></td>
+      <td><span class="badge st-partial">مُصلح جزئيًا</span></td>
+      <td><span class="owner-tag">فرونت إند</span></td>
+      <td>النقر على رابط «سياسة الخصوصية» في النشرة لم يعد يفتح صفحة 404 بل يستدعي PolicyModal.</td>
+      <td>النافذة المنبثقة تظهر بعناوين 1–4 بدون نصوص الفقرات بسبب عطل PolicyModal في F12.</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P2" data-be="true" data-fe="true">
+      <td><a href="#F21" class="id-pill">F21</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>تعليمات المكمّلات الخاصة بالروتينات الجاهزة (16 نصًا)</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">باك + فرونت</span></td>
+      <td>تطابق 16/16 لنصوص why_selected في الباك إند مع support_copy المرجعي في R479، وتظهر بشكل صحيح في واجهة الروتين (تم التحقق حياً على KC0219 وKC0153 في #215).</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P2" data-be="false" data-fe="true">
+      <td><a href="#F22" class="id-pill">F22</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>حالة زر اختيار المكمّل ودلالتها (aria-pressed)</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">فرونت إند</span></td>
+      <td>غير المختار: «إضافة إلى اختياراتك» مع aria-pressed=&quot;false&quot;.</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    <tr data-status="broken" data-sev="P2" data-be="true" data-fe="false">
+      <td><a href="#F23" class="id-pill">F23</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>الإنجليزية المختلطة عند التبديل إلى EN</strong></td>
+      <td><span class="badge st-broken">ما زال معطلاً</span></td>
+      <td><span class="owner-tag">باك + المالك</span></td>
+      <td>عناوين الواجهة، الملخص العلوي (KCODE Summary)، أنواع البشرة، القوام، وimage_alt تُعرض بالإنجليزية.</td>
+      <td>الباك إند (/api/products/3 مع Accept-Language: en) ما زال يعيد الوصف والحساسية وطريقة الاستخدام (tiles) وقراءة التركيبة والأسئلة والنوع والعطر بالعربية.</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P2" data-be="false" data-fe="true">
+      <td><a href="#F24" class="id-pill">F24</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>إغلاق قائمة العرض الضيق بمفتاح Escape وإدارة التركيز</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">فرونت إند</span></td>
+      <td>بالاختبار على عرض 360px في Chrome: الضغط على Escape أغلق القائمة الجانبية وأعاد التركيز تلقائيًا إلى زر «فتح القائمة».</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    <tr data-status="fixed" data-sev="P2" data-be="true" data-fe="true">
+      <td><a href="#F25" class="id-pill">F25</a></td>
+      <td><span class="badge sev-p2">أولوية متوسطة P2</span></td>
+      <td><strong>نوع البشرة في بطاقات روتينات الرجال</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">فرونت + باك</span></td>
+      <td>البطاقات الخمس تعرض التسميات القصيرة الصحيحة («جميع أنواع البشرة»، «الدهنية والمختلطة والعادية»، إلخ) في الواجهة والبيانات.</td>
+      <td>ملاحظة الصور المشتركة (انظر F02/F26): صور بطاقات الرجال الـ 5 على الهوم تحجبها ORB لأن المسار المرجع من الباك إند ينقصه /app/public/.</td>
+    </tr>
+    <tr data-status="partial" data-sev="P1" data-be="true" data-fe="true">
+      <td><a href="#F26" class="id-pill">F26</a></td>
+      <td><span class="badge sev-p1">أولوية مرتفعة P1</span></td>
+      <td><strong>صور ومحتوى مقالات الدليل (/blog)</strong></td>
+      <td><span class="badge st-partial">مُصلح جزئيًا</span></td>
+      <td><span class="owner-tag">باك + فرونت</span></td>
+      <td>تغيّر اسم المؤلف إلى «فريق KCODE» في جميع المقالات الـ 8.</td>
+      <td>عطل الصور في المتصفح: الباك إند (/api/blogs) يعيد روابط /storage/blogs/*.jpg التي تعطي 404 text/html وتُحجب بـ ERR_BLOCKED_BY_ORB في Chrome فتظهر أيقونة KCODE بدل الصورة (بينما الملفات موجودة على /storage/app/public/blogs/* ولم يطبّق مكوّن BlogPage دالة xi() لتصحيح المسار).</td>
+    </tr>
+    <tr data-status="fixed" data-sev="TECH" data-be="true" data-fe="true">
+      <td><a href="#N01" class="id-pill">N01</a></td>
+      <td><span class="badge sev-tech">ملحق حسابي N01</span></td>
+      <td><strong>وحدة المبالغ ومعادلة الخصم (الملحق الحسابي)</strong></td>
+      <td><span class="badge st-fixed">تم الإصلاح</span></td>
+      <td><span class="owner-tag">فرونت + باك</span></td>
+      <td>روتين #215 (9.900 / 8.800، المجموع 48.400 ر.ع) ينتقل للسلة بنفس القيم تمامًا دون تحول إلى 0.484.</td>
+      <td>لا يوجد نقص متبقٍ</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 class="sec-title">التفصيل الشامل لكل بند (الموجود والناقص بالأدلة)</h2>
+<div class="cards-grid" id="cardsContainer">
+  
+    <article class="item-card fixed" id="F01" data-status="fixed" data-sev="P0" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F01</span>
+          <span class="badge sev-p0">حاجب إطلاق P0</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">باك + فرونت</span>
+        </div>
+        <h3>تفسير إجابات تحليل البشرة (728 حالة)</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> تصحيح ربط معرّفات الأهداف والمشكلات حتى تطابق جميع الحالات الـ 728 المفتاح الصحيح وترتيب المنتجات وسياسات الاستخدام.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>اجتازت المصفوفة الكاملة 728/728 (100%) مطابقة تامة للمفتاح scenario_key، المنتجات الأساسية والمكمّلة، الترتيب، جدول AM/PM، وعدم التكرار أو النقص.</li><li>الفرونت إند (RoutineBuilderPage-Ccen2NBo.js) يرسل goal_code وskin_type_code وconcern_codes[] وscenario_key؛ كما نجح اختبار الباك إند بـ IDs فقط للبهتان والجفاف والدهون (3/3).</li><li>اختبار Chrome الحي على 3 حالات (البهتان، الجفاف، الحبوب + الدهون الزائدة) أظهر النتائج والتركيز الصحيحين و0 منتجات نافدة.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>ملاحظة بسيطة غير معطّلة: حقل display_role_ar للمكمّلات يُرجع الدور التخصصي (مثل «القناع») بدل كلمة «عناية مكمّلة» في 898 موضعًا.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card partial" id="F02" data-status="partial" data-sev="P0" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F02</span>
+          <span class="badge sev-p0">حاجب إطلاق P0</span>
+          <span class="badge st-partial">مُصلح جزئيًا</span>
+          <span class="owner-tag">باك + فرونت</span>
+        </div>
+        <h3>جداول الروتينات العامة وأوضاع الليالي</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> استعادة جداول R479 والتمييز بين الصباح والمساء وأوضاع الليالي (التقشير/الريتينال) وإصلاح فراغ how_to_use وusage_guide.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>الـ 13 روتينًا (8 عامة #215–#222 + 5 رجال #223–#227) تطابق R479 بنسبة 13/13 في المنتجات الأساسية والمكمّلات و0 مخالفات توقيت AM/PM.</li><li>اختفى واقي الشمس من المساء، وفُصلت KC0177 وKC0198 وKC0078 عن الصباح والتكرار اليومي.</li><li>توفرت بيانات how_to_use وusage_guide وتعمل أزرار أوضاع الليالي في الواجهة («ليلة التقشير» في 215/216، «ليلة Retino-Mela» في 218، «ليلة سيروم العين» في 221).</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>تسرّب تعليمات المطور للمستخدم النهائي: حقل card_note / night_notes يظهر داخل بنر الليلة في الواجهة بنصوص موجهة للمطور مثل «ويجب أن يعكس الموقع تكرار الاستخدام...» (#215) و«لا يُكتب أن الواقي ملوّن أو يحتوي أكاسيد الحديد...» (#218).</li><li>صور الروتينات الـ 13 على الصفحة الرئيسية تعطي ERR_BLOCKED_BY_ORB لأن الباك إند يرجع /storage/routines/*.webp (404 HTML) بدل /storage/app/public/routines/*.webp.</li><li>الروتينات 217 و219 و220 و222 لا تعرض وضع «ليلة القناع بدل المرطب» عند تفعيل الماسك الاختياري (pm_variants فارغ)، كما تغيّرت أرقام المعرّفات من 189–201 إلى 215–227 (فروابط 189 و192 القديمة تعطي 404).</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card broken" id="F03" data-status="broken" data-sev="P0" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F03</span>
+          <span class="badge sev-p0">حاجب إطلاق P0</span>
+          <span class="badge st-broken">ما زال معطلاً</span>
+          <span class="owner-tag">باك + فرونت</span>
+        </div>
+        <h3>تعليمات المستشار الذكي والربط بسجل SKU</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> ربط إجابات المستشار بسجل المنتج الفعلي (تعريف KC0159 كواقي شمس لا يُشطف مع إعادة التطبيق)، ومنع اختراع التعليمات عند غياب البيانات.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>السؤال العام حول طريقة استخدام واقي الشمس أعطى إرشادًا صحيحًا (قبل 15 دقيقة، إعادة التطبيق كل ساعتين بالخارج).</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>حاجز إطلاق مستمر (الباك إند POST /api/chatbot/chat): عند السؤال عن KC0159 قال أولاً إنه يُستخدم «مرتين يومياً (صباحاً ومساءً، بعد التنظيف)»، ثم عند تحديد بشرة دهنية قال إنه «يساعد على التحكم بالدهون وتقليل إفراز الزيوت» ولم يذكر اسمه ولا تعليماته من الكتالوج!</li><li>عند السؤال عن كود غير موجود (KC9999) اخترع البوت منتجًا ووصفة وهمية («مقدار حبة البازلاء... اتركه 30 دقيقة ثم اغسله بالماء الفاتر») بدل الاعتراف بعدم وجود الكود.</li><li>كود الترقيع المحلي في الفرونت إند (Chatbot-EmkJ53eE.js) لا يعمل إذا خلت إجابة البوت من كلمتي «غسول»/«اشطف» أو كان SKU وهميًا.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F04" data-status="fixed" data-sev="P1" data-be="false" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F04</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">فرونت إند</span>
+        </div>
+        <h3>تحديث جدول طريقة الاستخدام عند اختيار المكمّلات</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> إعادة حساب جدول الاستخدام والتحذيرات ديناميكيًا عند إضافة أو إزالة أي مكمّل في نتيجة التحليل.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>في الاختبار الحي على Chrome (حالات البهتان والحبوب)، إضافة KC0189 أو KC0185 أدرجت خطوة «القناع» فورًا في تبويب «المساء» بتعليماته ودوره الصحيحين، وإزالته حذفته فورًا من الجدول.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F05" data-status="fixed" data-sev="P1" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F05</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">فرونت + باك</span>
+        </div>
+        <h3>تطبيق الكوبون لا يفرغ سلة الضيف</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> حفظ عناصر السلة وكمياتها عند نجاح الكوبون أو رفضه أو تعذر المصادقة.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>الفرونت إند استثنى /api/coupons/apply من تسجيل الخروج التلقائي على 401.</li><li>كضيف (5 منتجات / 53.700 ر.ع): تطبيق KCODE10 أعاد HTTP 200 وخصم -5.370 ر.ع والإجمالي 48.330 ر.ع مع بقاء كل العناصر والكميات.</li><li>تطبيق كود خاطئ BADCODE99 أعاد HTTP 422 («لم يتم العثور على الكوبون.») وحافظ على السلة كاملة.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F06" data-status="fixed" data-sev="P1" data-be="false" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F06</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">فرونت إند</span>
+        </div>
+        <h3>إتمام الشراء كضيف دون حلقة تسجيل الدخول</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> تمكين الضيف من الوصول من السلة إلى نموذج إتمام الطلب (checkout) بدون حلقة التحويل لـ /login.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>الضغط على «إتمام الطلب ←» كضيف ينقل مباشرة إلى /checkout («دون الحاجة إلى إنشاء حساب») مع نموذج الشحن الكامل، اختيار الدفع عند الاستلام، وملخص السلة.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F07" data-status="fixed" data-sev="P1" data-be="false" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F07</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">فرونت إند</span>
+        </div>
+        <h3>عدم مضاعفة الكميات عند تكرار إضافة الروتين</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> تحديث مساهمة الروتين بشكل idempotent وتغيير حالة الزر لمنع مضاعفة الكميات عند النقرتين.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>النقرة الأولى تضيف 5 قطع والزر يتحول إلى «تمت إضافة المنتجات المحددة إلى السلة» والشارة تصبح 5.</li><li>النقرة الثانية تبقي الشارة 5 والكميات في /cart كلها 1 لكل منتج بدون أي مضاعفة.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F08" data-status="fixed" data-sev="P1" data-be="false" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F08</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">فرونت إند</span>
+        </div>
+        <h3>إزالة البيانات القديمة في المعاينة السريعة</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> منع عرض اسم أو باركود أو تعليمات المنتج السابق أثناء تحميل منتج جديد في Quick View.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>أزيل placeholderData من useProductDetail-D4OFtw8c.js.</li><li>بالاختبار عبر MutationObserver عند الانتقال الفوري من KC0001 إلى KC0002 لم يظهر أي وميض لبيانات KC0001.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card partial" id="F09" data-status="partial" data-sev="P1" data-be="true" data-fe="false">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F09</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-partial">مُصلح جزئيًا</span>
+          <span class="owner-tag">باك إند</span>
+        </div>
+        <h3>نتائج البحث وحالة «لا نتائج» ومرادفات العلامات</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> إظهار صفر نتائج عند عدم التطابق دون الرجوع لقائمة ANUA عامة، ودعم البحث العربي ومرادفات «دكتور».</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>البحث بعبارة عشوائية (zzzzNONEXISTENT98371) يعيد 0 نتائج ورسالة «لم نجد نتائج مطابقة» بدون fallback لقائمة ANUA.</li><li>البحث بـ COSRX (26)، Dr.Althea (11)، Dr.Melaxin (9)، Dr.Reju-All (5)، KC0001 (1)، «سيروم»، «نياسيناميد» يعمل بدقة.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>البحث بالكلمة العربية «دكتور» (/api/products/search?query=دكتور) ما زال يعيد 0 نتائج، ويحتاج ربط مرادفات ليشمل منتجات Dr.Althea وDr.Melaxin وDr.Reju-All.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card partial" id="F10" data-status="partial" data-sev="P1" data-be="true" data-fe="false">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F10</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-partial">مُصلح جزئيًا</span>
+          <span class="owner-tag">باك إند</span>
+        </div>
+        <h3>التقييمات المتكررة والتجريبية</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> إزالة تقييمات الاختبار المكررة (2,928 تقييمًا) وربط شارة الاعتماد بمصدر موثوق.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>حُذفت 2,928 مراجعة مكررة (John Doe / سارة علي / أحمد محمد) من صفحات الـ 122 منتجًا (KC0003 أصبحت 0 تقييمات).</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>تبقّت 3 تقييمات اختبارية على المنتجات: KC0107 («فريق KCODE»: «35t45t53tt»)، KC0137 («Abdelrahman Eldeisty Hamed»: «فففففففف»)، KC0122 («فريق KCODE»: «Good»).</li><li>نقطة التقييمات العامة (/api/reviews/general) ما زالت تحفظ ضمنها «S aeed: يييييييييييي» وتكرارين لـ«أحمد محمد» و«John Doe»، وكل التقييمات الثمانية حالتها is_verified=false وis_verified_purchase=false.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card partial" id="F11" data-status="partial" data-sev="P1" data-be="true" data-fe="false">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F11</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-partial">مُصلح جزئيًا</span>
+          <span class="owner-tag">باك + المالك</span>
+        </div>
+        <h3>هوية الشركة والادعاءات غير المعتمدة</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> استبدال الأصفار ببيانات المالك الحقيقية، ومراجعة ادعاءات المختبرات والطقس والاستيراد المباشر واستبعاد المهيجات.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>أُزيلت الأصفار الوهمية (+968 9000 0000، 0000000، OM0000000000) من الفوتر وصفحة التواصل (/contact).</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>الفوتر يكتفي حاليًا بالبريد hello@kcodeskin.com بلا رقم هاتف معتمد أو سجل تجاري أو رقم ضريبي.</li><li>صفحة من نحن (/api/pages/about) ما زالت تحوي ادعاءات غير معتمدة في R479: «التعاون مع أفضل المعامل الطبية»، «تم اختبارها لتلائم ظروف الطقس»، «مستوردة مباشرة من أرقى المعامل».</li><li>نقطة معايير الاختيار (/api/product-selection-criteria) ما زالت تحوي «نستبعد تماماً العطور الصناعية... نقل وتخزين المنتجات في بيئات مضبوطة حرارياً».</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card partial" id="F12" data-status="partial" data-sev="P1" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F12</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-partial">مُصلح جزئيًا</span>
+          <span class="owner-tag">فرونت + باك + المالك</span>
+        </div>
+        <h3>توحيد سياسات الشحن والاسترجاع وعرضها</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> توحيد مدة الاسترجاع إلى 7 أيام وتثبيت تفاصيل الشحن لكل سوق وعرضها بشكل متسق.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>توحدت مهلة الاسترجاع في البيانات (/api/policies/return والمنتجات والسلة) إلى 7 أيام بدل 14 يومًا.</li><li>أضيفت في /api/policies/shipping بطاقات عُمان (1–3 أيام)، الخليج (4–7 أيام)، والشحن المجاني فوق 25 ر.ع.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>عطل واجهة في PolicyModal-CwseEmx-.js: عند فتح سياسات الشحن أو الإرجاع أو الخصوصية أو الشروط من الفوتر، يتجاهل المكوّن حقل paragraph وcards ويعرض العناوين المرقّمة فقط بلا أي نص!</li><li>سياسة ملفات الارتباط (/api/policies/cookies) غير موجودة في الباك إند (ترجع null/404).</li><li>ما زال هناك تباين طفيف في مدة التوصيل لعُمان (24–48 ساعة في الهوم والسلة مقابل 1–3 أيام عمل في FAQ وسياسة الشحن)، وعدم حسم تفاصيل الشحن الخاصة بكل دولة خليجية (عُمان/الإمارات/السعودية).</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card broken" id="F13" data-status="broken" data-sev="P2" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F13</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-broken">ما زال معطلاً</span>
+          <span class="owner-tag">فرونت + باك</span>
+        </div>
+        <h3>مختارات الهوم والأسئلة الشائعة المعتمدة</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> استعادة المنتجات الثمانية المختارة من home.txt (بدل best-sellers) والأسئلة الستة المعتمدة في R479.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li class='muted'>لم يُرصد تنفيذ فعلي لهذا البند بعد.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>الهوم (HomePage-A7tPTqgX.js) ما زال يستدعي /api/products/best-sellers ويعرض KC0001..KC0008 (جميعها ANUA) بدل قائمة R479 المعتمدة: KC0185, KC0137, KC0001, KC0078, KC0118, KC0105, KC0089, KC0159.</li><li>الأسئلة الستة في الهوم (/api/faqs) ما زالت المجموعة القديمة التي يغلب عليها الشحن بدل أسئلة R479 الستة المعتمدة (الأصالة، المنهج، التحليل، الحساسية، شراء الروتين، التوصيل).</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F14" data-status="fixed" data-sev="P2" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F14</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">فرونت + باك</span>
+        </div>
+        <h3>عناوين طريقة الاستخدام الخاصة بكل منتج (256 منتجًا)</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> عرض label وtext الحقيقيين من usage_tiles بدل العناوين الثابتة التوقيت/الكمية/التطبيق/البدء.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>مطابقة 256/256 في API وusage_instructions.tiles.</li><li>تم إصلاح QuickViewFaqs-B20NvynO.js ليعرض labels الخاصة بالمنتج في الصفحة والمعاينة السريعة (مثل «الشطف» في KC0003، «صباحًا» في KC0001، «المسح/الجانب الناعم/إكمال الروتين» في KC0012).</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card broken" id="F15" data-status="broken" data-sev="P2" data-be="true" data-fe="false">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F15</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-broken">ما زال معطلاً</span>
+          <span class="owner-tag">باك إند</span>
+        </div>
+        <h3>أهلية الحساسية (sensitive_eligible) في 22 منتجًا</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> إصلاح دلالة الحقل والفلتر في المنتجات الـ 22 (الاحتفاظ بحالة «مناسب بشروط» كـ true مع إبقاء التحذير).</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>فلتر الباك إند يتطابق مع قيم البيانات الحالية (137/137)، والنص التحذيري الشرطي محفوظ.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>نفس الـ 22 منتجًا (KC0001, KC0002, KC0008, KC0010, KC0012, KC0026, KC0043, KC0061, KC0075, KC0078, KC0081, KC0083, KC0085, KC0093, KC0095, KC0097, KC0109, KC0122, KC0126, KC0170, KC0198, KC0259) ما زالت قيمتها sensitive_eligible = false في الباك إند، لذا يعيد الفلتر 137 بدل 159.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card partial" id="F16" data-status="partial" data-sev="P2" data-be="true" data-fe="false">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F16</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-partial">مُصلح جزئيًا</span>
+          <span class="owner-tag">باك إند</span>
+        </div>
+        <h3>فروق المواصفات وملاحظات INCI وتصنيف البشرة</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> إعادة أنواع الواقيات العشرة وملاحظات INCI الثلاث وإزالة القوام المضاف على KC0196 وKC0206.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>ملاحظات INCI الثلاث (KC0166, KC0180, KC0181) تم استرجاعها وتطابق المرجع 256/256.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>أنواع الواقيات الـ 10 (KC0007, KC0159, KC0161, KC0203, KC0204, KC0215, KC0216, KC0217, KC0218, KC0225) ما زالت تعرض «واقي شمس» عامًا بدل التفاصيل المعتمدة (مثل: واقي شمس كيميائي SPF50 وPA++++).</li><li>ما زال قوام «خفيف» مضافًا على KC0196 وKC0206 بلا مرجع في R479.</li><li>المنتجات الـ 10 خارج المحرك (KC0231..234, KC0240, KC0241, KC0244, KC0246, KC0248, KC0254) ما زالت skin_types لها فارغة [] بدل [&#x27;oily&#x27;,&#x27;combination&#x27;,&#x27;normal&#x27;,&#x27;dry&#x27;].</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F17" data-status="fixed" data-sev="P2" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F17</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">باك + فرونت</span>
+        </div>
+        <h3>إزالة تكرار الصورة الرئيسية من معرض المنتجات</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> عدم تكرار الصورة الرئيسية داخل المعرض لتكون النتيجة 238 منتجًا بصورة و18 بصورتين.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>تم تنظيف product_images في الباك إند وتأكيد عدم التكرار في ProductPage (238 منتجًا بصورة واحدة، و18 منتجًا بصورتين؛ KC0003 يعرض 01/02 وKC0012 يعرض 01/01).</li><li>جميع صور المنتجات الـ 256 الرئيسية والـ 18 الإضافية تعيد HTTP 200 صالحة.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card partial" id="F18" data-status="partial" data-sev="P2" data-be="false" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F18</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-partial">مُصلح جزئيًا</span>
+          <span class="owner-tag">فرونت إند</span>
+        </div>
+        <h3>النص البديل للصور (ALT) وتسمية أزرار المعرض</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> استخدام seo.image_alt المعتمد للصورة الأساسية وتسمية أزرار المعرض بوضوح لقارئات الشاشة.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>بيانات seo.image_alt متطابقة 256/256، والصورة الأساسية في صفحة المنتج والبطاقات ونافذة التكبير تستخدم الآن seo.image_alt.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>أزرار المصغرات في المعرض (ProductPage-DUCw4fTO.js) ما زالت بلا aria-label، وصور المصغرات بداخلها alt=&quot;&quot;، فتبقى الأزرار بلا اسم وصفي.</li><li>الصورة المصغّرة في الشريط السفلي المثبت (sticky-thumb) ما زالت تستخدم اسم المنتج الإنجليزي بدل seo.image_alt.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card partial" id="F19" data-status="partial" data-sev="P1" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F19</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-partial">مُصلح جزئيًا</span>
+          <span class="owner-tag">فرونت + باك</span>
+        </div>
+        <h3>SEO وخريطة الموقع وrobots.txt</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> إصلاح العنوان الموروث وcanonical وProduct JSON-LD وsitemap للدومين الفعلي مع المنتجات والروتينات.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>صفحة المنتج (/product/3) والصفحات العامة (/shop, /about, /faq) تحدث العنوان وcanonical وog:url وProduct JSON-LD دون توريث عنوان الصفحة السابقة.</li><li>ملاحظة شكلية: العناوين ينتهي آخرها بتكرار طفيف «| KCODE | KCODE».</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>ملف robots.txt على Vercel يشير إلى https://kcodeskin.com/sitemap.xml الذي ما زال يعيد HTTP 404 (صفحة خطأ HTML).</li><li>ملف sitemap.xml على Vercel ثابت ويضم 10 روابط قديمة فقط بتاريخ 2026-08-03 بنطاق kcodeskin.com، ولا يشمل الـ 256 منتجًا أو الـ 13 روتينًا أو المقالات الـ 8.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card partial" id="F20" data-status="partial" data-sev="P2" data-be="false" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F20</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-partial">مُصلح جزئيًا</span>
+          <span class="owner-tag">فرونت إند</span>
+        </div>
+        <h3>رابط سياسة الخصوصية (/privacy-policy)</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> الوصول إلى نص سياسة الخصوصية الصحيح عند النقر من النشرة أو الزيارة المباشرة للمسار دون 404.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>النقر على رابط «سياسة الخصوصية» في النشرة لم يعد يفتح صفحة 404 بل يستدعي PolicyModal.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>النافذة المنبثقة تظهر بعناوين 1–4 بدون نصوص الفقرات بسبب عطل PolicyModal في F12.</li><li>الزيارة المباشرة لمسار /privacy-policy تُحوّل المستخدم للرئيسية / تلقائياً عبر &lt;Navigate to=&quot;/&quot; /&gt; بدل عرض صفحة سياسة خصوصية مستقلة.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F21" data-status="fixed" data-sev="P2" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F21</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">باك + فرونت</span>
+        </div>
+        <h3>تعليمات المكمّلات الخاصة بالروتينات الجاهزة (16 نصًا)</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> عرض support_copy الخاص بكل مكمّل داخل الروتينات الثمانية بدل النبذة العامة للمنتج.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>تطابق 16/16 لنصوص why_selected في الباك إند مع support_copy المرجعي في R479، وتظهر بشكل صحيح في واجهة الروتين (تم التحقق حياً على KC0219 وKC0153 في #215).</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F22" data-status="fixed" data-sev="P2" data-be="false" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F22</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">فرونت إند</span>
+        </div>
+        <h3>حالة زر اختيار المكمّل ودلالتها (aria-pressed)</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> تمييز نص الزر ولونه وaria-pressed بين «إضافة إلى اختياراتك» و«ضمن اختياراتك».</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>غير المختار: «إضافة إلى اختياراتك» مع aria-pressed=&quot;false&quot;.</li><li>المختار: «ضمن اختياراتك» مع aria-pressed=&quot;true&quot; وحالة pressed وتحديث فوري للإجمالي.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card broken" id="F23" data-status="broken" data-sev="P2" data-be="true" data-fe="false">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F23</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-broken">ما زال معطلاً</span>
+          <span class="owner-tag">باك + المالك</span>
+        </div>
+        <h3>الإنجليزية المختلطة عند التبديل إلى EN</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> ترجمة كاملة معتمدة للمحتوى أو إخفاء خيار EN بقرار المالك، مع منع الملاحظات الإنجليزية التلقائية الخاطئة.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>عناوين الواجهة، الملخص العلوي (KCODE Summary)، أنواع البشرة، القوام، وimage_alt تُعرض بالإنجليزية.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>الباك إند (/api/products/3 مع Accept-Language: en) ما زال يعيد الوصف والحساسية وطريقة الاستخدام (tiles) وقراءة التركيبة والأسئلة والنوع والعطر بالعربية.</li><li>الأسوأ: حقول timing_note وamount_note وapplication_note وgradual_start_note في الإنجليزية ما زالت تحتوي نصوصًا إنجليزية عامة خاطئة (مثل «Until fully absorbed, before moisturizer» على غسول يُشطف!).</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F24" data-status="fixed" data-sev="P2" data-be="false" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F24</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">فرونت إند</span>
+        </div>
+        <h3>إغلاق قائمة العرض الضيق بمفتاح Escape وإدارة التركيز</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> إغلاق القائمة الجانبية على الشاشات الضيقة عبر Escape وإعادة التركيز إلى زر فتحها.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>بالاختبار على عرض 360px في Chrome: الضغط على Escape أغلق القائمة الجانبية وأعاد التركيز تلقائيًا إلى زر «فتح القائمة».</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="F25" data-status="fixed" data-sev="P2" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F25</span>
+          <span class="badge sev-p2">أولوية متوسطة P2</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">فرونت + باك</span>
+        </div>
+        <h3>نوع البشرة في بطاقات روتينات الرجال</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> استخدام skinLabel القصير المعتمد تحت «أنواع البشرة» بدل فقرة audience الطويلة.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>البطاقات الخمس تعرض التسميات القصيرة الصحيحة («جميع أنواع البشرة»، «الدهنية والمختلطة والعادية»، إلخ) في الواجهة والبيانات.</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>ملاحظة الصور المشتركة (انظر F02/F26): صور بطاقات الرجال الـ 5 على الهوم تحجبها ORB لأن المسار المرجع من الباك إند ينقصه /app/public/.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card partial" id="F26" data-status="partial" data-sev="P1" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">F26</span>
+          <span class="badge sev-p1">أولوية مرتفعة P1</span>
+          <span class="badge st-partial">مُصلح جزئيًا</span>
+          <span class="owner-tag">باك + فرونت</span>
+        </div>
+        <h3>صور ومحتوى مقالات الدليل (/blog)</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> إصلاح روابط صور المقالات، تصحيح الأخطاء اللغوية، تغيير المؤلف من Blog Author، واعتماد المحتوى.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>تغيّر اسم المؤلف إلى «فريق KCODE» في جميع المقالات الـ 8.</li><li>تم تصحيح الأخطاء الإملائية المذكورة في التقرير («الشوارد الحرة»، «عدم إعادة التطبيق»، وإزالة «بفيزياء عميقة»).</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li>عطل الصور في المتصفح: الباك إند (/api/blogs) يعيد روابط /storage/blogs/*.jpg التي تعطي 404 text/html وتُحجب بـ ERR_BLOCKED_BY_ORB في Chrome فتظهر أيقونة KCODE بدل الصورة (بينما الملفات موجودة على /storage/app/public/blogs/* ولم يطبّق مكوّن BlogPage دالة xi() لتصحيح المسار).</li><li>ملفّا صورتي المقال #7 (dry-skin-winter.jpg) والمقال #25 (hyaluronic-acid-guide.jpg) بحجم 2,458 بايت فقط (نفس الملف الصغير، يبدو عنصرًا نائبًا).</li><li>المحتوى الطبي/التحريري للمقالات ما زال بحاجة اعتماد رسمي مكتوب من المالك.</li></ul>
+        </div>
+      </div>
+    </article>
+    <article class="item-card fixed" id="N01" data-status="fixed" data-sev="TECH" data-be="true" data-fe="true">
+      <div class="item-head">
+        <div class="item-badges">
+          <span class="id-pill">N01</span>
+          <span class="badge sev-tech">ملحق حسابي N01</span>
+          <span class="badge st-fixed">تم الإصلاح</span>
+          <span class="owner-tag">فرونت + باك</span>
+        </div>
+        <h3>وحدة المبالغ ومعادلة الخصم (الملحق الحسابي)</h3>
+        <p class="req-line"><strong>المطلوب في تقرير 13 نوفمبر:</strong> منع قسمة الأسعار على 100 عند الانتقال للسلة، وتطابق نسبة الخصم في صفحة العروض مع السعر النهائي.</p>
+      </div>
+      <div class="item-cols">
+        <div class="col-box col-done">
+          <h4>✅ ما هو موجود / تم إصلاحه</h4>
+          <ul><li>روتين #215 (9.900 / 8.800، المجموع 48.400 ر.ع) ينتقل للسلة بنفس القيم تمامًا دون تحول إلى 0.484.</li><li>صفحة العروض (/offers) تعرض حسابًا سليمًا: KC0009 (9.9 بخصم 50% = 4.95 ر.ع)، KC0239 (12 بخصم 10% = 10.8 ر.ع).</li></ul>
+        </div>
+        <div class="col-box col-miss">
+          <h4>⚠️ ما زال ناقصًا / يحتاج تعديل</h4>
+          <ul><li class='good-txt'>لا توجد نواقص متبقية ضمن نطاق الفحص.</li></ul>
+        </div>
+      </div>
+    </article>
+</div>
+
+<h2 class="sec-title">الملاحق والبيانات التفصيلية للفحص</h2>
+
+<details>
+  <summary>ملحق 1 — تفصيل مصفوفة تحليل البشرة (728 / 728 حالة مطابقة)</summary>
+  <p style="font-size:13.5px;">نُفّذت جميع الطلبات الـ 728 على <code>POST https://kcodeskin.com/api/quiz/submit-answers</code> بنفس حمولة الواجهة الحية ونجحت بنسبة <strong>100%</strong> (<code>rules_version: KCODE-R479-handoff</code>، 0 أخطاء شبكة، 0 منتجات نافدة).</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>الهدف الأساسي</th><th>عدد الحالات</th><th>المطابق</th><th>غير المطابق</th><th>النسبة</th></tr></thead>
+      <tbody><tr><td>الحبوب والبثور (<code>acne</code>)</td><td>80</td><td>80</td><td>0</td><td><span class='badge st-fixed'>100%</span></td></tr><tr><td>المسام (<code>pores</code>)</td><td>80</td><td>80</td><td>0</td><td><span class='badge st-fixed'>100%</span></td></tr><tr><td>الرؤوس السوداء (<code>blackheads</code>)</td><td>80</td><td>80</td><td>0</td><td><span class='badge st-fixed'>100%</span></td></tr><tr><td>التصبغات (<code>dark_spots</code>)</td><td>80</td><td>80</td><td>0</td><td><span class='badge st-fixed'>100%</span></td></tr><tr><td>البهتان (<code>dullness</code>)</td><td>80</td><td>80</td><td>0</td><td><span class='badge st-fixed'>100%</span></td></tr><tr><td>الاحمرار (<code>redness</code>)</td><td>80</td><td>80</td><td>0</td><td><span class='badge st-fixed'>100%</span></td></tr><tr><td>الجفاف (<code>dryness</code>)</td><td>80</td><td>80</td><td>0</td><td><span class='badge st-fixed'>100%</span></td></tr><tr><td>الخطوط الدقيقة (<code>lines</code>)</td><td>80</td><td>80</td><td>0</td><td><span class='badge st-fixed'>100%</span></td></tr><tr><td>العناية اليومية (<code>maintain</code>)</td><td>88</td><td>88</td><td>0</td><td><span class='badge st-fixed'>100%</span></td></tr></tbody>
+    </table>
+  </div>
+</details>
+
+<details>
+  <summary>ملحق 2 — جدول الروتينات الـ 13 (المعرّفات الجديدة، التوقيت، وملاحظات card_note)</summary>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>ID الجديد</th><th>Slug</th><th>العنوان</th><th>الأساسي</th><th>المكمّل</th><th>أخطاء التوقيت</th><th>usage_guide</th><th>معاينة card_note</th></tr></thead>
+      <tbody><tr><td><code>215</code></td><td>acne</td><td>روتين الحبوب والبثور وآثار الحبوب</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>يُستخدم COSRX BHA مساءً 2–3 مرات أسبوعياً مع التدرج، ويجب أن يعكس الموقع تكرار الاستخدام الوارد في بيانات المن</td></tr><tr><td><code>216</code></td><td>pores</td><td>روتين المسام والرؤوس السوداء واللمعان الزائد</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>يُستخدم COSRX BHA مساءً 2–3 مرات أسبوعياً مع التدرج. واقي الشمس الصلب منتج لإعادة التطبيق فقط.</td></tr><tr><td><code>217</code></td><td>oily-hydration</td><td>روتين البشرة الدهنية التي تشعر بالشد بعد التنظيف</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>قناع ABIB يحل محل المرطب الليلي في ليلة استخدامه، ولا يُضاف فوقه كخطوة أخرى.</td></tr><tr><td><code>218</code></td><td>pigmentation</td><td>روتين العناية بمظهر الكلف والتصبغات وتفاوت لون البشرة</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>يعرض ANUA صباحاً أو في الليالي التي لا يُستخدم فيها Retino-Mela. يعرض Retino-Mela مساءً فقط وفق التدرج المسجل.</td></tr><tr><td><code>219</code></td><td>barrier</td><td>روتين تهدئة الاحمرار ودعم حاجز البشرة</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>لا تُضاف خطوة التنظيف الزيتي إلا عند الحاجة لإزالة المكياج أو الواقي. القناع يحل محل المرطب الليلي في ليلة است</td></tr><tr><td><code>220</code></td><td>dry-hydration</td><td>روتين البشرة الجافة والباهتة للترطيب والإشراقة</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>القناع يحل محل المرطب الليلي في ليلة استخدامه، ولا يُعرض كطبقة إضافية فوقه.</td></tr><tr><td><code>221</code></td><td>lines</td><td>روتين الخطوط الدقيقة والتجاعيد وفقدان المرونة والعناية بمحيط العين</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>يُستخدم سيروم العين مساءً، ويبدأ مرة كل ثلاث ليالٍ. استخدم لصقات العين في الأيام التي لا تستخدم فيها سيروم الر</td></tr><tr><td><code>222</code></td><td>daily</td><td>روتين العناية اليومية للحفاظ على بشرة متوازنة ومشرقة</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>القناع يحل محل المرطب الليلي في ليلة استخدامه. المنتج الداعم لا يُحدد أو يُضاف إلى السلة تلقائياً.</td></tr><tr><td><code>223</code></td><td>daily</td><td>العناية اليومية الأساسية</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>ترطيب صباحي عند الحاجة، قبل واقي الشمس.</td></tr><tr><td><code>224</code></td><td>shine</td><td>عناية باللمعان الزائد</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>يساعد على توازن مظهر اللمعان مع الاستمرار.</td></tr><tr><td><code>225</code></td><td>tightness</td><td>ترطيب وراحة بعد الغسل</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>مرطب صباحًا ومساءً، ثم واقي الشمس صباحًا.</td></tr><tr><td><code>226</code></td><td>dullness</td><td>نضارة للبشرة الباهتة</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>ابدأ بالسيروم كل يومين خلال الأسبوع الأول.</td></tr><tr><td><code>227</code></td><td>shaving</td><td>عناية بعد الحلاقة</td><td>✅</td><td>✅</td><td>0</td><td>✅</td><td class='small-note'>لا تضع الأمبول على جرح مفتوح.</td></tr></tbody>
+    </table>
+  </div>
+</details>
+
+<details>
+  <summary>ملحق 3 — الـ 22 منتجًا في F15 والفروق الـ 12 في F16</summary>
+  <p style="font-size:13.5px;"><strong>منتجات F15 (ما زالت <code>sensitive_eligible=false</code> بدل <code>true</code>):</strong> <code class="ltr">KC0001, KC0002, KC0008, KC0010, KC0012, KC0026, KC0043, KC0061, KC0075, KC0078, KC0081, KC0083, KC0085, KC0093, KC0095, KC0097, KC0109, KC0122, KC0126, KC0170, KC0198, KC0259</code></p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>SKU</th><th>الحقل</th><th>المتوقع في R479</th><th>القيمة الحية الحالية</th></tr></thead>
+      <tbody><tr><td><code>KC0007</code></td><td><code>spec_type</code></td><td>واقي شمس للوجه SPF 50</td><td>واقي شمس</td></tr><tr><td><code>KC0159</code></td><td><code>spec_type</code></td><td>واقي شمس كيميائي SPF50 وPA++++</td><td>واقي شمس</td></tr><tr><td><code>KC0161</code></td><td><code>spec_type</code></td><td>واقي شمس بفلاتر فيزيائية وكيميائية SPF50+ وPA+++</td><td>واقي شمس</td></tr><tr><td><code>KC0196</code></td><td><code>spec_texture</code></td><td></td><td>خفيف</td></tr><tr><td><code>KC0203</code></td><td><code>spec_type</code></td><td>واقي شمس كيميائي ستيك SPF 50+</td><td>واقي شمس</td></tr><tr><td><code>KC0204</code></td><td><code>spec_type</code></td><td>واقي شمس كيميائي ستيك SPF 50+</td><td>واقي شمس</td></tr><tr><td><code>KC0206</code></td><td><code>spec_texture</code></td><td></td><td>خفيف</td></tr><tr><td><code>KC0215</code></td><td><code>spec_type</code></td><td>واقي شمس فيزيائي SPF 30 PA++++</td><td>واقي شمس</td></tr><tr><td><code>KC0216</code></td><td><code>spec_type</code></td><td>واقي شمس بفلاتر فيزيائية وكيميائية SPF 50+ PA++++</td><td>واقي شمس</td></tr><tr><td><code>KC0217</code></td><td><code>spec_type</code></td><td>واقي شمس كيميائي SPF 50+ PA++++</td><td>واقي شمس</td></tr><tr><td><code>KC0218</code></td><td><code>spec_type</code></td><td>واقي شمس كيميائي ستيك SPF 50+ PA++++</td><td>واقي شمس</td></tr><tr><td><code>KC0225</code></td><td><code>spec_type</code></td><td>واقي شمس كيميائي SPF 50+ PA++++</td><td>واقي شمس</td></tr></tbody>
+    </table>
+  </div>
+</details>
+
+<details>
+  <summary>ملحق 4 — تشخيص أسباب فشل صور المقالات والروتينات (HTTP 404 HTML مقابل HTTP 200)</summary>
+  <p style="font-size:13.5px;">المقارنة تثبت أن جميع الملفات موجودة على المسار <code>/storage/app/public/...</code> وتعيد HTTP 200، بينما ترجع الـ API المسار بدون <code>/app/public/</code> مما يعيد صفحة خطأ 404 (<code>text/html</code>) يحجبها المتصفح بـ <code>ERR_BLOCKED_BY_ORB</code>.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>النوع</th><th>ID</th><th>HTTP</th><th>Content-Type</th><th>الحجم (بايت)</th><th>الرابط</th></tr></thead>
+      <tbody><tr><td><code>blog_raw</code></td><td>7</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/blogs/dry-skin-winter.jpg</code></td></tr><tr><td><code>blog_xi</code></td><td>7</td><td><span class='badge st-fixed'>200</span></td><td><code>image/jpeg</code></td><td>2458</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/blogs/dry-skin-winter.jpg</code></td></tr><tr><td><code>blog_raw</code></td><td>8</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/blogs/vitamin-c-guide.jpg</code></td></tr><tr><td><code>blog_xi</code></td><td>8</td><td><span class='badge st-fixed'>200</span></td><td><code>image/jpeg</code></td><td>70151</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/blogs/vitamin-c-guide.jpg</code></td></tr><tr><td><code>blog_raw</code></td><td>9</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/blogs/night-routine.jpg</code></td></tr><tr><td><code>blog_xi</code></td><td>9</td><td><span class='badge st-fixed'>200</span></td><td><code>image/jpeg</code></td><td>67943</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/blogs/night-routine.jpg</code></td></tr><tr><td><code>blog_raw</code></td><td>10</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/blogs/sunscreen-mistakes.jpg</code></td></tr><tr><td><code>blog_xi</code></td><td>10</td><td><span class='badge st-fixed'>200</span></td><td><code>image/jpeg</code></td><td>336396</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/blogs/sunscreen-mistakes.jpg</code></td></tr><tr><td><code>blog_raw</code></td><td>22</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/blogs/oily-skin-acne.jpg</code></td></tr><tr><td><code>blog_xi</code></td><td>22</td><td><span class='badge st-fixed'>200</span></td><td><code>image/jpeg</code></td><td>60086</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/blogs/oily-skin-acne.jpg</code></td></tr><tr><td><code>blog_raw</code></td><td>23</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/blogs/collagen-anti-aging.jpg</code></td></tr><tr><td><code>blog_xi</code></td><td>23</td><td><span class='badge st-fixed'>200</span></td><td><code>image/jpeg</code></td><td>51041</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/blogs/collagen-anti-aging.jpg</code></td></tr><tr><td><code>blog_raw</code></td><td>24</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/blogs/double-cleansing.jpg</code></td></tr><tr><td><code>blog_xi</code></td><td>24</td><td><span class='badge st-fixed'>200</span></td><td><code>image/jpeg</code></td><td>49664</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/blogs/double-cleansing.jpg</code></td></tr><tr><td><code>blog_raw</code></td><td>25</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/blogs/hyaluronic-acid-guide.jpg</code></td></tr><tr><td><code>blog_xi</code></td><td>25</td><td><span class='badge st-fixed'>200</span></td><td><code>image/jpeg</code></td><td>2458</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/blogs/hyaluronic-acid-guide.jpg</code></td></tr><tr><td><code>preset-routine_raw</code></td><td>215</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/0d9d479ecb1f709ed0e7.webp</code></td></tr><tr><td><code>preset-routine_xi</code></td><td>215</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>42412</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/0d9d479ecb1f709ed0e7.webp</code></td></tr><tr><td><code>preset-routine_raw</code></td><td>216</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/72d3caff33e95e8abddf.webp</code></td></tr><tr><td><code>preset-routine_xi</code></td><td>216</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>43164</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/72d3caff33e95e8abddf.webp</code></td></tr><tr><td><code>preset-routine_raw</code></td><td>217</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/aa0c60ac3efa6db8532b.webp</code></td></tr><tr><td><code>preset-routine_xi</code></td><td>217</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>36344</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/aa0c60ac3efa6db8532b.webp</code></td></tr><tr><td><code>preset-routine_raw</code></td><td>218</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/a9560f582fd173ff8169.webp</code></td></tr><tr><td><code>preset-routine_xi</code></td><td>218</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>36156</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/a9560f582fd173ff8169.webp</code></td></tr><tr><td><code>preset-routine_raw</code></td><td>219</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/48056dbb8bed1d0b5ee2.webp</code></td></tr><tr><td><code>preset-routine_xi</code></td><td>219</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>39416</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/48056dbb8bed1d0b5ee2.webp</code></td></tr><tr><td><code>preset-routine_raw</code></td><td>220</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/92fe8ab38583b477736e.webp</code></td></tr><tr><td><code>preset-routine_xi</code></td><td>220</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>24770</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/92fe8ab38583b477736e.webp</code></td></tr><tr><td><code>preset-routine_raw</code></td><td>221</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/a23337aa0ce55a21aad8.webp</code></td></tr><tr><td><code>preset-routine_xi</code></td><td>221</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>38560</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/a23337aa0ce55a21aad8.webp</code></td></tr><tr><td><code>preset-routine_raw</code></td><td>222</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/44b1bd5050eebbfa693e.webp</code></td></tr><tr><td><code>preset-routine_xi</code></td><td>222</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>44708</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/44b1bd5050eebbfa693e.webp</code></td></tr><tr><td><code>men-routine_raw</code></td><td>223</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/a2348ed5482efe93275b.webp</code></td></tr><tr><td><code>men-routine_xi</code></td><td>223</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>27648</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/a2348ed5482efe93275b.webp</code></td></tr><tr><td><code>men-routine_raw</code></td><td>224</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/6fdd38f3bc19a2c8f020.webp</code></td></tr><tr><td><code>men-routine_xi</code></td><td>224</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>29802</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/6fdd38f3bc19a2c8f020.webp</code></td></tr><tr><td><code>men-routine_raw</code></td><td>225</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/1478f81f1c74d6bd8771.webp</code></td></tr><tr><td><code>men-routine_xi</code></td><td>225</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>24182</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/1478f81f1c74d6bd8771.webp</code></td></tr><tr><td><code>men-routine_raw</code></td><td>226</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/ba6e16c17e3b6b4ac757.webp</code></td></tr><tr><td><code>men-routine_xi</code></td><td>226</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>36840</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/ba6e16c17e3b6b4ac757.webp</code></td></tr><tr><td><code>men-routine_raw</code></td><td>227</td><td><span class='badge st-broken'>404</span></td><td><code>text/html</code></td><td>4511</td><td class='ltr'><code>https://kcodeskin.com/storage/routines/5ecf41d45afaa2941a8d.webp</code></td></tr><tr><td><code>men-routine_xi</code></td><td>227</td><td><span class='badge st-fixed'>200</span></td><td><code>image/webp</code></td><td>23440</td><td class='ltr'><code>https://kcodeskin.com/storage/app/public/routines/5ecf41d45afaa2941a8d.webp</code></td></tr></tbody>
+    </table>
+  </div>
+</details>
+
+</main>
+<script>
+const buttons = document.querySelectorAll('.filter-btn');
+const search = document.getElementById('qSearch');
+let currentFilter = 'all';
+
+function applyFilters() {
+  const q = search.value.trim().toLowerCase();
+  const matchItem = (el) => {
+    const st = el.dataset.status;
+    const sev = el.dataset.sev;
+    const be = el.dataset.be === 'true';
+    const fe = el.dataset.fe === 'true';
+    let okFilter = true;
+    if (currentFilter === 'fixed' || currentFilter === 'partial' || currentFilter === 'broken') okFilter = st === currentFilter;
+    else if (currentFilter === 'P0') okFilter = sev === 'P0';
+    else if (currentFilter === 'be') okFilter = be && st !== 'fixed';
+    else if (currentFilter === 'fe') okFilter = fe && st !== 'fixed';
+    const okQuery = !q || el.textContent.toLowerCase().includes(q);
+    return okFilter && okQuery;
+  };
+  document.querySelectorAll('#summaryTable tbody tr').forEach(tr => tr.classList.toggle('hidden', !matchItem(tr)));
+  document.querySelectorAll('#cardsContainer .item-card').forEach(card => card.classList.toggle('hidden', !matchItem(card)));
+}
+
+buttons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    buttons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    applyFilters();
+  });
+});
+search.addEventListener('input', applyFilters);
+</script>
+</body>
+</html>

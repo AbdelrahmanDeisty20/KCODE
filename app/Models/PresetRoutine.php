@@ -67,7 +67,12 @@ class PresetRoutine extends Model
             return $this->cover_image;
         }
 
-        return url('storage/' . ltrim($this->cover_image, '/'));
+        $path = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $this->cover_image), '/');
+        if (!str_starts_with($path, 'routines/')) {
+            $path = 'routines/' . $path;
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('public')->url($path);
     }
 
     public function getCoverAttribute(): ?array
@@ -86,7 +91,7 @@ class PresetRoutine extends Model
             return null;
         }
 
-        $baseUrl = url('storage/routines');
+        $baseUrl = rtrim(\Illuminate\Support\Facades\Storage::disk('public')->url('routines'), '/');
 
         // Transform src
         $src = $data['src'] ?? null;
