@@ -51,7 +51,7 @@ class ProductService
                         $sub->orWhere('name_en', 'LIKE', "%{$term}%")
                             ->orWhere('name_ar', 'LIKE', "%{$term}%")
                             ->orWhere('sku', 'LIKE', "%{$term}%")
-                            ->orWhereHas('brand', fn($b) => $b->where('name', 'LIKE', "%{$term}%")->orWhere('name_ar', 'LIKE', "%{$term}%")->orWhere('name_en', 'LIKE', "%{$term}%"));
+                            ->orWhereHas('brand', fn($b) => $b->where('name_ar', 'LIKE', "%{$term}%")->orWhere('name_en', 'LIKE', "%{$term}%"));
                     }
                 });
             })
@@ -65,7 +65,10 @@ class ProductService
     }
 
     public function search(array $data) {
-        $query = $data['query'];
+        $query = trim($data['query'] ?? request('query') ?? request('search') ?? request('q') ?? '');
+        $perPage = (int) ($data['per_page'] ?? request('per_page', 10));
+        if ($perPage < 1) $perPage = 10;
+        if ($perPage > 100) $perPage = 100;
 
         if (!empty($query)) {
             $user = auth('sanctum')->user() ?? auth()->user();
@@ -81,14 +84,14 @@ class ProductService
             );
         }
 
-            $terms = [$query];
-            if (str_contains($query, 'دكتور') || str_contains($query, 'د.')) {
-                $terms[] = 'Dr.';
-                $terms[] = 'Dr';
-                $terms[] = 'Doctor';
-            }
+        $terms = [$query];
+        if (str_contains($query, 'دكتور') || str_contains($query, 'د.')) {
+            $terms[] = 'Dr.';
+            $terms[] = 'Dr';
+            $terms[] = 'Doctor';
+        }
 
-            $products = Product::where('stock', '>', 0)
+        $products = Product::where('stock', '>', 0)
             ->withCount('reviews')
             ->withAvg('reviews', 'rating')
             ->with([
@@ -102,47 +105,48 @@ class ProductService
                     $q->active();
                 }
             ])
-            ->where(function ($q) use ($terms) {
-                foreach ($terms as $term) {
-                    $q->orWhere(function ($sub) use ($term) {
-                        $sub->where('name_en', 'LIKE', '%' . $term . '%')
-                          ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
-                          ->orWhere('sku', 'LIKE', '%' . $term . '%')
-                          ->orWhere('description_en', 'LIKE', '%' . $term . '%')
-                          ->orWhere('description_ar', 'LIKE', '%' . $term . '%')
-                          ->orWhere('short_name_en', 'LIKE', '%' . $term . '%')
-                          ->orWhere('short_name_ar', 'LIKE', '%' . $term . '%')
-                          ->orWhereHas('brand', function ($b) use ($term) {
-                              $b->where('name_en', 'LIKE', '%' . $term . '%')
-                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
-                                ->orWhere('name', 'LIKE', '%' . $term . '%');
-                          })
-                          ->orWhereHas('category', function ($c) use ($term) {
-                              $c->where('name_en', 'LIKE', '%' . $term . '%')
-                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%');
-                          })
-                          ->orWhereHas('subCategory', function ($sc) use ($term) {
-                              $sc->where('name_en', 'LIKE', '%' . $term . '%')
-                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%');
-                          })
-                          ->orWhereHas('concerns', function ($cn) use ($term) {
-                              $cn->where('name_en', 'LIKE', '%' . $term . '%')
-                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
-                                ->orWhere('description_en', 'LIKE', '%' . $term . '%')
-                                ->orWhere('description_ar', 'LIKE', '%' . $term . '%');
-                          })
-                          ->orWhereHas('skinTypes', function ($st) use ($term) {
-                              $st->where('name_en', 'LIKE', '%' . $term . '%')
-                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
-                                ->orWhere('description_en', 'LIKE', '%' . $term . '%')
-                                ->orWhere('description_ar', 'LIKE', '%' . $term . '%');
-                          })
-                          ->orWhereHas('goals', function ($g) use ($term) {
-                              $g->where('name_en', 'LIKE', '%' . $term . '%')
-                                ->orWhere('name_ar', 'LIKE', '%' . $term . '%');
-                          });
-                    });
-                }
+            ->when(!empty($query), function ($q) use ($terms) {
+                $q->where(function ($topQ) use ($terms) {
+                    foreach ($terms as $term) {
+                        $topQ->orWhere(function ($sub) use ($term) {
+                            $sub->where('name_en', 'LIKE', '%' . $term . '%')
+                              ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
+                              ->orWhere('sku', 'LIKE', '%' . $term . '%')
+                              ->orWhere('description_en', 'LIKE', '%' . $term . '%')
+                              ->orWhere('description_ar', 'LIKE', '%' . $term . '%')
+                              ->orWhere('short_name_en', 'LIKE', '%' . $term . '%')
+                              ->orWhere('short_name_ar', 'LIKE', '%' . $term . '%')
+                              ->orWhereHas('brand', function ($b) use ($term) {
+                                  $b->where('name_en', 'LIKE', '%' . $term . '%')
+                                    ->orWhere('name_ar', 'LIKE', '%' . $term . '%');
+                              })
+                              ->orWhereHas('category', function ($c) use ($term) {
+                                  $c->where('name_en', 'LIKE', '%' . $term . '%')
+                                    ->orWhere('name_ar', 'LIKE', '%' . $term . '%');
+                              })
+                              ->orWhereHas('subCategory', function ($sc) use ($term) {
+                                  $sc->where('name_en', 'LIKE', '%' . $term . '%')
+                                    ->orWhere('name_ar', 'LIKE', '%' . $term . '%');
+                              })
+                              ->orWhereHas('concerns', function ($cn) use ($term) {
+                                  $cn->where('name_en', 'LIKE', '%' . $term . '%')
+                                    ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
+                                    ->orWhere('description_en', 'LIKE', '%' . $term . '%')
+                                    ->orWhere('description_ar', 'LIKE', '%' . $term . '%');
+                              })
+                              ->orWhereHas('skinTypes', function ($st) use ($term) {
+                                  $st->where('name_en', 'LIKE', '%' . $term . '%')
+                                    ->orWhere('name_ar', 'LIKE', '%' . $term . '%')
+                                    ->orWhere('description_en', 'LIKE', '%' . $term . '%')
+                                    ->orWhere('description_ar', 'LIKE', '%' . $term . '%');
+                              })
+                              ->orWhereHas('goals', function ($g) use ($term) {
+                                  $g->where('name_en', 'LIKE', '%' . $term . '%')
+                                    ->orWhere('name_ar', 'LIKE', '%' . $term . '%');
+                              });
+                        });
+                    }
+                });
             })
             ->when(!empty($data['skin_type_id']), function ($q) use ($data) {
                 $skinTypeIds = is_array($data['skin_type_id']) ? $data['skin_type_id'] : [$data['skin_type_id']];
@@ -156,7 +160,7 @@ class ProductService
                 $goalIds = is_array($data['goal_id']) ? $data['goal_id'] : [$data['goal_id']];
                 $q->whereHas('goals', fn ($gQ) => $gQ->whereIn('routine_goals.id', $goalIds));
             })
-            ->paginate(10);
+            ->paginate($perPage);
 
         return [
             'status' => true,

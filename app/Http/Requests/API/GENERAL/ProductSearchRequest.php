@@ -15,13 +15,29 @@ class ProductSearchRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        $term = $this->input('query') ?? $this->input('search') ?? $this->input('q') ?? '';
+        $this->merge([
+            'query' => is_string($term) ? trim($term) : '',
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      */
     public function rules(): array
     {
         return [
-            'query' => ['required', 'string', 'min:1'],
-            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'query'        => ['nullable', 'string'],
+            'search'       => ['nullable', 'string'],
+            'q'            => ['nullable', 'string'],
+            'per_page'     => ['nullable', 'integer', 'min:1', 'max:100'],
+            'skin_type_id' => ['nullable'],
+            'concern_id'   => ['nullable'],
+            'goal_id'      => ['nullable'],
         ];
     }
 }
