@@ -154,6 +154,9 @@ class ProductResource extends JsonResource
                 return $this->images
                     ->filter(function ($img) use ($mainUrl, $mainRaw) {
                         $imgRaw = ltrim($img->images ?? '', '/');
+                        if (str_contains($imgRaw, '_gallery_1.webp')) {
+                            return false;
+                        }
                         if (!empty($mainRaw) && $imgRaw === $mainRaw) {
                             return false;
                         }
@@ -168,6 +171,9 @@ class ProductResource extends JsonResource
                 return $this->images
                     ->filter(function ($img) use ($mainUrl, $mainRaw) {
                         $imgRaw = ltrim($img->images ?? '', '/');
+                        if (str_contains($imgRaw, '_gallery_1.webp')) {
+                            return false;
+                        }
                         if (!empty($mainRaw) && $imgRaw === $mainRaw) {
                             return false;
                         }

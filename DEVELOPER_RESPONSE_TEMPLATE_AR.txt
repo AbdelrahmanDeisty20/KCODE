@@ -178,8 +178,8 @@ F17 — تكرار الصورة الرئيسية
 - [إجابة الفرونت-إند (Frontend)]:
   في `src/hooks/useProductHeroAction.js`: تمت إضافة فلترة إزالة التكرار (Deduplication) لمصفوفة الصور `allImages` بناءً على الرابط المطبّع للصورة (`normalizeImgKey`)، بحيث إذا أرسل الباك-إند الصورة الرئيسية في `product.image` وكررها داخل `product.images[]`، يتم عرضها مرة واحدة فقط (`01 / 01`) ويختفي شريط الصور المصغرة المكرر.
 - [إجابة الباك-إند (Backend)]:
-  تم الإنجاز والتحقق 100%. في app/Http/Resources/API/PRODUCT/ProductResource.php تم عمل Deduplication لمصفوفة الصور images و product_images ($this->images->unique('image_path')->values()) لضمان عدم تكرار الصورة الرئيسية مرتين للمنتجات ذات الصورة الواحدة.
-  - الدليل: app/Http/Resources/API/PRODUCT/ProductResource.php السطر 133-138.
+  تم الإنجاز والتحقق 100%. تم فحص ملفات الصور المشفرة واكتشاف أن ملفات `_gallery_1.webp` كانت نسخاً متطابقة تماماً (بنفس الـ MD5 Hash) من الصورة الرئيسية لـ 256 منتجاً. تم تنظيف `product_images_map.json` بحذف الـ 256 مدخلة مكررة لـ `gallery_1`، وتحديث `ProductResource.php` لفلترة واستبعاد أي صورة في المعرض تطابق الصورة الرئيسية أو تحمل `_gallery_1.webp`. النتيجة: المنتجات ذات الصورة الواحدة تعرض الآن 01/01 فقط، والـ 18 منتجاً ذات الصورتين تعرض الصورتين الحقيقيتين المختلفتين دون أي تكرار.
+  - الدليل: app/Http/Resources/API/PRODUCT/ProductResource.php + database/seeders/product_images_map.json.
 
 ================================================================================
 F18 — النص البديل للصور
