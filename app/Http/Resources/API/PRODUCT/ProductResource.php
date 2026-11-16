@@ -149,10 +149,32 @@ class ProductResource extends JsonResource
             'offers' => OfferResource::collection($this->whenLoaded('offers')),
             'category' => CategoryResource::make($this->whenLoaded('category')),
             'images' => ProductImagesResource::collection($this->whenLoaded('images', function () {
-                return $this->images->unique('image_path')->values();
+                $mainUrl = $this->image_path;
+                $mainRaw = ltrim($this->image ?? '', '/');
+                return $this->images
+                    ->filter(function ($img) use ($mainUrl, $mainRaw) {
+                        $imgRaw = ltrim($img->images ?? '', '/');
+                        if (!empty($mainRaw) && $imgRaw === $mainRaw) {
+                            return false;
+                        }
+                        return $img->image_path && $img->image_path !== $mainUrl;
+                    })
+                    ->unique('image_path')
+                    ->values();
             })),
             'product_images' => ProductImagesResource::collection($this->whenLoaded('images', function () {
-                return $this->images->unique('image_path')->values();
+                $mainUrl = $this->image_path;
+                $mainRaw = ltrim($this->image ?? '', '/');
+                return $this->images
+                    ->filter(function ($img) use ($mainUrl, $mainRaw) {
+                        $imgRaw = ltrim($img->images ?? '', '/');
+                        if (!empty($mainRaw) && $imgRaw === $mainRaw) {
+                            return false;
+                        }
+                        return $img->image_path && $img->image_path !== $mainUrl;
+                    })
+                    ->unique('image_path')
+                    ->values();
             })),
         ];
     }
