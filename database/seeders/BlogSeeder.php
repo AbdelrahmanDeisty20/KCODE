@@ -419,10 +419,12 @@ class BlogSeeder extends Seeder
             $bData['category_id'] = $categories[$catSlug]->id ?? null;
             $bData['author_id'] = $author->id;
 
-            $blog = Blog::updateOrCreate(
-                ['slug' => $bData['slug']],
-                $bData
-            );
+            $blog = Blog::withTrashed()->firstOrNew(['slug' => $bData['slug']]);
+            if ($blog->exists && $blog->trashed()) {
+                $blog->restore();
+            }
+            $blog->fill($bData);
+            $blog->save();
 
             // Sync Tags
             $tagIds = [];
