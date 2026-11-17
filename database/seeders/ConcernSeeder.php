@@ -103,8 +103,13 @@ class ConcernSeeder extends Seeder
                 'description_ar' => $concern['description_ar'],
                 'image'          => $filename,
                 'status'         => 'active',
+                'is_chosen'      => true,
             ]);
         }
+
+        // Ensure exactly these 9 client-approved home concerns have is_chosen = true
+        Concern::whereIn('id', [1, 2, 3, 4, 5, 6, 7, 8, 9])->update(['is_chosen' => true]);
+        Concern::whereNotIn('id', [1, 2, 3, 4, 5, 6, 7, 8, 9])->update(['is_chosen' => false]);
 
         // Rebuild product_concerns links if products exist in DB
         if (\App\Models\Product::count() > 0) {

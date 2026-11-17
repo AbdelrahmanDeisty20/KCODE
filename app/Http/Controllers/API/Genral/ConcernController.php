@@ -27,6 +27,15 @@ class ConcernController extends Controller
         return $this->success($concerns['data'], $concerns['message']);
     }
 
+    public function chosen()
+    {
+        $concerns = $this->concernService->chosen();
+        if (!$concerns['status']) {
+            return $this->error($concerns['message'], 404);
+        }
+        return $this->success($concerns['data'], $concerns['message']);
+    }
+
     public function show($id)
     {
         $concern = $this->concernService->show($id);

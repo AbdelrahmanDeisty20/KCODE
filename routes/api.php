@@ -113,6 +113,7 @@ Route::middleware([SetLang::class])->group(function () {
     // Concerns Routes
     Route::controller(ConcernController::class)->group(function () {
         Route::get('/concerns', 'index');
+        Route::get('/concerns/chosen', 'chosen');
         Route::get('/concerns/{id}', 'show');
     });
     // Offers Routes

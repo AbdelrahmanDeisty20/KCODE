@@ -15,10 +15,11 @@ class ConcernResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id'          => $this->id,
+            'name'        => $this->name,
             'description' => $this->description,
-            'image' => $this->image_path,
+            'image'       => $this->image_path,
+            'is_chosen'   => (bool) ($this->is_chosen ?? false),
         ];
     }
 }

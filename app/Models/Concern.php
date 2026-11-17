@@ -14,7 +14,17 @@ class Concern extends Model
         'description_en',
         'image',
         'status',
+        'is_chosen',
     ];
+
+    protected $casts = [
+        'is_chosen' => 'boolean',
+    ];
+
+    public function scopeChosen($query)
+    {
+        return $query->where('is_chosen', true);
+    }
 
     public function getNameAttribute($value)
     {
@@ -37,7 +47,7 @@ class Concern extends Model
         $path = ltrim(preg_replace('/^concerns\//i', '', $path), '/');
         $path = 'concerns/' . $path;
 
-        return asset('storage/' . $path);
+        return Storage::disk('public')->url($path);
     }
 
     public function products()
