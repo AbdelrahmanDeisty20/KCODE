@@ -100,6 +100,13 @@ class CategoryResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
+                    ->state(function ($record) {
+                        $img = $record->image;
+                        if (!$img) return null;
+                        if (filter_var($img, FILTER_VALIDATE_URL)) return $img;
+                        $clean = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $img), '/');
+                        return str_starts_with($clean, 'categories/') ? $clean : 'categories/' . $clean;
+                    })
                     ->circular(),
 
                 Tables\Columns\TextColumn::make('name')
@@ -122,10 +129,12 @@ class CategoryResource extends Resource
             ])
             ->actions([
                 \App\Helpers\FilamentImageHelper::makeUpdateImageAction('categories', 'image'),
+                \App\Helpers\FilamentImageHelper::makeRemoveBackgroundAction('image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->headerActions([
+                \App\Helpers\FilamentImageHelper::makeBulkRemoveBackgroundHeaderAction(Category::class, 'image'),
                 \App\Helpers\FilamentImageHelper::makeBulkUploadHeaderAction('categories', Category::class),
                 \App\Helpers\FilamentExportHelper::makeImportHeaderAction(
                     'categories',
@@ -149,6 +158,7 @@ class CategoryResource extends Resource
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    \App\Helpers\FilamentImageHelper::makeRemoveBackgroundBulkAction('image'),
                     \App\Helpers\FilamentExportHelper::makeExportBulkAction(
                         'selected_categories',
                         $exportHeaders,

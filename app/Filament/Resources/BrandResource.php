@@ -86,6 +86,13 @@ class BrandResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Logo' : 'الشعار')
+                    ->state(function ($record) {
+                        $img = $record->image;
+                        if (!$img) return null;
+                        if (filter_var($img, FILTER_VALIDATE_URL)) return $img;
+                        $clean = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $img), '/');
+                        return str_starts_with($clean, 'brands/') ? $clean : 'brands/' . $clean;
+                    })
                     ->circular(),
                 Tables\Columns\TextColumn::make('name')
                     ->label($isEn ? 'Brand Name' : 'اسم العلامة التجارية')
@@ -107,10 +114,12 @@ class BrandResource extends Resource
             ])
             ->actions([
                 \App\Helpers\FilamentImageHelper::makeUpdateImageAction('brands', 'image'),
+                \App\Helpers\FilamentImageHelper::makeRemoveBackgroundAction('image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->headerActions([
+                \App\Helpers\FilamentImageHelper::makeBulkRemoveBackgroundHeaderAction(Brand::class, 'image'),
                 \App\Helpers\FilamentImageHelper::makeBulkUploadHeaderAction('brands', Brand::class),
                 \App\Helpers\FilamentExportHelper::makeImportHeaderAction(
                     'brands',
@@ -134,6 +143,7 @@ class BrandResource extends Resource
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    \App\Helpers\FilamentImageHelper::makeRemoveBackgroundBulkAction('image'),
                     \App\Helpers\FilamentExportHelper::makeExportBulkAction(
                         'selected_brands',
                         $exportHeaders,

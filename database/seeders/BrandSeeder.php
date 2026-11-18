@@ -66,13 +66,13 @@ class BrandSeeder extends Seeder
                 $existing->update([
                     'name_en' => $brand['name_en'],
                     'name_ar' => $brand['name_ar'],
-                    'image'   => $brand['logo'],
+                    'image'   => 'brands/' . $brand['logo'],
                 ]);
             } else {
                 Brand::create([
                     'name_en' => $brand['name_en'],
                     'name_ar' => $brand['name_ar'],
-                    'image'   => $brand['logo'],
+                    'image'   => 'brands/' . $brand['logo'],
                 ]);
             }
         }

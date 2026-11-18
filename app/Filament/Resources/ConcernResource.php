@@ -98,6 +98,13 @@ class ConcernResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
+                    ->state(function ($record) {
+                        $img = $record->image;
+                        if (!$img) return null;
+                        if (filter_var($img, FILTER_VALIDATE_URL)) return $img;
+                        $clean = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $img), '/');
+                        return str_starts_with($clean, 'concerns/') ? $clean : 'concerns/' . $clean;
+                    })
                     ->circular(),
 
                 Tables\Columns\TextColumn::make('name_ar')
@@ -123,15 +130,18 @@ class ConcernResource extends Resource
             ])
             ->actions([
                 \App\Helpers\FilamentImageHelper::makeUpdateImageAction('concerns', 'image'),
+                \App\Helpers\FilamentImageHelper::makeRemoveBackgroundAction('image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->headerActions([
+                \App\Helpers\FilamentImageHelper::makeBulkRemoveBackgroundHeaderAction(Concern::class, 'image'),
                 \App\Helpers\FilamentImageHelper::makeBulkUploadHeaderAction('concerns', Concern::class),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    \App\Helpers\FilamentImageHelper::makeRemoveBackgroundBulkAction('image'),
                 ]),
             ]);
     }

@@ -13,6 +13,7 @@ class EditProduct extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            \App\Helpers\FilamentImageHelper::makeRemoveBackgroundAction('image'),
             Actions\DeleteAction::make(),
         ];
     }

@@ -98,6 +98,13 @@ class SkinTypeResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->label($isEn ? 'Image' : 'الصورة')
+                    ->state(function ($record) {
+                        $img = $record->image;
+                        if (!$img) return null;
+                        if (filter_var($img, FILTER_VALIDATE_URL)) return $img;
+                        $clean = ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $img), '/');
+                        return str_starts_with($clean, 'skin_types/') ? $clean : 'skin_types/' . $clean;
+                    })
                     ->circular(),
 
                 Tables\Columns\TextColumn::make('name')
@@ -124,6 +131,7 @@ class SkinTypeResource extends Resource
             ])
             ->actions([
                 \App\Helpers\FilamentImageHelper::makeUpdateImageAction('skin_types', 'image'),
+                \App\Helpers\FilamentImageHelper::makeRemoveBackgroundAction('image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
@@ -133,6 +141,7 @@ class SkinTypeResource extends Resource
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    \App\Helpers\FilamentImageHelper::makeRemoveBackgroundBulkAction('image'),
                 ]),
             ]);
     }

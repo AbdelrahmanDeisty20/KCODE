@@ -238,12 +238,14 @@ class BlogResource extends Resource
             ])
             ->actions([
                 \App\Helpers\FilamentImageHelper::makeUpdateImageAction('blogs', 'featured_image'),
+                \App\Helpers\FilamentImageHelper::makeRemoveBackgroundAction('featured_image'),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    \App\Helpers\FilamentImageHelper::makeRemoveBackgroundBulkAction('featured_image'),
                 ]),
             ]);
     }

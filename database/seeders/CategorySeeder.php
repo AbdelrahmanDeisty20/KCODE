@@ -79,7 +79,7 @@ class CategorySeeder extends Seeder
                 'name_ar' => $cat['name_ar'],
                 'description_ar' => self::descriptions()[$cat['name_en']]['ar'] ?? null,
                 'description_en' => self::descriptions()[$cat['name_en']]['en'] ?? null,
-                'image'   => $cat['image'],
+                'image'   => 'categories/' . $cat['image'],
             ]);
         }
     }

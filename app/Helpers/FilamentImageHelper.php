@@ -3,6 +3,9 @@
 namespace App\Helpers;
 
 use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
+use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
@@ -14,8 +17,13 @@ use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Database\Seeders\ImageDownloader;
+use App\Models\Product;
+use App\Models\ProductImage;
+use App\Models\Category;
+use App\Services\BackgroundRemoverService;
 
 class FilamentImageHelper
 {
@@ -305,4 +313,382 @@ class FilamentImageHelper
                 }
             });
     }
+
+    /**
+     * Create a row action button to remove background using Remove.bg API.
+     */
+    public static function makeRemoveBackgroundAction(
+        string $imageField = 'image',
+        string $disk = 'public'
+    ): Action {
+        $isEn = app()->getLocale() === 'en';
+
+        return Action::make('removeBackground')
+            ->label($isEn ? 'Remove Background' : 'إزالة الخلفية')
+            ->icon('heroicon-o-sparkles')
+            ->color('warning')
+            ->requiresConfirmation()
+            ->modalHeading(fn ($record) => $isEn ? 'Remove Image Background' : 'إزالة خلفية صورة ' . ($record instanceof Product ? 'المنتج' : 'العنصر'))
+            ->modalDescription($isEn
+                ? 'The current image background will be removed and replaced with a transparent PNG. Are you sure?'
+                : 'سيتم قص خلفية الصورة الحالية واستبدالها بصورة شفافة PNG، هل أنت متأكد؟')
+            ->modalSubmitActionLabel($isEn ? 'Remove Background' : 'قص وإزالة الخلفية')
+            ->schema(function ($record) use ($imageField, $disk, $isEn) {
+                $schema = [];
+
+                if (!$record) {
+                    return $schema;
+                }
+
+                // If Product model with possible gallery sub-images
+                if ($record instanceof Product) {
+                    $hasSubImages = method_exists($record, 'images') && $record->images()->exists();
+                    $hasJsonImages = is_array($record->images) && !empty($record->images);
+
+                    // Main image preview + toggle
+                    if (!empty($record->{$imageField})) {
+                        $mainSrc = filter_var($record->{$imageField}, FILTER_VALIDATE_URL)
+                            ? $record->{$imageField}
+                            : \Illuminate\Support\Facades\Storage::disk($disk)->url(ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $record->{$imageField}), '/'));
+
+                        $schema[] = Placeholder::make('main_preview')
+                            ->label($isEn ? 'Main Image Preview' : 'معاينة الصورة الرئيسية')
+                            ->content(new HtmlString('<div style="margin-bottom:8px;"><img src="' . e($mainSrc) . '" style="max-height: 140px; border-radius: 8px; border: 2px solid #eab308; object-fit: contain; background: repeating-conic-gradient(#eee 0% 25%, white 0% 50%) 50% / 16px 16px;" /></div>'));
+
+                        $schema[] = Checkbox::make('process_main')
+                            ->label($isEn ? 'Process Main Image' : 'إزالة خلفية الصورة الرئيسية')
+                            ->default(true);
+                    }
+
+                    // Gallery sub-images options
+                    if ($hasSubImages || $hasJsonImages) {
+                        $galleryOptions = [];
+                        if ($hasSubImages) {
+                            foreach ($record->images as $subImg) {
+                                $galleryOptions[$subImg->id] = ($isEn ? 'Sub-Image #' : 'صورة فرعية رقم ') . $subImg->id . ' (' . basename($subImg->images) . ')';
+                            }
+                        }
+                        if ($hasJsonImages) {
+                            foreach ($record->images as $idx => $p) {
+                                $galleryOptions["json_{$idx}"] = ($isEn ? 'Gallery Image #' : 'صورة المعرض رقم ') . ($idx + 1) . ' (' . basename($p) . ')';
+                            }
+                        }
+
+                        if (!empty($galleryOptions)) {
+                            $schema[] = CheckboxList::make('gallery_images')
+                                ->label($isEn ? 'Select Gallery Images to Process' : 'حدد الصور الفرعية من المعرض المراد إزالة خلفيتها')
+                                ->options($galleryOptions)
+                                ->helperText($isEn
+                                    ? 'Leave unselected to only process the main image.'
+                                    : 'اختر صور المعرض المراد قصها، أو اتركها فارغة لمعالجة الصورة الرئيسية فقط.');
+                        }
+                    }
+                } else {
+                    // For any other model (Category, Brand, Concern, etc.)
+                    $currentValue = $record->{$imageField} ?? null;
+                    if (!empty($currentValue)) {
+                        $src = filter_var($currentValue, FILTER_VALIDATE_URL)
+                            ? $currentValue
+                            : \Illuminate\Support\Facades\Storage::disk($disk)->url(ltrim(preg_replace('/^(storage\/)?(app\/public\/)?/', '', $currentValue), '/'));
+
+                        $schema[] = Placeholder::make('record_preview')
+                            ->label($isEn ? 'Current Image' : 'الصورة الحالية')
+                            ->content(new HtmlString('<div style="margin-bottom:8px;"><img src="' . e($src) . '" style="max-height: 140px; border-radius: 8px; border: 2px solid #eab308; object-fit: contain; background: repeating-conic-gradient(#eee 0% 25%, white 0% 50%) 50% / 16px 16px;" /></div>'));
+                    }
+                }
+
+                return $schema;
+            })
+            ->action(function ($record, array $data = []) use ($imageField, $disk, $isEn) {
+                try {
+                    $service = app(BackgroundRemoverService::class);
+                    $processed = 0;
+
+                    if ($record instanceof Product) {
+                        $processMain = $data['process_main'] ?? true;
+                        $gallerySelected = $data['gallery_images'] ?? [];
+
+                        if ($processMain && !empty($record->{$imageField})) {
+                            $service->removeForModel($record, $imageField, $disk);
+                            $processed++;
+                        }
+
+                        if (!empty($gallerySelected)) {
+                            foreach ($gallerySelected as $selId) {
+                                if (str_starts_with($selId, 'json_')) {
+                                    $idx = (int) str_replace('json_', '', $selId);
+                                    $service->removeForJsonArray($record, 'images', [$idx], $disk);
+                                    $processed++;
+                                } else {
+                                    $subImg = ProductImage::find($selId);
+                                    if ($subImg) {
+                                        $service->removeForGalleryImage($subImg, $disk);
+                                        $processed++;
+                                    }
+                                }
+                            }
+                        }
+
+                        // If neither was selected or form submitted directly, fallback to main image
+                        if ($processed === 0 && !empty($record->{$imageField})) {
+                            $service->removeForModel($record, $imageField, $disk);
+                            $processed++;
+                        }
+                    } else {
+                        $service->removeForModel($record, $imageField, $disk);
+                        $processed++;
+                    }
+
+                    Notification::make()
+                        ->title($isEn ? 'Background removed successfully' : 'تمت إزالة الخلفية بنجاح')
+                        ->body($isEn
+                            ? "Processed {$processed} image(s) and converted to transparent PNG."
+                            : "تم قص الخلفية بنجاح وحفظ الصورة بصيغة PNG شفافة.")
+                        ->success()
+                        ->send();
+                } catch (\Throwable $e) {
+                    Notification::make()
+                        ->title($isEn ? 'Failed to remove background' : 'فشلت إزالة الخلفية')
+                        ->body($e->getMessage())
+                        ->danger()
+                        ->persistent()
+                        ->send();
+                }
+            });
+    }
+
+    /**
+     * Create a bulk action to remove backgrounds from all selected records in any table.
+     */
+    public static function makeRemoveBackgroundBulkAction(
+        string $imageField = 'image',
+        string $disk = 'public'
+    ): BulkAction {
+        $isEn = app()->getLocale() === 'en';
+
+        return BulkAction::make('removeBackgroundBulk')
+            ->label($isEn ? 'Remove Background (Selected)' : 'إزالة خلفيات المحدد')
+            ->icon('heroicon-o-sparkles')
+            ->color('warning')
+            ->requiresConfirmation()
+            ->modalHeading($isEn ? 'Remove Backgrounds for Selected Items' : 'إزالة خلفيات العناصر المحددة')
+            ->modalDescription($isEn
+                ? 'Remove.bg will be called to process and convert images for all selected records to transparent PNGs. Are you sure?'
+                : 'سيتم استدعاء Remove.bg وقص خلفيات الصور لجميع العناصر المحددة وتحديثها بصيغة PNG شفافة. هل أنت متأكد؟')
+            ->modalSubmitActionLabel($isEn ? 'Confirm & Process' : 'تأكيد وقص الخلفيات')
+            ->action(function (\Illuminate\Support\Collection $records) use ($imageField, $disk, $isEn) {
+                $service = app(BackgroundRemoverService::class);
+                $successCount = 0;
+                $failCount = 0;
+                $errors = [];
+
+                foreach ($records as $record) {
+                    try {
+                        $field = property_exists($record, 'featured_image') || isset($record->featured_image) ? 'featured_image' : $imageField;
+                        if (!empty($record->{$field})) {
+                            $service->removeForModel($record, $field, $disk);
+                            $successCount++;
+                        }
+                    } catch (\Throwable $e) {
+                        $failCount++;
+                        $name = $record->name_ar ?? $record->name_en ?? $record->title_ar ?? $record->id;
+                        $errors[] = "{$name}: " . $e->getMessage();
+                    }
+                }
+
+                if ($successCount > 0) {
+                    Notification::make()
+                        ->title($isEn ? 'Backgrounds removed successfully' : 'تمت إزالة الخلفيات بنجاح')
+                        ->body($isEn
+                            ? "Successfully processed {$successCount} record(s)." . ($failCount > 0 ? " ({$failCount} failed)" : '')
+                            : "تم بنجاح معالجة وتحديث {$successCount} عنصر." . ($failCount > 0 ? " (وفشل {$failCount})" : ''))
+                        ->success()
+                        ->send();
+                }
+
+                if ($failCount > 0) {
+                    Notification::make()
+                        ->title($isEn ? "Failed to process {$failCount} item(s)" : "تعذر معالجة بعض العناصر ({$failCount})")
+                        ->body(implode("\n", array_slice($errors, 0, 3)))
+                        ->danger()
+                        ->persistent()
+                        ->send();
+                }
+            });
+    }
+
+    /**
+     * Create a header action to remove backgrounds in bulk by Category or by multi-selecting items.
+     */
+    public static function makeBulkRemoveBackgroundHeaderAction(
+        string $modelClass,
+        string $imageField = 'image',
+        string $disk = 'public'
+    ): Action {
+        $isEn = app()->getLocale() === 'en';
+        $isProduct = $modelClass === Product::class;
+
+        return Action::make('bulk_remove_background_header')
+            ->label($isEn ? 'Bulk Remove Backgrounds' : '⚡ إزالة خلفيات (بالقسم أو التحديد)')
+            ->icon('heroicon-o-sparkles')
+            ->color('warning')
+            ->modalHeading($isEn ? 'Bulk Remove Image Backgrounds' : 'إزالة خلفيات الصور دفعة واحدة')
+            ->modalDescription($isEn
+                ? 'Select a category or choose items to remove backgrounds using Remove.bg.'
+                : 'حدد قسماً لمعالجة كافة منتجاته دفعة واحدة، أو اختر عناصر معينة لقص وتفريغ خلفيات صورها.')
+            ->modalSubmitActionLabel($isEn ? 'Start Processing' : 'بدء معالجة الخلفيات')
+            ->schema(function () use ($isProduct, $modelClass, $imageField, $isEn) {
+                if ($isProduct) {
+                    return [
+                        Select::make('scope')
+                            ->label($isEn ? 'Selection Scope' : 'نطاق التحديد')
+                            ->options([
+                                'by_category' => $isEn ? 'By Category (All products in selected category)' : 'حسب القسم (معالجة جميع منتجات قسم كامل)',
+                                'by_products' => $isEn ? 'Select Specific Products' : 'تحديد منتجات معينة (اختيار متعدد)',
+                                'all'         => $isEn ? 'All Products with Images' : 'جميع المنتجات التي لها صور',
+                            ])
+                            ->default('by_category')
+                            ->reactive(),
+
+                        Select::make('category_id')
+                            ->label($isEn ? 'Category' : 'القسم المطلوب')
+                            ->options(function () use ($isEn) {
+                                return Category::all()->pluck(
+                                    $isEn ? 'name_en' : 'name_ar',
+                                    'id'
+                                )->map(fn ($name, $id) => ($name ?: "Category #{$id}"))->toArray();
+                            })
+                            ->searchable()
+                            ->visible(fn ($get) => ($get('scope') ?? 'by_category') === 'by_category')
+                            ->required(fn ($get) => ($get('scope') ?? 'by_category') === 'by_category'),
+
+                        Select::make('product_ids')
+                            ->label($isEn ? 'Select Products' : 'اختر المنتجات')
+                            ->multiple()
+                            ->searchable()
+                            ->options(function () use ($isEn) {
+                                return Product::whereNotNull('image')->pluck(
+                                    $isEn ? 'name_en' : 'name_ar',
+                                    'id'
+                                )->map(fn ($name, $id) => ($name ?: "Product #{$id}"))->toArray();
+                            })
+                            ->visible(fn ($get) => $get('scope') === 'by_products')
+                            ->required(fn ($get) => $get('scope') === 'by_products'),
+
+                        Checkbox::make('process_sub_images')
+                            ->label($isEn ? 'Also process gallery sub-images' : 'معالجة الصور الفرعية في المعرض أيضاً إن وجدت')
+                            ->default(false),
+                    ];
+                }
+
+                return [
+                    Select::make('scope')
+                        ->label($isEn ? 'Selection Scope' : 'نطاق التحديد')
+                        ->options([
+                            'by_items' => $isEn ? 'Select Specific Items' : 'تحديد عناصر معينة (اختيار متعدد)',
+                            'all'      => $isEn ? 'All Items with Images' : 'جميع العناصر التي لها صور',
+                        ])
+                        ->default('by_items')
+                        ->reactive(),
+
+                    Select::make('item_ids')
+                        ->label($isEn ? 'Select Items' : 'اختر العناصر')
+                        ->multiple()
+                        ->searchable()
+                        ->options(function () use ($modelClass, $imageField, $isEn) {
+                            return $modelClass::whereNotNull($imageField)->get()->pluck(
+                                $isEn ? 'name_en' : 'name_ar',
+                                'id'
+                            )->map(function ($name, $id) use ($modelClass) {
+                                if (!$name) {
+                                    $rec = $modelClass::find($id);
+                                    $name = $rec->name_ar ?? $rec->name_en ?? $rec->title_ar ?? "Item #{$id}";
+                                }
+                                return $name;
+                            })->toArray();
+                        })
+                        ->visible(fn ($get) => ($get('scope') ?? 'by_items') === 'by_items')
+                        ->required(fn ($get) => ($get('scope') ?? 'by_items') === 'by_items'),
+                ];
+            })
+            ->action(function (array $data) use ($modelClass, $isProduct, $imageField, $disk, $isEn) {
+                $service = app(BackgroundRemoverService::class);
+                $records = collect();
+
+                if ($isProduct) {
+                    $scope = $data['scope'] ?? 'by_category';
+                    if ($scope === 'by_category' && !empty($data['category_id'])) {
+                        $records = Product::where('category_id', $data['category_id'])
+                            ->whereNotNull('image')
+                            ->get();
+                    } elseif ($scope === 'by_products' && !empty($data['product_ids'])) {
+                        $records = Product::whereIn('id', $data['product_ids'])->get();
+                    } elseif ($scope === 'all') {
+                        $records = Product::whereNotNull('image')->get();
+                    }
+                } else {
+                    $scope = $data['scope'] ?? 'by_items';
+                    if ($scope === 'by_items' && !empty($data['item_ids'])) {
+                        $records = $modelClass::whereIn('id', $data['item_ids'])->get();
+                    } elseif ($scope === 'all') {
+                        $records = $modelClass::whereNotNull($imageField)->get();
+                    }
+                }
+
+                if ($records->isEmpty()) {
+                    Notification::make()
+                        ->title($isEn ? 'No records found to process' : 'لم يتم العثور على عناصر لمعالجتها')
+                        ->warning()
+                        ->send();
+                    return;
+                }
+
+                $successCount = 0;
+                $failCount = 0;
+                $errors = [];
+
+                foreach ($records as $record) {
+                    try {
+                        $field = property_exists($record, 'featured_image') || isset($record->featured_image) ? 'featured_image' : $imageField;
+                        if (!empty($record->{$field})) {
+                            $service->removeForModel($record, $field, $disk);
+                            $successCount++;
+                        }
+
+                        if ($isProduct && !empty($data['process_sub_images']) && method_exists($record, 'images')) {
+                            foreach ($record->images as $subImg) {
+                                try {
+                                    $service->removeForGalleryImage($subImg, $disk);
+                                } catch (\Throwable $subE) {
+                                }
+                            }
+                        }
+                    } catch (\Throwable $e) {
+                        $failCount++;
+                        $name = $record->name_ar ?? $record->name_en ?? $record->title_ar ?? $record->id;
+                        $errors[] = "{$name}: " . $e->getMessage();
+                    }
+                }
+
+                if ($successCount > 0) {
+                    Notification::make()
+                        ->title($isEn ? 'Backgrounds removed successfully' : 'تمت إزالة الخلفيات بنجاح')
+                        ->body($isEn
+                            ? "Successfully processed {$successCount} item(s)." . ($failCount > 0 ? " ({$failCount} failed)" : '')
+                            : "تم بنجاح معالجة وتحديث صور {$successCount} عنصر." . ($failCount > 0 ? " (وفشل {$failCount})" : ''))
+                        ->success()
+                        ->send();
+                }
+
+                if ($failCount > 0) {
+                    Notification::make()
+                        ->title($isEn ? "Failed to process {$failCount} item(s)" : "تعذر معالجة بعض العناصر ({$failCount})")
+                        ->body(implode("\n", array_slice($errors, 0, 3)))
+                        ->danger()
+                        ->persistent()
+                        ->send();
+                }
+            });
+    }
 }
+

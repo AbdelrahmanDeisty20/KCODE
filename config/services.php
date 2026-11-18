@@ -41,4 +41,8 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
 
+    'remove_bg' => [
+        'key' => env('REMOVE_BG_API_KEY'),
+    ],
+
 ];

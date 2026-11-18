@@ -809,11 +809,13 @@ class ProductResource extends Resource
             ])
             ->actions([
                 \App\Helpers\FilamentImageHelper::makeUpdateImageAction('products', 'image'),
+                \App\Helpers\FilamentImageHelper::makeRemoveBackgroundAction('image'),
                 Actions\ViewAction::make(),
                 Actions\EditAction::make(),
                 Actions\DeleteAction::make(),
             ])
             ->headerActions([
+                \App\Helpers\FilamentImageHelper::makeBulkRemoveBackgroundHeaderAction(Product::class, 'image'),
                 \App\Helpers\FilamentImageHelper::makeBulkUploadHeaderAction('products', Product::class),
                 \App\Helpers\FilamentExportHelper::makeImportHeaderAction(
                     'products',
@@ -876,6 +878,7 @@ class ProductResource extends Resource
             ->bulkActions([
                 Actions\BulkActionGroup::make([
                     Actions\DeleteBulkAction::make(),
+                    \App\Helpers\FilamentImageHelper::makeRemoveBackgroundBulkAction('image'),
                     \App\Helpers\FilamentExportHelper::makeExportBulkAction(
                         'selected_products',
                         $exportHeaders,
