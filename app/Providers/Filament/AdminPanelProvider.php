@@ -62,6 +62,10 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-user-circle'),
             ])
             ->navigationItems([
+                \Filament\Navigation\NavigationItem::make(fn () => app()->getLocale() === 'en' ? 'View Website' : 'عرض الموقع')
+                    ->url('https://kcode-pied.vercel.app/', shouldOpenInNewTab: true)
+                    ->icon('heroicon-o-globe-alt')
+                    ->sort(-1),
                 \Filament\Navigation\NavigationItem::make(fn () => app()->getLocale() === 'en' ? 'Edit Profile' : 'تعديل الحساب')
                     ->url(fn (): string => \App\Filament\Pages\Auth\EditProfile::getUrl())
                     ->icon('heroicon-o-user-circle')
