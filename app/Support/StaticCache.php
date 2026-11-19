@@ -3,11 +3,15 @@
 namespace App\Support;
 
 use Closure;
+use DateTimeInterface;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use UnitEnum;
 
 class StaticCache
 {
@@ -16,6 +20,12 @@ class StaticCache
      * Automatically invalidated whenever the underlying model is changed in Filament or anywhere else.
      */
     public const DEFAULT_TTL = 86400;
+
+    /**
+     * Key prefix (bumped to v2 schema storing pure primitive envelopes so Laravel's
+     * default `'serializable_classes' => false` security policy never breaks cache hits).
+     */
+    private const KEY_PREFIX = 'kcode_sc2';
 
     /**
      * Sentinel constants to distinguish cache misses from cached null values.
@@ -76,7 +86,8 @@ class StaticCache
 
     /**
      * Remember a value inside a named cache group.
-     * Works reliably on ALL Laravel cache drivers (database, file, redis, array).
+     * Dehydrates Models & Collections into pure arrays so `'serializable_classes' => false`
+     * works seamlessly across database, file, redis, and array drivers.
      */
     public static function remember(string $group, string $key, Closure $callback, int $ttl = self::DEFAULT_TTL): mixed
     {
@@ -88,11 +99,11 @@ class StaticCache
 
         try {
             $version = self::getGroupVersion($group);
-            $fullKey = "kcode_sc:{$group}:v{$version}:{$key}";
+            $fullKey = self::KEY_PREFIX . ":{$group}:v{$version}:{$key}";
 
             $cached = Cache::get($fullKey, self::MISS_SENTINEL);
-            if ($cached !== self::MISS_SENTINEL) {
-                $value = $cached === self::NULL_SENTINEL ? null : $cached;
+            if ($cached !== self::MISS_SENTINEL && !self::containsIncompleteClass($cached)) {
+                $value = $cached === self::NULL_SENTINEL ? null : self::rehydrate($cached);
                 self::$runtime[$runtimeKey] = $value;
                 return $value;
             }
@@ -100,7 +111,8 @@ class StaticCache
             $value = $callback();
             self::$runtime[$runtimeKey] = $value;
 
-            Cache::put($fullKey, $value === null ? self::NULL_SENTINEL : $value, $ttl);
+            $payload = $value === null ? self::NULL_SENTINEL : self::dehydrate($value);
+            Cache::put($fullKey, $payload, $ttl);
             self::trackKey($group, $fullKey, $ttl);
 
             return $value;
@@ -121,7 +133,7 @@ class StaticCache
             self::clearRuntimeGroup($group);
 
             try {
-                $keysKey = "kcode_sc_keys:{$group}";
+                $keysKey = self::KEY_PREFIX . "_keys:{$group}";
                 $trackedKeys = Cache::get($keysKey, []);
 
                 if (is_array($trackedKeys)) {
@@ -132,7 +144,7 @@ class StaticCache
 
                 Cache::forget($keysKey);
 
-                $versionKey = "kcode_sc_v:{$group}";
+                $versionKey = self::KEY_PREFIX . "_v:{$group}";
                 $nextVersion = ((int) Cache::get($versionKey, 1)) + 1;
                 Cache::forever($versionKey, $nextVersion);
                 self::$runtimeVersions[$group] = $nextVersion;
@@ -196,6 +208,133 @@ class StaticCache
     }
 
     /**
+     * Convert Models & Collections recursively into plain scalar/array envelopes (zero PHP objects).
+     */
+    private static function dehydrate(mixed $value): mixed
+    {
+        if ($value instanceof Model) {
+            $attributes = [];
+            foreach ($value->getAttributes() as $attrKey => $attrVal) {
+                $attributes[$attrKey] = self::dehydrate($attrVal);
+            }
+
+            $relations = [];
+            foreach ($value->getRelations() as $relName => $relVal) {
+                $relations[$relName] = self::dehydrate($relVal);
+            }
+
+            return [
+                '__kcode_sc_type' => 'model',
+                'class'           => get_class($value),
+                'connection'      => $value->getConnectionName(),
+                'attributes'      => $attributes,
+                'relations'       => $relations,
+            ];
+        }
+
+        if ($value instanceof EloquentCollection) {
+            return [
+                '__kcode_sc_type' => 'eloquent_collection',
+                'items'           => array_map([self::class, 'dehydrate'], $value->all()),
+            ];
+        }
+
+        if ($value instanceof Collection) {
+            return [
+                '__kcode_sc_type' => 'collection',
+                'items'           => array_map([self::class, 'dehydrate'], $value->all()),
+            ];
+        }
+
+        if (is_array($value)) {
+            $out = [];
+            foreach ($value as $k => $v) {
+                $out[$k] = self::dehydrate($v);
+            }
+            return $out;
+        }
+
+        if ($value instanceof DateTimeInterface) {
+            return $value->format('Y-m-d H:i:s');
+        }
+
+        if ($value instanceof UnitEnum) {
+            return $value instanceof \BackedEnum ? $value->value : $value->name;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Restore Models & Collections recursively from plain array envelopes.
+     */
+    private static function rehydrate(mixed $value): mixed
+    {
+        if (!is_array($value)) {
+            return $value;
+        }
+
+        if (isset($value['__kcode_sc_type'])) {
+            $type = $value['__kcode_sc_type'];
+
+            if ($type === 'model') {
+                $class = $value['class'] ?? null;
+                if (!$class || !class_exists($class) || !is_subclass_of($class, Model::class)) {
+                    throw new \RuntimeException('Invalid cached model class: ' . (string) $class);
+                }
+
+                /** @var Model $instance */
+                $instance = new $class();
+                $model = $instance->newFromBuilder($value['attributes'] ?? [], $value['connection'] ?? null);
+
+                foreach ($value['relations'] ?? [] as $relName => $relPayload) {
+                    $model->setRelation($relName, self::rehydrate($relPayload));
+                }
+
+                return $model;
+            }
+
+            if ($type === 'eloquent_collection') {
+                $items = array_map([self::class, 'rehydrate'], $value['items'] ?? []);
+                if (!empty($items) && $items[0] instanceof Model) {
+                    return $items[0]->newCollection($items);
+                }
+                return new EloquentCollection($items);
+            }
+
+            if ($type === 'collection') {
+                return collect(array_map([self::class, 'rehydrate'], $value['items'] ?? []));
+            }
+        }
+
+        $out = [];
+        foreach ($value as $k => $v) {
+            $out[$k] = self::rehydrate($v);
+        }
+        return $out;
+    }
+
+    /**
+     * Guard against any unserialized __PHP_Incomplete_Class objects inside legacy/corrupted payloads.
+     */
+    private static function containsIncompleteClass(mixed $value): bool
+    {
+        if ($value instanceof \__PHP_Incomplete_Class) {
+            return true;
+        }
+
+        if (is_array($value)) {
+            foreach ($value as $item) {
+                if (self::containsIncompleteClass($item)) {
+                    return true;
+                }
+            }
+        }
+
+        return is_object($value);
+    }
+
+    /**
      * Get the current version number for a cache group.
      */
     private static function getGroupVersion(string $group): int
@@ -204,7 +343,7 @@ class StaticCache
             return self::$runtimeVersions[$group];
         }
 
-        $versionKey = "kcode_sc_v:{$group}";
+        $versionKey = self::KEY_PREFIX . "_v:{$group}";
         $version = (int) Cache::get($versionKey, 0);
 
         if ($version < 1) {
@@ -221,7 +360,7 @@ class StaticCache
      */
     private static function trackKey(string $group, string $fullKey, int $ttl): void
     {
-        $keysKey = "kcode_sc_keys:{$group}";
+        $keysKey = self::KEY_PREFIX . "_keys:{$group}";
         $trackedKeys = Cache::get($keysKey, []);
 
         if (!is_array($trackedKeys)) {
