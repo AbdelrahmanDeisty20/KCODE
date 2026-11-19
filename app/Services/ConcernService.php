@@ -4,18 +4,18 @@ namespace App\Services;
 
 use App\Http\Resources\API\CONCERN\ConcernResource;
 use App\Models\Concern;
+use App\Support\StaticCache;
 
 class ConcernService
 {
     public function index()
     {
-        $query = Concern::orderBy('id', 'asc');
+        $concerns = StaticCache::remember('concerns', 'all', fn () => Concern::orderBy('id', 'asc')->get());
 
         if (request()->has('chosen') || request()->has('is_chosen') || request('filter') === 'chosen') {
-            $query->where('is_chosen', true);
+            $concerns = $concerns->where('is_chosen', true)->values();
         }
 
-        $concerns = $query->get();
         if ($concerns->isEmpty()) {
             return [
                 'status' => false,
@@ -32,9 +32,10 @@ class ConcernService
 
     public function chosen()
     {
-        $concerns = Concern::where('is_chosen', true)->orderBy('id', 'asc')->get();
+        $all = StaticCache::remember('concerns', 'all', fn () => Concern::orderBy('id', 'asc')->get());
+        $concerns = $all->where('is_chosen', true)->values();
         if ($concerns->isEmpty()) {
-            $concerns = Concern::orderBy('id', 'asc')->limit(9)->get();
+            $concerns = $all->take(9)->values();
         }
         return [
             'status' => true,
@@ -45,7 +46,8 @@ class ConcernService
 
     public function show($id)
     {
-        $concern = Concern::find($id);
+        $all = StaticCache::remember('concerns', 'all', fn () => Concern::orderBy('id', 'asc')->get());
+        $concern = $all->firstWhere('id', $id);
         if (!$concern) {
             return [
                 'status' => false,

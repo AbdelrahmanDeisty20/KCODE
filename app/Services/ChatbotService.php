@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ChatbotMessage;
 use App\Models\ChatbotSuggestion;
+use App\Support\StaticCache;
 use Illuminate\Support\Facades\Log;
 
 class ChatbotService
@@ -48,9 +49,11 @@ class ChatbotService
         try {
             $isAr = app()->getLocale() === 'ar';
 
-            $dbSuggestions = ChatbotSuggestion::where('is_active', true)
-                ->orderBy('sort_order', 'asc')
-                ->get();
+            $dbSuggestions = StaticCache::remember('chatbot_suggestions', 'active', function () {
+                return ChatbotSuggestion::where('is_active', true)
+                    ->orderBy('sort_order', 'asc')
+                    ->get();
+            });
 
             if ($dbSuggestions->isNotEmpty()) {
                 $suggestions = $dbSuggestions->map(function ($item) use ($isAr) {

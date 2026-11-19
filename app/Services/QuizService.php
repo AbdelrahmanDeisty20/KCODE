@@ -19,6 +19,7 @@ use App\Models\RoutineStep;
 use App\Models\Setting;
 use App\Models\SkinType;
 use App\Services\ActivityLogger;
+use App\Support\StaticCache;
 
 class QuizService
 {
@@ -30,11 +31,13 @@ class QuizService
     }
 
     /**
-     * Get all questions with options ordered by step_number.
+     * Get all questions with options ordered by step_number (cached).
      */
     public function getquestions(): array
     {
-        $questions = QuizQuestion::with('options')->orderBy('step_number', 'asc')->get();
+        $questions = StaticCache::remember('quiz_questions', 'all_with_options', function () {
+            return QuizQuestion::with('options')->orderBy('step_number', 'asc')->get();
+        });
         if ($questions->isEmpty()) {
             return [
                 'status' => false,

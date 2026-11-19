@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Resources\API\CATEGORY\SkinTypeResource;
 use App\Models\Product;
 use App\Models\SkinType;
+use App\Support\StaticCache;
 
 class SkinService
 {
@@ -15,7 +16,8 @@ class SkinService
 
     public function SkinTypes()
     {
-        $skinTypes = SkinType::paginate(10);
+        $allSkinTypes = StaticCache::remember('skin_types', 'all', fn () => SkinType::all());
+        $skinTypes = StaticCache::paginateCollection($allSkinTypes, 10);
         if ($skinTypes->isEmpty()) {
             return [
                 'status' => false,

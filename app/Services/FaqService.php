@@ -3,15 +3,18 @@
 namespace App\Services;
 
 use App\Models\Faq;
+use App\Support\StaticCache;
 
 class FaqService
 {
     /**
-     * Get all active FAQs sorted.
+     * Get all active FAQs sorted (cached).
      */
     public function getActiveFaqs(): array
     {
-        $faqs = Faq::where('is_active', true)->orderBy('sort_order', 'asc')->get();
+        $faqs = StaticCache::remember('faqs', 'active', function () {
+            return Faq::where('is_active', true)->orderBy('sort_order', 'asc')->get();
+        });
 
         if ($faqs->isEmpty()) {
             return [

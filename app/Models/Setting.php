@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Support\StaticCache;
 use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
@@ -24,17 +25,40 @@ class Setting extends Model
     }
 
     /**
-     * Get setting value by key_en safely.
+     * Get all settings as a cached associative array keyed by key_en.
+     */
+    public static function allMap(): array
+    {
+        return StaticCache::remember('settings', 'all_map', function () {
+            $map = [];
+            foreach (self::all() as $setting) {
+                $map[$setting->key_en] = [
+                    'key_ar'   => $setting->key_ar,
+                    'key_en'   => $setting->key_en,
+                    'value_ar' => $setting->value_ar,
+                    'value_en' => $setting->value_en,
+                ];
+            }
+            return $map;
+        });
+    }
+
+    /**
+     * Get setting value by key_en safely (backed by StaticCache).
      */
     public static function get(string $key, $default = null)
     {
-        $setting = self::where('key_en', $key)->first();
-        if (!$setting) {
+        $map = self::allMap();
+        if (!isset($map[$key])) {
             return $default;
         }
 
+        $setting = $map[$key];
         $lang = request()->header('lang') ?? app()->getLocale();
-        $lang = strtolower(substr($lang, 0, 2));
-        return $lang === 'en' ? ($setting->value_en ?: $setting->value_ar) : ($setting->value_ar ?: $setting->value_en);
+        $lang = strtolower(substr((string) $lang, 0, 2));
+
+        return $lang === 'en'
+            ? ($setting['value_en'] ?: $setting['value_ar'])
+            : ($setting['value_ar'] ?: $setting['value_en']);
     }
 }

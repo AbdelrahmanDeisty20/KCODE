@@ -9,15 +9,18 @@ use App\Models\Address;
 use App\Models\Country;
 use App\Models\State;
 use App\Models\City;
+use App\Support\StaticCache;
 
 class LocationService
 {
     /**
-     * Get all active countries (paginated).
+     * Get all active countries (cached).
      */
     public function getCountries(): array
     {
-        $countries = Country::where('is_active', true)->get();
+        $countries = StaticCache::remember('locations', 'countries', function () {
+            return Country::where('is_active', true)->get();
+        });
 
         return [
             'status'  => true,
@@ -27,55 +30,75 @@ class LocationService
     }
 
     /**
-     * Get all active states for a country (paginated).
+     * Get all active states for a country (cached).
      */
     public function getStatesByCountry(int $countryId): array
     {
-        $country = Country::find($countryId);
-        if (!$country) {
+        $cached = StaticCache::remember('locations', "states_country_{$countryId}", function () use ($countryId) {
+            $country = Country::find($countryId);
+            if (!$country) {
+                return ['exists' => false, 'states' => collect()];
+            }
+
+            return [
+                'exists' => true,
+                'states' => State::where('country_id', $countryId)->where('is_active', true)->get(),
+            ];
+        });
+
+        if (!$cached['exists']) {
             return [
                 'status'  => false,
                 'message' => __('messages.country_not_found'),
             ];
         }
 
-        $states = State::where('country_id', $countryId)->where('is_active', true)->get();
-
         return [
             'status'  => true,
             'message' => __('messages.states_retrieved_successfully'),
-            'data'    => StateResource::collection($states),
+            'data'    => StateResource::collection($cached['states']),
         ];
     }
 
     /**
-     * Get all active cities for a state (paginated).
+     * Get all active cities for a state (cached).
      */
     public function getCitiesByState(int $stateId): array
     {
-        $state = State::find($stateId);
-        if (!$state) {
+        $cached = StaticCache::remember('locations', "cities_state_{$stateId}", function () use ($stateId) {
+            $state = State::find($stateId);
+            if (!$state) {
+                return ['exists' => false, 'cities' => collect()];
+            }
+
+            return [
+                'exists' => true,
+                'cities' => City::where('state_id', $stateId)->where('is_active', true)->get(),
+            ];
+        });
+
+        if (!$cached['exists']) {
             return [
                 'status'  => false,
                 'message' => __('messages.state_not_found'),
             ];
         }
 
-        $cities = City::where('state_id', $stateId)->where('is_active', true)->get();
-
         return [
             'status'  => true,
             'message' => __('messages.cities_retrieved_successfully'),
-            'data'    => CityResource::collection($cities),
+            'data'    => CityResource::collection($cached['cities']),
         ];
     }
 
     /**
-     * Get all active cities with shipping fee (unpaginated).
+     * Get all active cities with shipping fee (cached).
      */
     public function getShippingFees(): array
     {
-        $cities = City::where('is_active', true)->get();
+        $cities = StaticCache::remember('locations', 'shipping_fees', function () {
+            return City::where('is_active', true)->get();
+        });
 
         return [
             'status'  => true,

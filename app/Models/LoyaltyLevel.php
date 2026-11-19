@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Support\StaticCache;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class LoyaltyLevel extends Model
@@ -64,17 +66,23 @@ class LoyaltyLevel extends Model
     // ---- Static Helpers ----
 
     /**
+     * Get all active loyalty levels from StaticCache.
+     */
+    public static function cachedActive(): Collection
+    {
+        return StaticCache::remember('loyalty_levels', 'active', function () {
+            return static::active()->orderBy('sort_order', 'asc')->get();
+        });
+    }
+
+    /**
      * ايجاد مستوى المستخدم بناءً على نقاطه
      */
     public static function forPoints(int $points): ?self
     {
-        return static::active()
-            ->where('min_points', '<=', $points)
-            ->where(function ($q) use ($points) {
-                $q->whereNull('max_points')
-                  ->orWhere('max_points', '>=', $points);
-            })
-            ->orderBy('min_points', 'desc')
+        return static::cachedActive()
+            ->filter(fn (self $level) => $level->min_points <= $points && ($level->max_points === null || $level->max_points >= $points))
+            ->sortByDesc('min_points')
             ->first();
     }
 
@@ -83,9 +91,9 @@ class LoyaltyLevel extends Model
      */
     public static function nextAfter(int $currentMinPoints): ?self
     {
-        return static::active()
-            ->where('min_points', '>', $currentMinPoints)
-            ->orderBy('min_points', 'asc')
+        return static::cachedActive()
+            ->filter(fn (self $level) => $level->min_points > $currentMinPoints)
+            ->sortBy('min_points')
             ->first();
     }
 }

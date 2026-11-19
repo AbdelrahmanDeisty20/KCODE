@@ -4,12 +4,13 @@ namespace App\Services;
 
 use App\Http\Resources\API\BRAND\BrandResource;
 use App\Models\Brand;
+use App\Support\StaticCache;
 
 class BrandService
 {
     public function index()
     {
-        $brands = Brand::all();
+        $brands = StaticCache::remember('brands', 'all', fn () => Brand::all());
         if ($brands->isEmpty()) {
             return [
                 'status' => false,

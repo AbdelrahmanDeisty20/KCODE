@@ -3,16 +3,17 @@
 namespace App\Services;
 
 use App\Models\BlogTag;
+use App\Support\StaticCache;
 use Illuminate\Support\Str;
 
 class BlogTagService
 {
     /**
-     * Get all blog tags.
+     * Get all blog tags (cached).
      */
     public function index()
     {
-        $tags = BlogTag::all();
+        $tags = StaticCache::remember('blog_tags', 'all', fn () => BlogTag::all());
 
         if ($tags->isEmpty()) {
             return [

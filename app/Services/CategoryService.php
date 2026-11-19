@@ -4,12 +4,15 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\SubCategory;
+use App\Support\StaticCache;
 
 class CategoryService
 {
     public function index()
     {
-        $categories = Category::paginate(10);
+        $allCategories = StaticCache::remember('categories', 'all', fn () => Category::all());
+        $categories = StaticCache::paginateCollection($allCategories, 10);
+
         if ($categories->isEmpty()) {
             return [
                 'status' => false,
@@ -26,7 +29,8 @@ class CategoryService
 
     public function show($id)
     {
-        $category = Category::find($id);
+        $allCategories = StaticCache::remember('categories', 'all', fn () => Category::all());
+        $category = $allCategories->firstWhere('id', $id);
         if (!$category) {
             return [
                 'status' => false,

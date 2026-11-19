@@ -3,19 +3,22 @@
 namespace App\Services;
 
 use App\Models\CareGuide;
+use App\Support\StaticCache;
 
 class CareGuideService
 {
     /**
-     * Get active care guide with its items.
+     * Get active care guide with its items (cached).
      */
     public function getCareGuide(): array
     {
-        $careGuide = CareGuide::with(['items' => function ($query) {
-            $query->where('is_active', true)->orderBy('sort_order', 'asc');
-        }])
-        ->where('is_active', true)
-        ->first();
+        $careGuide = StaticCache::remember('care_guide', 'active', function () {
+            return CareGuide::with(['items' => function ($query) {
+                $query->where('is_active', true)->orderBy('sort_order', 'asc');
+            }])
+            ->where('is_active', true)
+            ->first();
+        });
 
         if (!$careGuide) {
             return [

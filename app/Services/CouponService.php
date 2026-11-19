@@ -170,14 +170,18 @@ class CouponService
             $lang = 'ar';
         }
 
-        // 1. Text: Read strictly from settings table (returns null if empty)
-        $announcementSetting = Setting::where('key_en', 'announcement_text')->first();
-        $settingText = $announcementSetting ? trim($lang === 'en' ? ($announcementSetting->value_en ?: $announcementSetting->value_ar) : ($announcementSetting->value_ar ?: $announcementSetting->value_en)) : '';
+        $settingsMap = Setting::allMap();
+
+        // 1. Text: Read strictly from cached settings map (returns null if empty)
+        $announcementSetting = $settingsMap['announcement_text'] ?? null;
+        $settingText = $announcementSetting ? trim($lang === 'en'
+            ? ($announcementSetting['value_en'] ?: $announcementSetting['value_ar'])
+            : ($announcementSetting['value_ar'] ?: $announcementSetting['value_en'])) : '';
         $bannerText = !empty($settingText) ? $settingText : null;
 
-        // 2. Code: Read strictly from settings table (returns null if empty)
-        $codeSetting = Setting::where('key_en', 'announcement_code')->first();
-        $settingCode = $codeSetting ? trim($codeSetting->value_en ?: $codeSetting->value_ar) : '';
+        // 2. Code: Read strictly from cached settings map (returns null if empty)
+        $codeSetting = $settingsMap['announcement_code'] ?? null;
+        $settingCode = $codeSetting ? trim($codeSetting['value_en'] ?: $codeSetting['value_ar']) : '';
         $couponCode = !empty($settingCode) ? $settingCode : null;
 
         return [

@@ -8,60 +8,61 @@ use App\Models\TermsOfUse;
 use App\Models\PrivacyPolicy;
 use App\Models\CouponPolicy;
 use App\Models\PointsProgramPolicy;
+use App\Support\StaticCache;
 
 class PolicyService
 {
     /**
-     * Get Shipping Policy.
+     * Get Shipping Policy (cached).
      */
     public function getShippingPolicy(): array
     {
-        $policy = ShippingPolicy::where('is_active', true)->first();
+        $policy = StaticCache::remember('policies', 'shipping', fn () => ShippingPolicy::where('is_active', true)->first());
         return $this->formatResponse($policy);
     }
 
     /**
-     * Get Return Policy.
+     * Get Return Policy (cached).
      */
     public function getReturnPolicy(): array
     {
-        $policy = ReturnPolicy::where('is_active', true)->first();
+        $policy = StaticCache::remember('policies', 'return', fn () => ReturnPolicy::where('is_active', true)->first());
         return $this->formatResponse($policy);
     }
 
     /**
-     * Get Terms of Use.
+     * Get Terms of Use (cached).
      */
     public function getTermsOfUse(): array
     {
-        $policy = TermsOfUse::where('is_active', true)->first();
+        $policy = StaticCache::remember('policies', 'terms', fn () => TermsOfUse::where('is_active', true)->first());
         return $this->formatResponse($policy);
     }
 
     /**
-     * Get Privacy Policy.
+     * Get Privacy Policy (cached).
      */
     public function getPrivacyPolicy(): array
     {
-        $policy = PrivacyPolicy::where('is_active', true)->first();
+        $policy = StaticCache::remember('policies', 'privacy', fn () => PrivacyPolicy::where('is_active', true)->first());
         return $this->formatResponse($policy);
     }
 
     /**
-     * Get Coupon Policy.
+     * Get Coupon Policy (cached).
      */
     public function getCouponPolicy(): array
     {
-        $policy = CouponPolicy::where('is_active', true)->first();
+        $policy = StaticCache::remember('policies', 'coupon', fn () => CouponPolicy::where('is_active', true)->first());
         return $this->formatResponse($policy);
     }
 
     /**
-     * Get Points Program Policy.
+     * Get Points Program Policy (cached).
      */
     public function getPointsProgramPolicy(): array
     {
-        $policy = PointsProgramPolicy::where('is_active', true)->first();
+        $policy = StaticCache::remember('policies', 'points_program', fn () => PointsProgramPolicy::where('is_active', true)->first());
         return $this->formatResponse($policy);
     }
 

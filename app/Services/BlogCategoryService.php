@@ -3,16 +3,19 @@
 namespace App\Services;
 
 use App\Models\BlogCategory;
+use App\Support\StaticCache;
 use Illuminate\Support\Str;
 
 class BlogCategoryService
 {
     /**
-     * Get all blog categories.
+     * Get all blog categories (cached).
      */
     public function index()
     {
-        $categories = BlogCategory::withCount(['blogs' => fn($q) => $q->published()])->get();
+        $categories = StaticCache::remember('blog_categories', 'all_with_count', function () {
+            return BlogCategory::withCount(['blogs' => fn($q) => $q->published()])->get();
+        });
 
         if ($categories->isEmpty()) {
             return [

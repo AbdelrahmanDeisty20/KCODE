@@ -55,13 +55,14 @@ class SettingService
      */
     public function getAllSettings(): array
     {
-        $settings = Setting::all()->mapWithKeys(function ($setting) {
-            return [$setting->key_en => [
-                'key_ar' => $setting->key_ar,
-                'key_en' => $setting->key_en,
-                'value' => $setting->value,
-                'value_ar' => $setting->value_ar,
-                'value_en' => $setting->value_en,
+        $isAr = app()->getLocale() === 'ar';
+        $settings = collect(Setting::allMap())->mapWithKeys(function ($setting, $keyEn) use ($isAr) {
+            return [$keyEn => [
+                'key_ar'   => $setting['key_ar'],
+                'key_en'   => $setting['key_en'],
+                'value'    => $isAr ? $setting['value_ar'] : $setting['value_en'],
+                'value_ar' => $setting['value_ar'],
+                'value_en' => $setting['value_en'],
             ]];
         });
 

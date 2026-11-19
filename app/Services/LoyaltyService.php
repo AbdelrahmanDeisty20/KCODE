@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Models\LoyaltyLevel;
+use App\Support\StaticCache;
 
 class LoyaltyService
 {
@@ -31,11 +32,11 @@ class LoyaltyService
     }
 
     /**
-     * Get all active loyalty levels.
+     * Get all active loyalty levels (cached).
      */
     public function getAllLevels(): array
     {
-        $levels = LoyaltyLevel::active()->orderBy('sort_order', 'asc')->get();
+        $levels = LoyaltyLevel::cachedActive();
 
         return [
             'status'  => true,

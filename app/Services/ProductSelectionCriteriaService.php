@@ -3,17 +3,20 @@
 namespace App\Services;
 
 use App\Models\ProductSelectionCriteria;
+use App\Support\StaticCache;
 
 class ProductSelectionCriteriaService
 {
     /**
-     * Get active product selection criteria and methodology items from database.
+     * Get active product selection criteria and methodology items from database (cached).
      */
     public function getCriteria(): array
     {
-        $allCriteria = ProductSelectionCriteria::active()
-            ->orderBy('sort_order', 'asc')
-            ->get();
+        $allCriteria = StaticCache::remember('selection_criteria', 'active', function () {
+            return ProductSelectionCriteria::active()
+                ->orderBy('sort_order', 'asc')
+                ->get();
+        });
 
         $modalCriteria = $allCriteria->where('type', 'modal_criteria')->values();
         $accordionItems = $allCriteria->where('type', 'accordion_item')->values();

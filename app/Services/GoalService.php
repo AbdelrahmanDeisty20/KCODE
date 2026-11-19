@@ -4,12 +4,13 @@ namespace App\Services;
 
 use App\Http\Resources\API\Routines\RoutineGoalResource;
 use App\Models\RoutineGoal;
+use App\Support\StaticCache;
 
 class GoalService
 {
     public function index()
     {
-        $rotiens = RoutineGoal::all();
+        $rotiens = StaticCache::remember('routine_goals', 'all', fn () => RoutineGoal::all());
         if ($rotiens->isEmpty()) {
             return [
                 'status' => false,

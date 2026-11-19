@@ -22,9 +22,11 @@ use App\Observers\OfferObserver;
 use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
 use App\Observers\ReviewObserver;
+use App\Observers\StaticCacheObserver;
 use App\Observers\SubCategoryObserver;
 use App\Observers\UserObserver;
 use App\Services\ActivityLogger;
+use App\Support\StaticCache;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
@@ -57,6 +59,13 @@ class AppServiceProvider extends ServiceProvider
         Brand::observe(BrandObserver::class);
         Review::observe(ReviewObserver::class);
         Address::observe(AddressObserver::class);
+
+        // Automatically invalidate static data caches whenever changed from Dashboard or anywhere else
+        foreach (array_keys(StaticCache::MODEL_GROUPS) as $cachedModelClass) {
+            if (class_exists($cachedModelClass)) {
+                $cachedModelClass::observe(StaticCacheObserver::class);
+            }
+        }
 
         // Listen for Web & Filament Admin Logins
         Event::listen(Login::class, function (Login $event) {
