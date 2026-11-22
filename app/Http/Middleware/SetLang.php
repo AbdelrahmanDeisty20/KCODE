@@ -16,26 +16,41 @@ class SetLang
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $currentLocale = session('lang') ?? $request->cookie('lang');
-        $locale = $request->header('lang')
-            ?? $request->query('lang')
-            ?? $currentLocale
-            ?? $request->header('Accept-Language')
-            ?? config('app.locale');
-
-        // Clean and confirm language
-        $locale = substr($locale, 0, 2);  // Take first two characters
         $supportedLocales = ['en', 'ar'];
+        $currentLocale = ($request->hasSession() ? $request->session()->get('lang') : null)
+            ?? $request->cookie('lang');
 
-        if (in_array($locale, $supportedLocales)) {
-            App::setLocale($locale);
-            if (session('lang') !== $locale) {
-                session(['lang' => $locale]);
+        $candidates = [
+            $request->header('lang'),
+            $request->query('lang'),
+            $request->header('X-Language'),
+            $request->header('Accept-Language'),
+            $currentLocale,
+            config('app.locale'),
+        ];
+
+        $resolvedLocale = null;
+        foreach ($candidates as $candidate) {
+            if (!is_string($candidate) || trim($candidate) === '') {
+                continue;
             }
-            if ($request->cookie('lang') !== $locale) {
-                cookie()->queue('lang', $locale, 60 * 24 * 365);
+            $code = strtolower(substr(trim($candidate), 0, 2));
+            if (in_array($code, $supportedLocales, true)) {
+                $resolvedLocale = $code;
+                break;
             }
         }
+
+        if ($resolvedLocale !== null) {
+            App::setLocale($resolvedLocale);
+            if ($request->hasSession() && $request->session()->get('lang') !== $resolvedLocale) {
+                $request->session()->put('lang', $resolvedLocale);
+            }
+            if ($request->cookie('lang') !== $resolvedLocale) {
+                cookie()->queue('lang', $resolvedLocale, 60 * 24 * 365);
+            }
+        }
+
         return $next($request);
     }
 }

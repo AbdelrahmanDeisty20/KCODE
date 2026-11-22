@@ -12,6 +12,7 @@ use App\Models\ProductConcern;
 use App\Models\ProductSkinType;
 use App\Models\ProductRoutine;
 use App\Models\RoutineStep;
+use Database\Seeders\Support\R479EnglishBuilder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
@@ -151,6 +152,8 @@ class ProductSeeder extends Seeder
 
         $allConcerns = Concern::all();
         $allRoutineGoals = \App\Models\RoutineGoal::all();
+        $metaMaps = R479EnglishBuilder::loadMetadataMaps();
+        $snapshotBySku = $metaMaps['snapshot'];
 
         $seededCount = 0;
         $complementaryPass = [];
@@ -209,7 +212,6 @@ class ProductSeeder extends Seeder
             $descAr = $pData['description_ar'] ?? '';
             $briefAr = !empty($pData['brief_ar']) ? $pData['brief_ar'] : $descAr;
             $activesStr = !empty($pData['customer_actives']) ? $pData['customer_actives'] : ($pData['key_actives'] ?? '');
-            $descEn = "Authentic {$brandName} {$prodName} ({$size})" . ($activesStr ? " formulated with {$activesStr}." : ".");
             $nameAr = "{$brandName} {$prodName}";
 
             $imgData = $imagesMap[$sku] ?? null;
@@ -231,8 +233,6 @@ class ProductSeeder extends Seeder
                 ? implode("\n\n", $benefitsLinesAr)
                 : (!empty($pData['actives_ar']) ? "المكونات الفعالة: {$pData['actives_ar']}" : $briefAr);
 
-            $enKeyBenefits = $activesStr ? "Key Active Ingredients: {$activesStr}" : $descEn;
-
             // Verdict & Safety Notes
             $verdictNoteAr = !empty($pData['verdict_note_ar']) ? $pData['verdict_note_ar'] : $descAr;
             $skinFitGuidanceAr = $pData['skin_fit_guidance_ar'] ?? '';
@@ -253,10 +253,26 @@ class ProductSeeder extends Seeder
 
             $toleranceNum = (float) ($pData['tolerance'] ?? 75);
             $strengthLevel = $toleranceNum >= 70 ? 'High' : ($toleranceNum <= 45 ? 'Low' : 'Medium');
+            $sensitiveEligible = (bool) ($pData['sensitive_eligible'] ?? ($toleranceNum >= 60));
 
-            // Usage instructions JSON from the 4 R479 usage tiles
+            $tempProduct = new Product([
+                'sku' => $sku,
+                'name_en' => $fullEnName,
+                'short_name_en' => $prodName,
+                'size' => $size ?: '30ml',
+                'routine_step_number' => (int) ($pData['routine_step_number'] ?? 3),
+                'sensitive_eligible' => $sensitiveEligible,
+            ]);
+            $tempProduct->setRelation('brand', $brand);
+            $tempProduct->setRelation('category', $category);
+            $tempProduct->setRelation('subCategory', $subCategory);
+
+            $enContext = R479EnglishBuilder::buildContext($tempProduct, $snapshotBySku[$sku] ?? null, $pData);
+            $enScalars = R479EnglishBuilder::buildScalarEnglishFields($enContext);
+
+            // Usage instructions JSON from the 4 R479 usage tiles + English counterparts
             $tiles = $pData['usage_tiles_detailed'] ?? [];
-            $usageInstructionsJson = [
+            $usageInstructionsJson = R479EnglishBuilder::mergeUsageInstructionsEnglish([
                 'timing_label'       => $tiles[0]['label'] ?? 'التوقيت',
                 'timing'             => $tiles[0]['value'] ?? (!empty($pData['timing_ar']) ? $pData['timing_ar'] : 'صباحًا ومساءً'),
                 'timing_note'        => $tiles[0]['note'] ?? '',
@@ -282,9 +298,9 @@ class ProductSeeder extends Seeder
                     'actives'            => $pData['actives_ar'] ?? $activesStr,
                     'summary_html'       => $pData['summary_html'] ?? '',
                 ],
-            ];
+            ], $enContext);
 
-            $sensitiveEligible = (bool) ($pData['sensitive_eligible'] ?? ($toleranceNum >= 60));
+            $routineStepsJson = R479EnglishBuilder::mergeRoutineStepsEnglish($pData['routine_steps'] ?? []);
 
             $product = Product::updateOrCreate(
                 ['sku' => $sku],
@@ -301,11 +317,11 @@ class ProductSeeder extends Seeder
                     'stock'                 => (int) ($pData['inventory'] ?? 80),
                     'image'                 => $mainImg,
                     'description_ar'        => $descAr,
-                    'description_en'        => $descEn,
+                    'description_en'        => $enScalars['description_en'],
                     'ingredients_ar'        => $inciText,
                     'ingredients_en'        => $inciText,
                     'how_to_use_ar'         => $howToUseAr,
-                    'how_to_use_en'         => $howToUseAr,
+                    'how_to_use_en'         => $enScalars['how_to_use_en'],
                     'status'                => 'active',
                     'is_best_seller'        => $pIndex < 40,
                     'sales_count'           => max(50, 500 - ($pIndex * 2)),
@@ -313,39 +329,47 @@ class ProductSeeder extends Seeder
                     'barcode'               => $pData['barcode'] ?? '',
                     'sensitive_eligible'    => $sensitiveEligible,
                     'brief_insight_ar'      => $briefAr,
+                    'brief_insight_en'      => $enScalars['brief_insight_en'],
                     'country_of_origin_ar'  => 'كوريا الجنوبية',
+                    'country_of_origin_en'  => $enScalars['country_of_origin_en'],
                     'role_ar'               => $briefAr ?: $subCategoryNameAr,
+                    'role_en'               => $enScalars['role_en'],
                     'limitations_notes_ar'  => $limitationsAr,
+                    'limitations_notes_en'  => $enScalars['limitations_notes_en'],
                     'texture_ar'            => !empty($pData['texture_ar']) ? $pData['texture_ar'] : ($pData['texture'] ?? 'خفيف'),
-                    'texture_en'            => $pData['texture'] ?? 'Lightweight',
+                    'texture_en'            => $enScalars['texture_en'],
                     'why_kcode_ar'          => $whyKcodeAr,
-                    'why_kcode_en'          => $descEn,
+                    'why_kcode_en'          => $enScalars['why_kcode_en'],
                     'usage_frequency_ar'    => !empty($pData['timing_ar']) ? $pData['timing_ar'] : ($tiles[0]['value'] ?? 'صباحًا ومساءً'),
+                    'usage_frequency_en'    => $enScalars['usage_frequency_en'],
                     'active_strength_level' => $strengthLevel,
                     'safety_notes_ar'       => $safetyNotesAr,
-                    'safety_notes_en'       => $pData['sensitivity_reason'] ?? $safetyNotesAr,
+                    'safety_notes_en'       => $enScalars['safety_notes_en'],
                     'ar_key_benefits'       => $arKeyBenefits,
-                    'en_key_benefits'       => $enKeyBenefits,
+                    'en_key_benefits'       => $enScalars['en_key_benefits'],
                     'ar_product_title_seo'  => "{$brandName} {$prodName} | KCODE",
-                    'en_product_title_seo'  => "{$brandName} {$prodName} | KCODE",
-                    'en_short_hook'         => $prodName,
+                    'en_product_title_seo'  => $enScalars['en_product_title_seo'],
+                    'en_short_hook'         => $enScalars['en_short_hook'],
                     'seo_meta_title_ar'     => "{$brandName} {$prodName} | KCODE",
+                    'seo_meta_title_en'     => $enScalars['seo_meta_title_en'],
                     'meta_description_ar'   => $descAr,
-                    'meta_description_en'   => $descEn,
+                    'meta_description_en'   => $enScalars['meta_description_en'],
                     'primary_keyword_ar'    => !empty($pData['actives_ar']) ? $pData['actives_ar'] : $subCategoryNameAr,
-                    'primary_keyword_en'    => $activesStr ?: $subCategoryNameEn,
+                    'primary_keyword_en'    => $enScalars['primary_keyword_en'],
                     'final_url_slug'        => $slug,
                     'image_alt_ar'          => $pData['image_alt_ar'] ?: "{$brandName} {$prodName}",
-                    'image_alt_en'          => $pData['image_alt_en'] ?: "{$brandName} {$prodName}",
+                    'image_alt_en'          => $pData['image_alt_en'] ?: $enScalars['image_alt_en'],
                     'og_title_ar'           => "{$brandName} {$prodName} | KCODE",
+                    'og_title_en'           => $enScalars['og_title_en'],
                     'og_description_ar'     => $briefAr,
-                    'og_description_en'     => $descEn,
+                    'og_description_en'     => $enScalars['og_description_en'],
                     'routine_step_number'   => (int) ($pData['routine_step_number'] ?? 3),
                     'routine_step_title_ar' => $pData['routine_step_title_ar'] ?? $subCategoryNameAr,
-                    'routine_steps_json'    => $pData['routine_steps'] ?? [],
+                    'routine_step_title_en' => $enScalars['routine_step_title_en'],
+                    'routine_steps_json'    => $routineStepsJson,
                     'usage_instructions_json' => $usageInstructionsJson,
                     'product_faqs_json'     => $pData['faqs'] ?? [],
-                    'complementary_routine_json' => $pData['complementary_routine'] ?? [],
+                    'complementary_routine_json' => R479EnglishBuilder::mergeComplementaryRoutineEnglish($pData['complementary_routine'] ?? [], $snapshotBySku),
                 ]
             );
 
@@ -526,7 +550,7 @@ class ProductSeeder extends Seeder
                 $resolvedList[] = $cItem;
             }
             Product::where('id', $prodId)->update([
-                'complementary_routine_json' => $resolvedList,
+                'complementary_routine_json' => R479EnglishBuilder::mergeComplementaryRoutineEnglish($resolvedList, $snapshotBySku),
             ]);
         }
 

@@ -31,6 +31,8 @@ trait HasProductPresentation
      */
     public function getPromoCouponAttribute(): ?array
     {
+        $isAr = $this->isArabicLocale();
+
         // 1. Check if an active general coupon is configured in Dashboard > Coupons
         $coupon = Coupon::where('is_active', true)
             ->where('is_general', true)
@@ -43,9 +45,8 @@ trait HasProductPresentation
             ->first();
 
         if ($coupon) {
-            $isAr = app()->getLocale() == 'ar';
             $defaultText = $coupon->discount_type === 'percentage'
-                ? ($isAr ? "خصم " . (int)$coupon->discount_value . "% على طلبك الأول {$coupon->code}" : "Get " . (int)$coupon->discount_value . "% off your first order {$coupon->code}")
+                ? ($isAr ? 'خصم ' . (int) $coupon->discount_value . "% على طلبك الأول {$coupon->code}" : 'Get ' . (int) $coupon->discount_value . "% off your first order {$coupon->code}")
                 : ($isAr ? "خصم {$coupon->discount_value} ر.ع على طلبك {$coupon->code}" : "Get {$coupon->discount_value} OMR off with {$coupon->code}");
 
             return [
@@ -59,7 +60,11 @@ trait HasProductPresentation
         // 2. Check Dashboard > Settings (key: promo_coupon_code)
         $code = Setting::get('promo_coupon_code');
         if (!empty($code)) {
-            $text = Setting::get('promo_coupon_text', "خصم 10% على طلبك الأول {$code}");
+            $defaultSettingText = $isAr
+                ? "خصم 10% على طلبك الأول {$code}"
+                : "10% off your first order with {$code}";
+            $text = Setting::get('promo_coupon_text', $defaultSettingText);
+
             return [
                 'code' => $code,
                 'text' => $text,
@@ -75,7 +80,7 @@ trait HasProductPresentation
         // 4. Default fallback
         return [
             'code' => 'KCODE10',
-            'text' => app()->getLocale() == 'ar' ? 'خصم 10% على طلبك الأول KCODE10' : '10% off your first order with KCODE10',
+            'text' => $isAr ? 'خصم 10% على طلبك الأول KCODE10' : '10% off your first order with KCODE10',
         ];
     }
 
@@ -84,59 +89,44 @@ trait HasProductPresentation
      */
     public function getSpecificationsAttribute(): array
     {
-        $type = $this->role_ar ?: ($this->role ?: ($this->subCategory?->name ?? ($this->category?->name ?? '')));
-        if (app()->getLocale() === 'ar' || request()->header('lang') === 'ar') {
-            $sunscreenDetailedTypes = [
-                'KC0007' => 'واقي شمس للوجه SPF 50',
-                'KC0159' => 'واقي شمس كيميائي SPF50 وPA++++',
-                'KC0161' => 'واقي شمس بفلاتر فيزيائية وكيميائية SPF50+ وPA+++',
-                'KC0203' => 'واقي شمس كيميائي ستيك SPF 50+',
-                'KC0204' => 'واقي شمس كيميائي ستيك SPF 50+',
-                'KC0215' => 'واقي شمس فيزيائي SPF 30 PA++++',
-                'KC0216' => 'واقي شمس بفلاتر فيزيائية وكيميائية SPF 50+ PA++++',
-                'KC0217' => 'واقي شمس كيميائي SPF 50+ PA++++',
-                'KC0218' => 'واقي شمس كيميائي ستيك SPF 50+ PA++++',
-                'KC0225' => 'واقي شمس كيميائي SPF 50+ PA++++',
-            ];
+        $isAr = $this->isArabicLocale();
 
-            if ($this->sku && isset($sunscreenDetailedTypes[$this->sku])) {
-                $type = $sunscreenDetailedTypes[$this->sku];
-            } else {
-                $typeMap = [
-                    'sunscreen' => 'واقي شمس',
-                    'serum' => 'سيروم',
-                    'toner' => 'تونر',
-                    'cleanser' => 'غسول',
-                    'moisturizer' => 'مرطب',
-                    'cream' => 'كريم مرطب',
-                    'mask' => 'قناع / ماسك',
-                    'cleansing balm' => 'بلسم تنظيف',
-                    'eye care' => 'عناية بالعين',
-                    'exfoliator' => 'مقشّر',
-                    'mist' => 'ميست مرطب',
-                ];
-                $lower = strtolower(trim((string) $type));
-                if (isset($typeMap[$lower])) {
-                    $type = $typeMap[$lower];
-                }
+        if ($isAr) {
+            $type = $this->role_ar ?: ($this->role ?: ($this->subCategory?->name ?? ($this->category?->name ?? '')));
+            $typeMap = [
+                'sunscreen' => 'واقي شمس',
+                'serum' => 'سيروم',
+                'toner' => 'تونر',
+                'cleanser' => 'غسول',
+                'moisturizer' => 'مرطب',
+                'cream' => 'كريم مرطب',
+                'mask' => 'قناع / ماسك',
+                'cleansing balm' => 'بلسم تنظيف',
+                'eye care' => 'عناية بالعين',
+                'exfoliator' => 'مقشّر',
+                'mist' => 'ميست مرطب',
+            ];
+            $lower = strtolower(trim((string) $type));
+            if (isset($typeMap[$lower])) {
+                $type = $typeMap[$lower];
             }
+        } else {
+            $type = $this->english_role;
         }
 
         $fragrance = $this->fragrance;
-        if (empty($fragrance) || $fragrance === 'None' || $fragrance === 'none') {
-            $fragrance = 'دون عطر مضاف أو زيوت عطرية';
+        if (empty($fragrance) || strtolower((string) $fragrance) === 'none') {
+            $fragrance = $isAr ? 'دون عطر مضاف أو زيوت عطرية' : 'Fragrance & essential-oil free';
         }
 
-        $texture = (app()->getLocale() == 'ar' ? ($this->texture_ar ?: $this->texture) : ($this->texture_en ?: $this->texture));
-        if (in_array($this->sku, ['KC0196', 'KC0206'])) {
-            $texture = '';
-        } elseif (empty($texture)) {
-            $texture = 'خفيف وسريع الامتصاص';
+        $texture = $this->texture;
+        if (empty($texture)) {
+            $texture = $isAr ? 'خفيف وسريع الامتصاص' : 'Lightweight and fast-absorbing';
         }
 
         return [
             'brand' => $this->brand?->name ?? '',
-            'full_name' => $this->name_en ?: $this->name,
+            'full_name' => $this->fixedFullName(),
             'barcode' => $this->barcode,
             'type' => $type,
             'size' => $this->size,
@@ -156,7 +146,7 @@ trait HasProductPresentation
             return null;
         }
 
-        $isAr = app()->getLocale() == 'ar';
+        $isAr = $this->isArabicLocale();
         $stepNumber = $this->routine_step_number ?: $this->detectRoutineStepNumber();
 
         $stepTitleEnMap = [
@@ -170,20 +160,33 @@ trait HasProductPresentation
         $subtitleEnMap = [
             'اختياري' => 'Optional',
             'هذا المنتج' => 'This Product',
+            'بحسب الحاجة' => 'As needed',
+            'حسب الحاجة' => 'As needed',
             'صباحاً' => 'Morning',
+            'صباحًا' => 'Morning',
             'مساءً' => 'Evening',
+            'صباحاً ومساءً' => 'Morning & Evening',
+            'صباحًا ومساءً' => 'Morning & Evening',
+            'صباحًا، بعد إزالة الماسك' => 'Morning, after mask removal',
+            'صباحاً، بعد إزالة الماسك' => 'Morning, after mask removal',
+            'بعد إزالة الماسك' => 'After mask removal',
         ];
 
         $formattedSteps = array_map(function ($s) use ($stepNumber, $isAr, $stepTitleEnMap, $subtitleEnMap) {
             $stepIdx = (int) ($s['step'] ?? 1);
             $isCurrent = $stepIdx === (int) $stepNumber;
-            $rawTitle = $s['title'] ?? '';
+            $rawTitle = (string) ($s['title'] ?? '');
             $rawSubtitle = $isCurrent ? ($s['subtitle'] ?? 'هذا المنتج') : ($s['subtitle'] ?? null);
 
-            $enTitle = !empty($s['title_en']) ? $s['title_en'] : ($stepTitleEnMap[$stepIdx] ?? $rawTitle);
-            $enSubtitle = !empty($s['subtitle_en'])
-                ? $s['subtitle_en']
-                : ($rawSubtitle ? ($subtitleEnMap[$rawSubtitle] ?? $rawSubtitle) : null);
+            $enTitle = $this->firstNonArabic([$s['title_en'] ?? null, $rawTitle])
+                ?: ($stepTitleEnMap[$stepIdx] ?? 'Skincare Step');
+
+            $enSubtitle = $this->resolveEnglishRoutineSubtitle(
+                $s['subtitle_en'] ?? null,
+                $rawSubtitle,
+                $subtitleEnMap,
+                $isCurrent
+            );
 
             return [
                 'step' => $stepIdx,
@@ -209,9 +212,54 @@ trait HasProductPresentation
             'total_steps' => count($formattedSteps),
             'step_title' => $isAr
                 ? ($this->routine_step_title_ar ?: ($this->category?->name_ar ?? 'الروتين'))
-                : $headerStepTitleEn,
+                : ($this->firstNonArabic([$this->routine_step_title_en ?? null, $this->routine_step_title_ar ?? null]) ?: $headerStepTitleEn),
             'steps' => $formattedSteps,
         ];
+    }
+
+    protected function resolveEnglishRoutineSubtitle(?string $explicitEn, ?string $rawSubtitle, array $map, bool $isCurrent): ?string
+    {
+        $direct = $this->firstNonArabic([$explicitEn]);
+        if ($direct !== null) {
+            return $direct;
+        }
+
+        if (empty($rawSubtitle)) {
+            return $isCurrent ? 'This Product' : null;
+        }
+
+        $trimmed = trim($rawSubtitle);
+        if (!$this->containsArabic($trimmed)) {
+            return $trimmed;
+        }
+
+        if (isset($map[$trimmed])) {
+            return $map[$trimmed];
+        }
+
+        if (str_contains($trimmed, 'هذا المنتج')) {
+            return 'This Product';
+        }
+        if (str_contains($trimmed, 'اختيار')) {
+            return 'Optional';
+        }
+        if (str_contains($trimmed, 'حاجة')) {
+            return 'As needed';
+        }
+        if (str_contains($trimmed, 'ماسك')) {
+            return 'After mask removal';
+        }
+        if (str_contains($trimmed, 'صباح') && str_contains($trimmed, 'مساء')) {
+            return 'Morning & Evening';
+        }
+        if (str_contains($trimmed, 'صباح')) {
+            return 'Morning';
+        }
+        if (str_contains($trimmed, 'مساء')) {
+            return 'Evening';
+        }
+
+        return $isCurrent ? 'This Product' : null;
     }
 
     /**
@@ -229,7 +277,7 @@ trait HasProductPresentation
             if (str_contains($name, 'sun')) return 5;
         }
 
-        $role = strtolower($this->role_ar ?? ($this->role ?? ''));
+        $role = strtolower($this->role_ar ?? ($this->role_en ?? ''));
         if (str_contains($role, 'غسول') || str_contains($role, 'تنظيف')) return 1;
         if (str_contains($role, 'تونر') || str_contains($role, 'إسنس')) return 2;
         if (str_contains($role, 'سيروم') || str_contains($role, 'علاج') || str_contains($role, 'أمبول')) return 3;
@@ -240,15 +288,16 @@ trait HasProductPresentation
     }
 
     /**
-     * Get structured 4-tile usage instructions (Timing, Amount, Method, Gradual Introduction).
+     * Resolve raw usage_instructions_json merged with catalog seed tiles if empty.
+     *
+     * @return array{raw: array<string, mixed>, tiles: array<int, array<string, mixed>>}
      */
-    public function getUsageInstructionsAttribute(): ?array
+    protected function resolveRawUsageSource(): array
     {
         $raw = is_array($this->usage_instructions_json) ? $this->usage_instructions_json : [];
-        $tiles = $raw['tiles'] ?? [];
+        $tiles = is_array($raw['tiles'] ?? null) ? $raw['tiles'] : [];
 
-        // Fallback to catalog data only if tiles are completely empty in DB
-        if (empty($tiles) && !empty($this->sku)) {
+        if (empty($raw) && empty($tiles) && !empty($this->sku)) {
             static $catalogProducts = null;
             if ($catalogProducts === null) {
                 $path = database_path('seeders/data/r479_products.json');
@@ -259,56 +308,262 @@ trait HasProductPresentation
             }
         }
 
-        if (!empty($raw) || !empty($tiles)) {
-            $t0 = $tiles[0]['text'] ?? ($tiles[0]['value'] ?? ($raw['timing'] ?? $this->usage_frequency));
-            $t1 = $tiles[1]['text'] ?? ($tiles[1]['value'] ?? ($raw['amount'] ?? 'بضع قطرات'));
-            $t2 = $tiles[2]['text'] ?? ($tiles[2]['value'] ?? ($raw['application_method'] ?? 'ربّت بلطف'));
-            $t3 = $tiles[3]['text'] ?? ($tiles[3]['value'] ?? ($raw['gradual_start'] ?? 'ابدأ تدريجيًا'));
+        return ['raw' => $raw, 'tiles' => $tiles];
+    }
 
-            if (app()->getLocale() == 'ar') {
-                return [
-                    'timing_label' => $tiles[0]['label'] ?? ($raw['timing_label'] ?? 'التوقيت'),
-                    'timing' => $t0,
-                    'timing_note' => $tiles[0]['note'] ?? ($raw['timing_note'] ?? 'بعد التدرّج في الاستخدام.'),
-                    'amount_label' => $tiles[1]['label'] ?? ($raw['amount_label'] ?? 'الكمية'),
-                    'amount' => $t1,
-                    'amount_note' => $tiles[1]['note'] ?? ($raw['amount_note'] ?? 'على المناطق المستهدفة.'),
-                    'application_label' => $tiles[2]['label'] ?? ($raw['application_label'] ?? 'طريقة الوضع'),
-                    'application_method' => $t2,
-                    'application_note' => $tiles[2]['note'] ?? ($raw['application_note'] ?? 'حتى الامتصاص، قبل المرطب.'),
-                    'gradual_start_label' => $tiles[3]['label'] ?? ($raw['gradual_start_label'] ?? 'التدرّج'),
-                    'gradual_start' => $t3,
-                    'gradual_start_note' => $tiles[3]['note'] ?? ($raw['gradual_start_note'] ?? 'وزِد التكرار حسب تحمّل بشرتك.'),
-                    'caution' => $raw['caution'] ?? $this->limitations_notes,
-                    'tiles' => $tiles,
-                    'benefits' => $raw['benefits'] ?? null,
-                    'verdict' => $raw['verdict'] ?? null,
-                    'raw_how_to_use' => $this->how_to_use,
-                ];
+    protected function translateUsageTileLabelEn(?string $rawLabel, string $fallback): string
+    {
+        $direct = $this->firstNonArabic([$rawLabel]);
+        if ($direct !== null) {
+            return $direct;
+        }
+
+        $label = trim((string) $rawLabel);
+        $map = [
+            'التوقيت والترتيب' => 'Timing & Order',
+            'التوقيت والتكرار' => 'Timing & Frequency',
+            'التوقيت' => 'Timing',
+            'الكمية والتوزيع' => 'Amount & Application',
+            'الكمية حسب البشرة' => 'Amount by Skin Type',
+            'الكمية' => 'Amount',
+            'طريقة التطبيق' => 'Application Method',
+            'طريقة الوضع' => 'Application',
+            'التوزيع والامتصاص' => 'Distribution & Absorption',
+            'الترتيب والترطيب' => 'Routine Order & Moisture',
+            'التطبيق' => 'Application',
+            'المدة وإكمال الروتين' => 'Duration & Routine Completion',
+            'احتياطات الاستخدام' => 'Precautions',
+            'الحماية والتثبيت' => 'Sun Protection',
+            'التدرّج' => 'Gradual Start',
+            'التدرج' => 'Gradual Start',
+            'بعد الكريم' => 'Next Step',
+            'صباحًا' => 'Morning',
+            'صباحاً' => 'Morning',
+            'العناية المصاحبة' => 'Complementary Care',
+        ];
+
+        return $map[$label] ?? $fallback;
+    }
+
+    /**
+     * Build the 4 structured usage tile definitions for either Arabic or English.
+     *
+     * @return array<string, mixed>
+     */
+    protected function buildLocalizedUsageFields(array $raw, array $tiles, bool $isAr): array
+    {
+        $specs = [
+            [
+                'label_field' => 'timing_label',
+                'text_field' => 'timing',
+                'note_field' => 'timing_note',
+                'ar_defaults' => ['التوقيت', $this->usage_frequency_ar ?: 'استخدام يومي', 'بعد التدرّج في الاستخدام.'],
+                'en_defaults' => ['Timing', $this->english_usage_frequency, 'After gradually introducing into your routine.'],
+            ],
+            [
+                'label_field' => 'amount_label',
+                'text_field' => 'amount',
+                'note_field' => 'amount_note',
+                'ar_defaults' => ['الكمية', 'بضع قطرات', 'على المناطق المستهدفة.'],
+                'en_defaults' => ['Amount', 'Moderate amount / A few drops', 'On targeted areas or entire face.'],
+            ],
+            [
+                'label_field' => 'application_label',
+                'text_field' => 'application_method',
+                'note_field' => 'application_note',
+                'ar_defaults' => ['طريقة الوضع', 'ربّت بلطف', 'حتى الامتصاص، قبل المرطب.'],
+                'en_defaults' => ['Application', 'Gently pat onto skin', 'Until fully absorbed, before moisturizer.'],
+            ],
+            [
+                'label_field' => 'gradual_start_label',
+                'text_field' => 'gradual_start',
+                'note_field' => 'gradual_start_note',
+                'ar_defaults' => ['التدرّج', 'ابدأ تدريجيًا', 'وزِد التكرار حسب تحمّل بشرتك.'],
+                'en_defaults' => ['Introduction', 'Start gradually', 'Increase frequency according to your skin tolerance.'],
+            ],
+        ];
+
+        $output = [];
+        $localizedTiles = [];
+
+        foreach ($specs as $idx => $spec) {
+            $tile = is_array($tiles[$idx] ?? null) ? $tiles[$idx] : [];
+            $labelField = $spec['label_field'];
+            $textField = $spec['text_field'];
+            $noteField = $spec['note_field'];
+
+            if ($isAr) {
+                $label = !empty($raw[$labelField]) ? $raw[$labelField] : ($tile['label'] ?? $spec['ar_defaults'][0]);
+                $text = !empty($raw[$textField]) ? $raw[$textField] : ($tile['text'] ?? ($tile['value'] ?? $spec['ar_defaults'][1]));
+                $note = !empty($raw[$noteField]) ? $raw[$noteField] : ($tile['note'] ?? $spec['ar_defaults'][2]);
+            } else {
+                $label = $this->firstNonArabic([
+                    $raw["{$labelField}_en"] ?? null,
+                    $tile['label_en'] ?? null,
+                ]) ?: $this->translateUsageTileLabelEn($tile['label'] ?? ($raw[$labelField] ?? null), $spec['en_defaults'][0]);
+
+                $text = $this->firstNonArabic([
+                    $raw["{$textField}_en"] ?? null,
+                    $tile['text_en'] ?? null,
+                    $tile['value_en'] ?? null,
+                    $tile['text'] ?? null,
+                    $tile['value'] ?? null,
+                    $raw[$textField] ?? null,
+                ]) ?: $spec['en_defaults'][1];
+
+                $note = $this->firstNonArabic([
+                    $raw["{$noteField}_en"] ?? null,
+                    $tile['note_en'] ?? null,
+                    $tile['note'] ?? null,
+                    $raw[$noteField] ?? null,
+                ]) ?: $spec['en_defaults'][2];
             }
 
-            return [
-                'timing_label' => !empty($tiles[0]['label']) ? $tiles[0]['label'] : (!empty($raw['timing_label_en']) ? $raw['timing_label_en'] : 'Timing'),
-                'timing' => !empty($raw['timing_en']) ? $raw['timing_en'] : (!empty($tiles[0]['text']) ? $tiles[0]['text'] : $this->usage_frequency),
-                'timing_note' => !empty($raw['timing_note_en']) ? $raw['timing_note_en'] : 'After gradually introducing into your routine.',
-                'amount_label' => !empty($tiles[1]['label']) ? $tiles[1]['label'] : (!empty($raw['amount_label_en']) ? $raw['amount_label_en'] : 'Amount'),
-                'amount' => !empty($raw['amount_en']) ? $raw['amount_en'] : (!empty($tiles[1]['text']) ? $tiles[1]['text'] : 'A few drops / Moderate amount'),
-                'amount_note' => !empty($raw['amount_note_en']) ? $raw['amount_note_en'] : 'On targeted areas or entire face.',
-                'application_label' => !empty($tiles[2]['label']) ? $tiles[2]['label'] : (!empty($raw['application_label_en']) ? $raw['application_label_en'] : 'Application'),
-                'application_method' => !empty($raw['application_method_en']) ? $raw['application_method_en'] : (!empty($tiles[2]['text']) ? $tiles[2]['text'] : 'Gently pat'),
-                'application_note' => !empty($raw['application_note_en']) ? $raw['application_note_en'] : 'Until fully absorbed, before moisturizer.',
-                'gradual_start_label' => !empty($tiles[3]['label']) ? $tiles[3]['label'] : (!empty($raw['gradual_start_label_en']) ? $raw['gradual_start_label_en'] : 'Introduction'),
-                'gradual_start' => !empty($raw['gradual_start_en']) ? $raw['gradual_start_en'] : (!empty($tiles[3]['text']) ? $tiles[3]['text'] : 'Start gradually'),
-                'gradual_start_note' => !empty($raw['gradual_start_note_en']) ? $raw['gradual_start_note_en'] : 'Increase frequency according to your skin tolerance.',
-                'caution' => $this->limitations_notes,
-                'tiles' => $tiles,
-                'benefits' => $raw['benefits'] ?? null,
-                'verdict' => $raw['verdict'] ?? null,
-                'raw_how_to_use' => $this->how_to_use,
+            $output[$labelField] = $label;
+            $output[$textField] = $text;
+            $output[$noteField] = $note;
+
+            $localizedTiles[] = [
+                'label' => $label,
+                'text' => $text,
+                'note' => $note,
             ];
         }
 
-        return null;
+        $output['localized_tiles'] = $isAr && !empty($tiles) ? $tiles : $localizedTiles;
+
+        return $output;
+    }
+
+    /**
+     * Format clean English multi-line usage instructions when how_to_use_en is unavailable.
+     */
+    public function formatEnglishHowToUseLines(): ?string
+    {
+        ['raw' => $raw, 'tiles' => $tiles] = $this->resolveRawUsageSource();
+        if (empty($raw) && empty($tiles)) {
+            return null;
+        }
+
+        $fields = $this->buildLocalizedUsageFields($raw, $tiles, false);
+        $lines = [];
+        foreach ($fields['localized_tiles'] as $tile) {
+            if (!empty($tile['label']) && !empty($tile['text'])) {
+                $lines[] = "{$tile['label']} — {$tile['text']}";
+            }
+        }
+
+        return !empty($lines) ? implode("\n", $lines) : null;
+    }
+
+    protected function resolveEnglishSkinFitValue(): string
+    {
+        if ($this->relationLoaded('skinTypes') || $this->skinTypes()->exists()) {
+            $names = $this->skinTypes
+                ->map(fn ($skinType) => $this->firstNonArabic([$skinType->name_en ?? null, $skinType->name ?? null]))
+                ->filter()
+                ->values()
+                ->all();
+
+            if (!empty($names)) {
+                return implode(' · ', $names);
+            }
+        }
+
+        return 'Oily · Combination · Normal · Dry';
+    }
+
+    protected function localizeVerdict(?array $verdict, bool $isAr): ?array
+    {
+        if ($verdict === null && $isAr) {
+            return null;
+        }
+
+        if ($isAr) {
+            return $verdict;
+        }
+
+        if (empty($verdict)) {
+            return null;
+        }
+
+        $note = $this->firstNonArabic([
+            $verdict['note_en'] ?? null,
+            $verdict['note'] ?? null,
+        ]) ?: $this->english_description;
+
+        $skinFitValue = $this->firstNonArabic([
+            $verdict['skin_fit_value_en'] ?? null,
+            $verdict['skin_fit_value'] ?? null,
+        ]) ?: $this->resolveEnglishSkinFitValue();
+
+        $skinFitGuidance = $this->firstNonArabic([
+            $verdict['skin_fit_guidance_en'] ?? null,
+            $verdict['skin_fit_guidance'] ?? null,
+        ]) ?: '';
+
+        $sensitiveStatus = $this->english_sensitive_status;
+        $sensitiveGuidance = $this->english_sensitive_guidance;
+        $fragrance = $this->english_fragrance;
+        $actives = $this->firstNonArabic([
+            $verdict['actives_en'] ?? null,
+            $verdict['actives'] ?? null,
+            $this->primary_keyword_en,
+        ]) ?: $this->fixedShortName();
+
+        $summaryHtml = $this->firstNonArabic([$verdict['summary_html_en'] ?? null]);
+        if ($summaryHtml === null && !empty($verdict['summary_html'])) {
+            $guidanceHtml = $sensitiveGuidance
+                ? '<p class="fit-guidance">' . e($sensitiveGuidance) . '</p>'
+                : '';
+
+            $summaryHtml = '<article class="kcode-verdict" aria-labelledby="verdict-title">'
+                . '<div class="verdict-top"><h2 id="verdict-title" class="verdict-label"><bdi>KCODE</bdi> Summary</h2></div>'
+                . '<div class="verdict-body"><p class="verdict-note master-copy">' . e($note) . '</p>'
+                . '<div class="verdict-audience" aria-label="Skin compatibility">'
+                . '<div class="fit-item"><span class="fit-label">Suitable Skin Types</span><strong class="fit-value">' . e($skinFitValue) . '</strong></div>'
+                . '<section class="fit-item fit-sensitive" aria-label="For Sensitive Skin"><div class="sensitive-head"><span class="fit-label">For Sensitive Skin</span><strong class="fit-value fit-status">' . e($sensitiveStatus) . '</strong></div>' . $guidanceHtml . '</section>'
+                . '</div></div></article>';
+        }
+
+        return [
+            'note' => $note,
+            'skin_fit_value' => $skinFitValue,
+            'skin_fit_guidance' => $skinFitGuidance,
+            'sensitive_status' => $sensitiveStatus,
+            'sensitive_guidance' => $sensitiveGuidance,
+            'fragrance' => $fragrance,
+            'actives' => $actives,
+            'summary_html' => $summaryHtml,
+        ];
+    }
+
+    /**
+     * Get structured 4-tile usage instructions (Timing, Amount, Method, Gradual Introduction).
+     */
+    public function getUsageInstructionsAttribute(): ?array
+    {
+        ['raw' => $raw, 'tiles' => $tiles] = $this->resolveRawUsageSource();
+        if (empty($raw) && empty($tiles)) {
+            return null;
+        }
+
+        $isAr = $this->isArabicLocale();
+        $fields = $this->buildLocalizedUsageFields($raw, $tiles, $isAr);
+        $localizedTiles = $fields['localized_tiles'];
+        unset($fields['localized_tiles']);
+
+        $caution = $isAr
+            ? ($raw['caution'] ?? $this->limitations_notes)
+            : ($this->firstNonArabic([$raw['caution_en'] ?? null, $raw['caution'] ?? null]) ?: $this->english_limitations_notes);
+
+        return array_merge($fields, [
+            'caution' => $caution,
+            'tiles' => $localizedTiles,
+            'benefits' => $this->key_benefits,
+            'verdict' => $this->localizeVerdict($raw['verdict'] ?? null, $isAr),
+            'raw_how_to_use' => $this->how_to_use,
+        ]);
     }
 
     /**
@@ -316,7 +571,7 @@ trait HasProductPresentation
      */
     public function getComplementaryRoutineAttribute(): array
     {
-        $isAr = app()->getLocale() == 'ar';
+        $isAr = $this->isArabicLocale();
         $items = $this->complementary_routine_json;
         if (empty($items) || !is_array($items)) {
             return [];
@@ -345,6 +600,12 @@ trait HasProductPresentation
             'سيروم وأمبول' => 'Serum',
             'مرطب' => 'Moisturizer',
             'واقي شمس' => 'Sunscreen',
+            'ماسك' => 'Mask',
+            'قناع' => 'Mask',
+            'مقشر' => 'Exfoliator',
+            'مقشّر' => 'Exfoliator',
+            'عناية بالعين' => 'Eye Care',
+            'عناية بالجسم' => 'Body Care',
             'منتج مكمل' => 'Complementary Product',
         ];
 
@@ -356,31 +617,39 @@ trait HasProductPresentation
                 $dbProduct = $productsBySku[$item['sku']];
             }
 
-            if ($dbProduct && $dbProduct->id === $this->id) {
+            if (!$dbProduct || $dbProduct->id === $this->id) {
                 continue;
             }
 
-            $rawCat = $item['category'] ?? ($dbProduct?->subCategory?->name_ar ?? 'منتج مكمل');
-            $rawReason = $item['reason'] ?? ($item['why'] ?? '');
-
+            $rawCat = (string) ($item['category'] ?? ($dbProduct->subCategory?->name_ar ?? 'منتج مكمل'));
             $finalCat = $isAr
                 ? $rawCat
-                : (!empty($item['category_en']) ? $item['category_en'] : ($categoryEnMap[$rawCat] ?? ($dbProduct?->category?->name_en ?? $rawCat)));
+                : ($this->firstNonArabic([
+                    $item['category_en'] ?? null,
+                    $categoryEnMap[trim($rawCat)] ?? null,
+                    $dbProduct->subCategory?->name_en,
+                    $dbProduct->category?->name_en,
+                    $rawCat,
+                ]) ?: 'Skincare Step');
 
-            if ($dbProduct) {
-                $result[] = [
-                    'id' => $dbProduct->id,
-                    'sku' => $dbProduct->sku,
-                    'brand' => $dbProduct->brand?->name ?? ($item['brand'] ?? ''),
-                    'name' => $dbProduct->name,
-                    'size' => $dbProduct->size ?: ($item['size'] ?? ''),
-                    'category' => $finalCat,
-                    'reason' => $rawReason,
-                    'optional' => (bool) ($item['optional'] ?? false),
-                    'price' => (float) $dbProduct->price,
-                    'image' => $dbProduct->image_path,
-                ];
-            }
+            $rawReasonAr = (string) ($item['reason'] ?? ($item['why'] ?? ''));
+            $rawReasonEn = (string) ($item['reason_en'] ?? ($item['why_en'] ?? ''));
+            $finalReason = $isAr
+                ? ($rawReasonAr ?: $rawReasonEn)
+                : ($this->firstNonArabic([$rawReasonEn, $rawReasonAr]) ?: 'Complements your daily skincare routine.');
+
+            $result[] = [
+                'id' => $dbProduct->id,
+                'sku' => $dbProduct->sku,
+                'brand' => $dbProduct->brand?->name ?? ($item['brand'] ?? ''),
+                'name' => $dbProduct->fixedFullName(),
+                'size' => $dbProduct->size ?: ($item['size'] ?? ''),
+                'category' => $finalCat,
+                'reason' => $finalReason,
+                'optional' => (bool) ($item['optional'] ?? false),
+                'price' => (float) $dbProduct->price,
+                'image' => $dbProduct->image_path,
+            ];
         }
 
         return $result;
@@ -391,17 +660,36 @@ trait HasProductPresentation
      */
     public function getProductFaqsAttribute(): ?array
     {
-        if (!empty($this->product_faqs_json) && is_array($this->product_faqs_json)) {
-            $isAr = app()->getLocale() == 'ar';
-            return array_map(function ($faq) use ($isAr) {
-                return [
-                    'id' => $faq['id'] ?? 'custom',
-                    'question' => $isAr ? ($faq['question'] ?? '') : ($faq['question_en'] ?? ($faq['question'] ?? '')),
-                    'answer' => $isAr ? ($faq['answer'] ?? '') : ($faq['answer_en'] ?? ($faq['answer'] ?? '')),
-                ];
-            }, $this->product_faqs_json);
+        if (empty($this->product_faqs_json) || !is_array($this->product_faqs_json)) {
+            return null;
         }
-        return null;
+
+        $isAr = $this->isArabicLocale();
+        $formatted = [];
+
+        foreach ($this->product_faqs_json as $faq) {
+            if (!is_array($faq)) {
+                continue;
+            }
+
+            if ($isAr) {
+                $question = trim((string) ($faq['question'] ?? ''));
+                $answer = trim((string) ($faq['answer'] ?? ''));
+            } else {
+                $question = $this->firstNonArabic([$faq['question_en'] ?? null, $faq['question'] ?? null]) ?? '';
+                $answer = $this->firstNonArabic([$faq['answer_en'] ?? null, $faq['answer'] ?? null]) ?? '';
+            }
+
+            if ($question !== '' && $answer !== '') {
+                $formatted[] = [
+                    'id' => $faq['id'] ?? 'custom',
+                    'question' => $question,
+                    'answer' => $answer,
+                ];
+            }
+        }
+
+        return $formatted;
     }
 
     /**
@@ -409,32 +697,81 @@ trait HasProductPresentation
      */
     public function getFormulaEvaluationInfoAttribute(): array
     {
-        $isAr = app()->getLocale() == 'ar';
-        return [
-            'badge' => Setting::get('formula_eval_badge', 'معايير KCODE'),
-            'title' => Setting::get('formula_eval_title', 'كيف نقيّم التركيبة في KCODE؟'),
-            'description' => Setting::get('formula_eval_desc', 'فحص دقيق للمكونات وتركيزاتها وملاءمتها لاحتياجات البشرة الفعلية.'),
-            'items' => [
-                [
-                    'id' => 1,
-                    'title' => 'فاعلية المكونات النشطة',
-                    'description' => 'التأكد من وجود المواد الفعالة بتركيزات مثبتة علمياً وقادرة على إحداث فارق حقيقي.',
-                    'icon' => 'sparkles',
-                ],
-                [
-                    'id' => 2,
-                    'title' => 'توافق وسلامة التركيبة',
-                    'description' => 'مراجعة خلو المستحضر من المواد المحسسة أو المهيجة للبشرة الحساسة.',
-                    'icon' => 'shield-check',
-                ],
-                [
-                    'id' => 3,
-                    'title' => 'توازن الترطيب والحاجز الواقي',
-                    'description' => 'ضمان احتواء التركيبة على عناصر تعزز حاجز البشرة وتحبس الترطيب.',
-                    'icon' => 'droplet',
-                ],
+        $isAr = $this->isArabicLocale();
+
+        $badge = Setting::get(
+            'formula_eval_badge',
+            $isAr ? 'معايير KCODE' : 'KCODE Standards'
+        );
+        $title = Setting::get(
+            'formula_eval_title',
+            $isAr ? 'كيف نقيّم التركيبة في KCODE؟' : 'How We Evaluate Formulations at KCODE'
+        );
+        $description = Setting::get(
+            'formula_eval_subtitle',
+            Setting::get(
+                'formula_eval_desc',
+                $isAr
+                    ? 'وراء كل خلاصة، مراجعة تبدأ من تركيبة المنتج نفسه.'
+                    : 'Behind every conclusion, a review that begins with the product formula itself.'
+            )
+        );
+        $footerNote = Setting::get(
+            'formula_eval_footer_note',
+            $isAr
+                ? 'نقيّم كل منتج بمعاييرنا نفسها؛ شهرته ووجوده في المتجر لا يمنحانه توصية تلقائية.'
+                : 'Every product is evaluated against the same criteria; fame or availability in store does not grant an automatic recommendation.'
+        );
+
+        $pillars = [
+            [
+                'id' => 1,
+                'title_key' => 'formula_eval_step1_title',
+                'desc_key' => 'formula_eval_step1_desc',
+                'ar_title' => 'نبدأ من العبوة',
+                'en_title' => 'We start from the packaging',
+                'ar_desc' => 'نراجع قائمة المكونات المدوّنة على المنتج، ونقرأها كاملة لفهم ما تحتويه التركيبة فعلًا.',
+                'en_desc' => 'We review the full ingredient list printed on the product to understand what the formula actually contains.',
+                'icon' => 'sparkles',
             ],
-            'footer_note_ar' => Setting::get('formula_eval_footer_note', 'نقيّم كل منتج بمعاييرنا نفسها؛ شهرته ووجوده في المتجر لا يمنحانه توصية تلقائية.'),
+            [
+                'id' => 2,
+                'title_key' => 'formula_eval_step2_title',
+                'desc_key' => 'formula_eval_step2_desc',
+                'ar_title' => 'وجود المكوّن وحده لا يكفي',
+                'en_title' => 'Ingredient presence alone is not enough',
+                'ar_desc' => 'ندرس وظيفة المكوّن وترتيبه في القائمة، ونأخذ النسب المعلنة في الحسبان لتحديد دوره الفعلي.',
+                'en_desc' => 'We evaluate ingredient position, function, and concentration to judge whether it supports the primary goal.',
+                'icon' => 'shield-check',
+            ],
+            [
+                'id' => 3,
+                'title_key' => 'formula_eval_step3_title',
+                'desc_key' => 'formula_eval_step3_desc',
+                'ar_title' => 'نقرأ التركيبة ككل',
+                'en_title' => 'We read the formula as a whole',
+                'ar_desc' => 'نربط المكونات ببعضها وباحتياجات البشرة، ونوازن بين ما تدعمه التركيبة وما يستدعي الانتباه.',
+                'en_desc' => 'We connect ingredients with skin needs, balancing efficacy and tolerance into a clear insight.',
+                'icon' => 'droplet',
+            ],
+        ];
+
+        $items = array_map(function (array $pillar) use ($isAr) {
+            return [
+                'id' => $pillar['id'],
+                'title' => Setting::get($pillar['title_key'], $isAr ? $pillar['ar_title'] : $pillar['en_title']),
+                'description' => Setting::get($pillar['desc_key'], $isAr ? $pillar['ar_desc'] : $pillar['en_desc']),
+                'icon' => $pillar['icon'],
+            ];
+        }, $pillars);
+
+        return [
+            'badge' => $badge,
+            'title' => $title,
+            'description' => $description,
+            'items' => $items,
+            'footer_note' => $footerNote,
+            'footer_note_ar' => $footerNote,
         ];
     }
 }

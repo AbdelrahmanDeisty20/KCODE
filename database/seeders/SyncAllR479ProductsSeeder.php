@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
+use Database\Seeders\Support\R479EnglishBuilder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -40,14 +41,17 @@ class SyncAllR479ProductsSeeder extends Seeder
 
         $this->command->info("Found " . count($productsData) . " products in R479 dictionary.");
 
+        $metaMaps = R479EnglishBuilder::loadMetadataMaps();
+        $kcodeBySku = $metaMaps['kcode'];
+
         $updatedCount = 0;
         $missingCount = 0;
 
-        DB::transaction(function () use ($productsData, $pagesData, $snapshotBySku, &$updatedCount, &$missingCount) {
+        DB::transaction(function () use ($productsData, $pagesData, $snapshotBySku, $kcodeBySku, &$updatedCount, &$missingCount) {
             Product::query()->update(['is_best_seller' => false]);
 
             foreach ($productsData as $sku => $p) {
-                $product = Product::where('sku', $sku)->first();
+                $product = Product::with(['brand', 'category', 'subCategory'])->where('sku', $sku)->first();
                 if (!$product) {
                     $missingCount++;
                     continue;
@@ -101,6 +105,8 @@ class SyncAllR479ProductsSeeder extends Seeder
                 }
                 if (empty($faqs) && !empty($product->product_faqs_json)) {
                     $faqs = $product->product_faqs_json;
+                } else {
+                    $faqs = R479EnglishBuilder::mergeFaqTranslations($faqs, $product->product_faqs_json);
                 }
 
                 // 5. Verdict & Sensitive fit from summaryHtml
@@ -143,7 +149,10 @@ class SyncAllR479ProductsSeeder extends Seeder
                 $t2 = $usageTiles[2]['text'] ?? ($usageTiles[2]['value'] ?? 'ربّت بلطف');
                 $t3 = $usageTiles[3]['text'] ?? ($usageTiles[3]['value'] ?? 'اتبع بمرطب وواقي شمس');
 
-                $usageInstructions = [
+                $existingUsage = is_array($product->usage_instructions_json) ? $product->usage_instructions_json : [];
+                $existingVerdict = is_array($existingUsage['verdict'] ?? null) ? $existingUsage['verdict'] : [];
+
+                $usageInstructions = array_merge($existingUsage, [
                     'timing_label' => $usageTiles[0]['label'] ?? 'التوقيت',
                     'timing' => $t0,
                     'timing_note' => $usageTiles[0]['note'] ?? '',
@@ -159,7 +168,7 @@ class SyncAllR479ProductsSeeder extends Seeder
                     'caution' => 'يحفظ في مكان بارد وجاف بعيدًا عن أشعة الشمس المباشرة. يُنصح بإجراء اختبار حساسية قبل الاستخدام الكامل.',
                     'tiles' => $usageTiles,
                     'benefits' => $benefits,
-                    'verdict' => [
+                    'verdict' => array_merge($existingVerdict, [
                         'note' => $verdictNote,
                         'skin_fit_value' => $fitValue,
                         'skin_fit_guidance' => $fitGuidance,
@@ -167,17 +176,16 @@ class SyncAllR479ProductsSeeder extends Seeder
                         'sensitive_guidance' => $sensitiveGuidance,
                         'fragrance' => $fragrance,
                         'summary_html' => $summaryHtml,
-                    ],
-                ];
+                    ]),
+                ]);
 
-                // 7. Apply updates to product
+                // 7. Apply Arabic updates to product without wiping English fields
                 $product->name_en = $nameClean;
                 $product->name_ar = $nameClean;
                 $product->short_name_en = $nameClean;
                 $product->short_name_ar = $nameClean;
                 $product->brief_insight_ar = $briefClean;
                 $product->description_ar = $descClean;
-                $product->description_en = $descClean;
                 $product->why_kcode_ar = $descClean;
                 $product->size = $size;
                 $product->barcode = $barcode;
@@ -186,17 +194,22 @@ class SyncAllR479ProductsSeeder extends Seeder
                 }
                 $product->role_ar = $roleAr;
                 $product->texture_ar = $textureAr;
-                $product->texture_en = $textureEn;
+                if (R479EnglishBuilder::needsEnglishText($product->texture_en)) {
+                    $product->texture_en = $textureEn;
+                }
                 $product->ingredients_ar = $inci;
-                $product->ingredients_en = $inci;
+                if (empty($product->ingredients_en)) {
+                    $product->ingredients_en = $inci;
+                }
                 $product->how_to_use_ar = $p['usage'] ?? $product->how_to_use_ar;
-                $product->how_to_use_en = $p['usage'] ?? $product->how_to_use_en;
                 $product->ar_key_benefits = $benefits;
                 $product->product_faqs_json = $faqs;
                 $product->usage_instructions_json = $usageInstructions;
                 $product->sensitive_eligible = $isSensitiveEligible;
                 $product->is_best_seller = in_array($sku, ['KC0185', 'KC0137', 'KC0001', 'KC0078', 'KC0118', 'KC0105', 'KC0089', 'KC0159']);
                 $product->image = "products/{$sku}.webp";
+
+                R479EnglishBuilder::fillMissingEnglishOnModel($product, $snapshotBySku, $kcodeBySku);
 
                 $product->save();
                 $updatedCount++;

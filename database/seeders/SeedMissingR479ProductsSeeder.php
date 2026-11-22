@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use Database\Seeders\Support\R479EnglishBuilder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -49,9 +50,11 @@ class SeedMissingR479ProductsSeeder extends Seeder
             return;
         }
 
+        $metaMaps = R479EnglishBuilder::loadMetadataMaps();
+        $kcodeBySku = $metaMaps['kcode'];
         $insertedCount = 0;
 
-        DB::transaction(function () use ($missingSkus, $productsData, $pagesData, $snapBySku, &$insertedCount) {
+        DB::transaction(function () use ($missingSkus, $productsData, $pagesData, $snapBySku, $kcodeBySku, &$insertedCount) {
             foreach ($missingSkus as $sku) {
                 $p = $productsData[$sku] ?? [];
                 $snap = $snapBySku[$sku] ?? [];
@@ -92,7 +95,6 @@ class SeedMissingR479ProductsSeeder extends Seeder
                 $product->name_ar = $nameAr;
                 $product->short_name_en = $nameEn;
                 $product->short_name_ar = $nameAr;
-                $product->description_en = $descAr;
                 $product->description_ar = $descAr;
                 $product->brand_id = $brand?->id ?? 1;
                 $product->category_id = $category?->id ?? 1;
@@ -105,11 +107,14 @@ class SeedMissingR479ProductsSeeder extends Seeder
                 $product->role_ar = $catName ?: 'عناية بالبشرة';
                 $product->texture_ar = $snap['Texture'] ?? 'سائل';
                 $product->how_to_use_ar = $p['usage'] ?? 'ضع كمية مناسبة على البشرة.';
-                $product->how_to_use_en = 'Apply an appropriate amount to the skin.';
 
                 // Image handling
                 $imageName = $p['image'] ?? ($snap['Image'] ?? "{$sku}.png");
                 $product->image = $imageName;
+
+                $product->setRelation('brand', $brand);
+                $product->setRelation('category', $category);
+                R479EnglishBuilder::fillMissingEnglishOnModel($product, $snapBySku, $kcodeBySku);
 
                 $product->save();
                 $insertedCount++;

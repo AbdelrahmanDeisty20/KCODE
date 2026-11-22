@@ -333,30 +333,62 @@ class ProductResource extends Resource
                                     ->label('بلد المنشأ (عربي)')
                                     ->default('كوريا الجنوبية'),
 
+                                Forms\Components\TextInput::make('country_of_origin_en')
+                                    ->label('بلد المنشأ (إنجليزي - Country of Origin EN)')
+                                    ->default('South Korea')
+                                    ->nullable(),
+
                                 Forms\Components\Toggle::make('sensitive_eligible')
                                     ->label('مؤهل للبشرة الحساسة (Eligible)')
                                     ->default(true),
 
                                 Forms\Components\Select::make('usage_instructions_json.verdict.sensitive_status')
-                                    ->label('حالة ملاءمة البشرة الحساسة (KCODE Status)')
+                                    ->label('حالة ملاءمة البشرة الحساسة (عربي - KCODE Status AR)')
                                     ->options([
                                         'مناسب للبشرة الحساسة' => 'مناسب للبشرة الحساسة',
                                         'مناسب بشرط' => 'مناسب بشرط',
                                         'غير مناسب للبشرة الحساسة' => 'غير مناسب للبشرة الحساسة',
+                                        'غير مناسب كخطوة أولى للبشرة الحساسة' => 'غير مناسب كخطوة أولى للبشرة الحساسة',
                                     ])
                                     ->default('مناسب للبشرة الحساسة'),
 
+                                Forms\Components\Select::make('usage_instructions_json.verdict.sensitive_status_en')
+                                    ->label('Sensitive Skin Status (EN)')
+                                    ->options([
+                                        'Suitable for sensitive skin' => 'Suitable for sensitive skin',
+                                        'Conditionally suitable' => 'Conditionally suitable',
+                                        'Not suitable for sensitive skin' => 'Not suitable for sensitive skin',
+                                        'Not suitable as a first step for sensitive skin' => 'Not suitable as a first step for sensitive skin',
+                                    ])
+                                    ->nullable(),
+
                                 Forms\Components\Textarea::make('usage_instructions_json.verdict.sensitive_guidance')
-                                    ->label('نص الشرط / التوجيه للبشرة الحساسة')
+                                    ->label('نص الشرط / التوجيه للبشرة الحساسة (عربي)')
                                     ->placeholder('مثال: مناسب بشرط ألا يكون الجلد حول العين محمراً أو متهيجاً...')
                                     ->rows(2),
 
+                                Forms\Components\Textarea::make('usage_instructions_json.verdict.sensitive_guidance_en')
+                                    ->label('Sensitive Skin Guidance (EN)')
+                                    ->placeholder('e.g. Conditionally suitable: introduce gradually and patch test first...')
+                                    ->rows(2)
+                                    ->nullable(),
+
                                 Forms\Components\TextInput::make('usage_instructions_json.verdict.fragrance')
-                                    ->label('العطر (Fragrance Status)')
+                                    ->label('العطر (عربي - Fragrance AR)')
                                     ->default('دون عطر مضاف'),
 
+                                Forms\Components\TextInput::make('usage_instructions_json.verdict.fragrance_en')
+                                    ->label('Fragrance Status (EN)')
+                                    ->placeholder('Fragrance-free')
+                                    ->nullable(),
+
                                 Forms\Components\TextInput::make('role_ar')
-                                    ->label('دور المنتج في الروتين (مثل: Daily Treatment, Cleanser)'),
+                                    ->label('دور المنتج في الروتين (عربي - Role AR)'),
+
+                                Forms\Components\TextInput::make('role_en')
+                                    ->label('Product Routine Role (EN)')
+                                    ->placeholder('e.g. Targeted Treatment Serum')
+                                    ->nullable(),
 
                                 Forms\Components\TextInput::make('texture_ar')
                                     ->label('الملمس / القوام (عربي)')
@@ -373,6 +405,11 @@ class ProductResource extends Resource
                                     ->default('استخدام يومي (صباحاً ومساءً)')
                                     ->nullable(),
 
+                                Forms\Components\TextInput::make('usage_frequency_en')
+                                    ->label('Usage Frequency (EN)')
+                                    ->placeholder('Daily use (Morning & Evening)')
+                                    ->nullable(),
+
                                 Forms\Components\Select::make('active_strength_level')
                                     ->label('مستوى كفاءة المواد الفعالة')
                                     ->options([
@@ -383,9 +420,19 @@ class ProductResource extends Resource
                                     ->default('Medium')
                                     ->nullable(),
 
+                                Forms\Components\TextInput::make('usage_instructions_json.verdict.actives_en')
+                                    ->label('Key Actives Summary (EN - Quick View)')
+                                    ->placeholder('e.g. Niacinamide · Galactomyces · Adenosine')
+                                    ->nullable(),
+
                                 Forms\Components\Textarea::make('brief_insight_ar')
                                     ->label('نبذة مركزة عن المنتج (عربي)')
                                     ->rows(2),
+
+                                Forms\Components\Textarea::make('brief_insight_en')
+                                    ->label('Brief Product Insight (EN)')
+                                    ->rows(2)
+                                    ->nullable(),
 
                                 Forms\Components\Textarea::make('why_kcode_ar')
                                     ->label('لماذا اختار KCODE هذا المنتج؟ (عربي)')
@@ -394,6 +441,11 @@ class ProductResource extends Resource
 
                                 Forms\Components\Textarea::make('why_kcode_en')
                                     ->label('Why KCODE Selected This Product (EN)')
+                                    ->rows(2)
+                                    ->nullable(),
+
+                                Forms\Components\Textarea::make('usage_instructions_json.verdict.note_en')
+                                    ->label('KCODE Verdict Note (EN - Optional override)')
                                     ->rows(2)
                                     ->nullable(),
 
@@ -408,8 +460,13 @@ class ProductResource extends Resource
                                     ->nullable(),
 
                                 Forms\Components\Textarea::make('limitations_notes_ar')
-                                    ->label('قيود وتوجيهات السلامة عند الاستخدام')
+                                    ->label('قيود وتوجيهات السلامة عند الاستخدام (عربي)')
                                     ->rows(2),
+
+                                Forms\Components\Textarea::make('limitations_notes_en')
+                                    ->label('Limitations & Usage Precautions (EN)')
+                                    ->rows(2)
+                                    ->nullable(),
                             ])->columns(2),
 
                         Components\Tabs\Tab::make('أنواع البشرة والمشاكل والأهداف')
@@ -454,6 +511,11 @@ class ProductResource extends Resource
                                             ->label('عنوان الخطوة بالعربية')
                                             ->placeholder('مثال: السيروم / العلاج المركز'),
 
+                                        Forms\Components\TextInput::make('routine_step_title_en')
+                                            ->label('Step Title (EN)')
+                                            ->placeholder('e.g. Serum / Targeted Treatment')
+                                            ->nullable(),
+
                                         Forms\Components\Repeater::make('routine_steps_json')
                                             ->label('خطوات الروتين الخماسية التفصيلية')
                                             ->schema([
@@ -471,6 +533,14 @@ class ProductResource extends Resource
 
                                 Components\Section::make('طريقة ودواعي الاستخدام التفصيلية (Usage Instructions)')
                                     ->schema([
+                                        Forms\Components\TextInput::make('usage_instructions_json.timing_label')
+                                            ->label('عنوان خانة التوقيت (عربي)')
+                                            ->placeholder('التوقيت'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.timing_label_en')
+                                            ->label('Timing Label (EN)')
+                                            ->placeholder('Timing'),
+
                                         Forms\Components\TextInput::make('usage_instructions_json.timing')
                                             ->label('توقيت الاستخدام (عربي)')
                                             ->placeholder('استخدام يومي (صباحاً ومساءً)'),
@@ -486,6 +556,14 @@ class ProductResource extends Resource
                                         Forms\Components\TextInput::make('usage_instructions_json.timing_note_en')
                                             ->label('Timing Note (EN)')
                                             ->placeholder('After gradually introducing into your routine.'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.amount_label')
+                                            ->label('عنوان خانة الكمية (عربي)')
+                                            ->placeholder('الكمية'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.amount_label_en')
+                                            ->label('Amount Label (EN)')
+                                            ->placeholder('Amount'),
 
                                         Forms\Components\TextInput::make('usage_instructions_json.amount')
                                             ->label('الكمية المناسبة (عربي)')
@@ -503,6 +581,14 @@ class ProductResource extends Resource
                                             ->label('Amount Note (EN)')
                                             ->placeholder('On targeted areas.'),
 
+                                        Forms\Components\TextInput::make('usage_instructions_json.application_label')
+                                            ->label('عنوان خانة التطبيق (عربي)')
+                                            ->placeholder('طريقة الوضع'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.application_label_en')
+                                            ->label('Application Label (EN)')
+                                            ->placeholder('Application'),
+
                                         Forms\Components\TextInput::make('usage_instructions_json.application_method')
                                             ->label('طريقة التطبيق (عربي)')
                                             ->placeholder('ربّت بلطف'),
@@ -519,6 +605,14 @@ class ProductResource extends Resource
                                             ->label('Application Note (EN)')
                                             ->placeholder('Until absorbed, before moisturizer.'),
 
+                                        Forms\Components\TextInput::make('usage_instructions_json.gradual_start_label')
+                                            ->label('عنوان خانة التدرج (عربي)')
+                                            ->placeholder('التدرّج'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.gradual_start_label_en')
+                                            ->label('Gradual Start Label (EN)')
+                                            ->placeholder('Introduction'),
+
                                         Forms\Components\TextInput::make('usage_instructions_json.gradual_start')
                                             ->label('التدرج في البدء (عربي)')
                                             ->placeholder('ابدأ تدريجيًا'),
@@ -534,6 +628,14 @@ class ProductResource extends Resource
                                         Forms\Components\TextInput::make('usage_instructions_json.gradual_start_note_en')
                                             ->label('Gradual Start Note (EN)')
                                             ->placeholder('Increase frequency according to your skin tolerance.'),
+
+                                        Forms\Components\Textarea::make('usage_instructions_json.caution')
+                                            ->label('تنبيه الاستخدام (عربي)')
+                                            ->rows(2),
+
+                                        Forms\Components\Textarea::make('usage_instructions_json.caution_en')
+                                            ->label('Usage Caution (EN)')
+                                            ->rows(2),
                                     ])->columns(2),
 
                                 Components\Section::make('المنتجات المكملة للروتين (Complementary Routine)')
@@ -638,6 +740,10 @@ class ProductResource extends Resource
                                     ->label('عنوان SEO (عربي)')
                                     ->nullable(),
 
+                                Forms\Components\TextInput::make('seo_meta_title_en')
+                                    ->label('SEO Meta Title (EN)')
+                                    ->nullable(),
+
                                 Forms\Components\TextInput::make('ar_product_title_seo')
                                     ->label('عنوان صفحة المنتج SEO (عربي)')
                                     ->nullable(),
@@ -697,6 +803,10 @@ class ProductResource extends Resource
 
                                 Forms\Components\TextInput::make('og_title_ar')
                                     ->label('عنوان المشاركة OpenGraph Title (عربي)')
+                                    ->nullable(),
+
+                                Forms\Components\TextInput::make('og_title_en')
+                                    ->label('OpenGraph Title (EN)')
                                     ->nullable(),
 
                                 Forms\Components\Textarea::make('og_description_ar')
@@ -842,8 +952,23 @@ class ProductResource extends Resource
                             'ingredients_en'        => $row['ingredients_en'] ?? null,
                             'how_to_use_ar'         => $row['how_to_use_ar'] ?? null,
                             'how_to_use_en'         => $row['how_to_use_en'] ?? null,
+                            'brief_insight_ar'      => $row['brief_insight_ar'] ?? null,
+                            'brief_insight_en'      => $row['brief_insight_en'] ?? null,
+                            'country_of_origin_ar'  => $row['country_of_origin_ar'] ?? null,
+                            'country_of_origin_en'  => $row['country_of_origin_en'] ?? null,
+                            'role_ar'               => $row['role_ar'] ?? null,
+                            'role_en'               => $row['role_en'] ?? null,
+                            'usage_frequency_ar'    => $row['usage_frequency_ar'] ?? null,
+                            'usage_frequency_en'    => $row['usage_frequency_en'] ?? null,
+                            'limitations_notes_ar'  => $row['limitations_notes_ar'] ?? null,
+                            'limitations_notes_en'  => $row['limitations_notes_en'] ?? null,
+                            'routine_step_title_ar' => $row['routine_step_title_ar'] ?? null,
+                            'routine_step_title_en' => $row['routine_step_title_en'] ?? null,
                             'final_url_slug'        => $row['final_url_slug'] ?? null,
                             'seo_meta_title_ar'     => $row['seo_meta_title_ar'] ?? null,
+                            'seo_meta_title_en'     => $row['seo_meta_title_en'] ?? null,
+                            'og_title_ar'           => $row['og_title_ar'] ?? null,
+                            'og_title_en'           => $row['og_title_en'] ?? null,
                             'meta_description_ar'   => $row['meta_description_ar'] ?? null,
                             'meta_description_en'   => $row['meta_description_en'] ?? null,
                             'primary_keyword_ar'    => $row['primary_keyword_ar'] ?? null,

@@ -74,6 +74,7 @@ class DatabaseSeeder extends Seeder
             KcodePdpFieldsSeeder::class,
             SeedMissingR479ProductsSeeder::class,
             SyncAllR479ProductsSeeder::class,
+            BackfillEnglishProductPdpSeeder::class,
             CareGuideSeeder::class,
         ]);
 
