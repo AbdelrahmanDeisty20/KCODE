@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Setting;
 use Illuminate\Support\Facades\File;
 
 class R479EngineService
@@ -50,6 +51,20 @@ class R479EngineService
         'oil'        => 'الدهون واللمعان',
     ];
 
+    public const GOAL_LABELS_EN = [
+        'acne'       => 'Acne & Breakouts',
+        'pores'      => 'Pore Appearance',
+        'blackheads' => 'Blackheads',
+        'dark_spots' => 'Dark Spots',
+        'dullness'   => 'Dullness',
+        'redness'    => 'Redness',
+        'dryness'    => 'Dryness & Barrier Support',
+        'lines'      => 'Fine Lines',
+        'maintain'   => 'General Daily Care',
+        'oil'        => 'Excess Oil & Shine',
+        'eyes'       => 'Under-Eye Puffiness',
+    ];
+
     public const TREATMENT_GOAL_DISPLAY_AR = [
         'acne'       => 'الحبوب',
         'pores'      => 'مظهر المسام',
@@ -62,6 +77,20 @@ class R479EngineService
         'maintain'   => 'ترطيب البشرة ونضارتها',
         'oil'        => 'الدهون الزائدة واللمعان',
         'eyes'       => 'الهالات تحت العين',
+    ];
+
+    public const TREATMENT_GOAL_DISPLAY_EN = [
+        'acne'       => 'Breakouts',
+        'pores'      => 'Pore Appearance',
+        'blackheads' => 'Blackheads',
+        'dark_spots' => 'Dark Spots',
+        'dullness'   => 'Skin Radiance',
+        'redness'    => 'Redness',
+        'dryness'    => 'Dryness & Skin Barrier',
+        'lines'      => 'Fine Lines',
+        'maintain'   => 'Hydration & Glow',
+        'oil'        => 'Excess Oil & Shine',
+        'eyes'       => 'Under-Eye Dark Circles',
     ];
 
     protected ?array $contract = null;
@@ -502,20 +531,54 @@ class R479EngineService
             }
 
             if ($general) {
-                $reason = 'ماسك ترطيب عام اختياري؛ ليس علاجًا للمشكلة المختارة';
+                $reason = Setting::getForLocale(
+                    'routine_support_general_mask_reason',
+                    'ar',
+                    'ماسك ترطيب عام اختياري؛ ليس علاجًا للمشكلة المختارة'
+                );
+                $reasonEn = Setting::getForLocale(
+                    'routine_support_general_mask_reason',
+                    'en',
+                    'Optional general hydrating mask; not a targeted treatment for the selected concern'
+                );
             } else {
                 $parts = [];
+                $partsEn = [];
                 foreach (array_keys($sup) as $g) {
                     $parts[] = self::GOAL_LABELS_AR[$g] ?? 'لمظهر الانتفاخ تحت العين، إذا كان موجودًا أيضًا';
+                    $partsEn[] = self::GOAL_LABELS_EN[$g] ?? 'under-eye puffiness if present';
                 }
                 $reason = 'دعم اختياري: ' . implode(' و', $parts);
+                $reasonEn = 'Optional support: ' . implode(' & ', $partsEn);
             }
 
             if ($entry['kind'] === 'eye_patch' && in_array('lines', $goals, true)) {
-                $reason = 'عناية اختيارية للخطوط الدقيقة حول العين' . (in_array('eyes', $goals, true) ? '؛ ولمظهر الانتفاخ إذا كان موجودًا أيضًا' : '');
+                $reason = in_array('eyes', $goals, true)
+                    ? 'عناية اختيارية للخطوط الدقيقة حول العين؛ ولمظهر الانتفاخ إذا كان موجودًا أيضًا'
+                    : Setting::getForLocale(
+                        'routine_support_eye_lines_reason',
+                        'ar',
+                        'عناية اختيارية للخطوط الدقيقة حول العين'
+                    );
+                $reasonEn = in_array('eyes', $goals, true)
+                    ? 'Optional care for fine lines around the eye area; and for puffiness if also present'
+                    : Setting::getForLocale(
+                        'routine_support_eye_lines_reason',
+                        'en',
+                        'Optional care for fine lines around the eye area'
+                    );
             }
             if ($entry['kind'] === 'acne_patch') {
-                $reason = 'للحبة السطحية المناسبة ذات الإفرازات؛ ليس للآثار أو الرؤوس السوداء';
+                $reason = Setting::getForLocale(
+                    'routine_support_acne_patch_reason',
+                    'ar',
+                    'للحبة السطحية المناسبة ذات الإفرازات؛ ليس للآثار أو الرؤوس السوداء'
+                );
+                $reasonEn = Setting::getForLocale(
+                    'routine_support_acne_patch_reason',
+                    'en',
+                    'For suitable surface whitehead blemishes; not for post-acne marks or blackheads'
+                );
             }
 
             $eligible[] = [
@@ -525,6 +588,7 @@ class R479EngineService
                 'rank_values' => $keys,
                 'general_support' => $general,
                 'reason' => $reason,
+                'reason_en' => $reasonEn,
                 'optional' => true,
                 'conditional_puffiness' => $entry['kind'] === 'eye_patch' && in_array('eyes', $goals, true),
             ];
@@ -636,10 +700,11 @@ class R479EngineService
     /**
      * Exact port of runtime/service.py::recommend() + UI enrichment & usage schedule
      */
-    public function recommend(array $answers, array $unavailable = [], array $selectedSupplements = []): array
+    public function recommend(array $answers, array $unavailable = [], array $selectedSupplements = [], string $lang = 'ar'): array
     {
         $this->loadData();
         $this->validateAnswers($answers);
+        $isEn = $this->isEnglishLocale($lang);
 
         $core = $this->selectCore($answers, $unavailable);
         $supplements = $this->chooseSupplements($answers, $core['products'], $unavailable);
@@ -663,13 +728,22 @@ class R479EngineService
             }
         }
 
-        $buildCard = function (string $sku, array $roles) use ($core, $matrixRoleBySku) {
+        $buildCard = function (string $sku, array $roles) use ($core, $matrixRoleBySku, $isEn) {
             $p = $this->masterBySku[$sku] ?? [];
             $c = $this->productsContent[$sku] ?? [];
             $matrixCard = $matrixRoleBySku[$sku] ?? null;
             $policy = $this->usagePolicies[$sku] ?? ($matrixCard['usage_policy'] ?? null);
             $shortAr = $this->usageShort[$sku] ?? ($matrixCard['usage_short_ar'] ?? null);
+            $shortEn = $this->translateUsageShortToEn($shortAr, $sku, $roles);
             $displayRoleAr = $matrixCard['display_role_ar'] ?? $this->resolveDisplayRoleAr($sku, $roles, $core['effective_goals']);
+            $displayRoleEn = $this->resolveDisplayRoleEn($sku, $roles, $core['effective_goals'], $displayRoleAr);
+            $noticeAr = $c['usage_notice_ar'] ?? '';
+            $noticeEn = $this->translateUsageNoticeToEn($noticeAr);
+
+            if (is_array($policy) && $isEn && isset($policy['label'])) {
+                $policy['label_ar'] = $policy['label'];
+                $policy['label'] = $this->translatePolicyLabelToEn($policy['label'], $policy['family'] ?? 'daily');
+            }
 
             return [
                 'sku' => $sku,
@@ -678,14 +752,17 @@ class R479EngineService
                 'size' => $c['size'] ?? ($p['Size'] ?? ''),
                 'roles' => $roles,
                 'routine_step_code' => $matrixCard['routine_step_code'] ?? ($roles[0] ?? 'step'),
-                'display_role_ar' => $displayRoleAr,
+                'display_role_ar' => $isEn ? $displayRoleEn : $displayRoleAr,
+                'display_role_en' => $displayRoleEn,
                 'description_ar' => $c['description'] ?? ($p['Description AR'] ?? ''),
                 'chosen_for_ar' => $matrixCard['chosen_for_ar'] ?? ($c['description'] ?? ($p['Description AR'] ?? '')),
                 'usage' => $c['usage_tiles'] ?? [],
                 'usage_text_ar' => $c['usage'] ?? '',
-                'usage_short_ar' => $shortAr,
+                'usage_short_ar' => $isEn ? ($shortEn ?? '') : ($shortAr ?? ''),
+                'usage_short_en' => $shortEn ?? '',
                 'usage_policy' => $policy,
-                'usage_notice_ar' => $c['usage_notice_ar'] ?? '',
+                'usage_notice_ar' => $isEn ? $noticeEn : $noticeAr,
+                'usage_notice_en' => $noticeEn,
                 'frequency' => $p['Frequency'] ?? '',
                 'usage_status' => 'reviewed_product_directions',
                 'guide_status' => isset($this->usageShort[$sku]) ? 'reviewed_short_copy' : 'individual_product_directions_only',
@@ -711,20 +788,26 @@ class R479EngineService
         foreach ($supplements['addons'] as $x) {
             $item = $buildCard($x['sku'], ['supplement']);
             $item['kind'] = $x['kind'];
-            $item['reason_ar'] = $x['reason'];
+            $item['reason_ar'] = $isEn ? ($x['reason_en'] ?? 'Optional routine support') : $x['reason'];
+            $item['reason_en'] = $x['reason_en'] ?? 'Optional routine support';
             $item['optional'] = true;
             $item['conditional_puffiness'] = $x['conditional_puffiness'];
             $item['general_support'] = $x['general_support'];
 
             $roleAr = 'عناية مكمّلة';
+            $roleEn = 'Optional Support';
             if (in_array($x['sku'], $masks, true)) {
                 $roleAr = 'القناع';
+                $roleEn = 'Hydrating Mask';
             } elseif ($x['sku'] === 'KC0173') {
                 $roleAr = 'لصقات العين';
+                $roleEn = 'Under-Eye Patches';
             } elseif ($x['sku'] === 'KC0153') {
                 $roleAr = 'لصقات الحبوب';
+                $roleEn = 'Blemish Patches';
             }
-            $item['display_role_ar'] = $roleAr;
+            $item['display_role_ar'] = $isEn ? $roleEn : $roleAr;
+            $item['display_role_en'] = $roleEn;
             $item['routine_step_code'] = 'supplement';
             $additions[] = $item;
         }
@@ -739,7 +822,7 @@ class R479EngineService
             }
         }
 
-        $schedule = $this->buildUsageSchedule($scheduleItems);
+        $schedule = $this->buildUsageSchedule($scheduleItems, $lang);
 
         return [
             'schema_version' => '1',
@@ -812,8 +895,9 @@ class R479EngineService
     /**
      * Exact port of frontend/presentation.js::usagePlan() & guide()
      */
-    public function buildUsageSchedule(array $selectedItems): array
+    public function buildUsageSchedule(array $selectedItems, string $lang = 'ar'): array
     {
+        $isEn = $this->isEnglishLocale($lang);
         $itemsWithPolicy = array_values(array_filter($selectedItems, fn (array $p) => !empty($p['usage_policy'])));
 
         $sortByOrder = function (array $list): array {
@@ -854,30 +938,57 @@ class R479EngineService
         $exfoliants = array_values(array_filter($itemsWithPolicy, fn (array $p) => ($p['usage_policy']['family'] ?? '') === 'exfoliant'));
 
         $separateNights = (count($retinoids) + count($exfoliants)) > 1;
-        $eveningNote = $separateNights ? 'المقشّر والريتينويد: ليالٍ منفصلة، وليس معًا. لا تجمع ريتينويدين.' : '';
+        $defaultConflictNote = $isEn
+            ? 'Exfoliant & Retinoid: Use on separate nights, never together. Do not combine two retinoids.'
+            : 'المقشّر والريتينويد: ليالٍ منفصلة، وليس معًا. لا تجمع ريتينويدين.';
+        $eveningNote = $separateNights
+            ? Setting::getForLocale('routine_separate_nights_warning', $lang, $defaultConflictNote)
+            : '';
 
-        $formatStep = fn (array $p) => [
-            'sku' => $p['sku'],
-            'brand' => $p['brand'],
-            'name' => $p['name'],
-            'display_role_ar' => $p['display_role_ar'],
-            'usage_short_ar' => $p['usage_short_ar'] ?? $p['usage_text_ar'] ?? '',
-            'usage_notice_ar' => $p['usage_notice_ar'] ?? '',
-            'order' => $p['usage_policy']['order'] ?? 0,
-            'family' => $p['usage_policy']['family'] ?? 'daily',
-            'label' => '', // Empty per canonical R479 spec so redundant inline badge is not rendered in usage view
-        ];
+        $formatStep = function (array $p) use ($isEn): array {
+            $displayRole = $isEn
+                ? ($this->cleanEnglish($p['display_role_en'] ?? null)
+                    ?? $this->translateDisplayRoleToEn($p['display_role_ar'] ?? null)
+                    ?? 'Skincare Step')
+                : ($p['display_role_ar'] ?? '');
+
+            $usageShort = $isEn
+                ? ($this->cleanEnglish($p['usage_short_en'] ?? null)
+                    ?? $this->translateUsageShortToEn($p['usage_short_ar'] ?? $p['usage_text_ar'] ?? null, $p['sku'] ?? '')
+                    ?? '')
+                : ($p['usage_short_ar'] ?? $p['usage_text_ar'] ?? '');
+
+            $usageNotice = $isEn
+                ? ($this->cleanEnglish($p['usage_notice_en'] ?? null)
+                    ?? $this->translateUsageNoticeToEn($p['usage_notice_ar'] ?? null))
+                : ($p['usage_notice_ar'] ?? '');
+
+            return [
+                'sku' => $p['sku'],
+                'brand' => $p['brand'],
+                'name' => $p['name'],
+                'display_role' => $displayRole,
+                'display_role_ar' => $displayRole,
+                'usage_short' => $usageShort,
+                'usage_short_ar' => $usageShort,
+                'usage_notice' => $usageNotice,
+                'usage_notice_ar' => $usageNotice,
+                'order' => $p['usage_policy']['order'] ?? 0,
+                'family' => $p['usage_policy']['family'] ?? 'daily',
+                'label' => '', // Empty per canonical R479 spec so redundant inline badge is not rendered in usage view
+            ];
+        };
 
         return [
             'morning' => [
                 'slot' => 'morning',
-                'label' => 'صباحًا',
+                'label' => Setting::getForLocale('routine_slot_morning_label', $lang, $isEn ? 'Morning' : 'صباحًا'),
                 'note' => '',
                 'steps' => array_map($formatStep, $morning),
             ],
             'evening' => [
                 'slot' => 'evening',
-                'label' => 'مساءً',
+                'label' => Setting::getForLocale('routine_slot_evening_label', $lang, $isEn ? 'Evening' : 'مساءً'),
                 'note' => $eveningNote,
                 'steps' => array_map($formatStep, $evening),
             ],
@@ -888,9 +999,10 @@ class R479EngineService
     /**
      * Build usage schedule directly from an arbitrary list of SKUs (core + supplements).
      */
-    public function buildScheduleFromSkus(array $skus): array
+    public function buildScheduleFromSkus(array $skus, string $lang = 'ar'): array
     {
         $this->loadData();
+        $isEn = $this->isEnglishLocale($lang);
         $items = [];
         $masks = ['KC0184', 'KC0185', 'KC0189', 'KC0207'];
 
@@ -901,40 +1013,366 @@ class R479EngineService
             $policy = $this->usagePolicies[$sku] ?? null;
             $shortAr = $this->usageShort[$sku] ?? null;
 
-            $displayRole = 'العناية';
+            $displayRoleAr = 'العناية';
+            $displayRoleEn = 'Skincare Step';
             if (in_array($sku, $masks, true)) {
-                $displayRole = 'القناع';
+                $displayRoleAr = 'القناع';
+                $displayRoleEn = 'Hydrating Mask';
             } elseif ($sku === 'KC0173') {
-                $displayRole = 'لصقات العين';
+                $displayRoleAr = 'لصقات العين';
+                $displayRoleEn = 'Under-Eye Patches';
             } elseif ($sku === 'KC0078') {
-                $displayRole = 'سيروم العين';
+                $displayRoleAr = 'سيروم العين';
+                $displayRoleEn = 'Eye Serum';
             } elseif ($sku === 'KC0153') {
-                $displayRole = 'لصقات الحبوب';
+                $displayRoleAr = 'لصقات الحبوب';
+                $displayRoleEn = 'Blemish Patches';
             } elseif ($sku === 'KC0094' || $sku === 'KC0219') {
-                $displayRole = 'بلسم التنظيف';
+                $displayRoleAr = 'بلسم التنظيف';
+                $displayRoleEn = 'Cleansing Balm';
             } elseif (!empty($p['Category'])) {
-                $rolesMap = [
+                $rolesMapAr = [
                     'Cleanser' => 'الغسول',
                     'Toner' => 'التونر',
                     'Serum' => 'السيروم',
                     'Moisturizer' => 'المرطب',
-                    'Sunscreen' => 'واقي الشمس'
+                    'Sunscreen' => 'واقي الشمس',
                 ];
-                $displayRole = $rolesMap[$p['Category']] ?? $p['Category'];
+                $displayRoleAr = $rolesMapAr[$p['Category']] ?? $p['Category'];
+                $displayRoleEn = $p['Category'];
             }
+
+            $shortTextAr = $shortAr ?? ($c['usage'] ?? '');
+            $shortTextEn = $this->translateUsageShortToEn($shortTextAr, $sku) ?? '';
+            $noticeAr = $c['usage_notice_ar'] ?? '';
+            $noticeEn = $this->translateUsageNoticeToEn($noticeAr);
 
             $items[] = [
                 'sku' => $sku,
                 'brand' => $c['brand'] ?? ($p['Brand'] ?? ''),
                 'name' => $c['name'] ?? ($p['Product'] ?? ''),
-                'display_role_ar' => $displayRole,
-                'usage_short_ar' => $shortAr ?? ($c['usage'] ?? ''),
-                'usage_notice_ar' => $c['usage_notice_ar'] ?? '',
+                'display_role_ar' => $isEn ? $displayRoleEn : $displayRoleAr,
+                'display_role_en' => $displayRoleEn,
+                'usage_short_ar' => $isEn ? $shortTextEn : $shortTextAr,
+                'usage_short_en' => $shortTextEn,
+                'usage_notice_ar' => $isEn ? $noticeEn : $noticeAr,
+                'usage_notice_en' => $noticeEn,
                 'usage_policy' => $policy,
             ];
         }
 
-        return $this->buildUsageSchedule($items);
+        return $this->buildUsageSchedule($items, $lang);
+    }
+
+    public function isEnglishLocale(?string $lang): bool
+    {
+        $normalized = strtolower(trim((string) ($lang ?? '')));
+        return str_starts_with($normalized, 'en');
+    }
+
+    public function containsArabic(?string $text): bool
+    {
+        if ($text === null || $text === '') {
+            return false;
+        }
+        return (bool) preg_match('/[\x{0600}-\x{06FF}\x{0750}-\x{077F}\x{08A0}-\x{08FF}]/u', $text);
+    }
+
+    private function cleanEnglish(?string $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+        $trimmed = trim($value);
+        if ($trimmed === '' || $this->containsArabic($trimmed)) {
+            return null;
+        }
+        return $trimmed;
+    }
+
+    public function translatePolicyLabelToEn(?string $labelAr, string $family = 'daily'): string
+    {
+        $k = trim((string) $labelAr);
+        if ($k !== '' && !$this->containsArabic($k)) {
+            return $k;
+        }
+        $map = [
+            'يومي بحسب التعليمات' => 'Daily as directed',
+            'ليالٍ منفصلة بالتدرج' => 'Separate nights, gradually',
+            'يبدأ تدريجيًا' => 'Start gradually',
+            'مرة إلى مرتين أسبوعيًا' => '1–2 times weekly',
+            'مساءً بالتدرج' => 'Evenings, gradually',
+        ];
+        if (isset($map[$k])) {
+            return $map[$k];
+        }
+        return in_array($family, ['retinoid', 'exfoliant', 'gradual'], true)
+            ? 'Start gradually'
+            : 'Daily use';
+    }
+
+    public function translateUsageNoticeToEn(?string $noticeAr): string
+    {
+        $k = trim((string) $noticeAr);
+        if ($k === '') {
+            return '';
+        }
+        if (!$this->containsArabic($k)) {
+            return $k;
+        }
+        $map = [
+            'للمعتادين على الريتينول، وليس الخيار الأول للمبتدئين. ابدأ بالتدرّج، وجرّبه على مساحة صغيرة قبل استخدامه على الوجه. أوقف الاستخدام عند ظهور تهيّج مستمر.'
+                => 'For experienced retinol users, not a first-line choice for beginners. Introduce gradually and patch-test on a small area before full-face application. Discontinue if persistent irritation occurs.',
+        ];
+        return $map[$k] ?? '';
+    }
+
+    protected function resolveDisplayRoleEn(string $sku, array $roles, array $effectiveGoals, string $displayRoleAr): string
+    {
+        $translated = $this->translateDisplayRoleToEn($displayRoleAr);
+        if ($translated !== null) {
+            return $translated;
+        }
+
+        if (in_array('cleanser', $roles, true)) {
+            return 'Cleanser';
+        }
+        if (in_array('moisturizer', $roles, true)) {
+            return 'Moisturizer';
+        }
+        if (in_array('sunscreen', $roles, true)) {
+            return 'Sunscreen';
+        }
+        if (in_array('supplement', $roles, true)) {
+            return 'Optional Support';
+        }
+        if ($roles === ['toner']) {
+            return 'Toner';
+        }
+
+        [$primary, $secondary] = $effectiveGoals;
+        $goalNames = [];
+        if (in_array('treatment1', $roles, true) && $primary) {
+            $goalNames[] = self::TREATMENT_GOAL_DISPLAY_EN[$primary] ?? $primary;
+        }
+        if (in_array('treatment2', $roles, true) && $secondary && $secondary !== $primary) {
+            $goalNames[] = self::TREATMENT_GOAL_DISPLAY_EN[$secondary] ?? $secondary;
+        }
+        $goalNames = array_values(array_unique($goalNames));
+
+        $cat = strtolower($this->masterBySku[$sku]['Category'] ?? 'serum');
+        $prefix = match (true) {
+            in_array('toner', $roles, true) || str_contains($cat, 'toner') => 'Toner',
+            str_contains($cat, 'eye') => 'Eye Cream',
+            str_contains($cat, 'cream') || str_contains($cat, 'moisturizer') => 'Cream',
+            str_contains($cat, 'ampoule') => 'Ampoule',
+            str_contains($cat, 'oil') => 'Face Oil',
+            default => 'Serum',
+        };
+
+        if (!empty($goalNames)) {
+            return $prefix . ' for ' . implode(' & ', $goalNames);
+        }
+
+        return 'Targeted Care';
+    }
+
+    public function translateDisplayRoleToEn(?string $roleAr): ?string
+    {
+        $k = trim((string) $roleAr);
+        if ($k === '') {
+            return null;
+        }
+        if (!$this->containsArabic($k)) {
+            return $k;
+        }
+
+        $map = [
+            'الغسول' => 'Cleanser',
+            'التونر' => 'Toner',
+            'المرطب' => 'Moisturizer',
+            'واقي الشمس' => 'Sunscreen',
+            'عناية مكمّلة' => 'Optional Support',
+            'القناع' => 'Hydrating Mask',
+            'لصقات العين' => 'Under-Eye Patches',
+            'سيروم العين' => 'Eye Serum',
+            'لصقات الحبوب' => 'Blemish Patches',
+            'بلسم التنظيف' => 'Cleansing Balm',
+            'العناية المركّزة' => 'Targeted Care',
+            'العناية' => 'Skincare Step',
+            'تونر للعناية بـالرؤوس السوداء' => 'Toner for Blackheads',
+            'سيروم للعناية بـالاحمرار' => 'Serum for Redness',
+            'سيروم للعناية بـالاحمرار والحبوب' => 'Serum for Redness & Breakouts',
+            'سيروم للعناية بـالحبوب' => 'Serum for Breakouts',
+            'سيروم للعناية بـالحبوب والاحمرار' => 'Serum for Breakouts & Redness',
+            'سيروم للعناية بـالدهون الزائدة واللمعان' => 'Serum for Excess Oil & Shine',
+            'سيروم للعناية بـمظهر المسام' => 'Serum for Pore Appearance',
+            'سيروم للعناية بـمظهر المسام والدهون الزائدة واللمعان' => 'Serum for Pores, Oil & Shine',
+            'سيروم للعناية بـإشراقة البشرة' => 'Serum for Skin Radiance',
+            'سيروم للعناية بـإشراقة البشرة والبقع الداكنة' => 'Serum for Radiance & Dark Spots',
+            'سيروم للعناية بـالبقع الداكنة' => 'Serum for Dark Spots',
+            'سيروم للعناية بـالبقع الداكنة وإشراقة البشرة' => 'Serum for Dark Spots & Radiance',
+            'أمبول للعناية بـإشراقة البشرة' => 'Ampoule for Skin Radiance',
+            'سيروم للعناية بـالجفاف ودعم حاجز البشرة' => 'Serum for Dryness & Skin Barrier',
+            'سيروم للعناية بـترطيب البشرة ونضارتها' => 'Serum for Hydration & Glow',
+            'بوستر للعناية بـالخطوط الدقيقة' => 'Booster for Fine Lines',
+            'كريم للعناية بـالخطوط الدقيقة' => 'Cream for Fine Lines',
+            'زيت للعناية بـالخطوط الدقيقة' => 'Face Oil for Fine Lines',
+            'كريم عين للعناية بـالهالات تحت العين' => 'Eye Cream for Dark Circles',
+            'سيروم للعناية بـالخطوط الدقيقة' => 'Serum for Fine Lines',
+        ];
+
+        if (isset($map[$k])) {
+            return $map[$k];
+        }
+
+        // Handle dynamic "<prefix> للعناية بـ<goal1> و<goal2>" combinations safely
+        if (str_contains($k, 'للعناية بـ')) {
+            [$rawPrefix, $rawRest] = explode('للعناية بـ', $k, 2);
+            $prefixMap = [
+                'سيروم' => 'Serum',
+                'تونر' => 'Toner',
+                'كريم عين' => 'Eye Cream',
+                'كريم' => 'Cream',
+                'أمبول' => 'Ampoule',
+                'بوستر' => 'Booster',
+                'زيت' => 'Face Oil',
+            ];
+            $enPrefix = $prefixMap[trim($rawPrefix)] ?? 'Targeted Care';
+            $translatedGoals = [];
+            foreach (self::TREATMENT_GOAL_DISPLAY_AR as $code => $arGoal) {
+                if (str_contains($rawRest, $arGoal)) {
+                    $translatedGoals[] = self::TREATMENT_GOAL_DISPLAY_EN[$code] ?? $code;
+                }
+            }
+            if (!empty($translatedGoals)) {
+                return $enPrefix . ' for ' . implode(' & ', array_unique($translatedGoals));
+            }
+            return $enPrefix;
+        }
+
+        return null;
+    }
+
+    public function translateUsageShortToEn(?string $shortAr, string $sku = '', array $roles = []): ?string
+    {
+        $k = trim((string) $shortAr);
+        if ($k === '') {
+            return null;
+        }
+        if (!$this->containsArabic($k)) {
+            return $k;
+        }
+
+        $map = [
+            'دلّك على بشرة مبللة ثم اشطف بالماء الفاتر.'
+                => 'Massage onto damp skin, then rinse with lukewarm water.',
+            'بعد التنظيف، على المناطق المطلوبة دون فرك. ابدأ بتكرار منخفض؛ استخدمه في ليلة منفصلة عن الريتينويد والمقشرات الأخرى.'
+                => 'After cleansing, apply to targeted areas without rubbing. Start infrequently and use on a separate night from retinoids and other exfoliants.',
+            'ضع كمية قليلة قبل المرطب. ابدأ بتكرار منخفض وزده بحسب التحمل.'
+                => 'Apply a small amount before moisturizer. Start infrequently and build up as tolerated.',
+            'وزّع كمية مناسبة بعد خطوات العناية لترطيب البشرة.'
+                => 'Apply an appropriate amount after your skincare steps to hydrate the skin.',
+            'آخر خطوة صباحًا؛ جدّد كل ساعتين أثناء التعرض للشمس وبعد التعرّق أو السباحة.'
+                => 'Final morning step; reapply every 2 hours during sun exposure and after swimming or sweating.',
+            'اختياري، مرة إلى مرتين أسبوعيًا: بعد التونر أو السيروم، اتركه 3–4 ساعات أو طوال الليل. أضف مرطبًا عند الحاجة.'
+                => 'Optional, 1–2 times weekly: after toner or serum, leave on for 3–4 hours or overnight. Add moisturizer if needed.',
+            'عند الحاجة: ضع اللصقة على الحبة النظيفة والجافة قبل المستحضرات، وبدّلها عند ابيضاضها.'
+                => 'As needed: stick a patch onto a clean, dry blemish before applying skincare, and replace once it turns white.',
+            'ضع كمية قليلة قبل المرطب وربّت حتى الامتصاص.'
+                => 'Apply a small amount before moisturizer and pat gently until absorbed.',
+            'كمية صغيرة مساءً، مع التدرّج بحسب التحمل. لا تجمعه مع مقشّر أو ريتينويد آخر في الليلة نفسها.'
+                => 'Apply a small amount in the evening, increasing gradually as tolerated. Do not layer with an exfoliant or another retinoid on the same night.',
+            'بعد التونر وقبل السيروم والمرطب، ربّت بلطف دون فرك.'
+                => 'After toner and before serum and moisturizer, pat gently without rubbing.',
+            'اختياري، مرة إلى مرتين أسبوعيًا: بعد المرطب، اترك الماسك نحو ساعة ثم أزله.'
+                => 'Optional, 1–2 times weekly: after moisturizer, leave the mask on for about an hour, then remove.',
+            'ضع كمية قليلة صباحًا قبل المرطب وواقي الشمس، وابدأ بالتدرّج.'
+                => 'Apply a small amount in the morning before moisturizer and sunscreen, starting gradually.',
+            'عند الحاجة: رشّ من نحو 20 سم مع إغلاق العينين، ثم ربّت بلطف.'
+                => 'As needed: mist from about 20 cm away with eyes closed, then pat gently.',
+            'اختياري: بعد التونر، اتركها تحت العين 10–20 دقيقة ثم أزلها. لا تنم بها.'
+                => 'Optional: after toner, place under the eyes for 10–20 minutes, then remove. Do not sleep with patches on.',
+            'للمعتادين على الريتينول، وليس الخيار الأول للمبتدئين. جرّبه على مساحة صغيرة، وابدأ بقطرة إلى قطرتين مساءً بالتدرّج. لا تجمعه مع ريتينويد آخر أو مقشّر أو فيتامين C عالي التركيز. أوقفه عند تهيّج مستمر.'
+                => 'For experienced retinol users, not a first-line option for beginners. Patch-test first and start with 1–2 drops in the evening gradually. Avoid pairing with another retinoid, exfoliant, or high-strength vitamin C. Stop if persistent irritation occurs.',
+            'ربّت بكمية قليلة حول العين، بعيدًا عن حافة الجفن.'
+                => 'Pat a small amount gently around the eye contour, away from the lash line.',
+            'بعد التنظيف، دون فرك. ابدأ بالتدرّج؛ لا تجمعه مع مقشّر آخر أو ريتينويد في الليلة نفسها.'
+                => 'Apply after cleansing without rubbing. Start gradually and avoid pairing with another exfoliant or retinoid on the same night.',
+            'بعد التنظيف، ربّت بلطف حتى الامتصاص.'
+                => 'After cleansing, pat gently until absorbed.',
+            'صباحًا أو مساءً، وزّع قطرة إلى قطرتين بعد التنظيف والتونر، وربّت بلطف ثم ضع المرطب. استخدم واقي الشمس صباحًا.'
+                => 'Morning or evening, spread 1–2 drops after cleansing and toning, pat gently, and apply moisturizer. Use sunscreen in the morning.',
+        ];
+
+        if (isset($map[$k])) {
+            return $map[$k];
+        }
+
+        // Category/role fallback if a new product uses non-standard text
+        if (in_array('cleanser', $roles, true)) {
+            return 'Massage onto damp skin, then rinse cleanly with lukewarm water.';
+        }
+        if (in_array('sunscreen', $roles, true)) {
+            return 'Apply generously as your final morning step and reapply every 2 hours outdoors.';
+        }
+        if (in_array('moisturizer', $roles, true)) {
+            return 'Apply evenly over face and neck after serums to lock in hydration.';
+        }
+        if (in_array('toner', $roles, true)) {
+            return 'After cleansing, pat gently onto skin until absorbed.';
+        }
+
+        return null;
+    }
+
+    /**
+     * Expose canonical per-SKU Dashboard usage defaults for non-destructive seeding/backfill.
+     */
+    public function getCatalogUsageDefaults(): array
+    {
+        $this->loadData();
+        $out = [];
+        $allSkus = array_unique(array_merge(
+            array_keys($this->catalogBySku ?? []),
+            array_keys($this->usageShort ?? []),
+            array_keys($this->usagePolicies ?? []),
+            array_keys($this->displayLabels ?? []),
+            array_keys($this->productsContent ?? [])
+        ));
+
+        foreach ($allSkus as $sku) {
+            $c = $this->productsContent[$sku] ?? [];
+            $p = $this->masterBySku[$sku] ?? [];
+            $policy = $this->usagePolicies[$sku] ?? [];
+            $shortAr = $this->usageShort[$sku] ?? '';
+            $shortEn = $shortAr !== '' ? ($this->translateUsageShortToEn($shortAr, $sku) ?? '') : '';
+            $labels = $this->displayLabels[$sku] ?? [];
+            $roleAr = count($labels) === 1 ? $labels[0] : '';
+            $roleEn = $roleAr !== '' ? ($this->translateDisplayRoleToEn($roleAr) ?? '') : '';
+
+            $badgeAr = trim((string) ($policy['label'] ?? ''));
+            $badgeEn = $badgeAr !== '' ? $this->translatePolicyLabelToEn($badgeAr, $policy['family'] ?? 'daily') : '';
+            $noticeAr = trim((string) ($c['usage_notice_ar'] ?? ''));
+            $noticeEn = $noticeAr !== '' ? $this->translateUsageNoticeToEn($noticeAr) : '';
+
+            $entry = array_filter([
+                'routine_role_ar' => $roleAr,
+                'routine_role_en' => $roleEn,
+                'routine_usage_short_ar' => $shortAr,
+                'routine_usage_short_en' => $shortEn,
+                'routine_usage_badge_ar' => $badgeAr,
+                'routine_usage_badge_en' => $badgeEn,
+                'routine_usage_notice_ar' => $noticeAr,
+                'routine_usage_notice_en' => $noticeEn,
+            ], fn ($v) => $v !== '');
+
+            if (!empty($entry)) {
+                $out[$sku] = $entry;
+            }
+        }
+
+        return $out;
     }
 }
 

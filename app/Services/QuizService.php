@@ -297,7 +297,7 @@ class QuizService
     public function saveAssessment(array $data): array
     {
         $user = auth('sanctum')->user();
-        $lang = request()->header('lang') ?? app()->getLocale();
+        $lang = $this->resolveLocale();
 
         $resolved = $this->resolveAnswers($data);
         $r479Answers = $resolved['answers'];
@@ -404,13 +404,19 @@ class QuizService
                 $questionsAndAnswers[] = [
                     'question_id'      => $qModel->id,
                     'question_key'     => $qModel->key,
-                    'question_title'   => $lang === 'ar' ? $qModel->title_ar : $qModel->title_en,
+                    'question_title'   => $lang === 'ar'
+                        ? ($qModel->title_ar ?: $qModel->title_en)
+                        : ($qModel->title_en ?: $qModel->title_ar),
                     'selected_options' => $optModel ? [
                         [
                             'option_id'    => $optModel->id,
                             'code'         => $optModel->code,
-                            'option_title' => $lang === 'ar' ? $optModel->title_ar : $optModel->title_en,
-                            'description'  => $optModel->description,
+                            'option_title' => $lang === 'ar'
+                                ? ($optModel->title_ar ?: $optModel->title_en)
+                                : ($optModel->title_en ?: $optModel->title_ar),
+                            'description'  => $lang === 'ar'
+                                ? ($optModel->description_ar ?: $optModel->description)
+                                : ($optModel->description_en ?: $optModel->description),
                             'image'        => $optModel->image,
                             'option_type'  => $optModel->option_type,
                             'mapped_id'    => $optModel->mapped_id,
@@ -432,7 +438,8 @@ class QuizService
         }
 
         // 3. Run R479 Recommendation Engine
-        $engineResult = $this->r479Engine->recommend($r479Answers, $unavailableSkus, $selectedSupplements);
+        $engineResult = $this->r479Engine->recommend($r479Answers, $unavailableSkus, $selectedSupplements, $lang);
+        $isEn = $this->r479Engine->isEnglishLocale($lang);
 
         // Preload Eloquent Product models for all recommended SKUs
         $allSkus = array_values(array_unique(array_merge(
@@ -476,7 +483,27 @@ class QuizService
             ]);
 
             $useTimeAr = $this->mapPeriodToArabic($card['usage_policy']['period'] ?? 'both', $lang);
-            $badgeAr = $this->mapBadgeLabel($card['usage_policy'] ?? [], $lang);
+            $badgeAr = $this->resolveProductUsageOverride($product, 'routine_usage_badge_ar', 'routine_usage_badge_en', $isEn)
+                ?? $this->mapBadgeLabel($card['usage_policy'] ?? [], $lang);
+            $displayRole = $this->resolveProductUsageOverride($product, 'routine_role_ar', 'routine_role_en', $isEn)
+                ?? $card['display_role_ar'];
+            $chosenFor = $isEn
+                ? ($this->cleanEnglish($product->english_brief_insight ?? null)
+                    ?? $this->cleanEnglish($product->english_description ?? null)
+                    ?? '')
+                : $card['chosen_for_ar'];
+            $usageText = $isEn
+                ? ($this->cleanEnglish($product->english_how_to_use ?? null)
+                    ?? $this->cleanEnglish($product->formatEnglishHowToUseLines())
+                    ?? '')
+                : ($card['usage_text_ar'] ?? '');
+            $usageTiles = $isEn
+                ? ($product->usage_instructions['tiles'] ?? [])
+                : ($card['usage'] ?? []);
+            $usageShort = $this->resolveProductUsageOverride($product, 'routine_usage_short_ar', 'routine_usage_short_en', $isEn)
+                ?? ($card['usage_short_ar'] ?? '');
+            $usageNotice = $this->resolveProductUsageOverride($product, 'routine_usage_notice_ar', 'routine_usage_notice_en', $isEn)
+                ?? ($card['usage_notice_ar'] ?? '');
 
             $primaryRoutineResponse[] = [
                 'display_order'       => $orderIndex++,
@@ -484,17 +511,25 @@ class QuizService
                 'step_id'             => $stepModel?->id ?? $orderIndex,
                 'sku'                 => $sku,
                 'roles'               => $card['roles'],
-                'display_role_ar'     => $card['display_role_ar'],
-                'routine_step_ar'     => $card['display_role_ar'],
+                'display_role'        => $displayRole,
+                'display_role_ar'     => $displayRole,
+                'routine_step'        => $displayRole,
+                'routine_step_ar'     => $displayRole,
                 'routine_step_code'   => $card['routine_step_code'],
+                'use_time'            => $useTimeAr,
                 'use_time_ar'         => $useTimeAr,
+                'usage_badge'         => $badgeAr,
                 'usage_badge_ar'      => $badgeAr,
-                'chosen_for_ar'       => $card['chosen_for_ar'],
-                'usage_short_ar'      => $card['usage_short_ar'] ?? '',
-                'usage_text_ar'       => $card['usage_text_ar'] ?? '',
-                'usage_tiles'         => $card['usage'] ?? [],
+                'chosen_for'          => $chosenFor,
+                'chosen_for_ar'       => $chosenFor,
+                'usage_short'         => $usageShort,
+                'usage_short_ar'      => $usageShort,
+                'usage_text'          => $usageText,
+                'usage_text_ar'       => $usageText,
+                'usage_tiles'         => $usageTiles,
                 'usage_policy'        => $card['usage_policy'] ?? null,
-                'usage_notice_ar'     => $card['usage_notice_ar'] ?? '',
+                'usage_notice'        => $usageNotice,
+                'usage_notice_ar'     => $usageNotice,
                 'product'             => ProductListResource::make($product),
             ];
         }
@@ -510,37 +545,63 @@ class QuizService
             }
 
             $useTimeAr = $this->mapPeriodToArabic($card['usage_policy']['period'] ?? 'evening', $lang);
-            $badgeAr = $this->mapBadgeLabel($card['usage_policy'] ?? [], $lang);
+            $badgeAr = $this->resolveProductUsageOverride($product, 'routine_usage_badge_ar', 'routine_usage_badge_en', $isEn)
+                ?? $this->mapBadgeLabel($card['usage_policy'] ?? [], $lang);
 
             $masks = ['KC0184', 'KC0185', 'KC0189', 'KC0207'];
             $isMask = in_array($sku, $masks, true);
             $nightVariant = $isMask ? [
                 'id' => 'mask:' . $sku,
-                'label' => 'ليلة القناع بدل المرطب',
-                'badge' => 'مرة إلى مرتين أسبوعيًا',
-                'note' => 'في ليلة القناع، يحلّ الماسك محل المرطب بعد السيروم.'
+                'label' => Setting::getForLocale('routine_variant_mask_label', $lang, $isEn ? 'Mask Night (Instead of Moisturizer)' : 'ليلة القناع بدل المرطب'),
+                'badge' => Setting::getForLocale('routine_variant_mask_badge', $lang, $isEn ? '1–2 times weekly' : 'مرة إلى مرتين أسبوعيًا'),
+                'note' => Setting::getForLocale('routine_variant_mask_note', $lang, $isEn ? 'On mask nights, the mask replaces moisturizer after serum.' : 'في ليلة القناع، يحلّ الماسك محل المرطب بعد السيروم.'),
             ] : ($sku === 'KC0085' ? [
                 'id' => 'wash-mask',
-                'label' => 'ليلة قناع المسام',
-                'badge' => 'مرة إلى مرتين أسبوعيًا',
-                'note' => 'يُستخدم بعد الغسول وقبل التونر.'
+                'label' => Setting::getForLocale('routine_variant_wash_mask_label', $lang, $isEn ? 'Pore Mask Night' : 'ليلة قناع المسام'),
+                'badge' => Setting::getForLocale('routine_variant_wash_mask_badge', $lang, $isEn ? '1–2 times weekly' : 'مرة إلى مرتين أسبوعيًا'),
+                'note' => Setting::getForLocale('routine_variant_wash_mask_note', $lang, $isEn ? 'Use after cleanser and before toner.' : 'يُستخدم بعد الغسول وقبل التونر.'),
             ] : ($sku === 'KC0173' ? [
                 'id' => 'eye-patch',
-                'label' => 'ليلة لصقات العين',
-                'badge' => '2–3 مرات أسبوعيًا',
-                'note' => 'تُوضع تحت العينين لمدة 10–20 دقيقة بعد التنظيف.'
+                'label' => Setting::getForLocale('routine_variant_eye_patch_label', $lang, $isEn ? 'Eye Patch Night' : 'ليلة لصقات العين'),
+                'badge' => Setting::getForLocale('routine_variant_eye_patch_badge', $lang, $isEn ? '2–3 times weekly' : '2–3 مرات أسبوعيًا'),
+                'note' => Setting::getForLocale('routine_variant_eye_patch_note', $lang, $isEn ? 'Place under the eyes for 10–20 minutes after cleansing.' : 'تُوضع تحت العينين لمدة 10–20 دقيقة بعد التنظيف.'),
             ] : null));
+
+            $supportRole = $this->resolveProductUsageOverride($product, 'routine_role_ar', 'routine_role_en', $isEn)
+                ?? $card['display_role_ar']
+                ?? ($isEn ? 'Optional Support' : 'عناية مكمّلة');
+            $supportChosenFor = $isEn
+                ? ($this->cleanEnglish($product->english_brief_insight ?? null)
+                    ?? $this->cleanEnglish($product->english_description ?? null)
+                    ?? '')
+                : $card['chosen_for_ar'];
+            $supportUsageShort = $this->resolveProductUsageOverride($product, 'routine_usage_short_ar', 'routine_usage_short_en', $isEn)
+                ?? ($card['usage_short_ar'] ?? '');
+            $supportUsageText = $isEn
+                ? ($this->cleanEnglish($product->english_how_to_use ?? null)
+                    ?? $this->cleanEnglish($product->formatEnglishHowToUseLines())
+                    ?? '')
+                : ($card['usage_text_ar'] ?? '');
+            $supportUsageTiles = $isEn
+                ? ($product->usage_instructions['tiles'] ?? [])
+                : ($card['usage'] ?? []);
+            $supportNotice = $this->resolveProductUsageOverride($product, 'routine_usage_notice_ar', 'routine_usage_notice_en', $isEn)
+                ?? ($card['usage_notice_ar'] ?? '');
+            $supportReason = $card['reason_ar'] ?? '';
 
             $scheduleStep = [
                 'sku' => $sku,
-                'brand' => $card['brand'] ?? ($product->brand->name ?? ''),
-                'name' => $card['name'] ?? ($product->name_ar ?? $product->name_en),
-                'display_role_ar' => $card['display_role_ar'] ?? 'عناية مكمّلة',
-                'usage_short_ar' => $card['usage_short_ar'] ?? ($card['usage_text_ar'] ?? ''),
-                'usage_notice_ar' => $card['usage_notice_ar'] ?? '',
+                'brand' => $product->brand?->name_en ?? ($card['brand'] ?? ''),
+                'name' => $product->fixedFullName(),
+                'display_role' => $supportRole,
+                'display_role_ar' => $supportRole,
+                'usage_short' => $supportUsageShort ?: $supportUsageText,
+                'usage_short_ar' => $supportUsageShort ?: $supportUsageText,
+                'usage_notice' => $supportNotice,
+                'usage_notice_ar' => $supportNotice,
                 'order' => $card['usage_policy']['order'] ?? 55,
                 'family' => $card['usage_policy']['family'] ?? 'weekly',
-                'label' => $card['usage_policy']['label'] ?? '',
+                'label' => $badgeAr,
                 'period' => $card['usage_policy']['period'] ?? 'evening',
             ];
 
@@ -551,23 +612,35 @@ class QuizService
                 'sku'                 => $sku,
                 'kind'                => $card['kind'] ?? 'supplement',
                 'roles'               => ['supplement'],
-                'display_role_ar'     => $card['display_role_ar'] ?? 'عناية مكمّلة',
-                'routine_step_ar'     => $card['display_role_ar'] ?? 'عناية مكمّلة',
+                'display_role'        => $supportRole,
+                'display_role_ar'     => $supportRole,
+                'routine_step'        => $supportRole,
+                'routine_step_ar'     => $supportRole,
                 'routine_step_code'   => 'supplement',
+                'use_time'            => $useTimeAr,
                 'use_time_ar'         => $useTimeAr,
+                'usage_badge'         => $badgeAr,
                 'usage_badge_ar'      => $badgeAr,
-                'chosen_for_ar'       => $card['chosen_for_ar'],
-                'reason_ar'           => $card['reason_ar'] ?? '',
-                'usage_short_ar'      => $card['usage_short_ar'] ?? '',
-                'usage_text_ar'       => $card['usage_text_ar'] ?? '',
-                'usage_tiles'         => $card['usage'] ?? [],
+                'chosen_for'          => $supportChosenFor,
+                'chosen_for_ar'       => $supportChosenFor,
+                'reason'              => $supportReason,
+                'reason_ar'           => $supportReason,
+                'usage_short'         => $supportUsageShort,
+                'usage_short_ar'      => $supportUsageShort,
+                'usage_text'          => $supportUsageText,
+                'usage_text_ar'       => $supportUsageText,
+                'usage_tiles'         => $supportUsageTiles,
                 'usage_policy'        => $card['usage_policy'] ?? null,
-                'usage_notice_ar'     => $card['usage_notice_ar'] ?? '',
+                'usage_notice'        => $supportNotice,
+                'usage_notice_ar'     => $supportNotice,
                 'usage_schedule_step' => $scheduleStep,
                 'night_variant'       => $nightVariant,
                 'product'             => ProductListResource::make($product),
             ];
         }
+
+        // Sync usage_schedule steps with fixed English DB product names & Dashboard overrides
+        $usageSchedule = $this->applyDashboardProductOverridesToSchedule($engineResult['usage_schedule'], $productsBySku, $isEn);
 
         // 6. Build Diagnosis Summary matching R479 presentation.js profile()
         $diagnosis = $this->buildDiagnosis($r479Answers, $resolved['options'], $lang);
@@ -601,62 +674,100 @@ class QuizService
                 'primary_routine'    => $primaryRoutineResponse,
                 'routine_support'    => $routineSupportResponse,
                 'cart_addons'        => [],
-                'usage_schedule'     => $engineResult['usage_schedule'],
+                'usage_schedule'     => $usageSchedule,
             ],
         ];
     }
 
     protected function buildDiagnosis(array $answers, array $options, string $lang): array
     {
+        $isEn = $this->r479Engine->isEnglishLocale($lang);
         $skinArMap = [
             'oily'        => 'دهنية',
             'combination' => 'مختلطة',
             'normal'      => 'عادية',
             'dry'         => 'جافة',
         ];
+        $skinEnMap = [
+            'oily'        => 'oily',
+            'combination' => 'combination',
+            'normal'      => 'normal',
+            'dry'         => 'dry',
+        ];
+
         $skinAr = $skinArMap[$answers['skin']] ?? 'متوازنة';
+        $skinEn = $skinEnMap[$answers['skin']] ?? 'balanced';
         $sensPhraseAr = $answers['sensitive'] ? 'وتميل إلى التحسّس.' : 'ولا تتحسّس بسهولة.';
+        $sensPhraseEn = $answers['sensitive'] ? 'and tends to get irritated easily.' : 'and does not irritate easily.';
 
         $primaryLabelAr = $options[1]?->title_ar ?? (R479EngineService::GOAL_LABELS_AR[$answers['primary']] ?? $answers['primary']);
+        $primaryLabelEn = $options[1]?->title_en ?? (R479EngineService::GOAL_LABELS_EN[$answers['primary']] ?? $answers['primary']);
+
         $secondaryLabelAr = ($answers['secondary'] && isset($options[4]))
             ? $options[4]->title_ar
             : '';
+        $secondaryLabelEn = ($answers['secondary'] && isset($options[4]))
+            ? ($options[4]->title_en ?: ($this->cleanEnglish($options[4]->title_ar) ?? (R479EngineService::GOAL_LABELS_EN[$answers['secondary']] ?? '')))
+            : '';
 
-        $skinSummaryAr = "بحسب إجاباتك، بشرتك {$skinAr}، {$sensPhraseAr}";
+        $skinPrefix = Setting::getForLocale(
+            'routine_diagnosis_skin_prefix',
+            $lang,
+            $isEn ? 'Based on your answers, your skin is' : 'بحسب إجاباتك، بشرتك'
+        );
+        $sensPhrase = $answers['sensitive']
+            ? Setting::getForLocale('routine_diagnosis_sensitive_yes', $lang, $isEn ? 'and tends to get irritated easily.' : 'وتميل إلى التحسّس.')
+            : Setting::getForLocale('routine_diagnosis_sensitive_no', $lang, $isEn ? 'and does not irritate easily.' : 'ولا تتحسّس بسهولة.');
+
+        $skinSummary = $isEn
+            ? "{$skinPrefix} {$skinEn}, {$sensPhrase}"
+            : "{$skinPrefix} {$skinAr}، {$sensPhrase}";
 
         $badges = [];
         if ($options[1]) {
-            $badges[] = $lang === 'ar' ? $options[1]->title_ar : $options[1]->title_en;
+            $badges[] = $isEn ? ($options[1]->title_en ?: $options[1]->title_ar) : $options[1]->title_ar;
         }
         if ($options[2]) {
-            $skinTitle = $lang === 'ar' ? $options[2]->title_ar : $options[2]->title_en;
-            $badges[] = ($lang === 'ar' ? 'بشرة ' : '') . $skinTitle . ($lang === 'en' ? ' Skin' : '');
+            $skinTitle = $isEn ? ($options[2]->title_en ?: $options[2]->title_ar) : $options[2]->title_ar;
+            $badges[] = ($isEn ? '' : 'بشرة ') . $skinTitle . ($isEn ? ' Skin' : '');
         }
         if ($answers['sensitive']) {
-            $badges[] = $lang === 'ar' ? 'تتهيّج بسهولة' : 'Sensitive Skin';
+            $badges[] = $isEn ? 'Sensitive Skin' : 'تتهيّج بسهولة';
         }
         if ($answers['secondary'] && $options[4] && $options[4]->code !== 'none') {
-            $badges[] = $lang === 'ar' ? $options[4]->title_ar : $options[4]->title_en;
+            $badges[] = $isEn ? ($options[4]->title_en ?: $options[4]->title_ar) : $options[4]->title_ar;
         }
 
-        $goalsSummary = array_values(array_filter([
-            $skinSummaryAr,
-            $options[1]?->description_ar,
-            ($answers['secondary'] && $options[4] && $options[4]->code !== 'none') ? $options[4]->description_ar : null,
-        ]));
+        $goalsSummary = $isEn
+            ? array_values(array_filter([
+                $skinSummary,
+                $this->cleanEnglish($options[1]?->description_en ?? null),
+                ($answers['secondary'] && $options[4] && $options[4]->code !== 'none')
+                    ? $this->cleanEnglish($options[4]->description_en ?? null)
+                    : null,
+            ]))
+            : array_values(array_filter([
+                $skinSummary,
+                $options[1]?->description_ar,
+                ($answers['secondary'] && $options[4] && $options[4]->code !== 'none') ? $options[4]->description_ar : null,
+            ]));
 
         return [
-            'title'          => $lang === 'ar' ? 'روتينك المقترح' : 'Your Suggested Routine',
-            'skin_summary'   => $skinSummaryAr,
-            'focus_goal'     => $primaryLabelAr,
-            'extra_concern'  => $secondaryLabelAr ?: null,
+            'title'          => Setting::getForLocale('routine_diagnosis_title', $lang, $isEn ? 'Your Suggested Routine' : 'روتينك المقترح'),
+            'skin_summary'   => $skinSummary,
+            'focus_goal'     => $isEn ? $primaryLabelEn : $primaryLabelAr,
+            'extra_concern'  => ($isEn ? $secondaryLabelEn : $secondaryLabelAr) ?: null,
             'badges'         => array_values(array_unique($badges)),
             'goals_summary'  => $goalsSummary,
             'consultation'   => [
-                'title'       => $lang === 'ar' ? 'هل تودين استشارة خبيرة؟' : 'Would you like expert consultation?',
-                'description' => $lang === 'ar'
-                    ? 'مستشارو KCODE متواجدون للإجابة على استفساراتك وتخصيص الروتين أكثر.'
-                    : 'KCODE advisors are available to answer your questions and further customize your routine.',
+                'title'       => Setting::getForLocale('routine_consultation_title', $lang, $isEn ? 'Would you like expert consultation?' : 'هل تودين استشارة خبيرة؟'),
+                'description' => Setting::getForLocale(
+                    'routine_consultation_desc',
+                    $lang,
+                    $isEn
+                        ? 'KCODE advisors are available to answer your questions and further customize your routine.'
+                        : 'مستشارو KCODE متواجدون للإجابة على استفساراتك وتخصيص الروتين أكثر.'
+                ),
             ],
         ];
     }
@@ -773,8 +884,95 @@ class QuizService
     /**
      * Recalculate usage schedule dynamically when supplements are added or removed (F04).
      */
-    public function recalculateSchedule(array $skus): array
+    public function recalculateSchedule(array $skus, ?string $lang = null): array
     {
-        return $this->r479Engine->buildScheduleFromSkus($skus);
+        $resolvedLang = $lang ?? $this->resolveLocale();
+        $isEn = $this->r479Engine->isEnglishLocale($resolvedLang);
+        $schedule = $this->r479Engine->buildScheduleFromSkus($skus, $resolvedLang);
+
+        $normalizedSkus = array_values(array_unique(array_filter(array_map(fn ($s) => strtoupper(trim((string) $s)), $skus))));
+        if (empty($normalizedSkus)) {
+            return $schedule;
+        }
+
+        $productsBySku = Product::with('brand')->whereIn('sku', $normalizedSkus)->get()->keyBy('sku');
+        return $this->applyDashboardProductOverridesToSchedule($schedule, $productsBySku, $isEn);
+    }
+
+    private function applyDashboardProductOverridesToSchedule(array $schedule, $productsBySku, bool $isEn): array
+    {
+        foreach (['morning', 'evening'] as $slotKey) {
+            if (empty($schedule[$slotKey]['steps']) || !is_array($schedule[$slotKey]['steps'])) {
+                continue;
+            }
+            $schedule[$slotKey]['steps'] = array_map(function (array $step) use ($productsBySku, $isEn) {
+                $dbProd = !empty($step['sku']) ? $productsBySku->get($step['sku']) : null;
+                if (!$dbProd) {
+                    return $step;
+                }
+
+                $step['name'] = $dbProd->fixedFullName();
+                if ($dbProd->brand?->name_en) {
+                    $step['brand'] = $dbProd->brand->name_en;
+                }
+
+                $roleOverride = $this->resolveProductUsageOverride($dbProd, 'routine_role_ar', 'routine_role_en', $isEn);
+                if ($roleOverride !== null) {
+                    $step['display_role'] = $roleOverride;
+                    $step['display_role_ar'] = $roleOverride;
+                }
+
+                $shortOverride = $this->resolveProductUsageOverride($dbProd, 'routine_usage_short_ar', 'routine_usage_short_en', $isEn);
+                if ($shortOverride !== null) {
+                    $step['usage_short'] = $shortOverride;
+                    $step['usage_short_ar'] = $shortOverride;
+                }
+
+                $noticeOverride = $this->resolveProductUsageOverride($dbProd, 'routine_usage_notice_ar', 'routine_usage_notice_en', $isEn);
+                if ($noticeOverride !== null) {
+                    $step['usage_notice'] = $noticeOverride;
+                    $step['usage_notice_ar'] = $noticeOverride;
+                }
+
+                return $step;
+            }, $schedule[$slotKey]['steps']);
+        }
+
+        return $schedule;
+    }
+
+    private function resolveProductUsageOverride(Product $product, string $arKey, string $enKey, bool $isEn): ?string
+    {
+        $json = is_array($product->usage_instructions_json) ? $product->usage_instructions_json : [];
+        if ($isEn) {
+            return $this->cleanEnglish($json[$enKey] ?? null);
+        }
+
+        $arVal = trim((string) ($json[$arKey] ?? ''));
+        return $arVal !== '' ? $arVal : null;
+    }
+
+    private function resolveLocale(): string
+    {
+        $raw = request()->query('lang')
+            ?? request()->header('lang')
+            ?? request()->header('X-Language')
+            ?? app()->getLocale()
+            ?? 'ar';
+
+        $normalized = strtolower(trim((string) $raw));
+        return str_starts_with($normalized, 'en') ? 'en' : 'ar';
+    }
+
+    private function cleanEnglish(?string $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+        $trimmed = trim($value);
+        if ($trimmed === '' || $this->r479Engine->containsArabic($trimmed)) {
+            return null;
+        }
+        return $trimmed;
     }
 }

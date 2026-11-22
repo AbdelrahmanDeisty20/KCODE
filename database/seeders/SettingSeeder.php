@@ -262,6 +262,8 @@ class SettingSeeder extends Seeder
             ],
         ];
 
+        $settings = array_merge($settings, self::routineDashboardSettings());
+
         foreach ($settings as $setting) {
             Setting::updateOrCreate(
                 ['key_en' => $setting['key_en']],
@@ -272,5 +274,140 @@ class SettingSeeder extends Seeder
                 ]
             );
         }
+    }
+
+    /**
+     * Global Quiz Diagnosis, Usage Schedule & Conflict settings editable from Dashboard Settings.
+     */
+    public static function routineDashboardSettings(): array
+    {
+        return [
+            [
+                'key_ar' => 'تحذير تعارض المقشّر والريتينويد في جدول الروتين',
+                'key_en' => 'routine_separate_nights_warning',
+                'value_ar' => 'المقشّر والريتينويد: ليالٍ منفصلة، وليس معًا. لا تجمع ريتينويدين.',
+                'value_en' => 'Exfoliant & Retinoid: Use on separate nights, never together. Do not combine two retinoids.',
+            ],
+            [
+                'key_ar' => 'عنوان فترة الصباح في جدول الروتين',
+                'key_en' => 'routine_slot_morning_label',
+                'value_ar' => 'صباحًا',
+                'value_en' => 'Morning',
+            ],
+            [
+                'key_ar' => 'عنوان فترة المساء في جدول الروتين',
+                'key_en' => 'routine_slot_evening_label',
+                'value_ar' => 'مساءً',
+                'value_en' => 'Evening',
+            ],
+            [
+                'key_ar' => 'عنوان نتيجة تحليل البشرة',
+                'key_en' => 'routine_diagnosis_title',
+                'value_ar' => 'روتينك المقترح',
+                'value_en' => 'Your Suggested Routine',
+            ],
+            [
+                'key_ar' => 'بداية جملة وصف نوع البشرة في التحليل',
+                'key_en' => 'routine_diagnosis_skin_prefix',
+                'value_ar' => 'بحسب إجاباتك، بشرتك',
+                'value_en' => 'Based on your answers, your skin is',
+            ],
+            [
+                'key_ar' => 'نهاية جملة البشرة الحساسة في التحليل',
+                'key_en' => 'routine_diagnosis_sensitive_yes',
+                'value_ar' => 'وتميل إلى التحسّس.',
+                'value_en' => 'and tends to get irritated easily.',
+            ],
+            [
+                'key_ar' => 'نهاية جملة البشرة غير الحساسة في التحليل',
+                'key_en' => 'routine_diagnosis_sensitive_no',
+                'value_ar' => 'ولا تتحسّس بسهولة.',
+                'value_en' => 'and does not irritate easily.',
+            ],
+            [
+                'key_ar' => 'عنوان قسم استشارة الخبيرة في الروتين',
+                'key_en' => 'routine_consultation_title',
+                'value_ar' => 'هل تودين استشارة خبيرة؟',
+                'value_en' => 'Would you like expert consultation?',
+            ],
+            [
+                'key_ar' => 'وصف قسم استشارة الخبيرة في الروتين',
+                'key_en' => 'routine_consultation_desc',
+                'value_ar' => 'مستشارو KCODE متواجدون للإجابة على استفساراتك وتخصيص الروتين أكثر.',
+                'value_en' => 'KCODE advisors are available to answer your questions and further customize your routine.',
+            ],
+            [
+                'key_ar' => 'عنوان ليلة القناع بدل المرطب',
+                'key_en' => 'routine_variant_mask_label',
+                'value_ar' => 'ليلة القناع بدل المرطب',
+                'value_en' => 'Mask Night (Instead of Moisturizer)',
+            ],
+            [
+                'key_ar' => 'شارة تكرار ليلة القناع',
+                'key_en' => 'routine_variant_mask_badge',
+                'value_ar' => 'مرة إلى مرتين أسبوعيًا',
+                'value_en' => '1–2 times weekly',
+            ],
+            [
+                'key_ar' => 'ملاحظة ليلة القناع بدل المرطب',
+                'key_en' => 'routine_variant_mask_note',
+                'value_ar' => 'في ليلة القناع، يحلّ الماسك محل المرطب بعد السيروم.',
+                'value_en' => 'On mask nights, the mask replaces moisturizer after serum.',
+            ],
+            [
+                'key_ar' => 'عنوان ليلة قناع المسام',
+                'key_en' => 'routine_variant_wash_mask_label',
+                'value_ar' => 'ليلة قناع المسام',
+                'value_en' => 'Pore Mask Night',
+            ],
+            [
+                'key_ar' => 'شارة تكرار ليلة قناع المسام',
+                'key_en' => 'routine_variant_wash_mask_badge',
+                'value_ar' => 'مرة إلى مرتين أسبوعيًا',
+                'value_en' => '1–2 times weekly',
+            ],
+            [
+                'key_ar' => 'ملاحظة ليلة قناع المسام',
+                'key_en' => 'routine_variant_wash_mask_note',
+                'value_ar' => 'يُستخدم بعد الغسول وقبل التونر.',
+                'value_en' => 'Use after cleanser and before toner.',
+            ],
+            [
+                'key_ar' => 'عنوان ليلة لصقات العين',
+                'key_en' => 'routine_variant_eye_patch_label',
+                'value_ar' => 'ليلة لصقات العين',
+                'value_en' => 'Eye Patch Night',
+            ],
+            [
+                'key_ar' => 'شارة تكرار ليلة لصقات العين',
+                'key_en' => 'routine_variant_eye_patch_badge',
+                'value_ar' => '2–3 مرات أسبوعيًا',
+                'value_en' => '2–3 times weekly',
+            ],
+            [
+                'key_ar' => 'ملاحظة ليلة لصقات العين',
+                'key_en' => 'routine_variant_eye_patch_note',
+                'value_ar' => 'تُوضع تحت العينين لمدة 10–20 دقيقة بعد التنظيف.',
+                'value_en' => 'Place under the eyes for 10–20 minutes after cleansing.',
+            ],
+            [
+                'key_ar' => 'سبب ترشيح ماسك الترطيب العام في الدعم',
+                'key_en' => 'routine_support_general_mask_reason',
+                'value_ar' => 'ماسك ترطيب عام اختياري؛ ليس علاجًا للمشكلة المختارة',
+                'value_en' => 'Optional general hydrating mask; not a targeted treatment for the selected concern',
+            ],
+            [
+                'key_ar' => 'سبب ترشيح لصقات الخطوط الدقيقة للعين في الدعم',
+                'key_en' => 'routine_support_eye_lines_reason',
+                'value_ar' => 'عناية اختيارية للخطوط الدقيقة حول العين',
+                'value_en' => 'Optional care for fine lines around the eye area',
+            ],
+            [
+                'key_ar' => 'سبب ترشيح لصقات الحبوب في الدعم',
+                'key_en' => 'routine_support_acne_patch_reason',
+                'value_ar' => 'للحبة السطحية المناسبة ذات الإفرازات؛ ليس للآثار أو الرؤوس السوداء',
+                'value_en' => 'For suitable surface whitehead blemishes; not for post-acne marks or blackheads',
+            ],
+        ];
     }
 }

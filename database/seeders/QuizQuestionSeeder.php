@@ -8,20 +8,73 @@ use App\Models\QuizQuestion;
 use App\Models\RoutineGoal;
 use App\Models\SkinType;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class QuizQuestionSeeder extends Seeder
 {
     /**
-     * Run the database seeds for the 4 Approved KCODE R479 Quiz Questions
-     * (9 Primary Goals × 10 Secondary Concerns + None × 4 Skin Types × 2 Sensitivity = 728 Scenarios).
+     * Non-destructively ensure the 4 Approved KCODE R479 Quiz Questions & 25 Options exist,
+     * preserving existing IDs, assessment_answers links, and custom Dashboard edits.
      */
     public function run(): void
     {
-        Schema::disableForeignKeyConstraints();
-        QuizOption::truncate();
-        QuizQuestion::truncate();
-        Schema::enableForeignKeyConstraints();
+        DB::transaction(function () {
+            $this->seedQuizCatalog();
+        });
+    }
+
+    protected function upsertQuestion(array $attrs): QuizQuestion
+    {
+        $q = QuizQuestion::where('key', $attrs['key'])
+            ->orWhere('step_number', $attrs['step_number'])
+            ->first();
+
+        if (!$q) {
+            return QuizQuestion::create($attrs);
+        }
+
+        $dirty = false;
+        foreach (['key', 'step_label_ar', 'step_label_en', 'title_ar', 'title_en', 'description_ar', 'description_en', 'helper_ar', 'helper_en'] as $field) {
+            if (($q->{$field} === null || trim((string) $q->{$field}) === '') && array_key_exists($field, $attrs) && $attrs[$field] !== null) {
+                $q->{$field} = $attrs[$field];
+                $dirty = true;
+            }
+        }
+        if ($dirty) {
+            $q->save();
+        }
+        return $q;
+    }
+
+    protected function upsertOption(QuizQuestion $question, array $attrs): QuizOption
+    {
+        $opt = QuizOption::where('quiz_question_id', $question->id)
+            ->where(function ($q) use ($attrs) {
+                $q->where('code', $attrs['code'])
+                    ->orWhere('title_ar', $attrs['title_ar'])
+                    ->orWhere('title_en', $attrs['title_en']);
+            })
+            ->first();
+
+        if (!$opt) {
+            return QuizOption::create(array_merge(['quiz_question_id' => $question->id], $attrs));
+        }
+
+        $dirty = false;
+        foreach (['code', 'title_ar', 'title_en', 'description_ar', 'description_en', 'image', 'option_type', 'mapped_id'] as $field) {
+            if (($opt->{$field} === null || trim((string) $opt->{$field}) === '') && array_key_exists($field, $attrs) && $attrs[$field] !== null) {
+                $opt->{$field} = $attrs[$field];
+                $dirty = true;
+            }
+        }
+        if ($dirty) {
+            $opt->save();
+        }
+        return $opt;
+    }
+
+    protected function seedQuizCatalog(): void
+    {
 
         // Ensure all 9 R479 Primary Goals exist in routine_goals for 1-to-1 mapped_id resolution
         $primaryGoalsCatalog = [
@@ -222,7 +275,7 @@ class QuizQuestionSeeder extends Seeder
                     'description_ar' => $cData['description_ar'],
                     'description_en' => $cData['description_en'],
                     'image' => $cData['image'],
-                    'status' => true,
+                    'status' => 'active',
                 ]
             );
         }
@@ -230,7 +283,7 @@ class QuizQuestionSeeder extends Seeder
         // -------------------------------------------------------------
         // Question 1: Primary Goal (هدفك الأساسي - q1)
         // -------------------------------------------------------------
-        $q1 = QuizQuestion::create([
+        $q1 = $this->upsertQuestion([
             'key' => 'q1',
             'step_label_ar' => 'هدفك الأساسي',
             'step_label_en' => 'Primary Goal',
@@ -247,8 +300,7 @@ class QuizQuestionSeeder extends Seeder
 
         foreach ($primaryGoalsCatalog as $code => $optData) {
             $mapped = $goalModelsByCode[$code] ?? null;
-            QuizOption::create([
-                'quiz_question_id' => $q1->id,
+            $this->upsertOption($q1, [
                 'code' => $code,
                 'title_ar' => $optData['title_ar'],
                 'title_en' => $optData['title_en'],
@@ -263,7 +315,7 @@ class QuizQuestionSeeder extends Seeder
         // -------------------------------------------------------------
         // Question 2: Secondary Concern (مشكلة إضافية - q4)
         // -------------------------------------------------------------
-        $q2 = QuizQuestion::create([
+        $q2 = $this->upsertQuestion([
             'key' => 'q4',
             'step_label_ar' => 'مشكلة إضافية',
             'step_label_en' => 'Additional Concern',
@@ -279,8 +331,7 @@ class QuizQuestionSeeder extends Seeder
         ]);
 
         // First option: "none" (لا يوجد) matching R479 presentation.js order
-        QuizOption::create([
-            'quiz_question_id' => $q2->id,
+        $this->upsertOption($q2, [
             'code' => 'none',
             'title_ar' => 'لا يوجد',
             'title_en' => 'None',
@@ -293,8 +344,7 @@ class QuizQuestionSeeder extends Seeder
 
         foreach ($secondaryConcernsCatalog as $code => $optData) {
             $mapped = $concernModelsByCode[$code] ?? null;
-            QuizOption::create([
-                'quiz_question_id' => $q2->id,
+            $this->upsertOption($q2, [
                 'code' => $code,
                 'title_ar' => $optData['title_ar'],
                 'title_en' => $optData['title_en'],
@@ -309,7 +359,7 @@ class QuizQuestionSeeder extends Seeder
         // -------------------------------------------------------------
         // Question 3: Skin Type (نوع بشرتك - skin_type)
         // -------------------------------------------------------------
-        $q3 = QuizQuestion::create([
+        $q3 = $this->upsertQuestion([
             'key' => 'skin_type',
             'step_label_ar' => 'نوع بشرتك',
             'step_label_en' => 'Your Skin Type',
@@ -371,11 +421,10 @@ class QuizQuestionSeeder extends Seeder
                     'description_ar' => $optData['description_ar'],
                     'description_en' => $optData['description_en'],
                     'image' => $optData['image'],
-                    'status' => true,
+                    'status' => 'active',
                 ]
             );
-            QuizOption::create([
-                'quiz_question_id' => $q3->id,
+            $this->upsertOption($q3, [
                 'code' => $optData['code'],
                 'title_ar' => $optData['title_ar'],
                 'title_en' => $optData['title_en'],
@@ -390,7 +439,7 @@ class QuizQuestionSeeder extends Seeder
         // -------------------------------------------------------------
         // Question 4: Sensitivity Filter (تحسّس بشرتك - sensitivity)
         // -------------------------------------------------------------
-        $q4 = QuizQuestion::create([
+        $q4 = $this->upsertQuestion([
             'key' => 'sensitivity',
             'step_label_ar' => 'تحسّس بشرتك',
             'step_label_en' => 'Skin Sensitivity',
@@ -405,8 +454,7 @@ class QuizQuestionSeeder extends Seeder
             'is_optional' => false,
         ]);
 
-        QuizOption::create([
-            'quiz_question_id' => $q4->id,
+        $this->upsertOption($q4, [
             'code' => 'yes',
             'title_ar' => 'نعم، تتهيّج بسهولة',
             'title_en' => 'Yes, irritates easily',
@@ -417,8 +465,7 @@ class QuizQuestionSeeder extends Seeder
             'mapped_id' => 1,
         ]);
 
-        QuizOption::create([
-            'quiz_question_id' => $q4->id,
+        $this->upsertOption($q4, [
             'code' => 'no',
             'title_ar' => 'لا، لا تتهيّج عادةً',
             'title_en' => 'No, usually does not irritate',

@@ -636,6 +636,40 @@ class ProductResource extends Resource
                                         Forms\Components\Textarea::make('usage_instructions_json.caution_en')
                                             ->label('Usage Caution (EN)')
                                             ->rows(2),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.routine_role_ar')
+                                            ->label('دور المنتج في جدول الروتين (عربي)')
+                                            ->placeholder('مثال: الغسول، المرطب، سيروم للعناية بالحبوب'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.routine_role_en')
+                                            ->label('Routine Schedule Role Label (EN)')
+                                            ->placeholder('e.g. Cleanser, Moisturizer, Serum for Breakouts'),
+
+                                        Forms\Components\Textarea::make('usage_instructions_json.routine_usage_short_ar')
+                                            ->label('الإرشاد المختصر في جدول الروتين /routine (عربي)')
+                                            ->placeholder('مثال: دلّك على بشرة مبللة ثم اشطف بالماء الفاتر.')
+                                            ->rows(2),
+
+                                        Forms\Components\Textarea::make('usage_instructions_json.routine_usage_short_en')
+                                            ->label('Routine Schedule Short Instruction (EN)')
+                                            ->placeholder('e.g. Massage onto damp skin, then rinse with lukewarm water.')
+                                            ->rows(2),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.routine_usage_badge_ar')
+                                            ->label('شارة الاستخدام في الروتين (عربي)')
+                                            ->placeholder('يومي بحسب التعليمات / يبدأ تدريجيًا'),
+
+                                        Forms\Components\TextInput::make('usage_instructions_json.routine_usage_badge_en')
+                                            ->label('Routine Usage Badge (EN)')
+                                            ->placeholder('Daily use / Start gradually'),
+
+                                        Forms\Components\Textarea::make('usage_instructions_json.routine_usage_notice_ar')
+                                            ->label('تنبيه الاستخدام الخاص في الروتين (عربي - للريتينول وغيره)')
+                                            ->rows(2),
+
+                                        Forms\Components\Textarea::make('usage_instructions_json.routine_usage_notice_en')
+                                            ->label('Routine Caution Notice (EN)')
+                                            ->rows(2),
                                     ])->columns(2),
 
                                 Components\Section::make('المنتجات المكملة للروتين (Complementary Routine)')

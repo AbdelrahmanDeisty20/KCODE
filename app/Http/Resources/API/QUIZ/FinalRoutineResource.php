@@ -15,7 +15,12 @@ class FinalRoutineResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $lang = $request->header('lang') ?? app()->getLocale();
+        $rawLang = $request->query('lang')
+            ?? $request->header('lang')
+            ?? $request->header('X-Language')
+            ?? app()->getLocale()
+            ?? 'ar';
+        $lang = str_starts_with(strtolower(trim((string) $rawLang)), 'en') ? 'en' : 'ar';
 
         $step = $this->relationLoaded('routineStep') ? $this->routineStep : null;
         $product = $this->relationLoaded('product') ? $this->product : null;

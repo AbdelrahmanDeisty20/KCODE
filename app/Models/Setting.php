@@ -48,17 +48,35 @@ class Setting extends Model
      */
     public static function get(string $key, $default = null)
     {
-        $map = self::allMap();
+        $raw = request()->query('lang')
+            ?? request()->header('lang')
+            ?? request()->header('X-Language')
+            ?? app()->getLocale()
+            ?? 'ar';
+
+        return self::getForLocale($key, (string) $raw, $default);
+    }
+
+    /**
+     * Get setting value for an explicit locale ('ar' or 'en') safely (backed by StaticCache).
+     */
+    public static function getForLocale(string $key, string $lang, $default = null)
+    {
+        try {
+            $map = self::allMap();
+        } catch (\Throwable $e) {
+            return $default;
+        }
+
         if (!isset($map[$key])) {
             return $default;
         }
 
         $setting = $map[$key];
-        $lang = request()->header('lang') ?? app()->getLocale();
-        $lang = strtolower(substr((string) $lang, 0, 2));
+        $isEn = str_starts_with(strtolower(trim($lang)), 'en');
 
-        return $lang === 'en'
-            ? ($setting['value_en'] ?: $setting['value_ar'])
-            : ($setting['value_ar'] ?: $setting['value_en']);
+        return $isEn
+            ? ($setting['value_en'] ?: $default)
+            : ($setting['value_ar'] ?: ($setting['value_en'] ?: $default));
     }
 }
