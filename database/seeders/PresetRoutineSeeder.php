@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\PresetRoutine;
 use App\Models\PresetRoutineProduct;
+use Database\Seeders\Support\PresetRoutineEnglishBuilder;
 use App\Models\Product;
 
 class PresetRoutineSeeder extends Seeder
@@ -39,6 +40,7 @@ class PresetRoutineSeeder extends Seeder
         $routinesConfig = json_decode(file_get_contents($dataPath), true);
 
         foreach ($routinesConfig as $config) {
+            $config = PresetRoutineEnglishBuilder::enrichWomenConfig($config);
             $skinTypeId = $config['skin_type_id'] ?? null;
             if ($skinTypeId && !\App\Models\SkinType::where('id', $skinTypeId)->exists()) {
                 $skinTypeId = null;
@@ -53,6 +55,8 @@ class PresetRoutineSeeder extends Seeder
                 'slug' => $config['slug'] ?? null,
                 'title_ar' => $config['title_ar'],
                 'title_en' => $config['title_en'],
+                'subtitle_ar' => $config['subtitle_ar'] ?? null,
+                'subtitle_en' => $config['subtitle_en'] ?? null,
                 'description_ar' => $config['description_ar'],
                 'description_en' => $config['description_en'],
                 'badge_ar' => $config['badge_ar'],
@@ -62,15 +66,20 @@ class PresetRoutineSeeder extends Seeder
                 'goal_ar' => $config['goal_ar'],
                 'goal_en' => $config['goal_en'],
                 'card_note_ar' => $config['note_ar'] ?? null,
-                'card_note_en' => $config['note_ar'] ?? null,
+                'card_note_en' => $config['card_note_en'] ?? null,
+                'audience_ar' => $config['audience_ar'] ?? null,
+                'audience_en' => $config['audience_en'] ?? null,
                 'skin_type_id' => $skinTypeId,
                 'goal_id' => $goalId,
                 'is_for_men' => false,
                 'status' => 'active',
+                'timing_json' => $config['timing_json'] ?? null,
                 'cover_image' => $config['cover_image'] ?? null,
                 'cover_json' => $config['cover_json'] ?? null,
                 'benefits_json' => $config['benefits_json'] ?? [],
+                'benefits_en_json' => $config['benefits_en_json'] ?? [],
                 'what_it_offers_json' => $config['what_it_offers_json'] ?? [],
+                'what_it_offers_en_json' => $config['what_it_offers_en_json'] ?? [],
                 'usage_guide_json' => $config['usage_guide_json'] ?? null,
                 'how_to_use_ar' => $config['how_to_use_ar'] ?? null,
                 'how_to_use_en' => $config['how_to_use_en'] ?? null,
@@ -97,10 +106,15 @@ class PresetRoutineSeeder extends Seeder
                     'morning' => $itemData['morning'] ?? true,
                     'night' => $itemData['night'] ?? true,
                     'use_time_ar' => $itemData['use_time_ar'] ?? 'صباحاً ومساءً',
+                    'use_time_en' => $itemData['use_time_en'] ?? 'Morning & Evening',
                     'reason_ar' => $itemData['reason_ar'] ?? ($itemData['support_copy'] ?? null),
+                    'reason_en' => $itemData['reason_en'] ?? null,
                     'frequency_ar' => $itemData['frequency_ar'] ?? 'يومياً',
+                    'frequency_en' => $itemData['frequency_en'] ?? 'Daily.',
                     'application_ar' => $itemData['application_ar'] ?? null,
+                    'application_en' => $itemData['application_en'] ?? null,
                     'starter_guide_ar' => $itemData['starter_guide_ar'] ?? null,
+                    'starter_guide_en' => $itemData['starter_guide_en'] ?? null,
                 ]);
             }
         }

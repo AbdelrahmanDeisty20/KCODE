@@ -18,12 +18,15 @@ class PresetRoutineProduct extends Model
         'morning',
         'night',
         'use_time_ar',
+        'use_time_en',
         'reason_ar',
         'reason_en',
         'frequency_ar',
         'frequency_en',
         'application_ar',
+        'application_en',
         'starter_guide_ar',
+        'starter_guide_en',
     ];
 
     public function presetRoutine()

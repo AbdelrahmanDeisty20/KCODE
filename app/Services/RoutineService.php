@@ -482,7 +482,7 @@ class RoutineService
      */
     public function getPresetRoutines()
     {
-        $lang = request()->header('lang') ?? app()->getLocale();
+        $lang = $this->resolveLocale();
         $perPage = (int) request()->get('per_page', 10);
 
         if (\App\Models\PresetRoutine::forWomen()->count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
@@ -523,7 +523,7 @@ class RoutineService
      */
     public function getPresetRoutineDetails($routineId = null)
     {
-        $lang = request()->header('lang') ?? app()->getLocale();
+        $lang = $this->resolveLocale();
         $id = $routineId ?: request()->get('routine_id') ?: request()->get('id');
 
         $routineModel = \App\Models\PresetRoutine::where('status', 'active')
@@ -575,25 +575,23 @@ class RoutineService
 
             if ($includeItems) {
                 $brandImage = $prod->brand ? ($prod->brand->image_path ?: $prod->brand->image) : null;
+                $useTimeValue = $this->localizeUseTime($itemModel, $lang);
                 $items[] = [
                     'display_order' => (int) $itemModel->display_order,
-                    'step_name' => $lang === 'ar' ? ($itemModel->step_name_ar ?: 'الخطوة ' . $itemModel->display_order) : ($itemModel->step_name_en ?: 'Step ' . $itemModel->display_order),
+                    'step_name' => $this->localizeStepName($itemModel, $prod, $lang),
                     'morning' => (bool) $itemModel->morning,
                     'night' => (bool) $itemModel->night,
-                    'use_time_ar' => $itemModel->use_time_ar ?? ($lang === 'ar' ? 'صباحاً ومساءً' : 'Morning & Evening'),
-                    'reason' => $lang === 'ar' 
-                        ? ($itemModel->reason_ar ?: ($prod->brief_insight_ar ?: $prod->why_kcode)) 
-                        : ($itemModel->reason_en ?: ($itemModel->reason_ar ?: ($prod->brief_insight_en ?: $prod->why_kcode))),
-                    'frequency' => $lang === 'ar' 
-                        ? ($itemModel->frequency_ar ?: ($prod->usage_frequency_ar ?: 'التكرار يومياً.')) 
-                        : ($itemModel->frequency_en ?: ($itemModel->frequency_ar ?: ($prod->usage_frequency_en ?: 'Daily frequency.'))),
-                    'application' => $itemModel->application_ar ?? null,
-                    'starter_guide' => $itemModel->starter_guide_ar ?? null,
+                    'use_time' => $useTimeValue,
+                    'use_time_ar' => $useTimeValue,
+                    'reason' => $this->localizeItemReason($itemModel, $prod, $lang),
+                    'frequency' => $this->localizeItemFrequency($itemModel, $prod, $lang),
+                    'application' => $this->pickLocalized($lang, $itemModel->application_ar, $itemModel->application_en),
+                    'starter_guide' => $this->pickLocalized($lang, $itemModel->starter_guide_ar, $itemModel->starter_guide_en),
                     'product' => [
                         'id' => $prod->id,
-                        'name' => $prod->name_en ?? $prod->name,
+                        'name' => $prod->fixedFullName(),
                         'name_ar' => $prod->name_ar,
-                        'short_name' => $prod->short_name ?? $prod->name,
+                        'short_name' => $prod->fixedShortName(),
                         'sku' => $prod->sku,
                         'price' => (float) $prod->price,
                         'size' => $prod->size,
@@ -610,25 +608,37 @@ class RoutineService
             }
         }
 
+        $titleLocalized = $this->pickLocalized($lang, $routineModel->title_ar, $routineModel->title_en, $routineModel->title_en ?: '');
+        $defaultBadge = $lang === 'en'
+            ? ($routineModel->is_for_men ? "Men's Care Routine" : 'Selected by KCODE Formulation Review')
+            : ($routineModel->is_for_men ? 'عناية مخصصة للرجال' : 'مختارة وفق مراجعة KCODE للمركبات');
+
+        $cover = $routineModel->cover;
+        if (is_array($cover)) {
+            $cover['alt'] = $lang === 'en'
+                ? ($this->cleanEnglish($cover['alt_en'] ?? null) ?? ($titleLocalized ?: ''))
+                : ($cover['alt'] ?? ($routineModel->title_ar ?? ''));
+        }
+
         $res = [
             'id' => $routineModel->id,
             'routine_id' => $routineModel->id,
             'slug' => $routineModel->slug,
-            'title' => $lang === 'ar' ? $routineModel->title_ar : $routineModel->title_en,
-            'subtitle' => $lang === 'ar' ? $routineModel->subtitle_ar : ($routineModel->subtitle_en ?: $routineModel->subtitle_ar),
-            'description' => $lang === 'ar' ? $routineModel->description_ar : $routineModel->description_en,
-            'badge' => $lang === 'ar' ? $routineModel->badge_ar : $routineModel->badge_en,
-            'skin_type' => $lang === 'ar' ? $routineModel->skin_type_ar : $routineModel->skin_type_en,
-            'goal' => $lang === 'ar' ? $routineModel->goal_ar : $routineModel->goal_en,
-            'card_note' => $lang === 'ar' ? $routineModel->card_note_ar : ($routineModel->card_note_en ?: $routineModel->card_note_ar),
-            'audience' => $lang === 'ar' ? $routineModel->audience_ar : ($routineModel->audience_en ?: $routineModel->audience_ar),
-            'timing' => $routineModel->timing_json,
+            'title' => $titleLocalized,
+            'subtitle' => $this->pickLocalized($lang, $routineModel->subtitle_ar, $routineModel->subtitle_en),
+            'description' => $this->pickLocalized($lang, $routineModel->description_ar, $routineModel->description_en),
+            'badge' => $this->pickLocalized($lang, $routineModel->badge_ar, $routineModel->badge_en, $defaultBadge),
+            'skin_type' => $this->pickLocalized($lang, $routineModel->skin_type_ar, $routineModel->skin_type_en),
+            'goal' => $this->pickLocalized($lang, $routineModel->goal_ar, $routineModel->goal_en),
+            'card_note' => $this->pickLocalized($lang, $routineModel->card_note_ar, $routineModel->card_note_en),
+            'audience' => $this->pickLocalized($lang, $routineModel->audience_ar, $routineModel->audience_en),
+            'timing' => $this->localizeTiming($routineModel->timing_json, $lang),
             'image' => $routineModel->cover_image_url,
             'cover_image' => $routineModel->cover_image_url,
-            'cover' => $routineModel->cover,
+            'cover' => $cover,
             'total_price' => round($totalPrice, 2),
             'products_count' => $routineModel->items->count(),
-            'benefits' => $routineModel->benefits_json ?? [],
+            'benefits' => $this->pickLocalizedArray($lang, $routineModel->benefits_json, $routineModel->benefits_en_json),
             'preview_images' => $previewImages,
         ];
 
@@ -643,21 +653,81 @@ class RoutineService
                         $prodModel = \App\Models\Product::with('brand')->where('sku', $comp['sku'])->first();
                     }
                     if ($prodModel) {
-                        $complementary[] = [
+                        $whySelectedAr = $comp['why'] ?? $comp['reason'] ?? $comp['support_copy'] ?? ($prodModel->brief_insight_ar ?: $prodModel->why_kcode);
+                        $whySelectedEn = $this->cleanEnglish(
+                            $comp['why_en']
+                                ?? $comp['reason_en']
+                                ?? $comp['support_copy_en']
+                                ?? $comp['why']
+                                ?? $comp['reason']
+                                ?? $comp['support_copy']
+                                ?? null
+                        ) ?? $this->cleanEnglish($prodModel->brief_insight_en ?? null);
+
+                        $noteLocalized = $this->pickLocalized(
+                            $lang,
+                            $comp['note'] ?? null,
+                            $comp['note_en'] ?? $comp['note'] ?? null
+                        );
+
+                        $stepLocalized = $lang === 'en'
+                            ? ($this->cleanEnglish($comp['step_en'] ?? $comp['step'] ?? null)
+                                ?? $this->cleanEnglish($prodModel->role_en ?? null)
+                                ?? 'Complementary Product')
+                            : ($comp['step'] ?? ($prodModel->role_ar ?: 'منتج مكمل'));
+
+                        $compEntry = [
                             'product_id' => $prodModel->id,
                             'sku' => $prodModel->sku,
-                            'name' => $prodModel->name_en ?? $prodModel->name,
+                            'name' => $prodModel->fixedFullName(),
+                            'short_name' => $prodModel->fixedShortName(),
                             'name_ar' => $prodModel->name_ar,
                             'brand' => $prodModel->brand?->name_en,
                             'image' => $prodModel->image_path ?: $prodModel->image,
                             'price' => (float) $prodModel->price,
                             'size' => $prodModel->size,
-                            'why_selected' => $comp['why'] ?? $comp['reason'] ?? $comp['support_copy'] ?? ($prodModel->brief_insight_ar ?: $prodModel->why_kcode),
-                            'note' => $comp['note'] ?? null,
-                            'step' => $comp['step'] ?? ($prodModel->role_ar ?: ($lang === 'ar' ? 'منتج مكمل' : 'Complementary Product')),
+                            'why_selected' => $lang === 'en' ? $whySelectedEn : $whySelectedAr,
+                            'note' => $noteLocalized,
+                            'step' => $stepLocalized,
                         ];
+
+                        if (isset($comp['application']) || isset($comp['application_en'])) {
+                            $compEntry['application'] = $this->pickLocalized(
+                                $lang,
+                                $comp['application'] ?? null,
+                                $comp['application_en'] ?? $comp['application'] ?? null
+                            );
+                        }
+
+                        $complementary[] = $compEntry;
                     } else {
-                        $complementary[] = $comp;
+                        $fallbackEntry = [
+                            'product_id' => null,
+                            'sku' => $comp['sku'] ?? null,
+                            'name' => $this->cleanEnglish($comp['name'] ?? null) ?? ($comp['name'] ?? ''),
+                            'name_ar' => $comp['name'] ?? '',
+                            'why_selected' => $this->pickLocalized(
+                                $lang,
+                                $comp['why'] ?? $comp['reason'] ?? $comp['support_copy'] ?? null,
+                                $comp['why_en'] ?? $comp['reason_en'] ?? $comp['support_copy_en'] ?? $comp['why'] ?? $comp['reason'] ?? null
+                            ),
+                            'note' => $this->pickLocalized(
+                                $lang,
+                                $comp['note'] ?? null,
+                                $comp['note_en'] ?? $comp['note'] ?? null
+                            ),
+                            'step' => $lang === 'en'
+                                ? ($this->cleanEnglish($comp['step_en'] ?? $comp['step'] ?? null) ?? 'Complementary Product')
+                                : ($comp['step'] ?? 'منتج مكمل'),
+                        ];
+                        if (isset($comp['application']) || isset($comp['application_en'])) {
+                            $fallbackEntry['application'] = $this->pickLocalized(
+                                $lang,
+                                $comp['application'] ?? null,
+                                $comp['application_en'] ?? $comp['application'] ?? null
+                            );
+                        }
+                        $complementary[] = $fallbackEntry;
                     }
                 }
             }
@@ -687,14 +757,420 @@ class RoutineService
                 $usageGuide = $staticRoutinesGuides[$routineModel->slug] ?? null;
             }
 
-            $res['what_it_offers'] = $routineModel->what_it_offers_json ?? [];
-            $res['how_to_use'] = $lang === 'ar' ? $routineModel->how_to_use_ar : ($routineModel->how_to_use_en ?: $routineModel->how_to_use_ar);
-            $res['usage_guide'] = $usageGuide;
+            $res['what_it_offers'] = $this->pickLocalizedArray($lang, $routineModel->what_it_offers_json, $routineModel->what_it_offers_en_json);
+            $res['how_to_use'] = $this->pickLocalized($lang, $routineModel->how_to_use_ar, $routineModel->how_to_use_en);
+            $res['usage_guide'] = $this->localizeUsageGuide($usageGuide, $lang, $routineModel);
             $res['complementary_products'] = $complementary;
             $res['items'] = $items;
         }
 
         return $res;
+    }
+
+    /**
+     * Resolve effective storefront language ('ar' or 'en').
+     */
+    private function resolveLocale(): string
+    {
+        $raw = request()->query('lang')
+            ?? request()->header('lang')
+            ?? request()->header('X-Language')
+            ?? app()->getLocale()
+            ?? 'ar';
+
+        $normalized = strtolower(trim((string) $raw));
+        return str_starts_with($normalized, 'en') ? 'en' : 'ar';
+    }
+
+    /**
+     * Detect Arabic Unicode characters to prevent Arabic text leaking into English responses.
+     */
+    private function containsArabic(?string $text): bool
+    {
+        if ($text === null || $text === '') {
+            return false;
+        }
+        return (bool) preg_match('/[\x{0600}-\x{06FF}\x{0750}-\x{077F}\x{08A0}-\x{08FF}]/u', $text);
+    }
+
+    /**
+     * Return trimmed string only when non-empty and free of Arabic script.
+     */
+    private function cleanEnglish(?string $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
+        $trimmed = trim($value);
+        if ($trimmed === '' || $this->containsArabic($trimmed)) {
+            return null;
+        }
+        return $trimmed;
+    }
+
+    /**
+     * Pick localized string for the active language with zero Arabic leakage in English mode.
+     */
+    private function pickLocalized(string $lang, ?string $arValue, ?string $enValue, ?string $enFallback = null): ?string
+    {
+        if ($lang === 'ar') {
+            $trimmedAr = $arValue !== null ? trim($arValue) : '';
+            if ($trimmedAr !== '') {
+                return $trimmedAr;
+            }
+            $trimmedEn = $enValue !== null ? trim($enValue) : '';
+            return $trimmedEn !== '' ? $trimmedEn : null;
+        }
+
+        return $this->cleanEnglish($enValue) ?? $this->cleanEnglish($enFallback);
+    }
+
+    /**
+     * Pick localized string array (e.g., benefits / what_it_offers / notes).
+     */
+    private function pickLocalizedArray(string $lang, ?array $arItems, ?array $enItems): array
+    {
+        $arList = is_array($arItems) ? array_values(array_filter(array_map('strval', $arItems), fn (string $v) => trim($v) !== '')) : [];
+        if ($lang === 'ar') {
+            return $arList;
+        }
+
+        $enList = is_array($enItems)
+            ? array_values(array_filter(array_map(fn ($v) => $this->cleanEnglish((string) $v), $enItems)))
+            : [];
+
+        if (!empty($enList)) {
+            return $enList;
+        }
+
+        // Fallback only if legacy column stored English entries (never emit Arabic in EN mode).
+        return array_values(array_filter(array_map(fn (string $v) => $this->cleanEnglish($v), $arList)));
+    }
+
+    private function localizeTiming(?array $timing, string $lang): ?array
+    {
+        if (!is_array($timing) || empty($timing)) {
+            return null;
+        }
+
+        if ($lang === 'ar') {
+            return [
+                'am' => $timing['am'] ?? ($timing['am_en'] ?? null),
+                'pm' => $timing['pm'] ?? ($timing['pm_en'] ?? null),
+            ];
+        }
+
+        $amEn = $this->cleanEnglish($timing['am_en'] ?? null)
+            ?? $this->cleanEnglish($timing['am'] ?? null);
+        $pmEn = $this->cleanEnglish($timing['pm_en'] ?? null)
+            ?? $this->cleanEnglish($timing['pm'] ?? null);
+
+        return [
+            'am' => $amEn,
+            'pm' => $pmEn,
+        ];
+    }
+
+    private function localizeUseTime($itemModel, string $lang): string
+    {
+        if ($lang === 'ar') {
+            if (!empty($itemModel->use_time_ar)) {
+                return $itemModel->use_time_ar;
+            }
+            if ($itemModel->morning && $itemModel->night) {
+                return 'صباحاً ومساءً';
+            }
+            return $itemModel->morning ? 'صباحاً فقط' : 'مساءً فقط';
+        }
+
+        $explicitEn = $this->cleanEnglish($itemModel->use_time_en ?? null);
+        if ($explicitEn !== null) {
+            return $explicitEn;
+        }
+
+        $arNormalized = trim((string) ($itemModel->use_time_ar ?? ''));
+        $map = [
+            'صباحاً ومساءً' => 'Morning & Evening',
+            'صباحًا ومساءً' => 'Morning & Evening',
+            'صباحاً' => 'Morning',
+            'صباحًا' => 'Morning',
+            'صباحاً فقط' => 'Morning only',
+            'صباحًا فقط' => 'Morning only',
+            'مساءً' => 'Evening',
+            'مساءً فقط' => 'Evening only',
+        ];
+        if (isset($map[$arNormalized])) {
+            return $map[$arNormalized];
+        }
+
+        if ($itemModel->morning && $itemModel->night) {
+            return 'Morning & Evening';
+        }
+        return $itemModel->morning ? 'Morning only' : 'Evening only';
+    }
+
+    private function localizeStepName($itemModel, $prod, string $lang): string
+    {
+        if ($lang === 'ar') {
+            return $itemModel->step_name_ar ?: ('الخطوة ' . $itemModel->display_order);
+        }
+
+        return $this->cleanEnglish($itemModel->step_name_en ?? null)
+            ?? $this->translateCommonRoleToEnglish($itemModel->step_name_ar ?? null)
+            ?? $this->cleanEnglish($prod->role_en ?? null)
+            ?? ('Step ' . $itemModel->display_order);
+    }
+
+    private function localizeItemReason($itemModel, $prod, string $lang): ?string
+    {
+        if ($lang === 'ar') {
+            return $itemModel->reason_ar ?: ($prod->brief_insight_ar ?: $prod->why_kcode);
+        }
+
+        return $this->cleanEnglish($itemModel->reason_en ?? null)
+            ?? $this->cleanEnglish($prod->brief_insight_en ?? null)
+            ?? $this->cleanEnglish($prod->why_kcode_en ?? null);
+    }
+
+    private function localizeItemFrequency($itemModel, $prod, string $lang): string
+    {
+        if ($lang === 'ar') {
+            return $itemModel->frequency_ar ?: ($prod->usage_frequency_ar ?: 'التكرار يومياً.');
+        }
+
+        return $this->cleanEnglish($itemModel->frequency_en ?? null)
+            ?? $this->translateCommonFrequencyToEnglish($itemModel->frequency_ar ?? null)
+            ?? $this->cleanEnglish($prod->usage_frequency_en ?? null)
+            ?? 'Daily.';
+    }
+
+    private function translateCommonRoleToEnglish(?string $role): ?string
+    {
+        if ($role === null || trim($role) === '') {
+            return null;
+        }
+        $normalized = trim($role);
+        $clean = $this->cleanEnglish($normalized);
+        if ($clean !== null) {
+            return $clean;
+        }
+
+        $map = [
+            'غسول' => 'Cleanser',
+            'الغسول' => 'Cleanser',
+            'التونر' => 'Toner',
+            'تونر' => 'Toner',
+            'الإسنس' => 'Essence',
+            'الخلاصة المرطبة' => 'Essence',
+            'السيروم' => 'Serum',
+            'سيروم' => 'Serum',
+            'المقشّر' => 'Exfoliator',
+            'المقشر' => 'Exfoliator',
+            'علاج خفيف' => 'Light Treatment',
+            'بعد الحلاقة' => 'Post-Shave Care',
+            'سيروم العين' => 'Eye Serum',
+            'مرطب' => 'Moisturizer',
+            'المرطب' => 'Moisturizer',
+            'واقي شمس' => 'Sunscreen',
+            'واقي الشمس' => 'Sunscreen',
+        ];
+
+        return $map[$normalized] ?? null;
+    }
+
+    private function translateCommonFrequencyToEnglish(?string $freq): ?string
+    {
+        if ($freq === null || trim($freq) === '') {
+            return null;
+        }
+        $normalized = trim($freq);
+        $clean = $this->cleanEnglish($normalized);
+        if ($clean !== null) {
+            return $clean;
+        }
+
+        $map = [
+            'يوميًا.' => 'Daily.',
+            'يومياً.' => 'Daily.',
+            'يوميًا' => 'Daily',
+            'يومياً' => 'Daily',
+            'صباحًا.' => 'Morning.',
+            'صباحاً.' => 'Morning.',
+            'صباحًا ومساءً.' => 'Morning & evening.',
+            'صباحاً ومساءً.' => 'Morning & evening.',
+            'مساءً.' => 'Evening.',
+            'بعد الحلاقة فقط.' => 'After shaving only.',
+        ];
+
+        return $map[$normalized] ?? null;
+    }
+
+    private function localizeUsageGuide(?array $usageGuide, string $lang, $routineModel): ?array
+    {
+        if (!is_array($usageGuide) || empty($usageGuide)) {
+            return $usageGuide;
+        }
+
+        $productsBySku = $routineModel->items
+            ->pluck('product')
+            ->filter()
+            ->keyBy('sku');
+
+        if ($lang === 'ar') {
+            return $usageGuide;
+        }
+
+        // Women routine usage_guide_json structure
+        if (isset($usageGuide['am_steps']) || isset($usageGuide['pm_standard_steps']) || isset($usageGuide['pm_variants'])) {
+            $result = $usageGuide;
+
+            $result['am_title'] = $this->cleanEnglish($usageGuide['am_title_en'] ?? null) ?? 'Morning Steps';
+            $result['pm_title'] = $this->cleanEnglish($usageGuide['pm_title_en'] ?? null) ?? 'Evening Steps';
+            $result['pm_standard_label'] = $this->cleanEnglish($usageGuide['pm_standard_label_en'] ?? null) ?? 'Regular Evening Routine';
+            $result['night_notes'] = $this->cleanEnglish($usageGuide['night_notes_en'] ?? null)
+                ?? $this->cleanEnglish($usageGuide['night_notes'] ?? null)
+                ?? $this->cleanEnglish($routineModel->card_note_en ?? null);
+
+            if (!empty($usageGuide['am_steps']) && is_array($usageGuide['am_steps'])) {
+                $result['am_steps'] = array_map(
+                    fn ($step) => $this->localizeWomenUsageStep($step, $productsBySku),
+                    $usageGuide['am_steps']
+                );
+            }
+
+            if (!empty($usageGuide['pm_standard_steps']) && is_array($usageGuide['pm_standard_steps'])) {
+                $result['pm_standard_steps'] = array_map(
+                    fn ($step) => $this->localizeWomenUsageStep($step, $productsBySku),
+                    $usageGuide['pm_standard_steps']
+                );
+            }
+
+            if (!empty($usageGuide['pm_variants']) && is_array($usageGuide['pm_variants'])) {
+                $result['pm_variants'] = array_map(function ($variant) use ($productsBySku) {
+                    if (!is_array($variant)) {
+                        return $variant;
+                    }
+                    $variant['label'] = $this->cleanEnglish($variant['label_en'] ?? null)
+                        ?? $this->cleanEnglish($variant['label'] ?? null)
+                        ?? 'Special Evening Routine';
+                    $variant['badge'] = $this->cleanEnglish($variant['badge_en'] ?? null)
+                        ?? $this->cleanEnglish($variant['badge'] ?? null);
+                    $variant['note'] = $this->cleanEnglish($variant['note_en'] ?? null)
+                        ?? $this->cleanEnglish($variant['note'] ?? null);
+                    if (!empty($variant['steps']) && is_array($variant['steps'])) {
+                        $variant['steps'] = array_map(
+                            fn ($step) => $this->localizeWomenUsageStep($step, $productsBySku),
+                            $variant['steps']
+                        );
+                    }
+                    return $variant;
+                }, $usageGuide['pm_variants']);
+            }
+
+            return $result;
+        }
+
+        // Men routine usage_guide_json structure
+        $result = $usageGuide;
+
+        if (!empty($usageGuide['morning_steps']) && is_array($usageGuide['morning_steps'])) {
+            $result['morning_steps'] = array_map(
+                fn ($step) => $this->localizeMenUsageStep($step, $productsBySku),
+                $usageGuide['morning_steps']
+            );
+        }
+
+        if (!empty($usageGuide['evening_variants']) && is_array($usageGuide['evening_variants'])) {
+            $result['evening_variants'] = array_map(function ($variant) use ($productsBySku) {
+                if (!is_array($variant)) {
+                    return $variant;
+                }
+                $labelEn = $this->cleanEnglish($variant['label_en'] ?? null)
+                    ?? $this->cleanEnglish($variant['label'] ?? null)
+                    ?? ((($variant['id'] ?? null) === 'default') ? 'Regular Evenings' : 'Special Evenings');
+                $variant['label'] = $labelEn;
+                $variant['label_en'] = $labelEn;
+                $variant['label_ar'] = $labelEn;
+
+                if (!empty($variant['steps']) && is_array($variant['steps'])) {
+                    $variant['steps'] = array_map(
+                        fn ($step) => $this->localizeMenUsageStep($step, $productsBySku),
+                        $variant['steps']
+                    );
+                }
+
+                return $variant;
+            }, $usageGuide['evening_variants']);
+        }
+
+        $notesEn = $this->pickLocalizedArray('en', $usageGuide['notes_ar'] ?? null, $usageGuide['notes_en'] ?? null);
+        $result['notes'] = $notesEn;
+        $result['notes_en'] = $notesEn;
+        $result['notes_ar'] = $notesEn;
+
+        return $result;
+    }
+
+    private function localizeWomenUsageStep(array $step, $productsBySku): array
+    {
+        $sku = $step['sku'] ?? null;
+        $prod = $sku ? $productsBySku->get($sku) : null;
+
+        $fixedName = $prod ? $prod->fixedFullName() : ($this->cleanEnglish($step['name'] ?? $step['name_ar'] ?? null) ?? '');
+        if ($fixedName !== '') {
+            $step['name'] = $fixedName;
+            $step['name_ar'] = $fixedName;
+        }
+
+        $step['role'] = $this->cleanEnglish($step['role_en'] ?? null)
+            ?? $this->translateCommonRoleToEnglish($step['role'] ?? null)
+            ?? $this->cleanEnglish($prod?->role_en ?? null)
+            ?? ('Step ' . ($step['step_number'] ?? ''));
+
+        $step['application'] = $this->cleanEnglish($step['application_en'] ?? null)
+            ?? $this->cleanEnglish($step['application'] ?? null)
+            ?? $this->cleanEnglish($prod?->usage_frequency_en ?? null);
+
+        $step['frequency'] = $this->cleanEnglish($step['frequency_en'] ?? null)
+            ?? $this->translateCommonFrequencyToEnglish($step['frequency'] ?? null)
+            ?? $this->cleanEnglish($prod?->usage_frequency_en ?? null)
+            ?? 'Daily.';
+
+        $starterEn = $this->cleanEnglish($step['starter_guide_en'] ?? null)
+            ?? $this->cleanEnglish($step['starter_guide'] ?? null);
+        $step['starter_guide'] = $starterEn ?? '';
+
+        return $step;
+    }
+
+    private function localizeMenUsageStep(array $step, $productsBySku): array
+    {
+        $sku = $step['sku'] ?? null;
+        $prod = $sku ? $productsBySku->get($sku) : null;
+
+        $roleEn = $this->cleanEnglish($step['role_en'] ?? null)
+            ?? $this->translateCommonRoleToEnglish($step['role_ar'] ?? null)
+            ?? $this->cleanEnglish($prod?->role_en ?? null)
+            ?? ('Step ' . ($step['step_number'] ?? ''));
+
+        $instructionEn = $this->cleanEnglish($step['instruction_en'] ?? null)
+            ?? $this->cleanEnglish($step['instruction'] ?? null)
+            ?? $this->cleanEnglish($step['instruction_ar'] ?? null)
+            ?? '';
+
+        $step['role'] = $roleEn;
+        $step['role_en'] = $roleEn;
+        $step['role_ar'] = $roleEn;
+
+        $step['instruction'] = $instructionEn;
+        $step['instruction_en'] = $instructionEn;
+        $step['instruction_ar'] = $instructionEn;
+
+        if ($prod) {
+            $step['product_name'] = $prod->fixedFullName();
+        }
+
+        return $step;
     }
 
     /**
@@ -711,7 +1187,7 @@ class RoutineService
      */
     public function getMenPresetRoutines()
     {
-        $lang = request()->header('lang') ?? app()->getLocale();
+        $lang = $this->resolveLocale();
         $perPage = (int) request()->get('per_page', 10);
 
         if (\App\Models\PresetRoutine::forMen()->count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {

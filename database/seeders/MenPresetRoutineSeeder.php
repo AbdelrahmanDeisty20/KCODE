@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\PresetRoutine;
 use App\Models\PresetRoutineProduct;
+use Database\Seeders\Support\PresetRoutineEnglishBuilder;
 use App\Models\Product;
 
 class MenPresetRoutineSeeder extends Seeder
@@ -29,6 +30,7 @@ class MenPresetRoutineSeeder extends Seeder
         $menRoutines = json_decode(file_get_contents($dataPath), true);
 
         foreach ($menRoutines as $config) {
+            $config = PresetRoutineEnglishBuilder::enrichMenConfig($config);
             $skinTypeId = $config['skin_type_id'] ?? null;
             if ($skinTypeId && !\App\Models\SkinType::where('id', $skinTypeId)->exists()) {
                 $skinTypeId = null;
@@ -65,7 +67,11 @@ class MenPresetRoutineSeeder extends Seeder
                 'cover_image' => $config['cover_image'] ?? null,
                 'cover_json' => $config['cover_json'] ?? null,
                 'benefits_json' => $config['benefits_json'] ?? [],
+                'benefits_en_json' => $config['benefits_en_json'] ?? [],
                 'what_it_offers_json' => $config['what_it_offers_json'] ?? [],
+                'what_it_offers_en_json' => $config['what_it_offers_en_json'] ?? [],
+                'how_to_use_ar' => $config['how_to_use_ar'] ?? null,
+                'how_to_use_en' => $config['how_to_use_en'] ?? null,
                 'usage_guide_json' => $config['usage_guide_json'] ?? null,
             ]);
 
@@ -81,12 +87,14 @@ class MenPresetRoutineSeeder extends Seeder
                     'display_order' => $step['order'],
                     'step_name_ar' => $step['role_ar'] ?? 'الخطوة ' . $step['order'],
                     'step_name_en' => $step['role_en'] ?? 'Step ' . $step['order'],
-                    'morning' => (bool)$step['morning'],
-                    'night' => (bool)$step['night'],
+                    'morning' => (bool) $step['morning'],
+                    'night' => (bool) $step['night'],
                     'use_time_ar' => $step['use_time_ar'] ?? 'صباحاً ومساءً',
+                    'use_time_en' => $step['use_time_en'] ?? 'Morning & Evening',
                     'frequency_ar' => $step['frequency_ar'] ?? null,
                     'frequency_en' => $step['frequency_en'] ?? null,
                     'application_ar' => $step['application_ar'] ?? null,
+                    'application_en' => $step['application_en'] ?? null,
                 ]);
             }
         }
