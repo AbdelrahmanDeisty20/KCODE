@@ -15,6 +15,9 @@ Route::get('/robots.txt', function (SitemapService $sitemapService) {
     return $sitemapService->generateRobots();
 });
 
+Route::get('/firebase-messaging-sw.js', [\App\Http\Controllers\Admin\AdminFcmTokenController::class, 'serviceWorker'])
+    ->name('firebase.sw');
+
 // Universal storage fallback to ensure all images load whether requested via /storage/ or /storage/app/public/
 Route::get('/storage/{path}', function (string $path) {
     $cleanPath = ltrim(str_replace(['../', '..\\'], '', $path), '/');

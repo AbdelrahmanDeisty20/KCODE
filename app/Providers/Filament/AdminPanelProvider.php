@@ -829,8 +829,12 @@ class AdminPanelProvider extends PanelProvider
             )
             ->renderHook(
                 \Filament\View\PanelsRenderHook::BODY_END,
-                fn (): string => \Illuminate\Support\Facades\Blade::render("@include('filament.hooks.floating_chatbot_widget')")
+                fn (): string => \Illuminate\Support\Facades\Blade::render("@include('filament.hooks.floating_chatbot_widget')\n@include('filament.hooks.admin_web_push')")
             )
+            ->authenticatedRoutes(function (): void {
+                \Illuminate\Support\Facades\Route::post('/fcm-token', [\App\Http\Controllers\Admin\AdminFcmTokenController::class, 'store'])
+                    ->name('fcm-token.store');
+            })
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

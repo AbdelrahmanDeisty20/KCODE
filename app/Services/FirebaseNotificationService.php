@@ -93,6 +93,98 @@ class FirebaseNotificationService
     }
 
     /**
+     * Public Firebase Web SDK + VAPID configuration when all required keys are present.
+     */
+    public static function getWebPushPublicConfig(): ?array
+    {
+        $web = config('services.firebase.web', []);
+        $projectId = trim((string) ($web['project_id'] ?? config('services.firebase.project_id', '')));
+        $apiKey = trim((string) ($web['api_key'] ?? ''));
+        $messagingSenderId = trim((string) ($web['messaging_sender_id'] ?? ''));
+        $appId = trim((string) ($web['app_id'] ?? ''));
+        $vapidKey = trim((string) ($web['vapid_key'] ?? ''));
+
+        if ($apiKey === '' || $projectId === '' || $messagingSenderId === '' || $appId === '' || $vapidKey === '') {
+            return null;
+        }
+
+        return [
+            'firebaseConfig' => [
+                'apiKey'            => $apiKey,
+                'authDomain'        => trim((string) ($web['auth_domain'] ?? '')) ?: "{$projectId}.firebaseapp.com",
+                'projectId'         => $projectId,
+                'storageBucket'     => trim((string) ($web['storage_bucket'] ?? '')) ?: "{$projectId}.firebasestorage.app",
+                'messagingSenderId' => $messagingSenderId,
+                'appId'             => $appId,
+            ],
+            'vapidKey' => $vapidKey,
+        ];
+    }
+
+    /**
+     * Resolve an HTTPS destination URL for desktop/mobile Web Push notification clicks.
+     */
+    private function resolveWebPushLink(array $data): ?string
+    {
+        $adminBaseUrl = rtrim((string) config('app.url', ''), '/');
+        $frontendUrl = rtrim((string) config('app.frontend_url', ''), '/');
+        $type = $data['type'] ?? null;
+
+        $candidate = match ($type) {
+            'new_order' => $adminBaseUrl !== ''
+                ? $adminBaseUrl . (!empty($data['order_id']) ? '/admin/orders/' . $data['order_id'] . '/edit' : '/admin/orders')
+                : null,
+            'order_status' => $frontendUrl !== '' ? $frontendUrl . '/orders' : null,
+            'blog'         => $frontendUrl !== ''
+                ? $frontendUrl . (!empty($data['slug']) ? '/blog/' . $data['slug'] : '/blog')
+                : null,
+            'offer'        => $frontendUrl !== ''
+                ? $frontendUrl . (!empty($data['product_id']) ? '/products/' . $data['product_id'] : '/offers')
+                : null,
+            'coupon'       => $frontendUrl !== '' ? $frontendUrl . '/shop' : null,
+            default        => $frontendUrl !== '' ? $frontendUrl : ($adminBaseUrl !== '' ? $adminBaseUrl : null),
+        };
+
+        if ($candidate && str_starts_with($candidate, 'https://')) {
+            return $candidate;
+        }
+
+        return null;
+    }
+
+    /**
+     * Build Web Push headers, notification fields, and click link for Windows/macOS/Web browsers.
+     */
+    private function buildWebPushPayload(string $title, string $body, array $data): array
+    {
+        $notification = [
+            'title'              => $title,
+            'body'               => $body,
+            'requireInteraction' => ($data['type'] ?? null) === 'new_order',
+        ];
+
+        $appUrl = rtrim((string) config('app.url', ''), '/');
+        if (str_starts_with($appUrl, 'https://')) {
+            $notification['icon'] = $appUrl . '/favicon.svg';
+        }
+
+        $webPush = [
+            'headers' => [
+                'Urgency' => 'high',
+                'TTL'     => '86400',
+            ],
+            'notification' => $notification,
+        ];
+
+        // FCM HTTP v1 rejects non-HTTPS fcm_options.link values with HTTP 400.
+        if ($link = $this->resolveWebPushLink($data)) {
+            $webPush['fcm_options'] = ['link' => $link];
+        }
+
+        return $webPush;
+    }
+
+    /**
      * Send real-time high-priority push notification to a single FCM token.
      */
     public function sendToToken(string $token, string $title, string $body, array $data = [])
@@ -136,6 +228,7 @@ class FirebaseNotificationService
                         ],
                     ],
                 ],
+                'webpush' => $this->buildWebPushPayload($title, $body, $data),
             ]
         ];
 

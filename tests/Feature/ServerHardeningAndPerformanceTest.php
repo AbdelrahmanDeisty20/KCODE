@@ -699,4 +699,132 @@ class ServerHardeningAndPerformanceTest extends TestCase
                 && ($payload['message']['data']['order_number'] ?? null) === 'KC-TEST-9001';
         });
     }
+
+    public function test_web_push_service_worker_admin_token_endpoint_and_fcm_webpush_payload(): void
+    {
+        // 1. Service worker returns valid JS cleanly when Web keys are unset and does not log site_visit
+        config()->set('services.firebase.web', []);
+        $this->get('/firebase-messaging-sw.js')
+            ->assertOk()
+            ->assertHeader('Service-Worker-Allowed', '/')
+            ->assertSee('Firebase Web Push is not configured yet.', false);
+        $this->assertDatabaseMissing('activity_logs', ['event' => 'site_visit']);
+
+        // 2. When Web keys are configured, SW serves Firebase app config
+        config()->set('services.firebase.web', [
+            'api_key'             => 'AIzaSyTestPublicKey',
+            'auth_domain'         => 'kcode-notify-web-test.firebaseapp.com',
+            'project_id'          => 'kcode-notify-web-test',
+            'storage_bucket'      => 'kcode-notify-web-test.firebasestorage.app',
+            'messaging_sender_id' => '123456789012',
+            'app_id'              => '1:123456789012:web:abcdef123456',
+            'vapid_key'           => 'BTestVapidKey123456',
+        ]);
+
+        $this->get('/firebase-messaging-sw.js')
+            ->assertOk()
+            ->assertSee('firebase.initializeApp(', false)
+            ->assertSee('kcode-notify-web-test', false);
+
+        // 3. Admin FCM endpoint authorization & persistence
+        $this->post('/admin/fcm-token', ['token' => 'guest-tok'])->assertRedirect();
+
+        $regularUser = User::create([
+            'name'     => 'Regular Customer',
+            'email'    => 'webpush-user@kcode.com',
+            'password' => bcrypt('secret123'),
+            'type'     => 'user',
+        ]);
+        $this->actingAs($regularUser)
+            ->postJson('/admin/fcm-token', ['token' => 'user-tok'])
+            ->assertStatus(403);
+
+        $admin = User::create([
+            'name'     => 'Desktop Push Admin',
+            'email'    => 'webpush-admin@kcode.com',
+            'password' => bcrypt('secret123'),
+            'type'     => 'admin',
+        ]);
+        $this->actingAs($admin)
+            ->postJson('/admin/fcm-token', [
+                'token'     => 'admin-desktop-fcm-token',
+                'device_id' => 'kcode-admin-browser-1',
+            ])
+            ->assertOk()
+            ->assertJson(['status' => true]);
+
+        $this->assertDatabaseHas('user_fcm_tokens', [
+            'user_id'   => $admin->id,
+            'token'     => 'admin-desktop-fcm-token',
+            'device_id' => 'kcode-admin-browser-1',
+        ]);
+
+        // Blade hook renders desktop push prompt cleanly when acting as admin
+        $hookHtml = view('filament.hooks.admin_web_push')->render();
+        $this->assertStringContainsString('kcode-webpush-enable-btn', $hookHtml);
+        $this->assertStringContainsString('/admin/fcm-token', $hookHtml);
+
+        // 4. WebPush payload builds HTTPS links only when app URL / frontend URL are HTTPS
+        \Illuminate\Support\Facades\Http::fake([
+            'https://fcm.googleapis.com/*' => \Illuminate\Support\Facades\Http::response([
+                'name' => 'projects/kcode-notify/messages/webpush-1',
+            ], 200),
+        ]);
+
+        config()->set('services.firebase.credentials', 'storage/app/firebase/service-account.json');
+        config()->set('services.firebase.project_id', '');
+        $service = app(\App\Services\FirebaseNotificationService::class);
+        $ref = new \ReflectionClass($service);
+        $resolvePath = $ref->getMethod('resolveCredentialsPath');
+        $resolvePath->setAccessible(true);
+        $resolved = $resolvePath->invoke($service);
+        $cacheKey = 'firebase_oauth_token_' . md5($resolved . '|' . (filemtime($resolved) ?: 0));
+        \Illuminate\Support\Facades\Cache::put($cacheKey, 'cached-oauth-access-token', 3000);
+
+        config()->set('app.url', 'https://kcodeskin.com');
+        config()->set('app.frontend_url', 'https://kcode-pied.vercel.app');
+
+        $service->sendToToken('admin-desktop-fcm-token', 'طلب جديد', 'وصل طلب جديد', [
+            'type'     => 'new_order',
+            'order_id' => '42',
+        ]);
+        $service->sendToToken('customer-web-token', 'عرض خاص', 'خصم 20%', [
+            'type'       => 'offer',
+            'product_id' => '15',
+        ]);
+
+        config()->set('app.url', 'http://localhost');
+        config()->set('app.frontend_url', 'http://localhost:5173');
+        $service->sendToToken('local-web-token', 'محلي', 'اختبار محلي', [
+            'type'     => 'new_order',
+            'order_id' => '99',
+        ]);
+
+        \Illuminate\Support\Facades\Http::assertSent(function (\Illuminate\Http\Client\Request $request) {
+            $msg = $request->data()['message'] ?? [];
+            if (($msg['token'] ?? '') !== 'admin-desktop-fcm-token') {
+                return false;
+            }
+            return ($msg['webpush']['headers']['Urgency'] ?? null) === 'high'
+                && ($msg['webpush']['notification']['requireInteraction'] ?? null) === true
+                && ($msg['webpush']['notification']['icon'] ?? null) === 'https://kcodeskin.com/favicon.svg'
+                && ($msg['webpush']['fcm_options']['link'] ?? null) === 'https://kcodeskin.com/admin/orders/42/edit';
+        });
+
+        \Illuminate\Support\Facades\Http::assertSent(function (\Illuminate\Http\Client\Request $request) {
+            $msg = $request->data()['message'] ?? [];
+            if (($msg['token'] ?? '') !== 'customer-web-token') {
+                return false;
+            }
+            return ($msg['webpush']['fcm_options']['link'] ?? null) === 'https://kcode-pied.vercel.app/products/15';
+        });
+
+        \Illuminate\Support\Facades\Http::assertSent(function (\Illuminate\Http\Client\Request $request) {
+            $msg = $request->data()['message'] ?? [];
+            if (($msg['token'] ?? '') !== 'local-web-token') {
+                return false;
+            }
+            return !array_key_exists('fcm_options', $msg['webpush'] ?? []);
+        });
+    }
 }

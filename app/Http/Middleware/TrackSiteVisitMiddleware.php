@@ -31,6 +31,7 @@ class TrackSiteVisitMiddleware
                 'assets',
                 'build',
                 'sanctum',
+                'firebase-messaging-sw.js',
                 'api/v1/health',
             ];
 
