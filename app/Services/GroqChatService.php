@@ -21,8 +21,8 @@ class GroqChatService
 
     public function __construct()
     {
-        $this->apiKey = config('groq.api_key', env('GROQ_API_KEY', ''));
-        $this->defaultModel = config('groq.model', env('GROQ_MODEL', 'llama-3.3-70b-versatile'));
+        $this->apiKey = (string) config('groq.api_key', '');
+        $this->defaultModel = (string) config('groq.model', 'llama-3.3-70b-versatile');
         $this->models = config('groq.models', [
             'llama-3.3-70b-versatile',
             'llama-3.1-8b-instant',

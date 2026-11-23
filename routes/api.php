@@ -298,9 +298,6 @@ Route::middleware([SetLang::class, 'throttle:api-general'])->group(function () {
         Route::get('/reviews/general', 'genralReview');
     });
 
-    // Contact Us Routes
-    
-
     // Care Guide Routes (دليل العناية)
     Route::controller(CareGuideController::class)->group(function () {
         Route::get('/care-guide', 'index');

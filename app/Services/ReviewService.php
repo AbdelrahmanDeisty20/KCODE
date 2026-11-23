@@ -182,7 +182,10 @@ class ReviewService
     {
         try {
             $reviews = Review::where('user_id', $userId)
-                ->with(['product', 'user'])
+                ->with([
+                    'user',
+                    'product' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with('brand'),
+                ])
                 ->orderBy('created_at', 'desc')
                 ->get();
 

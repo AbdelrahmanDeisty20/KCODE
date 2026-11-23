@@ -344,7 +344,7 @@ class AuthService
 
     public function handleProviderCallback($provider)
     {
-        $frontendUrl = rtrim(env('FRONTEND_URL', 'http://localhost:5173'), '/');
+        $frontendUrl = rtrim((string) config('app.frontend_url', 'http://localhost:5173'), '/');
         $callbackPath = '/auth/google-callback';
 
         try {

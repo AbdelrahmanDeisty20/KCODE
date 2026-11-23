@@ -11,7 +11,7 @@ class FirebaseNotificationService
 {
     private function accessToken()
     {
-        $credentialsFile = env('FIREBASE_CREDENTIALS');
+        $credentialsFile = config('services.firebase.credentials');
 
         if (!$credentialsFile || !file_exists(base_path($credentialsFile))) {
             Log::error("Firebase Credentials File Not Found: " . base_path($credentialsFile ?? ''));
@@ -46,9 +46,9 @@ class FirebaseNotificationService
             return null;
         }
 
-        $projectId = env('FIREBASE_PROJECT_ID');
+        $projectId = config('services.firebase.project_id');
         if (!$projectId) {
-            Log::error("Firebase Notification Error: FIREBASE_PROJECT_ID is not set in env.");
+            Log::error("Firebase Notification Error: FIREBASE_PROJECT_ID is not set in config/services.php.");
             return null;
         }
 

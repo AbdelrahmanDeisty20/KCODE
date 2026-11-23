@@ -3,7 +3,6 @@
 namespace App\Http\Resources\API\Reviews;
 
 use App\Http\Resources\API\PRODUCT\ProductListResource;
-use App\Http\Resources\API\PRODUCT\ProductResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,19 +17,20 @@ class ReviewResource extends JsonResource
     {
         $isVerified = (bool) ($this->is_verified ?? false);
         if (!$isVerified && $this->user_id && $this->product_id) {
-            static $verifiedCache = [];
             $cacheKey = "{$this->user_id}_{$this->product_id}";
-            if (!isset($verifiedCache[$cacheKey])) {
+            $verifiedMap = $request->attributes->get('kcode_review_verified_map', []);
+            if (!array_key_exists($cacheKey, $verifiedMap)) {
                 try {
-                    $verifiedCache[$cacheKey] = \App\Models\OrderItem::whereHas('order', function ($q) {
+                    $verifiedMap[$cacheKey] = \App\Models\OrderItem::whereHas('order', function ($q) {
                         $q->where('user_id', $this->user_id)
                           ->whereIn('order_status', ['completed', 'delivered']);
                     })->where('product_id', $this->product_id)->exists();
                 } catch (\Throwable $e) {
-                    $verifiedCache[$cacheKey] = false;
+                    $verifiedMap[$cacheKey] = false;
                 }
+                $request->attributes->set('kcode_review_verified_map', $verifiedMap);
             }
-            $isVerified = $verifiedCache[$cacheKey];
+            $isVerified = $verifiedMap[$cacheKey];
         }
 
         return [

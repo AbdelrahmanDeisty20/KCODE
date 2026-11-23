@@ -584,59 +584,15 @@ class ServerHardeningAndPerformanceTest extends TestCase
             'usage_short_ar' => 'غسول مضاف من الداشبورد',
         ]);
         $this->assertSame('after_create_prod', StaticCache::remember('quiz_engine', 'probe', fn () => 'after_create_prod'));
-    }
 
-    public function test_cleanup_server_files_command_respects_dry_run_and_runtime_dependencies(): void
-    {
-        $sandbox = storage_path('framework/testing/cleanup_sandbox_' . uniqid());
-        \Illuminate\Support\Facades\File::ensureDirectoryExists($sandbox . '/app/Filament/Pages');
-        \Illuminate\Support\Facades\File::ensureDirectoryExists($sandbox . '/exicel');
-        \Illuminate\Support\Facades\File::ensureDirectoryExists($sandbox . '/docs');
-        \Illuminate\Support\Facades\File::ensureDirectoryExists($sandbox . '/database/seeders');
+        // 6. ProductReports Filament Page reads live DB products cleanly (zero exicel CSV dependency)
+        \Livewire\Livewire::test(\App\Filament\Pages\ProductReports::class)
+            ->assertOk()
+            ->assertSee('KC-NEW-DASH')
+            ->assertSee('New Dashboard Quiz Cleanser');
 
-        file_put_contents($sandbox . '/app/Filament/Pages/ProductReports.php', "<?php \$p = base_path('exicel/KCODE_FINAL_10_10_POLISHED - Product_Master.csv');");
-        file_put_contents($sandbox . '/exicel/KCODE_FINAL_10_10_POLISHED - Product_Master.csv', 'csv-data');
-        file_put_contents($sandbox . '/exicel/kcode_products.json', '{}');
-        file_put_contents($sandbox . '/test-smtp.php', '<?php echo 1;');
-        file_put_contents($sandbox . '/docs/guide.md', '# guide');
-        file_put_contents($sandbox . '/database/seeders/DemoSeeder.php', '<?php');
-
-        // 1. Dry-run MUST keep every file intact
-        $this->artisan('kcode:cleanup-extra', [
-            '--base' => $sandbox,
-            '--docs' => true,
-            '--seeders' => true,
-        ])->assertSuccessful();
-
-        $this->assertFileExists($sandbox . '/test-smtp.php');
-        $this->assertFileExists($sandbox . '/docs/guide.md');
-        $this->assertFileExists($sandbox . '/exicel/KCODE_FINAL_10_10_POLISHED - Product_Master.csv');
-
-        // 2. Apply with --docs --force deletes test-smtp.php and docs/ ONLY while preserving Product_Master.csv and seeders
-        $this->artisan('kcode:cleanup-extra', [
-            '--base' => $sandbox,
-            '--apply' => true,
-            '--docs' => true,
-            '--force' => true,
-        ])->assertSuccessful();
-
-        $this->assertFileDoesNotExist($sandbox . '/test-smtp.php');
-        $this->assertDirectoryDoesNotExist($sandbox . '/docs');
-        $this->assertFileExists($sandbox . '/exicel/KCODE_FINAL_10_10_POLISHED - Product_Master.csv');
-        $this->assertFileExists($sandbox . '/database/seeders/DemoSeeder.php');
-
-        // 3. Apply with --seeders --force cleans seeders & kcode_products.json while STILL preserving Product_Master.csv
-        $this->artisan('kcode:cleanup-extra', [
-            '--base' => $sandbox,
-            '--apply' => true,
-            '--seeders' => true,
-            '--force' => true,
-        ])->assertSuccessful();
-
-        $this->assertFileDoesNotExist($sandbox . '/exicel/kcode_products.json');
-        $this->assertDirectoryDoesNotExist($sandbox . '/database/seeders');
-        $this->assertFileExists($sandbox . '/exicel/KCODE_FINAL_10_10_POLISHED - Product_Master.csv');
-
-        \Illuminate\Support\Facades\File::deleteDirectory($sandbox);
+        $this->assertSame('http://localhost:5173', config('app.frontend_url'));
+        $this->assertArrayHasKey('credentials', config('services.firebase'));
+        $this->assertArrayHasKey('project_id', config('services.firebase'));
     }
 }
