@@ -215,6 +215,7 @@ class ProductResource extends Resource
                                                     ->required(),
                                             ])
                                             ->columns(3)
+                                            ->defaultItems(0)
                                             ->collapsible()
                                             ->columnSpanFull(),
                                     ]),
@@ -272,7 +273,7 @@ class ProductResource extends Resource
                                                     ->required()
                                                     ->rows(2),
                                             ])
-                                            ->defaultItems(3)
+                                            ->defaultItems(0)
                                             ->maxItems(3)
                                             ->collapsible()
                                             ->columnSpanFull(),
@@ -527,6 +528,7 @@ class ProductResource extends Resource
                                                 Forms\Components\Toggle::make('is_current')->label('المنتج الحالي؟')->default(false),
                                             ])
                                             ->columns(3)
+                                            ->defaultItems(0)
                                             ->collapsible()
                                             ->columnSpanFull(),
                                     ])->columns(2),
@@ -708,6 +710,7 @@ class ProductResource extends Resource
                                                 Forms\Components\Toggle::make('optional')->label('خطوة اختيارية؟')->default(false),
                                             ])
                                             ->columns(2)
+                                            ->defaultItems(0)
                                             ->collapsible()
                                             ->columnSpanFull(),
                                     ]),
@@ -724,6 +727,7 @@ class ProductResource extends Resource
                                                 Forms\Components\Textarea::make('answer_en')->label('Answer (EN)')->rows(3)->nullable(),
                                             ])
                                             ->columns(2)
+                                            ->defaultItems(0)
                                             ->collapsible()
                                             ->columnSpanFull(),
                                     ]),
@@ -759,9 +763,248 @@ class ProductResource extends Resource
                                                     ->required(),
                                             ])
                                             ->columns(2)
+                                            ->defaultItems(0)
                                             ->collapsible()
                                             ->columnSpanFull(),
                                     ]),
+                            ]),
+
+                        Components\Tabs\Tab::make('قواعد التقييم والكويز (Quiz Engine)')
+                            ->schema([
+                                Components\Section::make('قواعد اختيار وتقييم المنتج في محرك الكويز (R479)')
+                                    ->description('أي تعديل أو إضافة هنا ينعكس مباشرة على نتائج الكويز وجدول الاستخدام بعد تحديث الكاش تلقائيًا.')
+                                    ->relationship('recommendationRule')
+                                    ->saveRelationshipsBeforeChildrenUsing(function (Components\Section $component): void {
+                                        $record = $component->getRecord();
+                                        if (!$record instanceof Product) {
+                                            return;
+                                        }
+
+                                        $data = $component->getChildSchema()->getState(shouldCallHooksBefore: false);
+                                        $roles = array_values(array_filter((array) ($data['roles'] ?? []), fn ($v) => is_string($v) && $v !== ''));
+                                        $allowedGoals = array_values(array_filter((array) ($data['allowed_goals'] ?? []), fn ($v) => is_string($v) && $v !== ''));
+                                        $supplementGoals = array_values(array_filter((array) ($data['supplement_goals'] ?? []), fn ($v) => is_string($v) && $v !== ''));
+                                        $displayLabels = array_values(array_filter((array) ($data['display_labels'] ?? []), fn ($v) => is_string($v) && trim($v) !== ''));
+
+                                        $scores = [];
+                                        foreach ((array) ($data['scores'] ?? []) as $dim => $val) {
+                                            if (is_string($dim) && trim($dim) !== '' && $val !== null && $val !== '') {
+                                                $scores[trim($dim)] = (float) $val;
+                                            }
+                                        }
+
+                                        $rawPolicy = is_array($data['usage_policy'] ?? null) ? $data['usage_policy'] : [];
+                                        $usagePolicy = [];
+                                        foreach (['period', 'family', 'label'] as $pKey) {
+                                            if (!empty($rawPolicy[$pKey])) {
+                                                $usagePolicy[$pKey] = trim((string) $rawPolicy[$pKey]);
+                                            }
+                                        }
+                                        if (isset($rawPolicy['order']) && $rawPolicy['order'] !== '' && $rawPolicy['order'] !== null) {
+                                            $usagePolicy['order'] = (int) $rawPolicy['order'];
+                                        }
+
+                                        $rule = \App\Models\ProductRecommendationRule::where('product_id', $record->id)->first();
+                                        if (!$rule && !empty($record->sku)) {
+                                            $rule = \App\Models\ProductRecommendationRule::where('sku', $record->sku)->first();
+                                        }
+
+                                        $isEmptyNew = !$rule
+                                            && empty($data['is_catalog_eligible'])
+                                            && empty($roles)
+                                            && empty($allowedGoals)
+                                            && empty($data['supplement_kind'])
+                                            && empty($data['routine_role'])
+                                            && empty($data['usage_short_ar'])
+                                            && empty($usagePolicy)
+                                            && empty($scores);
+
+                                        if ($isEmptyNew) {
+                                            return;
+                                        }
+
+                                        $payload = [
+                                            'product_id'          => $record->id,
+                                            'sku'                 => $record->sku,
+                                            'routine_role'        => !empty($data['routine_role']) ? trim((string) $data['routine_role']) : null,
+                                            'is_catalog_eligible' => (bool) ($data['is_catalog_eligible'] ?? false),
+                                            'roles'               => $roles,
+                                            'allowed_goals'       => !empty($allowedGoals) ? $allowedGoals : null,
+                                            'fit_oily'            => (float) ($data['fit_oily'] ?? 0),
+                                            'fit_combination'     => (float) ($data['fit_combination'] ?? 0),
+                                            'fit_normal'          => (float) ($data['fit_normal'] ?? 0),
+                                            'fit_dry'             => (float) ($data['fit_dry'] ?? 0),
+                                            'tolerance'           => (float) ($data['tolerance'] ?? 0),
+                                            'scores'              => !empty($scores) ? $scores : null,
+                                            'conflict_groups'     => !empty($data['conflict_groups']) ? trim((string) $data['conflict_groups']) : null,
+                                            'exfoliator_purposes' => !empty($data['exfoliator_purposes']) ? trim((string) $data['exfoliator_purposes']) : null,
+                                            'supplement_kind'     => !empty($data['supplement_kind']) ? trim((string) $data['supplement_kind']) : null,
+                                            'supplement_order'    => isset($data['supplement_order']) && $data['supplement_order'] !== '' ? (int) $data['supplement_order'] : null,
+                                            'supplement_goals'    => !empty($supplementGoals) ? $supplementGoals : null,
+                                            'usage_policy'        => !empty($usagePolicy) ? $usagePolicy : null,
+                                            'usage_short_ar'      => !empty($data['usage_short_ar']) ? trim((string) $data['usage_short_ar']) : null,
+                                            'display_labels'      => !empty($displayLabels) ? $displayLabels : null,
+                                        ];
+
+                                        if ($rule) {
+                                            $rule->fill($payload)->save();
+                                        } else {
+                                            $rule = \App\Models\ProductRecommendationRule::create($payload);
+                                        }
+
+                                        $component->cachedExistingRecord($rule);
+                                    })
+                                    ->schema([
+                                        Forms\Components\Toggle::make('is_catalog_eligible')
+                                            ->label('مُفعّل داخل كتالوج الكويز (Eligible)')
+                                            ->default(false)
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\TextInput::make('routine_role')
+                                            ->label('تصنيف المنتج في الخوارزمية (Routine Role)')
+                                            ->placeholder('Cleanser, Toner, Serum, Moisturizer, Sunscreen...')
+                                            ->nullable(),
+
+                                        Forms\Components\TextInput::make('conflict_groups')
+                                            ->label('مجموعات التعارض (Conflict Groups)')
+                                            ->placeholder('retinoid, exfoliant...')
+                                            ->nullable(),
+
+                                        Forms\Components\CheckboxList::make('roles')
+                                            ->label('الأدوار المسموحة في الروتين الأساسي')
+                                            ->options([
+                                                'cleanser'    => 'غسول (cleanser)',
+                                                'toner'       => 'تونر (toner)',
+                                                'treatment1'  => 'سيروم/علاج 1 (treatment1)',
+                                                'treatment2'  => 'سيروم/علاج 2 (treatment2)',
+                                                'moisturizer' => 'مرطب (moisturizer)',
+                                                'sunscreen'   => 'واقي شمس (sunscreen)',
+                                            ])
+                                            ->columns(3)
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\CheckboxList::make('allowed_goals')
+                                            ->label('حصر الترشح لأهداف معينة فقط (اختياري)')
+                                            ->options([
+                                                'acne'       => 'الحبوب (acne)',
+                                                'pores'      => 'المسام (pores)',
+                                                'blackheads' => 'الرؤوس السوداء (blackheads)',
+                                                'dark_spots' => 'البقع الداكنة (dark_spots)',
+                                                'dullness'   => 'البهتان (dullness)',
+                                                'redness'    => 'الاحمرار (redness)',
+                                                'dryness'    => 'الجفاف والحاجز (dryness)',
+                                                'lines'      => 'الخطوط الدقيقة (lines)',
+                                                'maintain'   => 'العناية العامة (maintain)',
+                                                'oil'        => 'الدهون واللمعان (oil)',
+                                                'eyes'       => 'محيط العين (eyes)',
+                                            ])
+                                            ->columns(3)
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\TextInput::make('fit_oily')
+                                            ->label('ملاءمة للبشرة الدهنية (Oily)')
+                                            ->numeric()
+                                            ->default(0),
+
+                                        Forms\Components\TextInput::make('fit_combination')
+                                            ->label('ملاءمة للبشرة المختلطة (Combination)')
+                                            ->numeric()
+                                            ->default(0),
+
+                                        Forms\Components\TextInput::make('fit_normal')
+                                            ->label('ملاءمة للبشرة العادية (Normal)')
+                                            ->numeric()
+                                            ->default(0),
+
+                                        Forms\Components\TextInput::make('fit_dry')
+                                            ->label('ملاءمة للبشرة الجافة (Dry)')
+                                            ->numeric()
+                                            ->default(0),
+
+                                        Forms\Components\TextInput::make('tolerance')
+                                            ->label('درجة اللطف على البشرة الحساسة (Tolerance)')
+                                            ->numeric()
+                                            ->default(0),
+
+                                        Forms\Components\TextInput::make('exfoliator_purposes')
+                                            ->label('أغراض المقشر (Exfoliator Purposes)')
+                                            ->nullable(),
+
+                                        Forms\Components\KeyValue::make('scores')
+                                            ->label('نقاط التقييم حسب أبعاد البشرة (Scores Map)')
+                                            ->keyLabel('البُعد (مثل: Acne, Pores, Pigmentation PIH, Radiance, Hydration, Barrier, Lines)')
+                                            ->valueLabel('الدرجة')
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\Select::make('supplement_kind')
+                                            ->label('نوع الإضافة الاختيارية (Supplement Kind)')
+                                            ->options([
+                                                'supplement' => 'مكمل روتين (supplement)',
+                                                'spot_patch' => 'لصقات/عناية موضعية (spot_patch)',
+                                            ])
+                                            ->nullable(),
+
+                                        Forms\Components\TextInput::make('supplement_order')
+                                            ->label('ترتيب الظهور كمكمل')
+                                            ->numeric()
+                                            ->nullable(),
+
+                                        Forms\Components\CheckboxList::make('supplement_goals')
+                                            ->label('أهداف الإضافة الاختيارية')
+                                            ->options([
+                                                'acne' => 'acne',
+                                                'pores' => 'pores',
+                                                'blackheads' => 'blackheads',
+                                                'dark_spots' => 'dark_spots',
+                                                'dullness' => 'dullness',
+                                                'redness' => 'redness',
+                                                'dryness' => 'dryness',
+                                                'lines' => 'lines',
+                                                'maintain' => 'maintain',
+                                                'oil' => 'oil',
+                                                'eyes' => 'eyes',
+                                            ])
+                                            ->columns(4)
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\Select::make('usage_policy.period')
+                                            ->label('فترة الاستخدام في الجدول (Period)')
+                                            ->options([
+                                                'both'    => 'صباحًا ومساءً (both)',
+                                                'morning' => 'صباحًا فقط (morning)',
+                                                'evening' => 'مساءً فقط (evening)',
+                                            ])
+                                            ->nullable(),
+
+                                        Forms\Components\Select::make('usage_policy.family')
+                                            ->label('فئة التكرار (Policy Family)')
+                                            ->options([
+                                                'daily'     => 'يومي (daily)',
+                                                'weekly'    => 'أسبوعي (weekly)',
+                                                'gradual'   => 'تدريجي (gradual)',
+                                                'exfoliant' => 'مقشر (exfoliant)',
+                                                'retinoid'  => 'ريتينويد (retinoid)',
+                                            ])
+                                            ->nullable(),
+
+                                        Forms\Components\TextInput::make('usage_policy.label')
+                                            ->label('شارة التكرار (Policy Label AR)')
+                                            ->nullable(),
+
+                                        Forms\Components\TextInput::make('usage_policy.order')
+                                            ->label('الترتيب في جدول الاستخدام (Order)')
+                                            ->numeric()
+                                            ->nullable(),
+
+                                        Forms\Components\Textarea::make('usage_short_ar')
+                                            ->label('التوجيه المختصر للكويز (Usage Short AR)')
+                                            ->rows(2)
+                                            ->columnSpanFull(),
+
+                                        Forms\Components\TagsInput::make('display_labels')
+                                            ->label('تسميات الدور الافتراضية (Display Labels AR)')
+                                            ->columnSpanFull(),
+                                    ])->columns(2),
                             ]),
 
                         Components\Tabs\Tab::make('SEO ومحركات البحث')

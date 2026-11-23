@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Assessment;
 use App\Models\Routine;
+use App\Support\StaticCache;
 
 class RoutineService
 {
@@ -24,8 +25,7 @@ class RoutineService
         $query = \App\Models\FinalRoutine::where('user_id', $user->id)
             ->with([
                 'products.routineStep',
-                'products.product.brand',
-                'products.product.routines'
+                'products.product' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with(['brand', 'routines']),
             ]);
 
         if (!empty($routineId)) {
@@ -87,10 +87,8 @@ class RoutineService
         $routine = Routine::where('assessment_id', $assessment->id)
             ->with([
                 'routineProducts.routineStep',
-                'routineProducts.product.brand',
-                'routineProducts.product.routines',
-                'routineProducts.replacedProduct.brand',
-                'routineProducts.replacedProduct.routines',
+                'routineProducts.product' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with(['brand', 'routines']),
+                'routineProducts.replacedProduct' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with(['brand', 'routines']),
             ])
             ->latest()
             ->first();
@@ -476,85 +474,122 @@ class RoutineService
         ];
     }
 
-    /** Get preset routines directly from database with pagination. */
-
     /**
-     * Get preset routines directly from database with pagination.
+     * Get preset routines from StaticCache with pagination & optional random shuffle.
      */
     public function getPresetRoutines()
     {
+        return $this->paginateCachedPresetRoutines(
+            false,
+            'تم جلب الروتينات المجهزة بنجاح.',
+            'Preset routines retrieved successfully.'
+        );
+    }
+
+    /**
+     * Paginate cached preset routine cards without hitting the database per request.
+     */
+    private function paginateCachedPresetRoutines(bool $isForMen, string $messageAr, string $messageEn): array
+    {
         $lang = $this->resolveLocale();
-        $perPage = (int) request()->get('per_page', 10);
+        $perPage = min(50, max(1, (int) request()->get('per_page', 10)));
+        $genderKey = $isForMen ? 'men' : 'women';
 
-        if (\App\Models\PresetRoutine::forWomen()->count() === 0) {
-            (new \Database\Seeders\PresetRoutineSeeder())->run();
-        }
+        $items = collect(StaticCache::remember('preset_routines', "list_{$genderKey}_{$lang}", function () use ($isForMen, $lang) {
+            $query = $isForMen
+                ? \App\Models\PresetRoutine::forMen()
+                : \App\Models\PresetRoutine::forWomen();
 
-        $query = \App\Models\PresetRoutine::forWomen()
-            ->where('status', 'active')
-            ->with([
-                'items.product' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with('brand'),
-            ]);
+            $routines = $query->where('status', 'active')
+                ->orderBy('id')
+                ->with('items.product')
+                ->get();
+
+            $formatted = [];
+            foreach ($routines as $routineModel) {
+                $formatted[] = $this->formatPresetRoutine($routineModel, $lang, false);
+            }
+
+            return $formatted;
+        }));
 
         if (request()->boolean('random')) {
-            $query->inRandomOrder();
+            $items = $items->shuffle()->values();
         }
 
-        $paginated = $query->paginate($perPage);
-
-        $responseRoutines = [];
-        foreach ($paginated->items() as $routineModel) {
-            $responseRoutines[] = $this->formatPresetRoutine($routineModel, $lang, false);
-        }
+        $paginated = StaticCache::paginateCollection($items, $perPage);
 
         return [
             'status' => true,
-            'message' => $lang === 'ar' ? 'تم جلب الروتينات المجهزة بنجاح.' : 'Preset routines retrieved successfully.',
-            'data' => $responseRoutines,
+            'message' => $lang === 'ar' ? $messageAr : $messageEn,
+            'data' => array_values($paginated->items()),
             'pagination' => [
                 'current_page' => $paginated->currentPage(),
                 'per_page' => $paginated->perPage(),
                 'total' => $paginated->total(),
                 'last_page' => $paginated->lastPage(),
                 'has_more_pages' => $paginated->hasMorePages(),
-            ]
+            ],
         ];
     }
 
     /**
-     * Get single preset routine details by ID.
+     * Get single preset routine details by ID or slug (served from StaticCache).
      */
     public function getPresetRoutineDetails($routineId = null)
     {
         $lang = $this->resolveLocale();
-        $id = $routineId ?: request()->get('routine_id') ?: request()->get('id');
+        $lookup = trim((string) ($routineId ?: request()->get('routine_id') ?: request()->get('id') ?: ''));
 
-        $routineModel = \App\Models\PresetRoutine::where('status', 'active')
-            ->where(function ($q) use ($id) {
-                if (is_numeric($id)) {
-                    $q->where('id', $id)->orWhere('slug', (string) $id);
-                } else {
-                    $q->where('slug', $id);
+        $resolvedId = null;
+        if ($lookup !== '') {
+            $idMap = StaticCache::remember('preset_routines', 'active_lookup_map', function () {
+                $rows = \App\Models\PresetRoutine::where('status', 'active')
+                    ->select(['id', 'slug'])
+                    ->get();
+
+                $map = [];
+                foreach ($rows as $row) {
+                    $map['id:' . $row->id] = (int) $row->id;
+                    if (!empty($row->slug)) {
+                        $map['slug:' . $row->slug] = (int) $row->id;
+                    }
                 }
-            })
-            ->with([
-                'items.product' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with('brand'),
-            ])
-            ->first();
 
-        if (!$routineModel) {
+                return $map;
+            });
+
+            $resolvedId = is_numeric($lookup)
+                ? ($idMap['id:' . (int) $lookup] ?? ($idMap['slug:' . $lookup] ?? null))
+                : ($idMap['slug:' . $lookup] ?? null);
+        }
+
+        $payload = $resolvedId !== null
+            ? StaticCache::remember('preset_routines', "detail_{$resolvedId}_{$lang}", function () use ($resolvedId, $lang) {
+                $routineModel = \App\Models\PresetRoutine::where('status', 'active')
+                    ->where('id', $resolvedId)
+                    ->with([
+                        'items.product' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with('brand'),
+                    ])
+                    ->first();
+
+                return $routineModel ? $this->formatPresetRoutine($routineModel, $lang, true) : null;
+            })
+            : null;
+
+        if (!$payload) {
             return [
                 'status' => false,
                 'code' => 404,
                 'message' => $lang === 'ar' ? 'الروتين المجهّز غير موجود.' : 'Preset routine not found.',
-                'data' => null
+                'data' => null,
             ];
         }
 
         return [
             'status' => true,
             'message' => $lang === 'ar' ? 'تم جلب تفاصيل الروتين بنجاح.' : 'Routine details retrieved successfully.',
-            'data' => $this->formatPresetRoutine($routineModel, $lang, true)
+            'data' => $payload,
         ];
     }
 
@@ -755,29 +790,6 @@ class RoutineService
             }
 
             $usageGuide = $routineModel->usage_guide_json;
-            if (empty($usageGuide) && !empty($routineModel->slug)) {
-                static $staticRoutinesGuides = null;
-                if ($staticRoutinesGuides === null) {
-                    $staticRoutinesGuides = [];
-                    $pPath = database_path('seeders/data/preset_routines_data.json');
-                    if (file_exists($pPath)) {
-                        foreach (json_decode(file_get_contents($pPath), true) ?: [] as $pr) {
-                            if (!empty($pr['slug']) && !empty($pr['usage_guide_json'])) {
-                                $staticRoutinesGuides[$pr['slug']] = $pr['usage_guide_json'];
-                            }
-                        }
-                    }
-                    $mPath = database_path('seeders/data/men_routines_data.json');
-                    if (file_exists($mPath)) {
-                        foreach (json_decode(file_get_contents($mPath), true) ?: [] as $mr) {
-                            if (!empty($mr['slug']) && !empty($mr['usage_guide_json'])) {
-                                $staticRoutinesGuides[$mr['slug']] = $mr['usage_guide_json'];
-                            }
-                        }
-                    }
-                }
-                $usageGuide = $staticRoutinesGuides[$routineModel->slug] ?? null;
-            }
 
             $res['what_it_offers'] = $this->pickLocalizedArray($lang, $routineModel->what_it_offers_json, $routineModel->what_it_offers_en_json);
             $res['how_to_use'] = $this->pickLocalized($lang, $routineModel->how_to_use_ar, $routineModel->how_to_use_en);
@@ -1196,63 +1208,52 @@ class RoutineService
     }
 
     /**
-     * Re-run preset routine seeder and return fresh routines.
+     * Re-run preset routine seeder and return fresh routines when seeder is installed.
      */
     public function generatePresetRoutines()
     {
+        if (!class_exists(\Database\Seeders\PresetRoutineSeeder::class)) {
+            return [
+                'status' => false,
+                'code' => 404,
+                'message' => 'Preset routine seeder is not installed.',
+            ];
+        }
+
         (new \Database\Seeders\PresetRoutineSeeder())->run();
+        StaticCache::forget('preset_routines', 'sitemap');
+
         return $this->getPresetRoutines();
     }
 
     /**
-     * Get Men's Simple Preset Routines directly from database with pagination.
+     * Get Men's Simple Preset Routines from StaticCache with pagination.
      */
     public function getMenPresetRoutines()
     {
-        $lang = $this->resolveLocale();
-        $perPage = (int) request()->get('per_page', 10);
-
-        if (\App\Models\PresetRoutine::forMen()->count() === 0) {
-            (new \Database\Seeders\MenPresetRoutineSeeder())->run();
-        }
-
-        $query = \App\Models\PresetRoutine::forMen()
-            ->where('status', 'active')
-            ->with([
-                'items.product' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with('brand'),
-            ]);
-
-        if (request()->boolean('random')) {
-            $query->inRandomOrder();
-        }
-
-        $paginated = $query->paginate($perPage);
-
-        $responseRoutines = [];
-        foreach ($paginated->items() as $routineModel) {
-            $responseRoutines[] = $this->formatPresetRoutine($routineModel, $lang, false);
-        }
-
-        return [
-            'status' => true,
-            'message' => $lang === 'ar' ? 'تم جلب روتينات الرجال المجهزة بنجاح.' : 'Men preset routines retrieved successfully.',
-            'data' => $responseRoutines,
-            'pagination' => [
-                'current_page' => $paginated->currentPage(),
-                'per_page' => $paginated->perPage(),
-                'total' => $paginated->total(),
-                'last_page' => $paginated->lastPage(),
-                'has_more_pages' => $paginated->hasMorePages(),
-            ]
-        ];
+        return $this->paginateCachedPresetRoutines(
+            true,
+            'تم جلب روتينات الرجال المجهزة بنجاح.',
+            'Men preset routines retrieved successfully.'
+        );
     }
 
     /**
-     * Generate Men's Simple Preset Routines using seeder.
+     * Generate Men's Simple Preset Routines using seeder when installed.
      */
     public function generateMenPresetRoutines()
     {
+        if (!class_exists(\Database\Seeders\MenPresetRoutineSeeder::class)) {
+            return [
+                'status' => false,
+                'code' => 404,
+                'message' => 'Men preset routine seeder is not installed.',
+            ];
+        }
+
         (new \Database\Seeders\MenPresetRoutineSeeder())->run();
+        StaticCache::forget('preset_routines', 'sitemap');
+
         return $this->getMenPresetRoutines();
     }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\Product;
+use App\Models\ProductRecommendationRule;
+use App\Models\QuizEngineConfig;
 use App\Models\Setting;
-use Illuminate\Support\Facades\File;
+use App\Support\StaticCache;
 
 class R479EngineService
 {
@@ -112,35 +115,109 @@ class R479EngineService
             return;
         }
 
-        $quizDir = base_path('database/seeders/data/r479_quiz');
-        $dataDir = base_path('database/seeders/data');
+        $dataset = StaticCache::remember('quiz_engine', 'dataset', function () {
+            $configs = QuizEngineConfig::all()
+                ->mapWithKeys(fn (QuizEngineConfig $cfg) => [$cfg->key => $cfg->payload])
+                ->all();
 
-        $this->contract = json_decode(File::get("$quizDir/quiz_contract.json"), true);
-        $this->catalog = json_decode(File::get("$quizDir/catalog.json"), true);
-        $this->catalogBySku = [];
-        foreach ($this->catalog as $item) {
-            $this->catalogBySku[$item['sku']] = $item;
-        }
+            $rules = ProductRecommendationRule::query()
+                ->whereNotNull('sku')
+                ->orderBy('sku')
+                ->get();
 
-        $masterRaw = json_decode(File::get("$dataDir/r479_master_snapshot.json"), true);
-        $this->masterBySku = [];
-        foreach ($masterRaw as $row) {
-            if (!empty($row['SKU'])) {
-                $this->masterBySku[$row['SKU']] = $row;
+            $catalog = [];
+            $catalogBySku = [];
+            $masterBySku = [];
+            $supplementsRaw = [];
+            $purposes = [];
+            $usagePolicies = [];
+            $usageShort = [];
+            $displayLabels = [];
+
+            foreach ($rules as $rule) {
+                $sku = $rule->sku;
+
+                if ($rule->is_catalog_eligible) {
+                    $entry = [
+                        'sku' => $sku,
+                        'roles' => $rule->roles ?? [],
+                        'fit' => [
+                            'oily' => (float) $rule->fit_oily,
+                            'combination' => (float) $rule->fit_combination,
+                            'normal' => (float) $rule->fit_normal,
+                            'dry' => (float) $rule->fit_dry,
+                        ],
+                        'tolerance' => (float) $rule->tolerance,
+                        'scores' => $rule->scores ?? [],
+                    ];
+                    if (!empty($rule->allowed_goals)) {
+                        $entry['allowed_goals'] = $rule->allowed_goals;
+                    }
+                    $catalog[] = $entry;
+                    $catalogBySku[$sku] = $entry;
+                }
+
+                $masterBySku[$sku] = [
+                    'Category' => $rule->routine_role ?? '',
+                    'Conflict Groups' => $rule->conflict_groups ?? '',
+                ];
+
+                if ($rule->supplement_kind !== null) {
+                    $supplementsRaw[] = [
+                        'order' => $rule->supplement_order ?? PHP_INT_MAX,
+                        'sku' => $sku,
+                        'kind' => $rule->supplement_kind,
+                        'goals' => $rule->supplement_goals ?? [],
+                    ];
+                }
+
+                if ($rule->exfoliator_purposes !== null && $rule->exfoliator_purposes !== '') {
+                    $purposes[$sku] = $rule->exfoliator_purposes;
+                }
+                if (!empty($rule->usage_policy)) {
+                    $usagePolicies[$sku] = $rule->usage_policy;
+                }
+                if ($rule->usage_short_ar !== null) {
+                    $usageShort[$sku] = $rule->usage_short_ar;
+                }
+                if (!empty($rule->display_labels)) {
+                    $displayLabels[$sku] = $rule->display_labels;
+                }
             }
-        }
 
-        $this->productsContent = json_decode(File::get("$dataDir/r479_products.json"), true);
-        $this->supplementRegistry = json_decode(File::get("$quizDir/supplement_registry.json"), true);
-        $this->purposes = json_decode(File::get("$quizDir/purposes.json"), true);
-        $this->excludedExfoliatorCases = json_decode(File::get("$quizDir/approved_exfoliator_exclusions.json"), true);
-        $this->usagePolicies = json_decode(File::get("$quizDir/usage_policies.json"), true);
-        $this->usageShort = json_decode(File::get("$quizDir/usage_short.json"), true);
-        $this->displayLabels = json_decode(File::get("$quizDir/display_labels.json"), true);
+            usort($supplementsRaw, fn (array $a, array $b) => $a['order'] <=> $b['order'] ?: strcmp($a['sku'], $b['sku']));
+            $supplementRegistry = array_map(
+                fn (array $s) => ['sku' => $s['sku'], 'kind' => $s['kind'], 'goals' => $s['goals']],
+                $supplementsRaw
+            );
 
-        if (File::exists("$dataDir/quiz_results_matrix.json")) {
-            $this->uiMatrix = json_decode(File::get("$dataDir/quiz_results_matrix.json"), true);
-        }
+            return [
+                'contract' => $configs['quiz_contract'] ?? ['primary' => [], 'secondary' => [], 'skin' => []],
+                'catalog' => $catalog,
+                'catalogBySku' => $catalogBySku,
+                'masterBySku' => $masterBySku,
+                'supplementRegistry' => $supplementRegistry,
+                'purposes' => $purposes,
+                'excludedExfoliatorCases' => $configs['approved_exfoliator_exclusions'] ?? [],
+                'usagePolicies' => $usagePolicies,
+                'usageShort' => $usageShort,
+                'displayLabels' => $displayLabels,
+                'uiMatrix' => $configs['scenario_role_overrides'] ?? [],
+            ];
+        });
+
+        $this->contract = $dataset['contract'];
+        $this->catalog = $dataset['catalog'];
+        $this->catalogBySku = $dataset['catalogBySku'];
+        $this->masterBySku = $dataset['masterBySku'];
+        $this->productsContent = [];
+        $this->supplementRegistry = $dataset['supplementRegistry'];
+        $this->purposes = $dataset['purposes'];
+        $this->excludedExfoliatorCases = $dataset['excludedExfoliatorCases'];
+        $this->usagePolicies = $dataset['usagePolicies'];
+        $this->usageShort = $dataset['usageShort'];
+        $this->displayLabels = $dataset['displayLabels'];
+        $this->uiMatrix = $dataset['uiMatrix'];
     }
 
     public function getContract(): array
@@ -316,11 +393,15 @@ class R479EngineService
         $t1 = $picks['treatment1'] ?? null;
         $t2 = $picks['treatment2'] ?? null;
         if (($t1 === 'KC0122' && $t2 === 'KC0242') || ($t1 === 'KC0242' && $t2 === 'KC0122')) {
-            $ps = array_values(array_filter($pool, function (array $p) use ($secondary) {
+            $namesBySku = Product::whereIn('sku', array_column($pool, 'sku'))
+                ->pluck('name_en', 'sku')
+                ->all();
+
+            $ps = array_values(array_filter($pool, function (array $p) use ($secondary, $namesBySku) {
                 if (!in_array('face_treatment', $p['roles'], true)) {
                     return false;
                 }
-                $lowerName = strtolower($p['name'] ?? '');
+                $lowerName = strtolower($namesBySku[$p['sku']] ?? '');
                 foreach (['retinol', 'retinal', 'retino'] as $term) {
                     if (str_contains($lowerName, $term)) {
                         return false;
@@ -716,28 +797,34 @@ class R479EngineService
             $answers['sensitive'] ? 'yes' : 'no',
         ]);
 
-        // Pre-index UI matrix cards for this scenario if available
+        // Pre-index UI matrix roles for this scenario if available
         $matrixRoleBySku = [];
-        if (isset($this->uiMatrix['paths'][$scenarioKey])) {
-            $pathData = $this->uiMatrix['paths'][$scenarioKey];
-            foreach (array_merge($pathData['primary_routine'] ?? [], $pathData['routine_support'] ?? []) as $pIdx) {
-                if (isset($this->uiMatrix['products'][$pIdx])) {
-                    $mp = $this->uiMatrix['products'][$pIdx];
-                    $matrixRoleBySku[$mp['sku']] = $mp;
-                }
+        $variants = $this->uiMatrix['variants'] ?? [];
+        foreach ($this->uiMatrix['paths'][$scenarioKey] ?? [] as $pIdx) {
+            if (isset($variants[$pIdx])) {
+                $mp = $variants[$pIdx];
+                $matrixRoleBySku[$mp['sku']] = $mp;
             }
         }
 
-        $buildCard = function (string $sku, array $roles) use ($core, $matrixRoleBySku, $isEn) {
-            $p = $this->masterBySku[$sku] ?? [];
-            $c = $this->productsContent[$sku] ?? [];
+        $neededSkus = array_values(array_unique(array_merge(
+            array_values($core['picks']),
+            array_column($supplements['addons'], 'sku')
+        )));
+        $productsBySku = !empty($neededSkus)
+            ? Product::with(['brand', 'category'])->whereIn('sku', $neededSkus)->get()->keyBy('sku')
+            : collect();
+
+        $buildCard = function (string $sku, array $roles) use ($core, $matrixRoleBySku, $productsBySku, $isEn) {
+            $dbProd = $productsBySku->get($sku);
+            $usageJson = is_array($dbProd?->usage_instructions_json) ? $dbProd->usage_instructions_json : [];
             $matrixCard = $matrixRoleBySku[$sku] ?? null;
-            $policy = $this->usagePolicies[$sku] ?? ($matrixCard['usage_policy'] ?? null);
-            $shortAr = $this->usageShort[$sku] ?? ($matrixCard['usage_short_ar'] ?? null);
+            $policy = $this->usagePolicies[$sku] ?? null;
+            $shortAr = $this->usageShort[$sku] ?? null;
             $shortEn = $this->translateUsageShortToEn($shortAr, $sku, $roles);
             $displayRoleAr = $matrixCard['display_role_ar'] ?? $this->resolveDisplayRoleAr($sku, $roles, $core['effective_goals']);
             $displayRoleEn = $this->resolveDisplayRoleEn($sku, $roles, $core['effective_goals'], $displayRoleAr);
-            $noticeAr = $c['usage_notice_ar'] ?? '';
+            $noticeAr = (string) ($usageJson['routine_usage_notice_ar'] ?? '');
             $noticeEn = $this->translateUsageNoticeToEn($noticeAr);
 
             if (is_array($policy) && $isEn && isset($policy['label'])) {
@@ -745,25 +832,27 @@ class R479EngineService
                 $policy['label'] = $this->translatePolicyLabelToEn($policy['label'], $policy['family'] ?? 'daily');
             }
 
+            $descAr = $dbProd?->description_ar ?? '';
+
             return [
                 'sku' => $sku,
-                'brand' => $c['brand'] ?? ($p['Brand'] ?? ''),
-                'name' => $c['name'] ?? ($p['Product'] ?? ''),
-                'size' => $c['size'] ?? ($p['Size'] ?? ''),
+                'brand' => $dbProd?->brand?->name_en ?? '',
+                'name' => $dbProd ? $dbProd->fixedFullName() : $sku,
+                'size' => $dbProd?->size ?? '',
                 'roles' => $roles,
                 'routine_step_code' => $matrixCard['routine_step_code'] ?? ($roles[0] ?? 'step'),
                 'display_role_ar' => $isEn ? $displayRoleEn : $displayRoleAr,
                 'display_role_en' => $displayRoleEn,
-                'description_ar' => $c['description'] ?? ($p['Description AR'] ?? ''),
-                'chosen_for_ar' => $matrixCard['chosen_for_ar'] ?? ($c['description'] ?? ($p['Description AR'] ?? '')),
-                'usage' => $c['usage_tiles'] ?? [],
-                'usage_text_ar' => $c['usage'] ?? '',
+                'description_ar' => $descAr,
+                'chosen_for_ar' => $descAr,
+                'usage' => is_array($usageJson['tiles'] ?? null) ? $usageJson['tiles'] : [],
+                'usage_text_ar' => $dbProd?->how_to_use_ar ?? '',
                 'usage_short_ar' => $isEn ? ($shortEn ?? '') : ($shortAr ?? ''),
                 'usage_short_en' => $shortEn ?? '',
                 'usage_policy' => $policy,
                 'usage_notice_ar' => $isEn ? $noticeEn : $noticeAr,
                 'usage_notice_en' => $noticeEn,
-                'frequency' => $p['Frequency'] ?? '',
+                'frequency' => $dbProd?->usage_frequency_ar ?? '',
                 'usage_status' => 'reviewed_product_directions',
                 'guide_status' => isset($this->usageShort[$sku]) ? 'reviewed_short_copy' : 'individual_product_directions_only',
             ];
@@ -1006,10 +1095,16 @@ class R479EngineService
         $items = [];
         $masks = ['KC0184', 'KC0185', 'KC0189', 'KC0207'];
 
+        $normalizedSkus = array_values(array_unique(array_filter(array_map(fn ($s) => strtoupper(trim((string) $s)), $skus))));
+        $productsBySku = !empty($normalizedSkus)
+            ? Product::with('brand')->whereIn('sku', $normalizedSkus)->get()->keyBy('sku')
+            : collect();
+
         foreach ($skus as $sku) {
             $sku = strtoupper(trim($sku));
+            $dbProd = $productsBySku->get($sku);
+            $usageJson = is_array($dbProd?->usage_instructions_json) ? $dbProd->usage_instructions_json : [];
             $p = $this->masterBySku[$sku] ?? [];
-            $c = $this->productsContent[$sku] ?? [];
             $policy = $this->usagePolicies[$sku] ?? null;
             $shortAr = $this->usageShort[$sku] ?? null;
 
@@ -1042,15 +1137,15 @@ class R479EngineService
                 $displayRoleEn = $p['Category'];
             }
 
-            $shortTextAr = $shortAr ?? ($c['usage'] ?? '');
+            $shortTextAr = $shortAr ?? ($dbProd?->how_to_use_ar ?? '');
             $shortTextEn = $this->translateUsageShortToEn($shortTextAr, $sku) ?? '';
-            $noticeAr = $c['usage_notice_ar'] ?? '';
+            $noticeAr = (string) ($usageJson['routine_usage_notice_ar'] ?? '');
             $noticeEn = $this->translateUsageNoticeToEn($noticeAr);
 
             $items[] = [
                 'sku' => $sku,
-                'brand' => $c['brand'] ?? ($p['Brand'] ?? ''),
-                'name' => $c['name'] ?? ($p['Product'] ?? ''),
+                'brand' => $dbProd?->brand?->name_en ?? '',
+                'name' => $dbProd ? $dbProd->fixedFullName() : $sku,
                 'display_role_ar' => $isEn ? $displayRoleEn : $displayRoleAr,
                 'display_role_en' => $displayRoleEn,
                 'usage_short_ar' => $isEn ? $shortTextEn : $shortTextAr,
@@ -1333,17 +1428,20 @@ class R479EngineService
     {
         $this->loadData();
         $out = [];
-        $allSkus = array_unique(array_merge(
+        $allSkus = array_values(array_unique(array_merge(
             array_keys($this->catalogBySku ?? []),
             array_keys($this->usageShort ?? []),
             array_keys($this->usagePolicies ?? []),
-            array_keys($this->displayLabels ?? []),
-            array_keys($this->productsContent ?? [])
-        ));
+            array_keys($this->displayLabels ?? [])
+        )));
+
+        $productsBySku = !empty($allSkus)
+            ? Product::whereIn('sku', $allSkus)->get(['sku', 'usage_instructions_json'])->keyBy('sku')
+            : collect();
 
         foreach ($allSkus as $sku) {
-            $c = $this->productsContent[$sku] ?? [];
-            $p = $this->masterBySku[$sku] ?? [];
+            $dbProd = $productsBySku->get($sku);
+            $usageJson = is_array($dbProd?->usage_instructions_json) ? $dbProd->usage_instructions_json : [];
             $policy = $this->usagePolicies[$sku] ?? [];
             $shortAr = $this->usageShort[$sku] ?? '';
             $shortEn = $shortAr !== '' ? ($this->translateUsageShortToEn($shortAr, $sku) ?? '') : '';
@@ -1353,7 +1451,7 @@ class R479EngineService
 
             $badgeAr = trim((string) ($policy['label'] ?? ''));
             $badgeEn = $badgeAr !== '' ? $this->translatePolicyLabelToEn($badgeAr, $policy['family'] ?? 'daily') : '';
-            $noticeAr = trim((string) ($c['usage_notice_ar'] ?? ''));
+            $noticeAr = trim((string) ($usageJson['routine_usage_notice_ar'] ?? ''));
             $noticeEn = $noticeAr !== '' ? $this->translateUsageNoticeToEn($noticeAr) : '';
 
             $entry = array_filter([

@@ -28,19 +28,5 @@ Route::get('/storage/{path}', function (string $path) {
         return response()->file($fullPath);
     }
 
-    // Routine fallback check
-    if (str_starts_with($cleanPath, 'routines/')) {
-        $filename = substr($cleanPath, strlen('routines/'));
-        $assetPath = database_path('seeders/assets/routines/' . $filename);
-        if (file_exists($assetPath)) {
-            $storageDir = storage_path('app/public/routines');
-            if (!file_exists($storageDir)) {
-                @mkdir($storageDir, 0755, true);
-            }
-            @copy($assetPath, $fullPath);
-            return response()->file($assetPath);
-        }
-    }
-
     abort(404);
 })->where('path', '.*');

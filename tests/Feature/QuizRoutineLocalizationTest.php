@@ -386,4 +386,75 @@ class QuizRoutineLocalizationTest extends TestCase
         $this->assertSame('Admin Custom Cleanser', $schedStep0['display_role_ar']);
         $this->assertSame('Admin custom rinse instruction.', $schedStep0['usage_short_ar']);
     }
+
+    public function test_quiz_engine_reads_db_rules_with_cache_invalidation_and_links_new_products_by_sku(): void
+    {
+        $engine = app(\App\Services\R479EngineService::class);
+        $answers = [
+            'primary' => 'dark_spots',
+            'secondary' => 'dullness',
+            'skin' => 'normal',
+            'sensitive' => false,
+        ];
+
+        $probe = $engine->recommend($answers, [], [], 'ar');
+        $targetSku = $probe['core'][0]['sku'];
+
+        $beforeRule = \App\Models\ProductRecommendationRule::where('sku', $targetSku)->firstOrFail();
+        $this->assertNull($beforeRule->product_id);
+
+        $brand = Brand::create(['name_ar' => 'أنوا', 'name_en' => 'Anua']);
+        $category = Category::create([
+            'name_ar' => 'الغسول',
+            'name_en' => 'Cleansers',
+            'description_ar' => 'وصف',
+            'description_en' => 'Desc',
+        ]);
+
+        $product = Product::create([
+            'sku' => $targetSku,
+            'name_en' => 'Live DB Product Name',
+            'name_ar' => 'Live DB Product Name',
+            'short_name_en' => 'Live DB Product Name',
+            'short_name_ar' => 'Live DB Product Name',
+            'description_en' => 'Live EN overview',
+            'description_ar' => 'وصف حي من الداتابيز',
+            'brief_insight_en' => 'Live EN insight',
+            'brief_insight_ar' => 'ملخص حي',
+            'how_to_use_en' => 'Apply daily.',
+            'how_to_use_ar' => 'يُستخدم يوميًا.',
+            'ingredients_en' => 'Water',
+            'ingredients_ar' => 'ماء',
+            'category_id' => $category->id,
+            'brand_id' => $brand->id,
+            'price' => 12.00,
+            'size' => '30ml',
+            'status' => 'active',
+            'stock' => 10,
+        ]);
+
+        // ProductObserver::created should auto-link product_recommendation_rules.product_id by SKU
+        $afterRule = \App\Models\ProductRecommendationRule::where('sku', $targetSku)->firstOrFail();
+        $this->assertSame($product->id, $afterRule->product_id);
+
+        // Engine should hydrate live Product copy & Brand without touching seeders JSON
+        $res1 = $engine->recommend($answers, [], [], 'ar');
+
+        $card1 = collect($res1['core'])->firstWhere('sku', $targetSku);
+        $this->assertNotNull($card1);
+        $this->assertSame('Anua', $card1['brand']);
+        $this->assertSame('Live DB Product Name', $card1['name']);
+        $this->assertSame('وصف حي من الداتابيز', $card1['description_ar']);
+
+        // Updating ProductRecommendationRule should automatically flush StaticCache('quiz_engine')
+        $originalShort = $afterRule->usage_short_ar;
+        $afterRule->update(['usage_short_ar' => 'تحديث مباشر من قاعدة البيانات']);
+
+        $res2 = app(\App\Services\R479EngineService::class)->recommend($answers, [], [], 'ar');
+
+        $card2 = collect($res2['core'])->firstWhere('sku', $targetSku);
+        $this->assertSame('تحديث مباشر من قاعدة البيانات', $card2['usage_short_ar']);
+
+        $afterRule->update(['usage_short_ar' => $originalShort]);
+    }
 }

@@ -94,13 +94,8 @@ class FuzzyImageMatcherService
 
             if ($syncStorage) {
                 $storageDir = storage_path("app/public/{$type}");
-                $downloadsDir = "C:/Users/Dell/Downloads/kcode-images/{$type}";
-
                 File::ensureDirectoryExists($storageDir);
-                File::ensureDirectoryExists($downloadsDir);
-
                 File::copy($filePath, "{$storageDir}/{$targetFilename}");
-                File::copy($filePath, "{$downloadsDir}/{$targetFilename}");
 
                 $model->update(['image' => "{$type}/{$targetFilename}"]);
             }

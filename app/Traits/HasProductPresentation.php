@@ -300,17 +300,6 @@ trait HasProductPresentation
         $raw = is_array($this->usage_instructions_json) ? $this->usage_instructions_json : [];
         $tiles = is_array($raw['tiles'] ?? null) ? $raw['tiles'] : [];
 
-        if (empty($raw) && empty($tiles) && !empty($this->sku)) {
-            static $catalogProducts = null;
-            if ($catalogProducts === null) {
-                $path = database_path('seeders/data/r479_products.json');
-                $catalogProducts = file_exists($path) ? json_decode(file_get_contents($path), true) : [];
-            }
-            if (!empty($catalogProducts[$this->sku]['usage_tiles'])) {
-                $tiles = $catalogProducts[$this->sku]['usage_tiles'];
-            }
-        }
-
         return ['raw' => $raw, 'tiles' => $tiles];
     }
 

@@ -3,8 +3,10 @@
 namespace App\Observers;
 
 use App\Models\Product;
+use App\Models\ProductRecommendationRule;
 use App\Models\User;
 use App\Services\ActivityLogger;
+use App\Support\StaticCache;
 use Filament\Notifications\Notification;
 use Illuminate\Support\Facades\Log;
 
@@ -30,6 +32,12 @@ class ProductObserver
         );
 
         $this->checkLowStockAndNotifyAdmin($product);
+
+        if (!empty($product->sku)) {
+            ProductRecommendationRule::where('sku', $product->sku)
+                ->whereNull('product_id')
+                ->update(['product_id' => $product->id]);
+        }
     }
 
     /**
@@ -51,6 +59,19 @@ class ProductObserver
         if ($product->wasChanged('stock')) {
             $this->checkLowStockAndNotifyAdmin($product);
         }
+
+        if ($product->wasChanged('sku') && !empty($product->sku)) {
+            $linkedRule = ProductRecommendationRule::where('product_id', $product->id)->first();
+            $matchingSkuRule = ProductRecommendationRule::where('sku', $product->sku)->first();
+
+            if ($linkedRule && !$matchingSkuRule) {
+                $linkedRule->update(['sku' => $product->sku]);
+            } elseif (!$linkedRule && $matchingSkuRule && $matchingSkuRule->product_id === null) {
+                $matchingSkuRule->update(['product_id' => $product->id]);
+            }
+
+            StaticCache::forget('quiz_engine');
+        }
     }
 
     /**
@@ -58,6 +79,8 @@ class ProductObserver
      */
     public function deleted(Product $product): void
     {
+        StaticCache::forget('quiz_engine');
+
         ActivityLogger::log(
             event: 'deleted',
             description: "تم حذف المنتج: [{$product->name_ar}]",

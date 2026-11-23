@@ -15,7 +15,12 @@ class MatchImagesFolderCommand extends Command
         $folderPath = $this->argument('folderPath');
 
         if (!$folderPath) {
-            $folderPath = $this->ask('Please enter the folder path containing your images (e.g. C:\Users\Dell\Downloads\my_images)', 'C:\Users\Dell\Downloads\KCODE_Homepage_Developer_V24_FINAL\KCODE_Homepage_Developer_V24_FINAL\assets');
+            $folderPath = $this->ask('Please enter the folder path containing your images');
+        }
+
+        if (!$folderPath) {
+            $this->error('Folder path is required.');
+            return;
         }
 
         $this->info("Scanning and fuzzy-matching image files in: {$folderPath}...");

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PresetRoutineResource\Pages;
 use App\Models\PresetRoutine;
+use Filament\Actions;
 use Filament\Forms;
 use Filament\Schemas\Components;
 use Filament\Schemas\Schema;
@@ -234,6 +235,7 @@ class PresetRoutineResource extends Resource
                                 Forms\Components\Textarea::make('starter_guide_en')->label('Starter Guide (English)')->rows(2),
                             ])
                             ->columns(2)
+                            ->defaultItems(0)
                             ->collapsible()
                             ->collapsed()
                             ->columnSpanFull()
@@ -275,6 +277,7 @@ class PresetRoutineResource extends Resource
                                 Forms\Components\Textarea::make('starter_guide_en')->label('Starter Guide (English)')->rows(2),
                             ])
                             ->columns(2)
+                            ->defaultItems(0)
                             ->collapsible()
                             ->collapsed()
                             ->columnSpanFull()
@@ -306,10 +309,12 @@ class PresetRoutineResource extends Resource
                                         Forms\Components\Textarea::make('starter_guide_en')->label('Starter Guide (English)')->rows(2),
                                     ])
                                     ->columns(2)
+                                    ->defaultItems(0)
                                     ->collapsible()
                                     ->columnSpanFull(),
                             ])
                             ->columns(2)
+                            ->defaultItems(0)
                             ->collapsible()
                             ->collapsed()
                             ->columnSpanFull()
@@ -339,6 +344,7 @@ class PresetRoutineResource extends Resource
                                 Forms\Components\Textarea::make('instruction_en')->label('Instruction (English)')->rows(2)->columnSpanFull(),
                             ])
                             ->columns(2)
+                            ->defaultItems(0)
                             ->collapsible()
                             ->collapsed()
                             ->columnSpanFull()
@@ -362,10 +368,12 @@ class PresetRoutineResource extends Resource
                                         Forms\Components\Textarea::make('instruction_en')->label('Instruction (English)')->rows(2)->columnSpanFull(),
                                     ])
                                     ->columns(2)
+                                    ->defaultItems(0)
                                     ->collapsible()
                                     ->columnSpanFull(),
                             ])
                             ->columns(2)
+                            ->defaultItems(0)
                             ->collapsible()
                             ->collapsed()
                             ->columnSpanFull()
@@ -402,6 +410,7 @@ class PresetRoutineResource extends Resource
                                 Forms\Components\Textarea::make('note_en')->label('Note (English)')->rows(2),
                             ])
                             ->columns(2)
+                            ->defaultItems(0)
                             ->collapsible()
                             ->collapsed()
                             ->columnSpanFull(),
@@ -538,6 +547,15 @@ class PresetRoutineResource extends Resource
                         '0' => 'روتينات عامة / نسائية',
                         '1' => 'روتينات رجالية',
                     ]),
+            ])
+            ->actions([
+                Actions\EditAction::make(),
+                Actions\DeleteAction::make(),
+            ])
+            ->bulkActions([
+                Actions\BulkActionGroup::make([
+                    Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 

@@ -66,7 +66,7 @@ class StaticCache
         \App\Models\State::class                    => ['locations'],
         \App\Models\City::class                     => ['locations'],
         \App\Models\Category::class                 => ['categories'],
-        \App\Models\Brand::class                    => ['brands'],
+        \App\Models\Brand::class                    => ['brands', 'preset_routines'],
         \App\Models\SkinType::class                 => ['skin_types'],
         \App\Models\Concern::class                  => ['concerns'],
         \App\Models\RoutineGoal::class              => ['routine_goals'],
@@ -80,9 +80,13 @@ class StaticCache
         \App\Models\BlogCategory::class             => ['blog_categories', 'sitemap'],
         \App\Models\BlogTag::class                  => ['blog_tags'],
         \App\Models\Blog::class                     => ['blog_categories', 'sitemap'],
-        \App\Models\Product::class                  => ['sitemap'],
-        \App\Models\PresetRoutine::class            => ['sitemap'],
+        \App\Models\Product::class                  => ['sitemap', 'preset_routines'],
+        \App\Models\PresetRoutine::class            => ['sitemap', 'preset_routines'],
+        \App\Models\PresetRoutineProduct::class     => ['preset_routines'],
+        \App\Models\Review::class                   => ['preset_routines'],
         \App\Models\Coupon::class                   => ['coupons'],
+        \App\Models\ProductRecommendationRule::class => ['quiz_engine'],
+        \App\Models\QuizEngineConfig::class         => ['quiz_engine'],
     ];
 
     /**

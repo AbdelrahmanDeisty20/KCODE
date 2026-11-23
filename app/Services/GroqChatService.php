@@ -311,8 +311,7 @@ class GroqChatService
     }
 
     /**
-     * Authoritatively resolve a product by its SKU code.
-     * Checks database first, then falls back to r479_products.json canonical master snapshot.
+     * Authoritatively resolve a product by its SKU code from the database.
      */
     public function resolveProductBySku(string $sku): ?array
     {
@@ -327,21 +326,14 @@ class GroqChatService
             $productModel = null;
         }
 
-        $catalogJson = null;
-        $jsonPath = database_path('seeders/data/r479_products.json');
-        if (file_exists($jsonPath)) {
-            $all = json_decode(file_get_contents($jsonPath), true);
-            $catalogJson = $all[$sku] ?? null;
-        }
-
-        if (!$productModel && !$catalogJson) {
+        if (!$productModel) {
             return null;
         }
 
-        $nameEn = $productModel->name_en ?? $catalogJson['name'] ?? $sku;
-        $nameAr = $productModel->name_ar ?? $catalogJson['name_ar'] ?? $catalogJson['name'] ?? $nameEn;
-        $brand = $productModel->brand->name ?? $catalogJson['brand'] ?? 'KCODE';
-        $category = $productModel->category->name_ar ?? $catalogJson['category'] ?? '';
+        $nameEn = $productModel->name_en ?: $sku;
+        $nameAr = $productModel->name_ar ?: $nameEn;
+        $brand = $productModel->brand?->name ?? 'KCODE';
+        $category = $productModel->category?->name_ar ?? '';
 
         $isSunscreen = ($sku === 'KC0159')
             || in_array($sku, ['KC0076', 'KC0077', 'KC0121', 'KC0218'], true)
@@ -356,10 +348,10 @@ class GroqChatService
             $reapplication = 'أعد تطبيقه كل ساعتين عند البقاء في الخارج، وجدّده فوراً بعد السباحة أو التعرّق أو تجفيف الوجه بالمنشفة.';
             $guidance = 'يناسب البشرة الدهنية والمختلطة والعادية والحساسة بقوام خفيف لا يترك أثراً أبيض. لا تخلطه بالمرطب أو كريم الأساس لتخفيفه، وتجنب ملامسة العينين.';
         } else {
-            $usage = $productModel->how_to_use_ar ?? $catalogJson['usage'] ?? 'اتبع الترتيب المناسب في الروتين حسب نوع المنتج.';
-            $frequency = $productModel->usage_frequency_ar ?? 'يومياً أو حسب إرشادات الروتين.';
+            $usage = $productModel->how_to_use_ar ?: 'اتبع الترتيب المناسب في الروتين حسب نوع المنتج.';
+            $frequency = $productModel->usage_frequency_ar ?: 'يومياً أو حسب إرشادات الروتين.';
             $reapplication = 'حسب الحاجة والروتين اليومي.';
-            $guidance = $productModel->brief_insight_ar ?? $catalogJson['brief'] ?? '';
+            $guidance = $productModel->brief_insight_ar ?: '';
         }
 
         return [

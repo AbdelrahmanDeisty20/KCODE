@@ -19,7 +19,20 @@ return new class extends Migration
         });
 
         // Backfill the 10 official KCODE categories (only where empty)
-        foreach (\Database\Seeders\CategorySeeder::descriptions() as $nameEn => $desc) {
+        $descriptions = [
+            'Cleanser'    => ['ar' => 'ينظّف الوجه ويزيل الزيوت والأوساخ',                   'en' => 'Cleanses the face and removes oil and dirt'],
+            'Toner'       => ['ar' => 'يوازن البشرة بعد التنظيف ويهيّئها لما بعده',           'en' => 'Rebalances skin after cleansing and preps it for the next step'],
+            'Essence'     => ['ar' => 'طبقة ترطيب خفيفة قبل السيروم',                        'en' => 'A lightweight hydration layer before serum'],
+            'Serum'       => ['ar' => 'تركيز عالٍ لمعالجة مشكلة محدّدة',                     'en' => 'High concentration to target a specific concern'],
+            'Moisturizer' => ['ar' => 'يحبس الترطيب ويحمي حاجز البشرة',                     'en' => 'Locks in hydration and protects the skin barrier'],
+            'Sunscreen'   => ['ar' => 'الحماية اليومية من أشعة الشمس',                       'en' => 'Daily protection against the sun'],
+            'Eye Care'    => ['ar' => 'تركيبات ألطف لمحيط العين الرقيق',                     'en' => 'Gentler formulas for the delicate eye area'],
+            'Exfoliator'  => ['ar' => 'يزيل الخلايا الميتة ويحسّن الملمس',                  'en' => 'Removes dead skin cells and refines texture'],
+            'Mask'        => ['ar' => 'عناية مركّزة أسبوعية',                                'en' => 'Concentrated weekly treatment'],
+            'Body Care'   => ['ar' => 'تنظيف الجسم والعناية بالحبوب والملمس',               'en' => 'Body cleansing and care for texture and blemishes'],
+        ];
+
+        foreach ($descriptions as $nameEn => $desc) {
             DB::table('categories')
                 ->where('name_en', $nameEn)
                 ->whereNull('description_en')

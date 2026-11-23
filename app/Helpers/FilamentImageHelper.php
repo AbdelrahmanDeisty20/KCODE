@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
-use Database\Seeders\ImageDownloader;
+use App\Support\ImageDownloader;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Models\Category;
@@ -92,14 +92,6 @@ class FilamentImageHelper
                     $slug = Str::slug($record->name_en ?: $record->name_ar) ?: 'item-' . $record->id;
                     $filename = ImageDownloader::downloadAndSave($urlInput, $directory, "{$slug}.jpg");
                     $finalPath = "{$directory}/{$filename}";
-
-                    // Copy to downloads
-                    $src = storage_path("app/public/{$finalPath}");
-                    $dst = "C:/Users/Dell/Downloads/kcode-images/{$finalPath}";
-                    if (File::exists($src)) {
-                        File::ensureDirectoryExists(dirname($dst));
-                        File::copy($src, $dst);
-                    }
                 } elseif (!empty($fileInput)) {
                     $finalPath = $fileInput;
                 }
@@ -223,14 +215,6 @@ class FilamentImageHelper
                                 $slug = Str::slug($record->name_en ?: $record->name_ar) ?: 'item-' . $record->id;
                                 $filename = ImageDownloader::downloadAndSave($imageUrl, $directory, "{$slug}.jpg");
                                 $finalPath = "{$directory}/{$filename}";
-
-                                // Copy to downloads
-                                $src = storage_path("app/public/{$finalPath}");
-                                $dst = "C:/Users/Dell/Downloads/kcode-images/{$finalPath}";
-                                if (File::exists($src)) {
-                                    File::ensureDirectoryExists(dirname($dst));
-                                    File::copy($src, $dst);
-                                }
                             } else {
                                 $finalPath = $filePath;
                             }
