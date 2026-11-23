@@ -111,6 +111,7 @@ class OrderObserver
             $messageEn = "New order #{$orderNumber} received for {$totalAmount} {$currencySymbolEn} from {$customerName}.";
 
             $orderUrl = \App\Filament\Resources\OrderResource::getUrl('edit', ['record' => $order->id]);
+            $firebaseService = app(FirebaseNotificationService::class);
 
             foreach ($adminUsers as $admin) {
                 // 1. Send Filament Dashboard Notification (bell icon in admin panel)

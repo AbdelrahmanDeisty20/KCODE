@@ -595,4 +595,108 @@ class ServerHardeningAndPerformanceTest extends TestCase
         $this->assertArrayHasKey('credentials', config('services.firebase'));
         $this->assertArrayHasKey('project_id', config('services.firebase'));
     }
+
+    public function test_firebase_service_resolves_fallback_json_caches_oauth_token_and_aborts_early(): void
+    {
+        \App\Models\UserFcmToken::create([
+            'token' => 'test-fcm-token-1',
+            'device_id' => 'dev-fcm-1',
+        ]);
+        \App\Models\UserFcmToken::create([
+            'token' => 'test-fcm-token-2',
+            'device_id' => 'dev-fcm-2',
+        ]);
+
+        // Even when config points to a non-existent filename (service-account.json), it auto-falls back to storage/app/firebase/*.json
+        config()->set('services.firebase.credentials', 'storage/app/firebase/service-account.json');
+        config()->set('services.firebase.project_id', '');
+
+        $service = new \App\Services\FirebaseNotificationService();
+        $ref = new \ReflectionClass($service);
+
+        $resolvePath = $ref->getMethod('resolveCredentialsPath');
+        $resolvePath->setAccessible(true);
+        $resolved = $resolvePath->invoke($service);
+        $this->assertNotNull($resolved);
+        $this->assertFileExists($resolved);
+
+        $resolveProj = $ref->getMethod('resolveProjectId');
+        $resolveProj->setAccessible(true);
+        $this->assertSame('kcode-notify', $resolveProj->invoke($service, $resolved));
+
+        // Cached OAuth token prevents hitting Google OAuth inside sendToUsers / OfferObserver loops
+        $cacheKey = 'firebase_oauth_token_' . md5($resolved . '|' . (filemtime($resolved) ?: 0));
+        \Illuminate\Support\Facades\Cache::put($cacheKey, 'cached-oauth-access-token', 3000);
+
+        \Illuminate\Support\Facades\Http::fake([
+            'fcm.googleapis.com/*' => \Illuminate\Support\Facades\Http::response(['name' => 'projects/kcode-notify/messages/1'], 200),
+        ]);
+
+        $responses = $service->sendToUsers('Hello', 'Test Body');
+        $this->assertCount(2, $responses);
+        \Illuminate\Support\Facades\Http::assertSentCount(2);
+    }
+
+    public function test_order_observer_sends_firebase_push_notification_to_admin_on_new_order(): void
+    {
+        \Illuminate\Support\Facades\Mail::fake();
+        \Illuminate\Support\Facades\Http::fake([
+            'https://fcm.googleapis.com/*' => \Illuminate\Support\Facades\Http::response([
+                'name' => 'projects/kcode-notify/messages/order-notify-1',
+            ], 200),
+        ]);
+
+        $admin = User::create([
+            'name'     => 'Order Push Admin',
+            'email'    => 'order-push-admin@kcode.com',
+            'password' => bcrypt('secret123'),
+            'type'     => 'admin',
+        ]);
+
+        \Filament\Facades\Filament::setCurrentPanel(
+            \Filament\Facades\Filament::getPanel('admin')
+        );
+
+        \App\Models\UserFcmToken::create([
+            'user_id'   => $admin->id,
+            'token'     => 'admin-order-fcm-token',
+            'device_id' => 'admin-device-1',
+        ]);
+
+        config()->set('services.firebase.credentials', 'storage/app/firebase/service-account.json');
+        config()->set('services.firebase.project_id', '');
+
+        $service = app(\App\Services\FirebaseNotificationService::class);
+        $ref = new \ReflectionClass($service);
+        $resolvePath = $ref->getMethod('resolveCredentialsPath');
+        $resolvePath->setAccessible(true);
+        $resolved = $resolvePath->invoke($service);
+        $this->assertNotNull($resolved);
+
+        $cacheKey = 'firebase_oauth_token_' . md5($resolved . '|' . (filemtime($resolved) ?: 0));
+        \Illuminate\Support\Facades\Cache::put($cacheKey, 'cached-oauth-access-token', 3000);
+
+        \App\Models\Order::create([
+            'order_number'   => 'KC-TEST-9001',
+            'user_name'      => 'Test Customer',
+            'user_phone'     => '0500000000',
+            'user_email'     => 'customer@kcode.com',
+            'payment_method' => 'cash',
+            'payment_status' => 'pending',
+            'order_status'   => 'pending',
+            'subtotal'       => 100.00,
+            'discount_amount'=> 0.00,
+            'shipping_fee'   => 0.00,
+            'total'          => 100.00,
+        ]);
+
+        \Illuminate\Support\Facades\Http::assertSent(function (\Illuminate\Http\Client\Request $request) {
+            $payload = $request->data();
+
+            return str_contains($request->url(), 'https://fcm.googleapis.com/v1/projects/kcode-notify/messages:send')
+                && ($payload['message']['token'] ?? null) === 'admin-order-fcm-token'
+                && ($payload['message']['data']['type'] ?? null) === 'new_order'
+                && ($payload['message']['data']['order_number'] ?? null) === 'KC-TEST-9001';
+        });
+    }
 }

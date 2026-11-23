@@ -3,34 +3,91 @@
 namespace App\Services;
 
 use Google\Auth\Credentials\ServiceAccountCredentials;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\UserFcmToken;
 
 class FirebaseNotificationService
 {
-    private function accessToken()
+    private function resolveCredentialsPath(): ?string
     {
-        $credentialsFile = config('services.firebase.credentials');
+        $configured = trim((string) config('services.firebase.credentials', ''));
+        if ($configured !== '') {
+            $candidate = str_starts_with($configured, DIRECTORY_SEPARATOR) || preg_match('/^[A-Za-z]:[\/\\\\]/', $configured)
+                ? $configured
+                : base_path($configured);
 
-        if (!$credentialsFile || !file_exists(base_path($credentialsFile))) {
-            Log::error("Firebase Credentials File Not Found: " . base_path($credentialsFile ?? ''));
+            if (is_file($candidate)) {
+                return $candidate;
+            }
+        }
+
+        // Fallback if .env references another filename (e.g. service-account.json) inside storage/app/firebase/
+        $matches = glob(storage_path('app/firebase/*.json')) ?: [];
+        if (count($matches) === 1 && is_file($matches[0])) {
+            return $matches[0];
+        }
+
+        $expected = $configured !== '' ? base_path($configured) : storage_path('app/firebase/service-account.json');
+        Log::error('Firebase Credentials File Not Found: ' . $expected);
+
+        return null;
+    }
+
+    private function resolveProjectId(?string $credentialsPath): ?string
+    {
+        $projectId = trim((string) config('services.firebase.project_id', ''));
+        if ($projectId !== '') {
+            return $projectId;
+        }
+
+        if ($credentialsPath && is_file($credentialsPath)) {
+            $json = json_decode((string) @file_get_contents($credentialsPath), true);
+            if (!empty($json['project_id'])) {
+                return trim((string) $json['project_id']);
+            }
+        }
+
+        Log::error('Firebase Notification Error: FIREBASE_PROJECT_ID is not set in config/services.php.');
+
+        return null;
+    }
+
+    private function accessToken(?string $credentialsPath = null): ?string
+    {
+        $credentialsPath ??= $this->resolveCredentialsPath();
+        if (!$credentialsPath) {
             return null;
         }
 
+        $cacheKey = 'firebase_oauth_token_' . md5($credentialsPath . '|' . (@filemtime($credentialsPath) ?: 0));
+        if ($cached = Cache::get($cacheKey)) {
+            return $cached;
+        }
+
         try {
+            $json = json_decode((string) file_get_contents($credentialsPath), true);
+            if (!is_array($json)) {
+                Log::error('Firebase Credentials JSON invalid: ' . $credentialsPath);
+                return null;
+            }
+
             $credentials = new ServiceAccountCredentials(
                 ['https://www.googleapis.com/auth/firebase.messaging'],
-                json_decode(
-                    file_get_contents(base_path($credentialsFile)),
-                    true
-                )
+                $json
             );
 
             $credentials->fetchAuthToken();
-            return $credentials->getLastReceivedToken()['access_token'] ?? null;
+            $token = $credentials->getLastReceivedToken()['access_token'] ?? null;
+
+            if ($token) {
+                Cache::put($cacheKey, $token, 3000);
+            }
+
+            return $token;
         } catch (\Exception $e) {
-            Log::error("Firebase Access Token Fetch Error: " . $e->getMessage());
+            Log::error('Firebase Access Token Fetch Error: ' . $e->getMessage());
             return null;
         }
     }
@@ -40,15 +97,15 @@ class FirebaseNotificationService
      */
     public function sendToToken(string $token, string $title, string $body, array $data = [])
     {
-        $tokenAccess = $this->accessToken();
+        $credentialsPath = $this->resolveCredentialsPath();
+        $tokenAccess = $this->accessToken($credentialsPath);
         if (!$tokenAccess) {
             Log::error("Firebase Notification Error: Access token could not be generated.");
             return null;
         }
 
-        $projectId = config('services.firebase.project_id');
+        $projectId = $this->resolveProjectId($credentialsPath);
         if (!$projectId) {
-            Log::error("Firebase Notification Error: FIREBASE_PROJECT_ID is not set in config/services.php.");
             return null;
         }
 
@@ -142,6 +199,13 @@ class FirebaseNotificationService
         $tokens = $query->pluck('token')->unique()->filter()->values()->toArray();
         if (empty($tokens)) {
             Log::info("Firebase Push: No tokens found for broadcasting.");
+            return [];
+        }
+
+        // Fail fast once before iterating all device tokens if credentials or OAuth token cannot be resolved
+        $credentialsPath = $this->resolveCredentialsPath();
+        if (!$this->accessToken($credentialsPath) || !$this->resolveProjectId($credentialsPath)) {
+            Log::error("Firebase Push Broadcasting aborted: missing valid Firebase credentials/token.");
             return [];
         }
 
