@@ -98,8 +98,12 @@ class GroqChatService
             'content' => $prompt,
         ];
 
-        // 5. Automatic Model Fallback Chain Processing
-        $modelsToTry = array_unique(array_merge([$this->defaultModel], $this->models));
+        // 5. Automatic Model Fallback Chain Processing (bounded to fastest 3 models to prevent worker exhaustion)
+        $modelsToTry = array_slice(
+            array_values(array_unique(array_merge([$this->defaultModel], $this->models))),
+            0,
+            3
+        );
         $endpoint = 'https://api.groq.com/openai/v1/chat/completions';
 
         foreach ($modelsToTry as $currentModel) {
@@ -111,7 +115,7 @@ class GroqChatService
                     'max_tokens' => $this->maxTokens,
                 ];
 
-                $response = Http::timeout(6)
+                $response = Http::timeout(5)
                     ->withHeaders([
                         'Authorization' => "Bearer {$this->apiKey}",
                         'Content-Type' => 'application/json',
@@ -190,8 +194,8 @@ class GroqChatService
     protected function buildStoreContext(string $locale): string
     {
         try {
-            // 1. Fetch Live Dashboard Metrics (cached for 30s)
-            $dashboardMetrics = \Illuminate\Support\Facades\Cache::remember("groq_dash_metrics_{$locale}", 30, function () use ($locale) {
+            // 1. Fetch Live Dashboard Metrics (cached for 5 minutes to protect MySQL under chat bursts)
+            $dashboardMetrics = \Illuminate\Support\Facades\Cache::remember("groq_dash_metrics_{$locale}", 300, function () use ($locale) {
                 $totalSales = \App\Models\Order::whereNotIn('order_status', ['cancelled', 'failed'])->sum('total');
                 $todaySalesCount = \App\Models\Order::whereDate('created_at', today())->count();
                 $todaySalesRevenue = \App\Models\Order::whereDate('created_at', today())->whereNotIn('order_status', ['cancelled', 'failed'])->sum('total');
@@ -416,22 +420,30 @@ class GroqChatService
     {
         $matchedProducts = collect();
 
-        // 1. Direct SKU extraction from prompt or reply
+        // 1. Direct SKU extraction from prompt or reply (single batch query instead of N+1)
         if (preg_match_all('/\b(KC\d{4})\b/i', $prompt . ' ' . $replyText, $matches)) {
-            $skus = array_unique(array_map('strtoupper', $matches[1]));
-            foreach ($skus as $sku) {
-                try {
-                    $p = Product::where('sku', $sku)->first();
+            $skus = array_values(array_unique(array_map('strtoupper', $matches[1])));
+            try {
+                $productsBySku = Product::with(['brand', 'subCategory', 'category', 'offers' => fn ($q) => $q->active()])
+                    ->whereIn('sku', $skus)
+                    ->get()
+                    ->keyBy(fn ($p) => strtoupper((string) $p->sku));
+
+                foreach ($skus as $sku) {
+                    $p = $productsBySku->get($sku);
                     if ($p) {
                         $matchedProducts->push($p);
                     }
-                } catch (\Throwable $e) {}
-            }
+                }
+            } catch (\Throwable $e) {}
         }
 
         // 2. Check for product IDs or names in text
         try {
-            $products = Product::where('status', 'active')->orWhereNull('status')->get();
+            $products = Product::with(['brand', 'subCategory', 'category', 'offers' => fn ($q) => $q->active()])
+                ->where('status', 'active')
+                ->orWhereNull('status')
+                ->get();
 
             foreach ($products as $product) {
                 $nameAr = $product->name_ar;
@@ -462,12 +474,13 @@ class GroqChatService
                 if ($hasProductIntent) {
                     $searchKeywords = array_filter(explode(' ', $prompt), fn($w) => mb_strlen($w) > 3);
                     if (!empty($searchKeywords)) {
-                        $matchedProducts = Product::where(function ($q) use ($searchKeywords) {
-                            foreach ($searchKeywords as $kw) {
-                                $q->orWhere('name_ar', 'like', "%{$kw}%")
-                                  ->orWhere('name_en', 'like', "%{$kw}%");
-                            }
-                        })->take(2)->get();
+                        $matchedProducts = Product::with(['brand', 'subCategory', 'category', 'offers' => fn ($q) => $q->active()])
+                            ->where(function ($q) use ($searchKeywords) {
+                                foreach ($searchKeywords as $kw) {
+                                    $q->orWhere('name_ar', 'like', "%{$kw}%")
+                                      ->orWhere('name_en', 'like', "%{$kw}%");
+                                }
+                            })->take(2)->get();
                     }
                 }
             }

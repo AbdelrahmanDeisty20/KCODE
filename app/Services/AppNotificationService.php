@@ -233,28 +233,22 @@ class AppNotificationService
                 ->pluck('app_notification_id')
                 ->toArray();
 
-            $notifications = AppNotification::where(function ($q) use ($userId) {
+            AppNotification::where('user_id', $userId)
+                ->whereNotIn('id', $deletedIds)
+                ->where('is_read', false)
+                ->update(['is_read' => true]);
+
+            $notificationIds = AppNotification::where(function ($q) use ($userId) {
                     $q->where('user_id', $userId)->orWhereNull('user_id');
                 })
                 ->whereNotIn('id', $deletedIds)
-                ->get();
+                ->pluck('id')
+                ->all();
 
-            foreach ($notifications as $notification) {
-                if ($notification->user_id === $userId) {
-                    $notification->update(['is_read' => true]);
-                }
-
-                AppNotificationUserStatus::updateOrCreate(
-                    [
-                        'user_id'             => $userId,
-                        'app_notification_id' => $notification->id,
-                    ],
-                    [
-                        'is_read' => true,
-                        'read_at' => now(),
-                    ]
-                );
-            }
+            $this->bulkMarkStatus('user_id', $userId, $notificationIds, [
+                'is_read' => true,
+                'read_at' => now(),
+            ]);
 
             return [
                 'status'  => true,
@@ -344,20 +338,13 @@ class AppNotificationService
                     $q->where('user_id', $userId)->orWhereNull('user_id');
                 })
                 ->whereNotIn('id', $deletedIds)
-                ->pluck('id');
+                ->pluck('id')
+                ->all();
 
-            foreach ($notificationIds as $notificationId) {
-                AppNotificationUserStatus::updateOrCreate(
-                    [
-                        'user_id'             => $userId,
-                        'app_notification_id' => $notificationId,
-                    ],
-                    [
-                        'is_deleted' => true,
-                        'deleted_at' => now(),
-                    ]
-                );
-            }
+            $this->bulkMarkStatus('user_id', $userId, $notificationIds, [
+                'is_deleted' => true,
+                'deleted_at' => now(),
+            ]);
 
             return [
                 'status'  => true,
@@ -461,20 +448,13 @@ class AppNotificationService
 
             $notificationIds = AppNotification::whereNull('user_id')
                 ->whereNotIn('id', $deletedIds)
-                ->pluck('id');
+                ->pluck('id')
+                ->all();
 
-            foreach ($notificationIds as $notificationId) {
-                AppNotificationUserStatus::updateOrCreate(
-                    [
-                        'user_fcm_token_id'   => $fcmTokenRecord->id,
-                        'app_notification_id' => $notificationId,
-                    ],
-                    [
-                        'is_deleted' => true,
-                        'deleted_at' => now(),
-                    ]
-                );
-            }
+            $this->bulkMarkStatus('user_fcm_token_id', $fcmTokenRecord->id, $notificationIds, [
+                'is_deleted' => true,
+                'deleted_at' => now(),
+            ]);
 
             return [
                 'status'  => true,
@@ -580,22 +560,15 @@ class AppNotificationService
                 ->pluck('app_notification_id')
                 ->toArray();
 
-            $notifications = AppNotification::whereNull('user_id')
+            $notificationIds = AppNotification::whereNull('user_id')
                 ->whereNotIn('id', $deletedIds)
-                ->get();
+                ->pluck('id')
+                ->all();
 
-            foreach ($notifications as $notification) {
-                AppNotificationUserStatus::updateOrCreate(
-                    [
-                        'user_fcm_token_id'   => $fcmTokenRecord->id,
-                        'app_notification_id' => $notification->id,
-                    ],
-                    [
-                        'is_read' => true,
-                        'read_at' => now(),
-                    ]
-                );
-            }
+            $this->bulkMarkStatus('user_fcm_token_id', $fcmTokenRecord->id, $notificationIds, [
+                'is_read' => true,
+                'read_at' => now(),
+            ]);
 
             return [
                 'status'  => true,
@@ -609,6 +582,49 @@ class AppNotificationService
                 'message' => __('messages.notification_update_failed'),
                 'code'    => 500,
             ];
+        }
+    }
+
+    /**
+     * Batch-update existing notification status rows and bulk-insert missing ones without per-row loops.
+     */
+    private function bulkMarkStatus(string $ownerColumn, int $ownerId, array $notificationIds, array $values): void
+    {
+        if (empty($notificationIds)) {
+            return;
+        }
+
+        $now = now();
+        $existingIds = AppNotificationUserStatus::where($ownerColumn, $ownerId)
+            ->whereIn('app_notification_id', $notificationIds)
+            ->pluck('app_notification_id')
+            ->all();
+
+        if (!empty($existingIds)) {
+            AppNotificationUserStatus::where($ownerColumn, $ownerId)
+                ->whereIn('app_notification_id', $existingIds)
+                ->update(array_merge($values, ['updated_at' => $now]));
+        }
+
+        $missingIds = array_diff($notificationIds, $existingIds);
+        if (!empty($missingIds)) {
+            $rows = [];
+            foreach ($missingIds as $notificationId) {
+                $rows[] = [
+                    $ownerColumn          => $ownerId,
+                    'app_notification_id' => $notificationId,
+                    'is_read'             => (bool) ($values['is_read'] ?? false),
+                    'is_deleted'          => (bool) ($values['is_deleted'] ?? false),
+                    'read_at'             => $values['read_at'] ?? null,
+                    'deleted_at'          => $values['deleted_at'] ?? null,
+                    'created_at'          => $now,
+                    'updated_at'          => $now,
+                ];
+            }
+
+            foreach (array_chunk($rows, 250) as $chunk) {
+                AppNotificationUserStatus::insert($chunk);
+            }
         }
     }
 }

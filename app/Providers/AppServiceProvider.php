@@ -30,7 +30,10 @@ use App\Support\StaticCache;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -113,5 +116,25 @@ class AppServiceProvider extends ServiceProvider
                     ]);
             });
         }
+
+        $this->configureRateLimiting();
+    }
+
+    /**
+     * Protect public & authenticated API routes against burst floods and abuse without throttling normal traffic.
+     */
+    protected function configureRateLimiting(): void
+    {
+        RateLimiter::for('api-general', function (Request $request) {
+            return Limit::perMinute(240)->by($request->user()?->id ?: $request->ip());
+        });
+
+        RateLimiter::for('api-sensitive', function (Request $request) {
+            return Limit::perMinute(20)->by($request->user()?->id ?: $request->ip());
+        });
+
+        RateLimiter::for('api-auth', function (Request $request) {
+            return Limit::perMinute(15)->by($request->user()?->id ?: $request->ip());
+        });
     }
 }

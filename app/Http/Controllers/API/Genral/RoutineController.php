@@ -172,6 +172,10 @@ class RoutineController extends Controller
      */
     public function generatePresetRoutines()
     {
+        if (!$this->isAdminRequest()) {
+            return $this->error('Unauthorized', 403);
+        }
+
         $result = $this->routineService->generatePresetRoutines();
 
         if (!$result['status']) {
@@ -211,6 +215,10 @@ class RoutineController extends Controller
      */
     public function generateMenPresetRoutines()
     {
+        if (!$this->isAdminRequest()) {
+            return $this->error('Unauthorized', 403);
+        }
+
         $result = $this->routineService->generateMenPresetRoutines();
 
         if (!$result['status']) {
@@ -224,5 +232,15 @@ class RoutineController extends Controller
             'data' => $result['data'],
             'pagination' => $result['pagination'] ?? null,
         ]);
+    }
+
+    private function isAdminRequest(): bool
+    {
+        $user = auth('sanctum')->user();
+
+        return $user !== null && (
+            $user->type === 'admin'
+            || $user->hasAnyRole(['admin', 'super_admin'])
+        );
     }
 }

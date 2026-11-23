@@ -157,13 +157,14 @@ class RoutineService
         $finalRoutine->products()->delete();
 
         // Copy active routine products to final routine products
+        $stepIdsByOrder = \App\Models\RoutineStep::pluck('id', 'order');
         foreach ($routine->routineProducts as $rp) {
             $finalProductId = $rp->replaced_with_product_id ?: $rp->product_id;
             \App\Models\FinalRoutineProduct::create([
                 'final_routine_id' => $finalRoutine->id,
                 'product_id' => $finalProductId,
                 'step' => $rp->step,
-                'routine_step_id' => \App\Models\RoutineStep::where('order', $rp->step)->value('id'),
+                'routine_step_id' => $stepIdsByOrder[$rp->step] ?? null,
             ]);
         }
 
@@ -485,13 +486,15 @@ class RoutineService
         $lang = $this->resolveLocale();
         $perPage = (int) request()->get('per_page', 10);
 
-        if (\App\Models\PresetRoutine::forWomen()->count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
+        if (\App\Models\PresetRoutine::forWomen()->count() === 0) {
             (new \Database\Seeders\PresetRoutineSeeder())->run();
         }
 
         $query = \App\Models\PresetRoutine::forWomen()
             ->where('status', 'active')
-            ->with(['items.product.brand']);
+            ->with([
+                'items.product' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with('brand'),
+            ]);
 
         if (request()->boolean('random')) {
             $query->inRandomOrder();
@@ -534,7 +537,9 @@ class RoutineService
                     $q->where('slug', $id);
                 }
             })
-            ->with(['items.product.brand'])
+            ->with([
+                'items.product' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with('brand'),
+            ])
             ->first();
 
         if (!$routineModel) {
@@ -645,12 +650,29 @@ class RoutineService
         if ($includeItems) {
             $complementary = [];
             if (!empty($routineModel->complementary_products_json)) {
+                $compIds = array_values(array_filter(array_column($routineModel->complementary_products_json, 'product_id')));
+                $compSkus = array_values(array_filter(array_column($routineModel->complementary_products_json, 'sku')));
+                $compProducts = (!empty($compIds) || !empty($compSkus))
+                    ? \App\Models\Product::with('brand')
+                        ->where(function ($q) use ($compIds, $compSkus) {
+                            if (!empty($compIds)) {
+                                $q->whereIn('id', $compIds);
+                            }
+                            if (!empty($compSkus)) {
+                                $q->orWhereIn('sku', $compSkus);
+                            }
+                        })
+                        ->get()
+                    : collect();
+                $compById = $compProducts->keyBy('id');
+                $compBySku = $compProducts->keyBy('sku');
+
                 foreach ($routineModel->complementary_products_json as $comp) {
                     $prodModel = null;
                     if (!empty($comp['product_id'])) {
-                        $prodModel = \App\Models\Product::with('brand')->find($comp['product_id']);
+                        $prodModel = $compById->get($comp['product_id']);
                     } elseif (!empty($comp['sku'])) {
-                        $prodModel = \App\Models\Product::with('brand')->where('sku', $comp['sku'])->first();
+                        $prodModel = $compBySku->get($comp['sku']);
                     }
                     if ($prodModel) {
                         $whySelectedAr = $comp['why'] ?? $comp['reason'] ?? $comp['support_copy'] ?? ($prodModel->brief_insight_ar ?: $prodModel->why_kcode);
@@ -1190,13 +1212,15 @@ class RoutineService
         $lang = $this->resolveLocale();
         $perPage = (int) request()->get('per_page', 10);
 
-        if (\App\Models\PresetRoutine::forMen()->count() === 0 || request()->boolean('generate') || request()->boolean('refresh')) {
+        if (\App\Models\PresetRoutine::forMen()->count() === 0) {
             (new \Database\Seeders\MenPresetRoutineSeeder())->run();
         }
 
         $query = \App\Models\PresetRoutine::forMen()
             ->where('status', 'active')
-            ->with(['items.product.brand']);
+            ->with([
+                'items.product' => fn ($q) => $q->withCount('reviews')->withAvg('reviews', 'rating')->with('brand'),
+            ]);
 
         if (request()->boolean('random')) {
             $query->inRandomOrder();

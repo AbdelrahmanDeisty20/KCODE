@@ -6,6 +6,7 @@ use App\Models\Coupon;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Services\SettingService;
+use App\Support\StaticCache;
 
 /**
  * Trait HasProductPresentation
@@ -33,16 +34,18 @@ trait HasProductPresentation
     {
         $isAr = $this->isArabicLocale();
 
-        // 1. Check if an active general coupon is configured in Dashboard > Coupons
-        $coupon = Coupon::where('is_active', true)
-            ->where('is_general', true)
-            ->where(function ($q) {
-                $q->whereNull('start_date')->orWhere('start_date', '<=', now());
-            })
-            ->where(function ($q) {
-                $q->whereNull('end_date')->orWhere('end_date', '>=', now());
-            })
-            ->first();
+        // 1. Check if an active general coupon is configured in Dashboard > Coupons (cached)
+        $coupon = StaticCache::remember('coupons', 'active_general_' . now()->format('Y-m-d'), function () {
+            return Coupon::where('is_active', true)
+                ->where('is_general', true)
+                ->where(function ($q) {
+                    $q->whereNull('start_date')->orWhere('start_date', '<=', now());
+                })
+                ->where(function ($q) {
+                    $q->whereNull('end_date')->orWhere('end_date', '>=', now());
+                })
+                ->first();
+        }, 300);
 
         if ($coupon) {
             $defaultText = $coupon->discount_type === 'percentage'

@@ -37,13 +37,15 @@ use App\Http\Middleware\SetLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware([SetLang::class])->group(function () {
+Route::middleware([SetLang::class, 'throttle:api-general'])->group(function () {
     Route::controller(AuthController::class)->group(function () {
-        Route::post('/register', 'register');
-        Route::post('/verify-otp', 'verifyOtp');
-        Route::post('/resend-otp', 'resendOtp');
-        Route::post('/send-activation-otp', 'sendActivationOtp');
-        Route::post('/login', 'login');
+        Route::middleware('throttle:api-auth')->group(function () {
+            Route::post('/register', 'register');
+            Route::post('/verify-otp', 'verifyOtp');
+            Route::post('/resend-otp', 'resendOtp');
+            Route::post('/send-activation-otp', 'sendActivationOtp');
+            Route::post('/login', 'login');
+        });
         Route::get('redirect/{provider}', 'redirectToProvider');
         Route::get('callback/{provider}', 'handleProviderCallback');
         Route::middleware(['auth:sanctum'])->group(function () {
@@ -55,13 +57,13 @@ Route::middleware([SetLang::class])->group(function () {
             Route::post('/logout-all-devices', 'logoutAllDevice');
         });
     });
-    Route::controller(ForgetPasswordController::class)->group(function () {
+    Route::controller(ForgetPasswordController::class)->middleware('throttle:api-auth')->group(function () {
         Route::post('/forget-password', 'SendEmail');
         Route::post('/forget-password/verify-otp', 'VerifyOtp');
         Route::post('/forget-password/reset', 'ResetPassword');
         Route::post('/forget-password/resend-otp', 'resendOtp');
     });
-    Route::post('/refresh-token', [AuthController::class, 'refresh']);
+    Route::post('/refresh-token', [AuthController::class, 'refresh'])->middleware('throttle:api-auth');
 
     // Brands Routes
     Route::controller(BrandController::class)->group(function () {
@@ -111,20 +113,18 @@ Route::middleware([SetLang::class])->group(function () {
     // Quiz Routes
     Route::controller(QuizController::class)->group(function () {
         Route::get('/quiz/questions', 'getQuestions');
-        Route::post('/quiz/submit-answers', 'evaluate');
+        Route::post('/quiz/submit-answers', 'evaluate')->middleware('throttle:api-sensitive');
     });
 
     // Routine Routes
     Route::controller(RoutineController::class)->group(function () {
         Route::get('/preset-routines', 'getPresetRoutines');
-        Route::get('/preset-routines/generate', 'generatePresetRoutines');
-        Route::post('/preset-routines/generate', 'generatePresetRoutines');
+        Route::post('/preset-routines/generate', 'generatePresetRoutines')->middleware('auth:sanctum');
         Route::get('/preset-routines/{id}', 'getPresetRoutineDetails');
 
         // Men Simple Routines Endpoints
         Route::get('/men-preset-routines', 'getMenPresetRoutines');
-        Route::get('/men-preset-routines/generate', 'generateMenPresetRoutines');
-        Route::post('/men-preset-routines/generate', 'generateMenPresetRoutines');
+        Route::post('/men-preset-routines/generate', 'generateMenPresetRoutines')->middleware('auth:sanctum');
         Route::get('/men-preset-routines/{id}', 'getPresetRoutineDetails');
         Route::get('/routine', 'getRoutine')->middleware('auth:sanctum');
         Route::get('/routine/suggested', 'getSuggestedRoutine')->middleware('auth:sanctum');
@@ -136,7 +136,7 @@ Route::middleware([SetLang::class])->group(function () {
         Route::post('/routine/delete', 'deleteRoutine')->middleware('auth:sanctum');
     });
     Route::controller(ContactController::class)->group(function () {
-        Route::post('/contact', 'store');
+        Route::post('/contact', 'store')->middleware('throttle:api-sensitive');
         Route::get('/contacts', 'index');
     });
     // Loyalty Routes
@@ -158,7 +158,7 @@ Route::middleware([SetLang::class])->group(function () {
 
     // Newsletter Routes
     Route::controller(NewsletterController::class)->group(function () {
-        Route::post('/newsletter/subscribe', 'subscribe');
+        Route::post('/newsletter/subscribe', 'subscribe')->middleware('throttle:api-sensitive');
     });
 
     // Page Routes
@@ -177,7 +177,7 @@ Route::middleware([SetLang::class])->group(function () {
 
     // Coupon & Announcement Banner Routes
     Route::controller(CouponController::class)->group(function () {
-        Route::post('/coupons/apply', 'applyCoupon');
+        Route::post('/coupons/apply', 'applyCoupon')->middleware('throttle:api-sensitive');
         Route::get('/coupons/general', 'getGeneralCoupon');
         Route::get('/banner/announcement', 'getAnnouncementBanner');
         Route::get('/my-coupons', 'getMyCoupuns')->middleware('auth:sanctum');
@@ -208,12 +208,12 @@ Route::middleware([SetLang::class])->group(function () {
 
     // Checkout (التسجيل اختياري - الضيف يبعت session_id)
     Route::controller(CheckoutController::class)->group(function () {
-        Route::post('/checkout', 'checkout');
+        Route::post('/checkout', 'checkout')->middleware('throttle:api-sensitive');
     });
 
     // AI Chatbot Routes
     Route::controller(ChatbotController::class)->group(function () {
-        Route::post('/chatbot/chat', 'chat');
+        Route::post('/chatbot/chat', 'chat')->middleware('throttle:api-sensitive');
         Route::get('/chatbot/suggestions', 'suggestions');
         Route::get('/chatbot/history', 'history')->middleware('auth:sanctum');
         Route::delete('/chatbot/history', 'clearHistory')->middleware('auth:sanctum');

@@ -8,6 +8,22 @@ use Illuminate\Support\Facades\Cache;
 
 class ProductService
 {
+    /**
+     * Curated hero/best-seller SKUs displayed in priority order.
+     *
+     * @var array<int, string>
+     */
+    private const CURATED_PICK_SKUS = [
+        'KC0185', // BIODANCE Bio Collagen Real Deep Mask
+        'KC0137', // TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Serum
+        'KC0001', // ANUA Niacinamide 10 TXA 4 Serum
+        'KC0078', // MEDICUBE Zero Pore Pad 2.0
+        'KC0118', // BEAUTY OF JOSEON Relief Sun Rice Probiotics SPF50+ PA++++
+        'KC0105', // SKIN1004 Madagascar Centella Light Cleansing Oil
+        'KC0089', // Dr.Althea 345 Relief Cream
+        'KC0159', // COSRX Ultra Light Invisible Sunscreen SPF50 PA++++
+    ];
+
     public function index(?string $searchTerm = null) {
         $searchTerm = $searchTerm ?? request('search') ?? request('q');
         $perPage = (int) request('per_page', 10);
@@ -26,18 +42,15 @@ class ProductService
                 }
             ])
             ->when(request()->filled('skus'), function ($q) {
-                $skus = array_filter(array_map('trim', explode(',', request('skus'))));
+                $skus = array_values(array_filter(array_map('trim', explode(',', (string) request('skus')))));
                 if (!empty($skus)) {
                     $q->whereIn('sku', $skus);
-                    $skuList = "'" . implode("','", $skus) . "'";
-                    $q->orderByRaw("FIELD(sku, {$skuList})");
+                    $this->orderBySkuList($q, $skus);
                 }
             })
             ->when(request()->boolean('picks') || request()->has('picks'), function ($q) {
-                $picks = ['KC0185', 'KC0137', 'KC0001', 'KC0078', 'KC0118', 'KC0105', 'KC0089', 'KC0159'];
-                $q->whereIn('sku', $picks);
-                $skuList = "'" . implode("','", $picks) . "'";
-                $q->orderByRaw("FIELD(sku, {$skuList})");
+                $q->whereIn('sku', self::CURATED_PICK_SKUS);
+                $this->orderBySkuList($q, self::CURATED_PICK_SKUS);
             })
             ->when(!empty($searchTerm), function ($q) use ($searchTerm) {
                 $terms = [$searchTerm];
@@ -301,6 +314,7 @@ class ProductService
             'images',
             'skinTypes',
             'concerns',
+            'goals',
             'marketingDetail',
             'recommendationRule'
         ])->find($id);
@@ -391,18 +405,8 @@ class ProductService
     }
 
     public function bestSellers() {
-        $approvedSkus = [
-            'KC0185', // BIODANCE Bio Collagen Real Deep Mask
-            'KC0137', // TORRIDEN DIVE IN Low Molecular Hyaluronic Acid Serum
-            'KC0001', // ANUA Niacinamide 10 TXA 4 Serum
-            'KC0078', // MEDICUBE Zero Pore Pad 2.0
-            'KC0118', // BEAUTY OF JOSEON Relief Sun Rice Probiotics SPF50+ PA++++
-            'KC0105', // SKIN1004 Madagascar Centella Light Cleansing Oil
-            'KC0089', // Dr.Althea 345 Relief Cream
-            'KC0159', // COSRX Ultra Light Invisible Sunscreen SPF50 PA++++
-        ];
+        $approvedSkus = self::CURATED_PICK_SKUS;
 
-        $skuOrderList = "'" . implode("','", $approvedSkus) . "'";
         $perPage = (int) request('per_page', 8);
         if ($perPage < 1) $perPage = 8;
         if ($perPage > 50) $perPage = 50;
@@ -421,8 +425,11 @@ class ProductService
                 'offers' => function ($q) {
                     $q->active();
                 }
-            ])
-            ->orderByRaw("CASE WHEN sku IN ({$skuOrderList}) THEN FIELD(sku, {$skuOrderList}) ELSE 99 END")
+            ]);
+
+        $this->orderBySkuList($products, $approvedSkus, 99);
+
+        $products = $products
             ->orderBy('sales_count', 'desc')
             ->paginate($perPage);
 
@@ -598,5 +605,28 @@ class ProductService
             'message' => "Successfully generated {$count} new alternatives in the database.",
             'data' => $count
         ];
+    }
+
+    /**
+     * Order query results matching a priority list of SKUs using bound parameters.
+     *
+     * @param  array<int, string>  $skus
+     */
+    private function orderBySkuList($query, array $skus, int $fallbackRank = 99): void
+    {
+        $skus = array_values(array_filter(array_map('trim', $skus)));
+        if ($skus === []) {
+            return;
+        }
+
+        $cases = [];
+        foreach ($skus as $index => $sku) {
+            $cases[] = 'WHEN ? THEN ' . $index;
+        }
+
+        $query->orderByRaw(
+            'CASE sku ' . implode(' ', $cases) . ' ELSE ' . (int) $fallbackRank . ' END',
+            $skus
+        );
     }
 }

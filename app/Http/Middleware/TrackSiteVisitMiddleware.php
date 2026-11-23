@@ -20,8 +20,9 @@ class TrackSiteVisitMiddleware
         if ($request->isMethod('GET') && !$request->ajax() && !$request->pjax()) {
             $path = trim($request->path(), '/');
 
-            // Exclude admin, system, livewire, debug, static files
+            // Exclude API, admin, system, livewire, debug, static files
             $excludedPrefixes = [
+                'api',
                 'admin',
                 'livewire',
                 '_debugbar',

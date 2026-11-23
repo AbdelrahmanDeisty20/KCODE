@@ -82,6 +82,7 @@ class StaticCache
         \App\Models\Blog::class                     => ['blog_categories', 'sitemap'],
         \App\Models\Product::class                  => ['sitemap'],
         \App\Models\PresetRoutine::class            => ['sitemap'],
+        \App\Models\Coupon::class                   => ['coupons'],
     ];
 
     /**
