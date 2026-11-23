@@ -71,6 +71,13 @@ class PresetRoutineEnglishBuilder
             }
         }
 
+        foreach (['subtitle_ar', 'audience_ar'] as $arField) {
+            $currentAr = trim((string) ($config[$arField] ?? ''));
+            if (($currentAr === '' || !self::containsArabic($currentAr)) && !empty($copy[$arField])) {
+                $config[$arField] = $copy[$arField];
+            }
+        }
+
         if (!empty($copy['timing_en'])) {
             $timing = is_array($config['timing_json'] ?? null) ? $config['timing_json'] : [];
             $timing['am_en'] = self::needsEnglishText($timing['am_en'] ?? null) ? $copy['timing_en']['am'] : $timing['am_en'];
@@ -158,6 +165,14 @@ class PresetRoutineEnglishBuilder
 
             if ((self::needsEnglishText($current, $slug, $isGoalSlug) || $isLegacyHowToUse) && !empty($copy[$field])) {
                 $routine->{$field} = $copy[$field];
+                $dirty = true;
+            }
+        }
+
+        foreach (['subtitle_ar', 'audience_ar'] as $arField) {
+            $currentAr = trim((string) ($routine->{$arField} ?? ''));
+            if (($currentAr === '' || !self::containsArabic($currentAr)) && !empty($copy[$arField])) {
+                $routine->{$arField} = $copy[$arField];
                 $dirty = true;
             }
         }
@@ -899,12 +914,14 @@ class PresetRoutineEnglishBuilder
         return [
             'women:acne' => [
                 'title_en' => 'Acne Routine',
+                'subtitle_ar' => 'مسام أنقى، احمرار أهدأ، وترطيب متوازن.',
                 'subtitle_en' => 'Clearer pores, calmer redness & balanced hydration',
                 'description_en' => 'A balanced routine targeting breakouts, redness, and excess oil without compromising hydration. It helps care for clogged pores and post-acne marks so skin looks clearer, smoother, and more balanced.',
                 'badge_en' => 'Selected by KCODE Formulation Review',
                 'skin_type_en' => 'Oily and combination acne-prone skin.',
                 'goal_en' => 'Breakouts, Blemishes & Post-Acne Marks',
                 'card_note_en' => 'Use COSRX BHA in the evening 2–3 times weekly, building up gradually based on skin tolerance.',
+                'audience_ar' => 'البشرة الدهنية أو المختلطة التي تعاني من الحبوب وانسداد المسام والاحمرار أو آثار الحبوب.',
                 'audience_en' => 'Oily or combination skin struggling with breakouts, congested pores, redness, or post-acne marks.',
                 'how_to_use_en' => 'Follow the step order for each time of day. In the morning: follow the sequence and always finish with sunscreen. In the evening: use your regular care night, or choose the dedicated night on its scheduled days. Important note: Use COSRX BHA in the evening 2–3 times weekly, building up gradually based on skin tolerance.',
                 'timing_en' => [
@@ -936,12 +953,14 @@ class PresetRoutineEnglishBuilder
             ],
             'women:pores' => [
                 'title_en' => 'Pores Routine',
+                'subtitle_ar' => 'تنظيم الدهون، عناية بالرؤوس السوداء، وملمس أنعم.',
                 'subtitle_en' => 'Oil control, blackhead care & smoother texture',
                 'description_en' => 'A targeted routine for skin with blackheads, visible pores, and quick daytime shine. It helps care for congested pores, balance excess oil, and refine skin texture for a clearer, smoother, more balanced look.',
                 'badge_en' => 'Selected by KCODE Formulation Review',
                 'skin_type_en' => 'Oily and combination skin.',
                 'goal_en' => 'Pores, Blackheads & Excess Shine',
                 'card_note_en' => 'Use COSRX BHA in the evening 2–3 times weekly, building up gradually. The sun stick is for reapplication only.',
+                'audience_ar' => 'البشرة الدهنية أو المختلطة ذات المسام الواضحة والرؤوس السوداء واللمعان السريع نهاراً.',
                 'audience_en' => 'Oily or combination skin with visible pores, blackheads, and fast-returning daytime shine.',
                 'how_to_use_en' => 'Follow the step order for each time of day. In the morning: follow the sequence and always finish with sunscreen. In the evening: use your regular care night, or choose the exfoliation night on its scheduled days. Important note: Use COSRX BHA in the evening 2–3 times weekly, building up gradually. The sun stick is for reapplication only.',
                 'timing_en' => [
@@ -973,12 +992,14 @@ class PresetRoutineEnglishBuilder
             ],
             'women:oily-hydration' => [
                 'title_en' => 'Oily Hydration Routine',
+                'subtitle_ar' => 'ترطيب خفيف من دون ثِقل أو لمعان زائد.',
                 'subtitle_en' => 'Weightless moisture without heaviness or shine',
                 'description_en' => 'If your skin looks shiny yet feels tight after cleansing, it does not need more drying—it needs a better balance of hydration and oil. This routine delivers lightweight moisture and greater comfort while keeping shine under control without heavy grease.',
                 'badge_en' => 'Selected by KCODE Formulation Review',
                 'skin_type_en' => 'Oily and combination skin experiencing tightness or dehydration.',
                 'goal_en' => 'Oily Skin Feeling Tight After Cleansing',
                 'card_note_en' => 'ABIB mask replaces your night moisturizer on evenings you use it; do not layer it on top of another cream.',
+                'audience_ar' => 'البشرة الدهنية أو المختلطة التي تلمع سريعاً وتُشعر بالشد أو الجفاف بعد الغسول.',
                 'audience_en' => 'Oily or combination skin that shines quickly yet feels tight or dehydrated after washing.',
                 'how_to_use_en' => 'Follow the step order for each time of day. In the morning: follow the sequence and always finish with sunscreen. In the evening: follow your regular evening routine. Important note: ABIB mask replaces your night moisturizer on evenings you use it; do not layer it on top of another cream.',
                 'timing_en' => [
@@ -1003,12 +1024,14 @@ class PresetRoutineEnglishBuilder
             ],
             'women:pigmentation' => [
                 'title_en' => 'Pigmentation Routine',
+                'subtitle_ar' => 'عناية متعددة المسارات بالكلف والبقع الداكنة وتوحيد اللون.',
                 'subtitle_en' => 'Multi-pathway care for melasma, dark spots & tone',
                 'description_en' => 'A focused multi-pathway routine targeting melasma, dark spots, and uneven skin tone instead of relying on a single ingredient. It combines targeted pigment care, radiance, texture support, and fine-line care with hydration and daily sun protection.',
                 'badge_en' => 'Selected by KCODE Formulation Review',
                 'skin_type_en' => 'Non-sensitive oily, combination, normal, and dry skin.',
                 'goal_en' => 'Melasma, Dark Spots & Uneven Skin Tone Care',
                 'card_note_en' => 'Use the ANUA serum in the morning or on nights without Retino-Mela, and use Retino-Mela at night only as scheduled. Avoid layering both serums in the same session.',
+                'audience_ar' => 'لمن تبحث عن تفتيح مظهر البقع الداكنة والكلف وتفاوت اللون بروتين نهاري وليلي متبادل.',
                 'audience_en' => 'Anyone looking to fade visible dark spots, melasma, or uneven tone with structured daytime and alternating evening care.',
                 'how_to_use_en' => 'Follow the step order for each time of day. In the morning: follow the sequence and always finish with sunscreen. In the evening: use your regular care night, or choose the Retino-Mela night on its scheduled days. Important note: Use the ANUA serum in the morning or on nights without Retino-Mela, and use Retino-Mela at night only as scheduled. Avoid layering both serums in the same session.',
                 'timing_en' => [
@@ -1040,12 +1063,14 @@ class PresetRoutineEnglishBuilder
             ],
             'women:barrier' => [
                 'title_en' => 'Barrier Routine',
+                'subtitle_ar' => 'تهدئة الاحمرار ودعم راحة الحاجز اليومية.',
                 'subtitle_en' => 'Calming redness & rebuilding daily comfort',
                 'description_en' => 'A gentle routine for skin prone to visible redness, dryness, or discomfort. It focuses on soothing, hydrating, and supporting the skin barrier with comfortable steps that help skin regain a softer, calmer, and more balanced appearance.',
                 'badge_en' => 'Selected by KCODE Formulation Review',
                 'skin_type_en' => 'Sensitive skin across oily, combination, normal, and dry types.',
                 'goal_en' => 'Redness Soothing & Skin Barrier Support',
                 'card_note_en' => 'Only add an oil cleansing step when needed to remove makeup or sunscreen. The sheet mask replaces night moisturizer on evenings you use it.',
+                'audience_ar' => 'البشرة الحساسة أو سريعة التهيّج التي تعاني من الاحمرار أو الجفاف أو ضعف راحة الحاجز.',
                 'audience_en' => 'Sensitive or reactive skin showing visible redness, dryness, or compromised barrier comfort.',
                 'how_to_use_en' => 'Follow the step order for each time of day. In the morning: follow the sequence and always finish with sunscreen. In the evening: follow your regular evening routine. Important note: Only add an oil cleansing step when needed to remove makeup or sunscreen. The mask replaces night moisturizer on evenings you use it.',
                 'timing_en' => [
@@ -1070,12 +1095,14 @@ class PresetRoutineEnglishBuilder
             ],
             'women:dry-hydration' => [
                 'title_en' => 'Dry Hydration Routine',
+                'subtitle_ar' => 'ترطيب غني، نعومة فائقة، وإشراقة متجددة.',
                 'subtitle_en' => 'Rich hydration, softness & renewed radiance',
                 'description_en' => 'A rich routine for skin that feels dry or rough and lacks vitality and glow. It helps replenish hydration, support the skin barrier, and refine texture so skin looks softer, plumper, and more radiant.',
                 'badge_en' => 'Selected by KCODE Formulation Review',
                 'skin_type_en' => 'Dry and normal-to-dry skin.',
                 'goal_en' => 'Hydration & Glow for Dry, Dull Skin',
                 'card_note_en' => 'The mask replaces your night moisturizer on evenings you use it; do not layer it as an extra step over cream.',
+                'audience_ar' => 'البشرة الجافة أو الباهتة التي تبحث عن ترطيب غني وملمس أنعم وإشراقة مستمرة.',
                 'audience_en' => 'Dry or dull skin seeking rich nourishment, smoother texture, and lasting radiance.',
                 'how_to_use_en' => 'Follow the step order for each time of day. In the morning: follow the sequence and always finish with sunscreen. In the evening: follow your regular evening routine. Important note: The mask replaces your night moisturizer on evenings you use it; do not layer it as an extra step over cream.',
                 'timing_en' => [
@@ -1100,12 +1127,14 @@ class PresetRoutineEnglishBuilder
             ],
             'women:lines' => [
                 'title_en' => 'Lines Routine',
+                'subtitle_ar' => 'شد بالببتيدات وعناية مركزة بمحيط العين.',
                 'subtitle_en' => 'Peptide firming & targeted under-eye care',
                 'description_en' => 'A comprehensive routine for visible signs of aging—from fine lines and loss of firmness to under-eye dark circles and puffiness. It pairs peptides with targeted evening care and hydration for smoother, firmer, more revitalized skin around the face and eyes.',
                 'badge_en' => 'Selected by KCODE Formulation Review',
                 'skin_type_en' => 'Non-sensitive oily, combination, normal, and dry skin.',
                 'goal_en' => 'Fine Lines, Wrinkles, Firmness & Eye Care',
                 'card_note_en' => 'Use the eye serum at night, starting once every three nights. Use the eye patches on nights when you are not applying retinal eye serum.',
+                'audience_ar' => 'لمن تستهدف الخطوط الدقيقة وفقدان المرونة والهالات أو الانتفاخ حول محيط العين.',
                 'audience_en' => 'Anyone targeting fine lines, firmness loss, and dark circles or puffiness around the eye contour.',
                 'how_to_use_en' => 'Follow the step order for each time of day. In the morning: follow the sequence and always finish with sunscreen. In the evening: use your regular care night, or follow the dedicated eye-serum night schedule. Important note: Use the eye serum at night, starting once every three nights. Use the eye patches on nights when you are not applying retinal eye serum.',
                 'timing_en' => [
@@ -1137,12 +1166,14 @@ class PresetRoutineEnglishBuilder
             ],
             'women:daily' => [
                 'title_en' => 'Daily Routine',
+                'subtitle_ar' => 'ترطيب يومي متوازن، إشراقة، وحماية متكاملة.',
                 'subtitle_en' => 'Balanced everyday hydration, glow & protection',
                 'description_en' => 'You do not need a major skin concern to start caring for your skin. This routine builds a balanced daily foundation for lasting hydration, smoothness, and glow while helping care for light spots, uneven tone, and daily UV exposure.',
                 'badge_en' => 'Selected by KCODE Formulation Review',
                 'skin_type_en' => 'All skin types.',
                 'goal_en' => 'Daily Care for Balanced, Radiant Skin',
                 'card_note_en' => 'The mask replaces your night moisturizer on evenings you use it. Complementary products are optional and not auto-added.',
+                'audience_ar' => 'البشرة الخالية من المشاكل الحادة والتي تبحث عن روتين يومي موثوق للإشراقة والحماية.',
                 'audience_en' => 'Skin without acute concerns looking for a complete, reliable daily glow and protection ritual.',
                 'how_to_use_en' => 'Follow the step order for each time of day. In the morning: follow the sequence and always finish with sunscreen. In the evening: follow your regular evening routine. Important note: The mask replaces your night moisturizer on evenings you use it. Complementary products are optional and not auto-added.',
                 'timing_en' => [

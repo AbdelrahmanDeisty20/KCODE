@@ -245,7 +245,21 @@ class PresetRoutineLocalizationTest extends TestCase
             }
         }
 
-        // Arabic regression check on acne routine
+        // Arabic regression check across ALL 8 women routines list + acne details
+        $arListRes = $this->withHeaders(['lang' => 'ar'])
+            ->getJson('/api/preset-routines?per_page=20');
+        $arListRes->assertOk();
+        $arList = $arListRes->json('data');
+        $this->assertCount(8, $arList);
+
+        foreach ($arList as $arRoutine) {
+            $slug = $arRoutine['slug'] ?? $arRoutine['id'];
+            foreach (['title', 'subtitle', 'description', 'badge', 'skin_type', 'goal', 'card_note', 'audience'] as $field) {
+                $this->assertNotEmpty($arRoutine[$field], "Expected {$field} on women routine {$slug} in AR list");
+                $this->assertContainsArabic($arRoutine[$field], "women.ar.list.{$slug}.{$field}");
+            }
+        }
+
         $arDetailRes = $this->withHeaders(['lang' => 'ar'])
             ->getJson('/api/preset-routines/acne');
         $arDetailRes->assertOk();
@@ -441,6 +455,8 @@ class PresetRoutineLocalizationTest extends TestCase
         $acne = PresetRoutine::forWomen()->where('slug', 'acne')->firstOrFail();
         $originalAcneId = $acne->id;
         $acne->update([
+            'subtitle_ar' => null,
+            'audience_ar' => null,
             'description_en' => $acne->description_ar,
             'skin_type_en' => $acne->skin_type_ar,
             'goal_en' => 'acne',
@@ -460,6 +476,7 @@ class PresetRoutineLocalizationTest extends TestCase
         $daily = PresetRoutine::forWomen()->where('slug', 'daily')->firstOrFail();
         $daily->update([
             'title_en' => 'Custom Admin Daily Glow Plan',
+            'subtitle_ar' => 'عنوان فرعي مخصص من الداشبورد',
             'card_note_en' => 'Admin custom morning & night note.',
             'benefits_en_json' => ['Custom dashboard benefit 1', 'Custom dashboard benefit 2'],
         ]);
@@ -478,6 +495,8 @@ class PresetRoutineLocalizationTest extends TestCase
         $dailyItem->refresh();
 
         $this->assertSame($originalAcneId, $acne->id);
+        $this->assertContainsArabic($acne->subtitle_ar, 'backfilled.acne.subtitle_ar');
+        $this->assertContainsArabic($acne->audience_ar, 'backfilled.acne.audience_ar');
         $this->assertNoArabic($acne->description_en, 'backfilled.acne.description_en');
         $this->assertNoArabic($acne->skin_type_en, 'backfilled.acne.skin_type_en');
         $this->assertSame('Breakouts, Blemishes & Post-Acne Marks', $acne->goal_en);
@@ -491,6 +510,7 @@ class PresetRoutineLocalizationTest extends TestCase
 
         // Custom admin Dashboard edits preserved untouched
         $this->assertSame('Custom Admin Daily Glow Plan', $daily->title_en);
+        $this->assertSame('عنوان فرعي مخصص من الداشبورد', $daily->subtitle_ar);
         $this->assertSame('Admin custom morning & night note.', $daily->card_note_en);
         $this->assertSame(['Custom dashboard benefit 1', 'Custom dashboard benefit 2'], $daily->benefits_en_json);
         $this->assertSame('Custom admin cleanser instructions.', $dailyItem->application_en);
