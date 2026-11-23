@@ -808,7 +808,8 @@ class ServerHardeningAndPerformanceTest extends TestCase
             return ($msg['webpush']['headers']['Urgency'] ?? null) === 'high'
                 && ($msg['webpush']['notification']['requireInteraction'] ?? null) === true
                 && ($msg['webpush']['notification']['icon'] ?? null) === 'https://kcodeskin.com/favicon.svg'
-                && ($msg['webpush']['fcm_options']['link'] ?? null) === 'https://kcodeskin.com/admin/orders/42/edit';
+                && ($msg['webpush']['fcm_options']['link'] ?? null) === 'https://kcodeskin.com/admin/orders/42/edit'
+                && ($msg['data']['url'] ?? null) === '/admin/orders/42/edit';
         });
 
         \Illuminate\Support\Facades\Http::assertSent(function (\Illuminate\Http\Client\Request $request) {
@@ -816,7 +817,8 @@ class ServerHardeningAndPerformanceTest extends TestCase
             if (($msg['token'] ?? '') !== 'customer-web-token') {
                 return false;
             }
-            return ($msg['webpush']['fcm_options']['link'] ?? null) === 'https://kcode-pied.vercel.app/products/15';
+            return ($msg['webpush']['fcm_options']['link'] ?? null) === 'https://kcode-pied.vercel.app/product/15'
+                && ($msg['data']['url'] ?? null) === '/product/15';
         });
 
         \Illuminate\Support\Facades\Http::assertSent(function (\Illuminate\Http\Client\Request $request) {

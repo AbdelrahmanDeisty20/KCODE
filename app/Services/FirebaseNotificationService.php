@@ -122,34 +122,40 @@ class FirebaseNotificationService
     }
 
     /**
-     * Resolve an HTTPS destination URL for desktop/mobile Web Push notification clicks.
+     * Resolve relative path and optional HTTPS link matching the live storefront & admin routes.
+     *
+     * @return array{path: string, httpsUrl: ?string}
      */
-    private function resolveWebPushLink(array $data): ?string
+    private function resolveWebPushDestination(array $data): array
     {
         $adminBaseUrl = rtrim((string) config('app.url', ''), '/');
         $frontendUrl = rtrim((string) config('app.frontend_url', ''), '/');
         $type = $data['type'] ?? null;
 
-        $candidate = match ($type) {
-            'new_order' => $adminBaseUrl !== ''
-                ? $adminBaseUrl . (!empty($data['order_id']) ? '/admin/orders/' . $data['order_id'] . '/edit' : '/admin/orders')
-                : null,
-            'order_status' => $frontendUrl !== '' ? $frontendUrl . '/orders' : null,
-            'blog'         => $frontendUrl !== ''
-                ? $frontendUrl . (!empty($data['slug']) ? '/blog/' . $data['slug'] : '/blog')
-                : null,
-            'offer'        => $frontendUrl !== ''
-                ? $frontendUrl . (!empty($data['product_id']) ? '/products/' . $data['product_id'] : '/offers')
-                : null,
-            'coupon'       => $frontendUrl !== '' ? $frontendUrl . '/shop' : null,
-            default        => $frontendUrl !== '' ? $frontendUrl : ($adminBaseUrl !== '' ? $adminBaseUrl : null),
+        [$baseUrl, $path] = match ($type) {
+            'new_order' => [
+                $adminBaseUrl,
+                !empty($data['order_id']) ? '/admin/orders/' . $data['order_id'] . '/edit' : '/admin/orders',
+            ],
+            'order_status' => [$frontendUrl, '/account?tab=orders'],
+            'blog'         => [
+                $frontendUrl,
+                !empty($data['slug']) ? '/blog/' . $data['slug'] : '/blog',
+            ],
+            'offer'        => [
+                $frontendUrl,
+                !empty($data['product_id']) ? '/product/' . $data['product_id'] : '/account?tab=offers',
+            ],
+            'coupon'       => [$frontendUrl, '/account?tab=offers'],
+            default        => [$frontendUrl !== '' ? $frontendUrl : $adminBaseUrl, '/'],
         };
 
-        if ($candidate && str_starts_with($candidate, 'https://')) {
-            return $candidate;
-        }
+        $fullUrl = ($baseUrl !== '') ? ($baseUrl . ($path === '/' ? '' : $path)) : null;
 
-        return null;
+        return [
+            'path'     => $path,
+            'httpsUrl' => ($fullUrl && str_starts_with($fullUrl, 'https://')) ? $fullUrl : null,
+        ];
     }
 
     /**
@@ -177,8 +183,9 @@ class FirebaseNotificationService
         ];
 
         // FCM HTTP v1 rejects non-HTTPS fcm_options.link values with HTTP 400.
-        if ($link = $this->resolveWebPushLink($data)) {
-            $webPush['fcm_options'] = ['link' => $link];
+        $destination = $this->resolveWebPushDestination($data);
+        if ($destination['httpsUrl']) {
+            $webPush['fcm_options'] = ['link' => $destination['httpsUrl']];
         }
 
         return $webPush;
@@ -199,6 +206,11 @@ class FirebaseNotificationService
         $projectId = $this->resolveProjectId($credentialsPath);
         if (!$projectId) {
             return null;
+        }
+
+        $effectiveData = $data;
+        if (!empty($effectiveData) && empty($effectiveData['url']) && empty($effectiveData['click_action'])) {
+            $effectiveData['url'] = $this->resolveWebPushDestination($effectiveData)['path'];
         }
 
         $payload = [
@@ -228,13 +240,13 @@ class FirebaseNotificationService
                         ],
                     ],
                 ],
-                'webpush' => $this->buildWebPushPayload($title, $body, $data),
+                'webpush' => $this->buildWebPushPayload($title, $body, $effectiveData),
             ]
         ];
 
-        if (!empty($data)) {
+        if (!empty($effectiveData)) {
             // FCM v1 requires data values to be strings
-            $payload['message']['data'] = array_map('strval', $data);
+            $payload['message']['data'] = array_map('strval', $effectiveData);
         }
 
         try {
